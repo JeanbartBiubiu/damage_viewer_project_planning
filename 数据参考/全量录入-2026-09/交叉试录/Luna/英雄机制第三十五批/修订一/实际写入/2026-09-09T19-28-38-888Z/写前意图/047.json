@@ -1,0 +1,29 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 46,
+    "method": "POST",
+    "route": "/skills/rell_q/parameters",
+    "detailRoute": "/skills/rell_q/parameters/base_damage",
+    "skillKey": "rell_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "裂阵基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 100,
+        "3": 140,
+        "4": 180,
+        "5": 220
+      },
+      "description": "客户端BaseDamage取技能等级索引1至5的60/100/140/180/220。",
+      "sortOrder": 10
+    }
+  }
+}

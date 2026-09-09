@@ -1,0 +1,42 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "method": "POST",
+    "route": "/skills/braum_p/parameters",
+    "detailRoute": "/skills/braum_p/parameters/total_magic_damage_by_character_level",
+    "skillKey": "braum_p",
+    "kind": "parameters",
+    "stableKey": "total_magic_damage_by_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "total_magic_damage_by_character_level",
+      "name": "触发晕眩魔法伤害（按角色等级）",
+      "valueType": "INTEGER",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 26,
+        "2": 36,
+        "3": 46,
+        "4": 56,
+        "5": 66,
+        "6": 76,
+        "7": 86,
+        "8": 96,
+        "9": 106,
+        "10": 116,
+        "11": 126,
+        "12": 136,
+        "13": 146,
+        "14": 156,
+        "15": 166,
+        "16": 176,
+        "17": 186,
+        "18": 196
+      },
+      "description": "当前TotalDamage计算树含完整角色等级数组；取客户端索引1至18的26至196，不按端点猜曲线。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "method": "POST",
+    "route": "/skills/braum_p/parameters",
+    "detailRoute": "/skills/braum_p/parameters/stun_cooldown_base_ms",
+    "skillKey": "braum_p",
+    "kind": "parameters",
+    "stableKey": "stun_cooldown_base_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_cooldown_base_ms",
+      "name": "晕眩后叠层封锁基础时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 8000,
+      "levelValues": null,
+      "description": "当前StunCD阶梯基础8秒；完整角色等级断点另存，不把断点展开为未知求值公式。",
+      "sortOrder": 50
+    }
+  }
+}

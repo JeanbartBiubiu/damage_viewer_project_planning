@@ -1,0 +1,23 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 41,
+    "method": "POST",
+    "route": "/skills/rell_p/parameters",
+    "detailRoute": "/skills/rell_p/parameters/steal_floor_by_character_level",
+    "skillKey": "rell_p",
+    "kind": "parameters",
+    "stableKey": "steal_floor_by_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "steal_floor_by_character_level",
+      "name": "角色等级最低偷取值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前StealFloor是1.5到3的ByCharLevelInterpolation；中间等级算法未证，实际等级值由运行输入提供。",
+      "sortOrder": 50
+    }
+  }
+}

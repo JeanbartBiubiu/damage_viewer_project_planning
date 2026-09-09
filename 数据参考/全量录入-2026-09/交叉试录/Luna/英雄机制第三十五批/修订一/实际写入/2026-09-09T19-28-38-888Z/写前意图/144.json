@@ -1,0 +1,23 @@
+{
+  "i": 143,
+  "intent": {
+    "sequence": 143,
+    "method": "POST",
+    "route": "/skills/tahmkench_w/parameters",
+    "detailRoute": "/skills/tahmkench_w/parameters/ability_power_ratio",
+    "skillKey": "tahmkench_w",
+    "kind": "parameters",
+    "stableKey": "ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ability_power_ratio",
+      "name": "深渊潜航法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "当前TotalDamage=BaseDamage+1.5×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

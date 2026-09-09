@@ -1,0 +1,33 @@
+{
+  "i": 157,
+  "intent": {
+    "sequence": 157,
+    "method": "POST",
+    "route": "/skills/tahmkench_e/formulas",
+    "detailRoute": "/skills/tahmkench_e/formulas/grey_health_heal_value",
+    "skillKey": "tahmkench_e",
+    "kind": "formulas",
+    "stableKey": "grey_health_heal_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "grey_health_heal_value",
+      "name": "脱战灰色生命治疗值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "current_grey_health"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "grey_health_healing_ratio"
+          }
+        ]
+      },
+      "description": "当前正文为脱离受伤后消费当前灰色生命×实际角色等级治疗比例；不把历史受伤总量再次乘转换比例。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 153,
+  "intent": {
+    "sequence": 153,
+    "method": "POST",
+    "route": "/skills/tahmkench_e/parameters",
+    "detailRoute": "/skills/tahmkench_e/parameters/grey_health_healing_ratio",
+    "skillKey": "tahmkench_e",
+    "kind": "parameters",
+    "stableKey": "grey_health_healing_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "grey_health_healing_ratio",
+      "name": "脱离受伤灰色生命治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前GreyHealthHealingRatio为角色等级0.6至1的插值，实际角色等级值由运行输入提供，不把端点连成线性表。",
+      "sortOrder": 40
+    }
+  }
+}

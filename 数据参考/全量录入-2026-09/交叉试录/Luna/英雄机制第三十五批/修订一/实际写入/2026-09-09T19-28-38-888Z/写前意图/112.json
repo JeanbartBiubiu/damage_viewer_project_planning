@@ -1,0 +1,23 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 111,
+    "method": "POST",
+    "route": "/skills/taric_e/parameters",
+    "detailRoute": "/skills/taric_e/parameters/ability_power_ratio",
+    "skillKey": "taric_e",
+    "kind": "parameters",
+    "stableKey": "ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ability_power_ratio",
+      "name": "炫光法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前TotalDamage第二项使用0.5×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 124,
+  "intent": {
+    "sequence": 124,
+    "method": "POST",
+    "route": "/skills/tahmkench_p/parameters",
+    "detailRoute": "/skills/tahmkench_p/parameters/ap_ratio_per_100_bonus_hp",
+    "skillKey": "tahmkench_p",
+    "kind": "parameters",
+    "stableKey": "ap_ratio_per_100_bonus_hp",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio_per_100_bonus_hp",
+      "name": "每100额外生命法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0125,
+      "levelValues": null,
+      "description": "当前APRatioPer100BonusHP=0.0125；根树另乘0.01把每100额外生命换成比例。",
+      "sortOrder": 60
+    }
+  }
+}

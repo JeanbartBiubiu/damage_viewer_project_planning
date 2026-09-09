@@ -1,0 +1,23 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 113,
+    "method": "POST",
+    "route": "/skills/taric_e/parameters",
+    "detailRoute": "/skills/taric_e/parameters/armor_damage_ratio",
+    "skillKey": "taric_e",
+    "kind": "parameters",
+    "stableKey": "armor_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "armor_damage_ratio",
+      "name": "炫光护甲比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前伤害树中mStat1/mStatFormula2实际护甲阶段的比例系数；具体阶段值另由运行输入提供。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 19,
+  "intent": {
+    "sequence": 20,
+    "method": "POST",
+    "route": "/skills/braum_w/parameters",
+    "detailRoute": "/skills/braum_w/parameters/base_resistance",
+    "skillKey": "braum_w",
+    "kind": "parameters",
+    "stableKey": "base_resistance",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_resistance",
+      "name": "挺身而出基础双抗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 25,
+        "3": 30,
+        "4": 35,
+        "5": 40
+      },
+      "description": "客户端BaseResists取技能等级索引1至5的20/25/30/35/40点；护甲和魔抗共用该基础值。",
+      "sortOrder": 10
+    }
+  }
+}

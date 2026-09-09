@@ -1,0 +1,23 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 83,
+    "method": "POST",
+    "route": "/skills/taric_p/parameters",
+    "detailRoute": "/skills/taric_p/parameters/empowered_attack_window_ms",
+    "skillKey": "taric_p",
+    "kind": "parameters",
+    "stableKey": "empowered_attack_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_attack_window_ms",
+      "name": "正气凌人强化攻击窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "客户端Duration=5秒；转换为5000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

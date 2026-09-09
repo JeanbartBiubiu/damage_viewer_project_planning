@@ -1,0 +1,23 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 53,
+    "method": "POST",
+    "route": "/skills/rell_w/parameters",
+    "detailRoute": "/skills/rell_w/parameters/crash_stun_duration_ms",
+    "skillKey": "rell_w",
+    "kind": "parameters",
+    "stableKey": "crash_stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crash_stun_duration_ms",
+      "name": "轰落晕眩时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 800,
+      "levelValues": null,
+      "description": "客户端CrashDownStunDuration=0.8秒；转换为800毫秒，和击飞分开保存。",
+      "sortOrder": 40
+    }
+  }
+}

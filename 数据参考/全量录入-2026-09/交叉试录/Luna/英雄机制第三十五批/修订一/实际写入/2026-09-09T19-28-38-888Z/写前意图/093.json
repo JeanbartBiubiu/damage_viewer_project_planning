@@ -1,0 +1,53 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 92,
+    "method": "POST",
+    "route": "/skills/taric_p/formulas",
+    "detailRoute": "/skills/taric_p/formulas/empowered_attack_extra_magic_damage",
+    "skillKey": "taric_p",
+    "kind": "formulas",
+    "stableKey": "empowered_attack_extra_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_attack_extra_magic_damage",
+      "name": "正气凌人强化普攻额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "character_level_base_damage"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mode_damage_multiplier"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "armor_damage_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_armor_stage"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=角色等级基础值×模式系数+0.15×实际护甲阶段；等级曲线、mStat1/mStatFormula2阶段值及读取时点由运行输入提供。",
+      "sortOrder": 10
+    }
+  }
+}

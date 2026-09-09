@@ -1,0 +1,29 @@
+{
+  "i": 135,
+  "intent": {
+    "sequence": 135,
+    "method": "POST",
+    "route": "/skills/tahmkench_q/parameters",
+    "detailRoute": "/skills/tahmkench_q/parameters/self_heal_base",
+    "skillKey": "tahmkench_q",
+    "kind": "parameters",
+    "stableKey": "self_heal_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_heal_base",
+      "name": "巨舌鞭笞自身治疗基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "description": "客户端BaseHeal取索引1至5的10/15/20/25/30。",
+      "sortOrder": 60
+    }
+  }
+}

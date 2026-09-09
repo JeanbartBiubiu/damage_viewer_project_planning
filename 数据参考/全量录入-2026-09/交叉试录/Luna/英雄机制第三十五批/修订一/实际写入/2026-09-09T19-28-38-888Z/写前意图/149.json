@@ -1,0 +1,29 @@
+{
+  "i": 148,
+  "intent": {
+    "sequence": 148,
+    "method": "POST",
+    "route": "/skills/tahmkench_w/parameters",
+    "detailRoute": "/skills/tahmkench_w/parameters/champion_refund_ratio",
+    "skillKey": "tahmkench_w",
+    "kind": "parameters",
+    "stableKey": "champion_refund_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "champion_refund_ratio",
+      "name": "命中英雄返还冷却与法力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.40000001,
+        "2": 0.42500001,
+        "3": 0.44999999,
+        "4": 0.47499999,
+        "5": 0.5
+      },
+      "description": "当前正文消费ChampRefund，取索引1至5的0.40/0.425/0.45/0.475/0.50；不把索引0的0.375当技能一级。",
+      "sortOrder": 70
+    }
+  }
+}

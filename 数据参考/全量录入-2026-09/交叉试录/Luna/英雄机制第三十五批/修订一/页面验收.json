@@ -1,0 +1,68 @@
+{
+  "at": "2026-09-09T19:34:08.588Z",
+  "status": "PASS",
+  "passed": true,
+  "candidateFileSha256": "0e07e0926380fa098ab3155a47fd3503e00aed7bc7088f4f6bb6c54133bbb383",
+  "method": "主负责人在内置浏览器真实查询并打开已保存的参数、公式、效果与结果详情，读取可访问性树核对；仅查看，无页面数据修改。",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "representativePages": 4,
+  "GETs": 0,
+  "mathCases": 0,
+  "additionalScriptGETs": 0,
+  "browserNetworkCount": "未单独计数；额外脚本GET为0不表示浏览器没有网络请求",
+  "pages": [
+    {
+      "skillKey": "braum_q",
+      "passed": true,
+      "observed": [
+        "列表左侧代表图片正常",
+        "source_max_hp_ratio显示寒冬之咬自身最大生命比例0.025；base_damage为75/120/165/210/255",
+        "初始减速70百分数点、最低30、持续2000毫秒，既有公共冷却与法力保留",
+        "公式详情与中文预览明确引用施法者生命值最终值，原目标生命错误已修正"
+      ]
+    },
+    {
+      "skillKey": "rell_w",
+      "passed": true,
+      "observed": [
+        "列表左侧技能代表图片正常",
+        "dismount_shield为普通自身护盾，按来源对象、持续生效、施加时留存、全伤害不衰减",
+        "到期方式为仅显式移除，说明护盾至再次上马，事件待接",
+        "没有把缺失时长当成后端固定零值；详情仍显示无关的持续时间取值控件，记录后续体验改进"
+      ]
+    },
+    {
+      "skillKey": "taric_e",
+      "passed": true,
+      "observed": [
+        "列表左侧代表图片正常",
+        "基础伤害90/130/170/210/250，法强和护甲比例各0.5，准备1000毫秒、晕眩1500毫秒",
+        "actual_armor_stage位于计算时传入分组，无固定值",
+        "参数详情已删除额外护甲及施法时点的无证断言，明确具体阶段运行输入"
+      ]
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "passed": true,
+      "observed": [
+        "列表左侧代表图片正常，灰色生命自身护盾存在",
+        "护盾持续时间引用shield_duration_ms，说明为2.5秒，刷新全部时间",
+        "结果详情数值类型为技能参数，直接引用当前灰色生命值current_grey_health，倍率1；不是悬空公式，也没有重复乘灰血转化比例",
+        "普通护盾作用施法者、吸收全部伤害、不衰减、施加时留存"
+      ]
+    }
+  ],
+  "experienceIssues": [
+    {
+      "item": "仅显式移除效果仍显示持续时间取值控件",
+      "evidence": "芮尔W详情选择仅显式移除，但仍显示固定数值控件；可访问性树stepper Value为0且没有Details，该表现不能证明页面视觉值或数据库值是0，实际接口durationValue为null。",
+      "suggestion": "统一迭代时对仅显式移除显示无固定时长，隐藏不适用控件。"
+    },
+    {
+      "item": "参数引用摘要未统一中文名称",
+      "evidence": "塔姆E结果表格关键引用摘要显示current_grey_health，打开详情则显示当前灰色生命值（current_grey_health）。",
+      "suggestion": "统一迭代时摘要与详情使用相同的中文名称及稳定键。"
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

@@ -1,0 +1,77 @@
+{
+  "i": 102,
+  "intent": {
+    "sequence": 102,
+    "method": "POST",
+    "route": "/skills/taric_q/formulas",
+    "detailRoute": "/skills/taric_q/formulas/max_charge_healing",
+    "skillKey": "taric_q",
+    "kind": "formulas",
+    "stableKey": "max_charge_healing",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "max_charge_healing",
+      "name": "星光之触满层治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_per_charge_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "healing_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_hp_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_charge_count"
+          }
+        ]
+      },
+      "description": "当前MaxStackHealing=HealingPerStack×MaxCharges；只作满层数值，不代表实际一定满层施放。",
+      "sortOrder": 20
+    }
+  }
+}

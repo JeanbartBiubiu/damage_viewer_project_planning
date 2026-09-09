@@ -1,0 +1,23 @@
+{
+  "i": 6,
+  "intent": {
+    "sequence": 7,
+    "method": "POST",
+    "route": "/skills/braum_p/parameters",
+    "detailRoute": "/skills/braum_p/parameters/stun_cooldown_breakpoint_1_level",
+    "skillKey": "braum_p",
+    "kind": "parameters",
+    "stableKey": "stun_cooldown_breakpoint_1_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_cooldown_breakpoint_1_level",
+      "name": "晕眩后叠层封锁第一次断点等级",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6,
+      "levelValues": null,
+      "description": "当前StunCD第一断点为角色6级。",
+      "sortOrder": 70
+    }
+  }
+}

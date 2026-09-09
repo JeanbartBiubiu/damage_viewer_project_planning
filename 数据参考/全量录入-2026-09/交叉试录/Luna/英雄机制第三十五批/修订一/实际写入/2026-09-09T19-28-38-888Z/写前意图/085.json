@@ -1,0 +1,23 @@
+{
+  "i": 84,
+  "intent": {
+    "sequence": 84,
+    "method": "POST",
+    "route": "/skills/taric_p/parameters",
+    "detailRoute": "/skills/taric_p/parameters/empowered_attack_count",
+    "skillKey": "taric_p",
+    "kind": "parameters",
+    "stableKey": "empowered_attack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_attack_count",
+      "name": "正气凌人强化攻击次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前正文明确施放技能后下2次攻击获得强化。",
+      "sortOrder": 20
+    }
+  }
+}

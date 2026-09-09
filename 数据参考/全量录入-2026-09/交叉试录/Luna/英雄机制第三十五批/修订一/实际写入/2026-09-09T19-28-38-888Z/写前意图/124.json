@@ -1,0 +1,23 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 123,
+    "method": "POST",
+    "route": "/skills/tahmkench_p/parameters",
+    "detailRoute": "/skills/tahmkench_p/parameters/bonus_hp_damage_ratio",
+    "skillKey": "tahmkench_p",
+    "kind": "parameters",
+    "stableKey": "bonus_hp_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_hp_damage_ratio",
+      "name": "培养品味额外生命伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.04,
+      "levelValues": null,
+      "description": "当前TotalDamage第二项是0.04×来源额外生命值，不能改成总生命值。",
+      "sortOrder": 50
+    }
+  }
+}

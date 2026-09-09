@@ -1,0 +1,45 @@
+{
+  "i": 81,
+  "intent": {
+    "sequence": 81,
+    "method": "POST",
+    "route": "/skills/rell_r/formulas",
+    "detailRoute": "/skills/rell_r/formulas/damage_per_second_magic",
+    "skillKey": "rell_r",
+    "kind": "formulas",
+    "stableKey": "damage_per_second_magic",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_per_second_magic",
+      "name": "极涌每秒魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_per_second_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前DamagePerSecond树的单秒组成；拖曳与实际跳数事件待接。",
+      "sortOrder": 10
+    }
+  }
+}

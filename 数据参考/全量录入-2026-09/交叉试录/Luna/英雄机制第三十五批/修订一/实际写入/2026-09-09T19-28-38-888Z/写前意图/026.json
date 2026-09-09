@@ -1,0 +1,29 @@
+{
+  "i": 25,
+  "intent": {
+    "sequence": 25,
+    "method": "POST",
+    "route": "/skills/braum_e/parameters",
+    "detailRoute": "/skills/braum_e/parameters/shield_hold_duration_ms",
+    "skillKey": "braum_e",
+    "kind": "parameters",
+    "stableKey": "shield_hold_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_hold_duration_ms",
+      "name": "举盾持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 3000,
+        "2": 3250,
+        "3": 3500,
+        "4": 3750,
+        "5": 4000
+      },
+      "description": "客户端ShieldHoldDuration取索引1至5的3/3.25/3.5/3.75/4秒，转换为整数毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 64,
+    "method": "POST",
+    "route": "/skills/rell_w/parameters",
+    "detailRoute": "/skills/rell_w/parameters/flip_knockup_duration_ms",
+    "skillKey": "rell_w",
+    "kind": "parameters",
+    "stableKey": "flip_knockup_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "flip_knockup_duration_ms",
+      "name": "上马后攻击击飞时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 400,
+      "levelValues": null,
+      "description": "当前FlipKnockupDuration=0.4秒；转换为400毫秒。",
+      "sortOrder": 150
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 23,
+    "method": "POST",
+    "route": "/skills/braum_w/formulas",
+    "detailRoute": "/skills/braum_w/formulas/self_armor_bonus",
+    "skillKey": "braum_w",
+    "kind": "formulas",
+    "stableKey": "self_armor_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_armor_bonus",
+      "name": "布隆自身护甲加成",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_resistance"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_resistance_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_armor_stage"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前GrantedBraumArmor=BaseResists+0.36×mStat1/mStatFormula2实际护甲阶段；阶段值由运行输入提供，暂无默认。",
+      "sortOrder": 10
+    }
+  }
+}

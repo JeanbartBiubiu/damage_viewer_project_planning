@@ -1,0 +1,23 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 70,
+    "method": "POST",
+    "route": "/skills/rell_e/parameters",
+    "detailRoute": "/skills/rell_e/parameters/self_move_speed_ratio",
+    "skillKey": "rell_e",
+    "kind": "parameters",
+    "stableKey": "self_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_move_speed_ratio",
+      "name": "全速冲锋自身移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.15000001,
+      "levelValues": null,
+      "description": "当前MinMS=0.15，正文显示15%；保留自身收益。",
+      "sortOrder": 10
+    }
+  }
+}

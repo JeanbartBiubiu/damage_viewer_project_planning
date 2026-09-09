@@ -1,0 +1,23 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 28,
+    "method": "POST",
+    "route": "/skills/braum_e/parameters",
+    "detailRoute": "/skills/braum_e/parameters/self_move_speed_ratio",
+    "skillKey": "braum_e",
+    "kind": "parameters",
+    "stableKey": "self_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_move_speed_ratio",
+      "name": "举盾时自身移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.1,
+      "levelValues": null,
+      "description": "当前MoveSpeedPercent=10且正文显示10%；转为0.1比例，不映射为无证属性效果。",
+      "sortOrder": 40
+    }
+  }
+}

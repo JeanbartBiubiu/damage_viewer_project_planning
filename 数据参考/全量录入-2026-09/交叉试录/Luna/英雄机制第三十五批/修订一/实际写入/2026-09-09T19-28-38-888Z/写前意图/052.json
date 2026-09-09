@@ -1,0 +1,23 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 51,
+    "method": "POST",
+    "route": "/skills/rell_w/parameters",
+    "detailRoute": "/skills/rell_w/parameters/crash_down_ability_power_ratio",
+    "skillKey": "rell_w",
+    "kind": "parameters",
+    "stableKey": "crash_down_ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crash_down_ability_power_ratio",
+      "name": "轰落法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.6,
+      "levelValues": null,
+      "description": "当前DismountDamage树使用0.6×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

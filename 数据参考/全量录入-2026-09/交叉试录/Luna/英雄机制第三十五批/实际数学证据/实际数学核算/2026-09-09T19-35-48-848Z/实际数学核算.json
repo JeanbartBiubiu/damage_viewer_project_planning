@@ -1,0 +1,4106 @@
+{
+  "generatedAt": "2026-09-09T19:35:48.846Z",
+  "batch": "英雄机制第三十五批",
+  "status": "PASS",
+  "mode": "读取独立全量GET中的实际参数与实际公式表达式；期望值单独读取冻结客户端来源；不读取候选固定参数求实际值；不调用接口。",
+  "readbackDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero35-independent-review\\实际回读\\2026-09-09T19-35-24-473Z",
+  "readbackSha256": "106fc8321ae89c73509743eebf2ffcb4d445f4a9928b21217b85aae156c607a7",
+  "sourceMeta": {
+    "sourcePath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero35-root-entry-20260910\\来源绑定与当前文本.json",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8"
+  },
+  "sourceExpectedSha256": "45eb2389685cfbc6fe4cb89153a62685bea049704b4f2f5205ac70c531f83f66",
+  "apiCalls": 0,
+  "apiWrites": 0,
+  "formulaCount": 32,
+  "formulaCaseCount": 64,
+  "missingInputChecks": 44,
+  "operationNodes": 77,
+  "integerParameterChecks": 165,
+  "boundaryChecks": 7,
+  "formulaResults": [
+    {
+      "skillKey": "braum_p",
+      "formulaKey": "already_stunned_extra_magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "total_magic_damage_by_character_level"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "already_stunned_damage_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 10.40000026,
+          "expected": 10.400000154972076,
+          "delta": 1.0502792413547013e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 1,
+          "characterLevel": 18,
+          "actual": 78.40000196,
+          "expected": 78.40000116825104,
+          "delta": 7.917489597275562e-7,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 0
+    },
+    {
+      "skillKey": "braum_q",
+      "formulaKey": "magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_max_hp_ratio"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 112.5,
+          "expected": 112.50000055879354,
+          "delta": -5.587935447692871e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 360,
+          "expected": 360.0000015646219,
+          "delta": -0.000001564621925354004,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "braum_w",
+      "formulaKey": "self_armor_bonus",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_resistance"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_resistance_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_armor_stage"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 52.400000899999995,
+          "expected": 52.40000128746033,
+          "delta": -3.8746033226289e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 140.80000280000002,
+          "expected": 140.80000400543213,
+          "delta": -0.0000012054321132382029,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "braum_w",
+      "formulaKey": "self_magic_resistance_bonus",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_resistance"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_resistance_ratio"
+              },
+              {
+                "attributeKey": "magic_resistance",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 27.200000199999998,
+          "expected": 27.200000286102295,
+          "delta": -8.610229684791193e-8,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 68.80000079999999,
+          "expected": 68.80000114440918,
+          "delta": -3.444091873916477e-7,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "braum_r",
+      "formulaKey": "magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 198,
+          "expected": 198.00000190734863,
+          "delta": -0.0000019073486328125,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 3,
+          "characterLevel": 18,
+          "actual": 542,
+          "expected": 542.0000076293945,
+          "delta": -0.00000762939453125,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "rell_p",
+      "formulaKey": "on_hit_extra_magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "on_hit_armor_ratio"
+              },
+              {
+                "attributeKey": "armor",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "on_hit_magic_resistance_ratio"
+              },
+              {
+                "attributeKey": "magic_resistance",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 6,
+          "expected": 6.000000089406967,
+          "delta": -8.940696716308594e-8,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 1,
+          "characterLevel": 18,
+          "actual": 19,
+          "expected": 19.000000283122063,
+          "delta": -2.8312206268310547e-7,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 2
+    },
+    {
+      "skillKey": "rell_q",
+      "formulaKey": "magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 108,
+          "expected": 108.00000190734863,
+          "delta": -0.0000019073486328125,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 412,
+          "expected": 412.00000762939453,
+          "delta": -0.00000762939453125,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "crash_down_magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "crash_down_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crash_down_ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 108,
+          "expected": 108.00000190734863,
+          "delta": -0.0000019073486328125,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 372,
+          "expected": 372.00000762939453,
+          "delta": -0.00000762939453125,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "crash_shield_value",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "crash_shield_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crash_shield_hp_ratio"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 185,
+          "expected": 184.99999910593033,
+          "delta": 8.940696716308594e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 562,
+          "expected": 561.9999974966049,
+          "delta": 0.0000025033950805664062,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "rell_w",
+      "formulaKey": "mount_up_extra_attack_magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mount_up_extra_attack_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mount_up_extra_attack_ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 42.0000008,
+          "expected": 42.00000047683716,
+          "delta": 3.231628440403256e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 198.0000032,
+          "expected": 198.00000190734863,
+          "delta": 0.0000012926513761613023,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "rell_e",
+      "formulaKey": "next_hit_extra_magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "next_hit_target_max_hp_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "next_hit_ability_power_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "TARGET",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 66.6,
+          "expected": 66.6000016964972,
+          "delta": -0.0000016964972076038976,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 348.59999999999997,
+          "expected": 348.60001020133495,
+          "delta": -0.000010201334987414157,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 2
+    },
+    {
+      "skillKey": "rell_r",
+      "formulaKey": "damage_per_second_magic",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_per_second_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 119.0000008,
+          "expected": 119.00000095367432,
+          "delta": -1.5367432126822678e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 3,
+          "characterLevel": 18,
+          "actual": 351.0000032,
+          "expected": 351.00000381469727,
+          "delta": -6.146972850729071e-7,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "rell_r",
+      "formulaKey": "total_magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_per_second_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "duration_seconds"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 238.0000016,
+          "expected": 238.00000190734863,
+          "delta": -3.0734864253645355e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 3,
+          "characterLevel": 18,
+          "actual": 702.0000064,
+          "expected": 702.0000076293945,
+          "delta": -0.0000012293945701458142,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "taric_p",
+      "formulaKey": "empowered_attack_extra_magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "character_level_base_damage"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mode_damage_multiplier"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "armor_damage_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_armor_stage"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 38.5000009,
+          "expected": 38.5000005364418,
+          "delta": 3.635582004335447e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 1,
+          "characterLevel": 18,
+          "actual": 135.0000028,
+          "expected": 135.00000166893005,
+          "delta": 0.0000011310699505884259,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 2
+    },
+    {
+      "skillKey": "taric_p",
+      "formulaKey": "basic_ability_cooldown_refund_seconds",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "cooldown_refund_base_seconds"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_cooldown_multiplier"
+          }
+        ],
+        "operation": "SUBTRACT"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 1.5,
+          "expected": 1.5,
+          "delta": 0,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 1,
+          "characterLevel": 18,
+          "actual": 1.25,
+          "expected": 1.25,
+          "delta": 0,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "healing_per_charge",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "healing_per_charge_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "healing_hp_ratio"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 52.000000799999995,
+          "expected": 52.00000014156103,
+          "delta": 6.584389637964705e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 115.0000032,
+          "expected": 115.00000096857548,
+          "delta": 0.00000223142451716285,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 2
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "max_charge_healing",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_per_charge_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "healing_ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_hp_ratio"
+                  },
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_charge_count"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 52.000000799999995,
+          "expected": 52.00000014156103,
+          "delta": 6.584389637964705e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 575.000016,
+          "expected": 575.0000048428774,
+          "delta": 0.000011157122571603395,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 2
+    },
+    {
+      "skillKey": "taric_q",
+      "formulaKey": "consumed_charge_healing",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_per_charge_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "healing_ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_hp_ratio"
+                  },
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "current_consumed_charge_count"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 0,
+          "expected": 0,
+          "delta": 0,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 575.000016,
+          "expected": 575.0000048428774,
+          "delta": 0.000011157122571603395,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 3
+    },
+    {
+      "skillKey": "taric_w",
+      "formulaKey": "self_armor_bonus",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "armor_bonus_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_armor_stage"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 5.3999999999999995,
+          "expected": 5.399999879300594,
+          "delta": 1.2069940513725896e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 28,
+          "expected": 28.000000417232513,
+          "delta": -4.172325134277344e-7,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "taric_w",
+      "formulaKey": "self_shield_value",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_shield_hp_ratio"
+          },
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 105.00000000000001,
+          "expected": 105.00000000000001,
+          "delta": 0,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 462,
+          "expected": 462,
+          "delta": 0,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "taric_e",
+      "formulaKey": "magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "armor_damage_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_armor_stage"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 175,
+          "expected": 175,
+          "delta": 0,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 550,
+          "expected": 550,
+          "delta": 0,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 2
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "bonus_hp_magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_hp_damage_ratio"
+          },
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "BONUS",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 16,
+          "expected": 15.999999642372131,
+          "delta": 3.5762786865234375e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 1,
+          "characterLevel": 18,
+          "actual": 64,
+          "expected": 63.999998569488525,
+          "delta": 0.000001430511474609375,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "ap_bonus_hp_magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio_per_100_bonus_hp"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_to_ratio"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "BONUS",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 4,
+          "expected": 4.000000059604645,
+          "delta": -5.960464477539063e-8,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 1,
+          "characterLevel": 18,
+          "actual": 64,
+          "expected": 64.00000095367432,
+          "delta": -9.5367431640625e-7,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 2
+    },
+    {
+      "skillKey": "tahmkench_p",
+      "formulaKey": "total_passive_magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "character_level_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_hp_damage_ratio"
+                  },
+                  {
+                    "attributeKey": "hp",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio_per_100_bonus_hp"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_to_ratio"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 45,
+          "expected": 44.999999701976776,
+          "delta": 2.980232238769531e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 1,
+          "characterLevel": 18,
+          "actual": 221,
+          "expected": 220.99999952316284,
+          "delta": 4.76837158203125e-7,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 3
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "formulaKey": "magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 155,
+          "expected": 155,
+          "delta": 0,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 575,
+          "expected": 575,
+          "delta": 0,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "tahmkench_q",
+      "formulaKey": "self_heal",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_heal_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_heal_missing_hp_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "cast_stage_missing_hp"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 17.5,
+          "expected": 17.50000011175871,
+          "delta": -1.1175870895385742e-7,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 93,
+          "expected": 93.0000002682209,
+          "delta": -2.682209014892578e-7,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "tahmkench_w",
+      "formulaKey": "magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 220,
+          "expected": 220,
+          "delta": 0,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 720,
+          "expected": 720,
+          "delta": 0,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "formulaKey": "grey_health_maximum",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "grey_health_max_hp_ratio"
+          },
+          {
+            "attributeKey": "hp",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 4500,
+          "expected": 4500,
+          "delta": 0,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 12600,
+          "expected": 12600,
+          "delta": 0,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "tahmkench_e",
+      "formulaKey": "grey_health_heal_value",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "current_grey_health"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "grey_health_healing_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 72,
+          "expected": 72,
+          "delta": 0,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 5,
+          "characterLevel": 18,
+          "actual": 1140,
+          "expected": 1140,
+          "delta": 0,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 2
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "target_max_hp_damage_ratio",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "target_max_hp_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "target_max_hp_ability_power_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 0.20600000999999998,
+          "expected": 0.20600000396370888,
+          "delta": 6.03629110584869e-9,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 3,
+          "characterLevel": 18,
+          "actual": 0.37400001,
+          "expected": 0.3739999979734421,
+          "delta": 1.2026557916211544e-8,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "enemy_magic_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "target_max_hp_base_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "target_max_hp_ability_power_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "TARGET",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 285.40000899999995,
+          "expected": 285.400003567338,
+          "delta": 0.000005432661964732688,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 3,
+          "characterLevel": 18,
+          "actual": 1185.400021,
+          "expected": 1185.3999957442284,
+          "delta": 0.00002525577156120562,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 2
+    },
+    {
+      "skillKey": "tahmkench_r",
+      "formulaKey": "actual_cooldown_ms",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_cooldown_multiplier"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "cases": [
+        {
+          "label": "低等级/低属性",
+          "skillLevel": 1,
+          "characterLevel": 1,
+          "actual": 60000,
+          "expected": 60000,
+          "delta": 0,
+          "passed": true
+        },
+        {
+          "label": "高等级/高属性",
+          "skillLevel": 3,
+          "characterLevel": 18,
+          "actual": 60000,
+          "expected": 60000,
+          "delta": 0,
+          "passed": true
+        }
+      ],
+      "missingLeavesChecked": 1
+    }
+  ],
+  "missingInputResults": [
+    {
+      "key": "braum_q/magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "hp",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/hp/TOTAL"
+    },
+    {
+      "key": "braum_w/self_armor_bonus",
+      "leaf": {
+        "type": "PARAMETER",
+        "key": "actual_armor_stage"
+      },
+      "rejected": true,
+      "error": "运行输入缺失：braum_w/actual_armor_stage"
+    },
+    {
+      "key": "braum_w/self_magic_resistance_bonus",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "magic_resistance",
+        "valueKind": "BONUS"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/magic_resistance/BONUS"
+    },
+    {
+      "key": "braum_r/magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "rell_p/on_hit_extra_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "armor",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/armor/TOTAL"
+    },
+    {
+      "key": "rell_p/on_hit_extra_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "magic_resistance",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/magic_resistance/TOTAL"
+    },
+    {
+      "key": "rell_q/magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "rell_w/crash_down_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "rell_w/crash_shield_value",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "hp",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/hp/TOTAL"
+    },
+    {
+      "key": "rell_w/mount_up_extra_attack_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "rell_e/next_hit_extra_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "rell_e/next_hit_extra_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "TARGET",
+        "key": "hp",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：TARGET/hp/TOTAL"
+    },
+    {
+      "key": "rell_r/damage_per_second_magic",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "rell_r/total_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "taric_p/empowered_attack_extra_magic_damage",
+      "leaf": {
+        "type": "PARAMETER",
+        "key": "character_level_base_damage"
+      },
+      "rejected": true,
+      "error": "运行输入缺失：taric_p/character_level_base_damage"
+    },
+    {
+      "key": "taric_p/empowered_attack_extra_magic_damage",
+      "leaf": {
+        "type": "PARAMETER",
+        "key": "actual_armor_stage"
+      },
+      "rejected": true,
+      "error": "运行输入缺失：taric_p/actual_armor_stage"
+    },
+    {
+      "key": "taric_p/basic_ability_cooldown_refund_seconds",
+      "leaf": {
+        "type": "PARAMETER",
+        "key": "actual_cooldown_multiplier"
+      },
+      "rejected": true,
+      "error": "运行输入缺失：taric_p/actual_cooldown_multiplier"
+    },
+    {
+      "key": "taric_q/healing_per_charge",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "taric_q/healing_per_charge",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "hp",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/hp/TOTAL"
+    },
+    {
+      "key": "taric_q/max_charge_healing",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "taric_q/max_charge_healing",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "hp",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/hp/TOTAL"
+    },
+    {
+      "key": "taric_q/consumed_charge_healing",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "taric_q/consumed_charge_healing",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "hp",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/hp/TOTAL"
+    },
+    {
+      "key": "taric_q/consumed_charge_healing",
+      "leaf": {
+        "type": "PARAMETER",
+        "key": "current_consumed_charge_count"
+      },
+      "rejected": true,
+      "error": "运行输入缺失：taric_q/current_consumed_charge_count"
+    },
+    {
+      "key": "taric_w/self_armor_bonus",
+      "leaf": {
+        "type": "PARAMETER",
+        "key": "actual_armor_stage"
+      },
+      "rejected": true,
+      "error": "运行输入缺失：taric_w/actual_armor_stage"
+    },
+    {
+      "key": "taric_w/self_shield_value",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "hp",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/hp/TOTAL"
+    },
+    {
+      "key": "taric_e/magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "taric_e/magic_damage",
+      "leaf": {
+        "type": "PARAMETER",
+        "key": "actual_armor_stage"
+      },
+      "rejected": true,
+      "error": "运行输入缺失：taric_e/actual_armor_stage"
+    },
+    {
+      "key": "tahmkench_p/bonus_hp_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "hp",
+        "valueKind": "BONUS"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/hp/BONUS"
+    },
+    {
+      "key": "tahmkench_p/ap_bonus_hp_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "tahmkench_p/ap_bonus_hp_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "hp",
+        "valueKind": "BONUS"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/hp/BONUS"
+    },
+    {
+      "key": "tahmkench_p/total_passive_magic_damage",
+      "leaf": {
+        "type": "PARAMETER",
+        "key": "character_level_base_damage"
+      },
+      "rejected": true,
+      "error": "运行输入缺失：tahmkench_p/character_level_base_damage"
+    },
+    {
+      "key": "tahmkench_p/total_passive_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "hp",
+        "valueKind": "BONUS"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/hp/BONUS"
+    },
+    {
+      "key": "tahmkench_p/total_passive_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "tahmkench_q/magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "tahmkench_q/self_heal",
+      "leaf": {
+        "type": "PARAMETER",
+        "key": "cast_stage_missing_hp"
+      },
+      "rejected": true,
+      "error": "运行输入缺失：tahmkench_q/cast_stage_missing_hp"
+    },
+    {
+      "key": "tahmkench_w/magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "tahmkench_e/grey_health_maximum",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "hp",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/hp/TOTAL"
+    },
+    {
+      "key": "tahmkench_e/grey_health_heal_value",
+      "leaf": {
+        "type": "PARAMETER",
+        "key": "current_grey_health"
+      },
+      "rejected": true,
+      "error": "运行输入缺失：tahmkench_e/current_grey_health"
+    },
+    {
+      "key": "tahmkench_e/grey_health_heal_value",
+      "leaf": {
+        "type": "PARAMETER",
+        "key": "grey_health_healing_ratio"
+      },
+      "rejected": true,
+      "error": "运行输入缺失：tahmkench_e/grey_health_healing_ratio"
+    },
+    {
+      "key": "tahmkench_r/target_max_hp_damage_ratio",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "tahmkench_r/enemy_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "SOURCE",
+        "key": "ability_power",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：SOURCE/ability_power/TOTAL"
+    },
+    {
+      "key": "tahmkench_r/enemy_magic_damage",
+      "leaf": {
+        "type": "ATTRIBUTE",
+        "owner": "TARGET",
+        "key": "hp",
+        "valueKind": "TOTAL"
+      },
+      "rejected": true,
+      "error": "属性输入缺失：TARGET/hp/TOTAL"
+    },
+    {
+      "key": "tahmkench_r/actual_cooldown_ms",
+      "leaf": {
+        "type": "PARAMETER",
+        "key": "actual_cooldown_multiplier"
+      },
+      "rejected": true,
+      "error": "运行输入缺失：tahmkench_r/actual_cooldown_multiplier"
+    }
+  ],
+  "integerChecks": [
+    {
+      "key": "braum_q/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        8000,
+        7500,
+        7000,
+        6500,
+        6000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_q/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        45,
+        50,
+        55,
+        60,
+        65
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_w/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        12000,
+        11000,
+        10000,
+        9000,
+        8000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_w/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        40
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_e/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        16000,
+        14000,
+        12000,
+        10000,
+        8000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_e/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        30,
+        35,
+        40,
+        45,
+        50
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_r/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        130000,
+        115000,
+        100000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_r/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        100
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_q/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        11000,
+        10500,
+        10000,
+        9500,
+        9000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_q/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        50
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        40
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_e/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        14000,
+        13000,
+        12000,
+        11000,
+        10000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_e/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        40
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_r/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        120000,
+        100000,
+        80000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_r/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        100
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_q/cast_interval_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        3000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_q/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        60
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_w/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        15000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_w/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        60
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_e/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        16000,
+        15000,
+        14000,
+        13000,
+        12000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_e/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        40
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_r/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        180000,
+        150000,
+        120000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_r/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        100
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_q/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        7000,
+        6500,
+        6000,
+        5500,
+        5000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_q/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        50,
+        46,
+        42,
+        38,
+        34
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_w/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        21000,
+        20000,
+        19000,
+        18000,
+        17000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_w/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        60,
+        75,
+        90,
+        105,
+        120
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_e/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        3000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_p/stack_window_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        4000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_p/max_stack_count",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        4
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_p/already_stunned_damage_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.40000001
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_p/total_magic_damage_by_character_level",
+      "valueType": "INTEGER",
+      "valueMode": "CHARACTER_LEVEL",
+      "values": [
+        26,
+        36,
+        46,
+        56,
+        66,
+        76,
+        86,
+        96,
+        106,
+        116,
+        126,
+        136,
+        146,
+        156,
+        166,
+        176,
+        186,
+        196
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_p/stun_cooldown_base_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        8000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_p/stun_cooldown_reduction_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        2000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_p/stun_cooldown_breakpoint_1_level",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        6
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_p/stun_cooldown_breakpoint_2_level",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        11
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_p/stun_duration_base_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        1250
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_p/stun_duration_increase_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        250
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_p/stun_duration_breakpoint_1_level",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        7
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_p/stun_duration_breakpoint_2_level",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        13
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_q/base_damage",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        75,
+        120,
+        165,
+        210,
+        255
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_q/source_max_hp_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.025
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_q/initial_slow_percent_points",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        70
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_q/minimum_slow_percent_points",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        30
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_q/slow_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        2000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_w/base_resistance",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        20,
+        25,
+        30,
+        35,
+        40
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_w/self_resistance_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.36000001
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_w/self_buff_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        3000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_w/actual_armor_stage",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_e/shield_hold_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        3000,
+        3250,
+        3500,
+        3750,
+        4000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_e/first_projectile_damage_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_e/subsequent_damage_reduction_percent_points",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        35,
+        40,
+        45,
+        50,
+        55
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_e/self_move_speed_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.1
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_r/base_damage",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        150,
+        250,
+        350
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_r/ability_power_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.6
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_r/minimum_knockup_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        600
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_r/maximum_knockup_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        1000,
+        1500,
+        2000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_r/slow_zone_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        4000,
+        4000,
+        4000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_r/slow_percent_points",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        40,
+        50,
+        60
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "braum_r/slow_debuff_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        250
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_p/steal_ratio_per_stack",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.03
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_p/shred_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        5000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_p/max_stack_count",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        5
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_p/max_steal_percent_points",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        15
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_p/steal_floor_by_character_level",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_p/current_stack_count",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_p/on_hit_armor_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.05
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_p/on_hit_magic_resistance_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.05
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_q/base_damage",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        60,
+        100,
+        140,
+        180,
+        220
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_q/ability_power_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.6
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_q/stun_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        650
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/crash_down_base_damage",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        60,
+        90,
+        120,
+        150,
+        180
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/crash_down_ability_power_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.6
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/crash_knockup_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        400
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/crash_stun_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        800
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/crash_shield_base",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        20,
+        40,
+        60,
+        80,
+        100
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/crash_shield_hp_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.11
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/mounted_move_speed_points",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        20,
+        25,
+        30,
+        35,
+        40
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/resistance_increase_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.15000001
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/dismounted_attack_speed_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.2
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/dismounted_attack_range_points",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        75
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/mount_up_extra_attack_base_damage",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        10,
+        25,
+        40,
+        55,
+        70
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/mount_up_extra_attack_ability_power_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.40000001
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/mount_up_move_speed_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.30000001
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/mount_up_attack_window_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        3500
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/flip_knockup_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        400
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_w/flip_stun_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        600
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_e/self_move_speed_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.15000001
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_e/toward_enemy_move_speed_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.30000001
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_e/self_move_speed_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        3000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_e/next_hit_target_max_hp_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        0.05,
+        0.055,
+        0.06,
+        0.065,
+        0.07
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_e/next_hit_ability_power_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.0003
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_e/cast_time_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        250
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_r/damage_per_second_base",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        75,
+        125,
+        175
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_r/ability_power_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.55000001
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_r/duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        2000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "rell_r/duration_seconds",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        2
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_p/empowered_attack_window_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        5000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_p/empowered_attack_count",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        2
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_p/empowered_attack_speed_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        1
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_p/character_level_base_damage",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_p/mode_damage_multiplier",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        1
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_p/armor_damage_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.15000001
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_p/actual_armor_stage",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_p/actual_cooldown_multiplier",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_p/cooldown_refund_base_seconds",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        2
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_q/charge_interval_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        15000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_q/charge_per_empowered_attack",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        1
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_q/healing_per_charge_base",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        25
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_q/healing_ap_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.15000001
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_q/healing_hp_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.01
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_q/max_charge_count",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_q/current_consumed_charge_count",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_w/armor_bonus_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        0.06,
+        0.07,
+        0.08,
+        0.09,
+        0.1
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_w/actual_armor_stage",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_w/self_shield_hp_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        0.07,
+        0.08,
+        0.09,
+        0.1,
+        0.11
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_w/self_shield_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        2500
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_e/base_damage",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        90,
+        130,
+        170,
+        210,
+        250
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_e/ability_power_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.5
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_e/actual_armor_stage",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_e/armor_damage_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.5
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_e/charge_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        1000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_e/stun_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        1500
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_r/initial_delay_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        2500
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "taric_r/damage_immunity_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        2500
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_p/stack_window_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        5000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_p/max_stack_count",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        3
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_p/per_stack_decay_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        1000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_p/character_level_base_damage",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_p/bonus_hp_damage_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.04
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_p/ap_ratio_per_100_bonus_hp",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.0125
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_p/percent_to_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.01
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_p/current_stack_count",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_q/base_damage",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        75,
+        120,
+        165,
+        210,
+        255
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_q/ability_power_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        1
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_q/slow_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.5
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_q/slow_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        2000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_q/stun_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        1500
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_q/self_heal_base",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        10,
+        15,
+        20,
+        25,
+        30
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_q/self_heal_missing_hp_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        0.05,
+        0.055,
+        0.06,
+        0.065,
+        0.07
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_q/target_stack_count_before_hit",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_q/required_stack_count",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        3
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_q/cast_stage_missing_hp",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_w/base_damage",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        100,
+        135,
+        170,
+        205,
+        240
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_w/ability_power_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        1.5
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_w/knockup_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        1000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_w/channel_time_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        1350
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_w/aoe_delay_from_channel_start_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        1500
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_w/total_time_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        2000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_w/champion_refund_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        0.40000001,
+        0.42500001,
+        0.44999999,
+        0.47499999,
+        0.5
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_e/shield_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        2500
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_e/out_of_combat_timer_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        4000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_e/grey_health_conversion_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        0.15000001,
+        0.23,
+        0.31,
+        0.38999999,
+        0.47
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_e/grey_health_healing_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_e/current_grey_health",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_e/grey_health_max_hp_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        3
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_r/cooldown_ms",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        120000,
+        100000,
+        80000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_r/mana_cost",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        100
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_r/base_damage",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "values": [
+        100,
+        250,
+        400
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_r/target_max_hp_base_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.15000001
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_r/target_max_hp_ability_power_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.0007
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_r/enemy_devour_duration_ms",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        3000
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_r/required_stack_count",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "values": [
+        3
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_r/self_slow_ratio",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "values": [
+        0.40000001
+      ],
+      "integersPass": true,
+      "timePass": true
+    },
+    {
+      "key": "tahmkench_r/actual_cooldown_multiplier",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "values": [],
+      "integersPass": true,
+      "timePass": true
+    }
+  ],
+  "boundaryResults": [
+    {
+      "name": "塔里克Q零充能",
+      "passed": true,
+      "detail": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "name": "塔里克Q五层充能",
+      "passed": true,
+      "detail": {
+        "actual": 575.000016,
+        "expected": 575.0000048428774
+      }
+    },
+    {
+      "name": "塔里克Q超过最大充能拒绝",
+      "passed": true,
+      "detail": {
+        "input": 6,
+        "expectedMaximum": 5
+      }
+    },
+    {
+      "name": "塔姆E零灰血",
+      "passed": true,
+      "detail": {
+        "actual": 0,
+        "expected": 0
+      }
+    },
+    {
+      "name": "塔姆E灰血上限三倍最大生命",
+      "passed": true,
+      "detail": {
+        "actual": 12600,
+        "expected": 12600
+      }
+    },
+    {
+      "name": "塔姆E负灰血拒绝",
+      "passed": true,
+      "detail": {
+        "input": -1,
+        "expected": "拒绝"
+      }
+    },
+    {
+      "name": "布隆Q来源与目标最大生命区分",
+      "passed": true,
+      "detail": {
+        "sourceHP": [
+          1500,
+          4200
+        ],
+        "targetHP": [
+          900,
+          2100
+        ],
+        "expected": [
+          112.50000055879354,
+          360.0000015646219
+        ]
+      }
+    }
+  ],
+  "structuralFailures": [],
+  "failures": []
+}

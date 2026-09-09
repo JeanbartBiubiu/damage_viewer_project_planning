@@ -1,0 +1,33 @@
+{
+  "i": 108,
+  "intent": {
+    "sequence": 108,
+    "method": "POST",
+    "route": "/skills/taric_w/formulas",
+    "detailRoute": "/skills/taric_w/formulas/self_armor_bonus",
+    "skillKey": "taric_w",
+    "kind": "formulas",
+    "stableKey": "self_armor_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_armor_bonus",
+      "name": "坚毅壁垒自身护甲加成",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "armor_bonus_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_armor_stage"
+          }
+        ]
+      },
+      "description": "当前BonusArmor=ArmorBonusPercentage×实际来源护甲阶段；原树mStat1的mStatFormula省略，具体读取时点待接，输入无默认。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 15,
+    "method": "POST",
+    "route": "/skills/braum_q/parameters",
+    "detailRoute": "/skills/braum_q/parameters/source_max_hp_ratio",
+    "skillKey": "braum_q",
+    "kind": "parameters",
+    "stableKey": "source_max_hp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "source_max_hp_ratio",
+      "name": "寒冬之咬自身最大生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.025,
+      "levelValues": null,
+      "description": "当前TotalDamage使用施法者mStat12且mStatFormula省略，MaxHPDamageValue=0.025乘来源最大生命；不读取命中目标生命。",
+      "sortOrder": 20
+    }
+  }
+}

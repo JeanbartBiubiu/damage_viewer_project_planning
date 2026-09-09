@@ -1,0 +1,23 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 89,
+    "method": "POST",
+    "route": "/skills/taric_p/parameters",
+    "detailRoute": "/skills/taric_p/parameters/actual_armor_stage",
+    "skillKey": "taric_p",
+    "kind": "parameters",
+    "stableKey": "actual_armor_stage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_armor_stage",
+      "name": "正气凌人实际护甲阶段",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前伤害树使用mStat1/mStatFormula2实际护甲阶段，由运行输入提供；尚不声明总护甲、额外护甲或事件读取时点。",
+      "sortOrder": 70
+    }
+  }
+}

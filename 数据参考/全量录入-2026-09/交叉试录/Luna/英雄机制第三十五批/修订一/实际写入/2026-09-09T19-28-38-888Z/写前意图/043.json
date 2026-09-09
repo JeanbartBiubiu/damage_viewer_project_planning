@@ -1,0 +1,23 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 42,
+    "method": "POST",
+    "route": "/skills/rell_p/parameters",
+    "detailRoute": "/skills/rell_p/parameters/current_stack_count",
+    "skillKey": "rell_p",
+    "kind": "parameters",
+    "stableKey": "current_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_stack_count",
+      "name": "当前偷取双抗层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "实际层数由运行输入提供，范围0至5；不默认满层，也不把自身已降低属性递归作为下一层输入。",
+      "sortOrder": 60
+    }
+  }
+}

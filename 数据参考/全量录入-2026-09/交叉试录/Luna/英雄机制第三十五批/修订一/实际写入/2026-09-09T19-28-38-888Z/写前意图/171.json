@@ -1,0 +1,33 @@
+{
+  "i": 170,
+  "intent": {
+    "sequence": 170,
+    "method": "POST",
+    "route": "/skills/tahmkench_r/formulas",
+    "detailRoute": "/skills/tahmkench_r/formulas/actual_cooldown_ms",
+    "skillKey": "tahmkench_r",
+    "kind": "formulas",
+    "stableKey": "actual_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "actual_cooldown_ms",
+      "name": "大快朵颐实际冷却时间（毫秒）",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "cooldown_ms"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_cooldown_multiplier"
+          }
+        ]
+      },
+      "description": "当前CDCalc=DataCooldown×实际冷却倍率；基础DataCooldown按技能等级保存，倍率无默认。",
+      "sortOrder": 30
+    }
+  }
+}

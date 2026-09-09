@@ -1,0 +1,23 @@
+{
+  "i": 80,
+  "intent": {
+    "sequence": 80,
+    "method": "POST",
+    "route": "/skills/rell_r/parameters",
+    "detailRoute": "/skills/rell_r/parameters/duration_seconds",
+    "skillKey": "rell_r",
+    "kind": "parameters",
+    "stableKey": "duration_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "duration_seconds",
+      "name": "极涌持续时间（秒，计算用）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "TotalDamage树以Duration直接乘DamagePerSecond；保留2秒计算单位，不按未知跳数拆周期。",
+      "sortOrder": 40
+    }
+  }
+}

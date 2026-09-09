@@ -1,0 +1,641 @@
+{
+  "generatedAt": "2026-09-09T19:23:29.841Z",
+  "status": "REVISE_REQUIRED",
+  "canSave": false,
+  "scope": "第35批候选保存前独立静态审查；不调用业务接口、不修改候选和计划。",
+  "files": {
+    "candidate": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero35-luna-candidate\\完整候选.json",
+    "candidateSha256": "9e9d4c15a0e9419e303f6d1c029256fab2102c814ef602bd99831f5d44f54632",
+    "plan": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero35-luna-candidate\\写前请求计划.json",
+    "planSha256": "f9df7485f64d76a8b98b31495f3729fa70390070462f2e550a74410f71771502",
+    "sourceBinding": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero35-root-entry-20260910\\来源绑定与当前文本.json",
+    "sourceBindingSha256": "75f30e6aeb338134517008a63a99f80c732f642bf1eb6a8fddec79810cd9fe32",
+    "sourceNote": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero35-root-entry-20260910\\主负责人源值核对说明.md"
+  },
+  "counts": {
+    "candidate": {
+      "newParameters": 136,
+      "newFormulas": 32,
+      "newEffects": 2,
+      "newProcesses": 0,
+      "newInternalStates": 0,
+      "newTriggerRules": 0,
+      "newTotal": 170,
+      "reusedPublicParameters": 28,
+      "plannedTotalIncludingReused": 198,
+      "protectedCurrentCompositionLists": 120
+    },
+    "plan": {
+      "requestCount": 170,
+      "requestCounts": {
+        "parameters": 136,
+        "formulas": 32,
+        "effects": 2,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    "reusedPublicParameters": 28
+  },
+  "checks": [
+    {
+      "id": "candidate_sha256",
+      "pass": true,
+      "expected": "9e9d4c15a0e9419e303f6d1c029256fab2102c814ef602bd99831f5d44f54632",
+      "actual": "9e9d4c15a0e9419e303f6d1c029256fab2102c814ef602bd99831f5d44f54632",
+      "evidence": "候选实际文件字节"
+    },
+    {
+      "id": "plan_sha256",
+      "pass": true,
+      "expected": "f9df7485f64d76a8b98b31495f3729fa70390070462f2e550a74410f71771502",
+      "actual": "f9df7485f64d76a8b98b31495f3729fa70390070462f2e550a74410f71771502",
+      "evidence": "写前请求计划实际文件字节"
+    },
+    {
+      "id": "source_index_sha256",
+      "pass": true,
+      "expected": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+      "actual": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+      "evidence": "候选绑定的来源索引与来源绑定文件记录"
+    },
+    {
+      "id": "counts",
+      "pass": true,
+      "expected": {
+        "parameters": 136,
+        "formulas": 32,
+        "effects": 2,
+        "total": 170,
+        "reused": 28,
+        "planned": 198
+      },
+      "actual": {
+        "newParameters": 136,
+        "newFormulas": 32,
+        "newEffects": 2,
+        "newProcesses": 0,
+        "newInternalStates": 0,
+        "newTriggerRules": 0,
+        "newTotal": 170,
+        "reusedPublicParameters": 28,
+        "plannedTotalIncludingReused": 198,
+        "protectedCurrentCompositionLists": 120
+      },
+      "evidence": "候选计数"
+    },
+    {
+      "id": "plan_count",
+      "pass": true,
+      "expected": {
+        "total": 170,
+        "parameters": 136,
+        "formulas": 32,
+        "effects": 2
+      },
+      "actual": {
+        "total": 170,
+        "counts": {
+          "parameters": 136,
+          "formulas": 32,
+          "effects": 2,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      "evidence": "请求计划计数"
+    },
+    {
+      "id": "no_business_write_claim",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "businessWrites": 0,
+        "apiCalls": 0,
+        "tokenStored": false,
+        "apiWrites": 0
+      },
+      "evidence": "候选元数据仅静态生成"
+    },
+    {
+      "id": "all_formula_operations_binary",
+      "pass": true,
+      "expected": true,
+      "actual": true,
+      "evidence": "32条公式全部递归检查OPERATION的两个操作数"
+    },
+    {
+      "id": "formula_and_effect_refs",
+      "pass": true,
+      "expected": true,
+      "actual": true,
+      "evidence": "公式和效果引用均在同一技能写入集合内"
+    },
+    {
+      "id": "milliseconds_are_integer",
+      "pass": true,
+      "expected": true,
+      "actual": true,
+      "evidence": "所有参数键后缀为_ms的字段均为非负整数"
+    },
+    {
+      "id": "effect_nullable_fields",
+      "pass": true,
+      "expected": true,
+      "actual": true,
+      "evidence": "两项效果的每个结果均显式保留spellShieldBlockScope:null"
+    },
+    {
+      "id": "braum_w_ratio",
+      "pass": true,
+      "expected": 0.36000001430511475,
+      "actual": 0.36000001,
+      "evidence": "BraumArmorPercent原始值与候选0.36"
+    },
+    {
+      "id": "braum_w_base_resists",
+      "pass": true,
+      "expected": [
+        20,
+        25,
+        30,
+        35,
+        40
+      ],
+      "actual": [
+        20,
+        25,
+        30,
+        35,
+        40
+      ],
+      "evidence": "BaseResists技能等级索引1至5"
+    },
+    {
+      "id": "braum_w_tree_selectors",
+      "pass": true,
+      "expected": {
+        "armor": {
+          "mStat": 1,
+          "mStatFormula": 2
+        },
+        "mr": {
+          "mStat": 6,
+          "mStatFormula": 2
+        }
+      },
+      "actual": {
+        "armor": {
+          "mStat": 1,
+          "mStatFormula": 2,
+          "mDataValue": "BraumArmorPercent",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        "mr": {
+          "mStat": 6,
+          "mStatFormula": 2,
+          "mDataValue": "BraumArmorPercent",
+          "__type": "StatByNamedDataValueCalculationPart"
+        }
+      },
+      "evidence": "当前GrantedBraumArmor/GrantedBraumMR原树"
+    },
+    {
+      "id": "braum_q_max_hp_source_mapping",
+      "pass": false,
+      "expected": "mStat12 -> SOURCE.hp.TOTAL",
+      "actual": {
+        "sourceTree": {
+          "mStat": 12,
+          "mDataValue": "MaxHPDamageValue",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        "candidate": {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "TARGET",
+          "attributeKey": "hp",
+          "attributeValueKind": "TOTAL"
+        }
+      },
+      "evidence": "布隆Q当前TotalDamage的最大生命项来自施法者最大生命；目标最大生命只用于命中目标类公式"
+    },
+    {
+      "id": "braum_w_mr_bonus_mapping",
+      "pass": true,
+      "expected": "SOURCE.magic_resistance.BONUS",
+      "actual": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "magic_resistance",
+        "attributeValueKind": "BONUS"
+      },
+      "evidence": "mStat6/mStatFormula2沿根说明可引用已有魔抗窄证"
+    },
+    {
+      "id": "braum_e_first_vs_later",
+      "pass": true,
+      "expected": {
+        "first": 0,
+        "later": [
+          35,
+          40,
+          45,
+          50,
+          55
+        ]
+      },
+      "actual": {
+        "first": 0,
+        "later": [
+          35,
+          40,
+          45,
+          50,
+          55
+        ]
+      },
+      "evidence": "首个弹体零伤害与后续百分数点减伤分别保存"
+    },
+    {
+      "id": "rell_w_single_slot_and_explicit_expiry",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "slots": 1,
+        "durationValue": null,
+        "expiryMode": "EXPLICIT_ONLY"
+      },
+      "evidence": "RellW骑乘/披甲同槽，护盾只到再次上马"
+    },
+    {
+      "id": "rell_r_duration_total",
+      "pass": true,
+      "expected": {
+        "seconds": 2,
+        "total": "每秒式×2"
+      },
+      "actual": {
+        "seconds": 2,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_per_second_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "duration_seconds"
+            }
+          ]
+        }
+      },
+      "evidence": "RellR总量按2秒乘每秒式，不拆每跳"
+    },
+    {
+      "id": "taric_q_cast_interval_reuse",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "reused": {
+          "skillKey": "taric_q",
+          "parameterKey": "cast_interval_ms",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        "chargeInterval": 15000
+      },
+      "evidence": "已有cast_interval_ms=3000复用；15秒充能另存"
+    },
+    {
+      "id": "taric_q_one_percent_max_hp",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "source": 0.009999999776482582,
+        "candidate": 0.01
+      },
+      "evidence": "每层HealingHPRatio=0.01×来源最大生命"
+    },
+    {
+      "id": "taric_p_cdr_formula",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "SUBTRACT",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "cooldown_refund_base_seconds"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_cooldown_multiplier"
+            }
+          ]
+        },
+        "base": {
+          "parameterKey": "cooldown_refund_base_seconds",
+          "name": "正气凌人冷却缩短基础项（秒）",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null,
+          "description": "当前CDR=1+(1-实际冷却倍率)，整理为2-实际冷却倍率；2是树中两个NumberCalculationPart的合计常数。",
+          "sortOrder": 90
+        },
+        "actual": {
+          "parameterKey": "actual_cooldown_multiplier",
+          "name": "基础技能实际冷却倍率",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "当前CDR树消费CooldownMultiplierCalculationPart；实际倍率由运行输入提供，不默认1或0.5。",
+          "sortOrder": 80
+        }
+      },
+      "evidence": "CDR保留2-实际冷却倍率"
+    },
+    {
+      "id": "taric_w_e_armor_stage_is_runtime",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "taricW": {
+          "parameterKey": "actual_armor_stage",
+          "name": "坚毅壁垒护甲阶段",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "当前BonusArmor使用来源护甲阶段；实际施加前属性由运行输入提供，禁止用最终护甲递归反馈。",
+          "sortOrder": 20
+        },
+        "taricE": {
+          "parameterKey": "actual_armor_stage",
+          "name": "炫光实际护甲阶段",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "当前TotalDamage第三项为mStat1/mStatFormula2×0.5；施法时来源额外护甲由运行输入提供。",
+          "sortOrder": 30
+        }
+      },
+      "evidence": "mStat1/mStatFormula2阶段均无默认输入"
+    },
+    {
+      "id": "tahm_p_double_ratio",
+      "pass": true,
+      "expected": {
+        "coefficient": 0.012500000186264515,
+        "percentToRatio": 0.01,
+        "attribute": "hp:BONUS"
+      },
+      "actual": {
+        "coefficient": 0.0125,
+        "percentToRatio": 0.01,
+        "refs": [
+          "ap_ratio_per_100_bonus_hp",
+          "percent_to_ratio",
+          "ability_power:TOTAL",
+          "hp:BONUS"
+        ]
+      },
+      "evidence": "法强×额外生命×0.0125×0.01完整保留"
+    },
+    {
+      "id": "tahm_e_three_times_max_hp",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "sourceCoefficient": 3,
+        "attribute": "SOURCE.hp.TOTAL"
+      },
+      "evidence": {
+        "sourceCoefficient": 3,
+        "candidateRatio": 3,
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "grey_health_max_hp_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tahm_r_current_cooldown_and_damage",
+      "pass": true,
+      "expected": {
+        "cooldown": [
+          120000,
+          100000,
+          80000
+        ],
+        "hpRatio": 0.15,
+        "apRatio": 0.0007
+      },
+      "actual": {
+        "cooldown": [
+          120000,
+          100000,
+          80000
+        ],
+        "hpRatio": 0.15000001,
+        "apRatio": 0.0007,
+        "tree": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BasePercentHPDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.000699999975040555,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "evidence": "R新增当前消费DataCooldown和0.15+0.0007×法强目标最大生命比例"
+    }
+  ],
+  "blockingFindings": [
+    {
+      "severity": "BLOCKING",
+      "id": "braum_w_armor_attribute_kind_unproven",
+      "candidatePointers": [
+        "skills.braum_w.write.formulas[self_armor_bonus].expression.operands[1]",
+        "skills.braum_w.write.formulas[self_armor_bonus].description"
+      ],
+      "evidence": {
+        "sourcePointer": "BraumW.mSpell.mSpellCalculations.GrantedBraumArmor.mFormulaParts[1]",
+        "source": {
+          "mStat": 1,
+          "mStatFormula": 2,
+          "mDataValue": "BraumArmorPercent",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        "text": "布隆跃向一名友方英雄或小兵。在抵达时，布隆为目标提供持续@Duration@秒的<scaleArmor>@GrantedAllyArmor@护甲</scaleArmor>和<scaleMR>@GrantedAllyMR@魔法抗性</scaleMR>。布隆为他自己提供相同持续时间的<scaleArmor>@GrantedBraumArmor@护甲</scaleArmor>和<scaleMR>@GrantedBraumMR@魔法抗性</scaleMR>。",
+        "candidate": {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "SOURCE",
+          "attributeKey": "armor",
+          "attributeValueKind": "BONUS"
+        }
+      },
+      "reason": "正文只写护甲，原树只有mStat=1/mStatFormula=2；根说明明确1/2护甲阶段未有同版窄证。候选直接写SOURCE.armor.BONUS并在描述中称额外护甲，属于未证属性映射。",
+      "minimalFix": "增加DECIMAL/RUNTIME_INPUT的实际mStat1/mStatFormula2属性阶段，并让self_armor_bonus公式引用该参数；若主负责人取得独立窄证，再单独记录证据后保留枚举。"
+    },
+    {
+      "severity": "BLOCKING",
+      "id": "braum_q_max_hp_source_target_mismatch",
+      "candidatePointers": [
+        "skills.braum_q.write.formulas[magic_damage].expression.operands[1].operands[1]",
+        "skills.braum_q.write.formulas[magic_damage].description"
+      ],
+      "evidence": {
+        "sourcePointer": "BraumQ.mSpell.mSpellCalculations.TotalDamage.mFormulaParts[1]",
+        "source": {
+          "mStat": 12,
+          "mDataValue": "MaxHPDamageValue",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        "candidate": {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "TARGET",
+          "attributeKey": "hp",
+          "attributeValueKind": "TOTAL"
+        },
+        "sourceNote": "Q条目明确写为来源最大生命值×0.025"
+      },
+      "reason": "原树TotalDamage的mStat=12按当前根来源说明绑定施法者最大生命；候选却使用TARGET.hp.TOTAL，会在来源与目标最大生命不同的场景产生错误伤害。",
+      "minimalFix": "将该属性叶节点改为SOURCE.hp.TOTAL，并把描述改为来源最大生命；独立算例必须使用与目标最大生命不同的两组输入验证。"
+    },
+    {
+      "severity": "BLOCKING",
+      "id": "taric_p_armor_stage_description_overstates_kind",
+      "candidatePointers": [
+        "skills.taric_p.write.parameters[actual_armor_stage].description",
+        "skills.taric_p.write.formulas[empowered_attack_extra_magic_damage].description"
+      ],
+      "evidence": {
+        "sourcePointer": "TaricPassive.mSpell.mSpellCalculations.TotalDamage.mFormulaParts[1]",
+        "source": {
+          "mStat": 1,
+          "mStatFormula": 2,
+          "mDataValue": "ArmorDamageValue",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        "candidate": {
+          "parameterKey": "actual_armor_stage",
+          "name": "正气凌人实际护甲阶段",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "当前TotalDamage使用mStat1/mStatFormula2；施放前额外护甲由运行输入提供，不递归使用强化后的护甲。",
+          "sortOrder": 70
+        }
+      },
+      "reason": "原树只给mStat=1/mStatFormula=2，根说明把该阶段列为未证；候选文字直接限定为来源额外护甲和施放前额外护甲。",
+      "minimalFix": "描述改为“mStat=1/mStatFormula=2实际属性阶段，运行输入提供；不映射为总/额外护甲，不递归读取强化后属性”。"
+    },
+    {
+      "severity": "BLOCKING",
+      "id": "taric_w_armor_stage_description_overstates_timing",
+      "candidatePointers": [
+        "skills.taric_w.write.formulas[self_armor_bonus].description"
+      ],
+      "evidence": {
+        "sourcePointer": "TaricW.mSpell.mSpellCalculations.BonusArmor.mFormulaParts[0]",
+        "source": {
+          "mStat": 1,
+          "mDataValue": "ArmorBonusPercentage",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        "candidate": "当前BonusArmor=ArmorBonusPercentage×来源护甲阶段；属性读取采用施加前快照。"
+      },
+      "reason": "运行输入本身是正确的保留方式，但公式说明把未证的属性阶段固定描述为施加前快照；当前源树只证明mStat=1/mStatFormula=2。",
+      "minimalFix": "改成“mStat=1/mStatFormula=2实际属性阶段由运行输入提供；禁止递归使用结果值”，把施加时点留为待接。"
+    },
+    {
+      "severity": "BLOCKING",
+      "id": "taric_e_armor_stage_description_overstates_kind",
+      "candidatePointers": [
+        "skills.taric_e.write.parameters[actual_armor_stage].description",
+        "skills.taric_e.write.formulas[magic_damage].description"
+      ],
+      "evidence": {
+        "sourcePointer": "TaricE.mSpell.mSpellCalculations.TotalDamage.mFormulaParts[2]",
+        "source": {
+          "mStat": 1,
+          "mStatFormula": 2,
+          "mCoefficient": 0.5,
+          "__type": "StatByCoefficientCalculationPart"
+        },
+        "candidate": {
+          "parameterKey": "actual_armor_stage",
+          "name": "炫光实际护甲阶段",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null,
+          "description": "当前TotalDamage第三项为mStat1/mStatFormula2×0.5；施法时来源额外护甲由运行输入提供。",
+          "sortOrder": 30
+        }
+      },
+      "reason": "原树只给mStat=1/mStatFormula=2；候选描述称来源额外护甲阶段，缺少属性枚举证据。",
+      "minimalFix": "描述改为未解码的mStat1/mStatFormula2实际属性阶段运行输入，不声明额外护甲。"
+    }
+  ],
+  "nonBlockingNotes": [
+    "布隆E首个定向弹体零伤害与后续弹体35/40/45/50/55百分数点减伤已分开保存。",
+    "芮尔W只占一个技能槽，护盾生命周期为EXPLICIT_ONLY且无固定durationValue；芮尔R总量为2秒×每秒式。",
+    "塔里克Q的既有cast_interval_ms按复用清单保护，15秒充能与每层1%最大生命另存；P冷却缩短为2-实际冷却倍率。",
+    "塔姆P额外生命与法强双比例、E的3×最大生命灰血上限、R的120/100/80秒冷却与0.15+0.0007×法强目标最大生命比例均与当前树一致。",
+    "结构检查未发现非二元运算、悬空公式或效果引用，两个效果结果均显式保留spellShieldBlockScope:null。"
+  ],
+  "apiWrites": 0,
+  "apiCalls": 0,
+  "runtimeValidation": "未执行"
+}

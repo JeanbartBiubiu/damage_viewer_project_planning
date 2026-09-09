@@ -1,0 +1,27 @@
+{
+  "i": 32,
+  "intent": {
+    "sequence": 32,
+    "method": "POST",
+    "route": "/skills/braum_r/parameters",
+    "detailRoute": "/skills/braum_r/parameters/maximum_knockup_ms",
+    "skillKey": "braum_r",
+    "kind": "parameters",
+    "stableKey": "maximum_knockup_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "maximum_knockup_ms",
+      "name": "首目标最长击飞时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1000,
+        "2": 1500,
+        "3": 2000
+      },
+      "description": "客户端MaxKnockup取索引1至3的1/1.5/2秒，转换为1000/1500/2000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "method": "POST",
+    "route": "/skills/braum_w/parameters",
+    "detailRoute": "/skills/braum_w/parameters/self_buff_duration_ms",
+    "skillKey": "braum_w",
+    "kind": "parameters",
+    "stableKey": "self_buff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_buff_duration_ms",
+      "name": "布隆自身双抗加成持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "客户端Duration=3秒；转换为3000毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

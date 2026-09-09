@@ -1,0 +1,45 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 36,
+    "method": "POST",
+    "route": "/skills/braum_r/formulas",
+    "detailRoute": "/skills/braum_r/formulas/magic_damage",
+    "skillKey": "braum_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "冰川裂隙首目标魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=BaseDamage+0.6×来源总法强；额外敌人击飞分支不建立伤害结果。",
+      "sortOrder": 10
+    }
+  }
+}

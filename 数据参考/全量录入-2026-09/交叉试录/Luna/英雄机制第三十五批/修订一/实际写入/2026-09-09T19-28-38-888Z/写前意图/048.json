@@ -1,0 +1,23 @@
+{
+  "i": 47,
+  "intent": {
+    "sequence": 47,
+    "method": "POST",
+    "route": "/skills/rell_q/parameters",
+    "detailRoute": "/skills/rell_q/parameters/ability_power_ratio",
+    "skillKey": "rell_q",
+    "kind": "parameters",
+    "stableKey": "ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ability_power_ratio",
+      "name": "裂阵法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.6,
+      "levelValues": null,
+      "description": "当前Damage树的StatByCoefficient系数为0.6×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

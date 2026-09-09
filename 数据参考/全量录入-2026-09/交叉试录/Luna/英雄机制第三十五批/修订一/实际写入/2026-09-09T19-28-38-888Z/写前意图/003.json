@@ -1,0 +1,23 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "method": "POST",
+    "route": "/skills/braum_p/parameters",
+    "detailRoute": "/skills/braum_p/parameters/already_stunned_damage_ratio",
+    "skillKey": "braum_p",
+    "kind": "parameters",
+    "stableKey": "already_stunned_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "already_stunned_damage_ratio",
+      "name": "晕眩冷却期间普攻附伤比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.40000001,
+      "levelValues": null,
+      "description": "当前OnHitDamage树使用AlreadyStunnedDamageAmp=0.4；正文显示为TotalDamage的附加魔法伤害比例。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 152,
+  "intent": {
+    "sequence": 152,
+    "method": "POST",
+    "route": "/skills/tahmkench_e/parameters",
+    "detailRoute": "/skills/tahmkench_e/parameters/grey_health_conversion_ratio",
+    "skillKey": "tahmkench_e",
+    "kind": "parameters",
+    "stableKey": "grey_health_conversion_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "grey_health_conversion_ratio",
+      "name": "受伤灰色生命转换比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.15000001,
+        "2": 0.23,
+        "3": 0.31,
+        "4": 0.38999999,
+        "5": 0.47
+      },
+      "description": "当前正文消费GreyHealthRatio，取索引1至5的0.15/0.23/0.31/0.39/0.47；增强双敌人分支另行排除。",
+      "sortOrder": 30
+    }
+  }
+}
