@@ -1,0 +1,288 @@
+{
+  "at": "2026-09-09T06:17:35.526Z",
+  "mode": "本地候选公式独立算例；不访问接口，不执行业务写入",
+  "sourceFrozenSha256": "f36e250fe8cc6d1ebf83b1f727b0dc797a78ddd5d99f062be42c5dc52e07d2c0",
+  "candidateSha256": "163ff77ed3b383e54428cedf49497f3b0f6ff8d6b205d614f4e5fd6c1b6ca609",
+  "formulaValidator": {
+    "allowedNodeTypes": [
+      "PARAMETER",
+      "ATTRIBUTE",
+      "OPERATION"
+    ],
+    "allowedOperations": [
+      "ADD",
+      "SUBTRACT",
+      "MULTIPLY",
+      "DIVIDE",
+      "MIN",
+      "MAX"
+    ],
+    "checkedFormulaCount": 8,
+    "coveredFormulaCount": 8,
+    "negativeNodeRejected": true,
+    "falseConditionRejected": true
+  },
+  "counts": {
+    "cases": 17,
+    "conditionTrue": 17,
+    "apiWrites": 0
+  },
+  "cases": [
+    {
+      "name": "成长生命值最低端点运行输入",
+      "id": 5001,
+      "formulaKey": "resolved_health_bonus",
+      "params": {
+        "actual_level_health_bonus": 10
+      },
+      "attrs": {},
+      "expected": 10,
+      "actual": 10,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "成长生命值最高端点运行输入",
+      "id": 5001,
+      "formulaKey": "resolved_health_bonus",
+      "params": {
+        "actual_level_health_bonus": 180
+      },
+      "attrs": {},
+      "expected": 180,
+      "actual": 180,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "适应之力运行时解析值",
+      "id": 5008,
+      "formulaKey": "resolved_adaptive_attribute_value",
+      "params": {
+        "resolved_adaptive_value": 9
+      },
+      "attrs": {},
+      "expected": 9,
+      "actual": 9,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "灵光披风短冷却端点",
+      "id": 8275,
+      "formulaKey": "resolved_move_speed_boost_ratio",
+      "params": {
+        "actual_move_speed_boost_ratio": 0.15
+      },
+      "attrs": {},
+      "expected": 0.15,
+      "actual": 0.15,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "灵光披风长冷却端点",
+      "id": 8275,
+      "formulaKey": "resolved_move_speed_boost_ratio",
+      "params": {
+        "actual_move_speed_boost_ratio": 0.45
+      },
+      "attrs": {},
+      "expected": 0.45,
+      "actual": 0.45,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "多面手无不同属性",
+      "id": 8316,
+      "formulaKey": "skill_haste_from_distinct_attributes",
+      "params": {
+        "haste_per_distinct_attribute": 1,
+        "actual_distinct_equipment_attribute_count": 0
+      },
+      "attrs": {},
+      "expected": 0,
+      "actual": 0,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "多面手五种属性",
+      "id": 8316,
+      "formulaKey": "skill_haste_from_distinct_attributes",
+      "params": {
+        "haste_per_distinct_attribute": 1,
+        "actual_distinct_equipment_attribute_count": 5
+      },
+      "attrs": {},
+      "expected": 5,
+      "actual": 5,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "多面手十种属性",
+      "id": 8316,
+      "formulaKey": "skill_haste_from_distinct_attributes",
+      "params": {
+        "haste_per_distinct_attribute": 1,
+        "actual_distinct_equipment_attribute_count": 10
+      },
+      "attrs": {},
+      "expected": 10,
+      "actual": 10,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "饼干客户端比例和两千最大生命",
+      "id": 8345,
+      "formulaKey": "base_biscuit_recovery",
+      "params": {
+        "flat_recovery": 20,
+        "selected_health_recovery_ratio": 0.015
+      },
+      "attrs": {
+        "SOURCE:hp:TOTAL": 2000
+      },
+      "expected": 50,
+      "actual": 50,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "饼干官方比例和三千最大生命",
+      "id": 8345,
+      "formulaKey": "base_biscuit_recovery",
+      "params": {
+        "flat_recovery": 20,
+        "selected_health_recovery_ratio": 0.02
+      },
+      "attrs": {
+        "SOURCE:hp:TOTAL": 3000
+      },
+      "expected": 80,
+      "actual": 80,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "三块饼干永久生命",
+      "id": 8345,
+      "formulaKey": "permanent_health_gain",
+      "params": {
+        "permanent_health_per_cookie": 30,
+        "actual_consumed_or_sold_count": 3
+      },
+      "attrs": {},
+      "expected": 90,
+      "actual": 90,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "一块饼干永久生命",
+      "id": 8345,
+      "formulaKey": "permanent_health_gain",
+      "params": {
+        "permanent_health_per_cookie": 30,
+        "actual_consumed_or_sold_count": 1
+      },
+      "attrs": {},
+      "expected": 30,
+      "actual": 30,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "生命源泉近战基础治疗运行值",
+      "id": 8463,
+      "formulaKey": "ranged_heal_amount",
+      "params": {
+        "actual_base_heal": 35,
+        "ranged_effectiveness_ratio": 0.7
+      },
+      "attrs": {},
+      "expected": 24.5,
+      "actual": 24.5,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "生命源泉远程端点治疗运行值",
+      "id": 8463,
+      "formulaKey": "ranged_heal_amount",
+      "params": {
+        "actual_base_heal": 50,
+        "ranged_effectiveness_ratio": 0.7
+      },
+      "attrs": {},
+      "expected": 35,
+      "actual": 35,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "传说急速零层",
+      "id": 9105,
+      "formulaKey": "base_skill_haste_from_legend",
+      "params": {
+        "haste_per_legend_stack": 1.5,
+        "actual_legend_stacks": 0
+      },
+      "attrs": {},
+      "expected": 0,
+      "actual": 0,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "传说急速十层",
+      "id": 9105,
+      "formulaKey": "base_skill_haste_from_legend",
+      "params": {
+        "haste_per_legend_stack": 1.5,
+        "actual_legend_stacks": 10
+      },
+      "attrs": {},
+      "expected": 15,
+      "actual": 15,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    },
+    {
+      "name": "传说急速七层",
+      "id": 9105,
+      "formulaKey": "base_skill_haste_from_legend",
+      "params": {
+        "haste_per_legend_stack": 1.5,
+        "actual_legend_stacks": 7
+      },
+      "attrs": {},
+      "expected": 10.5,
+      "actual": 10.5,
+      "condition": true,
+      "conditionEvidence": "按该公式的运行输入范围和来源边界检查通过"
+    }
+  ],
+  "safeguards": {
+    "runtimeUnknownsRemainNull": true,
+    "noDefaultDamageOrDirectHeal": true,
+    "noLinearLevelInterpolation": true,
+    "noEmptyProcessesOrRules": true,
+    "noBusinessWrites": true
+  },
+  "currentGETSummary": {
+    "identityCount": 69,
+    "mountedRuneCount": 53,
+    "remainingRuneCount": 16,
+    "relationCount": 53,
+    "uniqueMountedSkillCount": 53,
+    "skillDirectoryCount": 53,
+    "skillDirectoryNotMounted": [],
+    "mountedSkillDetailsCount": 53,
+    "priorBatchSkillCount": 53,
+    "apiWrites": 0
+  }
+}
