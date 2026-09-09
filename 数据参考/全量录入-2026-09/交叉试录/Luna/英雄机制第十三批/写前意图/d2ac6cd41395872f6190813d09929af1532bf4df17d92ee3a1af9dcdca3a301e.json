@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T05:42:49.423Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/kassadin_w/effects/champion_mana_restore",
+  "id": "champion_mana_restore",
+  "method": "POST",
+  "body": {
+    "effectKey": "champion_mana_restore",
+    "name": "英雄目标回复法力",
+    "description": "独立资源数值；真实触发未连接。",
+    "sortOrder": 30,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "resource",
+        "name": "英雄目标回复法力",
+        "resultType": "RESOURCE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "champion_mana_restore"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "mana",
+          "operation": "RESTORE"
+        }
+      }
+    ]
+  }
+}

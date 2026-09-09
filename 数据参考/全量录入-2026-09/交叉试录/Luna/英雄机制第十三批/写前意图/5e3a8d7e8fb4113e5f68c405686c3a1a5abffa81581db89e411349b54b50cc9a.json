@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T05:42:26.744Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/akali_r/formulas/second_max_damage",
+  "id": "second_max_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "second_max_damage",
+    "name": "第二段最高伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "calculation_constant_1"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "second_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "second_ap_ratio"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "当前树明确最低值乘3；中间已损生命函数不猜线性；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 30
+  }
+}

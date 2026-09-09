@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T05:43:24.813Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/ryze_q/parameters/two_rune_move_speed_ratio",
+  "id": "two_rune_move_speed_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "two_rune_move_speed_ratio",
+    "name": "双符文移动速度比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.28,
+      "2": 0.32,
+      "3": 0.36,
+      "4": 0.4,
+      "5": 0.44
+    },
+    "description": "客户端当前根绑定 DataValues.MovementSpeedAmount 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+    "sortOrder": 40
+  }
+}

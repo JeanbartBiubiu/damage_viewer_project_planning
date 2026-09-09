@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T05:42:35.370Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/kassadin_q/formulas/magic_shield_amount",
+  "id": "magic_shield_amount",
+  "method": "POST",
+  "body": {
+    "formulaKey": "magic_shield_amount",
+    "name": "魔法护盾数值",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_magic_shield"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_2"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "基础值加0.3法强；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 20
+  }
+}

@@ -1,0 +1,557 @@
+{
+  "at": "2026-09-09T05:17:55.858Z",
+  "mode": "只读GET；保护目录主体、角色技能关系和代表图，不读取或修改图字节",
+  "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "requests": [
+    {
+      "route": "/characters/champion_akali",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 65,
+      "data": {
+        "characterKey": "champion_akali",
+        "createdAt": "2026-09-06T17:01:54.483799Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "阿卡丽",
+        "updatedAt": "2026-09-06T17:01:54.483799Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_akali",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 56,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_akali",
+            "characterName": "阿卡丽",
+            "gameId": "lol",
+            "skillKey": "akali_p",
+            "skillName": "阿卡丽·我流忍法！潜龙印",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_akali",
+            "characterName": "阿卡丽",
+            "gameId": "lol",
+            "skillKey": "akali_q",
+            "skillName": "阿卡丽·我流奥义！寒影",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_akali",
+            "characterName": "阿卡丽",
+            "gameId": "lol",
+            "skillKey": "akali_w",
+            "skillName": "阿卡丽·我流奥义！霞阵",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_akali",
+            "characterName": "阿卡丽",
+            "gameId": "lol",
+            "skillKey": "akali_e",
+            "skillName": "阿卡丽·我流奥义！隼舞",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_akali",
+            "characterName": "阿卡丽",
+            "gameId": "lol",
+            "skillKey": "akali_r",
+            "skillName": "阿卡丽·我流秘奥义！表里杀缭乱",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_kassadin",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 87,
+      "data": {
+        "characterKey": "champion_kassadin",
+        "createdAt": "2026-09-06T16:55:50.266652Z",
+        "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+        "gameId": "lol",
+        "name": "卡萨丁",
+        "updatedAt": "2026-09-06T16:55:50.266652Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_kassadin",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 80,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_kassadin",
+            "characterName": "卡萨丁",
+            "gameId": "lol",
+            "skillKey": "kassadin_p",
+            "skillName": "卡萨丁·虚空之石",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_kassadin",
+            "characterName": "卡萨丁",
+            "gameId": "lol",
+            "skillKey": "kassadin_q",
+            "skillName": "卡萨丁·虚无法球",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_kassadin",
+            "characterName": "卡萨丁",
+            "gameId": "lol",
+            "skillKey": "kassadin_w",
+            "skillName": "卡萨丁·虚空之刃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_kassadin",
+            "characterName": "卡萨丁",
+            "gameId": "lol",
+            "skillKey": "kassadin_e",
+            "skillName": "卡萨丁·能量脉冲",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_kassadin",
+            "characterName": "卡萨丁",
+            "gameId": "lol",
+            "skillKey": "kassadin_r",
+            "skillName": "卡萨丁·虚空行走",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_ryze",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 42,
+      "data": {
+        "characterKey": "champion_ryze",
+        "createdAt": "2026-09-06T16:33:40.449728Z",
+        "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+        "gameId": "lol",
+        "name": "瑞兹",
+        "updatedAt": "2026-09-06T16:33:40.449728Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_ryze",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 69,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_ryze",
+            "characterName": "瑞兹",
+            "gameId": "lol",
+            "skillKey": "ryze_p",
+            "skillName": "瑞兹·奥术专精",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_ryze",
+            "characterName": "瑞兹",
+            "gameId": "lol",
+            "skillKey": "ryze_q",
+            "skillName": "瑞兹·超负荷",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_ryze",
+            "characterName": "瑞兹",
+            "gameId": "lol",
+            "skillKey": "ryze_w",
+            "skillName": "瑞兹·符文禁锢",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_ryze",
+            "characterName": "瑞兹",
+            "gameId": "lol",
+            "skillKey": "ryze_e",
+            "skillName": "瑞兹·法术涌动",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_ryze",
+            "characterName": "瑞兹",
+            "gameId": "lol",
+            "skillKey": "ryze_r",
+            "skillName": "瑞兹·曲境折跃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_cassiopeia",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 34,
+      "data": {
+        "characterKey": "champion_cassiopeia",
+        "createdAt": "2026-09-06T16:12:08.167604Z",
+        "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+        "gameId": "lol",
+        "name": "卡西奥佩娅",
+        "updatedAt": "2026-09-06T16:12:08.167604Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_cassiopeia",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 55,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_cassiopeia",
+            "characterName": "卡西奥佩娅",
+            "gameId": "lol",
+            "skillKey": "cassiopeia_p",
+            "skillName": "卡西奥佩娅·优雅蛇行",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_cassiopeia",
+            "characterName": "卡西奥佩娅",
+            "gameId": "lol",
+            "skillKey": "cassiopeia_q",
+            "skillName": "卡西奥佩娅·瘟毒爆炸",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_cassiopeia",
+            "characterName": "卡西奥佩娅",
+            "gameId": "lol",
+            "skillKey": "cassiopeia_w",
+            "skillName": "卡西奥佩娅·剧毒迷雾",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_cassiopeia",
+            "characterName": "卡西奥佩娅",
+            "gameId": "lol",
+            "skillKey": "cassiopeia_e",
+            "skillName": "卡西奥佩娅·双生毒牙",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_cassiopeia",
+            "characterName": "卡西奥佩娅",
+            "gameId": "lol",
+            "skillKey": "cassiopeia_r",
+            "skillName": "卡西奥佩娅·石化凝视",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/akali_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 53,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_akali_p",
+          "name": "akali_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/akali_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 57,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_akali_q",
+          "name": "akali_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/akali_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 68,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_akali_w",
+          "name": "akali_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/akali_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 64,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_akali_e",
+          "name": "akali_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/akali_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 98,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_akali_r",
+          "name": "akali_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/kassadin_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 57,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kassadin_p",
+          "name": "kassadin_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/kassadin_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 67,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kassadin_q",
+          "name": "kassadin_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/kassadin_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 62,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kassadin_w",
+          "name": "kassadin_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/kassadin_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 56,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kassadin_e",
+          "name": "kassadin_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/kassadin_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 83,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kassadin_r",
+          "name": "kassadin_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/ryze_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 58,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ryze_p",
+          "name": "ryze_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/ryze_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 59,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ryze_q",
+          "name": "ryze_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/ryze_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 70,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ryze_w",
+          "name": "ryze_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/ryze_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 125,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ryze_e",
+          "name": "ryze_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/ryze_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 51,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ryze_r",
+          "name": "ryze_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/cassiopeia_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 57,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_cassiopeia_p",
+          "name": "cassiopeia_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/cassiopeia_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 52,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_cassiopeia_q",
+          "name": "cassiopeia_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/cassiopeia_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 56,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_cassiopeia_w",
+          "name": "cassiopeia_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/cassiopeia_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 54,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_cassiopeia_e",
+          "name": "cassiopeia_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/cassiopeia_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 59,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_cassiopeia_r",
+          "name": "cassiopeia_r"
+        }
+      }
+    }
+  ],
+  "failures": [],
+  "completedAt": "2026-09-09T05:17:57.674Z",
+  "success": true,
+  "summary": {
+    "requests": 28,
+    "characters": 4,
+    "characterSkillRelationLists": 4,
+    "skillImages": 20,
+    "apiWrites": 0
+  }
+}

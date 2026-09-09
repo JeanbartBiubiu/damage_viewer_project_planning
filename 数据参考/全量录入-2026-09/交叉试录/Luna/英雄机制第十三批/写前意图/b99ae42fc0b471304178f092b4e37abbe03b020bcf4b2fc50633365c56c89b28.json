@@ -1,0 +1,61 @@
+{
+  "at": "2026-09-09T05:41:53.422Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/akali_p/formulas/empowered_attack_damage",
+  "id": "empowered_attack_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "empowered_attack_damage",
+    "name": "潜龙印额外魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_attack_damage_level_value"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "原等级断点项外供，额外AD与AP明确；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

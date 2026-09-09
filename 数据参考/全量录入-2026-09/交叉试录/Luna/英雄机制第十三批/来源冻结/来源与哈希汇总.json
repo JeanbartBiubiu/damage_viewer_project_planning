@@ -1,0 +1,239 @@
+{
+  "generatedAt": "2026-09-09T04:57:49.770Z",
+  "sourceIndex": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\技能来源索引.json",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整计算树保留在本批证据。资料来自规划树固定客户端16.17与官方16.17.1，不以名称相似对象替代根绑定。",
+  "heroes": [
+    {
+      "id": "Akali",
+      "chineseName": "离群之刺",
+      "rootPath": "Characters/Akali/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Akali.json.gz",
+        "sha256": "5ff9d5df7dad31b4778f72d4e3cc3fc65ce224a791ad7bacc8f5ca983a96bb05",
+        "compressedSha256": "9daa3aa723fe15eb8f64332c98be7b526e438cfd7d1e7170a049c0241bee4ee3",
+        "byteSize": 103081,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/akali/akali.bin.json",
+        "fetchedAt": "2026-09-06T14:26:12.110Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Akali.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Akali.json",
+        "fetchedAt": "2026-09-06T14:12:44.287Z",
+        "byteSize": 17535,
+        "sha256": "f932c5caefdad1f1731ca4a296f9fb7909eacdb4a95f18497621af82b8d93a9f"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "akali_p",
+          "binding": "Characters/Akali/Spells/AkaliPAbility/AkaliP",
+          "name": "我流忍法！潜龙印",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "akali_q",
+          "binding": "Characters/Akali/Spells/AkaliQAbility/AkaliQ",
+          "name": "我流奥义！寒影",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "akali_w",
+          "binding": "Characters/Akali/Spells/AkaliWAbility/AkaliW",
+          "name": "我流奥义！霞阵",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "akali_e",
+          "binding": "Characters/Akali/Spells/AkaliEAbility/AkaliE",
+          "name": "我流奥义！隼舞",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "akali_r",
+          "binding": "Characters/Akali/Spells/AkaliRAbility/AkaliR",
+          "name": "我流秘奥义！表里杀缭乱",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Kassadin",
+      "chineseName": "虚空行者",
+      "rootPath": "Characters/Kassadin/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Kassadin.json.gz",
+        "sha256": "5032507c744a7bdf98f2391f0a125176a5da203395544228146007ba26676785",
+        "compressedSha256": "9b4519bdf354abd5d69c850a467efc11a6b2afa801bd70e4de5cd829981eb2d0",
+        "byteSize": 41633,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kassadin/kassadin.bin.json",
+        "fetchedAt": "2026-09-06T14:26:23.316Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Kassadin.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kassadin.json",
+        "fetchedAt": "2026-09-06T14:12:48.394Z",
+        "byteSize": 11848,
+        "sha256": "a77bbb111a0eed1ec55ff8a6017e8fde0fd0e183ad4aa347e962892325377b29"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "kassadin_p",
+          "binding": "Characters/Kassadin/Spells/VoidStoneAbility/VoidStone",
+          "name": "虚空之石",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "kassadin_q",
+          "binding": "Characters/Kassadin/Spells/NullLanceAbility/NullLance",
+          "name": "虚无法球",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "kassadin_w",
+          "binding": "Characters/Kassadin/Spells/NetherBladeAbility/NetherBlade",
+          "name": "虚空之刃",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "kassadin_e",
+          "binding": "Characters/Kassadin/Spells/ForcePulseAbility/ForcePulse",
+          "name": "能量脉冲",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "kassadin_r",
+          "binding": "Characters/Kassadin/Spells/RiftWalkAbility/RiftWalk",
+          "name": "虚空行走",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Ryze",
+      "chineseName": "符文法师",
+      "rootPath": "Characters/Ryze/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Ryze.json.gz",
+        "sha256": "5b8b69e8a440e0c573c4c3e83095515e0e737c0bc68784ba04584634b30c9543",
+        "compressedSha256": "cb595b4eb23adb880ba6cede70b16c0dfdb521d9accf9bde724307a0b998c81b",
+        "byteSize": 56189,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/ryze/ryze.bin.json",
+        "fetchedAt": "2026-09-06T14:26:35.594Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Ryze.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Ryze.json",
+        "fetchedAt": "2026-09-06T14:12:53.304Z",
+        "byteSize": 12533,
+        "sha256": "9fc21f4d7973f7b47a04eb6c9df7897954616c799a707929663886322aaffddf"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "ryze_p",
+          "binding": "Characters/Ryze/Spells/RyzePassiveAbility/RyzePassive",
+          "name": "奥术专精",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "ryze_q",
+          "binding": "Characters/Ryze/Spells/RyzeQWrapperAbility/RyzeQWrapper",
+          "name": "超负荷",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "ryze_w",
+          "binding": "Characters/Ryze/Spells/RyzeWAbility/RyzeW",
+          "name": "符文禁锢",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "ryze_e",
+          "binding": "Characters/Ryze/Spells/RyzeEAbility/RyzeE",
+          "name": "法术涌动",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "ryze_r",
+          "binding": "Characters/Ryze/Spells/RyzeRAbility/RyzeR",
+          "name": "曲境折跃",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Cassiopeia",
+      "chineseName": "魔蛇之拥",
+      "rootPath": "Characters/Cassiopeia/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Cassiopeia.json.gz",
+        "sha256": "94a8f643754eaa9e0611b2427b64a27b5b785063066933e5074a144589f406e3",
+        "compressedSha256": "a1f04468d7a87e03da446148884ae4786b16a36c2d7dac5ce1f2b49d5736183c",
+        "byteSize": 53200,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/cassiopeia/cassiopeia.bin.json",
+        "fetchedAt": "2026-09-06T14:26:14.422Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Cassiopeia.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Cassiopeia.json",
+        "fetchedAt": "2026-09-06T14:12:45.599Z",
+        "byteSize": 11579,
+        "sha256": "7a7b11a5428ccfa86df2c0d5b49849fa690169f94f433b3ed646e8cf0d071cc5"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "cassiopeia_p",
+          "binding": "Characters/Cassiopeia/Spells/CassiopeiaPassiveAbility/CassiopeiaPassive",
+          "name": "优雅蛇行",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "cassiopeia_q",
+          "binding": "Characters/Cassiopeia/Spells/CassiopeiaQAbility/CassiopeiaQ",
+          "name": "瘟毒爆炸",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "cassiopeia_w",
+          "binding": "Characters/Cassiopeia/Spells/CassiopeiaWAbility/CassiopeiaW",
+          "name": "剧毒迷雾",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "cassiopeia_e",
+          "binding": "Characters/Cassiopeia/Spells/CassiopeiaEAbility/CassiopeiaE",
+          "name": "双生毒牙",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "cassiopeia_r",
+          "binding": "Characters/Cassiopeia/Spells/CassiopeiaRAbility/CassiopeiaR",
+          "name": "石化凝视",
+          "maxrank": 3
+        }
+      ]
+    }
+  ]
+}

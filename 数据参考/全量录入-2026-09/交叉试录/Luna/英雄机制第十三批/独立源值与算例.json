@@ -1,0 +1,4861 @@
+{
+  "at": "2026-09-09T05:16:42.425Z",
+  "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "planSha256": "2fcd15d38c32e21cada89c34a07641ca91702d31bae84d319376e22d7dd2801f",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "scope": "独立读取原始压缩资料与最终候选；未导入候选生成辅助函数；没有API写入或战斗运行证明。",
+  "checks": 1186,
+  "failures": [],
+  "preservedPublicParameters": 28,
+  "newComponents": 174,
+  "sourceCases": [
+    {
+      "skillKey": "akali_p",
+      "formulaKey": "empowered_attack_damage",
+      "sourceKey": "Damage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 185,
+      "sourceValue": 185.0000023841858,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_p",
+      "formulaKey": "empowered_attack_damage",
+      "sourceKey": "Damage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 248.95000000000002,
+      "sourceValue": 248.95000356435776,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_p",
+      "formulaKey": "ring_move_speed_ratio",
+      "sourceKey": "PassiveSpeedBonus",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 0.4,
+      "sourceValue": 0.4,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_p",
+      "formulaKey": "ring_move_speed_ratio",
+      "sourceKey": "PassiveSpeedBonus",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 0.4,
+      "sourceValue": 0.4,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_q",
+      "formulaKey": "damage",
+      "sourceKey": "Damage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 235,
+      "sourceValue": 234.9999976158142,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_q",
+      "formulaKey": "damage",
+      "sourceKey": "Damage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 393.25,
+      "sourceValue": 393.24999809265137,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_q",
+      "formulaKey": "damage",
+      "sourceKey": "Damage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 335,
+      "sourceValue": 334.9999976158142,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_q",
+      "formulaKey": "damage",
+      "sourceKey": "Damage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 493.25,
+      "sourceValue": 493.24999809265137,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_e",
+      "formulaKey": "first_damage",
+      "sourceKey": "E1Damage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 114,
+      "sourceValue": 114.00000524520877,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_e",
+      "formulaKey": "first_damage",
+      "sourceKey": "E1Damage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 194.31,
+      "sourceValue": 194.31000941634184,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_e",
+      "formulaKey": "first_damage",
+      "sourceKey": "E1Damage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 198,
+      "sourceValue": 198.00000858306888,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_e",
+      "formulaKey": "first_damage",
+      "sourceKey": "E1Damage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 278.31,
+      "sourceValue": 278.310012754202,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_e",
+      "formulaKey": "second_damage",
+      "sourceKey": "E2DamageCalc",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 266,
+      "sourceValue": 265.99999713897705,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_e",
+      "formulaKey": "second_damage",
+      "sourceKey": "E2DamageCalc",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 453.39,
+      "sourceValue": 453.38999623417845,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_e",
+      "formulaKey": "second_damage",
+      "sourceKey": "E2DamageCalc",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 461.99999999999994,
+      "sourceValue": 461.99999380111694,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_e",
+      "formulaKey": "second_damage",
+      "sourceKey": "E2DamageCalc",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 649.39,
+      "sourceValue": 649.3899928963184,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "first_damage",
+      "sourceKey": "Cast1Damage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 165,
+      "sourceValue": 165.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "first_damage",
+      "sourceKey": "Cast1Damage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 196.6,
+      "sourceValue": 196.60000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "first_damage",
+      "sourceKey": "Cast1Damage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 385,
+      "sourceValue": 385.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "first_damage",
+      "sourceKey": "Cast1Damage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 416.6,
+      "sourceValue": 416.60000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "second_min_damage",
+      "sourceKey": "Cast2DamageMin",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 100,
+      "sourceValue": 100.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "second_min_damage",
+      "sourceKey": "Cast2DamageMin",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 141.1,
+      "sourceValue": 141.10000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "second_min_damage",
+      "sourceKey": "Cast2DamageMin",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 240,
+      "sourceValue": 240.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "second_min_damage",
+      "sourceKey": "Cast2DamageMin",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 281.1,
+      "sourceValue": 281.10000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "second_max_damage",
+      "sourceKey": "Cast2DamageMax",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 300,
+      "sourceValue": 300.0000035762787,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "second_max_damage",
+      "sourceKey": "Cast2DamageMax",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 423.29999999999995,
+      "sourceValue": 423.3000084757805,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "second_max_damage",
+      "sourceKey": "Cast2DamageMax",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 720,
+      "sourceValue": 720.0000035762787,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "second_max_damage",
+      "sourceKey": "Cast2DamageMax",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 843.3000000000001,
+      "sourceValue": 843.3000084757805,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 135,
+      "sourceValue": 134.9999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 230.89999999999998,
+      "sourceValue": 230.89999717473984,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 255,
+      "sourceValue": 254.9999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_q",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 350.9,
+      "sourceValue": 350.89999717473984,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_q",
+      "formulaKey": "magic_shield_amount",
+      "sourceKey": "TotalShield",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 110,
+      "sourceValue": 110.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_q",
+      "formulaKey": "magic_shield_amount",
+      "sourceKey": "TotalShield",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 151.1,
+      "sourceValue": 151.10000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_q",
+      "formulaKey": "magic_shield_amount",
+      "sourceKey": "TotalShield",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 230,
+      "sourceValue": 230.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_q",
+      "formulaKey": "magic_shield_amount",
+      "sourceKey": "TotalShield",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 271.1,
+      "sourceValue": 271.10000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_w",
+      "formulaKey": "active_damage",
+      "sourceKey": "ActiveDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 130,
+      "sourceValue": 130.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_w",
+      "formulaKey": "active_damage",
+      "sourceKey": "ActiveDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 239.60000000000002,
+      "sourceValue": 239.60000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_w",
+      "formulaKey": "active_damage",
+      "sourceKey": "ActiveDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 230,
+      "sourceValue": 230.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_w",
+      "formulaKey": "active_damage",
+      "sourceKey": "ActiveDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 339.6,
+      "sourceValue": 339.60000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_w",
+      "formulaKey": "passive_damage",
+      "sourceKey": "OnHitDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 35,
+      "sourceValue": 35.00000014901161,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_w",
+      "formulaKey": "passive_damage",
+      "sourceKey": "OnHitDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 48.7,
+      "sourceValue": 48.70000035315752,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_w",
+      "formulaKey": "passive_damage",
+      "sourceKey": "OnHitDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 35,
+      "sourceValue": 35.00000014901161,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_w",
+      "formulaKey": "passive_damage",
+      "sourceKey": "OnHitDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 48.7,
+      "sourceValue": 48.70000035315752,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 140,
+      "sourceValue": 139.9999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 235.89999999999998,
+      "sourceValue": 235.89999717473984,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 260,
+      "sourceValue": 259.9999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_e",
+      "formulaKey": "damage",
+      "sourceKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 355.9,
+      "sourceValue": 355.89999717473984,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "base_damage_amount",
+      "sourceKey": "BaseDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 150,
+      "sourceValue": 149.99999932944775,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "base_damage_amount",
+      "sourceKey": "BaseDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 218.5,
+      "sourceValue": 218.49999932944775,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "base_damage_amount",
+      "sourceKey": "BaseDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 190,
+      "sourceValue": 189.99999932944775,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "base_damage_amount",
+      "sourceKey": "BaseDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 258.5,
+      "sourceValue": 258.49999932944775,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "per_stack_damage",
+      "sourceKey": "BonusDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 57,
+      "sourceValue": 56.999999694526196,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "per_stack_damage",
+      "sourceKey": "BonusDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 66.59,
+      "sourceValue": 66.58999973535538,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "per_stack_damage",
+      "sourceKey": "BonusDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 77,
+      "sourceValue": 76.9999996945262,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "per_stack_damage",
+      "sourceKey": "BonusDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 86.59,
+      "sourceValue": 86.58999973535538,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_p",
+      "formulaKey": "mana_gain_percentage_points",
+      "sourceKey": "PassiveManaCalcTooltip",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 10,
+      "sourceValue": 9.999999776482582,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_p",
+      "formulaKey": "mana_gain_percentage_points",
+      "sourceKey": "PassiveManaCalcTooltip",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 23.7,
+      "sourceValue": 23.69999947026372,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_q",
+      "formulaKey": "damage",
+      "sourceKey": "QDamageCalc",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 150,
+      "sourceValue": 150.00000074505806,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_q",
+      "formulaKey": "damage",
+      "sourceKey": "QDamageCalc",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 212.81000000000003,
+      "sourceValue": 212.81000265851617,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_q",
+      "formulaKey": "damage",
+      "sourceKey": "QDamageCalc",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 230,
+      "sourceValue": 230.00000074505806,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_q",
+      "formulaKey": "damage",
+      "sourceKey": "QDamageCalc",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 292.81,
+      "sourceValue": 292.81000265851617,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_w",
+      "formulaKey": "damage",
+      "sourceKey": "WDamageCalc",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 150,
+      "sourceValue": 150.00000171363354,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_w",
+      "formulaKey": "damage",
+      "sourceKey": "WDamageCalc",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 213.39,
+      "sourceValue": 213.39000540040433,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_w",
+      "formulaKey": "damage",
+      "sourceKey": "WDamageCalc",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 270,
+      "sourceValue": 270.00000171363354,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_w",
+      "formulaKey": "damage",
+      "sourceKey": "WDamageCalc",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 333.39,
+      "sourceValue": 333.39000540040433,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_e",
+      "formulaKey": "damage",
+      "sourceKey": "EDamageCalc",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 130,
+      "sourceValue": 129.99999955296516,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_e",
+      "formulaKey": "damage",
+      "sourceKey": "EDamageCalc",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 185.96,
+      "sourceValue": 185.959999833256,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_e",
+      "formulaKey": "damage",
+      "sourceKey": "EDamageCalc",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 250,
+      "sourceValue": 249.99999955296516,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_e",
+      "formulaKey": "damage",
+      "sourceKey": "EDamageCalc",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 305.96,
+      "sourceValue": 305.959999833256,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_p",
+      "formulaKey": "move_speed_bonus_efficiency_ratio",
+      "sourceKey": "PercentHasteMod",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 0.2,
+      "sourceValue": 0.2,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_p",
+      "formulaKey": "move_speed_bonus_efficiency_ratio",
+      "sourceKey": "PercentHasteMod",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 0.2,
+      "sourceValue": 0.2,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_q",
+      "formulaKey": "poison_total_damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 140,
+      "sourceValue": 139.9999976158142,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_q",
+      "formulaKey": "poison_total_damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 229.05,
+      "sourceValue": 229.04999434947968,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_q",
+      "formulaKey": "poison_total_damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 280,
+      "sourceValue": 279.9999976158142,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_q",
+      "formulaKey": "poison_total_damage",
+      "sourceKey": "TooltipTotalDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 369.05,
+      "sourceValue": 369.0499943494797,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_w",
+      "formulaKey": "damage_per_second",
+      "sourceKey": "DamagePerSecond",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 30,
+      "sourceValue": 30.000000149011612,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_w",
+      "formulaKey": "damage_per_second",
+      "sourceKey": "DamagePerSecond",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 43.7,
+      "sourceValue": 43.70000035315752,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_w",
+      "formulaKey": "damage_per_second",
+      "sourceKey": "DamagePerSecond",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 50,
+      "sourceValue": 50.00000014901161,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_w",
+      "formulaKey": "damage_per_second",
+      "sourceKey": "DamagePerSecond",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 63.7,
+      "sourceValue": 63.70000035315752,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "base_damage",
+      "sourceKey": "BasicDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 90,
+      "sourceValue": 90.00000014901161,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "base_damage",
+      "sourceKey": "BasicDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 103.7,
+      "sourceValue": 103.70000035315752,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "base_damage",
+      "sourceKey": "BasicDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 90,
+      "sourceValue": 90.00000014901161,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "base_damage",
+      "sourceKey": "BasicDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 103.7,
+      "sourceValue": 103.70000035315752,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "poison_bonus_damage",
+      "sourceKey": "BonusPoisonedDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 75,
+      "sourceValue": 75.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "poison_bonus_damage",
+      "sourceKey": "BonusPoisonedDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 150.35000000000002,
+      "sourceValue": 150.35000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "poison_bonus_damage",
+      "sourceKey": "BonusPoisonedDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 175,
+      "sourceValue": 175.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "poison_bonus_damage",
+      "sourceKey": "BonusPoisonedDamage",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 250.35000000000002,
+      "sourceValue": 250.35000282526016,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "poison_heal",
+      "sourceKey": "HealCalc",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 10,
+      "sourceValue": 10.000000149011612,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "poison_heal",
+      "sourceKey": "HealCalc",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 23.700000000000003,
+      "sourceValue": 23.70000035315752,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "poison_heal",
+      "sourceKey": "HealCalc",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 16,
+      "sourceValue": 15.999999642372131,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "poison_heal",
+      "sourceKey": "HealCalc",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 37.92,
+      "sourceValue": 37.91999915242195,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "small_unit_poison_heal",
+      "sourceKey": "HealCalcMinion",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 2.5,
+      "sourceValue": 2.500000037252903,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "small_unit_poison_heal",
+      "sourceKey": "HealCalcMinion",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 5.925000000000001,
+      "sourceValue": 5.92500008828938,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "small_unit_poison_heal",
+      "sourceKey": "HealCalcMinion",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 4,
+      "sourceValue": 3.999999910593033,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "small_unit_poison_heal",
+      "sourceKey": "HealCalcMinion",
+      "rank": 5,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 9.48,
+      "sourceValue": 9.479999788105488,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_r",
+      "formulaKey": "damage",
+      "sourceKey": "RDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 200,
+      "sourceValue": 200,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_r",
+      "formulaKey": "damage",
+      "sourceKey": "RDamage",
+      "rank": 1,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 268.5,
+      "sourceValue": 268.5,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_r",
+      "formulaKey": "damage",
+      "sourceKey": "RDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 100,
+        "SOURCE.attack_damage.TOTAL": 200,
+        "SOURCE.attack_damage.BONUS": 50,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 2000,
+        "SOURCE.mana.BONUS": 1000,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 400,
+      "sourceValue": 400,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_r",
+      "formulaKey": "damage",
+      "sourceKey": "RDamage",
+      "rank": 3,
+      "attrs": {
+        "SOURCE.ability_power.TOTAL": 237,
+        "SOURCE.attack_damage.TOTAL": 317,
+        "SOURCE.attack_damage.BONUS": 31,
+        "SOURCE.attack_damage.BASE": 150,
+        "SOURCE.mana.TOTAL": 9100,
+        "SOURCE.mana.BONUS": 373,
+        "SOURCE.mana.MISSING": 800,
+        "SOURCE.hp.BONUS": 500
+      },
+      "inputs": {
+        "empowered_attack_damage_level_value": 100,
+        "ring_move_speed_ratio_level_value_2": 0.4,
+        "confirmed_ability_resource_0_value": 1500,
+        "actual_prior_cast_stacks": 2,
+        "confirmed_flux_damage_amp_ratio": 0.5,
+        "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+        "qualified_move_speed_bonus": 50,
+        "base_damage_level_value": 80,
+        "confirmed_kill_mana_refund": 40
+      },
+      "actual": 468.5,
+      "sourceValue": 468.5,
+      "passed": true
+    }
+  ],
+  "manualCases": [
+    {
+      "skillKey": "akali_p",
+      "formulaKey": "empowered_attack_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 185,
+      "actual": 185,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_p",
+      "formulaKey": "ring_move_speed_ratio",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 0.4,
+      "actual": 0.4,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_q",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 235,
+      "actual": 235,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_e",
+      "formulaKey": "first_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 114,
+      "actual": 114,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_e",
+      "formulaKey": "second_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 266,
+      "actual": 266,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "first_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 165,
+      "actual": 165,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "second_min_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 100,
+      "actual": 100,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "second_max_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 300,
+      "actual": 300,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_q",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 135,
+      "actual": 135,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_q",
+      "formulaKey": "magic_shield_amount",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 110,
+      "actual": 110,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_w",
+      "formulaKey": "active_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 130,
+      "actual": 130,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_w",
+      "formulaKey": "passive_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 35,
+      "actual": 35,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_w",
+      "formulaKey": "normal_mana_restore",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 32,
+      "actual": 32,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_w",
+      "formulaKey": "champion_mana_restore",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 160,
+      "actual": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_e",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 140,
+      "actual": 140,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "base_damage_amount",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 150,
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "per_stack_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 57,
+      "actual": 57,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "actual_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 264,
+      "actual": 264,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "actual_mana_cost",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 160,
+      "actual": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_p",
+      "formulaKey": "mana_gain_percentage_points",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 10,
+      "actual": 10,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_p",
+      "formulaKey": "maximum_mana_bonus_ratio",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 0.1,
+      "actual": 0.1,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_q",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 150,
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_q",
+      "formulaKey": "flux_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 225,
+      "actual": 225,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_w",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 150,
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_e",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 130,
+      "actual": 130,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_r",
+      "formulaKey": "flux_damage_multiplier",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 1.5,
+      "actual": 1.5,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_p",
+      "formulaKey": "move_speed_bonus_efficiency_ratio",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 0.2,
+      "actual": 0.2,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_p",
+      "formulaKey": "additional_move_speed_bonus",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 10,
+      "actual": 10,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_q",
+      "formulaKey": "poison_total_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 140,
+      "actual": 140,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_w",
+      "formulaKey": "damage_per_second",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 30,
+      "actual": 30,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "base_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 90,
+      "actual": 90,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "poison_bonus_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 75,
+      "actual": 75,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "poison_total_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 165,
+      "actual": 165,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "poison_heal",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 10,
+      "actual": 10,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "small_unit_poison_heal",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 2.5,
+      "actual": 2.5,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "kill_mana_refund",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 40,
+      "actual": 40,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_r",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 200,
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "actual_mana_cost",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 0,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 40,
+      "actual": 40,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "actual_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 0,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 150,
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "actual_mana_cost",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 1,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 80,
+      "actual": 80,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "actual_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 1,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 207,
+      "actual": 207,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "actual_mana_cost",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 160,
+      "actual": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "actual_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 264,
+      "actual": 264,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "actual_mana_cost",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 3,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 320,
+      "actual": 320,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "actual_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 3,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 321,
+      "actual": 321,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "actual_mana_cost",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 4,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 640,
+      "actual": 640,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "actual_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 4,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 378,
+      "actual": 378,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_q",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 300,
+      "actual": 300,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_q",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 150,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 235,
+      "actual": 235,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "first_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 165,
+      "actual": 165,
+      "passed": true
+    },
+    {
+      "skillKey": "akali_r",
+      "formulaKey": "first_damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 150,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 215,
+      "actual": 215,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_q",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 9000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 150,
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_q",
+      "formulaKey": "damage",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 400,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 138,
+      "actual": 138,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "base_damage_amount",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 9000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 150,
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "kassadin_r",
+      "formulaKey": "base_damage_amount",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 2000,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 160,
+      "actual": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "ryze_p",
+      "formulaKey": "maximum_mana_bonus_ratio",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 300,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 0.3,
+      "actual": 0.3,
+      "passed": true
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "formulaKey": "poison_heal",
+      "input": {
+        "rank": 1,
+        "inputs": {
+          "empowered_attack_damage_level_value": 100,
+          "ring_move_speed_ratio_level_value_2": 0.4,
+          "confirmed_ability_resource_0_value": 1500,
+          "actual_prior_cast_stacks": 2,
+          "confirmed_flux_damage_amp_ratio": 0.5,
+          "move_speed_bonus_efficiency_ratio_level_value": 0.2,
+          "qualified_move_speed_bonus": 50,
+          "base_damage_level_value": 80,
+          "confirmed_kill_mana_refund": 40
+        },
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 300,
+          "SOURCE.attack_damage.TOTAL": 200,
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.BASE": 150,
+          "SOURCE.mana.TOTAL": 2000,
+          "SOURCE.mana.BONUS": 1000,
+          "SOURCE.mana.MISSING": 800,
+          "SOURCE.hp.BONUS": 500
+        }
+      },
+      "expected": 30,
+      "actual": 30,
+      "passed": true
+    }
+  ],
+  "unknownCurves": [
+    {
+      "skillKey": "akali_p",
+      "parameterKey": "empowered_attack_damage_level_value",
+      "source": "mSpellCalculations.Damage.mFormulaParts[0]",
+      "raw": {
+        "mLevel1Value": 35,
+        "mInitialBonusPerLevel": 3,
+        "mBreakpoints": [
+          {
+            "mLevel": 8,
+            "mBonusPerLevelAtAndAfter": 9,
+            "__type": "Breakpoint"
+          },
+          {
+            "mLevel": 14,
+            "mBonusPerLevelAtAndAfter": 15,
+            "__type": "Breakpoint"
+          }
+        ],
+        "__type": "ByCharLevelBreakpointsCalculationPart"
+      }
+    },
+    {
+      "skillKey": "akali_p",
+      "parameterKey": "ring_move_speed_ratio_level_value_2",
+      "source": "mSpellCalculations.PassiveSpeedBonus.mFormulaParts[0]",
+      "raw": {
+        "{91d404a5}": "Level1MS",
+        "{bbd778a2}": "MSBonusPerLevelAtAndAfter",
+        "{9823b29a}": [
+          {
+            "level": 6,
+            "{ae9b464d}": "MSAdditionalBonusAtThreshold",
+            "{b0d8b2ac}": "MSBonusPerLevelAtAndAfter",
+            "__type": "{0333530c}"
+          },
+          {
+            "level": 11,
+            "{ae9b464d}": "MSAdditionalBonusAtThreshold",
+            "{b0d8b2ac}": "MSBonusPerLevelAtAndAfter",
+            "__type": "{0333530c}"
+          },
+          {
+            "level": 16,
+            "{ae9b464d}": "MSAdditionalBonusAtThreshold",
+            "{b0d8b2ac}": "MSBonusPerLevelAtAndAfter",
+            "__type": "{0333530c}"
+          }
+        ],
+        "__type": "{4ce08984}"
+      }
+    },
+    {
+      "skillKey": "cassiopeia_p",
+      "parameterKey": "move_speed_bonus_efficiency_ratio_level_value",
+      "source": "mSpellCalculations.PercentHasteMod.mFormulaParts[0]",
+      "raw": {
+        "mLevel1Value": 0.05999999865889549,
+        "mInitialBonusPerLevel": 0.019999999552965164,
+        "__type": "ByCharLevelBreakpointsCalculationPart"
+      }
+    },
+    {
+      "skillKey": "cassiopeia_e",
+      "parameterKey": "base_damage_level_value",
+      "source": "mSpellCalculations.BasicDamage.mFormulaParts[0]",
+      "raw": {
+        "mLevel1Value": 52,
+        "mInitialBonusPerLevel": 4,
+        "__type": "ByCharLevelBreakpointsCalculationPart"
+      }
+    }
+  ],
+  "notes": [
+    "等级实际值是外供示例，不是客户端曲线证明。",
+    "卡萨丁R费用有限域只接受整数0至4；管理参数当前只存INTEGER及说明，动作输入尚未接线，不能声称已存在运行时边界校验。",
+    "短摘要中的阿卡丽Q额外AD、卡萨丁E充能、蛇女E按伤害自疗与当前直接绑定长文本/原树存在差异，候选采用当前明确数值链并保留原文供主审。"
+  ]
+}

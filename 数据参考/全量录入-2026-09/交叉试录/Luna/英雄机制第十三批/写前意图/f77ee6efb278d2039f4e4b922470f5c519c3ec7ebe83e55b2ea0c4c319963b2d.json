@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T05:43:21.973Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/ryze_p/formulas/mana_gain_percentage_points",
+  "id": "mana_gain_percentage_points",
+  "method": "POST",
+  "body": {
+    "formulaKey": "mana_gain_percentage_points",
+    "name": "法力增幅百分比点",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "calculation_constant_1"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mana_gain_tooltip_coefficient"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "当前树为0.01×AP×10，正文再显示百分号；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

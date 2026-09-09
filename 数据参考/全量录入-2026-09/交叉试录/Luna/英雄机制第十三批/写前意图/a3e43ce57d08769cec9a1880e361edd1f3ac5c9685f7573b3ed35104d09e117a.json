@@ -1,0 +1,59 @@
+{
+  "at": "2026-09-09T05:43:15.331Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/kassadin_r/formulas/per_stack_damage",
+  "id": "per_stack_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "per_stack_damage",
+    "name": "每层额外魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "per_stack_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "per_stack_ap_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_ability_resource_0_value"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_2"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "同一未知资源口径，显式0.01系数；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 20
+  }
+}

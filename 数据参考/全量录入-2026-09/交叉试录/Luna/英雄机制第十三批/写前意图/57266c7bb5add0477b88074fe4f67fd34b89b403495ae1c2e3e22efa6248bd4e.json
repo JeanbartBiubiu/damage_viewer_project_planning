@@ -1,0 +1,45 @@
+{
+  "at": "2026-09-09T05:42:57.836Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/kassadin_e/effects/nearby_cast_cooldown_reduction",
+  "id": "nearby_cast_cooldown_reduction",
+  "method": "POST",
+  "body": {
+    "effectKey": "nearby_cast_cooldown_reduction",
+    "name": "附近一次实际施法减少E冷却",
+    "description": "每次合法附近技能施放减少750毫秒；己方或敌方来源资格、重施放判定与附近条件尚未连接。",
+    "sortOrder": 20,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "reduce",
+        "name": "减少E冷却",
+        "resultType": "COOLDOWN_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "cooldown_reduction_per_cast_ms"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "operation": "REDUCE",
+          "affectedSkillScope": {
+            "mode": "SKILLS",
+            "skillKeys": [
+              "kassadin_e"
+            ],
+            "skillCategoryKeys": []
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T05:44:18.291Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/cassiopeia_e/formulas/poison_bonus_damage",
+  "id": "poison_bonus_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "poison_bonus_damage",
+    "name": "对中毒目标额外伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "poison_bonus_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "poison_bonus_ap_ratio"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "只在已确认中毒资格下增加；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 20
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T05:42:40.074Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/kassadin_w/parameters/normal_missing_mana_ratio",
+  "id": "normal_missing_mana_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "normal_missing_mana_ratio",
+    "name": "普通目标已损法力回复比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.04,
+      "2": 0.045,
+      "3": 0.05,
+      "4": 0.055,
+      "5": 0.06
+    },
+    "description": "客户端当前根绑定 DataValues.MissingManaRatio 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+    "sortOrder": 50
+  }
+}

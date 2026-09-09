@@ -1,0 +1,147 @@
+{
+  "at": "2026-09-09T05:43:17.188Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/kassadin_r/formulas/actual_mana_cost",
+  "id": "actual_mana_cost",
+  "method": "POST",
+  "body": {
+    "formulaKey": "actual_mana_cost",
+    "name": "当前实际层数法力成本",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_mana_cost"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "integer_1"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_prior_cast_stacks"
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MAX",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "SUBTRACT",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "actual_prior_cast_stacks"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "integer_1"
+                            }
+                          ]
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "integer_0"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "integer_2"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MAX",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "SUBTRACT",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "actual_prior_cast_stacks"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "integer_2"
+                            }
+                          ]
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "integer_0"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "integer_4"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MAX",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "SUBTRACT",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_prior_cast_stacks"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "integer_3"
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "integer_0"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "仅整数层数0/1/2/3/4，分别40/80/160/320/640；当前公式不支持幂，用此有限域严格等价展开。非整数或越界不能传入。",
+    "sortOrder": 40
+  }
+}

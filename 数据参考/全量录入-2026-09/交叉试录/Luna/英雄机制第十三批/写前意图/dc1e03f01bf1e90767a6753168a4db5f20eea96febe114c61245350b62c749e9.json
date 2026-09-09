@@ -1,0 +1,29 @@
+{
+  "at": "2026-09-09T05:42:45.703Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/kassadin_w/formulas/normal_mana_restore",
+  "id": "normal_mana_restore",
+  "method": "POST",
+  "body": {
+    "formulaKey": "normal_mana_restore",
+    "name": "非英雄目标强化攻击回复法力",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "SOURCE",
+          "attributeKey": "mana",
+          "attributeValueKind": "MISSING"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "normal_missing_mana_ratio"
+        }
+      ]
+    },
+    "description": "当前具名文本明确自身已损法力，比例点先转比例；两种目标资格互斥，非英雄战前恢复保留。",
+    "sortOrder": 30
+  }
+}
