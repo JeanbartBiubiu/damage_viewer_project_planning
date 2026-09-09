@@ -1,0 +1,799 @@
+{
+  "generatedAt": "2026-09-09T11:25:42.285Z",
+  "script": "产物/独立数学核算.mjs",
+  "candidateSha256": "d8d2747f804cabc8cffe2d28027d9f4bf9322b6e3e45f13d4634b19a35bb9c1b",
+  "independent": true,
+  "parsedWriteTrees": true,
+  "parsedSourceTrees": true,
+  "notHandCopied": true,
+  "apiWrites": 0,
+  "summary": {
+    "total": 38,
+    "passed": 38,
+    "failed": 0,
+    "formulaCases": 24
+  },
+  "sourceAnchors": {
+    "pLevel1Breakpoint": 16,
+    "qLevel1Base": 50,
+    "qLevel1Breakpoint": 2,
+    "qCapMultiplier": 2.5,
+    "wLevel1": 15,
+    "eLevel1": 70,
+    "eCoefficientRaw": 0.44999998807907104
+  },
+  "formulaCases": [
+    {
+      "name": "zoe_p/damage 正例",
+      "formulaKey": "damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 36,
+      "actual": 36,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "char_level_base_damage": 16,
+          "ap_ratio": 0.2
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100
+        }
+      }
+    },
+    {
+      "name": "zoe_p/damage 不同来源",
+      "formulaKey": "damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 52,
+      "actual": 52,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "char_level_base_damage": 42,
+          "ap_ratio": 0.2
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 50
+        }
+      }
+    },
+    {
+      "name": "zoe_p/damage 缺法强拒绝",
+      "formulaKey": "damage",
+      "ok": true,
+      "expectReject": true,
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "missing": [
+        "ATTRIBUTE:SOURCE:ability_power:TOTAL"
+      ],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "char_level_base_damage": 16,
+          "ap_ratio": 0.2
+        },
+        "attributes": {}
+      }
+    },
+    {
+      "name": "zoe_p/damage 边界法强0",
+      "formulaKey": "damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 16,
+      "actual": 16,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "char_level_base_damage": 16,
+          "ap_ratio": 0.2
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 0
+        }
+      }
+    },
+    {
+      "name": "zoe_q/damage 正例",
+      "formulaKey": "damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 112,
+      "actual": 112,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 50,
+          "char_level_bonus_damage": 2,
+          "ap_ratio": 0.6
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100
+        }
+      }
+    },
+    {
+      "name": "zoe_q/damage 不同来源",
+      "formulaKey": "damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 178,
+      "actual": 178,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 170,
+          "char_level_bonus_damage": 8,
+          "ap_ratio": 0.6
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 0
+        }
+      }
+    },
+    {
+      "name": "zoe_q/damage 缺附加拒绝",
+      "formulaKey": "damage",
+      "ok": true,
+      "expectReject": true,
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "missing": [
+        "PARAMETER:char_level_bonus_damage"
+      ],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 50,
+          "ap_ratio": 0.6
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100
+        }
+      }
+    },
+    {
+      "name": "zoe_q/damage 边界法强0",
+      "formulaKey": "damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 52,
+      "actual": 52,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 50,
+          "char_level_bonus_damage": 2,
+          "ap_ratio": 0.6
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 0
+        }
+      }
+    },
+    {
+      "name": "zoe_q/max_damage 正例上限=倍率×最短",
+      "formulaKey": "max_damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 250,
+      "actual": 250,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 50,
+          "char_level_bonus_damage": 2,
+          "ap_ratio": 0.6,
+          "distance_damage_cap_multiplier": 2.5
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 80
+        }
+      }
+    },
+    {
+      "name": "zoe_q/max_damage 不同来源",
+      "formulaKey": "max_damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 465,
+      "actual": 465,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 170,
+          "char_level_bonus_damage": 4,
+          "ap_ratio": 0.6,
+          "distance_damage_cap_multiplier": 2.5
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 20
+        }
+      }
+    },
+    {
+      "name": "zoe_q/max_damage 缺倍率拒绝",
+      "formulaKey": "max_damage",
+      "ok": true,
+      "expectReject": true,
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "missing": [
+        "PARAMETER:distance_damage_cap_multiplier"
+      ],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 50,
+          "char_level_bonus_damage": 2,
+          "ap_ratio": 0.6
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 80
+        }
+      }
+    },
+    {
+      "name": "zoe_q/max_damage 边界法强0仍2.5倍",
+      "formulaKey": "max_damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 130,
+      "actual": 130,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 50,
+          "char_level_bonus_damage": 2,
+          "ap_ratio": 0.6,
+          "distance_damage_cap_multiplier": 2.5
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 0
+        }
+      }
+    },
+    {
+      "name": "zoe_w/missile_damage 正例",
+      "formulaKey": "missile_damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 25,
+      "actual": 25,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "missile_base_damage": 15,
+          "ap_ratio": 0.1
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100
+        }
+      }
+    },
+    {
+      "name": "zoe_w/missile_damage 不同来源",
+      "formulaKey": "missile_damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 55,
+      "actual": 55,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "missile_base_damage": 55,
+          "ap_ratio": 0.1
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 0
+        }
+      }
+    },
+    {
+      "name": "zoe_w/missile_damage 缺法强拒绝",
+      "formulaKey": "missile_damage",
+      "ok": true,
+      "expectReject": true,
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "missing": [
+        "ATTRIBUTE:SOURCE:ability_power:TOTAL"
+      ],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "missile_base_damage": 15,
+          "ap_ratio": 0.1
+        },
+        "attributes": {}
+      }
+    },
+    {
+      "name": "zoe_w/missile_damage 边界法强0",
+      "formulaKey": "missile_damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 15,
+      "actual": 15,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "missile_base_damage": 15,
+          "ap_ratio": 0.1
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 0
+        }
+      }
+    },
+    {
+      "name": "zoe_e/damage 正例",
+      "formulaKey": "damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 115,
+      "actual": 115,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 70,
+          "ap_ratio": 0.45
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100
+        }
+      }
+    },
+    {
+      "name": "zoe_e/damage 不同来源",
+      "formulaKey": "damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 248,
+      "actual": 248,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 230,
+          "ap_ratio": 0.45
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 40
+        }
+      }
+    },
+    {
+      "name": "zoe_e/damage 缺基础拒绝",
+      "formulaKey": "damage",
+      "ok": true,
+      "expectReject": true,
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "missing": [
+        "PARAMETER:base_damage"
+      ],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "ap_ratio": 0.45
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100
+        }
+      }
+    },
+    {
+      "name": "zoe_e/damage 边界法强0",
+      "formulaKey": "damage",
+      "ok": true,
+      "expectReject": false,
+      "expected": 70,
+      "actual": 70,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 70,
+          "ap_ratio": 0.45
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 0
+        }
+      }
+    },
+    {
+      "name": "zoe_e/wake_true_damage_cap 正例同树",
+      "formulaKey": "wake_true_damage_cap",
+      "ok": true,
+      "expectReject": false,
+      "expected": 115,
+      "actual": 115,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 70,
+          "ap_ratio": 0.45
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 100
+        }
+      }
+    },
+    {
+      "name": "zoe_e/wake_true_damage_cap 不同来源",
+      "formulaKey": "wake_true_damage_cap",
+      "ok": true,
+      "expectReject": false,
+      "expected": 230,
+      "actual": 230,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 230,
+          "ap_ratio": 0.45
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 0
+        }
+      }
+    },
+    {
+      "name": "zoe_e/wake_true_damage_cap 缺法强拒绝",
+      "formulaKey": "wake_true_damage_cap",
+      "ok": true,
+      "expectReject": true,
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "missing": [
+        "ATTRIBUTE:SOURCE:ability_power:TOTAL"
+      ],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 70,
+          "ap_ratio": 0.45
+        },
+        "attributes": {}
+      }
+    },
+    {
+      "name": "zoe_e/wake_true_damage_cap 边界上限即结果",
+      "formulaKey": "wake_true_damage_cap",
+      "ok": true,
+      "expectReject": false,
+      "expected": 70,
+      "actual": 70,
+      "missing": [],
+      "error": null,
+      "inputs": {
+        "parameters": {
+          "base_damage": 70,
+          "ap_ratio": 0.45
+        },
+        "attributes": {
+          "SOURCE:ability_power:TOTAL": 0
+        }
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "冻结快照摘要",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "无拉克丝 write",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "复用六个公共参数",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "POST 不含已有公共参数",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "未创建 DAMAGE/治疗/瞬时评估",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "未创建过程状态触发",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "Q 上限在表达式内",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "角色等级断点未展开",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "Q 基础伤害取索引1至5",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "E 官方与根基础伤害一致",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "R 无伤害树",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "W 拾取缺口仍在",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "拉克丝 W 自我护盾冻结仍在",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "拉克丝 E 唯一敌方伤害冻结仍在",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "zoe_p/damage 正例",
+      "ok": true,
+      "detail": {
+        "expected": 36,
+        "actual": 36,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_p/damage 不同来源",
+      "ok": true,
+      "detail": {
+        "expected": 52,
+        "actual": 52,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_p/damage 缺法强拒绝",
+      "ok": true,
+      "detail": {
+        "expected": "REJECT",
+        "actual": "REJECT",
+        "missing": [
+          "ATTRIBUTE:SOURCE:ability_power:TOTAL"
+        ]
+      }
+    },
+    {
+      "name": "zoe_p/damage 边界法强0",
+      "ok": true,
+      "detail": {
+        "expected": 16,
+        "actual": 16,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_q/damage 正例",
+      "ok": true,
+      "detail": {
+        "expected": 112,
+        "actual": 112,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_q/damage 不同来源",
+      "ok": true,
+      "detail": {
+        "expected": 178,
+        "actual": 178,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_q/damage 缺附加拒绝",
+      "ok": true,
+      "detail": {
+        "expected": "REJECT",
+        "actual": "REJECT",
+        "missing": [
+          "PARAMETER:char_level_bonus_damage"
+        ]
+      }
+    },
+    {
+      "name": "zoe_q/damage 边界法强0",
+      "ok": true,
+      "detail": {
+        "expected": 52,
+        "actual": 52,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_q/max_damage 正例上限=倍率×最短",
+      "ok": true,
+      "detail": {
+        "expected": 250,
+        "actual": 250,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_q/max_damage 不同来源",
+      "ok": true,
+      "detail": {
+        "expected": 465,
+        "actual": 465,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_q/max_damage 缺倍率拒绝",
+      "ok": true,
+      "detail": {
+        "expected": "REJECT",
+        "actual": "REJECT",
+        "missing": [
+          "PARAMETER:distance_damage_cap_multiplier"
+        ]
+      }
+    },
+    {
+      "name": "zoe_q/max_damage 边界法强0仍2.5倍",
+      "ok": true,
+      "detail": {
+        "expected": 130,
+        "actual": 130,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_w/missile_damage 正例",
+      "ok": true,
+      "detail": {
+        "expected": 25,
+        "actual": 25,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_w/missile_damage 不同来源",
+      "ok": true,
+      "detail": {
+        "expected": 55,
+        "actual": 55,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_w/missile_damage 缺法强拒绝",
+      "ok": true,
+      "detail": {
+        "expected": "REJECT",
+        "actual": "REJECT",
+        "missing": [
+          "ATTRIBUTE:SOURCE:ability_power:TOTAL"
+        ]
+      }
+    },
+    {
+      "name": "zoe_w/missile_damage 边界法强0",
+      "ok": true,
+      "detail": {
+        "expected": 15,
+        "actual": 15,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_e/damage 正例",
+      "ok": true,
+      "detail": {
+        "expected": 115,
+        "actual": 115,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_e/damage 不同来源",
+      "ok": true,
+      "detail": {
+        "expected": 248,
+        "actual": 248,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_e/damage 缺基础拒绝",
+      "ok": true,
+      "detail": {
+        "expected": "REJECT",
+        "actual": "REJECT",
+        "missing": [
+          "PARAMETER:base_damage"
+        ]
+      }
+    },
+    {
+      "name": "zoe_e/damage 边界法强0",
+      "ok": true,
+      "detail": {
+        "expected": 70,
+        "actual": 70,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_e/wake_true_damage_cap 正例同树",
+      "ok": true,
+      "detail": {
+        "expected": 115,
+        "actual": 115,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_e/wake_true_damage_cap 不同来源",
+      "ok": true,
+      "detail": {
+        "expected": 230,
+        "actual": 230,
+        "missing": []
+      }
+    },
+    {
+      "name": "zoe_e/wake_true_damage_cap 缺法强拒绝",
+      "ok": true,
+      "detail": {
+        "expected": "REJECT",
+        "actual": "REJECT",
+        "missing": [
+          "ATTRIBUTE:SOURCE:ability_power:TOTAL"
+        ]
+      }
+    },
+    {
+      "name": "zoe_e/wake_true_damage_cap 边界上限即结果",
+      "ok": true,
+      "detail": {
+        "expected": 70,
+        "actual": 70,
+        "missing": []
+      }
+    }
+  ],
+  "failed": []
+}

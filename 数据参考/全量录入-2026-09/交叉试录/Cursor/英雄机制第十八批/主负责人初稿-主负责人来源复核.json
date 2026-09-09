@@ -1,0 +1,68 @@
+{
+  "at": "2026-09-09T11:34:12.982Z",
+  "originalCandidateSha256": "d8d2747f804cabc8cffe2d28027d9f4bf9322b6e3e45f13d4634b19a35bb9c1b",
+  "candidateSha256": "5797e8df6e874759225719572ec8784a9ef61ffcb7eae9af128cb81b8b8a4624",
+  "planSha256": "1114c12237e8ccf18a424c1a22e630df971181707be5b322e646d75da30a08ed",
+  "counts": {
+    "parameters": 28,
+    "formulas": 6,
+    "effects": 3,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newRequests": 31,
+  "removedParameters": [
+    {
+      "parameterKey": "trap_duration_ms",
+      "name": "未命中陷阱持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "客户端当前根绑定 DataValues.TrapLife 取索引 1 至 5 均为 5 秒，按毫秒保存。",
+      "sortOrder": 50
+    },
+    {
+      "parameterKey": "sleep_duration_ms",
+      "name": "昏睡数据值持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2250,
+      "levelValues": null,
+      "description": "客户端当前根绑定 DataValues.SleepDuration=2.25 秒转毫秒。当前正文写“持续2秒”，与数据值不一致，本参数只保存根数据值，不把 2 秒或 2.25 秒写成已接线状态。",
+      "sortOrder": 80
+    },
+    {
+      "parameterKey": "brittle_linger_ms",
+      "name": "易碎残留（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "客户端当前根绑定 DataValues.BrittleLinger=1 秒转毫秒。当前正文未直接绑定该占位符，只作为根数据值保存。",
+      "sortOrder": 90
+    }
+  ],
+  "correctedScope": [
+    {
+      "component": "未命中后地上独立陷阱及TrapLife",
+      "reason": "沿用本轮独立陷阱排除边界，直线气泡命中仍保留"
+    }
+  ],
+  "retainedPending": [
+    "睡眠唤醒、双倍伤害应用不能写成已经存在的运行事件。",
+    "正文“双倍伤害，最多造成 BreakDamageTooltip 真实伤害”没有对应 MIN 计算节点；上限只以 BreakDamageTooltip 公式结果保存。",
+    "困倦、昏睡、魔抗降低、冷却刷新均无已证过程。",
+    "当前正文明确2秒昏睡，而根SleepDuration为2.25秒。两份原文保留，未确定同版计量差异前不保存某一值为实际昏睡时长。",
+    "BrittleLinger只见根字段名，当前绑定未给出其独立用途，保留原文待补，不把它直接当成惊醒窗口。"
+  ],
+  "knownFormulaBoundaries": [
+    "P/Q角色等级基础输入无默认值，未猜等级算法",
+    "Q两式分别为最低伤害与2.5倍上限，不冒充按实际飞行距离计算",
+    "E惊醒公式只是上限，不表示已计算具体惊醒伤害",
+    "W单颗飞弹和自身移速数值保留，拾取替代技能事件仍待补"
+  ],
+  "GETs": 148,
+  "businessWrites": 0
+}

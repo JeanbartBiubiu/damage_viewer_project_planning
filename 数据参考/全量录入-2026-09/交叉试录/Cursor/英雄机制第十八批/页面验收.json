@@ -1,0 +1,538 @@
+{
+  "at": "2026-09-09T11:50:05.963Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "browser": "Codex内置浏览器现有标签2",
+  "representativePages": 2,
+  "observations": [
+    {
+      "skillKey": "zoe_q",
+      "observed": "代表图片、2.5倍上限和无默认等级额外伤害输入可见；最高伤害公式详情为2.5乘完整基础表达式，不表示完整距离曲线。"
+    },
+    {
+      "skillKey": "zoe_e",
+      "observed": "代表图片、1400毫秒困倦、0.45法强系数、0.3法抗削减比例和两条公式可见；惊醒公式清楚标作上限，不冒充实际惊醒伤害。独立陷阱、冲突睡眠时长及用途未证字段未写入。"
+    }
+  ],
+  "GETs": 10,
+  "requests": [
+    {
+      "route": "/skills/zoe_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:26.052761Z",
+        "description": "佐伊发射一个可在飞行途中由她重新导向的飞弹。飞弹在直线上飞行的路程越远，造成的伤害就会越高。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "佐伊·飞星乱入！",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zoe_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:26.052761Z"
+      }
+    },
+    {
+      "route": "/skills/zoe_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zoe_q",
+          "name": "zoe_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/zoe_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T11:37:31.50885Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引 1 至 5，跳过 rank0=20。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 80,
+            "3": 110,
+            "4": 140,
+            "5": 170
+          },
+          "name": "基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "zoe_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T11:37:31.50885Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T11:37:32.561466Z",
+          "description": "TotalDamageTooltip 第二项 ByCharLevelBreakpointsCalculationPart：mLevel1Value=2、mInitialBonusPerLevel=2，断点 10 级斜率 3、14 级斜率 4。求值循环未证，不展开 1 至 18 级，不默认 0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "角色等级附加魔法伤害（实际值外供）",
+          "parameterKey": "char_level_bonus_damage",
+          "skillKey": "zoe_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T11:37:32.561466Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T11:37:33.930626Z",
+          "description": "客户端当前根绑定 DataValues.APRatio 原始 0.6000000238418579，按设计值归一为 0.6。StatByNamedDataValue 省略统计选择器，按窄口径映射来源总法强。",
+          "fixedValue": 0.6,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "zoe_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T11:37:33.930626Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T11:37:35.045718Z",
+          "description": "MaxDamageTooltip 为 GameCalculationModified，mModifiedGameCalculation=TotalDamageTooltip，mMultiplier.mNumber=2.5。上限写进公式，不只写在说明。",
+          "fixedValue": 2.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "飞行距离伤害上限倍率",
+          "parameterKey": "distance_damage_cap_multiplier",
+          "skillKey": "zoe_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T11:37:35.045718Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T11:37:36.248625Z",
+          "description": "当前根 spellCastTime=0.25 秒，按毫秒保存。只保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "zoe_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T11:37:36.248625Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:38.146893Z",
+          "description": "DDragon16.17.1 Zoe.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 8500,
+            "2": 8000,
+            "3": 7500,
+            "4": 7000,
+            "5": 6500
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zoe_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:38.146893Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:38.631169Z",
+          "description": "DDragon16.17.1 Zoe.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 40,
+            "2": 45,
+            "3": 50,
+            "4": 55,
+            "5": 60
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "zoe_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:38.631169Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/zoe_q/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T11:37:37.354497Z",
+          "description": "TotalDamageTooltip = BaseDamage + 角色等级断点外供值 + APRatio×来源总法强。对应正文最短伤害，不是已飞行距离后的实伤。",
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "飞星最短提示魔法伤害",
+          "skillKey": "zoe_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T11:37:37.354497Z"
+        },
+        {
+          "createdAt": "2026-09-09T11:37:38.672976Z",
+          "description": "MaxDamageTooltip = 2.5 × TotalDamageTooltip。2.5 在表达式内，作为当前根绑定给出的距离增伤上限。",
+          "formulaKey": "max_damage",
+          "gameId": "lol",
+          "name": "飞星最长提示魔法伤害上限",
+          "skillKey": "zoe_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T11:37:38.672976Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/zoe_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:26.61522Z",
+        "description": "困倦使目标进入困倦状态，然后陷入昏睡。在昏睡状态下，目标的魔抗会被降低。打醒目标的第一个伤害来源会造成双倍伤害，但有封顶值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "佐伊·催眠气泡",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zoe_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:26.61522Z"
+      }
+    },
+    {
+      "route": "/skills/zoe_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zoe_e",
+          "name": "zoe_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/zoe_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T11:37:48.501155Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引 1 至 5，跳过 rank0=30；与官方 16.17.1 ZoeE.effect 第一组 70/110/150/190/230 一致。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 110,
+            "3": 150,
+            "4": 190,
+            "5": 230
+          },
+          "name": "气泡基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "zoe_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T11:37:48.501155Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T11:37:49.457523Z",
+          "description": "TotalDamageTooltip 与 BreakDamageTooltip 均使用 StatByCoefficientCalculationPart mCoefficient=0.44999998807907104，归一为 0.45。无具名 APRatio 字段，省略 mStat 按窄口径映射来源总法强。",
+          "fixedValue": 0.45,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "zoe_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T11:37:49.457523Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T11:37:50.40635Z",
+          "description": "客户端当前根绑定 DataValues.PercentPen 原始 0.30000001192092896，按设计值归一为 0.3；正文 @PercentPen*100@%。只录比例，不创建抗性结果。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "昏睡期魔法抗性降低比例",
+          "parameterKey": "magic_resist_shred_ratio",
+          "skillKey": "zoe_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T11:37:50.40635Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T11:37:51.540391Z",
+          "description": "客户端当前根绑定 DataValues.CooldownRefresh 取索引 1 至 5；正文 @CooldownRefresh*100@%。来源已是比例，不乘 0.01。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.16,
+            "2": 0.195,
+            "3": 0.23,
+            "4": 0.265,
+            "5": 0.3
+          },
+          "name": "命中英雄刷新冷却比例",
+          "parameterKey": "cooldown_refresh_ratio",
+          "skillKey": "zoe_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T11:37:51.540391Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T11:37:52.487599Z",
+          "description": "客户端当前根绑定 DataValues.DrowsySlow 取索引 1 至 5；扩展正文 @DrowsySlow*100@%。来源已是比例。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.1,
+            "2": 0.15,
+            "3": 0.2,
+            "4": 0.25,
+            "5": 0.3
+          },
+          "name": "困倦最大减速比例",
+          "parameterKey": "drowsy_slow_ratio",
+          "skillKey": "zoe_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T11:37:52.487599Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T11:37:53.577655Z",
+          "description": "客户端当前根绑定 DataValues.DrowsyDuration 原始 1.399999976158142 秒，按设计值 1.4 秒转毫秒。",
+          "fixedValue": 1400,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "困倦持续（毫秒）",
+          "parameterKey": "drowsy_duration_ms",
+          "skillKey": "zoe_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T11:37:53.577655Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:39.469529Z",
+          "description": "DDragon16.17.1 Zoe.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 18000,
+            "2": 17000,
+            "3": 16000,
+            "4": 15000,
+            "5": 14000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zoe_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:39.469529Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:40.042457Z",
+          "description": "DDragon16.17.1 Zoe.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 80,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "zoe_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:40.042457Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/zoe_e/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T11:37:54.756292Z",
+          "description": "TotalDamageTooltip = BaseDamage + 0.45×来源总法强。只表达气泡提示伤害，不创建 DAMAGE 结果或命中事件。",
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "催眠气泡提示魔法伤害",
+          "skillKey": "zoe_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T11:37:54.756292Z"
+        },
+        {
+          "createdAt": "2026-09-09T11:37:55.979402Z",
+          "description": "BreakDamageTooltip 与气泡伤害同树：BaseDamage + 0.45×来源总法强。该公式结果本身就是正文上限值。双倍伤害的施加、MIN(来伤×2, 上限) 和睡眠唤醒事件都不在当前根计算树，不另造。",
+          "formulaKey": "wake_true_damage_cap",
+          "gameId": "lol",
+          "name": "惊醒额外真实伤害上限",
+          "skillKey": "zoe_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T11:37:55.979402Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/zoe_q/formulas/max_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T11:37:38.672976Z",
+        "description": "MaxDamageTooltip = 2.5 × TotalDamageTooltip。2.5 在表达式内，作为当前根绑定给出的距离增伤上限。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "distance_damage_cap_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "char_level_bonus_damage"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "max_damage",
+        "gameId": "lol",
+        "name": "飞星最长提示魔法伤害上限",
+        "skillKey": "zoe_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T11:37:38.672976Z"
+      }
+    },
+    {
+      "route": "/skills/zoe_e/formulas/wake_true_damage_cap",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T11:37:55.979402Z",
+        "description": "BreakDamageTooltip 与气泡伤害同树：BaseDamage + 0.45×来源总法强。该公式结果本身就是正文上限值。双倍伤害的施加、MIN(来伤×2, 上限) 和睡眠唤醒事件都不在当前根计算树，不另造。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "wake_true_damage_cap",
+        "gameId": "lol",
+        "name": "惊醒额外真实伤害上限",
+        "skillKey": "zoe_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T11:37:55.979402Z"
+      }
+    }
+  ],
+  "math": [
+    {
+      "skillKey": "zoe_q",
+      "formulaKey": "max_damage",
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "charLevelBonusDamage": 2,
+      "result": 280,
+      "expected": 280,
+      "passed": true
+    },
+    {
+      "skillKey": "zoe_q",
+      "formulaKey": "max_damage",
+      "skillLevel": 5,
+      "abilityPower": 173,
+      "charLevelBonusDamage": 8,
+      "result": 704.5,
+      "expected": 704.5,
+      "passed": true
+    },
+    {
+      "skillKey": "zoe_e",
+      "formulaKey": "wake_true_damage_cap",
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "charLevelBonusDamage": 2,
+      "result": 115,
+      "expected": 115,
+      "passed": true
+    },
+    {
+      "skillKey": "zoe_e",
+      "formulaKey": "wake_true_damage_cap",
+      "skillLevel": 5,
+      "abilityPower": 173,
+      "charLevelBonusDamage": 8,
+      "result": 307.85,
+      "expected": 307.85,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "apiWrites": 0,
+  "runtimeValidation": "未执行"
+}

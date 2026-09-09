@@ -1,0 +1,795 @@
+{
+  "generatedAt": "2026-09-09T11:23:38.176Z",
+  "snapshotSha256": "e7aaac29e37ad539300a538c8385e392d0d62dc97178654a4832a54a62e12b7e",
+  "versions": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "content": "Characters/Zoe/CharacterRecords/Root"
+  },
+  "bindings": {
+    "lux": {
+      "passive": "Characters/Lux/Spells/LuxIlluminationPassiveAbility/LuxIlluminationPassive",
+      "spells": [
+        "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding",
+        "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave",
+        "Characters/Lux/Spells/LuxLightStrikeKugelAbility/LuxLightStrikeKugel",
+        "Characters/Lux/Spells/LuxRAbility/LuxR"
+      ]
+    },
+    "zoe": {
+      "passive": "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive",
+      "spells": [
+        "Characters/Zoe/Spells/ZoeQAbility/ZoeQ",
+        "Characters/Zoe/Spells/ZoeWAbility/ZoeW",
+        "Characters/Zoe/Spells/ZoeEAbility/ZoeE",
+        "Characters/Zoe/Spells/ZoeRAbility/ZoeR"
+      ]
+    }
+  },
+  "locKeysUsed": {
+    "zoe_p": {
+      "keyName": "game_spell_displayname_ZoePassive",
+      "keyTooltip": "Spell_ZoePassive_Tooltip",
+      "keyTooltipExtended": "Spell_ZoePassive_TooltipExtended"
+    },
+    "zoe_q": {
+      "keyName": "Spell_ZoeQ_Name",
+      "keySummary": "Spell_ZoeQ_Summary",
+      "keyTooltip": "Spell_ZoeQ_Tooltip"
+    },
+    "zoe_w": {
+      "keyName": "Spell_ZoeW_Name",
+      "keySummary": "Spell_ZoeW_Summary",
+      "keyTooltip": "Spell_ZoeW_Tooltip",
+      "keyTooltipExtendedBelowLine": "Spell_ZoeW_TooltipExtendedBelowLine",
+      "keyCost": "Spell_Cost_NoCost"
+    },
+    "zoe_e": {
+      "keyName": "Spell_ZoeE_Name",
+      "keySummary": "Spell_ZoeE_Summary",
+      "keyTooltip": "Spell_ZoeE_Tooltip",
+      "keyTooltipExtendedBelowLine": "Spell_ZoeE_TooltipExtendedBelowLine"
+    },
+    "zoe_r": {
+      "keyName": "Spell_ZoeR_Name",
+      "keySummary": "Spell_ZoeR_Summary",
+      "keyTooltip": "Spell_ZoeR_Tooltip",
+      "keyTooltipExtendedBelowLine": "Spell_ZoeR_TooltipExtendedBelowLine"
+    }
+  },
+  "locTextsUsed": {
+    "zoe_p": {
+      "keyName": "烟火四射！",
+      "keyTooltip": "在施放一次技能后，佐伊的下次普攻将造成额外的<magicDamage>@PassiveDamage@魔法伤害</magicDamage>。",
+      "keyTooltipExtended": "{{Spell_ZoePassive_Tooltip}}<br><br><rules>强化攻击会立刻造成伤害。</rules>"
+    },
+    "zoe_q": {
+      "keyName": "飞星乱入！",
+      "keySummary": "佐伊发射一个可在飞行途中由她重新导向的飞弹。飞弹在直线上飞行的路程越远，造成的伤害就会越高。",
+      "keyTooltip": "佐伊发射一颗飞星，基于它的飞行距离来对命中的第一个敌人造成不断提升的伤害 -- <magicDamage>@TotalDamageTooltip@到@MaxDamageTooltip@魔法伤害</magicDamage>。<br><br>佐伊可以<recast>再次施放</recast>这个技能来将这个飞弹重新导向到佐伊附近的一个新位置。"
+    },
+    "zoe_w": {
+      "keyName": "窃法巧手",
+      "keySummary": "佐伊可以拾取敌方在施放召唤师技能和主动型装备时产生的法术碎片，从而让她自己能够施放一次性的相应技能或效果。在她施放一次召唤师技能的同时，她会获得3颗飞弹来射向距她最近的目标。",
+      "keyTooltip": "<spellPassive>被动：</spellPassive>敌人在使用【召唤师技能】或【主动型装备】时会掉落一个技能碎片。特定小兵也会在被佐伊或一名附近的友方英雄击杀后掉落一个技能碎片。佐伊可以拾取这些碎片来使用一次相应技能。<br><br><spellPassive>被动：</spellPassive>当佐伊施放这个技能或任一召唤师技能时，她会获得<speed>@MovementSpeed*100@%移动速度</speed>，持续@MSDuration@秒，并对她近期刚攻击过的目标投出3个飞弹。每颗飞弹造成<magicDamage>@MissileDamageTooltip@魔法伤害</magicDamage>。<br><br><spellActive>主动：</spellActive>施放一次来自佐伊已拾取的技能碎片的技能。",
+      "keyTooltipExtendedBelowLine": "<rules>技能碎片会在地上持续40秒。<br>每颗飞弹都会施加<spellName>烟火四射！</spellName></rules>",
+      "keyCost": "无消耗"
+    },
+    "zoe_e": {
+      "keyName": "催眠气泡",
+      "keySummary": "困倦使目标进入困倦状态，然后陷入昏睡。在昏睡状态下，目标的魔抗会被降低。打醒目标的第一个伤害来源会造成双倍伤害，但有封顶值。",
+      "keyTooltip": "佐伊踢出一个气泡，可造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>，并会在未命中任何单位时如陷阱一般停留。在飞越墙体后，气泡的距离会得到延长。<br><br>如果气泡或陷阱命中了一个敌方英雄，那么她会刷新此技能@CooldownRefresh*100@%冷却时间。<br><br>在一段延迟后，被气泡命中的目标会陷入<status>昏睡</status>状态并降低@PercentPen*100@%<scaleMR>魔法抗性</scaleMR>，持续2秒。攻击和技能在命中目标时都会将其惊醒并造成双倍伤害，最多造成<trueDamage>@BreakDamageTooltip@真实伤害</trueDamage>。<br><br>",
+      "keyTooltipExtendedBelowLine": "<rules>在目标陷入<status>昏睡</status>状态之前，会进入<status>困倦</status>状态，被施加不断提升的<status>减速</status>效果(至多可达@DrowsySlow*100@%)。</rules>"
+    },
+    "zoe_r": {
+      "keyName": "折返跃迁",
+      "keySummary": "闪烁到附近的一个位置1秒。然后闪烁回去。",
+      "keyTooltip": "佐伊传送到附近的一个位置1秒。然后，佐伊会传送回原来的位置。在此期间，佐伊可以攻击和使用技能，但无法移动。",
+      "keyTooltipExtendedBelowLine": "<rules>在传送期间，佐伊的视线还可以越过墙体。</rules>"
+    }
+  },
+  "officialUsed": {
+    "version": "16.17.1",
+    "spells": [
+      {
+        "id": "ZoeQ",
+        "name": "飞星乱入！",
+        "cooldown": [
+          8.5,
+          8,
+          7.5,
+          7,
+          6.5
+        ],
+        "cost": [
+          40,
+          45,
+          50,
+          55,
+          60
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      },
+      {
+        "id": "ZoeW",
+        "name": "窃法巧手",
+        "cooldown": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "cost": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "resource": "无消耗"
+      },
+      {
+        "id": "ZoeE",
+        "name": "催眠气泡",
+        "cooldown": [
+          18,
+          17,
+          16,
+          15,
+          14
+        ],
+        "cost": [
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      },
+      {
+        "id": "ZoeR",
+        "name": "折返跃迁",
+        "cooldown": [
+          11,
+          8,
+          5
+        ],
+        "cost": [
+          40,
+          40,
+          40
+        ],
+        "resource": "{{ cost }} {{ abilityresourcename }}"
+      }
+    ],
+    "passive": {
+      "name": "烟火四射！",
+      "description": "佐伊在施放一次技能后的下次普攻会造成额外魔法伤害。",
+      "image": {
+        "full": "Zoe_P.png",
+        "sprite": "passive5.png",
+        "group": "passive",
+        "x": 48,
+        "y": 96,
+        "w": 48,
+        "h": 48
+      }
+    }
+  },
+  "calculationTrees": {
+    "zoe_p": {
+      "dataValues": [
+        {
+          "name": "APRatio",
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "WPickupDurationMinion",
+          "values": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "WPickupDurationChampion",
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "PassiveDamage": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 16,
+              "mInitialBonusPerLevel": 4,
+              "mBreakpoints": [
+                {
+                  "mLevel": 7,
+                  "mBonusPerLevelAtAndAfter": 6,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 12,
+                  "mBonusPerLevelAtAndAfter": 8,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 15,
+                  "mBonusPerLevelAtAndAfter": 10,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "rootSpellFields": {
+        "cooldownTime": null,
+        "mana": null,
+        "manaValues": null,
+        "spellCastTime": null,
+        "mCastTime": null,
+        "mChannelDuration": null
+      }
+    },
+    "zoe_q": {
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            20,
+            50,
+            80,
+            110,
+            140,
+            170,
+            200
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinionDamageMod",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "UnnamedEffectAmount1",
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamageTooltip": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mLevel1Value": 2,
+              "mInitialBonusPerLevel": 2,
+              "mBreakpoints": [
+                {
+                  "mLevel": 10,
+                  "mBonusPerLevelAtAndAfter": 3,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 14,
+                  "mBonusPerLevelAtAndAfter": 4,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MaxDamageTooltip": {
+          "mMultiplier": {
+            "mNumber": 2.5,
+            "__type": "NumberCalculationPart"
+          },
+          "mModifiedGameCalculation": "TotalDamageTooltip",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "rootSpellFields": {
+        "cooldownTime": [
+          8.5,
+          8.5,
+          8,
+          7.5,
+          7,
+          6.5,
+          6
+        ],
+        "mana": [
+          40,
+          45,
+          50,
+          55,
+          60,
+          65
+        ],
+        "manaValues": {
+          "values": [
+            40,
+            45,
+            50,
+            55,
+            60,
+            65
+          ],
+          "{0a3e0478}": 40,
+          "__type": "{630af303}"
+        },
+        "spellCastTime": 0.25,
+        "mCastTime": null,
+        "mChannelDuration": null
+      }
+    },
+    "zoe_w": {
+      "dataValues": [
+        {
+          "name": "TotalBaseDamage",
+          "values": [
+            5,
+            15,
+            25,
+            35,
+            45,
+            55,
+            65
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "TotalAPRatio",
+          "values": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MoveSpeedMod",
+          "values": [
+            0.20000000298023224,
+            0.30000001192092896,
+            0.4000000059604645,
+            0.5,
+            0.6000000238418579,
+            0.699999988079071,
+            0.800000011920929
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MoveSpeedDuration",
+          "values": [
+            1.75,
+            2,
+            2.25,
+            2.5,
+            2.75,
+            3,
+            3.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DurationOfSummonerCanCast",
+          "values": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MovementSpeed",
+          "values": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.4000000059604645,
+            0.5,
+            0.6000000238418579,
+            0.699999988079071,
+            0.800000011920929
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MSDuration",
+          "values": [
+            2,
+            2,
+            2.25,
+            2.5,
+            2.75,
+            3,
+            3.25
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "MissileDamageTooltip": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "TotalBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "TotalAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "rootSpellFields": {
+        "cooldownTime": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "mana": null,
+        "manaValues": null,
+        "spellCastTime": null,
+        "mCastTime": 0.009999999776482582,
+        "mChannelDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    "zoe_e": {
+      "dataValues": [
+        {
+          "name": "PercentPen",
+          "values": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            30,
+            70,
+            110,
+            150,
+            190,
+            230,
+            270
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "CooldownRefresh",
+          "values": [
+            0.125,
+            0.1599999964237213,
+            0.19499999284744263,
+            0.23000000417232513,
+            0.26499998569488525,
+            0.30000001192092896,
+            0.33500000834465027
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "TrapLife",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DrowsySlow",
+          "values": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.15000000596046448,
+            0.20000000298023224,
+            0.25,
+            0.30000001192092896,
+            0.3499999940395355
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DrowsyDuration",
+          "values": [
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SleepDuration",
+          "values": [
+            2.25,
+            2.25,
+            2.25,
+            2.25,
+            2.25,
+            2.25,
+            2.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BrittleLinger",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamageTooltip": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.44999998807907104,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BreakDamageTooltip": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.44999998807907104,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "rootSpellFields": {
+        "cooldownTime": [
+          18,
+          18,
+          17,
+          16,
+          15,
+          14,
+          14
+        ],
+        "mana": [
+          80,
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "manaValues": {
+          "values": [
+            80,
+            80,
+            80,
+            80,
+            80,
+            80
+          ],
+          "{0a3e0478}": 80,
+          "__type": "{630af303}"
+        },
+        "spellCastTime": 0,
+        "mCastTime": 0.30000001192092896,
+        "mChannelDuration": null
+      }
+    },
+    "zoe_r": {
+      "dataValues": [],
+      "calculations": {},
+      "rootSpellFields": {
+        "cooldownTime": [
+          11,
+          11,
+          8,
+          5,
+          0,
+          0,
+          0
+        ],
+        "mana": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "manaValues": {
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "{0a3e0478}": 40,
+          "__type": "{630af303}"
+        },
+        "spellCastTime": 0,
+        "mCastTime": 0.25,
+        "mChannelDuration": null
+      }
+    }
+  },
+  "unusedOrPendingSource": {
+    "zoe_p": [
+      "WPickupDurationMinion",
+      "WPickupDurationChampion"
+    ],
+    "zoe_q": [
+      "MinionDamageMod",
+      "UnnamedEffectAmount1",
+      "飞行距离插值",
+      "再施放转向"
+    ],
+    "zoe_w": [
+      "DurationOfSummonerCanCast",
+      "MoveSpeedMod",
+      "MoveSpeedDuration",
+      "拾取替代技能事件"
+    ],
+    "zoe_e": [
+      "双倍伤害应用",
+      "MIN(来伤×2, 上限) 计算节点不存在",
+      "正文2秒与 SleepDuration=2.25 冲突"
+    ],
+    "zoe_r": [
+      "空 DataValues",
+      "空 calculations",
+      "位移/返回过程"
+    ]
+  },
+  "unknownInputs": {
+    "zoe_p": [
+      "char_level_base_damage",
+      "SOURCE:ability_power:TOTAL"
+    ],
+    "zoe_q": [
+      "char_level_bonus_damage",
+      "SOURCE:ability_power:TOTAL",
+      "飞行距离",
+      "再施放转向事件"
+    ],
+    "zoe_w": [
+      "SOURCE:ability_power:TOTAL",
+      "拾取替代技能事件",
+      "碎片掉落与目标资格"
+    ],
+    "zoe_e": [
+      "SOURCE:ability_power:TOTAL",
+      "唤醒来伤",
+      "目标资格",
+      "困倦到昏睡时点"
+    ],
+    "zoe_r": [
+      "位移落点",
+      "返回时点",
+      "传送期间攻击/技能资格"
+    ]
+  },
+  "luxExcluded": true,
+  "reusedPublicParameterCount": 6,
+  "postIntentCount": 34,
+  "layers": {
+    "sourceEvidence": "客户端 16.17 角色根绑定、官方 16.17.1、当前 mLocKeys",
+    "staticCandidate": "本文件 skills[zoe_*].write 与 postIntents",
+    "businessGet": "参考资料/当前10槽保护快照.json 的只读 GET，摘要 e7aaac29…",
+    "writesNotOccurred": "没有任何 POST/PUT/PATCH/DELETE，也未更新页面、数据库或战斗运行"
+  }
+}
