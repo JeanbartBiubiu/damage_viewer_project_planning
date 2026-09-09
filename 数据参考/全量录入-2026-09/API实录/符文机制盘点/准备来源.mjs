@@ -1,0 +1,20 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+if (process.argv.length !== 2) throw new Error('本地来源准备只读输入，不接受执行参数');
+const here = path.dirname(fileURLToPath(import.meta.url));
+const source = path.resolve(here, '../../装备符文');
+const inputs = [{ file: '官方原始资料/runesReforged-16.17.1-zh_CN.json', sha256: 'a6330b50b15a735d5b33543d5485d5ce3abac6b6e310a2182f70327ee5484ab0', bytes: 36166, version: '16.17.1' }, { file: '客户端提取资料/perks-16.17-zh_CN.json', sha256: 'be0bb4eedde39f3a8e1dc245f9b4382379d87674c2fdc62b2650b6af4d9f565b', bytes: 102473, version: '16.17' }];
+const datasets = inputs.map(input => { const bytes = fs.readFileSync(path.join(source, input.file)); assert.equal(bytes.length, input.bytes); assert.equal(createHash('sha256').update(bytes).digest('hex'), input.sha256); return JSON.parse(bytes.toString('utf8')); });
+const clean = value => value.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+const items = [];
+datasets[0].forEach((group, pathIndex) => group.slots.forEach((slot, slotIndex) => slot.runes.forEach((rune, runeIndex) => {
+  const clientIndex = datasets[1].findIndex(item => item.id === rune.id); assert(clientIndex >= 0);
+  const client = datasets[1][clientIndex]; assert.equal(client.name, rune.name);
+  items.push({ runeKey: `rune_${rune.id}`, id: rune.id, name: rune.name, category: slotIndex === 0 ? 'KEYSTONE' : 'MINOR', pathKey: `rune_path_${group.id}`, pathName: group.name, slotIndex, source: { official: { file: inputs[0].file, pointer: `/${pathIndex}/slots/${slotIndex}/runes/${runeIndex}`, raw: rune }, client: { file: inputs[1].file, pointer: `/${clientIndex}`, raw: client } }, text: { officialLong: clean(rune.longDesc), officialShort: clean(rune.shortDesc), clientLong: clean(client.longDesc), clientTooltip: clean(client.tooltip) } });
+})));
+assert.equal(items.length, 62); assert.equal(new Set(items.map(x => x.runeKey)).size, 62);
+fs.writeFileSync(path.join(here, '冻结来源.json'), JSON.stringify({ preparedAt: new Date().toISOString(), inputs, counts: { identities: 62, keystones: items.filter(x=>x.category==='KEYSTONE').length, minors: items.filter(x=>x.category==='MINOR').length }, items }, null, 2)+'\n');
+for (const x of items) console.log(JSON.stringify({ id: x.id, name: x.name, path: x.pathName, category: x.category, official: x.text.officialLong, clientDifference: x.text.clientLong !== x.text.officialLong ? x.text.clientLong : null, tooltip: x.text.clientTooltip }));

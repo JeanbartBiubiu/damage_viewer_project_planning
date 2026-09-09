@@ -1,0 +1,190 @@
+{
+  "checkedAt": "2026-09-09T01:28:25.518Z",
+  "scope": "只读来源及本地候选校验，未执行业务写入或战斗运行",
+  "identities": 62,
+  "branchCount": 115,
+  "quotedSourceChecks": "每条分支均找到冻结原文依据",
+  "selected": 12,
+  "formulaSamples": 11,
+  "formulaResultMeaning": "均为配置数值，不是按当前生命/资源上限结算后的实际回复量",
+  "qualifiedCandidates": 12,
+  "outsideDependencyReviews": 7,
+  "passed": true,
+  "counts": {
+    "identities": 62,
+    "keystones": 17,
+    "minors": 45,
+    "scope": {
+      "范围内": 43,
+      "混合保留": 12,
+      "范围外": 7
+    },
+    "branches": {
+      "范围内": 71,
+      "保留依赖": 25,
+      "范围外": 19
+    },
+    "withSpecificMissingFacts": 55,
+    "withRecordableComponents": 55,
+    "withMissingSourceValues": 34,
+    "withClearValuesAndSeparateConditionGaps": 21
+  },
+  "nextCounts": {
+    "selected": 12,
+    "parameters": 50,
+    "formulas": 10,
+    "effects": 12,
+    "initializationRules": 3,
+    "completeRuneMechanisms": 0,
+    "businessWrites": 0
+  },
+  "hashes": {
+    "冻结来源.json": "086ed2d4e8a62f851648faf4687e53650f760a25ea51328dccd245217578fda1",
+    "关联装备来源.json": "38c425ab0475793bdf7b63398252134cb1aaade529074b7c6afdb5cde99643fc",
+    "逐项机器清单.json": "419c74a3a22f88f7be5d6499f788914d838712c2c95c61012f168cca9878668b",
+    "下一批最多12项.json": "a22d0f1cf63b51cc47fc128f532c596e608719c25710b41a0756cd637479b9f4",
+    "当前目录.json": "8c1acb332429aed598b089683d197cfc2636392877a0b81ffebdc86bac9c57a1",
+    "范围外跨技能依赖.json": "c0a7865e76e6be7b616052f78b20193f6dd94e204ba1b6602a976e4648741bb7",
+    "范围外挂载只读.json": "ae48d5b5956c7b1e1b49684c804155785a3c2241f9961a958760e4b1144e3511"
+  },
+  "specialScopeChecks": [
+    "三重补药分别保留原力和技能合剂，排除贪财专用分支",
+    "冰川保留敌方减速，排除不包括自身的队友减伤",
+    "艾黎保留伤害和返回等待，排除友军护盾",
+    "传说与过度生长保留小兵野怪成长依赖",
+    "无伤害类型/乘区/减速语义默认补造",
+    "仅三个明确基础属性组成初始化",
+    "12项候选列明适用资格和不得默认的输入",
+    "7项范围外保留跨技能依赖依据与当前挂载事实"
+  ],
+  "tests": [
+    {
+      "id": 9111,
+      "formulaKey": "triumph_heal",
+      "attributes": {
+        "hp:TOTAL": 2000,
+        "hp:MISSING": 1500
+      },
+      "inputs": {},
+      "expected": 125,
+      "actual": 125,
+      "passed": true
+    },
+    {
+      "id": 9111,
+      "formulaKey": "triumph_heal",
+      "attributes": {
+        "hp:TOTAL": 2000,
+        "hp:MISSING": 0
+      },
+      "inputs": {},
+      "expected": 50,
+      "actual": 50,
+      "passed": true
+    },
+    {
+      "id": 8009,
+      "formulaKey": "takedown_mana_restore",
+      "attributes": {
+        "mana:TOTAL": 1000
+      },
+      "inputs": {},
+      "expected": 150,
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "id": 8009,
+      "formulaKey": "takedown_energy_restore",
+      "attributes": {
+        "energy:TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 30,
+      "actual": 30,
+      "passed": true
+    },
+    {
+      "id": 8226,
+      "formulaKey": "missing_mana_restore",
+      "attributes": {
+        "mana:MISSING": 600
+      },
+      "inputs": {},
+      "expected": 6,
+      "actual": 6,
+      "passed": true
+    },
+    {
+      "id": 8437,
+      "formulaKey": "melee_damage",
+      "attributes": {
+        "hp:TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 70,
+      "actual": 70,
+      "passed": true
+    },
+    {
+      "id": 8437,
+      "formulaKey": "melee_heal",
+      "attributes": {
+        "hp:TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 26,
+      "actual": 26,
+      "passed": true
+    },
+    {
+      "id": 8437,
+      "formulaKey": "ranged_damage",
+      "attributes": {
+        "hp:TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 28,
+      "actual": 28,
+      "passed": true
+    },
+    {
+      "id": 8437,
+      "formulaKey": "ranged_heal",
+      "attributes": {
+        "hp:TOTAL": 2000
+      },
+      "inputs": {},
+      "expected": 10.4,
+      "actual": 10.4,
+      "passed": true
+    },
+    {
+      "id": 8351,
+      "formulaKey": "glacial_slow_ratio",
+      "attributes": {
+        "heal_shield_power_percent:TOTAL": 0.2,
+        "ability_power:TOTAL": 100,
+        "attack_damage:BONUS": 50
+      },
+      "inputs": {},
+      "expected": 0.475,
+      "actual": 0.475,
+      "passed": true
+    },
+    {
+      "id": 8128,
+      "formulaKey": "harvest_damage",
+      "attributes": {
+        "attack_damage:BONUS": 100,
+        "ability_power:TOTAL": 200
+      },
+      "inputs": {
+        "confirmed_souls": 4
+      },
+      "expected": 94,
+      "actual": 94,
+      "passed": true
+    }
+  ]
+}
