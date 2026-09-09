@@ -1,0 +1,24 @@
+{
+  "i": 69,
+  "intent": {
+    "sequence": 70,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_w/parameters",
+    "detailRoute": "/skills/samira_w/parameters/same_target_hit_count",
+    "skillKey": "samira_w",
+    "kind": "parameters",
+    "stableKey": "same_target_hit_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "same_target_hit_count",
+      "name": "锋旋同一目标命中次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前正文明确W对同一敌人造成两次斩击；两段各消费同一每段伤害式。",
+      "sortOrder": 40
+    }
+  }
+}

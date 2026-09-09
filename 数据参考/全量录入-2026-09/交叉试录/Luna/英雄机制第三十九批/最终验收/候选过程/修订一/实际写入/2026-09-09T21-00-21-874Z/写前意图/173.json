@@ -1,0 +1,24 @@
+{
+  "i": 172,
+  "intent": {
+    "sequence": 173,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/parameters",
+    "detailRoute": "/skills/smolder_q/parameters/actual_target_max_health",
+    "skillKey": "smolder_q",
+    "kind": "parameters",
+    "stableKey": "actual_target_max_health",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_target_max_health",
+      "name": "超级灼热龙息灼烧目标实际最大生命",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "Tier3_Burn结果以目标最大生命为基准；运行层提供实际目标最大生命，不设默认。",
+      "sortOrder": 170
+    }
+  }
+}

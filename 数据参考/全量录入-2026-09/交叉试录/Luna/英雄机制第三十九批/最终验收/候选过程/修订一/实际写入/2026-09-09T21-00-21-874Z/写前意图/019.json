@@ -1,0 +1,24 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_w/parameters",
+    "detailRoute": "/skills/urgot_w/parameters/slow_resist_percent_points",
+    "skillKey": "urgot_w",
+    "kind": "parameters",
+    "stableKey": "slow_resist_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_resist_percent_points",
+      "name": "净除自身减速抗性百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 40,
+      "levelValues": null,
+      "description": "SlowResistance原始值40，按百分数点保存；不改成比例0.4。",
+      "sortOrder": 60
+    }
+  }
+}

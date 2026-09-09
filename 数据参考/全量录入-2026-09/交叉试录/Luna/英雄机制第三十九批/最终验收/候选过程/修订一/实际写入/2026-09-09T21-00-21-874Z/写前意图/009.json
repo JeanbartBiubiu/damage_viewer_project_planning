@@ -1,0 +1,24 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_q/parameters",
+    "detailRoute": "/skills/urgot_q/parameters/ad_ratio",
+    "skillKey": "urgot_q",
+    "kind": "parameters",
+    "stableKey": "ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ad_ratio",
+      "name": "腐蚀电荷总攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.699999988079071,
+      "levelValues": null,
+      "description": "TotalDamage第二项mStat=2且未给mStatFormula，读取来源总攻击力；比例来自原树StatByCoefficient=0.7。",
+      "sortOrder": 20
+    }
+  }
+}

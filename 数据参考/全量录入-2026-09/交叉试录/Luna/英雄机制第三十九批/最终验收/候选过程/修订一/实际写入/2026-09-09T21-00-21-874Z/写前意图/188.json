@@ -1,0 +1,68 @@
+{
+  "i": 187,
+  "intent": {
+    "sequence": 188,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_w/formulas",
+    "detailRoute": "/skills/smolder_w/formulas/hero_explosion_physical_damage",
+    "skillKey": "smolder_w",
+    "kind": "formulas",
+    "stableKey": "hero_explosion_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "hero_explosion_physical_damage",
+      "name": "阿嚏英雄爆炸单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "explosion_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "explosion_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "explosion_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ExplosionDamage=基础伤害+0.5×来源额外攻击力+0.8×来源总法强；省略mStat的0.8按窄证读取法强。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 29,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_e/parameters",
+    "detailRoute": "/skills/urgot_e/parameters/shield_duration_ms",
+    "skillKey": "urgot_e",
+    "kind": "parameters",
+    "stableKey": "shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_duration_ms",
+      "name": "鄙弃护盾持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "EShieldDuration=4秒，转换为4000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

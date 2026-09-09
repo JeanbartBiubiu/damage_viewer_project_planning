@@ -1,0 +1,24 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 114,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_w/parameters",
+    "detailRoute": "/skills/nilah_w/parameters/self_ghost_enabled",
+    "skillKey": "nilah_w",
+    "kind": "parameters",
+    "stableKey": "self_ghost_enabled",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_ghost_enabled",
+      "name": "轻纱飞漾自身幽灵状态",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确自身进入幽灵状态；效果持续由self_duration_ms表示。",
+      "sortOrder": 50
+    }
+  }
+}

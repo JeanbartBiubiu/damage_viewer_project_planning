@@ -1,0 +1,24 @@
+{
+  "i": 58,
+  "intent": {
+    "sequence": 59,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_q/parameters",
+    "detailRoute": "/skills/samira_q/parameters/crit_damage_modifier",
+    "skillKey": "samira_q",
+    "kind": "parameters",
+    "stableKey": "crit_damage_modifier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_damage_modifier",
+      "name": "交火暴击伤害修正比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "CriticalDamageCalc倍率=1+CritDamageMod×(mStat9-1)，保留原树0.5。",
+      "sortOrder": 30
+    }
+  }
+}

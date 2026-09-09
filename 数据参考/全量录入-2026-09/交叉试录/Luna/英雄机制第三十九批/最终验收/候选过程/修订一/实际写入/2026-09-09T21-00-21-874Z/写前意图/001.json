@@ -1,0 +1,43 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_p/parameters",
+    "detailRoute": "/skills/urgot_p/parameters/leg_attack_cooldown_ms",
+    "skillKey": "urgot_p",
+    "kind": "parameters",
+    "stableKey": "leg_attack_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "leg_attack_cooldown_ms",
+      "name": "逐腿攻击冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30000,
+        "2": 30000,
+        "3": 30000,
+        "4": 30000,
+        "5": 30000,
+        "6": 20000,
+        "7": 20000,
+        "8": 20000,
+        "9": 10000,
+        "10": 10000,
+        "11": 5000,
+        "12": 5000,
+        "13": 2500,
+        "14": 2500,
+        "15": 2500,
+        "16": 2500,
+        "17": 2500,
+        "18": 2500
+      },
+      "description": "PerLegCD的mPrecision=1和角色等级断点；1级为30秒，6/9/11/13级分别追加-10/-10/-5/-2.5秒，按原树展开18级后转为毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

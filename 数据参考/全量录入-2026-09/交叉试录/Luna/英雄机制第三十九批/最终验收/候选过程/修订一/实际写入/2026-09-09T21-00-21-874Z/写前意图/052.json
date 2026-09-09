@@ -1,0 +1,24 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/parameters",
+    "detailRoute": "/skills/samira_p/parameters/actual_style_grade_count",
+    "skillKey": "samira_p",
+    "kind": "parameters",
+    "stableKey": "actual_style_grade_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_style_grade_count",
+      "name": "当前评价等级输入",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "移动速度和近战强化均依赖当前E至S评价等级；运行层提供0至6的实际整数，不以触发器代替输入。",
+      "sortOrder": 110
+    }
+  }
+}

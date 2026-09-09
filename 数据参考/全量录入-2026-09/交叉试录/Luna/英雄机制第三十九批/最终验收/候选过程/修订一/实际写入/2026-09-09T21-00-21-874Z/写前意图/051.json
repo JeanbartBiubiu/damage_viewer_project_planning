@@ -1,0 +1,24 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/parameters",
+    "detailRoute": "/skills/samira_p/parameters/melee_ad_ratio_at_character_level",
+    "skillKey": "samira_p",
+    "kind": "parameters",
+    "stableKey": "melee_ad_ratio_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "melee_ad_ratio_at_character_level",
+      "name": "近战额外伤害角色等级实际攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "BonusMeleeDamage的总攻击力比例是角色等级插值；实际等级值由运行层提供，不设默认。",
+      "sortOrder": 100
+    }
+  }
+}

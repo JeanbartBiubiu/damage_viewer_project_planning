@@ -1,0 +1,46 @@
+{
+  "i": 12,
+  "intent": {
+    "sequence": 13,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_q/formulas",
+    "detailRoute": "/skills/urgot_q/formulas/physical_damage",
+    "skillKey": "urgot_q",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "腐蚀电荷单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=BaseDamage+0.7×来源总攻击力；当前一对一只计算主命中，不自动叠加额外爆炸目标。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 84,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_r/parameters",
+    "detailRoute": "/skills/samira_r/parameters/shot_count",
+    "skillKey": "samira_r",
+    "kind": "parameters",
+    "stableKey": "shot_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shot_count",
+      "name": "炼狱扳机射击次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 10,
+      "levelValues": null,
+      "description": "当前正文明确2秒内射击10次；每发消费一次单发伤害式，事件层决定具体时点。",
+      "sortOrder": 50
+    }
+  }
+}

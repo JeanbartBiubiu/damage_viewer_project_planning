@@ -1,0 +1,179 @@
+[
+  {
+    "method": "GET",
+    "route": "/skills/nilah_r/formulas/self_healing_amount",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T21:03:45.599159Z",
+      "description": "自身治疗量=完整治疗比例×当前目标合资格折前伤害；实际目标伤害由运行层提供。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "self_healing_base_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "self_healing_mstat8_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_mstat8_value"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_q_crit_lifesteal_ratio"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_current_enemy_healing_basis_damage"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "self_healing_amount",
+      "gameId": "lol",
+      "name": "神恩激荡自身治疗量",
+      "skillKey": "nilah_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T21:03:45.599159Z"
+    }
+  },
+  {
+    "method": "PUT",
+    "route": "/skills/nilah_r/formulas/self_healing_amount",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T21:03:45.599159Z",
+      "description": "自身治疗量=完整治疗比例×当前目标合资格的实际治疗基准伤害；折前或折后阶段尚未证明，不能默认，实际基准由运行层提供。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "self_healing_base_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "self_healing_mstat8_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_mstat8_value"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_q_crit_lifesteal_ratio"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_current_enemy_healing_basis_damage"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "self_healing_amount",
+      "gameId": "lol",
+      "name": "神恩激荡自身治疗量",
+      "skillKey": "nilah_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T21:09:09.402443Z"
+    }
+  },
+  {
+    "method": "GET",
+    "route": "/skills/nilah_r/formulas/self_healing_amount",
+    "status": 200,
+    "data": {
+      "createdAt": "2026-09-09T21:03:45.599159Z",
+      "description": "自身治疗量=完整治疗比例×当前目标合资格的实际治疗基准伤害；折前或折后阶段尚未证明，不能默认，实际基准由运行层提供。",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "self_healing_base_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "self_healing_mstat8_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_mstat8_value"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_q_crit_lifesteal_ratio"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_current_enemy_healing_basis_damage"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "formulaKey": "self_healing_amount",
+      "gameId": "lol",
+      "name": "神恩激荡自身治疗量",
+      "skillKey": "nilah_r",
+      "sortOrder": 50,
+      "updatedAt": "2026-09-09T21:09:09.402443Z"
+    }
+  }
+]

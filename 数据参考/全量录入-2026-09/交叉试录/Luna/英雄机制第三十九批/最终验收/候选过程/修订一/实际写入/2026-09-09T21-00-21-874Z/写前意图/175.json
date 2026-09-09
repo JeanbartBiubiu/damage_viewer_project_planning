@@ -1,0 +1,96 @@
+{
+  "i": 174,
+  "intent": {
+    "sequence": 175,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/formulas",
+    "detailRoute": "/skills/smolder_q/formulas/physical_damage_with_crit_scaling",
+    "skillKey": "smolder_q",
+    "kind": "formulas",
+    "stableKey": "physical_damage_with_crit_scaling",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage_with_crit_scaling",
+      "name": "超级灼热龙息单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crit_multiplier_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_mstat8_value"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "crit_ratio"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "SUBTRACT",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_mstat9_value"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "crit_multiplier_base"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=[基础伤害+1.3×来源额外攻击力]×[1+实际mStat8×0.75×(实际mStat9-1)]；主命中只消费一次。",
+      "sortOrder": 10
+    }
+  }
+}

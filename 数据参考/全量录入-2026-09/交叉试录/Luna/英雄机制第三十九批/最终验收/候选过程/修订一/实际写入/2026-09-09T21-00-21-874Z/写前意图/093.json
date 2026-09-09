@@ -1,0 +1,24 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 93,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_q/parameters",
+    "detailRoute": "/skills/nilah_q/parameters/crit_scaling",
+    "skillKey": "nilah_q",
+    "kind": "parameters",
+    "stableKey": "crit_scaling",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_scaling",
+      "name": "游刃万变暴击属性缩放",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.699999988079071,
+      "levelValues": null,
+      "description": "DamageCalc根倍率消费ActiveCritScaling=0.7；mStat8/mStat9本身不绑定已有枚举。",
+      "sortOrder": 30
+    }
+  }
+}

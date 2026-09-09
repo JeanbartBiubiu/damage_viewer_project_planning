@@ -1,0 +1,30 @@
+{
+  "i": 194,
+  "intent": {
+    "sequence": 195,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_e/parameters",
+    "detailRoute": "/skills/smolder_e/parameters/damage_base",
+    "skillKey": "smolder_e",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "扑棱每击基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "description": "BaseDamage取索引1至5的10/15/20/25/30；索引0=5是占位。",
+      "sortOrder": 70
+    }
+  }
+}

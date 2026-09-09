@@ -1,0 +1,24 @@
+{
+  "i": 179,
+  "intent": {
+    "sequence": 180,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_w/parameters",
+    "detailRoute": "/skills/smolder_w/parameters/initial_bonus_ad_ratio",
+    "skillKey": "smolder_w",
+    "kind": "parameters",
+    "stableKey": "initial_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "initial_bonus_ad_ratio",
+      "name": "阿嚏直击额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.6000000238418579,
+      "levelValues": null,
+      "description": "InitialDamage的mStat=2、mStatFormula=2，读取来源额外攻击力；HitADRatio=0.6。",
+      "sortOrder": 20
+    }
+  }
+}

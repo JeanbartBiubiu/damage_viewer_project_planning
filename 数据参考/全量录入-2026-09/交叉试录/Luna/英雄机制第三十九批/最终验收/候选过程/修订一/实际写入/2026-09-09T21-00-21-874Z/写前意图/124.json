@@ -1,0 +1,28 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 124,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_r/parameters",
+    "detailRoute": "/skills/nilah_r/parameters/damage_per_tick_base",
+    "skillKey": "nilah_r",
+    "kind": "parameters",
+    "stableKey": "damage_per_tick_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_per_tick_base",
+      "name": "神恩激荡每跳基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15,
+        "2": 25,
+        "3": 35
+      },
+      "description": "DamagePerTick取索引1至3的15/25/35；正文消费每跳式。",
+      "sortOrder": 40
+    }
+  }
+}

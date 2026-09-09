@@ -1,0 +1,24 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 37,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_r/parameters",
+    "detailRoute": "/skills/urgot_r/parameters/execute_health_threshold_percent_points",
+    "skillKey": "urgot_r",
+    "kind": "parameters",
+    "stableKey": "execute_health_threshold_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "execute_health_threshold_percent_points",
+      "name": "超越死亡处决生命阈值百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 25,
+      "levelValues": null,
+      "description": "正文和RHealthThreshold均为25%，按百分数点保存；资格判断由运行层读取当前目标生命。",
+      "sortOrder": 30
+    }
+  }
+}

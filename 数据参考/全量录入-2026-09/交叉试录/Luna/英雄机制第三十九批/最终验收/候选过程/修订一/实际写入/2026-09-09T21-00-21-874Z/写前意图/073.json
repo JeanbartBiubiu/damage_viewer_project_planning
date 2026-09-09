@@ -1,0 +1,30 @@
+{
+  "i": 72,
+  "intent": {
+    "sequence": 73,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_e/parameters",
+    "detailRoute": "/skills/samira_e/parameters/damage_base",
+    "skillKey": "samira_e",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "狂飙基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 60,
+        "3": 70,
+        "4": 80,
+        "5": 90
+      },
+      "description": "BaseDamage取索引1至5的50/60/70/80/90。",
+      "sortOrder": 10
+    }
+  }
+}

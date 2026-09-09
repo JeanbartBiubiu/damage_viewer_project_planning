@@ -1,0 +1,43 @@
+{
+  "i": 44,
+  "intent": {
+    "sequence": 45,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/parameters",
+    "detailRoute": "/skills/samira_p/parameters/style_move_speed_ratio_per_grade",
+    "skillKey": "samira_p",
+    "kind": "parameters",
+    "stableKey": "style_move_speed_ratio_per_grade",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "style_move_speed_ratio_per_grade",
+      "name": "每评价等级移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.027499999850988388,
+        "2": 0.027499999850988388,
+        "3": 0.027499999850988388,
+        "4": 0.027499999850988388,
+        "5": 0.027499999850988388,
+        "6": 0.029999999795109034,
+        "7": 0.029999999795109034,
+        "8": 0.029999999795109034,
+        "9": 0.029999999795109034,
+        "10": 0.029999999795109034,
+        "11": 0.03249999973922968,
+        "12": 0.03249999973922968,
+        "13": 0.03249999973922968,
+        "14": 0.03249999973922968,
+        "15": 0.03249999973922968,
+        "16": 0.034999999683350325,
+        "17": 0.034999999683350325,
+        "18": 0.034999999683350325
+      },
+      "description": "MSBonusNew每评价等级增加移动速度比例；1级0.0275，6/11/16级各增加0.0025，按角色等级展开。",
+      "sortOrder": 40
+    }
+  }
+}

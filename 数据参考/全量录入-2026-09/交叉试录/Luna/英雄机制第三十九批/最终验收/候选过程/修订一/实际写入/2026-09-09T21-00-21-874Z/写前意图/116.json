@@ -1,0 +1,24 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 116,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_e/parameters",
+    "detailRoute": "/skills/nilah_e/parameters/charge_segment_cooldown_ms",
+    "skillKey": "nilah_e",
+    "kind": "parameters",
+    "stableKey": "charge_segment_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charge_segment_cooldown_ms",
+      "name": "纵情逐流充能段冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "客户端cooldownTime=0.5秒对应段冷却，转换为500毫秒；不把段冷却当整轮充能恢复时间。",
+      "sortOrder": 20
+    }
+  }
+}

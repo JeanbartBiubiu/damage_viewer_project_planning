@@ -1,0 +1,30 @@
+{
+  "i": 15,
+  "intent": {
+    "sequence": 16,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_w/parameters",
+    "detailRoute": "/skills/urgot_w/parameters/ad_ratio",
+    "skillKey": "urgot_w",
+    "kind": "parameters",
+    "stableKey": "ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ad_ratio",
+      "name": "净除每发总攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.20000000298023224,
+        "2": 0.23499999940395355,
+        "3": 0.27000001072883606,
+        "4": 0.3050000071525574,
+        "5": 0.3400000035762787
+      },
+      "description": "DamagePerShot的ADRatioTT取索引1至5；mStat=2未给formula，读取来源总攻击力。",
+      "sortOrder": 30
+    }
+  }
+}

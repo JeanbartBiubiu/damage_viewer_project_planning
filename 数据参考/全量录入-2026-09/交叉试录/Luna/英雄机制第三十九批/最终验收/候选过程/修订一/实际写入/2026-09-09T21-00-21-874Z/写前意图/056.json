@@ -1,0 +1,34 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/formulas",
+    "detailRoute": "/skills/samira_p/formulas/style_move_speed_ratio_total",
+    "skillKey": "samira_p",
+    "kind": "formulas",
+    "stableKey": "style_move_speed_ratio_total",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "style_move_speed_ratio_total",
+      "name": "当前评价总移动速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "style_move_speed_ratio_per_grade"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_style_grade_count"
+          }
+        ]
+      },
+      "description": "每评价等级移动速度比例×当前评价等级；应用事件和衰减计时留待运行层。",
+      "sortOrder": 30
+    }
+  }
+}

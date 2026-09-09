@@ -1,0 +1,24 @@
+{
+  "i": 27,
+  "intent": {
+    "sequence": 28,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_e/parameters",
+    "detailRoute": "/skills/urgot_e/parameters/shield_bonus_health_ratio",
+    "skillKey": "urgot_e",
+    "kind": "parameters",
+    "stableKey": "shield_bonus_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_bonus_health_ratio",
+      "name": "鄙弃护盾来源额外生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.13500000536441803,
+      "levelValues": null,
+      "description": "ETotalShieldHealth的mStat=12、mStatFormula=2，依据当前窄证读取来源额外生命；索引1起为0.135。",
+      "sortOrder": 30
+    }
+  }
+}

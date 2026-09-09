@@ -1,0 +1,24 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_p/parameters",
+    "detailRoute": "/skills/urgot_p/parameters/leg_warning_time_ms",
+    "skillKey": "urgot_p",
+    "kind": "parameters",
+    "stableKey": "leg_warning_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "leg_warning_time_ms",
+      "name": "逐腿预警时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "当前LegWarningTime=2.5秒，转换为2500毫秒；只记录预警窗口，不创建未经证实的周期触发。",
+      "sortOrder": 40
+    }
+  }
+}

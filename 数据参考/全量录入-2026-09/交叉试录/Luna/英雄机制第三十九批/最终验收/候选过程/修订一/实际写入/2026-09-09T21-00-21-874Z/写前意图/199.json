@@ -1,0 +1,44 @@
+{
+  "i": 198,
+  "intent": {
+    "sequence": 199,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_e/formulas",
+    "detailRoute": "/skills/smolder_e/formulas/attack_count_unrounded",
+    "skillKey": "smolder_e",
+    "kind": "formulas",
+    "stableKey": "attack_count_unrounded",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "attack_count_unrounded",
+      "name": "扑棱未取整弹数原式",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_attack_count"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_count_stack_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_stack_count"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalNumberOfAttacks=5+0.01×层数；该式只作为来源原式记录，实际次数必须由独立整数输入承接向下取整。",
+      "sortOrder": 10
+    }
+  }
+}

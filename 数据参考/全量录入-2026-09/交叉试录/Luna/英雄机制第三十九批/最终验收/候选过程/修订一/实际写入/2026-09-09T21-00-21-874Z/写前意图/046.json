@@ -1,0 +1,24 @@
+{
+  "i": 45,
+  "intent": {
+    "sequence": 46,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/parameters",
+    "detailRoute": "/skills/samira_p/parameters/melee_base_damage_level1",
+    "skillKey": "samira_p",
+    "kind": "parameters",
+    "stableKey": "melee_base_damage_level1",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "melee_base_damage_level1",
+      "name": "近战额外伤害角色等级起点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "BonusMeleeDamage的mLevel1Value=2；只保留原树起点。",
+      "sortOrder": 50
+    }
+  }
+}

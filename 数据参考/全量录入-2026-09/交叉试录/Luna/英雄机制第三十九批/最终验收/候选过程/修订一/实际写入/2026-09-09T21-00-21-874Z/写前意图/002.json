@@ -1,0 +1,43 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_p/parameters",
+    "detailRoute": "/skills/urgot_p/parameters/leg_attack_ad_ratio",
+    "skillKey": "urgot_p",
+    "kind": "parameters",
+    "stableKey": "leg_attack_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "leg_attack_ad_ratio",
+      "name": "逐腿总攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.4000000059604645,
+        "2": 0.4000000059604645,
+        "3": 0.4000000059604645,
+        "4": 0.4000000059604645,
+        "5": 0.4000000059604645,
+        "6": 0.5200000032782555,
+        "7": 0.5200000032782555,
+        "8": 0.5200000032782555,
+        "9": 0.6400000005960464,
+        "10": 0.6400000005960464,
+        "11": 0.7599999979138374,
+        "12": 0.7599999979138374,
+        "13": 0.8799999952316284,
+        "14": 0.8799999952316284,
+        "15": 0.9999999925494194,
+        "16": 0.9999999925494194,
+        "17": 0.9999999925494194,
+        "18": 0.9999999925494194
+      },
+      "description": "ADDamage的mStat=2且未给mStatFormula，按当前窄证读取来源总攻击力；原树断点为1级0.4，6/9/11/13/15级各增加0.12。",
+      "sortOrder": 20
+    }
+  }
+}

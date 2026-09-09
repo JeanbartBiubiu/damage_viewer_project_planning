@@ -1,0 +1,46 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/formulas",
+    "detailRoute": "/skills/samira_p/formulas/melee_bonus_damage_base",
+    "skillKey": "samira_p",
+    "kind": "formulas",
+    "stableKey": "melee_bonus_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "melee_bonus_damage_base",
+      "name": "近战额外伤害基础完整式",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "melee_base_damage_at_character_level"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "melee_ad_ratio_at_character_level"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "BonusMeleeDamage=角色等级基础部分+角色等级总攻击力比例×来源总攻击力；已损生命曲线的读取阶段不猜。",
+      "sortOrder": 10
+    }
+  }
+}

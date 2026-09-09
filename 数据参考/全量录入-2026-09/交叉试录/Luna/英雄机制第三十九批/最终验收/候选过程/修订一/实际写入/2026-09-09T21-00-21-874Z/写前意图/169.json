@@ -1,0 +1,24 @@
+{
+  "i": 168,
+  "intent": {
+    "sequence": 169,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/parameters",
+    "detailRoute": "/skills/smolder_q/parameters/percent_points_to_ratio",
+    "skillKey": "smolder_q",
+    "kind": "parameters",
+    "stableKey": "percent_points_to_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_points_to_ratio",
+      "name": "百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.009999999776482582,
+      "levelValues": null,
+      "description": "Tier3_ExecuteThreshold根mMultiplier=0.01；只用于6.5×0.01处决阈值，不套到灼烧原始比例。",
+      "sortOrder": 130
+    }
+  }
+}

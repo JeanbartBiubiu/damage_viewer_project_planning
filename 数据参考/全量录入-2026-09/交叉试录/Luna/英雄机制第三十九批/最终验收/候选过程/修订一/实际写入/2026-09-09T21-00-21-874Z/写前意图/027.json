@@ -1,0 +1,24 @@
+{
+  "i": 26,
+  "intent": {
+    "sequence": 27,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_e/parameters",
+    "detailRoute": "/skills/urgot_e/parameters/shield_bonus_ad_ratio",
+    "skillKey": "urgot_e",
+    "kind": "parameters",
+    "stableKey": "shield_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_bonus_ad_ratio",
+      "name": "鄙弃护盾额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.350000023841858,
+      "levelValues": null,
+      "description": "ETotalShieldHealth的mStat=2、mStatFormula=2，读取来源额外攻击力；索引1起固定1.35，索引0=1.5不采用。",
+      "sortOrder": 20
+    }
+  }
+}

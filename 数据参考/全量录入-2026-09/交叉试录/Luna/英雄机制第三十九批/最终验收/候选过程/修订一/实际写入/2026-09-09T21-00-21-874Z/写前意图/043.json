@@ -1,0 +1,24 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/parameters",
+    "detailRoute": "/skills/samira_p/parameters/style_decay_duration_ms",
+    "skillKey": "samira_p",
+    "kind": "parameters",
+    "stableKey": "style_decay_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "style_decay_duration_ms",
+      "name": "评价衰减持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6000,
+      "levelValues": null,
+      "description": "DurationTOOLTIP=6秒，转换为6000毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

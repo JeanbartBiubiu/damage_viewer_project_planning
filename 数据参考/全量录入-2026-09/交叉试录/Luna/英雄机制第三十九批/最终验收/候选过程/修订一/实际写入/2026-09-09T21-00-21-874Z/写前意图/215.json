@@ -1,0 +1,68 @@
+{
+  "i": 214,
+  "intent": {
+    "sequence": 215,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_r/formulas",
+    "detailRoute": "/skills/smolder_r/formulas/self_healing_amount",
+    "skillKey": "smolder_r",
+    "kind": "formulas",
+    "stableKey": "self_healing_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_healing_amount",
+      "name": "妈----！命中自身治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "MomHealCalc=基础治疗+0.5×来源额外攻击力+0.75×来源总法强；只在龙母命中斯莫德资格成立时消费。",
+      "sortOrder": 30
+    }
+  }
+}

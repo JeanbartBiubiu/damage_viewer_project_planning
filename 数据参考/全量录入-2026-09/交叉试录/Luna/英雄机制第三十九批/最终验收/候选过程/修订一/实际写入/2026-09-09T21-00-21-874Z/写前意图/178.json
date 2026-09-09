@@ -1,0 +1,34 @@
+{
+  "i": 177,
+  "intent": {
+    "sequence": 178,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/formulas",
+    "detailRoute": "/skills/smolder_q/formulas/tier3_execute_health_threshold_ratio",
+    "skillKey": "smolder_q",
+    "kind": "formulas",
+    "stableKey": "tier3_execute_health_threshold_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "tier3_execute_health_threshold_ratio",
+      "name": "超级灼热龙息第三阶段处决生命比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_points_to_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "execute_threshold_start_percent_points"
+          }
+        ]
+      },
+      "description": "Tier3_ExecuteThreshold=0.01×6.5=0.065；结果为6.5%生命阈值。",
+      "sortOrder": 40
+    }
+  }
+}

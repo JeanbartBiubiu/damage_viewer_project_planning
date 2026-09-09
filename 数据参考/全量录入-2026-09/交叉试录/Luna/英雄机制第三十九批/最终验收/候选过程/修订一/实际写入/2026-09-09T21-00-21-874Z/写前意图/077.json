@@ -1,0 +1,24 @@
+{
+  "i": 76,
+  "intent": {
+    "sequence": 77,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_e/parameters",
+    "detailRoute": "/skills/samira_e/parameters/champion_kill_reset_window_ms",
+    "skillKey": "samira_e",
+    "kind": "parameters",
+    "stableKey": "champion_kill_reset_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "champion_kill_reset_window_ms",
+      "name": "狂飙英雄击杀重置窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "当前正文明确击杀英雄可在3秒内重置资格，保存为3000毫秒；事件时点待接线。",
+      "sortOrder": 50
+    }
+  }
+}

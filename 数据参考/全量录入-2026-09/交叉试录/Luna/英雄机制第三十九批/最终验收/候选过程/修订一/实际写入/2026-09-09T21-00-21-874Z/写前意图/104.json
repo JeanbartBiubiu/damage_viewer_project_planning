@@ -1,0 +1,24 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_q/parameters",
+    "detailRoute": "/skills/nilah_q/parameters/critical_hit_eligible",
+    "skillKey": "nilah_q",
+    "kind": "parameters",
+    "stableKey": "critical_hit_eligible",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_hit_eligible",
+      "name": "游刃万变可暴击",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前主树含完整暴击属性乘区；实际暴击触发由运行层决定。",
+      "sortOrder": 140
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "i": 88,
+  "intent": {
+    "sequence": 89,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_r/formulas",
+    "detailRoute": "/skills/samira_r/formulas/physical_damage_per_shot",
+    "skillKey": "samira_r",
+    "kind": "formulas",
+    "stableKey": "physical_damage_per_shot",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage_per_shot",
+      "name": "炼狱扳机单发物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DamageCalc=基础伤害+0.3×来源总攻击力；一对一只计算当前目标的每发伤害。",
+      "sortOrder": 10
+    }
+  }
+}

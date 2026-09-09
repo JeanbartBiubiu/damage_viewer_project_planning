@@ -1,0 +1,24 @@
+{
+  "i": 157,
+  "intent": {
+    "sequence": 158,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/parameters",
+    "detailRoute": "/skills/smolder_q/parameters/bonus_ad_ratio",
+    "skillKey": "smolder_q",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "超级灼热龙息额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.2999999523162842,
+      "levelValues": null,
+      "description": "TotalDamage的mStat=2、mStatFormula=2且ADRatio=1.3，读取来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

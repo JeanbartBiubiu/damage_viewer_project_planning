@@ -1,0 +1,24 @@
+{
+  "i": 173,
+  "intent": {
+    "sequence": 174,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/parameters",
+    "detailRoute": "/skills/smolder_q/parameters/crit_multiplier_base",
+    "skillKey": "smolder_q",
+    "kind": "parameters",
+    "stableKey": "crit_multiplier_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_multiplier_base",
+      "name": "暴击倍率基准",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "TotalDamage根mMultiplier第一项为Number=1，用于完整倍率结构。",
+      "sortOrder": 180
+    }
+  }
+}

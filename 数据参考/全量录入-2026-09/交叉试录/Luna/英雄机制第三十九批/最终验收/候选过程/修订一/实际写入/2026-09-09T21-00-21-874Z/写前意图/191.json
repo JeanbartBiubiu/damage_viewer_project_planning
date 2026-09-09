@@ -1,0 +1,24 @@
+{
+  "i": 190,
+  "intent": {
+    "sequence": 191,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_e/parameters",
+    "detailRoute": "/skills/smolder_e/parameters/base_attack_count",
+    "skillKey": "smolder_e",
+    "kind": "parameters",
+    "stableKey": "base_attack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_attack_count",
+      "name": "扑棱基础弹数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "TotalNumberOfAttacks基础值=5。",
+      "sortOrder": 30
+    }
+  }
+}

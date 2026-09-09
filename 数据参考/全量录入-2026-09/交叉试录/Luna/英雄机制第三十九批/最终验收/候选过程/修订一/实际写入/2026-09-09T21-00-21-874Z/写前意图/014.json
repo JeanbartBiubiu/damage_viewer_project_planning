@@ -1,0 +1,24 @@
+{
+  "i": 13,
+  "intent": {
+    "sequence": 14,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_w/parameters",
+    "detailRoute": "/skills/urgot_w/parameters/attack_frequency_per_second",
+    "skillKey": "urgot_w",
+    "kind": "parameters",
+    "stableKey": "attack_frequency_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_frequency_per_second",
+      "name": "净除每秒攻击次数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "WAttacksPerSecond=3；只保存固定射速，不把它自动转成周期过程。",
+      "sortOrder": 10
+    }
+  }
+}

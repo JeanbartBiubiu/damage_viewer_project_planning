@@ -1,0 +1,24 @@
+{
+  "i": 19,
+  "intent": {
+    "sequence": 20,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_w/parameters",
+    "detailRoute": "/skills/urgot_w/parameters/finite_duration_ms",
+    "skillKey": "urgot_w",
+    "kind": "parameters",
+    "stableKey": "finite_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "finite_duration_ms",
+      "name": "净除有限持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前正文和原始Duration说明等级1至4为4秒；本参数固定保存有限窗口4000毫秒，等级5的25000是开关占位，不能写入有限等级映射或转换成25000000毫秒。",
+      "sortOrder": 70
+    }
+  }
+}

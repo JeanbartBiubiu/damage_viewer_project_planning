@@ -1,0 +1,46 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_q/formulas",
+    "detailRoute": "/skills/samira_q/formulas/physical_damage",
+    "skillKey": "samira_q",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "交火单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DamageCalc=BaseDamage+1.1×来源总攻击力；近战和远程共用该主伤害式。",
+      "sortOrder": 10
+    }
+  }
+}

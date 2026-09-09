@@ -1,0 +1,631 @@
+{
+  "generatedAt": "2026-09-09T20:42:10.368Z",
+  "batch": "英雄机制第三十九批",
+  "revision": "hero39-source-v1",
+  "status": "第39批范围与来源选择；未调用业务接口",
+  "sourceBindingSha256": "14f853be25cd3ec6b9ac75b64c99dc1941802cb61357a19c3320c9f636aa2acc",
+  "sourceRangeSha256": "ab8fe728e8480e635938db48e0bc5f81b286470f813a051767e72569f66816dd",
+  "sourceReviewVerdict": "READY",
+  "skills": {
+    "urgot_p": {
+      "recordableParameters": [
+        "leg_attack_cooldown_ms",
+        "leg_attack_ad_ratio",
+        "leg_attack_target_max_health_ratio",
+        "leg_warning_time_ms",
+        "leg_count",
+        "actual_target_max_health"
+      ],
+      "recordableFormulas": [
+        "leg_physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "MonsterCap",
+          "reason": "仅野怪上限，不进入唯一敌方英雄范围。"
+        },
+        {
+          "item": "TriggerRange/CastRange与附近其他敌人恐惧",
+          "reason": "范围或额外目标专用分支；不扩大到一对一主体。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "逐腿触发时点和生命读取阶段",
+          "reason": "保留六腿、冷却和完整伤害式，攻击命中事件与生命池读取阶段待运行层接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "urgot_q": {
+      "recordableParameters": [
+        "base_damage",
+        "ad_ratio",
+        "slow_duration_ms",
+        "slow_percent_points",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "额外爆炸目标",
+          "reason": "Q的额外爆炸目标不属于本批唯一敌方英雄主命中。"
+        }
+      ],
+      "pending": [],
+      "currentSubjectProtected": true
+    },
+    "urgot_w": {
+      "recordableParameters": [
+        "attack_frequency_per_second",
+        "base_damage_per_shot",
+        "ad_ratio",
+        "on_hit_effectiveness_ratio",
+        "self_move_speed_reduction_points",
+        "slow_resist_percent_points",
+        "finite_duration_ms",
+        "max_rank_toggle_mode",
+        "cannot_crit",
+        "mark_duration_ms",
+        "recast_lockout_ms"
+      ],
+      "recordableFormulas": [
+        "damage_per_shot"
+      ],
+      "excluded": [
+        {
+          "item": "MinionMinimumDamage",
+          "reason": "仅小兵最低伤害修正，不进入一对一英雄请求。"
+        },
+        {
+          "item": "额外目标与小兵碰撞",
+          "reason": "额外敌人或兵线限定分支；当前单敌射击保留。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "开关攻击间隔与逐腿触发",
+          "reason": "射速、攻击特效比例和满级开关事实已保存，实际间隔、逐腿触发事件待运行层接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "urgot_e": {
+      "recordableParameters": [
+        "shield_base",
+        "shield_bonus_ad_ratio",
+        "shield_bonus_health_ratio",
+        "shield_duration_ms",
+        "damage_base",
+        "damage_bonus_ad_ratio",
+        "stun_duration_ms"
+      ],
+      "recordableFormulas": [
+        "shield_value",
+        "physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "额外碰撞目标与践踏非英雄",
+          "reason": "只保留当前一对一冲撞主体；额外目标和兵野分支不写入。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "施法时间",
+          "reason": "spellCastTime=0与mCastTime=0.45秒冲突，不选零值或另一字段作为当前施法时间。"
+        },
+        {
+          "item": "护盾与晕眩应用时点",
+          "reason": "数值和持续时间已保留，命中资格、效果时序待运行层接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "urgot_r": {
+      "recordableParameters": [
+        "damage_base",
+        "damage_bonus_ad_ratio",
+        "execute_health_threshold_percent_points",
+        "slow_duration_ms",
+        "slow_per_missing_health_percent_points",
+        "max_slow_percent_points"
+      ],
+      "recordableFormulas": [
+        "physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "附近敌人的恐惧与恐惧半径",
+          "reason": "RFearDuration/RFearRadius只服务附近额外敌人，本批唯一敌方英雄不写入。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "施法时间与自动再施放",
+          "reason": "spellCastTime=0与mCastTime=0.5秒冲突；自动处决再施放时点也未由当前树证明。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "samira_p": {
+      "recordableParameters": [
+        "style_grade_count",
+        "style_decay_duration_ms",
+        "queen_max_dash_range_points",
+        "style_move_speed_ratio_per_grade",
+        "melee_base_damage_level1",
+        "melee_base_damage_per_character_level",
+        "melee_base_damage_at_character_level",
+        "melee_ad_ratio_min",
+        "melee_ad_ratio_max",
+        "melee_ad_ratio_at_character_level",
+        "actual_style_grade_count",
+        "melee_missing_health_max_multiplier"
+      ],
+      "recordableFormulas": [
+        "melee_bonus_damage_base",
+        "melee_bonus_damage_max",
+        "style_move_speed_ratio_total"
+      ],
+      "excluded": [],
+      "pending": [
+        {
+          "item": "近战已损生命中间曲线",
+          "reason": "当前来源只明确最高端点×2，未猜中间读取阶段。"
+        },
+        {
+          "item": "评价触发事件与定身突进时点",
+          "reason": "保留评价输入和突进距离，事件资格和时序待运行层接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "samira_q": {
+      "recordableParameters": [
+        "base_damage",
+        "ad_ratio",
+        "crit_damage_modifier",
+        "lifesteal_effectiveness_ratio",
+        "critical_hit_eligible",
+        "actual_crit_multiplier",
+        "cast_time_ms",
+        "critical_multiplier_base"
+      ],
+      "recordableFormulas": [
+        "physical_damage",
+        "critical_physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "冲刺沿途额外敌人",
+          "reason": "只保留当前一对一目标命中，沿途额外目标分支排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "暴击实际触发与mStat9归属",
+          "reason": "保留暴击完整倍率树，实际触发资格和倍率输入待运行层提供。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "samira_w": {
+      "recordableParameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "slash_duration_ms",
+        "same_target_hit_count",
+        "projectile_interception_enabled"
+      ],
+      "recordableFormulas": [
+        "physical_damage_per_hit"
+      ],
+      "excluded": [
+        {
+          "item": "额外敌人",
+          "reason": "范围只保留同一敌人的两段命中。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "施法时间",
+          "reason": "mCastTime=0.01与spellCastTime=0.25秒冲突，不选择任一字段入候选。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "samira_e": {
+      "recordableParameters": [
+        "damage_base",
+        "bonus_attack_speed_ratio",
+        "attack_speed_duration_ms",
+        "dash_damage_bonus_ad_ratio",
+        "champion_kill_reset_window_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "dash_magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "沿途额外敌人与建筑伤害",
+          "reason": "一对一只保留当前目标冲刺命中。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "英雄击杀重置事件",
+          "reason": "3秒窗口数值明确，击杀资格和重置时点待运行层接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "samira_r": {
+      "recordableParameters": [
+        "base_damage",
+        "ad_ratio",
+        "lifesteal_effectiveness_ratio",
+        "duration_ms",
+        "shot_count",
+        "required_style_grade",
+        "critical_hit_eligible",
+        "actual_crit_multiplier",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "physical_damage_per_shot",
+        "critical_physical_damage_per_shot"
+      ],
+      "excluded": [
+        {
+          "item": "小兵25%伤害与周围额外敌人",
+          "reason": "兵线专用修正及额外目标不进入本批一对一请求。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "S评价消耗与10发时点",
+          "reason": "评价输入、持续和次数已保存；消耗及每发事件时点待运行层接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "nilah_p": {
+      "recordableParameters": [],
+      "recordableFormulas": [],
+      "excluded": [
+        {
+          "item": "P整槽",
+          "reason": "本轮明确排除补刀经验、经验分享与第三友方治疗护盾收益；不将友方技能收益改写成自身无条件收益。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "友方治疗护盾放大",
+          "reason": "范围外分支保留来源文本，未创建参数或效果。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "nilah_q": {
+      "recordableParameters": [
+        "base_damage",
+        "ad_ratio",
+        "crit_scaling",
+        "crit_heal_scalar",
+        "crit_armor_pen_scalar",
+        "buff_duration_ms",
+        "range_increase_points",
+        "overheal_shield_duration_ms",
+        "attack_speed_interpolation_min_percent_points",
+        "attack_speed_interpolation_max_percent_points",
+        "actual_attack_speed_percent_points",
+        "actual_mstat8_value",
+        "actual_mstat9_value",
+        "critical_hit_eligible",
+        "critical_multiplier_base",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "physical_damage_with_crit_scaling",
+        "critical_lifesteal_ratio",
+        "critical_armor_penetration_ratio"
+      ],
+      "excluded": [
+        {
+          "item": "小兵/野怪修正与低血小兵处决",
+          "reason": "MinionMod、MonsterMod和小兵专用资格排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "mStat8/mStat9、攻击速度等级曲线",
+          "reason": "保留原始运行输入和等级端点，未猜属性枚举或中间曲线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "nilah_w": {
+      "recordableParameters": [
+        "self_move_speed_ratio",
+        "self_duration_ms",
+        "magic_damage_reduction_ratio",
+        "self_basic_attack_dodge_enabled",
+        "self_ghost_enabled"
+      ],
+      "recordableFormulas": [],
+      "excluded": [
+        {
+          "item": "友方分享持续与接触范围",
+          "reason": "ShareBaseDuration、ExtensionBonus和AreaTriggerSize属于第三友方/额外范围分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "施法时间与冷却不消耗标志",
+          "reason": "mCastTime=0.013与spellCastTime=0冲突；mDoesNotConsumeCooldown与冷却表并存，均待系统语义核对。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "nilah_e": {
+      "recordableParameters": [
+        "charge_count",
+        "charge_segment_cooldown_ms",
+        "damage_base",
+        "bonus_ad_ratio",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "dash_physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "途经额外敌人",
+          "reason": "本批只保留当前目标冲刺命中。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "两次充能的整轮恢复时点",
+          "reason": "充能次数和0.5秒段冷却分开保存，整轮恢复与事件时点待运行层接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "nilah_r": {
+      "recordableParameters": [
+        "duration_ms",
+        "damage_base",
+        "damage_bonus_ad_ratio",
+        "damage_per_tick_base",
+        "damage_per_tick_bonus_ad_ratio",
+        "display_sustained_damage_multiplier",
+        "source_num_ticks",
+        "tick_delay_ms",
+        "slow_percent_points",
+        "self_healing_base_ratio",
+        "self_healing_mstat8_ratio",
+        "actual_mstat8_value",
+        "actual_q_crit_lifesteal_ratio",
+        "actual_current_enemy_pre_mitigation_damage",
+        "overheal_shield_duration_ms",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "burst_physical_damage",
+        "damage_per_tick",
+        "tooltip_sustained_damage",
+        "self_healing_ratio",
+        "self_healing_amount"
+      ],
+      "excluded": [
+        {
+          "item": "附近友方治疗和非英雄10%治疗",
+          "reason": "纯额外友方或非英雄分支不进入本批。"
+        },
+        {
+          "item": "ShieldCalc",
+          "reason": "当前正文未消费ShieldCalc，不能把65/115/165+额外攻击力式当作过量治疗护盾量。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "NumTicks与实际跳时序",
+          "reason": "原树6跳与正文4倍展示式冲突；保留二者来源，实际跳数由运行层核对。"
+        },
+        {
+          "item": "治疗阶段与护盾应用",
+          "reason": "保留自身治疗比例、折前伤害输入和护盾持续，应用阶段及过量金额待接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "smolder_p": {
+      "recordableParameters": [
+        "q_damage_per_stack_ratio",
+        "w_damage_per_stack",
+        "e_damage_per_stack",
+        "e_stacks_per_attack",
+        "q_crit_ratio",
+        "e_crit_ratio",
+        "actual_stack_count",
+        "actual_mstat8_value",
+        "actual_mstat9_value",
+        "crit_multiplier_base",
+        "hero_hit_stack_gain",
+        "q_kill_self_enemy_stack_gain"
+      ],
+      "recordableFormulas": [
+        "q_bonus_magic_damage",
+        "w_bonus_magic_damage",
+        "e_bonus_magic_damage_per_hit"
+      ],
+      "excluded": [
+        {
+          "item": "兵野叠层来源",
+          "reason": "小兵和野怪来源排除；已有层数仍作为战前输入保留。"
+        },
+        {
+          "item": "未消费扩展阈值占位",
+          "reason": "Tier3_Breakpoint与Q_tier3_bonus_burn不在当前P计算树，且扩展文本未启用，不进入请求计划。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "叠层事件与mStat8/mStat9属性",
+          "reason": "保留明确英雄命中和自身Q击杀资格，实际事件与原始属性输入待运行层提供。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "smolder_q": {
+      "recordableParameters": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "crit_ratio",
+        "actual_mstat8_value",
+        "actual_mstat9_value",
+        "tier1_stack_threshold",
+        "tier2_stack_threshold",
+        "tier3_stack_threshold",
+        "burn_duration_ms",
+        "burn_bonus_ad_ratio",
+        "burn_stack_ratio",
+        "execute_threshold_start_percent_points",
+        "percent_points_to_ratio",
+        "mana_restore",
+        "main_hit_count_per_target",
+        "actual_stack_count",
+        "actual_target_max_health",
+        "crit_multiplier_base"
+      ],
+      "recordableFormulas": [
+        "physical_damage_with_crit_scaling",
+        "tier3_burn_max_health_ratio",
+        "tier3_burn_true_damage",
+        "tier3_execute_health_threshold_ratio"
+      ],
+      "excluded": [
+        {
+          "item": "Tier2后侧爆炸和周围额外敌人",
+          "reason": "额外目标专用分支不进入当前一对一请求；层数阈值仍保留。"
+        },
+        {
+          "item": "Tier3_MonsterCap与minionmod",
+          "reason": "野怪上限和兵线修正排除。"
+        },
+        {
+          "item": "Tier3_TrueDamagePercent",
+          "reason": "当前Tier3_Burn树未消费该1%字段，按原树证据留在来源摘要。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "暴击触发和层数阶段事件",
+          "reason": "mStat8/mStat9、当前层数、目标最大生命均无默认，资格与事件待运行层接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "smolder_w": {
+      "recordableParameters": [
+        "initial_damage_base",
+        "initial_bonus_ad_ratio",
+        "explosion_damage_base",
+        "explosion_bonus_ad_ratio",
+        "explosion_ap_ratio",
+        "slow_percent_points",
+        "slow_duration_ms",
+        "same_target_direct_and_explosion"
+      ],
+      "recordableFormulas": [
+        "initial_physical_damage",
+        "hero_explosion_physical_damage"
+      ],
+      "excluded": [
+        {
+          "item": "后续爆炸75%修正与小兵分支",
+          "reason": "扩展多目标/小兵专用修正不进入当前同一敌人主直击+英雄爆炸。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "施法时间",
+          "reason": "mCastTime=0.35与spellCastTime=0冲突，不选择任一字段。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "smolder_e": {
+      "recordableParameters": [
+        "flight_duration_ms",
+        "self_move_speed_ratio",
+        "base_attack_count",
+        "attack_count_stack_ratio",
+        "actual_stack_count",
+        "actual_attack_count_integer",
+        "damage_base",
+        "damage_ad_ratio",
+        "same_target_repeated_hit",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "attack_count_unrounded",
+        "physical_damage_per_hit"
+      ],
+      "excluded": [
+        {
+          "item": "非英雄优先目标与额外目标",
+          "reason": "只保留当前最低生命敌方英雄的一对一重复命中。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "弹数取整和飞行命中时点",
+          "reason": "保留未取整原式与无默认整数结果，实际向下取整和命中时点待运行层接线。"
+        }
+      ],
+      "currentSubjectProtected": true
+    },
+    "smolder_r": {
+      "recordableParameters": [
+        "damage_base",
+        "bonus_ad_ratio",
+        "ap_ratio",
+        "center_damage_multiplier",
+        "heal_base",
+        "heal_bonus_ad_ratio",
+        "heal_ap_ratio",
+        "slow_percent_points",
+        "slow_duration_ms",
+        "center_replaces_outer_damage",
+        "self_heal_if_mom_hits_smolder",
+        "cast_time_ms"
+      ],
+      "recordableFormulas": [
+        "outer_physical_damage",
+        "center_physical_damage",
+        "self_healing_amount"
+      ],
+      "excluded": [
+        {
+          "item": "小兵50%修正与声音/视觉字段",
+          "reason": "兵线专用修正、声音和视觉参数不进入当前一对一战斗请求。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "冷却不消耗标志",
+          "reason": "mDoesNotConsumeCooldown与冷却表并存，实际系统语义待核；未以任一侧覆盖另一侧。"
+        }
+      ],
+      "currentSubjectProtected": true
+    }
+  },
+  "noApiCalls": true,
+  "apiWrites": 0
+}
