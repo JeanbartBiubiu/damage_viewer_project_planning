@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T15:02:41.863Z",
+  "generatedAt": "2026-09-09T15:32:42.596Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -2827,6 +2827,51 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十四批/页面验收.json",
         "commit": "2a0879002c50b39af60fffb8f14d006460ea43a1"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroTwentySeventhBatch": {
+      "skills": [
+        "gragas_p",
+        "gragas_q",
+        "gragas_w",
+        "gragas_e",
+        "gragas_r",
+        "hecarim_p",
+        "hecarim_q",
+        "hecarim_w",
+        "hecarim_e",
+        "hecarim_r"
+      ],
+      "parameters": 85,
+      "formulas": 18,
+      "effects": 10,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "reusedParameters": 15,
+      "created": 98,
+      "independentGets": 201,
+      "independentFormulaChecks": 18,
+      "independentSourceCases": 36,
+      "independentMissingRejects": 20,
+      "representativePages": 3,
+      "pageGets": 15,
+      "pageMathCases": 10,
+      "candidateSha256": "046f2671121092a906008b6b07909156a90d4bc241e18ce646fc12480f3303cf",
+      "planSha256": "562b5c4060671668e4fc9fd116e35cf6c8cedac8c1b96f3ffed9bc2535f57ae9",
+      "executor": "主负责人来源、候选、实录与页面，Luna Max独立评审和实际GET核算",
+      "status": "98新增、15公共参数复用；201独立GET、18实际公式严格核算、3代表页面通过。未知曲线、资格和事件继续处理。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/主负责人/英雄机制第二十七批/当前实录状态.json",
+        "sha256": "eb6605702378c7d380f8f229399b46c6bb221a4c8429aab8191b02027d5f95aa",
+        "commit": "ae14c7391e11b17255b05561cc0b6b270e2168cf"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/主负责人/英雄机制第二十七批/页面验收.json",
+        "commit": "ae14c7391e11b17255b05561cc0b6b270e2168cf"
       },
       "runtimeValidation": "未执行"
     }
