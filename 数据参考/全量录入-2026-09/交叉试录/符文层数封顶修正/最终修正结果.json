@@ -1,0 +1,78 @@
+{
+  "at": "2026-09-09T07:33:13.737Z",
+  "status": "COMPLETE",
+  "requestSha256": "9eedde869856eaf7fd119d4b1ad192fa4cba7509ddc6b9a8571ac7c261ee89d9",
+  "writeAttempts": 1,
+  "successfulPUT": 3,
+  "failedWrites": 0,
+  "unknownWrites": 0,
+  "replayedWrites": 0,
+  "newObjects": 0,
+  "deletedObjects": 0,
+  "affected": [
+    {
+      "skillKey": "rune_8010_passive",
+      "formulas": [
+        "adaptive_force_amount"
+      ],
+      "maxStacks": 12
+    },
+    {
+      "skillKey": "rune_8008_passive",
+      "formulas": [
+        "melee_attack_speed_amount",
+        "ranged_attack_speed_amount"
+      ],
+      "maxStacks": 6
+    }
+  ],
+  "validation": {
+    "applyGET": 118,
+    "independentGET": 56,
+    "actualMathGET": 10,
+    "afterApplyIndependentGET": 66,
+    "actualCases": 19,
+    "preservedStaticQualificationCases": 6,
+    "fullComponentRoutes": 44,
+    "protectedRoutes": 12,
+    "allPassed": true
+  },
+  "protection": "22参数、其余4公式、1独立效果、2技能主体及所有空动作集合保持；2技能/2符文代表图、2原图字节元数据和用途、2符文身份及挂载均保持。3公式仅表达式一处叶替换及批准说明改变；相关更新对象服务器修改时间正常变化。",
+  "importantBoundaries": [
+    "每层适应之力及远程来源仍须明确供值，没有选择未知等级或远程冲突数值。",
+    "19案例的缺值及整数/非负输入拒绝是独立求值器验证；不冒充业务战斗执行。",
+    "满层治疗/伤害资格仍未接线，保留6个静态资格案例，没有把未满层改成按比例生效。",
+    "公式列表仅校验原有摘要字段，完整表达式通过详情与另一次实际GET核验。",
+    "启动锁与三项完成锁已存在，禁止重放--apply；后续使用--verify只读。"
+  ],
+  "evidence": [
+    {
+      "file": "可审查请求.json",
+      "sha256": "9eedde869856eaf7fd119d4b1ad192fa4cba7509ddc6b9a8571ac7c261ee89d9"
+    },
+    {
+      "file": "主审批准.json",
+      "sha256": "dc3a6adda75af943a079bf344f29c00a78b11e9fbfca947613b2543761037013"
+    },
+    {
+      "file": "写前保护快照.json",
+      "sha256": "124abebc4ff66ad2e47c71157a24f380422d1326149b0d897d2ce41231d21c91"
+    },
+    {
+      "file": "apply-20260909073028502.json",
+      "sha256": "30f51d76b6ad912feb4d788a255caa37691fe5d506703c1275643dd623cc671e"
+    },
+    {
+      "file": "verify-20260909073057989.json",
+      "sha256": "55c43a5a2ddcd91420d8b7c7c101e82e64290371f84ea63ae2e26a7b6ffe18c0"
+    },
+    {
+      "file": "实值独立核算-20260909073211109.json",
+      "sha256": "9a814a3c2c16e82f758c64ca975ce065c2db2e7b4db4e794f7de318dce60a248"
+    },
+    {
+      "file": "独立审查/封顶审计结论.json",
+      "sha256": "5f27709c2eb8b3b425fec89ec99b5c48089b10baf086fcfd947d6bedc08a3241"
+    }
+  ]
+}

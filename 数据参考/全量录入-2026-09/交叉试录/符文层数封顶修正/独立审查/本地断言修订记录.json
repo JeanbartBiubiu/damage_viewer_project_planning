@@ -1,0 +1,7 @@
+{
+  "phase": "只读回读已完成后的本地分析",
+  "problem": "第一次字段扫描误将 import jakarta.validation.constraints 里的包名 constraints 当作参数范围字段。",
+  "correction": "只检查 public record 定义中的字段，保留精确真实 DTO 源码及散列。",
+  "apiReplayed": false,
+  "businessWrites": 0
+}

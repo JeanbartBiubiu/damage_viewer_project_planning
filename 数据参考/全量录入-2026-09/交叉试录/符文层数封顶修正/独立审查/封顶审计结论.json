@@ -1,0 +1,656 @@
+{
+  "at": "2026-09-09T07:23:44.305Z",
+  "status": "REVISE_3_FORMULAS",
+  "actualGET": 81,
+  "businessWrites": 0,
+  "formulaPatches": 3,
+  "affectedSkillIds": [
+    8010,
+    8008
+  ],
+  "checkedSkillIds": [
+    9103,
+    9104,
+    8010,
+    8008,
+    8226
+  ],
+  "findings": [
+    {
+      "id": 9103,
+      "verdict": "NO_CAP_CONSUMER",
+      "reason": "15上限、0.45%每层、85满层生命只存参数，未建公式/效果/自动规则；不是漏封顶或无条件85生命。"
+    },
+    {
+      "id": 9104,
+      "verdict": "BASE_BRANCH_CORRECT",
+      "reason": "只有明确无条件3%基础攻速SOURCE_INITIALIZED；1.5%每层与10上限尚未消费，不对基础3%添加虚构层数。"
+    },
+    {
+      "id": 8010,
+      "verdict": "ADD_CAP_TO_FORMULA",
+      "formulas": [
+        "adaptive_force_amount"
+      ],
+      "reason": "description约定0..12，但参数DTO与公式没有结构化范围校验；在预期域内算值正确，超域供值会得13层结果。按用户要求让上限进入表达式，其他满层治疗分支未自动接线。"
+    },
+    {
+      "id": 8008,
+      "verdict": "ADD_CAP_TO_FORMULA",
+      "formulas": [
+        "melee_attack_speed_amount",
+        "ranged_attack_speed_amount"
+      ],
+      "reason": "description约定0..6，实际公式仅乘层数；独立近战效果的fixedMaxValue也为空。没有重复乘层，增加MIN保护总值。远程来源冲突保持输入边界。"
+    },
+    {
+      "id": 8226,
+      "verdict": "NO_STACK_TOTAL_CONSUMER",
+      "reason": "10提升次数和250最大额外法力仅参数；没有按层累积公式或周期自动入口。独立满层回复公式未内置资格，不当作已自动无条件恢复。"
+    }
+  ],
+  "staticOnly": {
+    "id": 9923,
+    "reason": "本地候选有额外重置次数上限2，但当前候选没有消费该次数的公式/效果。未请求第六项实际GET，后续接计数时需核上限，不能把2当总攻击次数。"
+  },
+  "inputDomain": {
+    "intent": "0..max的已确认整数",
+    "currentEvidence": "实际valueType=INTEGER、valueMode=RUNTIME_INPUT、fixedValue/levelValues=null；上限仅在description，没有参数DTO范围字段；未找到本批真实生产者或绑定做校验。",
+    "implication": "不能声称已经实现机器校验，也不能把正常域内正确公式说成已发生战斗数值错误。此次修订属于明确上限的公式保障。"
+  },
+  "dtoEvidence": [
+    {
+      "file": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillparameter/SkillParameterCreateRequest.java",
+      "sha256": "f04a9cbb997aa96ef4b239d974b5878a2f6f75047fd1ff17fbe2d044bb507e22",
+      "source": "package xyz.game.datamanage.model.skillparameter;\n\nimport jakarta.validation.constraints.NotBlank;\nimport jakarta.validation.constraints.NotNull;\nimport jakarta.validation.constraints.Pattern;\nimport jakarta.validation.constraints.PositiveOrZero;\nimport jakarta.validation.constraints.Size;\nimport java.math.BigDecimal;\nimport java.util.Map;\n\npublic record SkillParameterCreateRequest(\n    @NotBlank(message = \"参数标识不能为空\")\n    @Pattern(regexp = \"^[a-z][a-z0-9_]{0,63}$\", message = \"参数标识格式不合法\")\n    String parameterKey,\n    @NotBlank(message = \"参数名称不能为空\")\n    @Size(max = 100, message = \"参数名称不能超过100个字符\")\n    String name,\n    @NotNull(message = \"值类型不能为空\")\n    SkillParameterValueType valueType,\n    @NotNull(message = \"取值方式不能为空\")\n    SkillParameterValueMode valueMode,\n    BigDecimal fixedValue,\n    Map<String, BigDecimal> levelValues,\n    @Size(max = 2000, message = \"说明不能超过2000个字符\")\n    String description,\n    @NotNull(message = \"排序不能为空\")\n    @PositiveOrZero(message = \"排序不能小于0\")\n    Integer sortOrder\n) {\n    public SkillParameterCreateRequest {\n        parameterKey = normalizeRequired(parameterKey);\n        name = normalizeRequired(name);\n        description = normalizeOptional(description);\n    }\n\n    private static String normalizeRequired(String value) {\n        return value == null ? null : value.trim();\n    }\n\n    private static String normalizeOptional(String value) {\n        if (value == null) {\n            return null;\n        }\n        String normalized = value.trim();\n        return normalized.isEmpty() ? null : normalized;\n    }\n}\n"
+    },
+    {
+      "file": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/model/skillparameter/SkillParameterUpdateRequest.java",
+      "sha256": "a37ac1ec64e4aca1a8b301f3a74bd46f1a4993b27e27896f3690b14b26cdea58",
+      "source": "package xyz.game.datamanage.model.skillparameter;\n\nimport jakarta.validation.constraints.NotBlank;\nimport jakarta.validation.constraints.NotNull;\nimport jakarta.validation.constraints.PositiveOrZero;\nimport jakarta.validation.constraints.Size;\nimport java.math.BigDecimal;\nimport java.util.Map;\n\npublic record SkillParameterUpdateRequest(\n    String parameterKey,\n    @NotBlank(message = \"参数名称不能为空\")\n    @Size(max = 100, message = \"参数名称不能超过100个字符\")\n    String name,\n    @NotNull(message = \"值类型不能为空\")\n    SkillParameterValueType valueType,\n    @NotNull(message = \"取值方式不能为空\")\n    SkillParameterValueMode valueMode,\n    BigDecimal fixedValue,\n    Map<String, BigDecimal> levelValues,\n    @Size(max = 2000, message = \"说明不能超过2000个字符\")\n    String description,\n    @NotNull(message = \"排序不能为空\")\n    @PositiveOrZero(message = \"排序不能小于0\")\n    Integer sortOrder\n) {\n    public SkillParameterUpdateRequest {\n        name = normalizeRequired(name);\n        description = normalizeOptional(description);\n    }\n\n    private static String normalizeRequired(String value) {\n        return value == null ? null : value.trim();\n    }\n\n    private static String normalizeOptional(String value) {\n        if (value == null) {\n            return null;\n        }\n        String normalized = value.trim();\n        return normalized.isEmpty() ? null : normalized;\n    }\n}\n"
+    }
+  ],
+  "checks": [
+    {
+      "name": "血统明确上限15",
+      "passed": true
+    },
+    {
+      "name": "欢欣明确上限10",
+      "passed": true
+    },
+    {
+      "name": "征服者明确上限12",
+      "passed": true
+    },
+    {
+      "name": "致命节奏明确上限6",
+      "passed": true
+    },
+    {
+      "name": "法力流真实上限250",
+      "passed": true
+    },
+    {
+      "name": "法力流合法提升次数10由明确值相除",
+      "passed": true
+    },
+    {
+      "name": "当前参数DTO无输入上下界字段 SkillParameterCreateRequest.java",
+      "passed": true
+    },
+    {
+      "name": "当前参数DTO无输入上下界字段 SkillParameterUpdateRequest.java",
+      "passed": true
+    },
+    {
+      "name": "8010实际层数无默认",
+      "passed": true
+    },
+    {
+      "name": "8010实际参数无结构化范围字段",
+      "passed": true
+    },
+    {
+      "name": "8008实际层数无默认",
+      "passed": true
+    },
+    {
+      "name": "8008实际参数无结构化范围字段",
+      "passed": true
+    },
+    {
+      "name": "血统无已消费层数公式",
+      "passed": true
+    },
+    {
+      "name": "血统满层生命尚无效果",
+      "passed": true
+    },
+    {
+      "name": "血统无规则",
+      "passed": true
+    },
+    {
+      "name": "欢欣只有基础3%效果",
+      "passed": true
+    },
+    {
+      "name": "欢欣只读基础比例",
+      "passed": true
+    },
+    {
+      "name": "欢欣基础值明确3%",
+      "passed": true
+    },
+    {
+      "name": "欢欣初始化只执行基础效果",
+      "passed": true
+    },
+    {
+      "name": "欢欣没有层数公式",
+      "passed": true
+    },
+    {
+      "name": "致命节奏只应用一份已算总值",
+      "passed": true
+    },
+    {
+      "name": "致命节奏总值共享并替换",
+      "passed": true
+    },
+    {
+      "name": "致命节奏固定乘数只有1",
+      "passed": true
+    },
+    {
+      "name": "致命节奏没有自动触发",
+      "passed": true
+    },
+    {
+      "name": "征服者没有满层治疗效果或自动事件",
+      "passed": true
+    },
+    {
+      "name": "法力流没有周期或自动事件",
+      "passed": true
+    },
+    {
+      "name": "法力流恢复效果非周期",
+      "passed": true
+    },
+    {
+      "name": "8010/adaptive_force_amount恰好一处层数乘法",
+      "passed": true
+    },
+    {
+      "name": "8010/adaptive_force_amount当前没有使用上限",
+      "passed": true
+    },
+    {
+      "name": "8010/adaptive_force_amount修改后只引入一次上限",
+      "passed": true
+    },
+    {
+      "name": "8008/melee_attack_speed_amount恰好一处层数乘法",
+      "passed": true
+    },
+    {
+      "name": "8008/melee_attack_speed_amount当前没有使用上限",
+      "passed": true
+    },
+    {
+      "name": "8008/melee_attack_speed_amount修改后只引入一次上限",
+      "passed": true
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount恰好一处层数乘法",
+      "passed": true
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount当前没有使用上限",
+      "passed": true
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount修改后只引入一次上限",
+      "passed": true
+    },
+    {
+      "name": "8010/adaptive_force_amount 每层3仅作已确认外供测试值，不推等级曲线",
+      "passed": true
+    },
+    {
+      "name": "8010/adaptive_force_amount 每层3仅作已确认外供测试值，不推等级曲线",
+      "passed": true
+    },
+    {
+      "name": "8010/adaptive_force_amount 每层3仅作已确认外供测试值，不推等级曲线",
+      "passed": true
+    },
+    {
+      "name": "8010/adaptive_force_amount 每层3仅作已确认外供测试值，不推等级曲线",
+      "passed": true
+    },
+    {
+      "name": "8010/adaptive_force_amount 每层3仅作已确认外供测试值，不推等级曲线",
+      "passed": true
+    },
+    {
+      "name": "8010/adaptive_force_amount 缺层数",
+      "passed": true
+    },
+    {
+      "name": "8010/adaptive_force_amount 缺每层来源值",
+      "passed": true
+    },
+    {
+      "name": "8008/melee_attack_speed_amount 近战每层0.06",
+      "passed": true
+    },
+    {
+      "name": "8008/melee_attack_speed_amount 近战每层0.06",
+      "passed": true
+    },
+    {
+      "name": "8008/melee_attack_speed_amount 近战每层0.06",
+      "passed": true
+    },
+    {
+      "name": "8008/melee_attack_speed_amount 近战每层0.06",
+      "passed": true
+    },
+    {
+      "name": "8008/melee_attack_speed_amount 近战每层0.06",
+      "passed": true
+    },
+    {
+      "name": "8008/melee_attack_speed_amount 缺层数",
+      "passed": true
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount 测试注入0.05只验上限，不判定本版远程冲突值",
+      "passed": true
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount 测试注入0.05只验上限，不判定本版远程冲突值",
+      "passed": true
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount 测试注入0.05只验上限，不判定本版远程冲突值",
+      "passed": true
+    },
+    {
+      "name": "8008/ranged_attack_speed_amount 远程冲突未解决不能补值",
+      "passed": true
+    },
+    {
+      "name": "8008/melee_attack_speed_amount 负数不靠封顶修正",
+      "passed": true
+    },
+    {
+      "name": "8010/adaptive_force_amount 小数层数不能通过资格",
+      "passed": true
+    },
+    {
+      "name": "独立资格边界 8010/melee_self_heal/11",
+      "passed": true
+    },
+    {
+      "name": "独立资格边界 8010/melee_self_heal/12",
+      "passed": true
+    },
+    {
+      "name": "独立资格边界 8010/ranged_self_heal/12",
+      "passed": true
+    },
+    {
+      "name": "独立资格边界 8010/melee_self_heal/undefined",
+      "passed": true
+    },
+    {
+      "name": "独立资格边界 8008/melee_full_stack_damage/5",
+      "passed": true
+    },
+    {
+      "name": "独立资格边界 8008/melee_full_stack_damage/6",
+      "passed": true
+    },
+    {
+      "name": "法力流独立回复只按已损法力，不重复乘层",
+      "passed": true
+    }
+  ],
+  "math": [
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "每层3仅作已确认外供测试值，不推等级曲线",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3,
+        "actual_stacks": 0
+      },
+      "before": 0,
+      "after": 0,
+      "expectedBefore": 0,
+      "expectedAfter": 0,
+      "passed": true
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "每层3仅作已确认外供测试值，不推等级曲线",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3,
+        "actual_stacks": 6
+      },
+      "before": 18,
+      "after": 18,
+      "expectedBefore": 18,
+      "expectedAfter": 18,
+      "passed": true
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "每层3仅作已确认外供测试值，不推等级曲线",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3,
+        "actual_stacks": 12
+      },
+      "before": 36,
+      "after": 36,
+      "expectedBefore": 36,
+      "expectedAfter": 36,
+      "passed": true
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "每层3仅作已确认外供测试值，不推等级曲线",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3,
+        "actual_stacks": 13
+      },
+      "before": 39,
+      "after": 36,
+      "expectedBefore": 39,
+      "expectedAfter": 36,
+      "passed": true
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "每层3仅作已确认外供测试值，不推等级曲线",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3,
+        "actual_stacks": 100
+      },
+      "before": 300,
+      "after": 36,
+      "expectedBefore": 300,
+      "expectedAfter": 36,
+      "passed": true
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "缺层数",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3
+      },
+      "before": "缺输入 actual_stacks",
+      "after": "缺输入 actual_stacks",
+      "expectedBefore": "缺输入 actual_stacks",
+      "expectedAfter": "缺输入 actual_stacks",
+      "passed": true
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "缺每层来源值",
+      "supplied": {
+        "actual_stacks": 12
+      },
+      "before": "缺输入 confirmed_adaptive_per_stack",
+      "after": "缺输入 confirmed_adaptive_per_stack",
+      "expectedBefore": "缺输入 confirmed_adaptive_per_stack",
+      "expectedAfter": "缺输入 confirmed_adaptive_per_stack",
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "近战每层0.06",
+      "supplied": {
+        "actual_stacks": 0
+      },
+      "before": 0,
+      "after": 0,
+      "expectedBefore": 0,
+      "expectedAfter": 0,
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "近战每层0.06",
+      "supplied": {
+        "actual_stacks": 3
+      },
+      "before": 0.18,
+      "after": 0.18,
+      "expectedBefore": 0.18,
+      "expectedAfter": 0.18,
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "近战每层0.06",
+      "supplied": {
+        "actual_stacks": 6
+      },
+      "before": 0.36,
+      "after": 0.36,
+      "expectedBefore": 0.36,
+      "expectedAfter": 0.36,
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "近战每层0.06",
+      "supplied": {
+        "actual_stacks": 7
+      },
+      "before": 0.42,
+      "after": 0.36,
+      "expectedBefore": 0.42,
+      "expectedAfter": 0.36,
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "近战每层0.06",
+      "supplied": {
+        "actual_stacks": 20
+      },
+      "before": 1.2,
+      "after": 0.36,
+      "expectedBefore": 1.2,
+      "expectedAfter": 0.36,
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "缺层数",
+      "supplied": {},
+      "before": "缺输入 actual_stacks",
+      "after": "缺输入 actual_stacks",
+      "expectedBefore": "缺输入 actual_stacks",
+      "expectedAfter": "缺输入 actual_stacks",
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "ranged_attack_speed_amount",
+      "label": "测试注入0.05只验上限，不判定本版远程冲突值",
+      "supplied": {
+        "confirmed_ranged_as_per_stack": 0.05,
+        "actual_stacks": 3
+      },
+      "before": 0.15000000000000002,
+      "after": 0.15000000000000002,
+      "expectedBefore": 0.15,
+      "expectedAfter": 0.15,
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "ranged_attack_speed_amount",
+      "label": "测试注入0.05只验上限，不判定本版远程冲突值",
+      "supplied": {
+        "confirmed_ranged_as_per_stack": 0.05,
+        "actual_stacks": 6
+      },
+      "before": 0.30000000000000004,
+      "after": 0.30000000000000004,
+      "expectedBefore": 0.3,
+      "expectedAfter": 0.3,
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "ranged_attack_speed_amount",
+      "label": "测试注入0.05只验上限，不判定本版远程冲突值",
+      "supplied": {
+        "confirmed_ranged_as_per_stack": 0.05,
+        "actual_stacks": 7
+      },
+      "before": 0.35000000000000003,
+      "after": 0.30000000000000004,
+      "expectedBefore": 0.35,
+      "expectedAfter": 0.3,
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "ranged_attack_speed_amount",
+      "label": "远程冲突未解决不能补值",
+      "supplied": {
+        "actual_stacks": 6
+      },
+      "before": "缺输入 confirmed_ranged_as_per_stack",
+      "after": "缺输入 confirmed_ranged_as_per_stack",
+      "expectedBefore": "缺输入 confirmed_ranged_as_per_stack",
+      "expectedAfter": "缺输入 confirmed_ranged_as_per_stack",
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_attack_speed_amount",
+      "label": "负数不靠封顶修正",
+      "supplied": {
+        "actual_stacks": -1
+      },
+      "before": "违反非负输入域 actual_stacks",
+      "after": "违反非负输入域 actual_stacks",
+      "expectedBefore": "违反非负输入域",
+      "expectedAfter": "违反非负输入域",
+      "passed": true
+    },
+    {
+      "id": 8010,
+      "formulaKey": "adaptive_force_amount",
+      "label": "小数层数不能通过资格",
+      "supplied": {
+        "confirmed_adaptive_per_stack": 3,
+        "actual_stacks": 1.5
+      },
+      "before": "违反整数输入域 actual_stacks",
+      "after": "违反整数输入域 actual_stacks",
+      "expectedBefore": "违反整数输入域",
+      "expectedAfter": "违反整数输入域",
+      "passed": true
+    }
+  ],
+  "branchChecks": [
+    {
+      "id": 8010,
+      "formulaKey": "melee_self_heal",
+      "suppliedRealStacks": 11,
+      "supplied": {
+        "actual_damage_dealt_to_champion": 100
+      },
+      "actual": "未满层不得进入此分支",
+      "expected": "未满层不得进入此分支",
+      "boundary": "此条件是审查器按来源检验所需资格，不是当前已保存公式内有此判断；当前没有相应自动入口。",
+      "passed": true
+    },
+    {
+      "id": 8010,
+      "formulaKey": "melee_self_heal",
+      "suppliedRealStacks": 12,
+      "supplied": {
+        "actual_damage_dealt_to_champion": 100
+      },
+      "actual": 8,
+      "expected": 8,
+      "boundary": "此条件是审查器按来源检验所需资格，不是当前已保存公式内有此判断；当前没有相应自动入口。",
+      "passed": true
+    },
+    {
+      "id": 8010,
+      "formulaKey": "ranged_self_heal",
+      "suppliedRealStacks": 12,
+      "supplied": {
+        "actual_damage_dealt_to_champion": 100
+      },
+      "actual": 5,
+      "expected": 5,
+      "boundary": "此条件是审查器按来源检验所需资格，不是当前已保存公式内有此判断；当前没有相应自动入口。",
+      "passed": true
+    },
+    {
+      "id": 8010,
+      "formulaKey": "melee_self_heal",
+      "suppliedRealStacks": null,
+      "supplied": {
+        "actual_damage_dealt_to_champion": 100
+      },
+      "actual": "缺真实整数层数",
+      "expected": "缺真实整数层数",
+      "boundary": "此条件是审查器按来源检验所需资格，不是当前已保存公式内有此判断；当前没有相应自动入口。",
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_full_stack_damage",
+      "suppliedRealStacks": 5,
+      "supplied": {
+        "confirmed_melee_level_damage": 20,
+        "confirmed_bonus_attack_speed_ratio": 0.5
+      },
+      "actual": "未满层不得进入此分支",
+      "expected": "未满层不得进入此分支",
+      "boundary": "此条件是审查器按来源检验所需资格，不是当前已保存公式内有此判断；当前没有相应自动入口。",
+      "passed": true
+    },
+    {
+      "id": 8008,
+      "formulaKey": "melee_full_stack_damage",
+      "suppliedRealStacks": 6,
+      "supplied": {
+        "confirmed_melee_level_damage": 20,
+        "confirmed_bonus_attack_speed_ratio": 0.5
+      },
+      "actual": 30,
+      "expected": 30,
+      "boundary": "此条件是审查器按来源检验所需资格，不是当前已保存公式内有此判断；当前没有相应自动入口。",
+      "passed": true
+    }
+  ],
+  "planSha256": "9eedde869856eaf7fd119d4b1ad192fa4cba7509ddc6b9a8571ac7c261ee89d9"
+}
