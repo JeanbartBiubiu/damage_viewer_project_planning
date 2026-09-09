@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T13:29:59.067Z",
+  "generatedAt": "2026-09-09T14:11:38.936Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -2677,6 +2677,56 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十批/页面验收.json",
         "commit": "a259a1f5bcf3e668683d171a9d8aad2b1e5944fd"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroTwentySecondBatch": {
+      "skills": [
+        "leona_p",
+        "leona_q",
+        "leona_w",
+        "leona_e",
+        "leona_r",
+        "nautilus_p",
+        "nautilus_q",
+        "nautilus_w",
+        "nautilus_e",
+        "nautilus_r"
+      ],
+      "parameters": 70,
+      "formulas": 14,
+      "effects": 9,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "reusedParameters": 16,
+      "protectedHeroes": [
+        "alistar",
+        "blitzcrank"
+      ],
+      "protectedComponents": 13,
+      "created": 77,
+      "independentGets": 278,
+      "independentFormulaChecks": 14,
+      "independentSourceCases": 28,
+      "independentSemanticChecks": 39,
+      "representativePages": 3,
+      "pageGets": 15,
+      "pageMathCases": 6,
+      "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+      "planSha256": "3ca4514a0f7d61b7852e771f7e714a8979d1a735f546e5a552370930225aa4ba",
+      "executor": "Luna Max候选及实录，主负责人来源复核、归档核对与页面验收",
+      "status": "77新增、16公共参数复用；阿利斯塔布里茨13组成保护。278次独立GET、14实际公式严格核算、3代表页面通过；蕾欧娜被动按第三方友军触发排除。未知曲线和命中事件继续处理。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十二批/当前实录状态.json",
+        "sha256": "8bd2c24f6326330367dbb1844ff95677c90d0eda473b2ac5e417c370a25fe843",
+        "commit": "3227e918e0fae86ac54c3fb8cb7f2aa4bfc01551"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十二批/页面验收.json",
+        "commit": "3227e918e0fae86ac54c3fb8cb7f2aa4bfc01551"
       },
       "runtimeValidation": "未执行"
     }
