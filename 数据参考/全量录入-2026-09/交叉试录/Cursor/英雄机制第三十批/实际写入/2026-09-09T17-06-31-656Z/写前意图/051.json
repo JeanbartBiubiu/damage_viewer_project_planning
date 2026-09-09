@@ -1,0 +1,73 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "method": "POST",
+    "route": "/skills/yone_p/formulas",
+    "detailRoute": "/skills/yone_p/formulas/crit_overcap_bonus_attack_damage",
+    "skillKey": "yone_p",
+    "kind": "formulas",
+    "stableKey": "crit_overcap_bonus_attack_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "crit_overcap_bonus_attack_damage",
+      "name": "超额暴击转额外攻击力",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MAX",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "SUBTRACT",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "crit_chance_before_self_modifier_ratio"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "crit_chance_before_self_modifier_ratio"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "crit_chance_multiplier"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "crit_chance_cap_ratio"
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "zero_ratio"
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "crit_to_bonus_ad_per_ratio"
+          }
+        ]
+      },
+      "description": "MAX(自身提升后暴击几率-1,0)×50；仅计算超过100%的比例部分。",
+      "sortOrder": 40
+    }
+  }
+}

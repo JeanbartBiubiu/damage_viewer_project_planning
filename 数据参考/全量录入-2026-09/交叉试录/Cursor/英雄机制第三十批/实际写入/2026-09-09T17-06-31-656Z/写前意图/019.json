@@ -1,0 +1,45 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "method": "POST",
+    "route": "/skills/yasuo_q/formulas",
+    "detailRoute": "/skills/yasuo_q/formulas/physical_damage",
+    "skillKey": "yasuo_q",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "斩钢闪单一敌方物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_attack_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage树=基础伤害+1.05×来源总攻击力；唯一敌人范围保留，结果事件待接。",
+      "sortOrder": 10
+    }
+  }
+}

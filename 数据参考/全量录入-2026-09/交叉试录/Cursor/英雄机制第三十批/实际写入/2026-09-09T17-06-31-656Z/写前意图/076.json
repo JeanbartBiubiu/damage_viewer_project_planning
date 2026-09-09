@@ -1,0 +1,23 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "method": "POST",
+    "route": "/skills/yone_e/parameters",
+    "detailRoute": "/skills/yone_e/parameters/movement_speed_end_ratio",
+    "skillKey": "yone_e",
+    "kind": "parameters",
+    "stableKey": "movement_speed_end_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "movement_speed_end_ratio",
+      "name": "灵体最高移速加成比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "客户端MovementSpeed=0.3，当前正文显示最高30%；不把逐渐提升伪装成全程固定效果。",
+      "sortOrder": 30
+    }
+  }
+}

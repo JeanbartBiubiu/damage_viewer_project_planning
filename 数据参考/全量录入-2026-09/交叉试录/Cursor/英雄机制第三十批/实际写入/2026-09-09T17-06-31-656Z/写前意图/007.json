@@ -1,0 +1,23 @@
+{
+  "i": 6,
+  "intent": {
+    "sequence": 7,
+    "method": "POST",
+    "route": "/skills/yasuo_p/parameters",
+    "detailRoute": "/skills/yasuo_p/parameters/shield_value",
+    "skillKey": "yasuo_p",
+    "kind": "parameters",
+    "stableKey": "shield_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_value",
+      "name": "实际等级护盾值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "客户端ShieldValue为125至600且带mScaleByStatProgressionMultiplier=true；没有可证的18级中间表，使用实际等级护盾值，无默认。",
+      "sortOrder": 70
+    }
+  }
+}

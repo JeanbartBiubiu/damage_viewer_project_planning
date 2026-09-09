@@ -1,0 +1,89 @@
+{
+  "at": "2026-09-09T17:31:04.264Z",
+  "skills": [
+    "yasuo_p",
+    "yasuo_q",
+    "yasuo_w",
+    "yasuo_e",
+    "yasuo_r",
+    "yone_p",
+    "yone_q",
+    "yone_w",
+    "yone_e",
+    "yone_r"
+  ],
+  "status": "明确组成已保存并通过独立回读、实际公式核算和代表页面；未知曲线和事件接线继续处理",
+  "counts": {
+    "parameters": 72,
+    "formulas": 20,
+    "effects": 2,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newCounts": {
+    "parameters": 64,
+    "formulas": 20,
+    "effects": 2
+  },
+  "reusedParameters": 8,
+  "businessWrites": 86,
+  "candidateFileSha256": "2efb89e7a4698b77b12a438922b1f9c5353460eb711e299039ab613c3cea7e12",
+  "writePlanSha256": "bc33491aefd00be327802161eae24e749ee225d6857951d9ce91164a32b0baf1",
+  "execution": {
+    "file": "实际写入/2026-09-09T17-06-31-656Z/执行结果.json",
+    "GETs": 552,
+    "successfulPOSTs": 86,
+    "rejectedPOSTs": 0,
+    "unknownPOSTs": 0,
+    "passed": true
+  },
+  "independentReadback": {
+    "file": "独立验收/实际回读/2026-09-09T17-28-24-305Z/独立全量回读.json",
+    "GETs": 182,
+    "protectedPaths": 96,
+    "details": 94,
+    "passed": true
+  },
+  "strictMath": {
+    "file": "实际公式核算/实际GET数学.json",
+    "actualFormulas": 20,
+    "formulaCases": 40,
+    "missingInputChecks": 20,
+    "runtimeParametersWithoutDefaults": 8,
+    "boundaryChecks": 12,
+    "sourceSeriesChecks": 8,
+    "additionalNetworkCalls": 86,
+    "passed": true
+  },
+  "browser": {
+    "file": "页面验收.json",
+    "representativePages": 3,
+    "GETs": 18,
+    "mathCases": 14,
+    "passed": true
+  },
+  "hashes": {
+    "完整候选.json": "2efb89e7a4698b77b12a438922b1f9c5353460eb711e299039ab613c3cea7e12",
+    "写前请求计划.json": "bc33491aefd00be327802161eae24e749ee225d6857951d9ce91164a32b0baf1",
+    "受保护写入器.mjs": "5d16dab087a98213703decbe7c5175fe9fd63e0015f588706ad44a805a5acce3",
+    "实际写入/2026-09-09T17-06-31-656Z/执行结果.json": "b8901bbe7d94aa1605b01238a4693f195c96656a4ab4026f825e124ac851c704",
+    "独立验收/实际回读/2026-09-09T17-28-24-305Z/独立全量回读.json": "382385eb18c56459bd0da2575bf2f9c31114e69b067723e68f3c914b26732ca9",
+    "实际公式核算/实际GET数学.json": "92db7cba427ec50b6f05824f4c05e1cc6d9d83c6af72bc58163bfe27f786d844",
+    "页面验收.json": "8e77dc93d2722ba5a696b49f9cd12ffdc21e49f31419b959f10bff1317bc0a81",
+    "独立验收/独立全字段回读.mjs": "efae041c26c4a06b5b07a69999ccf223375c11d2198e5a8d9a8306846ea07d59",
+    "实际公式核算/实际GET数学.mjs": "7e0aedf83229508ba665092d10d8c904fe825a89bb810ddbd8b039e9a9d14b80"
+  },
+  "issues": [
+    "亚索和永恩Q暴击只乘攻击力项，基础值不受倍率再次放大。",
+    "亚索E以已有0至4整数层数对完整基数增幅；越界必须在实际输入校验和求值调用中拒绝，候选孤立布尔检查不当作拒绝证据。",
+    "永恩W物理和魔法各占完整伤害一半；首个敌方英雄使包含额外攻击力的完整护盾翻倍。",
+    "永恩E存储值只包含官方所述灵体期间对英雄实际造成的攻击与技能伤害，伤害阶段与附带效果资格未明时不扩大范围。",
+    "亚索被动护盾持续2秒由同版官方敌方提示补证；等级护盾基础仍无默认，不造线性曲线。"
+  ],
+  "pending": [
+    "攻击暴击倍率、技能实际攻速缩短、剑意及永恩E存储阶段仍有无默认输入。",
+    "强化攻击次数、同一敌人标记、护盾触发、空中目标资格与回返过程尚未自动接线。"
+  ],
+  "runtimeValidation": "未执行"
+}

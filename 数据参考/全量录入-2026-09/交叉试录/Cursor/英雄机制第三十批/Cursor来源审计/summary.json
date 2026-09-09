@@ -1,0 +1,704 @@
+{
+  "startedAt": "2026-09-09T15:58:29.845Z",
+  "requestedModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "requestedCwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero30-cursor-review-20260909",
+  "outDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero30-cursor-review-run-20260909",
+  "promptSource": "评审任务.md",
+  "promptMode": "DESIGN_REVIEW_ONLY",
+  "timeoutMs": 900000,
+  "maxOldSpaceSizeMb": 6144,
+  "v8HeapSizeLimitMiB": 6336,
+  "settingSources": [
+    "project"
+  ],
+  "allowedPaths": [
+    {
+      "input": ".",
+      "absolute": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero30-cursor-review-20260909",
+      "relative": ".",
+      "exists": true
+    }
+  ],
+  "allowedPathSpecs": [
+    "."
+  ],
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "startup": {
+    "maxAttempts": 1,
+    "baseDelayMs": 1000,
+    "attemptsUsed": 1,
+    "attempts": [
+      {
+        "attempt": 1,
+        "phase": "send",
+        "candidateAgentId": "agent-870af7c7-30cb-4b1c-9289-6211e3da454e",
+        "error": null,
+        "retryDecision": "success",
+        "delayMs": null
+      }
+    ]
+  },
+  "failurePhase": null,
+  "requestId": "cf7c9ad2-8175-4877-ac4a-d2c42a39840d",
+  "preflight": {
+    "cwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero30-cursor-review-20260909",
+    "runtime": {
+      "nodeVersion": "24.19.0",
+      "nodeMajor": 24,
+      "nodeMinor": 19,
+      "nodeSupport": "ok",
+      "belowPackageEngine": false,
+      "bunVersion": null,
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "env": {
+      "cursorUseHttp1": null,
+      "apiKeyPresent": true,
+      "apiKeyLength": 69
+    },
+    "sdk": {
+      "resolved": true,
+      "path": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js",
+      "source": "shared-cache",
+      "actualVersion": "1.0.24",
+      "expectedVersion": "1.0.24",
+      "versionMatch": true,
+      "error": null
+    },
+    "cliProbe": {
+      "cursorPath": "C:\\Program Files\\cursor\\resources\\app\\bin\\cursor",
+      "cursorAgentPath": null,
+      "programmable": false,
+      "supportsOutputFormat": false,
+      "supportsModelSelection": false,
+      "strictModelFallbackAllowed": false,
+      "status": "blocked",
+      "note": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    },
+    "checks": [
+      {
+        "id": "runtime.node",
+        "status": "ok",
+        "message": "Node 24.19.0 meets @cursor/sdk engines (>=22.13)."
+      },
+      {
+        "id": "runtime.bun",
+        "status": "ok",
+        "message": "Node runtime"
+      },
+      {
+        "id": "env.cursor_use_http1",
+        "status": "ok",
+        "message": "unset"
+      },
+      {
+        "id": "auth.api_key",
+        "status": "ok",
+        "message": "present length=69"
+      },
+      {
+        "id": "sdk.resolve",
+        "status": "ok",
+        "message": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js (source=shared-cache; version=1.0.24; expected=1.0.24; match=true)"
+      },
+      {
+        "id": "cli.probe",
+        "status": "warn",
+        "message": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+      },
+      {
+        "id": "prompt.mode",
+        "status": "ok",
+        "message": "DESIGN_REVIEW_ONLY"
+      }
+    ],
+    "warnings": [
+      "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    ],
+    "blocking": []
+  },
+  "eventCountByType": {
+    "status": 2,
+    "thinking": 400,
+    "assistant": 775,
+    "tool_call": 76,
+    "usage": 1
+  },
+  "assistantText": "先读主负责人源值核对说明，再定点核来源绑定与固定官方 JSON。接着核对来源绑定、官方 JSON 和五项会录错的风险点。继续定点核对 P/Q/E/W/R 的数值树、正文消费和官方文本。继续核对 Q 暴击树、E 叠层、Yone W/R 与官方正文是否一致。官方 JSON 是单行压缩，改用全文读取核对技能正文。核对了五项会录错的风险与官方 16.17.1 正文，计划与绑定一致，没有需要改公式的阻塞。\n\n**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero30-source-v1**\n\n固定来源为客户端 **16.17**、官方 **16.17.1**。十槽均有根绑定；永恩 E 为同一角色 `YoneE`（`Trait_RecastOrReplaceSpell`），不是完整变形或独立召唤。当前无本批候选或业务写入。\n\n**阻塞**  \n无。五项易录错点均有当前正文或计算树证据，说明未把未消费树、默认等级盾、`CritDamageMod=.95` 或错误暴击/护甲口径写进应录公式。\n\n**待接（单列，不整技能排除）**  \n- 攻速求值：亚索/永恩 Q、永恩 W 仅有系数与端点（Q 冷却上限 `.66667`，W 为 `.57142`），缺执行关系；根施法字段不是全攻速最终时长。  \n- 等级算法：亚索 P `ShieldValue` 125–600 且 `mScaleByStatProgressionMultiplier=true`；永恩 W 盾 40–90 插值。两者都不要默认生成 18 级数组。  \n- `mStat9`：`CurrentCritDamage` 与 Q 暴击树只证明取该属性，应用前后阶段与选择器无窄证，实际暴击倍率无默认。  \n- 施法字段冲突：亚索 W `spellCastTime=0` / `mCastTime≈13ms`；永恩 R `spellCastTime=125ms` / `mCastTime=750ms`。  \n- 资格与事件：剑意积攒与护盾触发/持续；亚索 W 飞行道具碰撞；亚索 E 叠层与本次伤害先后、每目标锁、E 中 Q；永恩 E 到期/硬控延迟返回；永恩 R 击飞时长仅有字段、正文无持续数值。\n\n**其他建议（不影响本轮 READY）**  \n- 官方英文永恩 E 将返还基数收窄为 **Attack and Ability damage**；中文只写「对英雄造成伤害」。录入用无默认实际存量时按英文收窄，不要扩成任意来源。伤害类型仍未标明，保持不猜。  \n- 官方敌方提示写亚索护盾持续 2 秒，但被动无对应时长字段；可单列待核，不要当已证客户端值。  \n- 永恩 W 的 `WDamage`（总 AD）、`WCritMultiplier=.8`、`mRollForCriticalHit`、永恩 E 匿名 `DeathmarkBase+.25` 总 AD 与 `MissingHealthPercent` 均无当前正文消费，维持不加入。  \n- 永恩 Q/W 另有 `mDoesNotConsumeCooldown=true`，公共冷却字段保存不等于真实起算。",
+  "toolCalls": [
+    {
+      "callId": "call-44f98418-06fc-4619-adf0-d7300d5752cb-0\nfc_49d3846b-d362-9f9c-b3dd-67dc09793a0e_0",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-44f98418-06fc-4619-adf0-d7300d5752cb-1\nfc_49d3846b-d362-9f9c-b3dd-67dc09793a0e_1",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-44f98418-06fc-4619-adf0-d7300d5752cb-2\nfc_49d3846b-d362-9f9c-b3dd-67dc09793a0e_2",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-44f98418-06fc-4619-adf0-d7300d5752cb-0\nfc_49d3846b-d362-9f9c-b3dd-67dc09793a0e_0",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-44f98418-06fc-4619-adf0-d7300d5752cb-1\nfc_49d3846b-d362-9f9c-b3dd-67dc09793a0e_1",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-44f98418-06fc-4619-adf0-d7300d5752cb-2\nfc_49d3846b-d362-9f9c-b3dd-67dc09793a0e_2",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8d63580a-4299-432c-8e30-99ac834fbdae-3\nfc_032c8364-4ae7-9263-9152-f80749e7c408_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8d63580a-4299-432c-8e30-99ac834fbdae-4\nfc_032c8364-4ae7-9263-9152-f80749e7c408_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8d63580a-4299-432c-8e30-99ac834fbdae-5\nfc_032c8364-4ae7-9263-9152-f80749e7c408_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8d63580a-4299-432c-8e30-99ac834fbdae-6\nfc_032c8364-4ae7-9263-9152-f80749e7c408_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-8d63580a-4299-432c-8e30-99ac834fbdae-3\nfc_032c8364-4ae7-9263-9152-f80749e7c408_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8d63580a-4299-432c-8e30-99ac834fbdae-4\nfc_032c8364-4ae7-9263-9152-f80749e7c408_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8d63580a-4299-432c-8e30-99ac834fbdae-5\nfc_032c8364-4ae7-9263-9152-f80749e7c408_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-8d63580a-4299-432c-8e30-99ac834fbdae-6\nfc_032c8364-4ae7-9263-9152-f80749e7c408_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-9b367c56-1de5-4190-863e-e9b34c807219-7\nfc_429e2ae1-b228-9042-8b3d-113a6ab596ba_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-9b367c56-1de5-4190-863e-e9b34c807219-7\nfc_429e2ae1-b228-9042-8b3d-113a6ab596ba_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-9b367c56-1de5-4190-863e-e9b34c807219-8\nfc_429e2ae1-b228-9042-8b3d-113a6ab596ba_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-9b367c56-1de5-4190-863e-e9b34c807219-9\nfc_429e2ae1-b228-9042-8b3d-113a6ab596ba_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-9b367c56-1de5-4190-863e-e9b34c807219-10\nfc_429e2ae1-b228-9042-8b3d-113a6ab596ba_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-9b367c56-1de5-4190-863e-e9b34c807219-10\nfc_429e2ae1-b228-9042-8b3d-113a6ab596ba_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-9b367c56-1de5-4190-863e-e9b34c807219-9\nfc_429e2ae1-b228-9042-8b3d-113a6ab596ba_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-9b367c56-1de5-4190-863e-e9b34c807219-8\nfc_429e2ae1-b228-9042-8b3d-113a6ab596ba_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-dffdc7ed-5594-4c1a-8318-eb5a33d473bf-11\nfc_50032d5e-8716-9b31-8236-7e4d9402cf3c_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-dffdc7ed-5594-4c1a-8318-eb5a33d473bf-11\nfc_50032d5e-8716-9b31-8236-7e4d9402cf3c_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-dffdc7ed-5594-4c1a-8318-eb5a33d473bf-12\nfc_50032d5e-8716-9b31-8236-7e4d9402cf3c_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-dffdc7ed-5594-4c1a-8318-eb5a33d473bf-12\nfc_50032d5e-8716-9b31-8236-7e4d9402cf3c_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-dffdc7ed-5594-4c1a-8318-eb5a33d473bf-13\nfc_50032d5e-8716-9b31-8236-7e4d9402cf3c_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-dffdc7ed-5594-4c1a-8318-eb5a33d473bf-14\nfc_50032d5e-8716-9b31-8236-7e4d9402cf3c_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-dffdc7ed-5594-4c1a-8318-eb5a33d473bf-15\nfc_50032d5e-8716-9b31-8236-7e4d9402cf3c_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-dffdc7ed-5594-4c1a-8318-eb5a33d473bf-14\nfc_50032d5e-8716-9b31-8236-7e4d9402cf3c_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-dffdc7ed-5594-4c1a-8318-eb5a33d473bf-13\nfc_50032d5e-8716-9b31-8236-7e4d9402cf3c_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-dffdc7ed-5594-4c1a-8318-eb5a33d473bf-15\nfc_50032d5e-8716-9b31-8236-7e4d9402cf3c_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c1ec14c9-07f7-481f-b720-e301247b06df-16\nfc_167e9b8f-67c3-9401-a0e6-0062648fc9e7_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c1ec14c9-07f7-481f-b720-e301247b06df-16\nfc_167e9b8f-67c3-9401-a0e6-0062648fc9e7_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c1ec14c9-07f7-481f-b720-e301247b06df-17\nfc_167e9b8f-67c3-9401-a0e6-0062648fc9e7_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c1ec14c9-07f7-481f-b720-e301247b06df-17\nfc_167e9b8f-67c3-9401-a0e6-0062648fc9e7_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c1ec14c9-07f7-481f-b720-e301247b06df-18\nfc_167e9b8f-67c3-9401-a0e6-0062648fc9e7_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c1ec14c9-07f7-481f-b720-e301247b06df-19\nfc_167e9b8f-67c3-9401-a0e6-0062648fc9e7_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c1ec14c9-07f7-481f-b720-e301247b06df-18\nfc_167e9b8f-67c3-9401-a0e6-0062648fc9e7_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c1ec14c9-07f7-481f-b720-e301247b06df-19\nfc_167e9b8f-67c3-9401-a0e6-0062648fc9e7_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-01a920ad-8d20-4d30-a5b1-c1d1d9c56d3a-20\nfc_4b1413df-b06f-9581-83b8-83c19ba9366a_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-01a920ad-8d20-4d30-a5b1-c1d1d9c56d3a-21\nfc_4b1413df-b06f-9581-83b8-83c19ba9366a_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-01a920ad-8d20-4d30-a5b1-c1d1d9c56d3a-22\nfc_4b1413df-b06f-9581-83b8-83c19ba9366a_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-01a920ad-8d20-4d30-a5b1-c1d1d9c56d3a-20\nfc_4b1413df-b06f-9581-83b8-83c19ba9366a_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-01a920ad-8d20-4d30-a5b1-c1d1d9c56d3a-21\nfc_4b1413df-b06f-9581-83b8-83c19ba9366a_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-01a920ad-8d20-4d30-a5b1-c1d1d9c56d3a-22\nfc_4b1413df-b06f-9581-83b8-83c19ba9366a_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1b18c072-1c2b-41fe-be10-d7c7c68cb826-23\nfc_fb5f2876-71d8-9017-b8be-8e746f237107_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1b18c072-1c2b-41fe-be10-d7c7c68cb826-24\nfc_fb5f2876-71d8-9017-b8be-8e746f237107_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1b18c072-1c2b-41fe-be10-d7c7c68cb826-23\nfc_fb5f2876-71d8-9017-b8be-8e746f237107_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1b18c072-1c2b-41fe-be10-d7c7c68cb826-24\nfc_fb5f2876-71d8-9017-b8be-8e746f237107_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1b18c072-1c2b-41fe-be10-d7c7c68cb826-25\nfc_fb5f2876-71d8-9017-b8be-8e746f237107_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1b18c072-1c2b-41fe-be10-d7c7c68cb826-25\nfc_fb5f2876-71d8-9017-b8be-8e746f237107_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1b18c072-1c2b-41fe-be10-d7c7c68cb826-26\nfc_fb5f2876-71d8-9017-b8be-8e746f237107_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1b18c072-1c2b-41fe-be10-d7c7c68cb826-27\nfc_fb5f2876-71d8-9017-b8be-8e746f237107_4",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1b18c072-1c2b-41fe-be10-d7c7c68cb826-26\nfc_fb5f2876-71d8-9017-b8be-8e746f237107_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1b18c072-1c2b-41fe-be10-d7c7c68cb826-27\nfc_fb5f2876-71d8-9017-b8be-8e746f237107_4",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-af1cb995-bc6f-43f9-ba32-efbb7935c3b6-28\nfc_4d185bf5-014f-9798-9d06-da3219ea2e54_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-af1cb995-bc6f-43f9-ba32-efbb7935c3b6-29\nfc_4d185bf5-014f-9798-9d06-da3219ea2e54_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-af1cb995-bc6f-43f9-ba32-efbb7935c3b6-30\nfc_4d185bf5-014f-9798-9d06-da3219ea2e54_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-af1cb995-bc6f-43f9-ba32-efbb7935c3b6-28\nfc_4d185bf5-014f-9798-9d06-da3219ea2e54_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-af1cb995-bc6f-43f9-ba32-efbb7935c3b6-29\nfc_4d185bf5-014f-9798-9d06-da3219ea2e54_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-af1cb995-bc6f-43f9-ba32-efbb7935c3b6-30\nfc_4d185bf5-014f-9798-9d06-da3219ea2e54_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-af1cb995-bc6f-43f9-ba32-efbb7935c3b6-31\nfc_4d185bf5-014f-9798-9d06-da3219ea2e54_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-af1cb995-bc6f-43f9-ba32-efbb7935c3b6-31\nfc_4d185bf5-014f-9798-9d06-da3219ea2e54_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-af1cb995-bc6f-43f9-ba32-efbb7935c3b6-32\nfc_4d185bf5-014f-9798-9d06-da3219ea2e54_4",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-af1cb995-bc6f-43f9-ba32-efbb7935c3b6-33\nfc_4d185bf5-014f-9798-9d06-da3219ea2e54_5",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-af1cb995-bc6f-43f9-ba32-efbb7935c3b6-32\nfc_4d185bf5-014f-9798-9d06-da3219ea2e54_4",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-af1cb995-bc6f-43f9-ba32-efbb7935c3b6-33\nfc_4d185bf5-014f-9798-9d06-da3219ea2e54_5",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f4916715-4f24-4dba-b6be-43f5a6564120-34\nfc_52898b51-5c7d-9307-8e60-7e5b91c164c4_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f4916715-4f24-4dba-b6be-43f5a6564120-34\nfc_52898b51-5c7d-9307-8e60-7e5b91c164c4_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f4916715-4f24-4dba-b6be-43f5a6564120-35\nfc_52898b51-5c7d-9307-8e60-7e5b91c164c4_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f4916715-4f24-4dba-b6be-43f5a6564120-36\nfc_52898b51-5c7d-9307-8e60-7e5b91c164c4_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f4916715-4f24-4dba-b6be-43f5a6564120-37\nfc_52898b51-5c7d-9307-8e60-7e5b91c164c4_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f4916715-4f24-4dba-b6be-43f5a6564120-35\nfc_52898b51-5c7d-9307-8e60-7e5b91c164c4_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f4916715-4f24-4dba-b6be-43f5a6564120-36\nfc_52898b51-5c7d-9307-8e60-7e5b91c164c4_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f4916715-4f24-4dba-b6be-43f5a6564120-37\nfc_52898b51-5c7d-9307-8e60-7e5b91c164c4_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    }
+  ],
+  "statuses": [
+    "RUNNING",
+    "FINISHED"
+  ],
+  "cliFallback": {
+    "allowed": false,
+    "modelDriftAccepted": false,
+    "status": "not_attempted"
+  },
+  "git": {
+    "statusWorktreeBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero30-cursor-review-run-20260909\\git-status-worktree-before.txt",
+    "statusBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero30-cursor-review-run-20260909\\git-status-before.txt",
+    "allowedPathsDirtyBefore": false,
+    "signaturesBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero30-cursor-review-run-20260909\\path-signatures-before.json",
+    "pathSignaturesBefore": {},
+    "statusEntriesBeforeCount": 0,
+    "beforeAuditAvailable": true,
+    "statusWorktreeAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero30-cursor-review-run-20260909\\git-status-worktree-after.txt",
+    "statusAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero30-cursor-review-run-20260909\\git-status-after.txt",
+    "allowedPathsDirtyAfter": false,
+    "signaturesAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero30-cursor-review-run-20260909\\path-signatures-after.json",
+    "pathSignaturesAfter": {},
+    "runDelta": [],
+    "changeClassification": {
+      "afterState": {
+        "inScope": [],
+        "outsideScope": []
+      },
+      "runDelta": {
+        "inScope": [],
+        "outsideScope": []
+      }
+    },
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopePaths": [],
+    "untrackedInScope": [],
+    "untrackedCapture": {
+      "mode": "metadata-only",
+      "files": [],
+      "skipped": []
+    },
+    "diffPatchScope": "allowed-paths",
+    "diffPatchFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero30-cursor-review-run-20260909\\diff.patch"
+  },
+  "runtimeUsed": "sdk",
+  "agentId": "agent-870af7c7-30cb-4b1c-9289-6211e3da454e",
+  "runId": "run-84994952-8efc-4925-b331-983f849dfbea",
+  "result": {
+    "id": "run-84994952-8efc-4925-b331-983f849dfbea",
+    "requestId": "cf7c9ad2-8175-4877-ac4a-d2c42a39840d",
+    "status": "finished",
+    "result": "核对了五项会录错的风险与官方 16.17.1 正文，计划与绑定一致，没有需要改公式的阻塞。\n\n**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero30-source-v1**\n\n固定来源为客户端 **16.17**、官方 **16.17.1**。十槽均有根绑定；永恩 E 为同一角色 `YoneE`（`Trait_RecastOrReplaceSpell`），不是完整变形或独立召唤。当前无本批候选或业务写入。\n\n**阻塞**  \n无。五项易录错点均有当前正文或计算树证据，说明未把未消费树、默认等级盾、`CritDamageMod=.95` 或错误暴击/护甲口径写进应录公式。\n\n**待接（单列，不整技能排除）**  \n- 攻速求值：亚索/永恩 Q、永恩 W 仅有系数与端点（Q 冷却上限 `.66667`，W 为 `.57142`），缺执行关系；根施法字段不是全攻速最终时长。  \n- 等级算法：亚索 P `ShieldValue` 125–600 且 `mScaleByStatProgressionMultiplier=true`；永恩 W 盾 40–90 插值。两者都不要默认生成 18 级数组。  \n- `mStat9`：`CurrentCritDamage` 与 Q 暴击树只证明取该属性，应用前后阶段与选择器无窄证，实际暴击倍率无默认。  \n- 施法字段冲突：亚索 W `spellCastTime=0` / `mCastTime≈13ms`；永恩 R `spellCastTime=125ms` / `mCastTime=750ms`。  \n- 资格与事件：剑意积攒与护盾触发/持续；亚索 W 飞行道具碰撞；亚索 E 叠层与本次伤害先后、每目标锁、E 中 Q；永恩 E 到期/硬控延迟返回；永恩 R 击飞时长仅有字段、正文无持续数值。\n\n**其他建议（不影响本轮 READY）**  \n- 官方英文永恩 E 将返还基数收窄为 **Attack and Ability damage**；中文只写「对英雄造成伤害」。录入用无默认实际存量时按英文收窄，不要扩成任意来源。伤害类型仍未标明，保持不猜。  \n- 官方敌方提示写亚索护盾持续 2 秒，但被动无对应时长字段；可单列待核，不要当已证客户端值。  \n- 永恩 W 的 `WDamage`（总 AD）、`WCritMultiplier=.8`、`mRollForCriticalHit`、永恩 E 匿名 `DeathmarkBase+.25` 总 AD 与 `MissingHealthPercent` 均无当前正文消费，维持不加入。  \n- 永恩 Q/W 另有 `mDoesNotConsumeCooldown=true`，公共冷却字段保存不等于真实起算。",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "durationMs": 368291,
+    "usage": {
+      "inputTokens": 455794,
+      "outputTokens": 16544,
+      "cacheReadTokens": 326016,
+      "cacheWriteTokens": 0,
+      "totalTokens": 798354,
+      "reasoningTokens": 13710
+    }
+  },
+  "resultStatus": "finished",
+  "resultModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "durationMs": 368291,
+  "artifacts": [],
+  "disposal": {
+    "method": "asyncDispose"
+  },
+  "completedAt": "2026-09-09T16:04:49.459Z"
+}

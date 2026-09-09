@@ -1,0 +1,23 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "method": "POST",
+    "route": "/skills/yasuo_p/parameters",
+    "detailRoute": "/skills/yasuo_p/parameters/zero_ratio",
+    "skillKey": "yasuo_p",
+    "kind": "parameters",
+    "stableKey": "zero_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "zero_ratio",
+      "name": "零比例边界",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "为超额转换的MAX下界提供显式二元叶子；不是运行输入，也不改变来源机制。",
+      "sortOrder": 60
+    }
+  }
+}

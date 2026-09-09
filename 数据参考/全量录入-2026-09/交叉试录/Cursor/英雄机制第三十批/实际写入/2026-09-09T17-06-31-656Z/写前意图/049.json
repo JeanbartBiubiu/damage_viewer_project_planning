@@ -1,0 +1,35 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "method": "POST",
+    "route": "/skills/yone_p/formulas",
+    "detailRoute": "/skills/yone_p/formulas/second_attack_magic_damage",
+    "skillKey": "yone_p",
+    "kind": "formulas",
+    "stableKey": "second_attack_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "second_attack_magic_damage",
+      "name": "第二次攻击魔法伤害分量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "attack_damage",
+            "attributeValueKind": "TOTAL"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "magic_damage_split_ratio"
+          }
+        ]
+      },
+      "description": "每第二次攻击把同一个实际攻击基数拆分为魔法分量；与物理分量合计完整攻击伤害。",
+      "sortOrder": 20
+    }
+  }
+}

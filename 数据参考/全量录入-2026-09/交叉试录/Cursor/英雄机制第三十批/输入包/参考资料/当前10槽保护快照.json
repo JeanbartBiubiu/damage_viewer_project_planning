@@ -1,0 +1,1947 @@
+{
+  "at": "2026-09-09T15:52:27.175Z",
+  "GETs": 96,
+  "requests": [
+    {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    {
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/characters/champion_yasuo",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_yasuo",
+        "createdAt": "2026-09-06T18:08:52.68801Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "亚索",
+        "updatedAt": "2026-09-06T18:08:52.68801Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_yasuo",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_yasuo",
+            "characterName": "亚索",
+            "gameId": "lol",
+            "skillKey": "yasuo_p",
+            "skillName": "亚索·浪客之道",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_yasuo",
+            "characterName": "亚索",
+            "gameId": "lol",
+            "skillKey": "yasuo_q",
+            "skillName": "亚索·斩钢闪",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_yasuo",
+            "characterName": "亚索",
+            "gameId": "lol",
+            "skillKey": "yasuo_w",
+            "skillName": "亚索·风之障壁",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_yasuo",
+            "characterName": "亚索",
+            "gameId": "lol",
+            "skillKey": "yasuo_e",
+            "skillName": "亚索·踏前斩",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_yasuo",
+            "characterName": "亚索",
+            "gameId": "lol",
+            "skillKey": "yasuo_r",
+            "skillName": "亚索·狂风绝息斩",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_yone",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_yone",
+        "createdAt": "2026-09-06T18:09:21.141827Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "永恩",
+        "updatedAt": "2026-09-06T18:09:21.141827Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_yone",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_yone",
+            "characterName": "永恩",
+            "gameId": "lol",
+            "skillKey": "yone_p",
+            "skillName": "永恩·狩人之道",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_yone",
+            "characterName": "永恩",
+            "gameId": "lol",
+            "skillKey": "yone_q",
+            "skillName": "永恩·错玉切",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_yone",
+            "characterName": "永恩",
+            "gameId": "lol",
+            "skillKey": "yone_w",
+            "skillName": "永恩·凛神斩",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_yone",
+            "characterName": "永恩",
+            "gameId": "lol",
+            "skillKey": "yone_e",
+            "skillName": "永恩·破障之锋",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_yone",
+            "characterName": "永恩",
+            "gameId": "lol",
+            "skillKey": "yone_r",
+            "skillName": "永恩·封尘绝念斩",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/yasuo_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:10.982257Z",
+        "description": "亚索的暴击几率提升。此外，亚索在移动时会为一层护盾攒能。护盾会在他受到来自英雄或野怪的伤害时触发。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "亚索·浪客之道",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "yasuo_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:10.982257Z"
+      }
+    },
+    {
+      "route": "/skills/yasuo_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yasuo_p",
+          "name": "yasuo_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/yasuo_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:11.227023Z",
+        "description": "向前出剑，呈直线造成伤害。<br><br>在命中时，斩钢闪会获得一层旋风烈斩效果，持续数秒。在积攒2层旋风烈斩效果后，斩钢闪会形成一阵能够<font color='#6655CC'>击飞</font>敌人的旋风。<br><br>斩钢闪被视为普通攻击，并且可以从所有作用于普攻的东西上获得收益。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "亚索·斩钢闪",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yasuo_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:11.227023Z"
+      }
+    },
+    {
+      "route": "/skills/yasuo_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yasuo_q",
+          "name": "yasuo_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/yasuo_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:06:13.891829Z",
+          "description": "DDragon16.17.1 Yasuo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yasuo_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:13.891829Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yasuo_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:13.891829Z",
+        "description": "DDragon16.17.1 Yasuo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yasuo_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:13.891829Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yasuo_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:11.511476Z",
+        "description": "形成一个持续4秒的气流之墙，来阻挡敌方的飞行道具。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "亚索·风之障壁",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yasuo_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:11.511476Z"
+      }
+    },
+    {
+      "route": "/skills/yasuo_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yasuo_w",
+          "name": "yasuo_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/yasuo_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:06:14.445964Z",
+          "description": "DDragon16.17.1 Yasuo.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 25000,
+            "2": 23000,
+            "3": 21000,
+            "4": 19000,
+            "5": 17000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yasuo_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:14.445964Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yasuo_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:14.445964Z",
+        "description": "DDragon16.17.1 Yasuo.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 25000,
+          "2": 23000,
+          "3": 21000,
+          "4": 19000,
+          "5": 17000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yasuo_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:14.445964Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yasuo_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:11.74332Z",
+        "description": "向目标敌人突进，造成魔法伤害。每次施法都会提升你的后续突进的伤害，直到抵达上限。<br><br>在若干秒内无法对相同敌人重复施放。<br><br><font color='#99FF99'>如果在突进的过程中施放斩钢闪，那么斩钢闪就会呈环状出剑。</font>（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "亚索·踏前斩",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yasuo_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:11.74332Z"
+      }
+    },
+    {
+      "route": "/skills/yasuo_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yasuo_e",
+          "name": "yasuo_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/yasuo_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:06:15.061944Z",
+          "description": "DDragon16.17.1 Yasuo.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 500,
+            "2": 400,
+            "3": 300,
+            "4": 200,
+            "5": 100
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yasuo_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:15.061944Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yasuo_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:15.061944Z",
+        "description": "DDragon16.17.1 Yasuo.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 500,
+          "2": 400,
+          "3": 300,
+          "4": 200,
+          "5": 100
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yasuo_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:15.061944Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yasuo_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:12.009725Z",
+        "description": "闪烁到一个<factionIonia1>浮空</factionIonia1>的敌方英雄身边，造成物理伤害，并使范围内的所有<factionIonia1>浮空</factionIonia1>的敌人滞留在空中。获得满额的剑意值，但会重置旋风烈斩的层数。<br><br>在接下来的若干秒里，亚索的暴击会获得显著的额外护甲穿透加成值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "亚索·狂风绝息斩",
+        "skillCategoryKeys": [],
+        "skillKey": "yasuo_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:12.009725Z"
+      }
+    },
+    {
+      "route": "/skills/yasuo_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yasuo_r",
+          "name": "yasuo_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/yasuo_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:06:15.634655Z",
+          "description": "DDragon16.17.1 Yasuo.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70000,
+            "2": 50000,
+            "3": 30000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yasuo_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:15.634655Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yasuo_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:15.634655Z",
+        "description": "DDragon16.17.1 Yasuo.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70000,
+          "2": 50000,
+          "3": 30000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yasuo_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:15.634655Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yasuo_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yasuo_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:12.294693Z",
+        "description": "永恩每第二次攻击造成魔法伤害。此外，他的暴击几率提升。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "永恩·狩人之道",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "yone_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:12.294693Z"
+      }
+    },
+    {
+      "route": "/skills/yone_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yone_p",
+          "name": "yone_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/yone_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:12.538141Z",
+        "description": "向前出剑，呈直线造成伤害。<br><br>在命中时，错玉切会获得一层旋风烈斩效果，持续数秒。在2层时，错玉切会使永恩向前冲刺并带着一阵能够<status>击飞</status>敌人的旋风。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "永恩·错玉切",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yone_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:12.538141Z"
+      }
+    },
+    {
+      "route": "/skills/yone_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yone_q",
+          "name": "yone_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/yone_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:06:16.13938Z",
+          "description": "DDragon16.17.1 Yone.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yone_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:16.13938Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yone_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:16.13938Z",
+        "description": "DDragon16.17.1 Yone.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yone_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:16.13938Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yone_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:12.796625Z",
+        "description": "向前顺劈，对锥形范围内的所有敌人造成伤害。为永恩提供一个护盾，护盾生命值会基于被顺劈到的敌方英雄的数量而得到提升。<br><br>凛神斩的冷却时间和施放时间可通过攻击速度来缩短。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "永恩·凛神斩",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yone_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:12.796625Z"
+      }
+    },
+    {
+      "route": "/skills/yone_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yone_w",
+          "name": "yone_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/yone_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:06:16.603962Z",
+          "description": "DDragon16.17.1 Yone.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 14000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yone_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:16.603962Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yone_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:16.603962Z",
+        "description": "DDragon16.17.1 Yone.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 14000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yone_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:16.603962Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yone_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:13.083754Z",
+        "description": "永恩的灵体离开他的身体，并获得移动速度。当这个技能结束时，永恩的灵体会被强制返回他的身体，并且他会再次造成伤害，伤害值相当于一部分他在灵体形态中造成的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "永恩·破障之锋",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yone_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:13.083754Z"
+      }
+    },
+    {
+      "route": "/skills/yone_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yone_e",
+          "name": "yone_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/yone_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:06:17.099869Z",
+          "description": "DDragon16.17.1 Yone.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 22000,
+            "2": 19000,
+            "3": 16000,
+            "4": 13000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yone_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:17.099869Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yone_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:17.099869Z",
+        "description": "DDragon16.17.1 Yone.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 22000,
+          "2": 19000,
+          "3": 16000,
+          "4": 13000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yone_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:17.099869Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yone_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:13.338173Z",
+        "description": "永恩沿直线进行斩击，闪烁至最后一名敌方英雄身后，并将命中的所有敌人拉向他。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "永恩·封尘绝念斩",
+        "skillCategoryKeys": [],
+        "skillKey": "yone_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:13.338173Z"
+      }
+    },
+    {
+      "route": "/skills/yone_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yone_r",
+          "name": "yone_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/yone_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:06:17.574145Z",
+          "description": "DDragon16.17.1 Yone.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yone_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:17.574145Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yone_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:17.574145Z",
+        "description": "DDragon16.17.1 Yone.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yone_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:17.574145Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yone_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yone_r/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "summary": {
+    "yasuo_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:10.982257Z",
+        "description": "亚索的暴击几率提升。此外，亚索在移动时会为一层护盾攒能。护盾会在他受到来自英雄或野怪的伤害时触发。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "亚索·浪客之道",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "yasuo_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:10.982257Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yasuo_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:11.227023Z",
+        "description": "向前出剑，呈直线造成伤害。<br><br>在命中时，斩钢闪会获得一层旋风烈斩效果，持续数秒。在积攒2层旋风烈斩效果后，斩钢闪会形成一阵能够<font color='#6655CC'>击飞</font>敌人的旋风。<br><br>斩钢闪被视为普通攻击，并且可以从所有作用于普攻的东西上获得收益。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "亚索·斩钢闪",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yasuo_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:11.227023Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:06:13.891829Z",
+            "description": "DDragon16.17.1 Yasuo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 4000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yasuo_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:13.891829Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yasuo_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:11.511476Z",
+        "description": "形成一个持续4秒的气流之墙，来阻挡敌方的飞行道具。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "亚索·风之障壁",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yasuo_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:11.511476Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:06:14.445964Z",
+            "description": "DDragon16.17.1 Yasuo.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 25000,
+              "2": 23000,
+              "3": 21000,
+              "4": 19000,
+              "5": 17000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yasuo_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:14.445964Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yasuo_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:11.74332Z",
+        "description": "向目标敌人突进，造成魔法伤害。每次施法都会提升你的后续突进的伤害，直到抵达上限。<br><br>在若干秒内无法对相同敌人重复施放。<br><br><font color='#99FF99'>如果在突进的过程中施放斩钢闪，那么斩钢闪就会呈环状出剑。</font>（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "亚索·踏前斩",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yasuo_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:11.74332Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:06:15.061944Z",
+            "description": "DDragon16.17.1 Yasuo.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 500,
+              "2": 400,
+              "3": 300,
+              "4": 200,
+              "5": 100
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yasuo_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:15.061944Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yasuo_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:12.009725Z",
+        "description": "闪烁到一个<factionIonia1>浮空</factionIonia1>的敌方英雄身边，造成物理伤害，并使范围内的所有<factionIonia1>浮空</factionIonia1>的敌人滞留在空中。获得满额的剑意值，但会重置旋风烈斩的层数。<br><br>在接下来的若干秒里，亚索的暴击会获得显著的额外护甲穿透加成值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "亚索·狂风绝息斩",
+        "skillCategoryKeys": [],
+        "skillKey": "yasuo_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:12.009725Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:06:15.634655Z",
+            "description": "DDragon16.17.1 Yasuo.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 70000,
+              "2": 50000,
+              "3": 30000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yasuo_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:15.634655Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yone_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:12.294693Z",
+        "description": "永恩每第二次攻击造成魔法伤害。此外，他的暴击几率提升。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "永恩·狩人之道",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "yone_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:12.294693Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yone_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:12.538141Z",
+        "description": "向前出剑，呈直线造成伤害。<br><br>在命中时，错玉切会获得一层旋风烈斩效果，持续数秒。在2层时，错玉切会使永恩向前冲刺并带着一阵能够<status>击飞</status>敌人的旋风。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "永恩·错玉切",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yone_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:12.538141Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:06:16.13938Z",
+            "description": "DDragon16.17.1 Yone.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 4000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yone_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:16.13938Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yone_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:12.796625Z",
+        "description": "向前顺劈，对锥形范围内的所有敌人造成伤害。为永恩提供一个护盾，护盾生命值会基于被顺劈到的敌方英雄的数量而得到提升。<br><br>凛神斩的冷却时间和施放时间可通过攻击速度来缩短。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "永恩·凛神斩",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yone_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:12.796625Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:06:16.603962Z",
+            "description": "DDragon16.17.1 Yone.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 14000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yone_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:16.603962Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yone_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:13.083754Z",
+        "description": "永恩的灵体离开他的身体，并获得移动速度。当这个技能结束时，永恩的灵体会被强制返回他的身体，并且他会再次造成伤害，伤害值相当于一部分他在灵体形态中造成的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "永恩·破障之锋",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yone_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:13.083754Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:06:17.099869Z",
+            "description": "DDragon16.17.1 Yone.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 22000,
+              "2": 19000,
+              "3": 16000,
+              "4": 13000,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yone_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:17.099869Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yone_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:13.338173Z",
+        "description": "永恩沿直线进行斩击，闪烁至最后一名敌方英雄身后，并将命中的所有敌人拉向他。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "永恩·封尘绝念斩",
+        "skillCategoryKeys": [],
+        "skillKey": "yone_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:13.338173Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:06:17.574145Z",
+            "description": "DDragon16.17.1 Yone.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 100000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yone_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:06:17.574145Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    }
+  },
+  "apiWrites": 0
+}

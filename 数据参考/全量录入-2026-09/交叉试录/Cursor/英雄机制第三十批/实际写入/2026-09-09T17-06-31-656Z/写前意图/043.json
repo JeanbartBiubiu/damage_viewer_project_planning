@@ -1,0 +1,23 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "method": "POST",
+    "route": "/skills/yone_p/parameters",
+    "detailRoute": "/skills/yone_p/parameters/crit_damage_modifier_ratio",
+    "skillKey": "yone_p",
+    "kind": "parameters",
+    "stableKey": "crit_damage_modifier_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_damage_modifier_ratio",
+      "name": "暴击伤害调节比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.95,
+      "levelValues": null,
+      "description": "客户端CritDamageMod约0.95；实际暴击倍率由CurrentCritDamage读取，本值不作为完整倍率。",
+      "sortOrder": 40
+    }
+  }
+}

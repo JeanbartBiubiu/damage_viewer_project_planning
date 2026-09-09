@@ -1,0 +1,55 @@
+{
+  "i": 69,
+  "intent": {
+    "sequence": 70,
+    "method": "POST",
+    "route": "/skills/yone_w/formulas",
+    "detailRoute": "/skills/yone_w/formulas/magic_damage",
+    "skillKey": "yone_w",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "凛神斩单一敌方魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "target_max_health_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "TARGET",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_split_ratio"
+          }
+        ]
+      },
+      "description": "魔法分量与物理分量各占同一个完整基数的一半；两者合计一个完整基数。",
+      "sortOrder": 20
+    }
+  }
+}

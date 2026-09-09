@@ -1,0 +1,1170 @@
+{
+  "at": "2026-09-09T17:10:24.409Z",
+  "passed": true,
+  "browser": "Codex内置浏览器既有tab2，实际查询并打开参数和公式详情，http://127.0.0.1:5173/#/skills",
+  "representativePages": 3,
+  "observations": [
+    {
+      "skillKey": "yasuo_q",
+      "ui": "20/45/70/95/120基础值，暴击倍率只乘1.05总攻击力项，倍率计算时传入。"
+    },
+    {
+      "skillKey": "yone_w",
+      "ui": "物理和魔法两半；完整护盾包含0.65额外攻击力，首个敌方英雄使完整护盾翻倍，持续1500毫秒。"
+    },
+    {
+      "skillKey": "yone_e",
+      "ui": "5秒灵体窗口；存储值限定对英雄的攻击及技能实际伤害，乘25%至35%，初始10%和最高30%移速分别记录。"
+    }
+  ],
+  "GETs": 18,
+  "mathCases": 14,
+  "calls": [
+    {
+      "route": "/skills/yasuo_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:11.227023Z",
+        "description": "向前出剑，呈直线造成伤害。<br><br>在命中时，斩钢闪会获得一层旋风烈斩效果，持续数秒。在积攒2层旋风烈斩效果后，斩钢闪会形成一阵能够<font color='#6655CC'>击飞</font>敌人的旋风。<br><br>斩钢闪被视为普通攻击，并且可以从所有作用于普攻的东西上获得收益。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "亚索·斩钢闪",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yasuo_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:11.227023Z"
+      }
+    },
+    {
+      "route": "/skills/yasuo_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yasuo_q",
+          "name": "yasuo_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/yasuo_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T17:06:55.063344Z",
+          "description": "客户端BaseDamage等级1至5为20/45/70/95/120；正文Damage树消费该基础值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20,
+            "2": 45,
+            "3": 70,
+            "4": 95,
+            "5": 120
+          },
+          "name": "基础物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "yasuo_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:06:55.063344Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:06:56.161892Z",
+          "description": "客户端ADRatio约1.05；当前Damage树使用来源总攻击力，比例1代表100%。",
+          "fixedValue": 1.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "总攻击力比例",
+          "parameterKey": "total_attack_damage_ratio",
+          "skillKey": "yasuo_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T17:06:56.161892Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:06:57.191248Z",
+          "description": "暴击计算树的mStat9选择器和应用阶段未形成窄证；暴击倍率无默认，直接由实际输入提供。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "实际暴击伤害倍率",
+          "parameterKey": "actual_critical_damage_ratio",
+          "skillKey": "yasuo_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T17:06:57.191248Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:06:58.296921Z",
+          "description": "客户端GatheringStormDuration=6秒，当前中文正文显示层数持续时间，转换为6000毫秒。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "旋风烈斩层数持续时间（毫秒）",
+          "parameterKey": "stack_duration_ms",
+          "skillKey": "yasuo_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T17:06:58.296921Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:06:59.346099Z",
+          "description": "当前正文明确积攒2层后下一次形成旋风；次数为整数。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "旋风烈斩触发层数",
+          "parameterKey": "stack_threshold",
+          "skillKey": "yasuo_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T17:06:59.346099Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:07:00.420101Z",
+          "description": "客户端KnockUpDurationTOOLTIPONLY=1秒且官方文字用于击飞持续，转换为1000毫秒。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "击飞持续时间（毫秒）",
+          "parameterKey": "knockup_duration_ms",
+          "skillKey": "yasuo_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T17:07:00.420101Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:07:01.5761Z",
+          "description": "客户端spellCastTime=0.125秒；正文还说明攻击速度会缩短施法时间，因此该值只代表基础字段，不代表所有攻击速度下最终时长。",
+          "fixedValue": 125,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "yasuo_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T17:07:01.5761Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:06:13.891829Z",
+          "description": "DDragon16.17.1 Yasuo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yasuo_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:13.891829Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yone_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:12.796625Z",
+        "description": "向前顺劈，对锥形范围内的所有敌人造成伤害。为永恩提供一个护盾，护盾生命值会基于被顺劈到的敌方英雄的数量而得到提升。<br><br>凛神斩的冷却时间和施放时间可通过攻击速度来缩短。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "永恩·凛神斩",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yone_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:12.796625Z"
+      }
+    },
+    {
+      "route": "/skills/yone_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yone_w",
+          "name": "yone_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/yone_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T17:07:50.497316Z",
+          "description": "客户端BaseDamage索引1至5为10/20/30/40/50；两种伤害共同使用一个基数。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10,
+            "2": 20,
+            "3": 30,
+            "4": 40,
+            "5": 50
+          },
+          "name": "基础伤害基数",
+          "parameterKey": "base_damage",
+          "skillKey": "yone_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:07:50.497316Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:07:51.699527Z",
+          "description": "客户端MaxHealthDamage索引1至5为8%/9%/10%/11%/12%；当前中文正文显示各类型均为基数和目标最大生命值比例的一半。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.08,
+            "2": 0.09,
+            "3": 0.1,
+            "4": 0.11,
+            "5": 0.12
+          },
+          "name": "目标最大生命比例",
+          "parameterKey": "target_max_health_ratio",
+          "skillKey": "yone_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T17:07:51.699527Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:07:52.852946Z",
+          "description": "当前正文和官方英文均明确物理、魔法各为同一个完整基数的一半；比例1代表100%。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "伤害分拆比例",
+          "parameterKey": "damage_split_ratio",
+          "skillKey": "yone_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T17:07:52.852946Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:07:54.01509Z",
+          "description": "客户端WShield的ByCharLevelInterpolation为40至90，未给可证18级中间表；使用实际等级基础值，无默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "实际等级护盾基础值",
+          "parameterKey": "shield_level_base_value",
+          "skillKey": "yone_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T17:07:54.01509Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:07:55.186942Z",
+          "description": "客户端ShieldbADRatio约0.65，WShield树为实际等级基础值+0.65×来源额外攻击力。",
+          "fixedValue": 0.65,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾额外攻击力比例",
+          "parameterKey": "shield_bonus_attack_damage_ratio",
+          "skillKey": "yone_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T17:07:55.186942Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:07:56.22736Z",
+          "description": "客户端FirstChampShieldMultiplier=1，官方扩展正文显示首个敌方英雄使护盾提升100%；比例1代表100%。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "首个敌方英雄护盾提升比例",
+          "parameterKey": "first_champion_shield_increase_ratio",
+          "skillKey": "yone_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T17:07:56.22736Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:07:57.419228Z",
+          "description": "客户端ShieldDuration=1.5秒，转换为1500毫秒。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾持续时间（毫秒）",
+          "parameterKey": "shield_duration_ms",
+          "skillKey": "yone_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T17:07:57.419228Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:07:58.689438Z",
+          "description": "客户端mCastTime=0.5秒且与WBaseCastTime一致，转换为500毫秒；攻击速度缩短关系待接。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "yone_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T17:07:58.689438Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:06:16.603962Z",
+          "description": "DDragon16.17.1 Yone.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 14000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yone_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:16.603962Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yone_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:13.083754Z",
+        "description": "永恩的灵体离开他的身体，并获得移动速度。当这个技能结束时，永恩的灵体会被强制返回他的身体，并且他会再次造成伤害，伤害值相当于一部分他在灵体形态中造成的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "永恩·破障之锋",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yone_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:13.083754Z"
+      }
+    },
+    {
+      "route": "/skills/yone_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yone_e",
+          "name": "yone_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/yone_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T17:08:06.595377Z",
+          "description": "客户端ReturnTimer=5秒，转换为5000毫秒。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "灵体窗口时间（毫秒）",
+          "parameterKey": "return_duration_ms",
+          "skillKey": "yone_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:08:06.595377Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:08:07.94888Z",
+          "description": "客户端StartingMS=0.1，当前正文显示移速从10%开始逐渐提升；比例1代表100%。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "灵体初始移速加成比例",
+          "parameterKey": "movement_speed_start_ratio",
+          "skillKey": "yone_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T17:08:07.94888Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:08:09.016648Z",
+          "description": "客户端MovementSpeed=0.3，当前正文显示最高30%；不把逐渐提升伪装成全程固定效果。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "灵体最高移速加成比例",
+          "parameterKey": "movement_speed_end_ratio",
+          "skillKey": "yone_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T17:08:09.016648Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:08:10.127035Z",
+          "description": "客户端DeathmarkPercent索引1至5为25%/27.5%/30%/32.5%/35%，与同版官方英文正文一致；比例1代表100%。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.25,
+            "2": 0.275,
+            "3": 0.3,
+            "4": 0.325,
+            "5": 0.35
+          },
+          "name": "返回追加伤害比例",
+          "parameterKey": "return_damage_ratio",
+          "skillKey": "yone_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T17:08:10.127035Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:08:11.200815Z",
+          "description": "同版官方英文Yone.spells[2].tooltip明确只统计灵体期间对英雄造成的攻击与技能伤害；伤害存储阶段和附带效果资格无默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "灵体期间对英雄实际造成的攻击与技能伤害",
+          "parameterKey": "return_damage_stored",
+          "skillKey": "yone_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T17:08:11.200815Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:08:12.251359Z",
+          "description": "客户端RecastLockout=0.5秒，转换为500毫秒；硬控延迟返回待接。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "重施锁定时间（毫秒）",
+          "parameterKey": "recast_lockout_ms",
+          "skillKey": "yone_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T17:08:12.251359Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:06:17.099869Z",
+          "description": "DDragon16.17.1 Yone.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 22000,
+            "2": 19000,
+            "3": 16000,
+            "4": 13000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yone_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:17.099869Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yasuo_q/formulas/physical_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:07:02.539294Z",
+        "description": "当前TotalDamage树=基础伤害+1.05×来源总攻击力；唯一敌人范围保留，结果事件待接。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "total_attack_damage_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "physical_damage",
+        "gameId": "lol",
+        "name": "斩钢闪单一敌方物理伤害",
+        "skillKey": "yasuo_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:07:02.539294Z"
+      }
+    },
+    {
+      "route": "/skills/yasuo_q/formulas/critical_physical_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:07:03.646917Z",
+        "description": "当前TotalDamageCrit树=基础伤害+总攻击力×(1.05×实际暴击伤害倍率)；暴击倍率只作用于攻击力项，不乘基础值。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "total_attack_damage_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_critical_damage_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "critical_physical_damage",
+        "gameId": "lol",
+        "name": "斩钢闪暴击物理伤害",
+        "skillKey": "yasuo_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:07:03.646917Z"
+      }
+    },
+    {
+      "route": "/skills/yone_w/formulas/physical_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:07:59.93592Z",
+        "description": "物理分量=0.5×(基础值+目标最大生命值比例×目标最大生命)；不是完整基数。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_max_health_ratio"
+                    },
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "TARGET",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_split_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "physical_damage",
+        "gameId": "lol",
+        "name": "凛神斩单一敌方物理伤害",
+        "skillKey": "yone_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:07:59.93592Z"
+      }
+    },
+    {
+      "route": "/skills/yone_w/formulas/magic_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:08:01.354449Z",
+        "description": "魔法分量与物理分量各占同一个完整基数的一半；两者合计一个完整基数。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_max_health_ratio"
+                    },
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "TARGET",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_split_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "magic_damage",
+        "gameId": "lol",
+        "name": "凛神斩单一敌方魔法伤害",
+        "skillKey": "yone_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:08:01.354449Z"
+      }
+    },
+    {
+      "route": "/skills/yone_w/formulas/shield_value",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:08:02.636413Z",
+        "description": "WShield树=实际等级护盾基础值+0.65×来源额外攻击力；命中单位才进入自身护盾效果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_level_base_value"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_bonus_attack_damage_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "shield_value",
+        "gameId": "lol",
+        "name": "凛神斩完整护盾值",
+        "skillKey": "yone_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:08:02.636413Z"
+      }
+    },
+    {
+      "route": "/skills/yone_w/formulas/first_champion_shield_value",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:08:04.017028Z",
+        "description": "首个敌方英雄使完整护盾额外提升100%，即完整护盾×2；不把提升只施加在基础值上。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_level_base_value"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_bonus_attack_damage_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_level_base_value"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "shield_bonus_attack_damage_ratio"
+                        },
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "BONUS",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "first_champion_shield_increase_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "first_champion_shield_value",
+        "gameId": "lol",
+        "name": "命中首个敌方英雄的完整护盾值",
+        "skillKey": "yone_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T17:08:04.017028Z"
+      }
+    },
+    {
+      "route": "/skills/yone_e/formulas/return_additional_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:08:13.478406Z",
+        "description": "返回追加伤害=官方限定范围内实际储存的攻击与技能伤害×技能等级比例；伤害类型正文未指定，不标注物理或真实。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "return_damage_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "return_damage_stored"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "return_additional_damage",
+        "gameId": "lol",
+        "name": "破障之锋返回追加伤害量",
+        "skillKey": "yone_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:08:13.478406Z"
+      }
+    },
+    {
+      "route": "/skills/yasuo_p/effects/self_shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:06:53.98872Z",
+        "description": "只定义已证的自身护盾数值与2000毫秒生命周期；移动积攒、满剑意以及受到英雄或野怪伤害时的触发条件待接，不创建自动触发。",
+        "effectKey": "self_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "亚索自身护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "亚索自身护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_value"
+              }
+            }
+          }
+        ],
+        "skillKey": "yasuo_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:06:53.98872Z"
+      }
+    },
+    {
+      "route": "/skills/yone_w/effects/first_champion_self_shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:08:05.482143Z",
+        "description": "只定义唯一敌人场景下首个敌方英雄护盾的数值与1500毫秒生命周期；命中、护盾应用和后续英雄额外目标分配待接。",
+        "effectKey": "first_champion_self_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "永恩命中首个敌方英雄后的自身护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "永恩命中首个敌方英雄后的自身护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "first_champion_shield_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "yone_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:08:05.482143Z"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "skillKey": "yasuo_q",
+      "formulaKey": "physical_damage",
+      "skillLevel": 1,
+      "attrs": {
+        "SOURCE/attack_damage/TOTAL": 80
+      },
+      "runtime": {
+        "actual_critical_damage_ratio": 1.75
+      },
+      "actual": 104,
+      "expected": 104,
+      "passed": true
+    },
+    {
+      "skillKey": "yasuo_q",
+      "formulaKey": "critical_physical_damage",
+      "skillLevel": 1,
+      "attrs": {
+        "SOURCE/attack_damage/TOTAL": 80
+      },
+      "runtime": {
+        "actual_critical_damage_ratio": 1.75
+      },
+      "actual": 167,
+      "expected": 167,
+      "passed": true
+    },
+    {
+      "skillKey": "yasuo_q",
+      "formulaKey": "physical_damage",
+      "skillLevel": 5,
+      "attrs": {
+        "SOURCE/attack_damage/TOTAL": 260
+      },
+      "runtime": {
+        "actual_critical_damage_ratio": 2.25
+      },
+      "actual": 393,
+      "expected": 393,
+      "passed": true
+    },
+    {
+      "skillKey": "yasuo_q",
+      "formulaKey": "critical_physical_damage",
+      "skillLevel": 5,
+      "attrs": {
+        "SOURCE/attack_damage/TOTAL": 260
+      },
+      "runtime": {
+        "actual_critical_damage_ratio": 2.25
+      },
+      "actual": 734.25,
+      "expected": 734.25,
+      "passed": true
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "physical_damage",
+      "skillLevel": 1,
+      "attrs": {
+        "TARGET/hp/TOTAL": 1800,
+        "SOURCE/attack_damage/BONUS": 35
+      },
+      "runtime": {
+        "shield_level_base_value": 45
+      },
+      "actual": 77,
+      "expected": 77,
+      "passed": true
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "magic_damage",
+      "skillLevel": 1,
+      "attrs": {
+        "TARGET/hp/TOTAL": 1800,
+        "SOURCE/attack_damage/BONUS": 35
+      },
+      "runtime": {
+        "shield_level_base_value": 45
+      },
+      "actual": 77,
+      "expected": 77,
+      "passed": true
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "shield_value",
+      "skillLevel": 1,
+      "attrs": {
+        "TARGET/hp/TOTAL": 1800,
+        "SOURCE/attack_damage/BONUS": 35
+      },
+      "runtime": {
+        "shield_level_base_value": 45
+      },
+      "actual": 67.75,
+      "expected": 67.75,
+      "passed": true
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "first_champion_shield_value",
+      "skillLevel": 1,
+      "attrs": {
+        "TARGET/hp/TOTAL": 1800,
+        "SOURCE/attack_damage/BONUS": 35
+      },
+      "runtime": {
+        "shield_level_base_value": 45
+      },
+      "actual": 135.5,
+      "expected": 135.5,
+      "passed": true
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "physical_damage",
+      "skillLevel": 5,
+      "attrs": {
+        "TARGET/hp/TOTAL": 4200,
+        "SOURCE/attack_damage/BONUS": 180
+      },
+      "runtime": {
+        "shield_level_base_value": 85
+      },
+      "actual": 277,
+      "expected": 277,
+      "passed": true
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "magic_damage",
+      "skillLevel": 5,
+      "attrs": {
+        "TARGET/hp/TOTAL": 4200,
+        "SOURCE/attack_damage/BONUS": 180
+      },
+      "runtime": {
+        "shield_level_base_value": 85
+      },
+      "actual": 277,
+      "expected": 277,
+      "passed": true
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "shield_value",
+      "skillLevel": 5,
+      "attrs": {
+        "TARGET/hp/TOTAL": 4200,
+        "SOURCE/attack_damage/BONUS": 180
+      },
+      "runtime": {
+        "shield_level_base_value": 85
+      },
+      "actual": 202,
+      "expected": 202,
+      "passed": true
+    },
+    {
+      "skillKey": "yone_w",
+      "formulaKey": "first_champion_shield_value",
+      "skillLevel": 5,
+      "attrs": {
+        "TARGET/hp/TOTAL": 4200,
+        "SOURCE/attack_damage/BONUS": 180
+      },
+      "runtime": {
+        "shield_level_base_value": 85
+      },
+      "actual": 404,
+      "expected": 404,
+      "passed": true
+    },
+    {
+      "skillKey": "yone_e",
+      "formulaKey": "return_additional_damage",
+      "skillLevel": 1,
+      "attrs": {},
+      "runtime": {
+        "return_damage_stored": 300
+      },
+      "actual": 75,
+      "expected": 75,
+      "passed": true
+    },
+    {
+      "skillKey": "yone_e",
+      "formulaKey": "return_additional_damage",
+      "skillLevel": 5,
+      "attrs": {},
+      "runtime": {
+        "return_damage_stored": 1200
+      },
+      "actual": 420,
+      "expected": 420,
+      "passed": true
+    }
+  ],
+  "apiWrites": 0,
+  "runtimeValidation": "未执行",
+  "scriptSha256": "958e91345a4552aadfa18910a6a62a06ea203e71e56d59a3ac9790dd16b0b924"
+}

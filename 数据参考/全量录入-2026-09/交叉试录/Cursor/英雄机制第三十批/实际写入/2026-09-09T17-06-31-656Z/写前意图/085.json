@@ -1,0 +1,55 @@
+{
+  "i": 84,
+  "intent": {
+    "sequence": 85,
+    "method": "POST",
+    "route": "/skills/yone_r/formulas",
+    "detailRoute": "/skills/yone_r/formulas/physical_damage",
+    "skillKey": "yone_r",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "封尘绝念斩单一敌方物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_split_ratio"
+          }
+        ]
+      },
+      "description": "物理伤害=完整Damage的一半，即100/200/300+0.4×来源额外攻击力；唯一敌人保留。",
+      "sortOrder": 10
+    }
+  }
+}

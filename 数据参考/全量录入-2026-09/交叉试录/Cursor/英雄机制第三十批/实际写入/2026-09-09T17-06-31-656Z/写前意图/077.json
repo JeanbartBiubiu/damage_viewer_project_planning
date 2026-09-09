@@ -1,0 +1,29 @@
+{
+  "i": 76,
+  "intent": {
+    "sequence": 77,
+    "method": "POST",
+    "route": "/skills/yone_e/parameters",
+    "detailRoute": "/skills/yone_e/parameters/return_damage_ratio",
+    "skillKey": "yone_e",
+    "kind": "parameters",
+    "stableKey": "return_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "return_damage_ratio",
+      "name": "返回追加伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.25,
+        "2": 0.275,
+        "3": 0.3,
+        "4": 0.325,
+        "5": 0.35
+      },
+      "description": "客户端DeathmarkPercent索引1至5为25%/27.5%/30%/32.5%/35%，与同版官方英文正文一致；比例1代表100%。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 60,
+    "method": "POST",
+    "route": "/skills/yone_q/formulas",
+    "detailRoute": "/skills/yone_q/formulas/critical_physical_damage",
+    "skillKey": "yone_q",
+    "kind": "formulas",
+    "stableKey": "critical_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "critical_physical_damage",
+      "name": "错玉切暴击物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "total_attack_damage_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_critical_damage_ratio"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamageCrit树=基础伤害+总攻击力×(1.1×实际暴击伤害倍率)，固定基础值不乘暴击倍率。",
+      "sortOrder": 20
+    }
+  }
+}

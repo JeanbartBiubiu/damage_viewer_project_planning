@@ -1,0 +1,23 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "method": "POST",
+    "route": "/skills/yasuo_p/parameters",
+    "detailRoute": "/skills/yasuo_p/parameters/crit_damage_modifier_ratio",
+    "skillKey": "yasuo_p",
+    "kind": "parameters",
+    "stableKey": "crit_damage_modifier_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_damage_modifier_ratio",
+      "name": "暴击伤害调节比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.95,
+      "levelValues": null,
+      "description": "客户端CritDamageMod约0.95；这是减伤/保留来源参数，当前暴击实际倍率由CurrentCritDamage读取，不能把0.95当完整暴击倍率。",
+      "sortOrder": 20
+    }
+  }
+}

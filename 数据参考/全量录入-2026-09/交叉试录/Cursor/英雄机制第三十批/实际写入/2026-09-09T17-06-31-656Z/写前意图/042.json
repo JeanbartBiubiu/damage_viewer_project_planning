@@ -1,0 +1,23 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "method": "POST",
+    "route": "/skills/yone_p/parameters",
+    "detailRoute": "/skills/yone_p/parameters/crit_chance_multiplier",
+    "skillKey": "yone_p",
+    "kind": "parameters",
+    "stableKey": "crit_chance_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_chance_multiplier",
+      "name": "暴击几率提升比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文显示CritChanceMultiplier*100%，在其它暴击修正后提升100%；比例1代表100%。",
+      "sortOrder": 30
+    }
+  }
+}

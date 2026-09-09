@@ -1,0 +1,23 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "method": "POST",
+    "route": "/skills/yone_w/parameters",
+    "detailRoute": "/skills/yone_w/parameters/cast_time_ms",
+    "skillKey": "yone_w",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "基础施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "客户端mCastTime=0.5秒且与WBaseCastTime一致，转换为500毫秒；攻击速度缩短关系待接。",
+      "sortOrder": 80
+    }
+  }
+}

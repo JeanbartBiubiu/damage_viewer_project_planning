@@ -1,0 +1,45 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "method": "POST",
+    "route": "/skills/yasuo_r/formulas",
+    "detailRoute": "/skills/yasuo_r/formulas/physical_damage",
+    "skillKey": "yasuo_r",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "狂风绝息斩单一敌方物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_attack_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Damage树=基础值+1.5×来源额外攻击力；只保留满足浮空资格的唯一敌人伤害。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 25,
+  "intent": {
+    "sequence": 26,
+    "method": "POST",
+    "route": "/skills/yasuo_e/parameters",
+    "detailRoute": "/skills/yasuo_e/parameters/max_stacks",
+    "skillKey": "yasuo_e",
+    "kind": "parameters",
+    "stableKey": "max_stacks",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_stacks",
+      "name": "最大叠层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4,
+      "levelValues": null,
+      "description": "客户端MaxStacks=4，当前正文明确最多叠加4次；次数为整数。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 41,
+    "method": "POST",
+    "route": "/skills/yone_p/parameters",
+    "detailRoute": "/skills/yone_p/parameters/physical_damage_split_ratio",
+    "skillKey": "yone_p",
+    "kind": "parameters",
+    "stableKey": "physical_damage_split_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "physical_damage_split_ratio",
+      "name": "第二次攻击物理伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "正文明确剩余50%攻击伤害仍为物理；与魔法分量合计一个完整攻击基数。",
+      "sortOrder": 20
+    }
+  }
+}

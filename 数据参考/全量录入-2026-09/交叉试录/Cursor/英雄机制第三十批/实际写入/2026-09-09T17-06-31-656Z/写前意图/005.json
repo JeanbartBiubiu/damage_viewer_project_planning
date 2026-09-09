@@ -1,0 +1,23 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "method": "POST",
+    "route": "/skills/yasuo_p/parameters",
+    "detailRoute": "/skills/yasuo_p/parameters/crit_chance_cap_ratio",
+    "skillKey": "yasuo_p",
+    "kind": "parameters",
+    "stableKey": "crit_chance_cap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_chance_cap_ratio",
+      "name": "暴击几率封顶比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "正文以100%为超额转换起点；比例1代表100%。",
+      "sortOrder": 50
+    }
+  }
+}
