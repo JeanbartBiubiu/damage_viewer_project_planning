@@ -1,0 +1,1608 @@
+{
+  "generatedAt": "2026-09-09T10:49:05.103Z",
+  "note": "只沿角色根 mCharacterPassiveSpell 与 spells 的实际绑定取十个槽位；正文文本仅取这些绑定对象当前 mLocKeys 在同版中文 stringtable 的真绑定。完整客户端原文另存供子节点核对，不能用名称相似的旧对象替代。",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "stringTable": {
+    "compressedSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+    "rawSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+    "byteSize": 32784742,
+    "sourcePath": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz"
+  },
+  "heroes": [
+    {
+      "id": "Lux",
+      "chineseName": "拉克丝",
+      "rootPath": "Characters/Lux/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Lux/Spells/LuxIlluminationPassiveAbility/LuxIlluminationPassive",
+        "spells": [
+          "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding",
+          "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave",
+          "Characters/Lux/Spells/LuxLightStrikeKugelAbility/LuxLightStrikeKugel",
+          "Characters/Lux/Spells/LuxRAbility/LuxR"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "lux_p",
+          "rootField": "mCharacterPassiveSpell",
+          "binding": "Characters/Lux/Spells/LuxIlluminationPassiveAbility/LuxIlluminationPassive",
+          "name": "光芒四射",
+          "maxrank": 1,
+          "currentLocKeys": {
+            "keyName": "Buff_LuxP_Name",
+            "keyTooltip": "Buff_LuxP_Tooltip",
+            "keyTooltipSimple": "Buff_LuxP_TooltipSimple",
+            "keySummary": "Spell_LuxIlluminationPassive_Summary"
+          },
+          "currentLocTexts": {
+            "keyName": {
+              "sourceKey": "Buff_LuxP_Name",
+              "key": "buff_luxp_name",
+              "text": "光芒四射"
+            },
+            "keyTooltip": {
+              "sourceKey": "Buff_LuxP_Tooltip",
+              "key": "buff_luxp_tooltip",
+              "text": "拉克丝的伤害型技能会标记目标@DebuffDuration@秒。拉克丝的攻击会消耗该标记，以造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。<br><br><spellName>终极闪光</spellName>在命中敌人时将先消耗标记然后刷新标记。"
+            },
+            "keyTooltipSimple": {
+              "sourceKey": "Buff_LuxP_TooltipSimple",
+              "key": "buff_luxp_tooltipsimple",
+              "text": "拉克丝的伤害类技能会对敌人施加【光芒四射】效果。<br><br>拉克丝的下一次攻击将会消耗【光芒四射】效果，来对目标造成额外魔法伤害。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LuxIlluminationPassive_Summary",
+              "key": "spell_luxilluminationpassive_summary",
+              "text": "拉克丝的伤害类技能会对敌人施加【启明】效果，持续若干秒。拉克丝的下一次攻击将会消耗【启明】效果，来对目标造成额外魔法伤害（基于拉克丝等级）。"
+            }
+          },
+          "official": {
+            "id": null,
+            "name": "光芒四射",
+            "description": "拉克丝的伤害类技能会对敌人施加【启明】效果，持续若干秒。拉克丝的下一次攻击将会消耗【启明】效果，来对目标造成额外魔法伤害（基于拉克丝等级）。",
+            "tooltip": null,
+            "resource": null,
+            "cooldown": null,
+            "cost": null
+          },
+          "dataValues": [
+            {
+              "name": "DebuffDuration",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "values": [
+                    20,
+                    30,
+                    40,
+                    50,
+                    60,
+                    70,
+                    80,
+                    90,
+                    100,
+                    110,
+                    120,
+                    130,
+                    140,
+                    150,
+                    160,
+                    170,
+                    180,
+                    190,
+                    200,
+                    210,
+                    220,
+                    230,
+                    240,
+                    250,
+                    260,
+                    270,
+                    280,
+                    290,
+                    300,
+                    310,
+                    320
+                  ],
+                  "__type": "ByCharLevelFormulaCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "rootSpellFields": {
+            "cooldownTime": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "mana": null,
+            "manaValues": null,
+            "spellCastTime": 0.4327000081539154,
+            "mCastTime": null,
+            "mChannelDuration": null
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "lux_q",
+          "rootField": "spells[0]",
+          "binding": "Characters/Lux/Spells/LuxLightBindingAbility/LuxLightBinding",
+          "name": "光之束缚",
+          "maxrank": 5,
+          "currentLocKeys": {
+            "keyName": "Spell_LuxQ_Name",
+            "keySummary": "Spell_LuxQ_Summary",
+            "keyTooltip": "Spell_LuxQ_Tooltip",
+            "keyTooltipSimple": "Spell_LuxQ_TooltipSimple"
+          },
+          "currentLocTexts": {
+            "keyName": {
+              "sourceKey": "Spell_LuxQ_Name",
+              "key": "spell_luxq_name",
+              "text": "光之束缚"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LuxQ_Summary",
+              "key": "spell_luxq_summary",
+              "text": "拉克丝释放一个光球，束缚并伤害最多两个敌方单位。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LuxQ_Tooltip",
+              "key": "spell_luxq_tooltip",
+              "text": "拉克丝朝目标地点发射一团光球，<status>束缚</status>前2名敌人@RootDuration@秒并对每个敌人造<magicDamage>@TotalDamageTT@魔法伤害</magicDamage>。"
+            },
+            "keyTooltipSimple": {
+              "sourceKey": "Spell_LuxQ_TooltipSimple",
+              "key": "spell_luxq_tooltipsimple",
+              "text": "对2个敌人造成@RootDuration@秒禁锢和伤害。"
+            }
+          },
+          "official": {
+            "id": "LuxLightBinding",
+            "name": "光之束缚",
+            "description": "拉克丝释放一个光球，束缚并伤害最多两个敌方单位。",
+            "tooltip": "拉克丝朝目标地点发射一团光球，<status>束缚</status>前2名敌人{{ rootduration }}秒并对每个敌人造<magicDamage>{{ totaldamagett }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "cooldown": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "cost": [
+              50,
+              50,
+              50,
+              50,
+              50
+            ]
+          },
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                40,
+                80,
+                120,
+                160,
+                200,
+                240,
+                280
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RootDuration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamageTT": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "rootSpellFields": {
+            "cooldownTime": null,
+            "mana": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "manaValues": {
+              "values": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ],
+              "{0a3e0478}": 50,
+              "__type": "{630af303}"
+            },
+            "spellCastTime": 0.25,
+            "mCastTime": null,
+            "mChannelDuration": null
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "lux_w",
+          "rootField": "spells[1]",
+          "binding": "Characters/Lux/Spells/LuxPrismaticWaveAbility/LuxPrismaticWave",
+          "name": "曲光屏障",
+          "maxrank": 5,
+          "currentLocKeys": {
+            "keyName": "Spell_LuxW_Name",
+            "keySummary": "Spell_LuxW_Summary",
+            "keyTooltip": "Spell_LuxW_Tooltip",
+            "keyTooltipSimple": "Spell_LuxW_TooltipSimple",
+            "keyTooltipExtendedBelowLine": "Spell_LuxPrismaticWave_TooltipExtended"
+          },
+          "currentLocTexts": {
+            "keyName": {
+              "sourceKey": "Spell_LuxW_Name",
+              "key": "spell_luxw_name",
+              "text": "曲光屏障"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LuxW_Summary",
+              "key": "spell_luxw_summary",
+              "text": "拉克丝掷出她的魔杖，魔杖所触及的友方单位会有光环环绕，保护他们免受敌方伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LuxW_Tooltip",
+              "key": "spell_luxw_tooltip",
+              "text": "拉克丝扔出她的魔杖，为它途经的友军提供持续@ShieldDuration@秒的<shield>@TotalShieldTT@护盾</shield>。随后它会折返，为它途经的友军提供等额的<shield>护盾</shield>。"
+            },
+            "keyTooltipSimple": {
+              "sourceKey": "Spell_LuxW_TooltipSimple",
+              "key": "spell_luxw_tooltipsimple",
+              "text": "保护拉克丝和命中的友军。<br><br>每段施放都可保护友军。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_LuxPrismaticWave_TooltipExtended",
+              "key": "spell_luxprismaticwave_tooltipextended",
+              "text": "<rules>两段护盾可以叠加。</rules>"
+            }
+          },
+          "official": {
+            "id": "LuxPrismaticWave",
+            "name": "曲光屏障",
+            "description": "拉克丝掷出她的魔杖，魔杖所触及的友方单位会有光环环绕，保护他们免受敌方伤害。",
+            "tooltip": "拉克丝扔出她的魔杖，为它途经的友军提供持续{{ shieldduration }}秒的<shield>{{ totalshieldtt }}护盾</shield>。随后它会折返，为它途经的友军提供等额的<shield>护盾</shield>。{{ spellmodifierdescriptionappend }}",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "cooldown": [
+              12,
+              11.5,
+              11,
+              10.5,
+              10
+            ],
+            "cost": [
+              60,
+              65,
+              70,
+              75,
+              80
+            ]
+          },
+          "dataValues": [
+            {
+              "name": "BaseShieldAmount",
+              "values": [
+                25,
+                40,
+                55,
+                70,
+                85,
+                100,
+                115
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ShieldDuration",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalShieldTT": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseShieldAmount",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "rootSpellFields": {
+            "cooldownTime": [
+              12,
+              12,
+              11.5,
+              11,
+              10.5,
+              10,
+              9.5
+            ],
+            "mana": [
+              60,
+              65,
+              70,
+              75,
+              80,
+              85
+            ],
+            "manaValues": {
+              "values": [
+                60,
+                65,
+                70,
+                75,
+                80,
+                85
+              ],
+              "{0a3e0478}": 60,
+              "__type": "{630af303}"
+            },
+            "spellCastTime": 0.25,
+            "mCastTime": null,
+            "mChannelDuration": null
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "lux_e",
+          "rootField": "spells[2]",
+          "binding": "Characters/Lux/Spells/LuxLightStrikeKugelAbility/LuxLightStrikeKugel",
+          "name": "透光奇点",
+          "maxrank": 5,
+          "currentLocKeys": {
+            "keyName": "Spell_LuxE_Name",
+            "keySummary": "Spell_LuxE_Summary",
+            "keyTooltip": "Spell_LuxE_Tooltip",
+            "keyTooltipSimple": "Spell_LuxE_TooltipSimple"
+          },
+          "currentLocTexts": {
+            "keyName": {
+              "sourceKey": "Spell_LuxE_Name",
+              "key": "spell_luxe_name",
+              "text": "透光奇点"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LuxE_Summary",
+              "key": "spell_luxe_summary",
+              "text": "朝一个区域发射一个不规则的扭曲之光，减速附近敌人。拉克丝可以引爆它，对敌人造成区域性伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LuxE_Tooltip",
+              "key": "spell_luxe_tooltip",
+              "text": "拉克丝创造一个光明地带，显形该区域并使区域中的敌人<status>减速</status>@SlowPercent@%。在@SlowZoneDuration@秒后或<recast>再次施放</recast>这个技能后，它会爆炸，造成<magicDamage>@TotalDamageTT@魔法伤害</magicDamage>并<status>减速</status>额外的@SlowLingerDuration@秒。"
+            },
+            "keyTooltipSimple": {
+              "sourceKey": "Spell_LuxE_TooltipSimple",
+              "key": "spell_luxe_tooltipsimple",
+              "text": "创建一团光球，减速其内的敌人。<br><br>再次激活可引爆并伤害其内的所有敌人。"
+            }
+          },
+          "official": {
+            "id": "LuxLightStrikeKugel",
+            "name": "透光奇点",
+            "description": "朝一个区域发射一个不规则的扭曲之光，减速附近敌人。拉克丝可以引爆它，对敌人造成区域性伤害。",
+            "tooltip": "拉克丝创造一个光明地带，显形该区域并使区域中的敌人<status>减速</status>{{ slowpercent }}%。在{{ slowzoneduration }}秒后或<recast>再次施放</recast>这个技能后，它会爆炸，造成<magicDamage>{{ totaldamagett }}魔法伤害</magicDamage>并<status>减速</status>额外的{{ slowlingerduration }}秒。{{ spellmodifierdescriptionappend }}",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "cooldown": [
+              10,
+              9.5,
+              9,
+              8.5,
+              8
+            ],
+            "cost": [
+              70,
+              80,
+              90,
+              100,
+              110
+            ]
+          },
+          "dataValues": [
+            {
+              "name": "VisionRadius",
+              "values": [
+                650,
+                650,
+                650,
+                650,
+                650,
+                650,
+                650
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowLingerDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowPercent",
+              "values": [
+                20,
+                25,
+                30,
+                35,
+                40,
+                45,
+                50
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowZoneDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                20,
+                65,
+                115,
+                165,
+                215,
+                265,
+                315
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamageTT": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.800000011920929,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{ee9714e4}": {
+              "mMultiplier": {
+                "mNumber": -0.009999999776482582,
+                "__type": "NumberCalculationPart"
+              },
+              "mFormulaParts": [
+                {
+                  "mDataValue": "SlowPercent",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "rootSpellFields": {
+            "cooldownTime": [
+              10,
+              10,
+              9.5,
+              9,
+              8.5,
+              8,
+              8
+            ],
+            "mana": [
+              70,
+              80,
+              90,
+              100,
+              110,
+              110
+            ],
+            "manaValues": {
+              "values": [
+                70,
+                80,
+                90,
+                100,
+                110,
+                110
+              ],
+              "__type": "{630af303}"
+            },
+            "spellCastTime": 0.25,
+            "mCastTime": null,
+            "mChannelDuration": null
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "lux_r",
+          "rootField": "spells[3]",
+          "binding": "Characters/Lux/Spells/LuxRAbility/LuxR",
+          "name": "终极闪光",
+          "maxrank": 3,
+          "currentLocKeys": {
+            "keyName": "Spell_LuxR_Name",
+            "keySummary": "Spell_LuxR_Summary",
+            "keyTooltip": "Spell_LuxR_Tooltip",
+            "keyTooltipSimple": "Spell_LuxR_TooltipSimple"
+          },
+          "currentLocTexts": {
+            "keyName": {
+              "sourceKey": "Spell_LuxR_Name",
+              "key": "spell_luxr_name",
+              "text": "终极闪光"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LuxR_Summary",
+              "key": "spell_luxr_summary",
+              "text": "在积蓄能量之后，拉克丝发射一束光波，对该区域所有目标造成伤害。此外，该技能触发拉克丝的被动技能并刷新光芒四射减益的持续时间。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LuxR_Tooltip",
+              "key": "spell_luxr_tooltip",
+              "text": "拉克丝发射一束耀目的光能射线，对一条直线上的所有敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+            },
+            "keyTooltipSimple": {
+              "sourceKey": "Spell_LuxR_TooltipSimple",
+              "key": "spell_luxr_tooltipsimple",
+              "text": "施放一道炫目光束，伤害命中的所有敌人。<br><br>消耗光芒四射效果造成额外伤害。"
+            }
+          },
+          "official": {
+            "id": "LuxR",
+            "name": "终极闪光",
+            "description": "在积蓄能量之后，拉克丝发射一束光波，对该区域所有目标造成伤害。此外，该技能触发拉克丝的被动技能并刷新光芒四射减益的持续时间。",
+            "tooltip": "拉克丝发射一束耀目的光能射线，对一条直线上的所有敌人造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "cooldown": [
+              60,
+              50,
+              40
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ]
+          },
+          "dataValues": [
+            {
+              "name": "Damage",
+              "values": [
+                200,
+                300,
+                400,
+                500,
+                600,
+                700,
+                800
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ResetPercent",
+              "values": [
+                0.20000000298023224,
+                0.30000001192092896,
+                0.4000000059604645,
+                0.5,
+                0.6000000238418579,
+                0.699999988079071,
+                0.800000011920929
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ResetAssistWindow",
+              "values": [
+                1.75,
+                1.75,
+                1.75,
+                1.75,
+                1.75,
+                1.75,
+                1.75
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "Damage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 1.2000000476837158,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "rootSpellFields": {
+            "cooldownTime": [
+              60,
+              60,
+              50,
+              40,
+              40,
+              40,
+              30
+            ],
+            "mana": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "manaValues": {
+              "values": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              "{0a3e0478}": 100,
+              "__type": "{630af303}"
+            },
+            "spellCastTime": 1.375,
+            "mCastTime": null,
+            "mChannelDuration": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "Zoe",
+      "chineseName": "佐伊",
+      "rootPath": "Characters/Zoe/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive",
+        "spells": [
+          "Characters/Zoe/Spells/ZoeQAbility/ZoeQ",
+          "Characters/Zoe/Spells/ZoeWAbility/ZoeW",
+          "Characters/Zoe/Spells/ZoeEAbility/ZoeE",
+          "Characters/Zoe/Spells/ZoeRAbility/ZoeR"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "zoe_p",
+          "rootField": "mCharacterPassiveSpell",
+          "binding": "Characters/Zoe/Spells/ZoePassiveAbility/ZoePassive",
+          "name": "烟火四射！",
+          "maxrank": 1,
+          "currentLocKeys": {
+            "keyName": "game_spell_displayname_ZoePassive",
+            "keyTooltip": "Spell_ZoePassive_Tooltip",
+            "keyTooltipExtended": "Spell_ZoePassive_TooltipExtended"
+          },
+          "currentLocTexts": {
+            "keyName": {
+              "sourceKey": "game_spell_displayname_ZoePassive",
+              "key": "game_spell_displayname_zoepassive",
+              "text": "烟火四射！"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ZoePassive_Tooltip",
+              "key": "spell_zoepassive_tooltip",
+              "text": "在施放一次技能后，佐伊的下次普攻将造成额外的<magicDamage>@PassiveDamage@魔法伤害</magicDamage>。"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_ZoePassive_TooltipExtended",
+              "key": "spell_zoepassive_tooltipextended",
+              "text": "{{Spell_ZoePassive_Tooltip}}<br><br><rules>强化攻击会立刻造成伤害。</rules>"
+            }
+          },
+          "official": {
+            "id": null,
+            "name": "烟火四射！",
+            "description": "佐伊在施放一次技能后的下次普攻会造成额外魔法伤害。",
+            "tooltip": null,
+            "resource": null,
+            "cooldown": null,
+            "cost": null
+          },
+          "dataValues": [
+            {
+              "name": "APRatio",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "WPickupDurationMinion",
+              "values": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "WPickupDurationChampion",
+              "values": [
+                40,
+                40,
+                40,
+                40,
+                40,
+                40,
+                40
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "PassiveDamage": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 16,
+                  "mInitialBonusPerLevel": 4,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 7,
+                      "mBonusPerLevelAtAndAfter": 6,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 12,
+                      "mBonusPerLevelAtAndAfter": 8,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 15,
+                      "mBonusPerLevelAtAndAfter": 10,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "rootSpellFields": {
+            "cooldownTime": null,
+            "mana": null,
+            "manaValues": null,
+            "spellCastTime": null,
+            "mCastTime": null,
+            "mChannelDuration": null
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "zoe_q",
+          "rootField": "spells[0]",
+          "binding": "Characters/Zoe/Spells/ZoeQAbility/ZoeQ",
+          "name": "飞星乱入！",
+          "maxrank": 5,
+          "currentLocKeys": {
+            "keyName": "Spell_ZoeQ_Name",
+            "keySummary": "Spell_ZoeQ_Summary",
+            "keyTooltip": "Spell_ZoeQ_Tooltip"
+          },
+          "currentLocTexts": {
+            "keyName": {
+              "sourceKey": "Spell_ZoeQ_Name",
+              "key": "spell_zoeq_name",
+              "text": "飞星乱入！"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ZoeQ_Summary",
+              "key": "spell_zoeq_summary",
+              "text": "佐伊发射一个可在飞行途中由她重新导向的飞弹。飞弹在直线上飞行的路程越远，造成的伤害就会越高。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ZoeQ_Tooltip",
+              "key": "spell_zoeq_tooltip",
+              "text": "佐伊发射一颗飞星，基于它的飞行距离来对命中的第一个敌人造成不断提升的伤害 -- <magicDamage>@TotalDamageTooltip@到@MaxDamageTooltip@魔法伤害</magicDamage>。<br><br>佐伊可以<recast>再次施放</recast>这个技能来将这个飞弹重新导向到佐伊附近的一个新位置。"
+            }
+          },
+          "official": {
+            "id": "ZoeQ",
+            "name": "飞星乱入！",
+            "description": "佐伊发射一个可在飞行途中由她重新导向的飞弹。飞弹在直线上飞行的路程越远，造成的伤害就会越高。",
+            "tooltip": "佐伊发射一颗飞星，基于它的飞行距离来对命中的第一个敌人造成不断提升的伤害 -- <magicDamage>{{ totaldamagetooltip }}到{{ maxdamagetooltip }}魔法伤害</magicDamage>。<br /><br />佐伊可以<recast>再次施放</recast>这个技能来将这个飞弹重新导向到佐伊附近的一个新位置。{{ spellmodifierdescriptionappend }}",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "cooldown": [
+              8.5,
+              8,
+              7.5,
+              7,
+              6.5
+            ],
+            "cost": [
+              40,
+              45,
+              50,
+              55,
+              60
+            ]
+          },
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                20,
+                50,
+                80,
+                110,
+                140,
+                170,
+                200
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinionDamageMod",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "UnnamedEffectAmount1",
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamageTooltip": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mLevel1Value": 2,
+                  "mInitialBonusPerLevel": 2,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 10,
+                      "mBonusPerLevelAtAndAfter": 3,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 14,
+                      "mBonusPerLevelAtAndAfter": 4,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxDamageTooltip": {
+              "mMultiplier": {
+                "mNumber": 2.5,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDamageTooltip",
+              "__type": "GameCalculationModified"
+            }
+          },
+          "rootSpellFields": {
+            "cooldownTime": [
+              8.5,
+              8.5,
+              8,
+              7.5,
+              7,
+              6.5,
+              6
+            ],
+            "mana": [
+              40,
+              45,
+              50,
+              55,
+              60,
+              65
+            ],
+            "manaValues": {
+              "values": [
+                40,
+                45,
+                50,
+                55,
+                60,
+                65
+              ],
+              "{0a3e0478}": 40,
+              "__type": "{630af303}"
+            },
+            "spellCastTime": 0.25,
+            "mCastTime": null,
+            "mChannelDuration": null
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "zoe_w",
+          "rootField": "spells[1]",
+          "binding": "Characters/Zoe/Spells/ZoeWAbility/ZoeW",
+          "name": "窃法巧手",
+          "maxrank": 5,
+          "currentLocKeys": {
+            "keyName": "Spell_ZoeW_Name",
+            "keySummary": "Spell_ZoeW_Summary",
+            "keyTooltip": "Spell_ZoeW_Tooltip",
+            "keyTooltipExtendedBelowLine": "Spell_ZoeW_TooltipExtendedBelowLine",
+            "keyCost": "Spell_Cost_NoCost"
+          },
+          "currentLocTexts": {
+            "keyName": {
+              "sourceKey": "Spell_ZoeW_Name",
+              "key": "spell_zoew_name",
+              "text": "窃法巧手"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ZoeW_Summary",
+              "key": "spell_zoew_summary",
+              "text": "佐伊可以拾取敌方在施放召唤师技能和主动型装备时产生的法术碎片，从而让她自己能够施放一次性的相应技能或效果。在她施放一次召唤师技能的同时，她会获得3颗飞弹来射向距她最近的目标。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ZoeW_Tooltip",
+              "key": "spell_zoew_tooltip",
+              "text": "<spellPassive>被动：</spellPassive>敌人在使用【召唤师技能】或【主动型装备】时会掉落一个技能碎片。特定小兵也会在被佐伊或一名附近的友方英雄击杀后掉落一个技能碎片。佐伊可以拾取这些碎片来使用一次相应技能。<br><br><spellPassive>被动：</spellPassive>当佐伊施放这个技能或任一召唤师技能时，她会获得<speed>@MovementSpeed*100@%移动速度</speed>，持续@MSDuration@秒，并对她近期刚攻击过的目标投出3个飞弹。每颗飞弹造成<magicDamage>@MissileDamageTooltip@魔法伤害</magicDamage>。<br><br><spellActive>主动：</spellActive>施放一次来自佐伊已拾取的技能碎片的技能。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_ZoeW_TooltipExtendedBelowLine",
+              "key": "spell_zoew_tooltipextendedbelowline",
+              "text": "<rules>技能碎片会在地上持续40秒。<br>每颗飞弹都会施加<spellName>烟火四射！</spellName></rules>"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_NoCost",
+              "key": "spell_cost_nocost",
+              "text": "无消耗"
+            }
+          },
+          "official": {
+            "id": "ZoeW",
+            "name": "窃法巧手",
+            "description": "佐伊可以拾取敌方在施放召唤师技能和主动型装备时产生的法术碎片，从而让她自己能够施放一次性的相应技能或效果。在她施放一次召唤师技能的同时，她会获得3颗飞弹来射向距她最近的目标。",
+            "tooltip": "<spellPassive>被动：</spellPassive>敌人在使用【召唤师技能】或【主动型装备】时会掉落一个技能碎片。特定小兵也会在被佐伊或一名附近的友方英雄击杀后掉落一个技能碎片。佐伊可以拾取这些碎片来使用一次相应技能。<br /><br /><spellPassive>被动：</spellPassive>当佐伊施放这个技能或任一召唤师技能时，她会获得<speed>{{ movementspeed*100 }}%移动速度</speed>，持续{{ msduration }}秒，并对她近期刚攻击过的目标投出3个飞弹。每颗飞弹造成<magicDamage>{{ missiledamagetooltip }}魔法伤害</magicDamage>。<br /><br /><spellActive>主动：</spellActive>施放一次来自佐伊已拾取的技能碎片的技能。{{ spellmodifierdescriptionappend }}",
+            "resource": "无消耗",
+            "cooldown": [
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25
+            ],
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "dataValues": [
+            {
+              "name": "TotalBaseDamage",
+              "values": [
+                5,
+                15,
+                25,
+                35,
+                45,
+                55,
+                65
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TotalAPRatio",
+              "values": [
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612,
+                0.10000000149011612
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MoveSpeedMod",
+              "values": [
+                0.20000000298023224,
+                0.30000001192092896,
+                0.4000000059604645,
+                0.5,
+                0.6000000238418579,
+                0.699999988079071,
+                0.800000011920929
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MoveSpeedDuration",
+              "values": [
+                1.75,
+                2,
+                2.25,
+                2.5,
+                2.75,
+                3,
+                3.25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DurationOfSummonerCanCast",
+              "values": [
+                60,
+                60,
+                60,
+                60,
+                60,
+                60,
+                60
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MovementSpeed",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.4000000059604645,
+                0.5,
+                0.6000000238418579,
+                0.699999988079071,
+                0.800000011920929
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MSDuration",
+              "values": [
+                2,
+                2,
+                2.25,
+                2.5,
+                2.75,
+                3,
+                3.25
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "MissileDamageTooltip": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "TotalBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "TotalAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "rootSpellFields": {
+            "cooldownTime": [
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25
+            ],
+            "mana": null,
+            "manaValues": null,
+            "spellCastTime": null,
+            "mCastTime": 0.009999999776482582,
+            "mChannelDuration": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "zoe_e",
+          "rootField": "spells[2]",
+          "binding": "Characters/Zoe/Spells/ZoeEAbility/ZoeE",
+          "name": "催眠气泡",
+          "maxrank": 5,
+          "currentLocKeys": {
+            "keyName": "Spell_ZoeE_Name",
+            "keySummary": "Spell_ZoeE_Summary",
+            "keyTooltip": "Spell_ZoeE_Tooltip",
+            "keyTooltipExtendedBelowLine": "Spell_ZoeE_TooltipExtendedBelowLine"
+          },
+          "currentLocTexts": {
+            "keyName": {
+              "sourceKey": "Spell_ZoeE_Name",
+              "key": "spell_zoee_name",
+              "text": "催眠气泡"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ZoeE_Summary",
+              "key": "spell_zoee_summary",
+              "text": "困倦使目标进入困倦状态，然后陷入昏睡。在昏睡状态下，目标的魔抗会被降低。打醒目标的第一个伤害来源会造成双倍伤害，但有封顶值。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ZoeE_Tooltip",
+              "key": "spell_zoee_tooltip",
+              "text": "佐伊踢出一个气泡，可造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>，并会在未命中任何单位时如陷阱一般停留。在飞越墙体后，气泡的距离会得到延长。<br><br>如果气泡或陷阱命中了一个敌方英雄，那么她会刷新此技能@CooldownRefresh*100@%冷却时间。<br><br>在一段延迟后，被气泡命中的目标会陷入<status>昏睡</status>状态并降低@PercentPen*100@%<scaleMR>魔法抗性</scaleMR>，持续2秒。攻击和技能在命中目标时都会将其惊醒并造成双倍伤害，最多造成<trueDamage>@BreakDamageTooltip@真实伤害</trueDamage>。<br><br>"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_ZoeE_TooltipExtendedBelowLine",
+              "key": "spell_zoee_tooltipextendedbelowline",
+              "text": "<rules>在目标陷入<status>昏睡</status>状态之前，会进入<status>困倦</status>状态，被施加不断提升的<status>减速</status>效果(至多可达@DrowsySlow*100@%)。</rules>"
+            }
+          },
+          "official": {
+            "id": "ZoeE",
+            "name": "催眠气泡",
+            "description": "困倦使目标进入困倦状态，然后陷入昏睡。在昏睡状态下，目标的魔抗会被降低。打醒目标的第一个伤害来源会造成双倍伤害，但有封顶值。",
+            "tooltip": "佐伊踢出一个气泡，可造成<magicDamage>{{ totaldamagetooltip }}魔法伤害</magicDamage>，并会在未命中任何单位时如陷阱一般停留。在飞越墙体后，气泡的距离会得到延长。<br /><br />如果气泡或陷阱命中了一个敌方英雄，那么她会刷新此技能{{ cooldownrefresh*100 }}%冷却时间。<br /><br />在一段延迟后，被气泡命中的目标会陷入<status>昏睡</status>状态并降低{{ percentpen*100 }}%<scaleMR>魔法抗性</scaleMR>，持续2秒。攻击和技能在命中目标时都会将其惊醒并造成双倍伤害，最多造成<trueDamage>{{ breakdamagetooltip }}真实伤害</trueDamage>。<br /><br />{{ spellmodifierdescriptionappend }}",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "cooldown": [
+              18,
+              17,
+              16,
+              15,
+              14
+            ],
+            "cost": [
+              80,
+              80,
+              80,
+              80,
+              80
+            ]
+          },
+          "dataValues": [
+            {
+              "name": "PercentPen",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                70,
+                110,
+                150,
+                190,
+                230,
+                270
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CooldownRefresh",
+              "values": [
+                0.125,
+                0.1599999964237213,
+                0.19499999284744263,
+                0.23000000417232513,
+                0.26499998569488525,
+                0.30000001192092896,
+                0.33500000834465027
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TrapLife",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DrowsySlow",
+              "values": [
+                0.10000000149011612,
+                0.10000000149011612,
+                0.15000000596046448,
+                0.20000000298023224,
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DrowsyDuration",
+              "values": [
+                1.399999976158142,
+                1.399999976158142,
+                1.399999976158142,
+                1.399999976158142,
+                1.399999976158142,
+                1.399999976158142,
+                1.399999976158142
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SleepDuration",
+              "values": [
+                2.25,
+                2.25,
+                2.25,
+                2.25,
+                2.25,
+                2.25,
+                2.25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BrittleLinger",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamageTooltip": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.44999998807907104,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BreakDamageTooltip": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.44999998807907104,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "rootSpellFields": {
+            "cooldownTime": [
+              18,
+              18,
+              17,
+              16,
+              15,
+              14,
+              14
+            ],
+            "mana": [
+              80,
+              80,
+              80,
+              80,
+              80,
+              80
+            ],
+            "manaValues": {
+              "values": [
+                80,
+                80,
+                80,
+                80,
+                80,
+                80
+              ],
+              "{0a3e0478}": 80,
+              "__type": "{630af303}"
+            },
+            "spellCastTime": 0,
+            "mCastTime": 0.30000001192092896,
+            "mChannelDuration": null
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "zoe_r",
+          "rootField": "spells[3]",
+          "binding": "Characters/Zoe/Spells/ZoeRAbility/ZoeR",
+          "name": "折返跃迁",
+          "maxrank": 3,
+          "currentLocKeys": {
+            "keyName": "Spell_ZoeR_Name",
+            "keySummary": "Spell_ZoeR_Summary",
+            "keyTooltip": "Spell_ZoeR_Tooltip",
+            "keyTooltipExtendedBelowLine": "Spell_ZoeR_TooltipExtendedBelowLine"
+          },
+          "currentLocTexts": {
+            "keyName": {
+              "sourceKey": "Spell_ZoeR_Name",
+              "key": "spell_zoer_name",
+              "text": "折返跃迁"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ZoeR_Summary",
+              "key": "spell_zoer_summary",
+              "text": "闪烁到附近的一个位置1秒。然后闪烁回去。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ZoeR_Tooltip",
+              "key": "spell_zoer_tooltip",
+              "text": "佐伊传送到附近的一个位置1秒。然后，佐伊会传送回原来的位置。在此期间，佐伊可以攻击和使用技能，但无法移动。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_ZoeR_TooltipExtendedBelowLine",
+              "key": "spell_zoer_tooltipextendedbelowline",
+              "text": "<rules>在传送期间，佐伊的视线还可以越过墙体。</rules>"
+            }
+          },
+          "official": {
+            "id": "ZoeR",
+            "name": "折返跃迁",
+            "description": "闪烁到附近的一个位置1秒。然后闪烁回去。",
+            "tooltip": "佐伊传送到附近的一个位置1秒。然后，佐伊会传送回原来的位置。在此期间，佐伊可以攻击和使用技能，但无法移动。{{ spellmodifierdescriptionappend }}",
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "cooldown": [
+              11,
+              8,
+              5
+            ],
+            "cost": [
+              40,
+              40,
+              40
+            ]
+          },
+          "dataValues": [],
+          "calculations": {},
+          "rootSpellFields": {
+            "cooldownTime": [
+              11,
+              11,
+              8,
+              5,
+              0,
+              0,
+              0
+            ],
+            "mana": [
+              40,
+              40,
+              40,
+              40,
+              40,
+              40
+            ],
+            "manaValues": {
+              "values": [
+                40,
+                40,
+                40,
+                40,
+                40,
+                40
+              ],
+              "{0a3e0478}": 40,
+              "__type": "{630af303}"
+            },
+            "spellCastTime": 0,
+            "mCastTime": 0.25,
+            "mChannelDuration": null
+          }
+        }
+      ]
+    }
+  ]
+}
