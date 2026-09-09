@@ -1,0 +1,20 @@
+{
+  "i": 0,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_p/parameters",
+    "skillKey": "maokai_p",
+    "kind": "parameters",
+    "stableKey": "actual_passive_heal_ratio",
+    "body": {
+      "parameterKey": "actual_passive_heal_ratio",
+      "name": "实际等级自身治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "根PassiveHealingTotal含mStat12与角色等级分段：起点0.04、每级0.002，7级后斜率0.0065；完整分段求值未证，实际输入无默认。",
+      "sortOrder": 10
+    }
+  }
+}

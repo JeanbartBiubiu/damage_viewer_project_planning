@@ -1,0 +1,42 @@
+{
+  "i": 47,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_q/formulas",
+    "skillKey": "poppy_q",
+    "kind": "formulas",
+    "stableKey": "slow_ratio",
+    "body": {
+      "formulaKey": "slow_ratio",
+      "name": "圣锤猛击减速比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_slow_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "slow_bonus_health_coefficient"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "MoveSpeedMod=基础减速比例+0.00008×来源额外生命；减速应用范围和时长独立记录。",
+      "sortOrder": 30
+    }
+  }
+}

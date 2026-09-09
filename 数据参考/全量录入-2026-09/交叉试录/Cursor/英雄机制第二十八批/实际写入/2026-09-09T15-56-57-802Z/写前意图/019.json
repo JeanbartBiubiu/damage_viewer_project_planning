@@ -1,0 +1,42 @@
+{
+  "i": 18,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_w/formulas",
+    "skillKey": "maokai_w",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "扭曲突刺魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=BaseDamage+0.4×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

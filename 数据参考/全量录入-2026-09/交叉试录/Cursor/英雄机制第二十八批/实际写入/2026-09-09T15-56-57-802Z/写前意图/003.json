@@ -1,0 +1,20 @@
+{
+  "i": 2,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_p/parameters",
+    "skillKey": "maokai_p",
+    "kind": "parameters",
+    "stableKey": "cooldown_reduction_on_skill_or_enemy_hit_ms",
+    "body": {
+      "parameterKey": "cooldown_reduction_on_skill_or_enemy_hit_ms",
+      "name": "施法或敌方英雄命中缩短被动冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前正文占位PassiveCooldownReduction，根DataValues为4秒；单位秒转毫秒。只记录已证数值，不创建命中事件。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "i": 30,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_p/parameters",
+    "skillKey": "poppy_p",
+    "kind": "parameters",
+    "stableKey": "actual_cooldown_ms",
+    "body": {
+      "parameterKey": "actual_cooldown_ms",
+      "name": "被动冷却（毫秒，实际角色等级值外供）",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "根ActualCooldown为16秒并含7/13/19级断点，完整角色等级求值未证；单位秒转毫秒，实际输入无默认。",
+      "sortOrder": 20
+    }
+  }
+}

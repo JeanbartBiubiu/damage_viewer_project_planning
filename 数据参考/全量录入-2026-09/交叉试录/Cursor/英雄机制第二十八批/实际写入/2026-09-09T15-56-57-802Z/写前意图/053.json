@@ -1,0 +1,20 @@
+{
+  "i": 52,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_w/parameters",
+    "skillKey": "poppy_w",
+    "kind": "parameters",
+    "stableKey": "actual_source_armor_before_passive",
+    "body": {
+      "parameterKey": "actual_source_armor_before_passive",
+      "name": "被动应用前来源护甲",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "mStat1的应用前正确护甲基准由实际输入提供；不以BonusArmor字段名猜额外护甲，实际输入无默认。",
+      "sortOrder": 40
+    }
+  }
+}

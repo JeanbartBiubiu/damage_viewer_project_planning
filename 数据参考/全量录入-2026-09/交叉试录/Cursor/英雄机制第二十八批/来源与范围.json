@@ -1,0 +1,206 @@
+{
+  "generatedAt": "2026-09-09T15:32:15.545Z",
+  "sourceVersions": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "frozenHashes": {
+    "inputVersion": "3aa85899a88fdbe932dac837e4af765e36d3df3f9be0cb60a4fb6025a4cb06e4",
+    "sourceBinding": "ca0a59262844bee277255af85af7dfdb391caa7306f04746c3ea16a97b208298",
+    "sourceNote": "73da864610dc845db21e83b8d5162d93396e4c3a77dab528176bec35890ea08d",
+    "protection": "dde9307d285b58959862140432bb113b298bb1405b0e41839bcdd0ddea2a9e5e",
+    "publicReuse": "ebe9578ff2f50f266bb0dd5ff0b2c7cf37b550754b85d52399cc3067bb2b6d96"
+  },
+  "scope": "茂凯与波比各P/Q/W/E/R，唯一敌方英雄伤害口径；技能伤害载体保留，独立自主树苗/陷阱与其他目标分支排除。",
+  "skillRanges": {
+    "maokai_p": {
+      "binding": "Characters/Maokai/Spells/MaokaiPassiveAbility/MaokaiPassive",
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keySummary",
+        "keyCooldown"
+      ],
+      "pending": [
+        "PassiveHealingTotal的完整角色等级分段和PassiveCooldown插值均未证，两个实际输入不提供默认值。",
+        "自身施放、敌方英雄命中和下一次攻击治疗的资格与时序未接线；本批不创建直接治疗结果。",
+        "PassiveHealthThreshold及大型野怪/史诗野怪1.5秒分支保留来源但排除本轮。"
+      ],
+      "excluded": [
+        "未把根树额外伤害摘要写成参数或效果；当前详细正文和计算树只证治疗。"
+      ],
+      "parameterCount": 3,
+      "formulaCount": 1,
+      "effectCount": 0
+    },
+    "maokai_q": {
+      "binding": "Characters/Maokai/Spells/MaokaiQAbility/MaokaiQ",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "pending": [
+        "附近多目标、击退命中和野怪额外伤害分支不进入本轮唯一敌方英雄公式；施放资格与命中时序未接线。"
+      ],
+      "excluded": [
+        "NonChampMax与BonusMonsterDamage为非英雄分支；不把击退速度或几何过程写成事件。"
+      ],
+      "parameterCount": 9,
+      "formulaCount": 1,
+      "effectCount": 1
+    },
+    "maokai_w": {
+      "binding": "Characters/Maokai/Spells/MaokaiWAbility/MaokaiW",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "pending": [
+        "根须突进期间不可选取、抵达后禁锢和施放资格尚未接线；保留明确端点，不把持续过程当作普通效果。"
+      ],
+      "excluded": [
+        "DashAcceleration无值；突进完成时点未知，不伪造过程或事件。"
+      ],
+      "parameterCount": 7,
+      "formulaCount": 1,
+      "effectCount": 1
+    },
+    "maokai_e": {
+      "binding": "Characters/Maokai/Spells/MaokaiEAbility/MaokaiE",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "pending": [
+        "树苗自主戒备、追踪、爆炸、草丛升级及其持续与伤害按独立召唤/陷阱边界排除；额外缩短P冷却需后续外供事件接入。"
+      ],
+      "excluded": [
+        "不创建树苗实体、树苗伤害、持续时间、追踪或草丛强化效果；这些是独立自主行为，不因本参数而恢复。"
+      ],
+      "parameterCount": 1,
+      "formulaCount": 0,
+      "effectCount": 0
+    },
+    "maokai_r": {
+      "binding": "Characters/Maokai/Spells/MaokaiRAbility/MaokaiR",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "pending": [
+        "禁锢持续随行进距离变化，中间曲线未知；命中英雄后移动速度持续衰减，资格和衰减过程未接线。"
+      ],
+      "excluded": [
+        "RootDuration=0.6无当前正文消费者；不以其替换0.75至2.25端点，不创建普通固定移速效果。"
+      ],
+      "parameterCount": 8,
+      "formulaCount": 1,
+      "effectCount": 1
+    },
+    "poppy_p": {
+      "binding": "Characters/Poppy/Spells/PoppyPassiveAbility/PoppyPassive",
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keySummary",
+        "keyCooldown"
+      ],
+      "pending": [
+        "ActualCooldown和TotalDamage是角色等级插值，ShieldValue比例也是角色等级插值，完整求值未证，实际输入无默认。",
+        "圆盾投掷、落地、拾取、敌人踩碎和击杀返回资格及时序未接线；本批不创建召唤物或直接伤害/护盾结果。"
+      ],
+      "excluded": [
+        "不把圆盾当独立自主召唤物；只保留自身护盾金额公式和明确窗口参数。"
+      ],
+      "parameterCount": 6,
+      "formulaCount": 1,
+      "effectCount": 0
+    },
+    "poppy_q": {
+      "binding": "Characters/Poppy/Spells/PoppyQAbility/PoppyQ",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "pending": [
+        "两次伤害、同一敌人叠加和区域减速的命中与应用时序未接线；本轮只表达唯一敌人两次同额伤害和端点。",
+        "小兵野怪百分比伤害上限及其他目标分支排除。"
+      ],
+      "excluded": [
+        "MaxHealthDamageToNonHeroes为非英雄上限；不按AoE名称扩展到其他目标。"
+      ],
+      "parameterCount": 11,
+      "formulaCount": 3,
+      "effectCount": 1
+    },
+    "poppy_w": {
+      "binding": "Characters/Poppy/Spells/PoppyWAbility/PoppyW",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "pending": [
+        "双抗基准取应用前实际值；mStat1/mStat6的完整属性分派、自增反馈和低生命条件事件未证。",
+        "敌方突进资格、打断、同目标次数及减速/缚地应用时序未接线；本轮保留明确伤害和端点。"
+      ],
+      "excluded": [
+        "KnockupDuration虽有来源字段但当前正文未消费；不把它混入缚地或主动领域效果。"
+      ],
+      "parameterCount": 13,
+      "formulaCount": 5,
+      "effectCount": 1
+    },
+    "poppy_e": {
+      "binding": "Characters/Poppy/Spells/PoppyEAbility/PoppyE",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "pending": [
+        "撞墙资格、推进过程和晕眩应用未接线；同一目标撞墙时第二次伤害沿当前正文保留。"
+      ],
+      "excluded": [
+        "不使用LevelUp里的WallDamage替换正文第二次消费的TackleDamage；不创建第二敌人分支。"
+      ],
+      "parameterCount": 7,
+      "formulaCount": 2,
+      "effectCount": 1
+    },
+    "poppy_r": {
+      "binding": "Characters/Poppy/Spells/PoppyRAbility/PoppyR",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "pending": [
+        "蓄力时长到击退距离和冲击波距离的中间曲线、释放时序、飞行不可选取及目标资格未接线；荆棘墙/冲击波按技能载体保留。"
+      ],
+      "excluded": [
+        "CancelCDRefund、充能到最大距离1秒、蓄力击飞2秒等当前正文未消费字段不录入；不把附近额外目标分发加入唯一敌人公式。"
+      ],
+      "parameterCount": 9,
+      "formulaCount": 2,
+      "effectCount": 1
+    }
+  },
+  "notes": [
+    "茂凯E只保留当前正文明确的命中英雄额外4秒P冷却收益参数；树苗实体、追踪、爆炸、草丛升级和独立过程排除。",
+    "茂凯R荆棘墙作为技能伤害载体保留；禁锢中间曲线和命中英雄后的移速衰减不猜。",
+    "波比Q两次同一敌人伤害分别表达并提供同一敌人总量；目标最大生命比例和来源额外攻击力不省略。",
+    "波比W双抗使用应用前护甲/魔抗实际输入，低于40%生命翻倍只表达端点；不凭BonusArmor名称选择属性。",
+    "波比E和R保留当前正文消费的TackleDamage、HalfDamage；WallDamage等未消费或不同分支字段不替代正文。",
+    "所有未知等级曲线、资格、时序与中间曲线使用无默认实际输入或列为待接，不创建DAMAGE、DIRECT_HEAL或MOMENT_EVALUATION结果。"
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "at": "2026-09-09T16:21:13.368Z",
+  "skills": [
+    "maokai_p",
+    "maokai_q",
+    "maokai_w",
+    "maokai_e",
+    "maokai_r",
+    "poppy_p",
+    "poppy_q",
+    "poppy_w",
+    "poppy_e",
+    "poppy_r"
+  ],
+  "status": "明确组成已保存并完成独立实际GET核算和代表页面；未知曲线及事件接线继续处理",
+  "counts": {
+    "parameters": 74,
+    "formulas": 17,
+    "effects": 7,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newCounts": {
+    "parameters": 60,
+    "formulas": 17,
+    "effects": 7
+  },
+  "reusedParameters": 14,
+  "businessWrites": 84,
+  "candidateFileSha256": "a07d0fa895cfdd6babaeb6c711d5e5b86dbd5a05530933d6d571baeb70aa6c6d",
+  "writePlanSha256": "955d4428ec9f0a3b7c6ce571660fff2a156e3b51a98ef799fc4e632d6f932c47",
+  "execution": {
+    "file": "实际写入/2026-09-09T15-56-57-802Z/执行结果.json",
+    "GETs": 568,
+    "successfulPOSTs": 84,
+    "rejectedPOSTs": 0,
+    "unknownPOSTs": 0,
+    "passed": true
+  },
+  "independentReadback": {
+    "file": "独立回读/2026-09-09T16-11-08-396Z/独立全量回读.json",
+    "GETs": 186,
+    "protectedPaths": 102,
+    "details": 98,
+    "passed": true
+  },
+  "strictMath": {
+    "file": "独立回读/2026-09-09T16-11-08-396Z/独立全量回读.json",
+    "actualFormulas": 17,
+    "formulaCases": 34,
+    "missingInputChecks": 56,
+    "runtimeParametersWithoutDefaults": 7,
+    "boundaryChecks": 17,
+    "additionalNetworkCalls": 0,
+    "passed": true
+  },
+  "browser": {
+    "file": "页面验收.json",
+    "representativePages": 3,
+    "GETs": 16,
+    "mathCases": 10,
+    "passed": true
+  },
+  "hashes": {
+    "完整候选.json": "a07d0fa895cfdd6babaeb6c711d5e5b86dbd5a05530933d6d571baeb70aa6c6d",
+    "请求计划.json": "955d4428ec9f0a3b7c6ce571660fff2a156e3b51a98ef799fc4e632d6f932c47",
+    "受保护写入器.mjs": "1a3203690d299b74e57346dbc02fd7971cbbce586c2d4d66366ee7076f33d1ca",
+    "独立回读-实际GET.mjs": "88b606d9e0187d360d0d57239c57481098b1bceeb2e720fbccbfc6b6f9176f04",
+    "实际写入/2026-09-09T15-56-57-802Z/执行结果.json": "ac1f7214d914089c81e5d6b9a43d9b88d50a1d1acdc52b6f2b0e76f7693ad94b",
+    "独立回读/2026-09-09T16-11-08-396Z/独立全量回读.json": "49ec6915a06dd1d3233f19d1daae7ba2b4081c8956d97db29538f851a93ec05f",
+    "独立回读交付摘要.json": "e708f64f22eb46f2854181a5123fce961862905c6944303fece62bcedd13786c",
+    "页面验收.json": "edce8459abc868c71db34e3001db563cd5447091042e2bf97142437820276d79"
+  },
+  "issues": [
+    "茂凯E自主树苗伤害按约定排除，但命中英雄额外缩短被动4秒的自身收益保留。",
+    "波比Q同一目标两次伤害间隔1秒，R点按把完整伤害减半；不能把同目标后续命中按额外敌人排除。",
+    "波比W护甲魔抗提升以应用前正确属性为无默认实际输入，低生命倍增保存端点，不将加成后的最终属性再次套用。",
+    "来源文档部分排除字段实为未知时序或曲线，只表示暂未配置，不计为1V1无关。",
+    "波比Q减速500毫秒字段的事件阶段未证实，不作为整个区域固定持续时间。"
+  ],
+  "pending": [
+    "茂凯被动与波比被动的等级求值和衰减关系未完整补齐。",
+    "增益、控制、蓄力、拾取、事件与阶段资格仍待接线；不把可保存组成当作完整战斗机制。"
+  ],
+  "runtimeValidation": "未执行"
+}

@@ -1,0 +1,24 @@
+{
+  "i": 25,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_r/parameters",
+    "skillKey": "maokai_r",
+    "kind": "parameters",
+    "stableKey": "move_haste_percent_points",
+    "body": {
+      "parameterKey": "move_haste_percent_points",
+      "name": "命中英雄后移动速度百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 50,
+        "3": 60
+      },
+      "description": "当前正文消费MoveHaste*100，根值0.4至0.6，录入为40至60百分数点；衰减过程未接线。",
+      "sortOrder": 50
+    }
+  }
+}

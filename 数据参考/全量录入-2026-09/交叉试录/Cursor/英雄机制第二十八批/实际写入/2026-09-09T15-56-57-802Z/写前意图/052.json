@@ -1,0 +1,20 @@
+{
+  "i": 51,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_w/parameters",
+    "skillKey": "poppy_w",
+    "kind": "parameters",
+    "stableKey": "passive_low_health_multiplier",
+    "body": {
+      "parameterKey": "passive_low_health_multiplier",
+      "name": "低生命被动双抗倍率",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前正文写明生命低于40%时双抗加成翻倍；保留端点倍率，不代表条件事件已接通。",
+      "sortOrder": 30
+    }
+  }
+}

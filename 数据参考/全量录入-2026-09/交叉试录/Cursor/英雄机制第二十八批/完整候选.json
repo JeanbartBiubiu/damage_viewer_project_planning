@@ -1,0 +1,4285 @@
+{
+  "meta": {
+    "generatedAt": "2026-09-09T15:32:15.544Z",
+    "batch": "第二十八批茂凯波比",
+    "executor": "Luna",
+    "sourceVersions": {
+      "client": "16.17",
+      "official": "16.17.1"
+    },
+    "sourceInputSha256": "3aa85899a88fdbe932dac837e4af765e36d3df3f9be0cb60a4fb6025a4cb06e4",
+    "sourceBindingSha256": "ca0a59262844bee277255af85af7dfdb391caa7306f04746c3ea16a97b208298",
+    "protectionSnapshotSha256": "dde9307d285b58959862140432bb113b298bb1405b0e41839bcdd0ddea2a9e5e",
+    "protectionSnapshotGETs": 102,
+    "apiWrites": 0
+  },
+  "reusedPublicParameters": [
+    {
+      "skillKey": "maokai_q",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "maokai_q",
+      "parameterKey": "mana_cost",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "maokai_w",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "maokai_w",
+      "parameterKey": "mana_cost",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "maokai_r",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "maokai_r",
+      "parameterKey": "mana_cost",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "poppy_q",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "poppy_q",
+      "parameterKey": "mana_cost",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "poppy_w",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "poppy_w",
+      "parameterKey": "mana_cost",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "poppy_e",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "poppy_e",
+      "parameterKey": "mana_cost",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "poppy_r",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    },
+    {
+      "skillKey": "poppy_r",
+      "parameterKey": "mana_cost",
+      "reused": true,
+      "source": "当前保护快照既有详情"
+    }
+  ],
+  "skills": {
+    "maokai_p": {
+      "skillKey": "maokai_p",
+      "name": "吸元秘术",
+      "maxLevel": 1,
+      "source": {
+        "binding": "Characters/Maokai/Spells/MaokaiPassiveAbility/MaokaiPassive",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_MaokaiPassive_Name",
+            "text": "吸元秘术"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_MaokaiPassive_Tooltip",
+            "text": "茂凯的下一次攻击会回复自身<healing>@PassiveHealingTotal@生命值</healing>。<br><br>每施放一次技能或被一名敌方英雄的技能命中时，都会使这个冷却时间缩短@PassiveCooldownReduction@秒。被大型野怪或史诗级野怪的攻击或技能命中时，都会使这个冷却时间缩短@JungPassCooldownReduction@秒。"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_MaokaiPassive_Summary",
+            "text": "茂凯的普通攻击也会治疗自身并造成额外伤害，此效果拥有一个中等的冷却时间。每当茂凯施放一次技能或被一个敌方技能击中时，这个冷却时间都会缩短。"
+          },
+          "keyCooldown": {
+            "sourceKey": "Spell_Maokai_Cooldown",
+            "text": "@PassiveCooldown@秒%i:cooldown%"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "actual_passive_heal_ratio",
+            "name": "实际等级自身治疗比例",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "根PassiveHealingTotal含mStat12与角色等级分段：起点0.04、每级0.002，7级后斜率0.0065；完整分段求值未证，实际输入无默认。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "passive_cooldown_ms",
+            "name": "被动冷却（毫秒，实际等级值外供）",
+            "valueType": "INTEGER",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "根PassiveCooldown为30秒到20秒角色等级插值，完整等级求值未证；单位秒转毫秒，实际输入无默认。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "cooldown_reduction_on_skill_or_enemy_hit_ms",
+            "name": "施法或敌方英雄命中缩短被动冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前正文占位PassiveCooldownReduction，根DataValues为4秒；单位秒转毫秒。只记录已证数值，不创建命中事件。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "healing_total",
+            "name": "吸元秘术自身治疗量",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_passive_heal_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "description": "PassiveHealingTotal按实际角色等级比例乘来源总生命值；比例是无默认实际输入。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "PassiveHealingTotal的完整角色等级分段和PassiveCooldown插值均未证，两个实际输入不提供默认值。",
+        "自身施放、敌方英雄命中和下一次攻击治疗的资格与时序未接线；本批不创建直接治疗结果。",
+        "PassiveHealthThreshold及大型野怪/史诗野怪1.5秒分支保留来源但排除本轮。"
+      ],
+      "excluded": [
+        "未把根树额外伤害摘要写成参数或效果；当前详细正文和计算树只证治疗。"
+      ]
+    },
+    "maokai_q": {
+      "skillKey": "maokai_q",
+      "name": "荆棘重击",
+      "maxLevel": 5,
+      "source": {
+        "binding": "Characters/Maokai/Spells/MaokaiQAbility/MaokaiQ",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_MaokaiQ_Name",
+            "text": "荆棘重击"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_MaokaiQ_Summary",
+            "text": "茂凯用一记冲击波击退附近的敌人，造成魔法伤害和减速效果。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_MaokaiQ_Tooltip",
+            "text": "茂凯将他的拳头砸入大地中，造成<magicDamage>@TotalDamage@外加@BasePercentHealth*100@%最大生命值的魔法伤害</magicDamage>和短暂的<status>减速</status>。附近的敌人们还会被<status>击退</status>。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_MaokaiQ_TooltipExtendedBelowLine",
+            "text": "<rules>这个技能对野怪造成额外的<magicDamage>@BonusMonsterDamage@魔法伤害</magicDamage>。</rules>"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Maokai.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 7000,
+              "2": 6500,
+              "3": 6000,
+              "4": 5500,
+              "5": 5000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Maokai.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 40,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 375,
+            "levelValues": null,
+            "description": "根spellCastTime为0.375秒，单位秒转毫秒；不表示伤害命中时点。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 75,
+              "2": 120,
+              "3": 165,
+              "4": 210,
+              "5": 255
+            },
+            "description": "当前根DataValues.BaseDamage取技能等级1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法强倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "当前根DataValues.APRatio取技能等级1至5均为0.5；计算树TotalDamage第二段同名取值。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "target_max_health_ratio",
+            "name": "目标最大生命伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.02,
+              "2": 0.025,
+              "3": 0.03,
+              "4": 0.035,
+              "5": 0.04
+            },
+            "description": "当前正文消费BasePercentHealth*100；根值为2%至4%的比例，录入为0.02至0.04后直接乘目标总生命。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "slow_ratio",
+            "name": "减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.99,
+            "levelValues": null,
+            "description": "当前根DataValues.SlowAmount取索引1至5均为0.99；正文描述短暂减速，资格和应用时点未接线。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "减速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根DataValues.SlowDuration为0.25秒，单位秒转毫秒。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "knockback_distance",
+            "name": "近身击退距离",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 400,
+            "levelValues": null,
+            "description": "当前根DataValues.KnockbackDistance为400；只记录明确距离，不创建击退过程。",
+            "sortOrder": 70
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "magic_damage",
+            "name": "荆棘重击对英雄魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_max_health_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TotalDamage加上正文明确的BasePercentHealth×目标最大生命值；比例按0.02至0.04录入，不遗漏第二项。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "mana_cost",
+                "name": "施放法力消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "附近多目标、击退命中和野怪额外伤害分支不进入本轮唯一敌方英雄公式；施放资格与命中时序未接线。"
+      ],
+      "excluded": [
+        "NonChampMax与BonusMonsterDamage为非英雄分支；不把击退速度或几何过程写成事件。"
+      ]
+    },
+    "maokai_w": {
+      "skillKey": "maokai_w",
+      "name": "扭曲突刺",
+      "maxLevel": 5,
+      "source": {
+        "binding": "Characters/Maokai/Spells/MaokaiWAbility/MaokaiW",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_MaokaiW_Name",
+            "text": "扭曲突刺"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_MaokaiW_Summary",
+            "text": "茂凯扭曲为一团移动根须，不可被选取并且向目标突进。在抵达后，他会禁锢住目标。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_MaokaiW_Tooltip",
+            "text": "茂凯扭曲为一团移动根须，无法被选取并且向目标突进。在抵达后，他会<status>禁锢</status>该敌人@RootDuration@秒并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。 "
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Maokai.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 14000,
+              "2": 13000,
+              "3": 12000,
+              "4": 11000,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Maokai.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 60,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime为0.25秒，单位秒转毫秒；不表示禁锢或伤害命中时点。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 60,
+              "2": 85,
+              "3": 110,
+              "4": 135,
+              "5": 160
+            },
+            "description": "当前根DataValues.BaseDamage取技能等级1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法强倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "当前根TotalDamage第二段StatByCoefficient为0.4。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "root_duration_ms",
+            "name": "禁锢持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 1000,
+              "2": 1100,
+              "3": 1200,
+              "4": 1300,
+              "5": 1400
+            },
+            "description": "当前根DataValues.RootDuration为1至1.4秒，单位秒转毫秒；不表示突进过程持续。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "dash_speed",
+            "name": "根须突进速度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1300,
+            "levelValues": null,
+            "description": "当前根DataValues.DashSpeed为1300；突进阶段和抵达时序未接线。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "magic_damage",
+            "name": "扭曲突刺魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TotalDamage=BaseDamage+0.4×来源总法强。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "mana_cost",
+                "name": "施放法力消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "根须突进期间不可选取、抵达后禁锢和施放资格尚未接线；保留明确端点，不把持续过程当作普通效果。"
+      ],
+      "excluded": [
+        "DashAcceleration无值；突进完成时点未知，不伪造过程或事件。"
+      ]
+    },
+    "maokai_e": {
+      "skillKey": "maokai_e",
+      "name": "树苗投掷",
+      "maxLevel": 5,
+      "source": {
+        "binding": "Characters/Maokai/Spells/MaokaiEAbility/MaokaiE",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_MaokaiE_Name",
+            "text": "树苗投掷"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_MaokaiE_Summary",
+            "text": "茂凯投出一颗树苗去目标地区戒备。在草丛中更加有效。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_MaokaiE_Tooltip",
+            "text": "茂凯扔出一棵树苗，戒备@SaplingDuration@秒。树苗会追击附近的敌人，并在抵达后爆炸，对周围的敌人们造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。如果树苗命中了一名敌方英雄或史诗级野怪，<keywordMajor>吸元秘术</keywordMajor>的冷却时间就会缩短额外的4秒。<br><br>投掷在草丛里的树苗会持续@EmpoweredSaplingDuration@秒，并引发一次范围更大的爆炸，在@EmpoweredDoTDuration@秒的持续时间里共造成<magicDamage>@TotalEmpoweredDamage@魔法伤害</magicDamage>并且<status>减速</status>幅度变为@EmpoweredSlowAmount@。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_MaokaiE_TooltipExtendedBelowLine",
+            "text": "<rules>树苗以@SaplingMoveSpeed@速度进行奔跑。草丛树苗不会对小兵造成提升过的伤害。</rules>"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "passive_cooldown_reduction_on_hero_hit_ms",
+            "name": "命中英雄缩短茂凯被动冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前树苗正文明确命中敌方英雄或史诗野怪时额外缩短吸元秘术4秒；本轮仅保留英雄相关明确数值，树苗命中事件与外供方式待接。",
+            "sortOrder": 10
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "树苗自主戒备、追踪、爆炸、草丛升级及其持续与伤害按独立召唤/陷阱边界排除；额外缩短P冷却需后续外供事件接入。"
+      ],
+      "excluded": [
+        "不创建树苗实体、树苗伤害、持续时间、追踪或草丛强化效果；这些是独立自主行为，不因本参数而恢复。"
+      ]
+    },
+    "maokai_r": {
+      "skillKey": "maokai_r",
+      "name": "自然之握",
+      "maxLevel": 3,
+      "source": {
+        "binding": "Characters/Maokai/Spells/MaokaiRAbility/MaokaiR",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_MaokaiR_Name",
+            "text": "自然之握"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_MaokaiR_Summary",
+            "text": "茂凯召唤一道荆棘和尖刺灌木组成的巨墙缓慢向前行进，对沿途的敌人造成伤害和禁锢效果。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_MaokaiR_Tooltip",
+            "text": "茂凯召唤出一道由荆棘和带刺灌木组成的巨墙缓慢向前行进，<status>禁锢</status>敌人@MinRootDuration@到@MaxRootDuration@秒，时长随着行进距离提升，并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。命中一名英雄时会为茂凯提供在@HasteDuration@秒里持续衰减的<speed>@MoveHaste*100@%移动速度</speed>。 "
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Maokai.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 130000,
+              "2": 110000,
+              "3": 90000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Maokai.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 150,
+              "2": 225,
+              "3": 300
+            },
+            "description": "当前根DataValues.BaseDamage取技能等级1至3。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法强倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.75,
+            "levelValues": null,
+            "description": "当前根TotalDamage第二段StatByCoefficient为0.75。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "minimum_root_duration_ms",
+            "name": "最低禁锢持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 750,
+              "2": 750,
+              "3": 750
+            },
+            "description": "当前正文消费MinRootDuration，根值0.75秒；单位秒转毫秒，中间随距离变化未接线。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "maximum_root_duration_ms",
+            "name": "最高禁锢持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 2250,
+              "2": 2250,
+              "3": 2250
+            },
+            "description": "当前正文消费MaxRootDuration，根值2.25秒；单位秒转毫秒，中间随距离变化未接线。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "move_haste_percent_points",
+            "name": "命中英雄后移动速度百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 40,
+              "2": 50,
+              "3": 60
+            },
+            "description": "当前正文消费MoveHaste*100，根值0.4至0.6，录入为40至60百分数点；衰减过程未接线。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "haste_duration_ms",
+            "name": "移动速度衰减持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "当前正文消费HasteDuration，根值2秒；单位秒转毫秒。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "magic_damage",
+            "name": "自然之握魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TotalDamage=BaseDamage+0.75×来源总法强；荆棘墙作为技能伤害载体保留。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "mana_cost",
+                "name": "施放法力消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "禁锢持续随行进距离变化，中间曲线未知；命中英雄后移动速度持续衰减，资格和衰减过程未接线。"
+      ],
+      "excluded": [
+        "RootDuration=0.6无当前正文消费者；不以其替换0.75至2.25端点，不创建普通固定移速效果。"
+      ]
+    },
+    "poppy_p": {
+      "skillKey": "poppy_p",
+      "name": "钢铁大使",
+      "maxLevel": 1,
+      "source": {
+        "binding": "Characters/Poppy/Spells/PoppyPassiveAbility/PoppyPassive",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_PoppyPassive_Name",
+            "text": "钢铁大使"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_PoppyPassive_Tooltip",
+            "text": "每过@ActualCooldown@秒，波比的下次攻击就会将她的圆盾投掷出去，获得@BonusRange@距离并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。圆盾会从目标处弹开，在附近着陆。波比能够将它拾起来获得<shield>@ShieldValue@护盾值</shield>，并且敌人们可以踩在它上面来将它摧毁。<br><br>如果圆盾击杀了目标，那么它会自动返回至波比处。"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_PoppyPassive_Summary",
+            "text": "波比扔出她的圆盾，圆盾会在命中目标后弹起。波比可以捡起圆盾来获得一个短暂的护盾效果。"
+          },
+          "keyCooldown": {
+            "sourceKey": "Spell_PoppyP_CD",
+            "text": "@ActualCooldown@秒%i:cooldown%"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "bonus_attack_range",
+            "name": "圆盾攻击距离增加",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 350,
+            "levelValues": null,
+            "description": "当前根DataValues.BonusRange为350。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "actual_cooldown_ms",
+            "name": "被动冷却（毫秒，实际角色等级值外供）",
+            "valueType": "INTEGER",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "根ActualCooldown为16秒并含7/13/19级断点，完整角色等级求值未证；单位秒转毫秒，实际输入无默认。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "actual_passive_magic_damage",
+            "name": "圆盾实际魔法伤害（实际角色等级值外供）",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "根TotalDamage为20至180角色等级插值，完整求值未证；实际输入无默认，不把端点展平成曲线。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "actual_shield_ratio_by_character_level",
+            "name": "实际角色等级护盾生命比例",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "根ShieldValue为mStat12乘角色等级插值0.11至0.20，完整求值未证；实际输入无默认。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "shield_pickup_window_ms",
+            "name": "圆盾落地后拾取窗口（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前根DataValues.ShieldPickUpTime为4秒，单位秒转毫秒。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "shield_duration_ms",
+            "name": "拾取后护盾持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "当前根DataValues.ShieldDuration为3秒，单位秒转毫秒。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "shield_value",
+            "name": "钢铁大使自身护盾值",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_shield_ratio_by_character_level"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "description": "ShieldValue=实际角色等级护盾比例×来源总生命值；比例无默认。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "ActualCooldown和TotalDamage是角色等级插值，ShieldValue比例也是角色等级插值，完整求值未证，实际输入无默认。",
+        "圆盾投掷、落地、拾取、敌人踩碎和击杀返回资格及时序未接线；本批不创建召唤物或直接伤害/护盾结果。"
+      ],
+      "excluded": [
+        "不把圆盾当独立自主召唤物；只保留自身护盾金额公式和明确窗口参数。"
+      ]
+    },
+    "poppy_q": {
+      "skillKey": "poppy_q",
+      "name": "圣锤猛击",
+      "maxLevel": 5,
+      "source": {
+        "binding": "Characters/Poppy/Spells/PoppyQAbility/PoppyQ",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_PoppyQ_Name",
+            "text": "圣锤猛击"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_PoppyQ_Summary",
+            "text": "波比挥舞她的铁锤，造成伤害并创造一个区域，这个区域会减速敌人并在一段时间后爆炸。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_PoppyQ_Tooltip",
+            "text": "波比猛砸地面，造成<physicalDamage>@BaseDamage@</physicalDamage>外加<physicalDamage>@HealthDamagePercent@%最大生命值的物理伤害</physicalDamage>并使该地面变得不稳定。 <br><br>不稳定区域会使敌人<status>减速</status>@MoveSpeedMod@%并在@DelayBetweenTwoHits@秒后喷发，再次造成<physicalDamage>@BaseDamage@</physicalDamage>外加<physicalDamage>@HealthDamagePercent@%最大生命值的物理伤害</physicalDamage>。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_PoppyQ_TooltipExtendedBelowLine",
+            "text": "<rules>每一击对小兵和野怪的百分比生命值伤害的上限为@MaxHealthDamageToNonHeroes@。</rules>"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Poppy.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 8000,
+              "2": 7000,
+              "3": 6000,
+              "4": 5000,
+              "5": 4000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Poppy.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 35,
+              "2": 40,
+              "3": 45,
+              "4": 50,
+              "5": 55
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 333,
+            "levelValues": null,
+            "description": "当前根spellCastTime为0.3324999809秒，按已记录的0.3325秒就近归一为333毫秒；不把显示精度当通用舍入规则。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "每次基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 30,
+              "2": 55,
+              "3": 80,
+              "4": 105,
+              "5": 130
+            },
+            "description": "当前根DataValues.BaseDamageValue取技能等级1至5；两次正文均消费同一BaseDamage。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "额外攻击力倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.75,
+            "levelValues": null,
+            "description": "当前根BaseDamage计算树StatByCoefficient为0.75，mStat2/mStatFormula2指向来源额外攻击力。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "target_max_health_ratio",
+            "name": "目标最大生命伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.07,
+              "2": 0.075,
+              "3": 0.08,
+              "4": 0.085,
+              "5": 0.09
+            },
+            "description": "当前根DataValues.HealthDamagePercent为7%至9%，按比例0.07至0.09直接乘目标总生命；小兵野怪上限排除。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "hit_count_same_target",
+            "name": "同一敌人伤害次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "当前正文明确第一次命中及延迟后再次对同一敌人造成同额伤害；仅用于同一敌人总量公式。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "delay_between_hits_ms",
+            "name": "两次伤害间隔（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "当前根DataValues.DelayBetweenTwoHits为1秒，单位秒转毫秒。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "base_slow_ratio",
+            "name": "基础减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.2,
+              "2": 0.23,
+              "3": 0.26,
+              "4": 0.29,
+              "5": 0.32
+            },
+            "description": "当前根MoveSpeedMod的基础值为0.20至0.32；这里按比例记录，应用持续和范围阶段未接线。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "slow_bonus_health_coefficient",
+            "name": "额外生命减速系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.00008,
+            "levelValues": null,
+            "description": "当前根MoveSpeedMod第二段为0.00008×来源额外生命，mStat12/mStatFormula2；来源字段名称不替代属性口径。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "区域减速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 500,
+            "levelValues": null,
+            "description": "当前根DataValues.SlowDuration为0.5秒，单位秒转毫秒；不扩为两次伤害间隔全程。",
+            "sortOrder": 90
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "physical_damage_per_hit",
+            "name": "圣锤猛击单次物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BONUS"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_max_health_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "每一次正文伤害=基础+0.75×来源额外攻击力+目标最大生命比例×目标总生命。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "physical_damage_same_target_total",
+            "name": "圣锤猛击同一敌人两次总物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "hit_count_same_target"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_damage"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "bonus_ad_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "attack_damage",
+                              "attributeValueKind": "BONUS"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "target_max_health_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "TARGET",
+                          "attributeKey": "hp",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "同一敌人两次命中总量=2×单次伤害；不表示其他目标分发或命中事件已接通。",
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "slow_ratio",
+            "name": "圣锤猛击减速比例",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_slow_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "slow_bonus_health_coefficient"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "MoveSpeedMod=基础减速比例+0.00008×来源额外生命；减速应用范围和时长独立记录。",
+            "sortOrder": 30
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "mana_cost",
+                "name": "施放法力消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "两次伤害、同一敌人叠加和区域减速的命中与应用时序未接线；本轮只表达唯一敌人两次同额伤害和端点。",
+        "小兵野怪百分比伤害上限及其他目标分支排除。"
+      ],
+      "excluded": [
+        "MaxHealthDamageToNonHeroes为非英雄上限；不按AoE名称扩展到其他目标。"
+      ]
+    },
+    "poppy_w": {
+      "skillKey": "poppy_w",
+      "name": "坚定风采",
+      "maxLevel": 5,
+      "source": {
+        "binding": "Characters/Poppy/Spells/PoppyWAbility/PoppyW",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_PoppyW_Name",
+            "text": "坚定风采"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_PoppyW_Summary",
+            "text": "波比被动获得护甲和魔法抗性。这个加成会在她生命值较低时得到提升。波比可以主动施放此技能来获得移动速度加成并中断附近敌人的突进。如果中断了一次突进，那么该敌人还会被减速和缚地。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_PoppyW_Tooltip",
+            "text": "<spellPassive>被动：</spellPassive>波比获得<scaleArmor>@BonusArmor@护甲</scaleArmor>和<scaleMR>@BonusMR@魔法抗性</scaleMR>。在波比低于@PassiveEmpoweredHealthPercent*100@%生命值时，这个加成会翻倍。<br><br><spellActive>主动：</spellActive>波比获得<speed>@Haste@%移动速度</speed>并投射出一个环绕自身的领域，持续@Duration@秒，该领域可中断敌人的冲刺。被领域中断的敌人们会受到持续@GroundingDuration@秒的<status>缚地</status>和@SlowAmount*-100@%<status>减速</status>，以及<magicDamage>@InterruptDamage@魔法伤害</magicDamage>。"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Poppy.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 20000,
+              "2": 18000,
+              "3": 16000,
+              "4": 14000,
+              "5": 12000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Poppy.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 50,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "passive_resist_ratio",
+            "name": "被动双抗比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.16,
+            "levelValues": null,
+            "description": "当前根DataValues.PassiveResistPercent为0.16；BonusArmor和BonusMR分别使用mStat1与mStat6，不能凭字段名改成额外双抗。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "passive_low_health_threshold_ratio",
+            "name": "被动翻倍生命阈值",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "当前正文消费PassiveEmpoweredHealthPercent*100，根值0.4；条件判断事件未接线。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "passive_low_health_multiplier",
+            "name": "低生命被动双抗倍率",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "当前正文写明生命低于40%时双抗加成翻倍；保留端点倍率，不代表条件事件已接通。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "actual_source_armor_before_passive",
+            "name": "被动应用前来源护甲",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "mStat1的应用前正确护甲基准由实际输入提供；不以BonusArmor字段名猜额外护甲，实际输入无默认。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "actual_source_magic_resistance_before_passive",
+            "name": "被动应用前来源魔抗",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "mStat6的应用前正确魔抗基准由实际输入提供；不以BonusMagicResistance字段名猜额外魔抗，实际输入无默认。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "active_haste_percent_points",
+            "name": "主动移动速度百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 40,
+            "levelValues": null,
+            "description": "当前根DataValues.Haste为40，正文以百分号显示；保留百分数点。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "active_duration_ms",
+            "name": "主动领域持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "当前根DataValues.Duration为2秒，单位秒转毫秒。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "grounding_duration_ms",
+            "name": "缚地持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "当前根DataValues.GroundingDuration为2秒，单位秒转毫秒。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "slow_percent_points",
+            "name": "敌人减速百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 25,
+            "levelValues": null,
+            "description": "原始SlowAmount为-0.25，当前正文消费SlowAmount*-100；录入正25，避免对负原值再次取负。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "base_interrupt_damage",
+            "name": "打断突进基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 70,
+              "2": 110,
+              "3": 150,
+              "4": 190,
+              "5": 230
+            },
+            "description": "当前根DataValues.DamageValue取技能等级1至5。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "打断突进法强倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.7,
+            "levelValues": null,
+            "description": "当前根InterruptDamage第二段StatByCoefficient为0.7。",
+            "sortOrder": 110
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "passive_bonus_armor",
+            "name": "被动额外护甲",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_resist_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_source_armor_before_passive"
+                }
+              ]
+            },
+            "description": "BonusArmor的mStat1窄口径表达为0.16×应用前来源护甲；基准实际输入无默认。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "passive_bonus_armor_low_health",
+            "name": "低生命被动额外护甲",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "passive_resist_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "passive_low_health_multiplier"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_source_armor_before_passive"
+                }
+              ]
+            },
+            "description": "生命低于40%时双抗加成端点=0.16×2×应用前来源护甲；条件事件未接线。",
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "passive_bonus_magic_resistance",
+            "name": "被动额外魔抗",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_resist_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_source_magic_resistance_before_passive"
+                }
+              ]
+            },
+            "description": "BonusMR的mStat6窄口径表达为0.16×应用前来源魔抗；基准实际输入无默认。",
+            "sortOrder": 30
+          },
+          {
+            "formulaKey": "passive_bonus_magic_resistance_low_health",
+            "name": "低生命被动额外魔抗",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "passive_resist_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "passive_low_health_multiplier"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_source_magic_resistance_before_passive"
+                }
+              ]
+            },
+            "description": "生命低于40%时双抗加成端点=0.16×2×应用前来源魔抗；条件事件未接线。",
+            "sortOrder": 40
+          },
+          {
+            "formulaKey": "interrupt_magic_damage",
+            "name": "打断突进魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_interrupt_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "InterruptDamage=DamageValue+0.7×来源总法强；敌方突进资格和打断事件未接线。",
+            "sortOrder": 50
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "mana_cost",
+                "name": "施放法力消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "双抗基准取应用前实际值；mStat1/mStat6的完整属性分派、自增反馈和低生命条件事件未证。",
+        "敌方突进资格、打断、同目标次数及减速/缚地应用时序未接线；本轮保留明确伤害和端点。"
+      ],
+      "excluded": [
+        "KnockupDuration虽有来源字段但当前正文未消费；不把它混入缚地或主动领域效果。"
+      ]
+    },
+    "poppy_e": {
+      "skillKey": "poppy_e",
+      "name": "英勇冲锋",
+      "maxLevel": 5,
+      "source": {
+        "binding": "Characters/Poppy/Spells/PoppyEAbility/PoppyE",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_PoppyE_Name",
+            "text": "英勇冲锋"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_PoppyE_Summary",
+            "text": "波比冲向目标并把目标推后。如果目标被推到墙上，就会受到晕眩效果。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_PoppyE_Tooltip",
+            "text": "波比擒抱一名敌人，造成<physicalDamage>@TackleDamage@物理伤害</physicalDamage>并将该敌人带向前方。如果波比将目标擒抱到地形上，那么该敌人会被<status>晕眩</status>@StunDuration@秒并受到额外的<physicalDamage>@TackleDamage@物理伤害</physicalDamage>。"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Poppy.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 14000,
+              "2": 13000,
+              "3": 12000,
+              "4": 11000,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Poppy.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 70,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "英勇冲锋基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 40,
+              "2": 60,
+              "3": 80,
+              "4": 100,
+              "5": 120
+            },
+            "description": "当前根DataValues.BaseDamageValue取技能等级1至5。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "额外攻击力倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.6,
+            "levelValues": null,
+            "description": "当前根TackleDamage第二段mCoefficient为0.6，mStat2/mStatFormula2指向来源额外攻击力。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "stun_duration_ms",
+            "name": "撞墙晕眩持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 1600,
+              "2": 1700,
+              "3": 1800,
+              "4": 1900,
+              "5": 2000
+            },
+            "description": "当前根DataValues.StunDuration为1.6至2秒，单位秒转毫秒。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "max_pushback_distance",
+            "name": "最大推进距离",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 400,
+            "levelValues": null,
+            "description": "当前根DataValues.MaxEnemyPushbackDistance为400。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "wall_hit_count",
+            "name": "撞墙同一目标伤害次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "当前正文明确首次TackleDamage及撞墙后额外一次同额TackleDamage；不表示第二名敌人。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "tackle_physical_damage",
+            "name": "英勇冲锋单次物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TackleDamage=BaseDamageValue+0.6×来源额外攻击力。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "wall_collision_total_physical_damage",
+            "name": "英勇冲锋撞墙两次总物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "wall_hit_count"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BONUS"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "撞墙同一目标总量=两次TackleDamage；只记录当前正文消费关系。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "mana_cost",
+                "name": "施放法力消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "撞墙资格、推进过程和晕眩应用未接线；同一目标撞墙时第二次伤害沿当前正文保留。"
+      ],
+      "excluded": [
+        "不使用LevelUp里的WallDamage替换正文第二次消费的TackleDamage；不创建第二敌人分支。"
+      ]
+    },
+    "poppy_r": {
+      "skillKey": "poppy_r",
+      "name": "持卫的裁决",
+      "maxLevel": 3,
+      "source": {
+        "binding": "Characters/Poppy/Spells/PoppyRAbility/PoppyR",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_PoppyR_Name",
+            "text": "持卫的裁决"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_PoppyR_Summary",
+            "text": "波比引导一次能够把敌人击飞到远方的锤击。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_PoppyR_Tooltip",
+            "text": "<charge>开始施放：</charge>波比开始为她的战锤蓄力，至多@ChannelMaxDuration@秒，自身<status>减速</status>@SelfSlow@%。<br><br><release>释放：</release>波比猛砸地面，生成一道冲击波，来对命中的第一个敌方英雄及其身边的敌人们造成<physicalDamage>@Damage@物理伤害</physicalDamage>，将他们朝着他们的水晶枢纽处<status>击退</status>，并使他们在飞行时处在不可被选取状态。冲击波距离和<status>击退</status>距离受益于蓄力时长。<br><br>未蓄力的挥锤造成<physicalDamage>@HalfDamage@物理伤害</physicalDamage>和持续@KnockupDurationSnap@秒的<status>击飞</status>。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_PoppyR_TooltipExtendedBelowLine",
+            "text": "<rules>{{Reminder_Untargetable}}</rules>"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Poppy.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 140000,
+              "2": 120000,
+              "3": 100000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Poppy.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "持卫的裁决完整基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 200,
+              "2": 300,
+              "3": 400
+            },
+            "description": "当前根DataValues.BaseDamage取技能等级1至3。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "bonus_ad_ratio",
+            "name": "额外攻击力倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.9,
+            "levelValues": null,
+            "description": "当前根Damage第二段mCoefficient为0.9，mStat2/mStatFormula2指向来源额外攻击力。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "channel_max_duration_ms",
+            "name": "最大蓄力持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前正文消费ChannelMaxDuration为4秒，单位秒转毫秒。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "self_slow_percent_points",
+            "name": "蓄力自身减速百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 15,
+            "levelValues": null,
+            "description": "当前正文消费SelfSlow为15%；保留百分数点。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "snap_cast_damage_ratio",
+            "name": "未蓄力伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "当前正文消费HalfDamage，根HalfDamage为Damage乘SnapCastDamageRatio=0.5。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "snap_knockup_duration_ms",
+            "name": "未蓄力击飞持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "当前正文消费KnockupDurationSnap为1秒，单位秒转毫秒。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "开始施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 0,
+            "levelValues": null,
+            "description": "当前根spellCastTime为0；只记录开始施法字段，不等同释放完成或命中时点。",
+            "sortOrder": 70
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "full_physical_damage",
+            "name": "持卫的裁决蓄力物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "Damage=BaseDamage+0.9×来源额外攻击力；蓄力距离变化未接线。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "snap_physical_damage",
+            "name": "持卫的裁决未蓄力物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "snap_cast_damage_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BONUS"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "HalfDamage=Damage×0.5；点按控制和释放时序未接线。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "mana_cost",
+                "name": "施放法力消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "蓄力时长到击退距离和冲击波距离的中间曲线、释放时序、飞行不可选取及目标资格未接线；荆棘墙/冲击波按技能载体保留。"
+      ],
+      "excluded": [
+        "CancelCDRefund、充能到最大距离1秒、蓄力击飞2秒等当前正文未消费字段不录入；不把附近额外目标分发加入唯一敌人公式。"
+      ]
+    }
+  },
+  "postIntents": [
+    {
+      "method": "POST",
+      "route": "/skills/maokai_p/parameters",
+      "skillKey": "maokai_p",
+      "kind": "parameters",
+      "stableKey": "actual_passive_heal_ratio",
+      "body": {
+        "parameterKey": "actual_passive_heal_ratio",
+        "name": "实际等级自身治疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "根PassiveHealingTotal含mStat12与角色等级分段：起点0.04、每级0.002，7级后斜率0.0065；完整分段求值未证，实际输入无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_p/parameters",
+      "skillKey": "maokai_p",
+      "kind": "parameters",
+      "stableKey": "passive_cooldown_ms",
+      "body": {
+        "parameterKey": "passive_cooldown_ms",
+        "name": "被动冷却（毫秒，实际等级值外供）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "根PassiveCooldown为30秒到20秒角色等级插值，完整等级求值未证；单位秒转毫秒，实际输入无默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_p/parameters",
+      "skillKey": "maokai_p",
+      "kind": "parameters",
+      "stableKey": "cooldown_reduction_on_skill_or_enemy_hit_ms",
+      "body": {
+        "parameterKey": "cooldown_reduction_on_skill_or_enemy_hit_ms",
+        "name": "施法或敌方英雄命中缩短被动冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前正文占位PassiveCooldownReduction，根DataValues为4秒；单位秒转毫秒。只记录已证数值，不创建命中事件。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_p/formulas",
+      "skillKey": "maokai_p",
+      "kind": "formulas",
+      "stableKey": "healing_total",
+      "body": {
+        "formulaKey": "healing_total",
+        "name": "吸元秘术自身治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_passive_heal_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "PassiveHealingTotal按实际角色等级比例乘来源总生命值；比例是无默认实际输入。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_q/parameters",
+      "skillKey": "maokai_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 375,
+        "levelValues": null,
+        "description": "根spellCastTime为0.375秒，单位秒转毫秒；不表示伤害命中时点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_q/parameters",
+      "skillKey": "maokai_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 75,
+          "2": 120,
+          "3": 165,
+          "4": 210,
+          "5": 255
+        },
+        "description": "当前根DataValues.BaseDamage取技能等级1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_q/parameters",
+      "skillKey": "maokai_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前根DataValues.APRatio取技能等级1至5均为0.5；计算树TotalDamage第二段同名取值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_q/parameters",
+      "skillKey": "maokai_q",
+      "kind": "parameters",
+      "stableKey": "target_max_health_ratio",
+      "body": {
+        "parameterKey": "target_max_health_ratio",
+        "name": "目标最大生命伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.02,
+          "2": 0.025,
+          "3": 0.03,
+          "4": 0.035,
+          "5": 0.04
+        },
+        "description": "当前正文消费BasePercentHealth*100；根值为2%至4%的比例，录入为0.02至0.04后直接乘目标总生命。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_q/parameters",
+      "skillKey": "maokai_q",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.99,
+        "levelValues": null,
+        "description": "当前根DataValues.SlowAmount取索引1至5均为0.99；正文描述短暂减速，资格和应用时点未接线。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_q/parameters",
+      "skillKey": "maokai_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根DataValues.SlowDuration为0.25秒，单位秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_q/parameters",
+      "skillKey": "maokai_q",
+      "kind": "parameters",
+      "stableKey": "knockback_distance",
+      "body": {
+        "parameterKey": "knockback_distance",
+        "name": "近身击退距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 400,
+        "levelValues": null,
+        "description": "当前根DataValues.KnockbackDistance为400；只记录明确距离，不创建击退过程。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_q/formulas",
+      "skillKey": "maokai_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "荆棘重击对英雄魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "target_max_health_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage加上正文明确的BasePercentHealth×目标最大生命值；比例按0.02至0.04录入，不遗漏第二项。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_q/effects",
+      "skillKey": "maokai_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_w/parameters",
+      "skillKey": "maokai_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，单位秒转毫秒；不表示禁锢或伤害命中时点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_w/parameters",
+      "skillKey": "maokai_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 85,
+          "3": 110,
+          "4": 135,
+          "5": 160
+        },
+        "description": "当前根DataValues.BaseDamage取技能等级1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_w/parameters",
+      "skillKey": "maokai_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前根TotalDamage第二段StatByCoefficient为0.4。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_w/parameters",
+      "skillKey": "maokai_w",
+      "kind": "parameters",
+      "stableKey": "root_duration_ms",
+      "body": {
+        "parameterKey": "root_duration_ms",
+        "name": "禁锢持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1000,
+          "2": 1100,
+          "3": 1200,
+          "4": 1300,
+          "5": 1400
+        },
+        "description": "当前根DataValues.RootDuration为1至1.4秒，单位秒转毫秒；不表示突进过程持续。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_w/parameters",
+      "skillKey": "maokai_w",
+      "kind": "parameters",
+      "stableKey": "dash_speed",
+      "body": {
+        "parameterKey": "dash_speed",
+        "name": "根须突进速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1300,
+        "levelValues": null,
+        "description": "当前根DataValues.DashSpeed为1300；突进阶段和抵达时序未接线。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_w/formulas",
+      "skillKey": "maokai_w",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "扭曲突刺魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage=BaseDamage+0.4×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_w/effects",
+      "skillKey": "maokai_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_e/parameters",
+      "skillKey": "maokai_e",
+      "kind": "parameters",
+      "stableKey": "passive_cooldown_reduction_on_hero_hit_ms",
+      "body": {
+        "parameterKey": "passive_cooldown_reduction_on_hero_hit_ms",
+        "name": "命中英雄缩短茂凯被动冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前树苗正文明确命中敌方英雄或史诗野怪时额外缩短吸元秘术4秒；本轮仅保留英雄相关明确数值，树苗命中事件与外供方式待接。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_r/parameters",
+      "skillKey": "maokai_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 225,
+          "3": 300
+        },
+        "description": "当前根DataValues.BaseDamage取技能等级1至3。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_r/parameters",
+      "skillKey": "maokai_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.75,
+        "levelValues": null,
+        "description": "当前根TotalDamage第二段StatByCoefficient为0.75。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_r/parameters",
+      "skillKey": "maokai_r",
+      "kind": "parameters",
+      "stableKey": "minimum_root_duration_ms",
+      "body": {
+        "parameterKey": "minimum_root_duration_ms",
+        "name": "最低禁锢持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 750,
+          "2": 750,
+          "3": 750
+        },
+        "description": "当前正文消费MinRootDuration，根值0.75秒；单位秒转毫秒，中间随距离变化未接线。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_r/parameters",
+      "skillKey": "maokai_r",
+      "kind": "parameters",
+      "stableKey": "maximum_root_duration_ms",
+      "body": {
+        "parameterKey": "maximum_root_duration_ms",
+        "name": "最高禁锢持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2250,
+          "2": 2250,
+          "3": 2250
+        },
+        "description": "当前正文消费MaxRootDuration，根值2.25秒；单位秒转毫秒，中间随距离变化未接线。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_r/parameters",
+      "skillKey": "maokai_r",
+      "kind": "parameters",
+      "stableKey": "move_haste_percent_points",
+      "body": {
+        "parameterKey": "move_haste_percent_points",
+        "name": "命中英雄后移动速度百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 50,
+          "3": 60
+        },
+        "description": "当前正文消费MoveHaste*100，根值0.4至0.6，录入为40至60百分数点；衰减过程未接线。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_r/parameters",
+      "skillKey": "maokai_r",
+      "kind": "parameters",
+      "stableKey": "haste_duration_ms",
+      "body": {
+        "parameterKey": "haste_duration_ms",
+        "name": "移动速度衰减持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前正文消费HasteDuration，根值2秒；单位秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_r/formulas",
+      "skillKey": "maokai_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "自然之握魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage=BaseDamage+0.75×来源总法强；荆棘墙作为技能伤害载体保留。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/maokai_r/effects",
+      "skillKey": "maokai_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_p/parameters",
+      "skillKey": "poppy_p",
+      "kind": "parameters",
+      "stableKey": "bonus_attack_range",
+      "body": {
+        "parameterKey": "bonus_attack_range",
+        "name": "圆盾攻击距离增加",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "当前根DataValues.BonusRange为350。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_p/parameters",
+      "skillKey": "poppy_p",
+      "kind": "parameters",
+      "stableKey": "actual_cooldown_ms",
+      "body": {
+        "parameterKey": "actual_cooldown_ms",
+        "name": "被动冷却（毫秒，实际角色等级值外供）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "根ActualCooldown为16秒并含7/13/19级断点，完整角色等级求值未证；单位秒转毫秒，实际输入无默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_p/parameters",
+      "skillKey": "poppy_p",
+      "kind": "parameters",
+      "stableKey": "actual_passive_magic_damage",
+      "body": {
+        "parameterKey": "actual_passive_magic_damage",
+        "name": "圆盾实际魔法伤害（实际角色等级值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "根TotalDamage为20至180角色等级插值，完整求值未证；实际输入无默认，不把端点展平成曲线。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_p/parameters",
+      "skillKey": "poppy_p",
+      "kind": "parameters",
+      "stableKey": "actual_shield_ratio_by_character_level",
+      "body": {
+        "parameterKey": "actual_shield_ratio_by_character_level",
+        "name": "实际角色等级护盾生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "根ShieldValue为mStat12乘角色等级插值0.11至0.20，完整求值未证；实际输入无默认。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_p/parameters",
+      "skillKey": "poppy_p",
+      "kind": "parameters",
+      "stableKey": "shield_pickup_window_ms",
+      "body": {
+        "parameterKey": "shield_pickup_window_ms",
+        "name": "圆盾落地后拾取窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前根DataValues.ShieldPickUpTime为4秒，单位秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_p/parameters",
+      "skillKey": "poppy_p",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "拾取后护盾持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前根DataValues.ShieldDuration为3秒，单位秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_p/formulas",
+      "skillKey": "poppy_p",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "钢铁大使自身护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_shield_ratio_by_character_level"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "ShieldValue=实际角色等级护盾比例×来源总生命值；比例无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/parameters",
+      "skillKey": "poppy_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 333,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.3324999809秒，按已记录的0.3325秒就近归一为333毫秒；不把显示精度当通用舍入规则。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/parameters",
+      "skillKey": "poppy_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "每次基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 55,
+          "3": 80,
+          "4": 105,
+          "5": 130
+        },
+        "description": "当前根DataValues.BaseDamageValue取技能等级1至5；两次正文均消费同一BaseDamage。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/parameters",
+      "skillKey": "poppy_q",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.75,
+        "levelValues": null,
+        "description": "当前根BaseDamage计算树StatByCoefficient为0.75，mStat2/mStatFormula2指向来源额外攻击力。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/parameters",
+      "skillKey": "poppy_q",
+      "kind": "parameters",
+      "stableKey": "target_max_health_ratio",
+      "body": {
+        "parameterKey": "target_max_health_ratio",
+        "name": "目标最大生命伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.07,
+          "2": 0.075,
+          "3": 0.08,
+          "4": 0.085,
+          "5": 0.09
+        },
+        "description": "当前根DataValues.HealthDamagePercent为7%至9%，按比例0.07至0.09直接乘目标总生命；小兵野怪上限排除。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/parameters",
+      "skillKey": "poppy_q",
+      "kind": "parameters",
+      "stableKey": "hit_count_same_target",
+      "body": {
+        "parameterKey": "hit_count_same_target",
+        "name": "同一敌人伤害次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "当前正文明确第一次命中及延迟后再次对同一敌人造成同额伤害；仅用于同一敌人总量公式。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/parameters",
+      "skillKey": "poppy_q",
+      "kind": "parameters",
+      "stableKey": "delay_between_hits_ms",
+      "body": {
+        "parameterKey": "delay_between_hits_ms",
+        "name": "两次伤害间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前根DataValues.DelayBetweenTwoHits为1秒，单位秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/parameters",
+      "skillKey": "poppy_q",
+      "kind": "parameters",
+      "stableKey": "base_slow_ratio",
+      "body": {
+        "parameterKey": "base_slow_ratio",
+        "name": "基础减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.23,
+          "3": 0.26,
+          "4": 0.29,
+          "5": 0.32
+        },
+        "description": "当前根MoveSpeedMod的基础值为0.20至0.32；这里按比例记录，应用持续和范围阶段未接线。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/parameters",
+      "skillKey": "poppy_q",
+      "kind": "parameters",
+      "stableKey": "slow_bonus_health_coefficient",
+      "body": {
+        "parameterKey": "slow_bonus_health_coefficient",
+        "name": "额外生命减速系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.00008,
+        "levelValues": null,
+        "description": "当前根MoveSpeedMod第二段为0.00008×来源额外生命，mStat12/mStatFormula2；来源字段名称不替代属性口径。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/parameters",
+      "skillKey": "poppy_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "区域减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "当前根DataValues.SlowDuration为0.5秒，单位秒转毫秒；不扩为两次伤害间隔全程。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/formulas",
+      "skillKey": "poppy_q",
+      "kind": "formulas",
+      "stableKey": "physical_damage_per_hit",
+      "body": {
+        "formulaKey": "physical_damage_per_hit",
+        "name": "圣锤猛击单次物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "target_max_health_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "每一次正文伤害=基础+0.75×来源额外攻击力+目标最大生命比例×目标总生命。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/formulas",
+      "skillKey": "poppy_q",
+      "kind": "formulas",
+      "stableKey": "physical_damage_same_target_total",
+      "body": {
+        "formulaKey": "physical_damage_same_target_total",
+        "name": "圣锤猛击同一敌人两次总物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "hit_count_same_target"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_ad_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BONUS"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_max_health_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "同一敌人两次命中总量=2×单次伤害；不表示其他目标分发或命中事件已接通。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/formulas",
+      "skillKey": "poppy_q",
+      "kind": "formulas",
+      "stableKey": "slow_ratio",
+      "body": {
+        "formulaKey": "slow_ratio",
+        "name": "圣锤猛击减速比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_slow_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "slow_bonus_health_coefficient"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MoveSpeedMod=基础减速比例+0.00008×来源额外生命；减速应用范围和时长独立记录。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_q/effects",
+      "skillKey": "poppy_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/parameters",
+      "skillKey": "poppy_w",
+      "kind": "parameters",
+      "stableKey": "passive_resist_ratio",
+      "body": {
+        "parameterKey": "passive_resist_ratio",
+        "name": "被动双抗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.16,
+        "levelValues": null,
+        "description": "当前根DataValues.PassiveResistPercent为0.16；BonusArmor和BonusMR分别使用mStat1与mStat6，不能凭字段名改成额外双抗。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/parameters",
+      "skillKey": "poppy_w",
+      "kind": "parameters",
+      "stableKey": "passive_low_health_threshold_ratio",
+      "body": {
+        "parameterKey": "passive_low_health_threshold_ratio",
+        "name": "被动翻倍生命阈值",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前正文消费PassiveEmpoweredHealthPercent*100，根值0.4；条件判断事件未接线。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/parameters",
+      "skillKey": "poppy_w",
+      "kind": "parameters",
+      "stableKey": "passive_low_health_multiplier",
+      "body": {
+        "parameterKey": "passive_low_health_multiplier",
+        "name": "低生命被动双抗倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "当前正文写明生命低于40%时双抗加成翻倍；保留端点倍率，不代表条件事件已接通。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/parameters",
+      "skillKey": "poppy_w",
+      "kind": "parameters",
+      "stableKey": "actual_source_armor_before_passive",
+      "body": {
+        "parameterKey": "actual_source_armor_before_passive",
+        "name": "被动应用前来源护甲",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "mStat1的应用前正确护甲基准由实际输入提供；不以BonusArmor字段名猜额外护甲，实际输入无默认。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/parameters",
+      "skillKey": "poppy_w",
+      "kind": "parameters",
+      "stableKey": "actual_source_magic_resistance_before_passive",
+      "body": {
+        "parameterKey": "actual_source_magic_resistance_before_passive",
+        "name": "被动应用前来源魔抗",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "mStat6的应用前正确魔抗基准由实际输入提供；不以BonusMagicResistance字段名猜额外魔抗，实际输入无默认。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/parameters",
+      "skillKey": "poppy_w",
+      "kind": "parameters",
+      "stableKey": "active_haste_percent_points",
+      "body": {
+        "parameterKey": "active_haste_percent_points",
+        "name": "主动移动速度百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "description": "当前根DataValues.Haste为40，正文以百分号显示；保留百分数点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/parameters",
+      "skillKey": "poppy_w",
+      "kind": "parameters",
+      "stableKey": "active_duration_ms",
+      "body": {
+        "parameterKey": "active_duration_ms",
+        "name": "主动领域持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根DataValues.Duration为2秒，单位秒转毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/parameters",
+      "skillKey": "poppy_w",
+      "kind": "parameters",
+      "stableKey": "grounding_duration_ms",
+      "body": {
+        "parameterKey": "grounding_duration_ms",
+        "name": "缚地持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根DataValues.GroundingDuration为2秒，单位秒转毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/parameters",
+      "skillKey": "poppy_w",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "敌人减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 25,
+        "levelValues": null,
+        "description": "原始SlowAmount为-0.25，当前正文消费SlowAmount*-100；录入正25，避免对负原值再次取负。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/parameters",
+      "skillKey": "poppy_w",
+      "kind": "parameters",
+      "stableKey": "base_interrupt_damage",
+      "body": {
+        "parameterKey": "base_interrupt_damage",
+        "name": "打断突进基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "description": "当前根DataValues.DamageValue取技能等级1至5。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/parameters",
+      "skillKey": "poppy_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "打断突进法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "当前根InterruptDamage第二段StatByCoefficient为0.7。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/formulas",
+      "skillKey": "poppy_w",
+      "kind": "formulas",
+      "stableKey": "passive_bonus_armor",
+      "body": {
+        "formulaKey": "passive_bonus_armor",
+        "name": "被动额外护甲",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_resist_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_source_armor_before_passive"
+            }
+          ]
+        },
+        "description": "BonusArmor的mStat1窄口径表达为0.16×应用前来源护甲；基准实际输入无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/formulas",
+      "skillKey": "poppy_w",
+      "kind": "formulas",
+      "stableKey": "passive_bonus_armor_low_health",
+      "body": {
+        "formulaKey": "passive_bonus_armor_low_health",
+        "name": "低生命被动额外护甲",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_resist_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_low_health_multiplier"
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_source_armor_before_passive"
+            }
+          ]
+        },
+        "description": "生命低于40%时双抗加成端点=0.16×2×应用前来源护甲；条件事件未接线。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/formulas",
+      "skillKey": "poppy_w",
+      "kind": "formulas",
+      "stableKey": "passive_bonus_magic_resistance",
+      "body": {
+        "formulaKey": "passive_bonus_magic_resistance",
+        "name": "被动额外魔抗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_resist_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_source_magic_resistance_before_passive"
+            }
+          ]
+        },
+        "description": "BonusMR的mStat6窄口径表达为0.16×应用前来源魔抗；基准实际输入无默认。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/formulas",
+      "skillKey": "poppy_w",
+      "kind": "formulas",
+      "stableKey": "passive_bonus_magic_resistance_low_health",
+      "body": {
+        "formulaKey": "passive_bonus_magic_resistance_low_health",
+        "name": "低生命被动额外魔抗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_resist_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_low_health_multiplier"
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_source_magic_resistance_before_passive"
+            }
+          ]
+        },
+        "description": "生命低于40%时双抗加成端点=0.16×2×应用前来源魔抗；条件事件未接线。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/formulas",
+      "skillKey": "poppy_w",
+      "kind": "formulas",
+      "stableKey": "interrupt_magic_damage",
+      "body": {
+        "formulaKey": "interrupt_magic_damage",
+        "name": "打断突进魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_interrupt_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "InterruptDamage=DamageValue+0.7×来源总法强；敌方突进资格和打断事件未接线。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_w/effects",
+      "skillKey": "poppy_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_e/parameters",
+      "skillKey": "poppy_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "英勇冲锋基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 60,
+          "3": 80,
+          "4": 100,
+          "5": 120
+        },
+        "description": "当前根DataValues.BaseDamageValue取技能等级1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_e/parameters",
+      "skillKey": "poppy_e",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "当前根TackleDamage第二段mCoefficient为0.6，mStat2/mStatFormula2指向来源额外攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_e/parameters",
+      "skillKey": "poppy_e",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "撞墙晕眩持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1600,
+          "2": 1700,
+          "3": 1800,
+          "4": 1900,
+          "5": 2000
+        },
+        "description": "当前根DataValues.StunDuration为1.6至2秒，单位秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_e/parameters",
+      "skillKey": "poppy_e",
+      "kind": "parameters",
+      "stableKey": "max_pushback_distance",
+      "body": {
+        "parameterKey": "max_pushback_distance",
+        "name": "最大推进距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 400,
+        "levelValues": null,
+        "description": "当前根DataValues.MaxEnemyPushbackDistance为400。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_e/parameters",
+      "skillKey": "poppy_e",
+      "kind": "parameters",
+      "stableKey": "wall_hit_count",
+      "body": {
+        "parameterKey": "wall_hit_count",
+        "name": "撞墙同一目标伤害次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "当前正文明确首次TackleDamage及撞墙后额外一次同额TackleDamage；不表示第二名敌人。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_e/formulas",
+      "skillKey": "poppy_e",
+      "kind": "formulas",
+      "stableKey": "tackle_physical_damage",
+      "body": {
+        "formulaKey": "tackle_physical_damage",
+        "name": "英勇冲锋单次物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TackleDamage=BaseDamageValue+0.6×来源额外攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_e/formulas",
+      "skillKey": "poppy_e",
+      "kind": "formulas",
+      "stableKey": "wall_collision_total_physical_damage",
+      "body": {
+        "formulaKey": "wall_collision_total_physical_damage",
+        "name": "英勇冲锋撞墙两次总物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "wall_hit_count"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "撞墙同一目标总量=两次TackleDamage；只记录当前正文消费关系。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_e/effects",
+      "skillKey": "poppy_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_r/parameters",
+      "skillKey": "poppy_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "持卫的裁决完整基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 200,
+          "2": 300,
+          "3": 400
+        },
+        "description": "当前根DataValues.BaseDamage取技能等级1至3。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_r/parameters",
+      "skillKey": "poppy_r",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.9,
+        "levelValues": null,
+        "description": "当前根Damage第二段mCoefficient为0.9，mStat2/mStatFormula2指向来源额外攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_r/parameters",
+      "skillKey": "poppy_r",
+      "kind": "parameters",
+      "stableKey": "channel_max_duration_ms",
+      "body": {
+        "parameterKey": "channel_max_duration_ms",
+        "name": "最大蓄力持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前正文消费ChannelMaxDuration为4秒，单位秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_r/parameters",
+      "skillKey": "poppy_r",
+      "kind": "parameters",
+      "stableKey": "self_slow_percent_points",
+      "body": {
+        "parameterKey": "self_slow_percent_points",
+        "name": "蓄力自身减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15,
+        "levelValues": null,
+        "description": "当前正文消费SelfSlow为15%；保留百分数点。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_r/parameters",
+      "skillKey": "poppy_r",
+      "kind": "parameters",
+      "stableKey": "snap_cast_damage_ratio",
+      "body": {
+        "parameterKey": "snap_cast_damage_ratio",
+        "name": "未蓄力伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前正文消费HalfDamage，根HalfDamage为Damage乘SnapCastDamageRatio=0.5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_r/parameters",
+      "skillKey": "poppy_r",
+      "kind": "parameters",
+      "stableKey": "snap_knockup_duration_ms",
+      "body": {
+        "parameterKey": "snap_knockup_duration_ms",
+        "name": "未蓄力击飞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前正文消费KnockupDurationSnap为1秒，单位秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_r/parameters",
+      "skillKey": "poppy_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "开始施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0；只记录开始施法字段，不等同释放完成或命中时点。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_r/formulas",
+      "skillKey": "poppy_r",
+      "kind": "formulas",
+      "stableKey": "full_physical_damage",
+      "body": {
+        "formulaKey": "full_physical_damage",
+        "name": "持卫的裁决蓄力物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Damage=BaseDamage+0.9×来源额外攻击力；蓄力距离变化未接线。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_r/formulas",
+      "skillKey": "poppy_r",
+      "kind": "formulas",
+      "stableKey": "snap_physical_damage",
+      "body": {
+        "formulaKey": "snap_physical_damage",
+        "name": "持卫的裁决未蓄力物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "snap_cast_damage_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "HalfDamage=Damage×0.5；点按控制和释放时序未接线。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/poppy_r/effects",
+      "skillKey": "poppy_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留当前技能的基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

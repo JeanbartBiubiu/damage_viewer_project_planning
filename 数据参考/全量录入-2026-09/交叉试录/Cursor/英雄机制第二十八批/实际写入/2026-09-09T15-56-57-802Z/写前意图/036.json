@@ -1,0 +1,32 @@
+{
+  "i": 35,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_p/formulas",
+    "skillKey": "poppy_p",
+    "kind": "formulas",
+    "stableKey": "shield_value",
+    "body": {
+      "formulaKey": "shield_value",
+      "name": "钢铁大使自身护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_shield_ratio_by_character_level"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "ShieldValue=实际角色等级护盾比例×来源总生命值；比例无默认。",
+      "sortOrder": 10
+    }
+  }
+}

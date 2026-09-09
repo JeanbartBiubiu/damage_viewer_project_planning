@@ -1,0 +1,141 @@
+{
+  "generatedAt": "2026-09-09T16:12:21.139Z",
+  "batch": "第二十八批茂凯波比",
+  "status": "PASS",
+  "complete": true,
+  "files": {
+    "reader": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-luna-candidate\\独立回读-实际GET.mjs",
+      "sha256": "88b606d9e0187d360d0d57239c57481098b1bceeb2e720fbccbfc6b6f9176f04"
+    },
+    "report": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-luna-candidate\\独立回读\\2026-09-09T16-11-08-396Z\\独立全量回读.json",
+      "sha256": "49ec6915a06dd1d3233f19d1daae7ba2b4081c8956d97db29538f851a93ec05f"
+    },
+    "execution": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-luna-candidate\\独立回读\\2026-09-09T16-11-08-396Z\\执行结果.json",
+      "sha256": "79fe49c8a9aae5d7b3851cd1d7b02b92f6e2ee7c23b721e47bc4af578ac69003"
+    },
+    "journal": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-luna-candidate\\独立回读\\2026-09-09T16-11-08-396Z\\所有GET原始响应.jsonl",
+      "sha256": "85612dbebab391bc2342deedd0b0e5ef41cfbda1203ba8310677e010acf4f951"
+    },
+    "writerResult": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-luna-candidate\\实际写入\\2026-09-09T15-56-57-802Z/执行结果.json",
+      "sha256": "ac1f7214d914089c81e5d6b9a43d9b88d50a1d1acdc52b6f2b0e76f7693ad94b"
+    },
+    "auditReport": {
+      "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-luna-candidate\\独立写入器与来源审查.json",
+      "sha256": "47075e34eb2cb1b216266106e032e80d35510c6311a8ca1e7faca0888fa39236"
+    }
+  },
+  "businessWrite": {
+    "post": 84,
+    "success": true
+  },
+  "independentRead": {
+    "get": 186,
+    "uniqueGET": 186,
+    "statuses": {
+      "200": 186
+    },
+    "apiWrites": 0
+  },
+  "protection": {
+    "catalogs": 4,
+    "characters": 2,
+    "relations": 2,
+    "subjects": 10,
+    "images": 10,
+    "componentLists": 60,
+    "reusedDetails": 14
+  },
+  "protectionChecked": 102,
+  "protectionPassed": 102,
+  "details": {
+    "current": 98,
+    "matched": 98,
+    "new": 84,
+    "reused": 14
+  },
+  "math": {
+    "formulas": 17,
+    "cases": 34,
+    "rejections": 56,
+    "rejectedMissingValues": 56,
+    "runtimeInputRejectionCases": 4,
+    "runtimeInputRejected": 4,
+    "runtimeParameterChecks": [
+      {
+        "skillKey": "maokai_p",
+        "parameterKey": "actual_passive_heal_ratio",
+        "valueType": "DECIMAL",
+        "rejectedMissing": true,
+        "missingError": "缺少参数输入 maokai_p/actual_passive_heal_ratio"
+      },
+      {
+        "skillKey": "maokai_p",
+        "parameterKey": "passive_cooldown_ms",
+        "valueType": "INTEGER",
+        "rejectedMissing": true,
+        "missingError": "缺少参数输入 maokai_p/passive_cooldown_ms",
+        "rejectedFractional": true,
+        "fractionalError": "整数参数含小数 maokai_p/passive_cooldown_ms"
+      },
+      {
+        "skillKey": "poppy_p",
+        "parameterKey": "actual_cooldown_ms",
+        "valueType": "INTEGER",
+        "rejectedMissing": true,
+        "missingError": "缺少参数输入 poppy_p/actual_cooldown_ms",
+        "rejectedFractional": true,
+        "fractionalError": "整数参数含小数 poppy_p/actual_cooldown_ms"
+      },
+      {
+        "skillKey": "poppy_p",
+        "parameterKey": "actual_passive_magic_damage",
+        "valueType": "DECIMAL",
+        "rejectedMissing": true,
+        "missingError": "缺少参数输入 poppy_p/actual_passive_magic_damage"
+      },
+      {
+        "skillKey": "poppy_p",
+        "parameterKey": "actual_shield_ratio_by_character_level",
+        "valueType": "DECIMAL",
+        "rejectedMissing": true,
+        "missingError": "缺少参数输入 poppy_p/actual_shield_ratio_by_character_level"
+      },
+      {
+        "skillKey": "poppy_w",
+        "parameterKey": "actual_source_armor_before_passive",
+        "valueType": "DECIMAL",
+        "rejectedMissing": true,
+        "missingError": "缺少参数输入 poppy_w/actual_source_armor_before_passive"
+      },
+      {
+        "skillKey": "poppy_w",
+        "parameterKey": "actual_source_magic_resistance_before_passive",
+        "valueType": "DECIMAL",
+        "rejectedMissing": true,
+        "missingError": "缺少参数输入 poppy_w/actual_source_magic_resistance_before_passive"
+      }
+    ],
+    "runtimeMissingRejected": 7,
+    "boundaries": 17,
+    "boundaryPassed": 17,
+    "failures": 0
+  },
+  "frozen": {
+    "candidate": "a07d0fa895cfdd6babaeb6c711d5e5b86dbd5a05530933d6d571baeb70aa6c6d",
+    "plan": "955d4428ec9f0a3b7c6ce571660fff2a156e3b51a98ef799fc4e632d6f932c47",
+    "sourceRange": "85294c071b70f03f6d682a02999cd0d0fdd59cfbfff57c75f7a581ae8a19a07b",
+    "inputVersion": "3aa85899a88fdbe932dac837e4af765e36d3df3f9be0cb60a4fb6025a4cb06e4",
+    "sourceBinding": "ca0a59262844bee277255af85af7dfdb391caa7306f04746c3ea16a97b208298",
+    "protection": "dde9307d285b58959862140432bb113b298bb1405b0e41839bcdd0ddea2a9e5e",
+    "reuse": "ebe9578ff2f50f266bb0dd5ff0b2c7cf37b550754b85d52399cc3067bb2b6d96"
+  },
+  "notes": [
+    "数学期望从冻结客户端16.17来源原始DataValues与计算树系数读取，实际表达式从新GET详情读取。",
+    "本读回器仅GET，apiWrites=0；不改候选、计划、写入器或共享文件。"
+  ]
+}

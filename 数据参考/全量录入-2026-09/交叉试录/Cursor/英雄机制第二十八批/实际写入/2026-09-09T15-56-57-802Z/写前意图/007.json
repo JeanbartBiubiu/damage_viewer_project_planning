@@ -1,0 +1,20 @@
+{
+  "i": 6,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_q/parameters",
+    "skillKey": "maokai_q",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前根DataValues.APRatio取技能等级1至5均为0.5；计算树TotalDamage第二段同名取值。",
+      "sortOrder": 30
+    }
+  }
+}

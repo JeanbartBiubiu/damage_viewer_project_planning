@@ -1,0 +1,52 @@
+{
+  "i": 72,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_e/formulas",
+    "skillKey": "poppy_e",
+    "kind": "formulas",
+    "stableKey": "wall_collision_total_physical_damage",
+    "body": {
+      "formulaKey": "wall_collision_total_physical_damage",
+      "name": "英勇冲锋撞墙两次总物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "wall_hit_count"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "撞墙同一目标总量=两次TackleDamage；只记录当前正文消费关系。",
+      "sortOrder": 20
+    }
+  }
+}

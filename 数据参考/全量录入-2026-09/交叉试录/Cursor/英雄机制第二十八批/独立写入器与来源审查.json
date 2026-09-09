@@ -1,0 +1,425 @@
+{
+  "generatedAt": "2026-09-09T15:55:44.513Z",
+  "status": "PASS_WITH_NONBLOCKING_NOTES",
+  "blockingFailures": [],
+  "nonBlockingNotes": [
+    {
+      "key": "preexisting_lock",
+      "finding": "apply在预检try外使用wx抢锁；既有锁会直接失败且不覆盖锁，也不会生成本次执行结果。"
+    },
+    {
+      "key": "new_list_rows",
+      "finding": "写入器保护检查对新增列表行校验键和数量，新增详情逐字段深比较；独立回读器将再对60个列表做完整保护核验。"
+    }
+  ],
+  "frozen": {
+    "candidate": "a07d0fa895cfdd6babaeb6c711d5e5b86dbd5a05530933d6d571baeb70aa6c6d",
+    "plan": "955d4428ec9f0a3b7c6ce571660fff2a156e3b51a98ef799fc4e632d6f932c47",
+    "inputVersion": "3aa85899a88fdbe932dac837e4af765e36d3df3f9be0cb60a4fb6025a4cb06e4",
+    "binding": "ca0a59262844bee277255af85af7dfdb391caa7306f04746c3ea16a97b208298",
+    "protection": "dde9307d285b58959862140432bb113b298bb1405b0e41839bcdd0ddea2a9e5e"
+  },
+  "hashes": {
+    "candidate": "a07d0fa895cfdd6babaeb6c711d5e5b86dbd5a05530933d6d571baeb70aa6c6d",
+    "plan": "955d4428ec9f0a3b7c6ce571660fff2a156e3b51a98ef799fc4e632d6f932c47",
+    "writer": "1a3203690d299b74e57346dbc02fd7971cbbce586c2d4d66366ee7076f33d1ca",
+    "inputVersion": "3aa85899a88fdbe932dac837e4af765e36d3df3f9be0cb60a4fb6025a4cb06e4",
+    "binding": "ca0a59262844bee277255af85af7dfdb391caa7306f04746c3ea16a97b208298",
+    "protection": "dde9307d285b58959862140432bb113b298bb1405b0e41839bcdd0ddea2a9e5e"
+  },
+  "counts": {
+    "currentComponents": 98,
+    "newIntents": 84,
+    "newByKind": {
+      "parameters": 60,
+      "formulas": 17,
+      "effects": 7
+    },
+    "currentByKind": {
+      "parameters": 74,
+      "formulas": 17,
+      "effects": 7
+    },
+    "protectedGETs": 102,
+    "preflightGETs": 200
+  },
+  "preflight": {
+    "runId": "2026-09-09T15-47-17-026Z",
+    "success": true,
+    "apiWrites": 0,
+    "counts": {
+      "GET": 200,
+      "POST": 0
+    },
+    "protection": {
+      "checked": 102,
+      "lists": 60,
+      "passed": true
+    },
+    "details": {
+      "matched": 14,
+      "missingBefore": 84,
+      "passed": true
+    },
+    "reportPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-luna-candidate\\只读预检\\2026-09-09T15-47-17-026Z\\执行结果.json"
+  },
+  "checks": [
+    {
+      "name": "候选散列",
+      "passed": true,
+      "detail": "a07d0fa895cfdd6babaeb6c711d5e5b86dbd5a05530933d6d571baeb70aa6c6d"
+    },
+    {
+      "name": "计划散列",
+      "passed": true,
+      "detail": "955d4428ec9f0a3b7c6ce571660fff2a156e3b51a98ef799fc4e632d6f932c47"
+    },
+    {
+      "name": "输入版本散列",
+      "passed": true,
+      "detail": "3aa85899a88fdbe932dac837e4af765e36d3df3f9be0cb60a4fb6025a4cb06e4"
+    },
+    {
+      "name": "来源绑定散列",
+      "passed": true,
+      "detail": "ca0a59262844bee277255af85af7dfdb391caa7306f04746c3ea16a97b208298"
+    },
+    {
+      "name": "保护快照散列",
+      "passed": true,
+      "detail": "dde9307d285b58959862140432bb113b298bb1405b0e41839bcdd0ddea2a9e5e"
+    },
+    {
+      "name": "来源文件未漂移:参考资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "来源文件未漂移:参考资料/客户端原文/Maokai.json.gz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "来源文件未漂移:参考资料/官方中文/Maokai.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "来源文件未漂移:参考资料/官方英文/Maokai.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "来源文件未漂移:参考资料/客户端原文/Poppy.json.gz",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "来源文件未漂移:参考资料/官方中文/Poppy.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "来源文件未漂移:参考资料/官方英文/Poppy.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "来源文件未漂移:参考资料/属性默认与边界.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "来源文件未漂移:参考资料/接口载荷样例.json",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选明确零写入",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划明确零写入",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选10技能槽",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "当前组成98项",
+      "passed": true,
+      "detail": {
+        "parameters": 74,
+        "formulas": 17,
+        "effects": 7
+      }
+    },
+    {
+      "name": "新增计划84项",
+      "passed": true,
+      "detail": {
+        "count": 84,
+        "intents": 84
+      }
+    },
+    {
+      "name": "当前组成计数74/17/7",
+      "passed": true,
+      "detail": {
+        "parameters": 74,
+        "formulas": 17,
+        "effects": 7
+      }
+    },
+    {
+      "name": "新增组成计数60/17/7（计划）",
+      "passed": true,
+      "detail": {
+        "parameters": 60,
+        "formulas": 17,
+        "effects": 7
+      }
+    },
+    {
+      "name": "保护快照102项",
+      "passed": true,
+      "detail": 102
+    },
+    {
+      "name": "保护分组4/2/2/10/10/60/14",
+      "passed": true,
+      "detail": {
+        "catalogs": 4,
+        "characters": 2,
+        "relations": 2,
+        "subjects": 10,
+        "images": 10,
+        "lists": 60,
+        "oldDetails": 14
+      }
+    },
+    {
+      "name": "只读预检成功",
+      "passed": true,
+      "detail": {
+        "runId": "2026-09-09T15-47-17-026Z",
+        "counts": {
+          "GET": 200,
+          "POST": 0
+        },
+        "success": true
+      }
+    },
+    {
+      "name": "只读保护102全过",
+      "passed": true,
+      "detail": {
+        "checked": 102,
+        "lists": 60,
+        "passed": true
+      }
+    },
+    {
+      "name": "只读详情14既有84新增404",
+      "passed": true,
+      "detail": {
+        "matched": 14,
+        "missingBefore": 84,
+        "passed": true
+      }
+    },
+    {
+      "name": "写入器只含GET和POST",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "写入器保留apply环境确认",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "全局锁使用wx",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "单条意图使用wx",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "每项写前详情必须404",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "每项POST后GET深比较",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "写后保护和详情复核",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "既有锁抢占失败时不覆盖",
+      "passed": true,
+      "detail": {
+        "lockBeforeTry": 4894,
+        "tryStart": 7219
+      }
+    },
+    {
+      "name": "既有锁失败前置于预检（非阻塞记录）",
+      "passed": true,
+      "detail": {
+        "lockBeforeTry": 4894,
+        "tryStart": 7219
+      }
+    },
+    {
+      "name": "写入器新增列表行未做逐字段比较（由独立回读补足）",
+      "passed": true,
+      "detail": "详情比较仍存在"
+    },
+    {
+      "name": "茂凯Q当前文本消费最大生命百分比",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "茂凯Q最大生命比例2%至4%",
+      "passed": true,
+      "detail": {
+        "source": [
+          0.014999999664723873,
+          0.019999999552965164,
+          0.02500000037252903,
+          0.029999999329447746,
+          0.03500000014901161,
+          0.03999999910593033,
+          0.04500000178813934
+        ],
+        "candidate": [
+          0.02,
+          0.025,
+          0.03,
+          0.035,
+          0.04
+        ]
+      }
+    },
+    {
+      "name": "茂凯Q法强树和候选公式均保留",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "波比Q额外攻击力使用BONUS",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "波比Q两次同目标和1000毫秒间隔",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "波比Q减速额外生命系数",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "波比W双抗基准无默认",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "波比W低生命翻倍端点",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "波比E额外攻击力和撞墙同额两次",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "波比R完整伤害和点按半伤",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "茂凯E独立树苗排除但保留命中英雄缩短被动冷却",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "效果未伪造伤害治疗瞬时结果",
+      "passed": true,
+      "detail": [
+        "RESOURCE_CHANGE",
+        "RESOURCE_CHANGE",
+        "RESOURCE_CHANGE",
+        "RESOURCE_CHANGE",
+        "RESOURCE_CHANGE",
+        "RESOURCE_CHANGE",
+        "RESOURCE_CHANGE"
+      ]
+    },
+    {
+      "name": "时间参数非负整数且运行输入无默认",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "sourceEvidence": {
+    "maokaiQ": {
+      "dataValues": [
+        "BasePercentHealth"
+      ],
+      "calculation": "TotalDamage",
+      "candidateFormula": "magic_damage"
+    },
+    "poppyQ": {
+      "calculation": "BaseDamage",
+      "mStat": 2,
+      "mStatFormula": 2,
+      "candidateAttribute": "SOURCE.attack_damage.BONUS"
+    },
+    "poppyW": {
+      "calculations": [
+        "BonusArmor",
+        "BonusMR"
+      ],
+      "mStat": [
+        1,
+        6
+      ],
+      "runtimeBases": true
+    },
+    "poppyE": {
+      "calculation": "TackleDamage",
+      "mStat": 2,
+      "mStatFormula": 2,
+      "wallHitCount": 2
+    },
+    "poppyR": {
+      "calculation": "Damage",
+      "mStat": 2,
+      "mStatFormula": 2,
+      "snapRatio": 0.5
+    },
+    "maokaiE": {
+      "independentSaplingExcluded": true,
+      "heroHitCooldownReductionMs": 4000
+    }
+  },
+  "noBusinessWrites": true
+}

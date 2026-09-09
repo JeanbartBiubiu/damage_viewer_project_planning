@@ -1,0 +1,20 @@
+{
+  "i": 43,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_q/parameters",
+    "skillKey": "poppy_q",
+    "kind": "parameters",
+    "stableKey": "slow_bonus_health_coefficient",
+    "body": {
+      "parameterKey": "slow_bonus_health_coefficient",
+      "name": "额外生命减速系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.00008,
+      "levelValues": null,
+      "description": "当前根MoveSpeedMod第二段为0.00008×来源额外生命，mStat12/mStatFormula2；来源字段名称不替代属性口径。",
+      "sortOrder": 80
+    }
+  }
+}

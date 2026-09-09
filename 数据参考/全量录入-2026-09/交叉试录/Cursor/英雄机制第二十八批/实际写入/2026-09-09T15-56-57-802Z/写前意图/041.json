@@ -1,0 +1,20 @@
+{
+  "i": 40,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_q/parameters",
+    "skillKey": "poppy_q",
+    "kind": "parameters",
+    "stableKey": "hit_count_same_target",
+    "body": {
+      "parameterKey": "hit_count_same_target",
+      "name": "同一敌人伤害次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前正文明确第一次命中及延迟后再次对同一敌人造成同额伤害；仅用于同一敌人总量公式。",
+      "sortOrder": 50
+    }
+  }
+}

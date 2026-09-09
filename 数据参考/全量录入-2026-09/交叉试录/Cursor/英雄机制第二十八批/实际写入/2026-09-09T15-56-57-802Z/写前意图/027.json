@@ -1,0 +1,20 @@
+{
+  "i": 26,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_r/parameters",
+    "skillKey": "maokai_r",
+    "kind": "parameters",
+    "stableKey": "haste_duration_ms",
+    "body": {
+      "parameterKey": "haste_duration_ms",
+      "name": "移动速度衰减持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前正文消费HasteDuration，根值2秒；单位秒转毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "i": 39,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_q/parameters",
+    "skillKey": "poppy_q",
+    "kind": "parameters",
+    "stableKey": "target_max_health_ratio",
+    "body": {
+      "parameterKey": "target_max_health_ratio",
+      "name": "目标最大生命伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.07,
+        "2": 0.075,
+        "3": 0.08,
+        "4": 0.085,
+        "5": 0.09
+      },
+      "description": "当前根DataValues.HealthDamagePercent为7%至9%，按比例0.07至0.09直接乘目标总生命；小兵野怪上限排除。",
+      "sortOrder": 40
+    }
+  }
+}
