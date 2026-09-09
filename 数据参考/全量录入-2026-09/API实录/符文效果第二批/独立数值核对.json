@@ -1,0 +1,650 @@
+{
+  "at": "2026-09-09T01:41:43.388Z",
+  "passed": true,
+  "readRequests": 82,
+  "counts": {
+    "parameters": 50,
+    "formulas": 10,
+    "effects": 12,
+    "processes": 0,
+    "internalStates": 0,
+    "rules": 3
+  },
+  "cases": [
+    {
+      "id": 9111,
+      "key": "triumph_heal",
+      "attrs": {
+        "SOURCE:hp:TOTAL": 3000,
+        "SOURCE:hp:MISSING": 1200
+      },
+      "inputs": {},
+      "expected": 135,
+      "actual": 135,
+      "passed": true
+    },
+    {
+      "id": 9111,
+      "key": "triumph_heal",
+      "attrs": {
+        "SOURCE:hp:TOTAL": 1000,
+        "SOURCE:hp:MISSING": 0
+      },
+      "inputs": {},
+      "expected": 25,
+      "actual": 25,
+      "passed": true
+    },
+    {
+      "id": 8009,
+      "key": "takedown_mana_restore",
+      "attrs": {
+        "SOURCE:mana:TOTAL": 1600
+      },
+      "inputs": {},
+      "expected": 240,
+      "actual": 240,
+      "passed": true
+    },
+    {
+      "id": 8009,
+      "key": "takedown_energy_restore",
+      "attrs": {
+        "SOURCE:energy:TOTAL": 200
+      },
+      "inputs": {},
+      "expected": 30,
+      "actual": 30,
+      "passed": true
+    },
+    {
+      "id": 8226,
+      "key": "missing_mana_restore",
+      "attrs": {
+        "SOURCE:mana:MISSING": 800
+      },
+      "inputs": {},
+      "expected": 8,
+      "actual": 8,
+      "passed": true
+    },
+    {
+      "id": 8226,
+      "key": "missing_mana_restore",
+      "attrs": {
+        "SOURCE:mana:MISSING": 0
+      },
+      "inputs": {},
+      "expected": 0,
+      "actual": 0,
+      "passed": true
+    },
+    {
+      "id": 8437,
+      "key": "melee_damage",
+      "attrs": {
+        "SOURCE:hp:TOTAL": 3000
+      },
+      "inputs": {},
+      "expected": 105,
+      "actual": 105.00000000000001,
+      "passed": true
+    },
+    {
+      "id": 8437,
+      "key": "ranged_damage",
+      "attrs": {
+        "SOURCE:hp:TOTAL": 3000
+      },
+      "inputs": {},
+      "expected": 42,
+      "actual": 42.00000000000001,
+      "passed": true
+    },
+    {
+      "id": 8437,
+      "key": "melee_heal",
+      "attrs": {
+        "SOURCE:hp:TOTAL": 3000
+      },
+      "inputs": {},
+      "expected": 39,
+      "actual": 39,
+      "passed": true
+    },
+    {
+      "id": 8437,
+      "key": "ranged_heal",
+      "attrs": {
+        "SOURCE:hp:TOTAL": 3000
+      },
+      "inputs": {},
+      "expected": 15.6,
+      "actual": 15.600000000000001,
+      "passed": true
+    },
+    {
+      "id": 8351,
+      "key": "glacial_slow_ratio",
+      "attrs": {
+        "SOURCE:heal_shield_power_percent:TOTAL": 0.1,
+        "SOURCE:ability_power:TOTAL": 200,
+        "SOURCE:attack_damage:BONUS": 100
+      },
+      "inputs": {},
+      "expected": 0.48,
+      "actual": 0.48000000000000004,
+      "passed": true
+    },
+    {
+      "id": 8128,
+      "key": "harvest_damage",
+      "attrs": {
+        "SOURCE:attack_damage:BONUS": 80,
+        "SOURCE:ability_power:TOTAL": 100
+      },
+      "inputs": {
+        "confirmed_souls": 3
+      },
+      "expected": 76,
+      "actual": 76,
+      "passed": true
+    }
+  ],
+  "characterLevelCheck": {
+    "id": 8210,
+    "levels": [
+      1,
+      4,
+      5,
+      7,
+      8,
+      11,
+      18
+    ],
+    "values": [
+      0,
+      0,
+      5,
+      5,
+      10,
+      10,
+      10
+    ]
+  },
+  "gets": [
+    {
+      "route": "/skills/rune_9104_passive/parameters",
+      "status": 200,
+      "count": 3,
+      "expected": 3
+    },
+    {
+      "route": "/skills/rune_9104_passive/formulas",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_9104_passive/effects",
+      "status": 200,
+      "count": 1,
+      "expected": 1
+    },
+    {
+      "route": "/skills/rune_9104_passive/processes",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_9104_passive/internal-states",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_9104_passive/trigger-rules",
+      "status": 200,
+      "count": 1,
+      "expected": 1
+    },
+    {
+      "route": "/skills/rune_8210_passive/parameters",
+      "status": 200,
+      "count": 2,
+      "expected": 2
+    },
+    {
+      "route": "/skills/rune_8210_passive/formulas",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8210_passive/effects",
+      "status": 200,
+      "count": 1,
+      "expected": 1
+    },
+    {
+      "route": "/skills/rune_8210_passive/processes",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8210_passive/internal-states",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8210_passive/trigger-rules",
+      "status": 200,
+      "count": 1,
+      "expected": 1
+    },
+    {
+      "route": "/skills/rune_8453_passive/parameters",
+      "status": 200,
+      "count": 3,
+      "expected": 3
+    },
+    {
+      "route": "/skills/rune_8453_passive/formulas",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8453_passive/effects",
+      "status": 200,
+      "count": 1,
+      "expected": 1
+    },
+    {
+      "route": "/skills/rune_8453_passive/processes",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8453_passive/internal-states",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8453_passive/trigger-rules",
+      "status": 200,
+      "count": 1,
+      "expected": 1
+    },
+    {
+      "route": "/skills/rune_9111_passive/parameters",
+      "status": 200,
+      "count": 2,
+      "expected": 2
+    },
+    {
+      "route": "/skills/rune_9111_passive/formulas",
+      "status": 200,
+      "count": 1,
+      "expected": 1
+    },
+    {
+      "route": "/skills/rune_9111_passive/effects",
+      "status": 200,
+      "count": 1,
+      "expected": 1
+    },
+    {
+      "route": "/skills/rune_9111_passive/processes",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_9111_passive/internal-states",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_9111_passive/trigger-rules",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8009_passive/parameters",
+      "status": 200,
+      "count": 4,
+      "expected": 4
+    },
+    {
+      "route": "/skills/rune_8009_passive/formulas",
+      "status": 200,
+      "count": 2,
+      "expected": 2
+    },
+    {
+      "route": "/skills/rune_8009_passive/effects",
+      "status": 200,
+      "count": 3,
+      "expected": 3
+    },
+    {
+      "route": "/skills/rune_8009_passive/processes",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8009_passive/internal-states",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8009_passive/trigger-rules",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8226_passive/parameters",
+      "status": 200,
+      "count": 6,
+      "expected": 6
+    },
+    {
+      "route": "/skills/rune_8226_passive/formulas",
+      "status": 200,
+      "count": 1,
+      "expected": 1
+    },
+    {
+      "route": "/skills/rune_8226_passive/effects",
+      "status": 200,
+      "count": 1,
+      "expected": 1
+    },
+    {
+      "route": "/skills/rune_8226_passive/processes",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8226_passive/internal-states",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8226_passive/trigger-rules",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8437_passive/parameters",
+      "status": 200,
+      "count": 5,
+      "expected": 5
+    },
+    {
+      "route": "/skills/rune_8437_passive/formulas",
+      "status": 200,
+      "count": 4,
+      "expected": 4
+    },
+    {
+      "route": "/skills/rune_8437_passive/effects",
+      "status": 200,
+      "count": 2,
+      "expected": 2
+    },
+    {
+      "route": "/skills/rune_8437_passive/processes",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8437_passive/internal-states",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8437_passive/trigger-rules",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8351_passive/parameters",
+      "status": 200,
+      "count": 6,
+      "expected": 6
+    },
+    {
+      "route": "/skills/rune_8351_passive/formulas",
+      "status": 200,
+      "count": 1,
+      "expected": 1
+    },
+    {
+      "route": "/skills/rune_8351_passive/effects",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8351_passive/processes",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8351_passive/internal-states",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8351_passive/trigger-rules",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8313_passive/parameters",
+      "status": 200,
+      "count": 5,
+      "expected": 5
+    },
+    {
+      "route": "/skills/rune_8313_passive/formulas",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8313_passive/effects",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8313_passive/processes",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8313_passive/internal-states",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8313_passive/trigger-rules",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8242_passive/parameters",
+      "status": 200,
+      "count": 3,
+      "expected": 3
+    },
+    {
+      "route": "/skills/rune_8242_passive/formulas",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8242_passive/effects",
+      "status": 200,
+      "count": 2,
+      "expected": 2
+    },
+    {
+      "route": "/skills/rune_8242_passive/processes",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8242_passive/internal-states",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8242_passive/trigger-rules",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_9103_passive/parameters",
+      "status": 200,
+      "count": 3,
+      "expected": 3
+    },
+    {
+      "route": "/skills/rune_9103_passive/formulas",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_9103_passive/effects",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_9103_passive/processes",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_9103_passive/internal-states",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_9103_passive/trigger-rules",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8128_passive/parameters",
+      "status": 200,
+      "count": 8,
+      "expected": 8
+    },
+    {
+      "route": "/skills/rune_8128_passive/formulas",
+      "status": 200,
+      "count": 1,
+      "expected": 1
+    },
+    {
+      "route": "/skills/rune_8128_passive/effects",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8128_passive/processes",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8128_passive/internal-states",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_8128_passive/trigger-rules",
+      "status": 200,
+      "count": 0,
+      "expected": 0
+    },
+    {
+      "route": "/skills/rune_9111_passive/formulas/triumph_heal",
+      "status": 200
+    },
+    {
+      "route": "/skills/rune_8009_passive/formulas/takedown_mana_restore",
+      "status": 200
+    },
+    {
+      "route": "/skills/rune_8009_passive/formulas/takedown_energy_restore",
+      "status": 200
+    },
+    {
+      "route": "/skills/rune_8226_passive/formulas/missing_mana_restore",
+      "status": 200
+    },
+    {
+      "route": "/skills/rune_8437_passive/formulas/melee_damage",
+      "status": 200
+    },
+    {
+      "route": "/skills/rune_8437_passive/formulas/ranged_damage",
+      "status": 200
+    },
+    {
+      "route": "/skills/rune_8437_passive/formulas/melee_heal",
+      "status": 200
+    },
+    {
+      "route": "/skills/rune_8437_passive/formulas/ranged_heal",
+      "status": 200
+    },
+    {
+      "route": "/skills/rune_8351_passive/formulas/glacial_slow_ratio",
+      "status": 200
+    },
+    {
+      "route": "/skills/rune_8128_passive/formulas/harvest_damage",
+      "status": 200
+    }
+  ],
+  "boundary": "实际保存公式的独立数值核算，不代表条件自动连接或战斗结算；其他输入不得缺省"
+}

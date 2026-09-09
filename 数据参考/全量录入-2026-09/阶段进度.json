@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T01:25:07.664Z",
+  "generatedAt": "2026-09-09T01:50:48.764Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -131,9 +131,10 @@
     "runeIdentityUses": 69,
     "runePathUses": 5,
     "runeEvidence": "API实录/符文基础资料第一批/页面验收.json",
-    "additionalRuneSkillRepresentativeReuses": 5,
+    "additionalRuneSkillRepresentativeReuses": 17,
     "additionalRuneSkillEvidence": [
-      "API实录/符文效果第一批/页面验收.json"
+      "API实录/符文效果第一批/页面验收.json",
+      "API实录/符文效果第二批/页面验收.json"
     ]
   },
   "runes": {
@@ -149,7 +150,17 @@
     "evidence": "API实录/符文基础资料第一批/接口录入/独立核对汇总-20260909005419486.json",
     "browserEvidence": "API实录/符文基础资料第一批/页面验收.json",
     "runtimeValidation": "未执行",
-    "mechanismStatus": "5碎片技能已挂载，其中3项固定自身属性配置、2项仅参数；另2碎片与62常规符文效果继续逐项处理"
+    "mechanismStatus": "17符文/碎片技能已挂载；已有确定参数、公式及独立效果，完整触发和其他来源缺口继续处理",
+    "scopeReview": {
+      "ordinaryRunes": 62,
+      "within": 43,
+      "mixed": 12,
+      "excluded": 7,
+      "branches": 115,
+      "sourceEvidence": "API实录/符文机制盘点/主负责人来源核对.json",
+      "inventory": "API实录/符文机制盘点/逐项机器清单.json",
+      "status": "逐项范围与缺口盘点完成，非机制完成度"
+    }
   },
   "deferred": [
     "斗魂竞技场海克斯",
@@ -1026,6 +1037,40 @@
       "executor": "Luna补录17项及5图片关系；主负责人页面种子5项与最终核对",
       "runtimeValidation": "未执行",
       "evidence": "API实录/符文效果第一批/页面验收.json"
+    },
+    "runeSecondBatch": {
+      "skills": [
+        "rune_9104_passive",
+        "rune_8210_passive",
+        "rune_8453_passive",
+        "rune_9111_passive",
+        "rune_8009_passive",
+        "rune_8226_passive",
+        "rune_8437_passive",
+        "rune_8351_passive",
+        "rune_8313_passive",
+        "rune_8242_passive",
+        "rune_9103_passive",
+        "rune_8128_passive"
+      ],
+      "parameters": 50,
+      "formulas": 10,
+      "effects": 12,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 3,
+      "runeRelations": 12,
+      "representativeImageReuses": 12,
+      "status": "99组成与12图片关系已保存；111项独立回读、另82GET及12算例通过，三代表页面和14项页面后GET一致；条件与来源缺口继续补录",
+      "executor": "执行代理候选与范围盘点，主负责人独立来源审查、接口录入及页面核对",
+      "runtimeValidation": "未执行",
+      "evidence": "API实录/符文效果第二批/页面验收.json",
+      "independentReview": {
+        "requests": 243,
+        "conflicts": 0,
+        "apiWrites": 0,
+        "evidence": "API实录/符文效果第二批/独立复核/独立复核结果.json"
+      }
     }
   },
   "runtimeValidation": "未执行"
