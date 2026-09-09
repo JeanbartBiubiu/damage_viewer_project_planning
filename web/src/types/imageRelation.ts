@@ -1,5 +1,5 @@
 export type ImageRelationTarget = {
-  kind: 'game' | 'character' | 'attribute' | 'equipment' | 'skill' | 'skillEffect' | 'status';
+  kind: 'game' | 'character' | 'attribute' | 'equipment' | 'skill' | 'skillEffect' | 'status' | 'rune' | 'runePath';
   key: string;
   name: string;
   skillKey?: string;
@@ -17,6 +17,8 @@ export type ImageUsages = {
   characters: Array<{ characterKey: string; characterName: string }>;
   attributes: Array<{ attributeKey: string; attributeName: string; attributeStatus: ImageSourceStatus }>;
   equipment: Array<{ equipmentKey: string; equipmentName: string }>;
+  runes: Array<{ runeKey: string; runeName: string }>;
+  runePaths: Array<{ pathKey: string; pathName: string }>;
   skills: Array<{ skillKey: string; skillName: string; skillStatus: ImageSourceStatus }>;
   skillEffects: Array<{ skillKey: string; skillName: string; effectKey: string; effectName: string }>;
   statuses: Array<{ statusKey: string; statusName: string; statusStatus: ImageSourceStatus }>;

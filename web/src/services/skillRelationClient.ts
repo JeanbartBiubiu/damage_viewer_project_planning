@@ -7,6 +7,10 @@ import type {
   CreateEquipmentSkillRelationRequest,
   EquipmentSkillRelation,
   EquipmentSkillRelationQuery,
+  RuneSkillRelation,
+  RuneSkillRelationQuery,
+  CreateRuneSkillRelationRequest,
+  AnySkillRelation,
   SkillRelationList,
   SkillRelationOwnerKind,
   UpdateSkillRelationRequest
@@ -28,6 +32,7 @@ function textField(value: unknown): string {
 
 function normalizeRelation(value: unknown, gameId: string, kind: 'character'): CharacterSkillRelation;
 function normalizeRelation(value: unknown, gameId: string, kind: 'equipment'): EquipmentSkillRelation;
+function normalizeRelation(value: unknown, gameId: string, kind: 'rune'): RuneSkillRelation;
 function normalizeRelation(value: unknown, gameId: string, kind: SkillRelationOwnerKind) {
   const item = record(value);
   if (item.gameId !== gameId || (item.skillStatus !== 'ENABLED' && item.skillStatus !== 'DISABLED')) {
@@ -44,7 +49,12 @@ function normalizeRelation(value: unknown, gameId: string, kind: SkillRelationOw
   };
   return kind === 'character'
     ? { ...common, characterKey: textField(item.characterKey), characterName: textField(item.characterName) }
+    : kind === 'rune' ? { ...common, runeKey: textField(item.runeKey), runeName: textField(item.runeName) }
     : { ...common, equipmentKey: textField(item.equipmentKey), equipmentName: textField(item.equipmentName) };
+}
+
+function relationOwnerKey(item: AnySkillRelation): string {
+  return 'characterKey' in item ? item.characterKey : 'equipmentKey' in item ? item.equipmentKey : item.runeKey;
 }
 
 function path(gameId: string, kind: SkillRelationOwnerKind, ownerKey?: string, skillKey?: string) {
@@ -53,7 +63,7 @@ function path(gameId: string, kind: SkillRelationOwnerKind, ownerKey?: string, s
     ? base : `${base}/${encodePathSegment(ownerKey)}/${encodePathSegment(skillKey)}`;
 }
 
-function queryPath(base: string, query: CharacterSkillRelationQuery | EquipmentSkillRelationQuery) {
+function queryPath(base: string, query: CharacterSkillRelationQuery | EquipmentSkillRelationQuery | RuneSkillRelationQuery) {
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(query)) {
     if (value !== undefined) params.set(key, value);
@@ -62,10 +72,10 @@ function queryPath(base: string, query: CharacterSkillRelationQuery | EquipmentS
   return `${base}?${params.toString()}`;
 }
 
-function normalizeList<T extends CharacterSkillRelation | EquipmentSkillRelation>(
+function normalizeList<T extends AnySkillRelation>(
   value: unknown,
   normalize: (item: unknown) => T,
-  query: CharacterSkillRelationQuery | EquipmentSkillRelationQuery
+  query: CharacterSkillRelationQuery | EquipmentSkillRelationQuery | RuneSkillRelationQuery
 ): SkillRelationList<T> {
   const data = record(value);
   if (!Array.isArray(data.items) || !Number.isSafeInteger(data.total) || data.total !== data.items.length) {
@@ -79,7 +89,7 @@ function normalizeList<T extends CharacterSkillRelation | EquipmentSkillRelation
         return protocolError();
       }
     }
-    const ownerKey = 'characterKey' in item ? item.characterKey : item.equipmentKey;
+    const ownerKey = relationOwnerKey(item);
     const identity = JSON.stringify([ownerKey, item.skillKey]);
     if (identities.has(identity)) return protocolError();
     identities.add(identity);
@@ -87,14 +97,14 @@ function normalizeList<T extends CharacterSkillRelation | EquipmentSkillRelation
   return { items, total: items.length };
 }
 
-async function writeRelation<T extends CharacterSkillRelation | EquipmentSkillRelation>(
+async function writeRelation<T extends AnySkillRelation>(
   apiBaseUrl: string, requestPath: string, options: ApiRequestOptions,
   normalize: (value: unknown) => T, ownerKey: string, skillKey: string
 ): Promise<ApiResult<T>> {
   const result = await requestJson<unknown>(apiBaseUrl, requestPath, options);
   const data = normalize(result.data);
   if (data.skillKey !== skillKey
-    || ('characterKey' in data ? data.characterKey : data.equipmentKey) !== ownerKey) return protocolError();
+    || relationOwnerKey(data) !== ownerKey) return protocolError();
   return { ...result, data };
 }
 
@@ -160,4 +170,18 @@ export function deleteEquipmentSkillRelation(
   apiBaseUrl: string, gameId: string, equipmentKey: string, skillKey: string, token: string
 ): Promise<ApiResult<null>> {
   return deleteRelation(apiBaseUrl, path(gameId, 'equipment', equipmentKey, skillKey), token);
+}
+
+export async function listRuneSkillRelations(apiBaseUrl: string, gameId: string, token: string, query: RuneSkillRelationQuery): Promise<ApiResult<SkillRelationList<RuneSkillRelation>>> {
+  const result = await requestJson<unknown>(apiBaseUrl, queryPath(path(gameId, 'rune'), query), { token });
+  return { ...result, data: normalizeList(result.data, value => normalizeRelation(value, gameId, 'rune'), query) };
+}
+export function createRuneSkillRelation(apiBaseUrl: string, gameId: string, token: string, body: CreateRuneSkillRelationRequest): Promise<ApiResult<RuneSkillRelation>> {
+  return writeRelation(apiBaseUrl, path(gameId, 'rune'), { method: 'POST', token, body: JSON.stringify(body) }, value => normalizeRelation(value, gameId, 'rune'), body.runeKey, body.skillKey);
+}
+export function updateRuneSkillRelation(apiBaseUrl: string, gameId: string, runeKey: string, skillKey: string, token: string, body: UpdateSkillRelationRequest): Promise<ApiResult<RuneSkillRelation>> {
+  return writeRelation(apiBaseUrl, path(gameId, 'rune', runeKey, skillKey), { method: 'PUT', token, body: JSON.stringify({ sortOrder: body.sortOrder }) }, value => normalizeRelation(value, gameId, 'rune'), runeKey, skillKey);
+}
+export function deleteRuneSkillRelation(apiBaseUrl: string, gameId: string, runeKey: string, skillKey: string, token: string): Promise<ApiResult<null>> {
+  return deleteRelation(apiBaseUrl, path(gameId, 'rune', runeKey, skillKey), token);
 }
