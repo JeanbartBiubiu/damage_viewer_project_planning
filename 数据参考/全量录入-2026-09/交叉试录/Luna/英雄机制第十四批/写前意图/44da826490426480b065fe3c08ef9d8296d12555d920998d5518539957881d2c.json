@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T06:40:58.116Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/ziggs_p/formulas/cooldown_reduction_ms",
+  "id": "cooldown_reduction_ms",
+  "method": "POST",
+  "body": {
+    "formulaKey": "cooldown_reduction_ms",
+    "name": "施法减少被动冷却毫秒数",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "cooldown_reduction_seconds_level_value_2"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "milliseconds_per_second"
+        }
+      ]
+    },
+    "description": "实际已核秒数×1000；不是百分比冷却缩减。",
+    "sortOrder": 30
+  }
+}

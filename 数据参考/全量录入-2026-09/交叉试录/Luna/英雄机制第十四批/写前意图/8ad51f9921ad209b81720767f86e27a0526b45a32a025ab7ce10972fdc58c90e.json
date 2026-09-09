@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T06:41:11.097Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/ziggs_e/parameters/ap_ratio",
+  "id": "ap_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "ap_ratio",
+    "name": "每颗地雷法强系数",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.25,
+      "2": 0.3,
+      "3": 0.35,
+      "4": 0.4,
+      "5": 0.45
+    },
+    "description": "客户端当前根绑定 DataValues.APRatioPerMine 取索引1至5。",
+    "sortOrder": 30
+  }
+}

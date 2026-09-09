@@ -1,0 +1,757 @@
+{
+  "at": "2026-09-09T07:02:15.033Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "success": true,
+  "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "method": "主负责人通过真实浏览器只读查看，未保存草稿；主表代表图可访问名称可见，未另做像素比对。",
+  "pages": [
+    {
+      "skillKey": "kennen_e",
+      "verified": "效果详情初始攻速时长直接读取 after_duration_ms，参数页实际为4000毫秒；未绑定暴击次数计算的总时长公式。能量消耗与回复分开。"
+    },
+    {
+      "skillKey": "velkoz_r",
+      "verified": "参数页伤害持续2500毫秒，基础完整总量450/700/925，法强系数1.25；公式预览为基础总伤害加施法者法强最终值乘系数。说明明确是2.5秒完整总量，并未再次乘跳数或做瞬时伤害。"
+    },
+    {
+      "skillKey": "xerath_q",
+      "verified": "计算时传入实际已消耗法力 actual_mana_spent；返还比例0.5；公式中文预览为实际已消耗法力乘返还比例，说明仅光束未释放时返还。"
+    }
+  ],
+  "rootGets": 21,
+  "readBoundary": "3技能主体和18组成列表完整同值；独立213详情和2526业务字段证据另见385次完整回读。",
+  "gets": [
+    {
+      "route": "/skills/kennen_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:59.216488Z",
+        "description": "凯南变身为一个闪电形态，高速移动并可以穿越单位。对碰到的所有敌人造成伤害并施加一层【忍法！雷缚印】。凯南会在进入这个形态时获得移动速度，并在离开时获得攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "凯南·奥义！雷铠",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kennen_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:59.216488Z"
+      }
+    },
+    {
+      "route": "/skills/velkoz_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:57.013576Z",
+        "description": "维克兹释放一束被引导的光线跟随鼠标指针，可造成魔法伤害，持续2.5秒。【有机体解构】效果会研究敌方英雄，从而使他们受到真实伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "维克兹·生命形态瓦解射线",
+        "skillCategoryKeys": [],
+        "skillKey": "velkoz_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:57.013576Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:08.533812Z",
+        "description": "泽拉斯聚集能量，随后发射出一道射程很远的能量光束，对所有命中的目标造成魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泽拉斯·奥能脉冲",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "xerath_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:08.533812Z"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T06:39:37.068841Z",
+          "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9000,
+            "3": 8000,
+            "4": 7000,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kennen_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:39:37.068841Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:38.069463Z",
+          "description": "官方资源类型为能量；官方cost与当前manaValues逐级一致，字段名不改变资源身份。",
+          "fixedValue": 80,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础能量消耗",
+          "parameterKey": "energy_cost",
+          "skillKey": "kennen_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T06:39:38.069463Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:39.053585Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 80,
+            "2": 120,
+            "3": 160,
+            "4": 200,
+            "5": 240
+          },
+          "name": "基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "kennen_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T06:39:39.053585Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:39.924336Z",
+          "description": "客户端当前根绑定 DataValues.EnergyRefund 取索引1至5。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "至少伤害一名敌人后的能量回复",
+          "parameterKey": "energy_refund",
+          "skillKey": "kennen_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T06:39:39.924336Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:40.842435Z",
+          "description": "客户端当前根绑定 DataValues.MovementSpeed 取索引1至5。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "闪电形态移速加成比例",
+          "parameterKey": "move_speed_ratio",
+          "skillKey": "kennen_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T06:39:40.842435Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:41.800761Z",
+          "description": "客户端当前根绑定 DataValues.DurationAsBall 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "闪电形态最长时间（毫秒）",
+          "parameterKey": "ball_duration_ms",
+          "skillKey": "kennen_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T06:39:41.800761Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:42.797929Z",
+          "description": "客户端当前根绑定 DataValues.TotalAS 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.4,
+            "2": 0.5,
+            "3": 0.6,
+            "4": 0.7,
+            "5": 0.8
+          },
+          "name": "结束后额外攻速比例",
+          "parameterKey": "bonus_attack_speed_ratio",
+          "skillKey": "kennen_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T06:39:42.797929Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:43.888632Z",
+          "description": "客户端当前根绑定 DataValues.DurationAfterBall 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "结束后基础增益时长（毫秒）",
+          "parameterKey": "after_duration_ms",
+          "skillKey": "kennen_e",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T06:39:43.888632Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:44.804286Z",
+          "description": "客户端当前根绑定 DataValues.CritDurationBonus 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每次暴击延长时长（毫秒）",
+          "parameterKey": "critical_extension_ms",
+          "skillKey": "kennen_e",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T06:39:44.804286Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:45.760474Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.8,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "雷铠伤害固定系数",
+          "parameterKey": "calculation_constant_1",
+          "skillKey": "kennen_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T06:39:45.760474Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:47.329354Z",
+          "description": "整数且非负；只计离开闪电形态后的有效增益期内暴击。真实事件与剩余时长更新未接，不默认0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已核符合条件的暴击延长次数",
+          "parameterKey": "confirmed_critical_extension_count",
+          "skillKey": "kennen_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T06:39:47.329354Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:49.478188Z",
+          "description": "计数不能负；用于明确边界，不是输入默认值。",
+          "fixedValue": 0,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "计数下限",
+          "parameterKey": "zero",
+          "skillKey": "kennen_e",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T06:39:49.478188Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kennen_e/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T06:39:50.443649Z",
+          "description": "当前正文TotalDamage绑定BaseDamage索引1..5=80..240；不采用旧mEffectAmount及官方effect=85..245。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "雷铠伤害",
+          "skillKey": "kennen_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:39:50.443649Z"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:51.435001Z",
+          "description": "当前长文明确延长部分不得超过初始时长；总时长=初始4秒+MIN(实际有效次数×1秒,4秒)，不表示按此总时长重复刷新。",
+          "formulaKey": "capped_after_duration_ms",
+          "gameId": "lol",
+          "name": "含上限的增益总时长（毫秒）",
+          "skillKey": "kennen_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T06:39:51.435001Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kennen_e/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T06:39:52.44928Z",
+          "description": "只保存基础能量消耗。；仅独立效果，没有默认施放、命中或初始化触发。",
+          "effectKey": "energy_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放能量消耗",
+          "resultCount": 1,
+          "skillKey": "kennen_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:39:52.44928Z"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:53.402356Z",
+          "description": "进入后最长2秒，实际提前结束必须撤除；1表示100%，不用面板移速作为固定加算。",
+          "effectKey": "ball_move_speed",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "闪电形态移速加成",
+          "resultCount": 1,
+          "skillKey": "kennen_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T06:39:53.402356Z"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:54.52927Z",
+          "description": "仅表达离开闪电形态后初始4秒的额外攻速。暴击延长事件、累计延长上限及真实剩余时长更新尚未接线；总时长上限公式仅保留算术，不作为此效果持续时间或每次暴击的刷新值，不默认满档延长。",
+          "effectKey": "after_attack_speed",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "闪电形态结束后攻速",
+          "resultCount": 1,
+          "skillKey": "kennen_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T06:39:54.52927Z"
+        },
+        {
+          "createdAt": "2026-09-09T06:39:55.692633Z",
+          "description": "至少对一名敌人造成伤害才回复40，不能每穿过一个敌人回复。；仅独立效果，没有默认施放、命中或初始化触发。",
+          "effectKey": "energy_refund",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "雷铠命中能量回复",
+          "resultCount": 1,
+          "skillKey": "kennen_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T06:39:55.692633Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kennen_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kennen_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kennen_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/velkoz_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T06:40:42.223396Z",
+          "description": "客户端当前根绑定 DataValues.PassiveStacksToAddPerTick 取索引1至3。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每次实际叠层事件施加层数",
+          "parameterKey": "passive_stacks_per_tick",
+          "skillKey": "velkoz_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T06:40:42.223396Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:40:43.273304Z",
+          "description": "原EffectValueCalculationPart.mEffectIndex=1，mEffectAmount第1项技能索引1..3与官方e1逐级一致。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 450,
+            "2": 700,
+            "3": 925
+          },
+          "name": "完整射线基础总伤害",
+          "parameterKey": "base_total_damage",
+          "skillKey": "velkoz_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T06:40:43.273304Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:40:44.256996Z",
+          "description": "当前正文Effect3Amount%与官方e3对应20百分比点，转换为0.2比例。",
+          "fixedValue": 0.2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "射线减速比例",
+          "parameterKey": "slow_ratio",
+          "skillKey": "velkoz_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T06:40:44.256996Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T06:40:45.165637Z",
+          "description": "当前正文明确2.5秒里持续造成共该总伤害。",
+          "fixedValue": 2500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "正文持续造成伤害时间（毫秒）",
+          "parameterKey": "damage_duration_ms",
+          "skillKey": "velkoz_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T06:40:45.165637Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:40:46.31899Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 1.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "完整射线总伤害固定系数",
+          "parameterKey": "calculation_constant_1",
+          "skillKey": "velkoz_r",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T06:40:46.31899Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:38.310798Z",
+          "description": "DDragon16.17.1 Velkoz.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100000,
+            "2": 90000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "velkoz_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:38.310798Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:38.805427Z",
+          "description": "DDragon16.17.1 Velkoz.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "velkoz_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:38.805427Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/velkoz_r/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T06:40:47.416798Z",
+          "description": "此式是完整2.5秒总量；魔法/真实由目标近期被P伤害资格决定，不生成一次瞬时伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "total_damage",
+          "gameId": "lol",
+          "name": "完整射线总伤害",
+          "skillKey": "velkoz_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:40:47.416798Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/velkoz_r/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T06:40:48.586806Z",
+          "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "velkoz_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:40:48.586806Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/velkoz_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/velkoz_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/velkoz_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/xerath_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T06:41:36.246968Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 110,
+            "3": 150,
+            "4": 190,
+            "5": 230
+          },
+          "name": "基础伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "xerath_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T06:41:36.246968Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T06:41:37.218896Z",
+          "description": "客户端当前根绑定 DataValues.ManaRefundFail 取索引1至5。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "未释放时返还实际消耗比例",
+          "parameterKey": "unreleased_refund_ratio",
+          "skillKey": "xerath_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T06:41:37.218896Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T06:41:38.132754Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.9,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "奥能脉冲伤害固定系数",
+          "parameterKey": "calculation_constant_1",
+          "skillKey": "xerath_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T06:41:38.132754Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T06:41:39.15921Z",
+          "description": "来源写返还一半消耗，须提供这次真实已扣金额，不默认用基础mana_cost代替。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "这次蓄力实际已消耗法力",
+          "parameterKey": "actual_mana_spent",
+          "skillKey": "xerath_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T06:41:39.15921Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T06:41:40.038663Z",
+          "description": "渐增算法/间隔未证，实际非负幅度外供，不按RampingSlow值推每秒。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前蓄力阶段实际自身减速比例",
+          "parameterKey": "actual_self_slow_ratio",
+          "skillKey": "xerath_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T06:41:40.038663Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T06:41:41.355797Z",
+          "description": "当前正文明确至多50%。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "自身减速上限比例",
+          "parameterKey": "max_self_slow_ratio",
+          "skillKey": "xerath_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T06:41:41.355797Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T06:41:42.420882Z",
+          "description": "减速幅度非负，用于上限公式边界，不是输入默认。",
+          "fixedValue": 0,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "幅度下限",
+          "parameterKey": "zero",
+          "skillKey": "xerath_q",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T06:41:42.420882Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:06:05.870798Z",
+          "description": "DDragon16.17.1 Xerath.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 8000,
+            "3": 7000,
+            "4": 6000,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "xerath_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:05.870798Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:06:06.475536Z",
+          "description": "DDragon16.17.1 Xerath.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 80,
+            "2": 90,
+            "3": 100,
+            "4": 110,
+            "5": 120
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "xerath_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:06:06.475536Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/xerath_q/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T06:41:43.420044Z",
+          "description": "当前释放时伤害；不把蓄力时间当伤害倍率。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "奥能脉冲伤害",
+          "skillKey": "xerath_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:41:43.420044Z"
+        },
+        {
+          "createdAt": "2026-09-09T06:41:44.522181Z",
+          "description": "只在光束未释放时返还实际消耗的0.5。",
+          "formulaKey": "unreleased_mana_refund",
+          "gameId": "lol",
+          "name": "未释放时法力返还",
+          "skillKey": "xerath_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T06:41:44.522181Z"
+        },
+        {
+          "createdAt": "2026-09-09T06:41:45.509634Z",
+          "description": "最终幅度夹在0至0.5；尚无确证减速合并区，不将它当普通移速加成减算。",
+          "formulaKey": "capped_self_slow_ratio",
+          "gameId": "lol",
+          "name": "含明确上限的自身减速比例",
+          "skillKey": "xerath_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T06:41:45.509634Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/xerath_q/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T06:41:46.504792Z",
+          "description": "仅绑定官方基础法力消耗；额外持续法力或真实扣除时点单独记录。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "xerath_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T06:41:46.504792Z"
+        },
+        {
+          "createdAt": "2026-09-09T06:41:47.491789Z",
+          "description": "只在实际未释放取消时适用，与施放基础成本分开。；仅独立效果，没有默认施放、命中或初始化触发。",
+          "effectKey": "unreleased_refund",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "未释放法力返还",
+          "resultCount": 1,
+          "skillKey": "xerath_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T06:41:47.491789Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/xerath_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/xerath_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/xerath_q/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

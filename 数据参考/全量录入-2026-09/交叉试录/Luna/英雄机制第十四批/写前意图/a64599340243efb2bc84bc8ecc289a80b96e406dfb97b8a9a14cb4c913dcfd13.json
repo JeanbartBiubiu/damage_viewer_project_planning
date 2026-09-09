@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T06:42:21.082Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_r/formulas/extra_champion_hit_damage",
+  "id": "extra_champion_hit_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "extra_champion_hit_damage",
+    "name": "每次有效英雄命中额外伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "ramp_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_2"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "额外部分是20/25/30+0.05AP；实际累计、同次或下次适用与目标关系留待核。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 20
+  }
+}

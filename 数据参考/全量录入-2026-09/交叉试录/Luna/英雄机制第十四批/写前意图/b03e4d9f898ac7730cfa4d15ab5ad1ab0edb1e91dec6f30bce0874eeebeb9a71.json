@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T06:41:32.202Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_p/formulas/champion_mana_restore",
+  "id": "champion_mana_restore",
+  "method": "POST",
+  "body": {
+    "formulaKey": "champion_mana_restore",
+    "name": "攻击英雄的法力回复",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "calculation_constant_1"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "non_champion_mana_restore_level_value"
+        }
+      ]
+    },
+    "description": "当前具名计算是非英雄回复量×2；不默认角色等级表。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 20
+  }
+}

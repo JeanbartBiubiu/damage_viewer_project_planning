@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T06:41:51.702Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_w/parameters/center_initial_slow_ratio",
+  "id": "center_initial_slow_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "center_initial_slow_ratio",
+    "name": "中心初始减速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.6,
+      "2": 0.65,
+      "3": 0.7,
+      "4": 0.75,
+      "5": 0.8
+    },
+    "description": "客户端当前根绑定 DataValues.SweetSpotSlowAmount 取索引1至5。",
+    "sortOrder": 70
+  }
+}

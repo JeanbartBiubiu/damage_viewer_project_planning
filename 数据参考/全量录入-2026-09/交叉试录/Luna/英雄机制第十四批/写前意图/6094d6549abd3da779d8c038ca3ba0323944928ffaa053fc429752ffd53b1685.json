@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T06:39:23.230Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/kennen_w/parameters/bonus_ad_ratio",
+  "id": "bonus_ad_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "bonus_ad_ratio",
+    "name": "额外攻击力系数",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.8,
+      "2": 0.9,
+      "3": 1,
+      "4": 1.1,
+      "5": 1.2
+    },
+    "description": "客户端当前根绑定 DataValues.bADRatio 取索引1至5。",
+    "sortOrder": 40
+  }
+}

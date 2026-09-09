@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T06:40:14.698Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/velkoz_q/parameters/slow_duration_ms",
+  "id": "slow_duration_ms",
+  "method": "POST",
+  "body": {
+    "parameterKey": "slow_duration_ms",
+    "name": "衰减减速持续时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 1000,
+      "2": 1400,
+      "3": 1800,
+      "4": 2200,
+      "5": 2600
+    },
+    "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+    "sortOrder": 60
+  }
+}

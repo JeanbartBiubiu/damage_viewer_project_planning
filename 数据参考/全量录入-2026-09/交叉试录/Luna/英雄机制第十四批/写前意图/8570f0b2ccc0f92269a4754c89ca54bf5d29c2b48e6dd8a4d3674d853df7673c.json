@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T06:42:12.863Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_r/parameters/maximum_shots",
+  "id": "maximum_shots",
+  "method": "POST",
+  "body": {
+    "parameterKey": "maximum_shots",
+    "name": "本次R最多炮击次数",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 4,
+      "2": 5,
+      "3": 6
+    },
+    "description": "客户端当前根绑定 DataValues.NumberOfShots 取索引1至3。",
+    "sortOrder": 70
+  }
+}

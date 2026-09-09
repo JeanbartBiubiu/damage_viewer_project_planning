@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T06:39:25.214Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/kennen_w/parameters/active_base_damage",
+  "id": "active_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "active_base_damage",
+    "name": "主动基础伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 70,
+      "2": 95,
+      "3": 120,
+      "4": 145,
+      "5": 170
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamageActive 取索引1至5。",
+    "sortOrder": 60
+  }
+}

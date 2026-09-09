@@ -1,0 +1,1444 @@
+{
+  "catalogs": {
+    "attributes": {
+      "route": "/attributes",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    "modifier-zones": {
+      "route": "/modifier-zones",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    "damage-types": {
+      "route": "/damage-types",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    "statuses": {
+      "route": "/statuses",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-28T14:55:06.53067Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "眩晕",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "statusKey": "vertigo",
+            "updatedAt": "2026-08-28T14:55:06.53067Z"
+          }
+        ],
+        "total": 1
+      }
+    }
+  },
+  "relations": {
+    "kennen": {
+      "route": "/character-skill-relations?characterKey=champion_kennen",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_kennen",
+            "characterName": "凯南",
+            "gameId": "lol",
+            "skillKey": "kennen_p",
+            "skillName": "凯南·【忍法！雷缚印】",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_kennen",
+            "characterName": "凯南",
+            "gameId": "lol",
+            "skillKey": "kennen_q",
+            "skillName": "凯南·奥义！千鸟",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_kennen",
+            "characterName": "凯南",
+            "gameId": "lol",
+            "skillKey": "kennen_w",
+            "skillName": "凯南·奥义！电刃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_kennen",
+            "characterName": "凯南",
+            "gameId": "lol",
+            "skillKey": "kennen_e",
+            "skillName": "凯南·奥义！雷铠",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_kennen",
+            "characterName": "凯南",
+            "gameId": "lol",
+            "skillKey": "kennen_r",
+            "skillName": "凯南·秘奥义！万雷天牢引",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    "velkoz": {
+      "route": "/character-skill-relations?characterKey=champion_velkoz",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_velkoz",
+            "characterName": "维克兹",
+            "gameId": "lol",
+            "skillKey": "velkoz_p",
+            "skillName": "维克兹·有机体解构",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_velkoz",
+            "characterName": "维克兹",
+            "gameId": "lol",
+            "skillKey": "velkoz_q",
+            "skillName": "维克兹·等离子裂变",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_velkoz",
+            "characterName": "维克兹",
+            "gameId": "lol",
+            "skillKey": "velkoz_w",
+            "skillName": "维克兹·虚空裂隙",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_velkoz",
+            "characterName": "维克兹",
+            "gameId": "lol",
+            "skillKey": "velkoz_e",
+            "skillName": "维克兹·构造分解",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_velkoz",
+            "characterName": "维克兹",
+            "gameId": "lol",
+            "skillKey": "velkoz_r",
+            "skillName": "维克兹·生命形态瓦解射线",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    "ziggs": {
+      "route": "/character-skill-relations?characterKey=champion_ziggs",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_ziggs",
+            "characterName": "吉格斯",
+            "gameId": "lol",
+            "skillKey": "ziggs_p",
+            "skillName": "吉格斯·一触即发",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_ziggs",
+            "characterName": "吉格斯",
+            "gameId": "lol",
+            "skillKey": "ziggs_q",
+            "skillName": "吉格斯·弹跳炸弹",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_ziggs",
+            "characterName": "吉格斯",
+            "gameId": "lol",
+            "skillKey": "ziggs_w",
+            "skillName": "吉格斯·定点爆破",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_ziggs",
+            "characterName": "吉格斯",
+            "gameId": "lol",
+            "skillKey": "ziggs_e",
+            "skillName": "吉格斯·海克斯爆破雷区",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_ziggs",
+            "characterName": "吉格斯",
+            "gameId": "lol",
+            "skillKey": "ziggs_r",
+            "skillName": "吉格斯·科学的地狱火炮",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    "xerath": {
+      "route": "/character-skill-relations?characterKey=champion_xerath",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_xerath",
+            "characterName": "泽拉斯",
+            "gameId": "lol",
+            "skillKey": "xerath_p",
+            "skillName": "泽拉斯·法力澎湃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_xerath",
+            "characterName": "泽拉斯",
+            "gameId": "lol",
+            "skillKey": "xerath_q",
+            "skillName": "泽拉斯·奥能脉冲",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_xerath",
+            "characterName": "泽拉斯",
+            "gameId": "lol",
+            "skillKey": "xerath_w",
+            "skillName": "泽拉斯·毁灭之眼",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_xerath",
+            "characterName": "泽拉斯",
+            "gameId": "lol",
+            "skillKey": "xerath_e",
+            "skillName": "泽拉斯·冲击法球",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_xerath",
+            "characterName": "泽拉斯",
+            "gameId": "lol",
+            "skillKey": "xerath_r",
+            "skillName": "泽拉斯·奥术仪式",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    }
+  },
+  "subjects": {
+    "kennen_p": {
+      "route": "/skills/kennen_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:58.395647Z",
+        "description": "凯南在用他的技能命中同一敌方3次后，会将其晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "凯南·【忍法！雷缚印】",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "kennen_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:58.395647Z"
+      }
+    },
+    "kennen_q": {
+      "route": "/skills/kennen_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:58.644217Z",
+        "description": "凯南向目标区域投掷手里剑，对第一个目标造成伤害并附加【忍法！雷缚印】。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "凯南·奥义！千鸟",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kennen_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:58.644217Z"
+      }
+    },
+    "kennen_w": {
+      "route": "/skills/kennen_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:58.903785Z",
+        "description": "凯南连续攻击附加额外伤害并对目标造成一层【忍法！雷缚印】，主动释放会对所有带有【忍法！雷缚印】的敌人造成闪电伤害，并额外附加一层【忍法！雷缚印】。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "凯南·奥义！电刃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kennen_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:58.903785Z"
+      }
+    },
+    "kennen_e": {
+      "route": "/skills/kennen_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:59.216488Z",
+        "description": "凯南变身为一个闪电形态，高速移动并可以穿越单位。对碰到的所有敌人造成伤害并施加一层【忍法！雷缚印】。凯南会在进入这个形态时获得移动速度，并在离开时获得攻击速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "凯南·奥义！雷铠",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kennen_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:59.216488Z"
+      }
+    },
+    "kennen_r": {
+      "route": "/skills/kennen_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:59.474409Z",
+        "description": "凯南召唤出一团风暴，会对周围的所有敌方英雄造成魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "凯南·秘奥义！万雷天牢引",
+        "skillCategoryKeys": [],
+        "skillKey": "kennen_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:59.474409Z"
+      }
+    },
+    "velkoz_p": {
+      "route": "/skills/velkoz_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:20:55.901415Z",
+        "description": "维克兹的技能会对命中的敌人施加<keywordName>有机体解构</keywordName>效果。如果累积到3层效果，敌人就会受到爆发性的真实伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "维克兹·有机体解构",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "velkoz_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:55.901415Z"
+      }
+    },
+    "velkoz_q": {
+      "route": "/skills/velkoz_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:20:56.174454Z",
+        "description": "维克兹发射一束等离子，再次施放此技能或在命中一名敌人后，等离子束会一分为二。等离子束在命中时会造成伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "维克兹·等离子裂变",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "velkoz_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:56.174454Z"
+      }
+    },
+    "velkoz_w": {
+      "route": "/skills/velkoz_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:20:56.457016Z",
+        "description": "维克兹开启一道虚空裂隙，造成初始爆发伤害，并在短暂的延迟后爆炸，造成第二段爆发伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "维克兹·虚空裂隙",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "velkoz_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:56.457016Z"
+      }
+    },
+    "velkoz_e": {
+      "route": "/skills/velkoz_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:20:56.712154Z",
+        "description": "维克兹让一个区域爆炸，击飞敌人，并将近处的敌人略微击退。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "维克兹·构造分解",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "velkoz_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:56.712154Z"
+      }
+    },
+    "velkoz_r": {
+      "route": "/skills/velkoz_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:20:57.013576Z",
+        "description": "维克兹释放一束被引导的光线跟随鼠标指针，可造成魔法伤害，持续2.5秒。【有机体解构】效果会研究敌方英雄，从而使他们受到真实伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "维克兹·生命形态瓦解射线",
+        "skillCategoryKeys": [],
+        "skillKey": "velkoz_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:57.013576Z"
+      }
+    },
+    "ziggs_p": {
+      "route": "/skills/ziggs_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:21:23.088344Z",
+        "description": "每过一段时间，吉格斯的下次普通攻击就会造成额外的魔法伤害。这个冷却时间会在吉格斯每用一次技能时得到减少。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "吉格斯·一触即发",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "ziggs_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:23.088344Z"
+      }
+    },
+    "ziggs_q": {
+      "route": "/skills/ziggs_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:21:23.353417Z",
+        "description": "吉格斯扔出一个会弹跳的炸弹，对敌人造成魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "吉格斯·弹跳炸弹",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ziggs_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:23.353417Z"
+      }
+    },
+    "ziggs_w": {
+      "route": "/skills/ziggs_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:21:23.602632Z",
+        "description": "吉格斯扔出一个炸药包，会在一段延迟后爆炸，或者在再次施放该技能后爆炸。爆炸会对敌人造成魔法伤害，并将他们击退。吉格斯也会被击退，但不会受到伤害。<br><br>吉格斯可以用这个技能来爆破敌方摇摇欲坠的防御塔。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "吉格斯·定点爆破",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ziggs_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:23.602632Z"
+      }
+    },
+    "ziggs_e": {
+      "route": "/skills/ziggs_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:21:23.915337Z",
+        "description": "吉格斯布下敌人一踩就炸的感应雷区，对踩中地雷的敌人造成魔法伤害和减速效果。对相同目标的后续爆炸将造成较少伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "吉格斯·海克斯爆破雷区",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ziggs_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:23.915337Z"
+      }
+    },
+    "ziggs_r": {
+      "route": "/skills/ziggs_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:21:24.177832Z",
+        "description": "吉格斯部署他的尖端发明，科学的地狱火炮，将它推送一段极远的距离。在主要爆炸区域里的敌人会比在其它爆炸区域里的敌人受到更多的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "吉格斯·科学的地狱火炮",
+        "skillCategoryKeys": [],
+        "skillKey": "ziggs_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:24.177832Z"
+      }
+    },
+    "xerath_p": {
+      "route": "/skills/xerath_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:21:08.23929Z",
+        "description": "泽拉斯的普通攻击会周期性地恢复法力值。每当泽拉斯击杀了一个单位时，这个冷却时间就会缩短。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "泽拉斯·法力澎湃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "xerath_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:08.23929Z"
+      }
+    },
+    "xerath_q": {
+      "route": "/skills/xerath_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:21:08.533812Z",
+        "description": "泽拉斯聚集能量，随后发射出一道射程很远的能量光束，对所有命中的目标造成魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泽拉斯·奥能脉冲",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "xerath_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:08.533812Z"
+      }
+    },
+    "xerath_w": {
+      "route": "/skills/xerath_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:21:08.774136Z",
+        "description": "在目标区域降下奥术能量的弹幕，对一个区域内的所有敌人造成减速效果和魔法伤害。区域中心的目标会受到额外伤害和一个更强大的减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泽拉斯·毁灭之眼",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "xerath_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:08.774136Z"
+      }
+    },
+    "xerath_e": {
+      "route": "/skills/xerath_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:21:09.039377Z",
+        "description": "对单个敌人造成魔法伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泽拉斯·冲击法球",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "xerath_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:09.039377Z"
+      }
+    },
+    "xerath_r": {
+      "route": "/skills/xerath_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:21:09.27029Z",
+        "description": "泽拉斯将自己固定在一处魔力之源上，并获得数次远程施法的机会。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "泽拉斯·奥术仪式",
+        "skillCategoryKeys": [],
+        "skillKey": "xerath_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:09.27029Z"
+      }
+    }
+  },
+  "images": {
+    "kennen_p": {
+      "route": "/skills/kennen_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kennen_p",
+          "name": "kennen_p"
+        }
+      }
+    },
+    "kennen_q": {
+      "route": "/skills/kennen_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kennen_q",
+          "name": "kennen_q"
+        }
+      }
+    },
+    "kennen_w": {
+      "route": "/skills/kennen_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kennen_w",
+          "name": "kennen_w"
+        }
+      }
+    },
+    "kennen_e": {
+      "route": "/skills/kennen_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kennen_e",
+          "name": "kennen_e"
+        }
+      }
+    },
+    "kennen_r": {
+      "route": "/skills/kennen_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kennen_r",
+          "name": "kennen_r"
+        }
+      }
+    },
+    "velkoz_p": {
+      "route": "/skills/velkoz_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_velkoz_p",
+          "name": "velkoz_p"
+        }
+      }
+    },
+    "velkoz_q": {
+      "route": "/skills/velkoz_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_velkoz_q",
+          "name": "velkoz_q"
+        }
+      }
+    },
+    "velkoz_w": {
+      "route": "/skills/velkoz_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_velkoz_w",
+          "name": "velkoz_w"
+        }
+      }
+    },
+    "velkoz_e": {
+      "route": "/skills/velkoz_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_velkoz_e",
+          "name": "velkoz_e"
+        }
+      }
+    },
+    "velkoz_r": {
+      "route": "/skills/velkoz_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_velkoz_r",
+          "name": "velkoz_r"
+        }
+      }
+    },
+    "ziggs_p": {
+      "route": "/skills/ziggs_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ziggs_p",
+          "name": "ziggs_p"
+        }
+      }
+    },
+    "ziggs_q": {
+      "route": "/skills/ziggs_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ziggs_q",
+          "name": "ziggs_q"
+        }
+      }
+    },
+    "ziggs_w": {
+      "route": "/skills/ziggs_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ziggs_w",
+          "name": "ziggs_w"
+        }
+      }
+    },
+    "ziggs_e": {
+      "route": "/skills/ziggs_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ziggs_e",
+          "name": "ziggs_e"
+        }
+      }
+    },
+    "ziggs_r": {
+      "route": "/skills/ziggs_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ziggs_r",
+          "name": "ziggs_r"
+        }
+      }
+    },
+    "xerath_p": {
+      "route": "/skills/xerath_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_xerath_p",
+          "name": "xerath_p"
+        }
+      }
+    },
+    "xerath_q": {
+      "route": "/skills/xerath_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_xerath_q",
+          "name": "xerath_q"
+        }
+      }
+    },
+    "xerath_w": {
+      "route": "/skills/xerath_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_xerath_w",
+          "name": "xerath_w"
+        }
+      }
+    },
+    "xerath_e": {
+      "route": "/skills/xerath_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_xerath_e",
+          "name": "xerath_e"
+        }
+      }
+    },
+    "xerath_r": {
+      "route": "/skills/xerath_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_xerath_r",
+          "name": "xerath_r"
+        }
+      }
+    }
+  },
+  "characters": {
+    "kennen": {
+      "route": "/characters/champion_kennen",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "characterKey": "champion_kennen",
+        "createdAt": "2026-09-06T17:19:17.112624Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "凯南",
+        "updatedAt": "2026-09-06T17:19:17.112624Z"
+      }
+    },
+    "velkoz": {
+      "route": "/characters/champion_velkoz",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "characterKey": "champion_velkoz",
+        "createdAt": "2026-09-06T18:02:57.337036Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "维克兹",
+        "updatedAt": "2026-09-06T18:02:57.337036Z"
+      }
+    },
+    "ziggs": {
+      "route": "/characters/champion_ziggs",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "characterKey": "champion_ziggs",
+        "createdAt": "2026-09-06T18:13:36.472491Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "吉格斯",
+        "updatedAt": "2026-09-06T18:13:36.472491Z"
+      }
+    },
+    "xerath": {
+      "route": "/characters/champion_xerath",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "characterKey": "champion_xerath",
+        "createdAt": "2026-09-06T18:07:48.364681Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "泽拉斯",
+        "updatedAt": "2026-09-06T18:07:48.364681Z"
+      }
+    }
+  }
+}

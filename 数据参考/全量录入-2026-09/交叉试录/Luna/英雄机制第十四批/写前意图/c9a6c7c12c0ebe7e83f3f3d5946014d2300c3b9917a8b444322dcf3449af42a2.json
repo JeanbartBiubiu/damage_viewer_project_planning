@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T06:41:46.474Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_q/effects/unreleased_refund",
+  "id": "unreleased_refund",
+  "method": "POST",
+  "body": {
+    "effectKey": "unreleased_refund",
+    "name": "未释放法力返还",
+    "description": "只在实际未释放取消时适用，与施放基础成本分开。；仅独立效果，没有默认施放、命中或初始化触发。",
+    "sortOrder": 20,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "resource",
+        "name": "未释放法力返还",
+        "resultType": "RESOURCE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "unreleased_mana_refund"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "mana",
+          "operation": "REFUND"
+        }
+      }
+    ]
+  }
+}

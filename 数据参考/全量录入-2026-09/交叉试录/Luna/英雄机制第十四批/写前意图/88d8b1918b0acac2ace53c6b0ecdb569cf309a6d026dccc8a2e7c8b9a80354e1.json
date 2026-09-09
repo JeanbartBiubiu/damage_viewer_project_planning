@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-09T06:42:06.349Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_e/formulas/bounded_stun_ms",
+  "id": "bounded_stun_ms",
+  "method": "POST",
+  "body": {
+    "formulaKey": "bounded_stun_ms",
+    "name": "含当前上下限的晕眩时长（毫秒）",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MIN",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "MAX",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "confirmed_distance_stun_ms"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "min_stun_ms"
+            }
+          ]
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "max_stun_ms"
+        }
+      ]
+    },
+    "description": "当前正文至少0.75秒、至多2.25秒；最终夹限后用于后续控制配置。",
+    "sortOrder": 20
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T06:42:10.884Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/xerath_r/parameters/ramp_base_damage",
+  "id": "ramp_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "ramp_base_damage",
+    "name": "每次有效英雄命中额外基础伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 20,
+      "2": 25,
+      "3": 30
+    },
+    "description": "客户端当前根绑定 DataValues.RampBaseDamage 取索引1至3。",
+    "sortOrder": 50
+  }
+}

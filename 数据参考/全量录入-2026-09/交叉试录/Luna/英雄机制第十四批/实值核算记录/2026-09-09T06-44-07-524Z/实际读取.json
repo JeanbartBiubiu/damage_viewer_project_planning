@@ -1,0 +1,4658 @@
+{
+  "at": "2026-09-09T06:44:07.527Z",
+  "mode": "另行实际GET全部154参数和34公式，逐字段核对后独立求值；不重用写流水作GET证据",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "independentSnapshot": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十四批\\执行记录\\2026-09-09T06-43-06-106Z\\写前组件现值.json",
+  "independentSnapshotSha256": "2a3ca44ab47016a7928f3fc6f1a4e2a0cd0aa594ddfc8cd7fc2818ad8244859a",
+  "requests": [
+    {
+      "route": "/skills/kennen_p/parameters/energy_restore",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:09.237048Z",
+        "description": "客户端当前根绑定 DataValues.EnergyRestore 取索引1至1。",
+        "fixedValue": 25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "三层触发能量回复",
+        "parameterKey": "energy_restore",
+        "skillKey": "kennen_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:39:09.237048Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_p/parameters/stun_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:10.362274Z",
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至1；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 1250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "首次晕眩时长（毫秒）",
+        "parameterKey": "stun_duration_ms",
+        "skillKey": "kennen_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:39:10.362274Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_p/parameters/repeated_stun_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:11.354839Z",
+        "description": "客户端当前根绑定 DataValues.ReducedStunDuration 取索引1至1；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "重复晕眩时长（毫秒）",
+        "parameterKey": "repeated_stun_duration_ms",
+        "skillKey": "kennen_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:39:11.354839Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_p/parameters/mark_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:12.530555Z",
+        "description": "客户端当前根绑定 DataValues.MarkDuration 取索引1至1；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "印记持续时间（毫秒）",
+        "parameterKey": "mark_duration_ms",
+        "skillKey": "kennen_p",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:39:12.530555Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_p/parameters/repeat_window_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:13.509709Z",
+        "description": "客户端当前根绑定 DataValues.DiminishingReturnDuration 取索引1至1；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "重复晕眩窗口（毫秒）",
+        "parameterKey": "repeat_window_ms",
+        "skillKey": "kennen_p",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:39:13.509709Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_p/parameters/trigger_stacks",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:14.474253Z",
+        "description": "当前正文明确3层触发。",
+        "fixedValue": 3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "晕眩所需层数",
+        "parameterKey": "trigger_stacks",
+        "skillKey": "kennen_p",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:39:14.474253Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_q/parameters/cast_time_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:16.319375Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 175,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "kennen_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:39:16.319375Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_q/parameters/energy_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:17.235552Z",
+        "description": "官方资源类型为能量；官方cost与当前manaValues逐级一致，字段名不改变资源身份。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 55,
+          "3": 50,
+          "4": 45,
+          "5": 40
+        },
+        "name": "基础能量消耗",
+        "parameterKey": "energy_cost",
+        "skillKey": "kennen_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:39:17.235552Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_q/parameters/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:18.136486Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 75,
+          "2": 125,
+          "3": 175,
+          "4": 225,
+          "5": 275
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "kennen_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:39:18.136486Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_q/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:19.110139Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "千鸟伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "kennen_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:39:19.110139Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kennen_q/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T17:38:46.759183Z",
+        "description": "DDragon16.17.1 Kennen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 7000,
+          "2": 6250,
+          "3": 5500,
+          "4": 4750,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kennen_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:46.759183Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_q/formulas/damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:20.235091Z",
+        "description": "第一个实际命中敌人的魔法伤害；印记依赖另接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "千鸟伤害",
+        "skillKey": "kennen_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:39:20.235091Z"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/parameters/cast_time_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:22.263312Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "kennen_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:39:22.263312Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/parameters/energy_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:23.198614Z",
+        "description": "官方资源类型为能量；官方cost与当前manaValues逐级一致，字段名不改变资源身份。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础能量消耗",
+        "parameterKey": "energy_cost",
+        "skillKey": "kennen_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:39:23.198614Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/parameters/bonus_ad_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:24.232158Z",
+        "description": "客户端当前根绑定 DataValues.bADRatio 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.8,
+          "2": 0.9,
+          "3": 1,
+          "4": 1.1,
+          "5": 1.2
+        },
+        "name": "额外攻击力系数",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "kennen_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:39:24.232158Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/parameters/passive_base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:25.250866Z",
+        "description": "客户端当前根绑定 DataValues.BaseOnHitDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 35,
+          "2": 45,
+          "3": 55,
+          "4": 65,
+          "5": 75
+        },
+        "name": "强化攻击基础伤害",
+        "parameterKey": "passive_base_damage",
+        "skillKey": "kennen_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:39:25.250866Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/parameters/active_base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:26.225267Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamageActive 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 95,
+          "3": 120,
+          "4": 145,
+          "5": 170
+        },
+        "name": "主动基础伤害",
+        "parameterKey": "active_base_damage",
+        "skillKey": "kennen_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:39:26.225267Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/parameters/active_ap_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:27.229939Z",
+        "description": "客户端当前根绑定 DataValues.APRatioActive 取索引1至5。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "主动法强系数",
+        "parameterKey": "active_ap_ratio",
+        "skillKey": "kennen_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:39:27.229939Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/parameters/attack_trigger_count",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:28.145707Z",
+        "description": "当前正文每第5次攻击附加攻击特效。",
+        "fixedValue": 5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "强化攻击序号",
+        "parameterKey": "attack_trigger_count",
+        "skillKey": "kennen_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:39:28.145707Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:29.150405Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "强化攻击附加伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "kennen_w",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T06:39:29.150405Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T17:38:47.118167Z",
+        "description": "DDragon16.17.1 Kennen.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 11250,
+          "3": 9500,
+          "4": 7750,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kennen_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:47.118167Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/parameters/calculation_constant_2",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:30.206408Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 1.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "强化攻击暴击分支伤害固定系数",
+        "parameterKey": "calculation_constant_2",
+        "skillKey": "kennen_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T06:39:30.206408Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/parameters/source_stat_9_2_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:31.213119Z",
+        "description": "该原节点属性口径未证，必须提供已核实际值；不由字段名猜属性、比例单位或角色基础值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "原计算属性9/2实际值",
+        "parameterKey": "source_stat_9_2_value",
+        "skillKey": "kennen_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-09T06:39:31.213119Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/parameters/calculation_constant_3",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:32.109746Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "强化攻击暴击分支伤害固定系数",
+        "parameterKey": "calculation_constant_3",
+        "skillKey": "kennen_w",
+        "sortOrder": 120,
+        "updatedAt": "2026-09-09T06:39:32.109746Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/formulas/passive_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:33.152784Z",
+        "description": "本槽额外AD节点2/2已证；不是总AD。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_1"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "passive_damage",
+        "gameId": "lol",
+        "name": "强化攻击附加伤害",
+        "skillKey": "kennen_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:39:33.152784Z"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/formulas/active_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:34.195296Z",
+        "description": "已带印记目标或当前R内目标的主动分支；资格不默认。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "active_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_ap_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "active_damage",
+        "gameId": "lol",
+        "name": "主动伤害",
+        "skillKey": "kennen_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:39:34.195296Z"
+      }
+    },
+    {
+      "route": "/skills/kennen_w/formulas/critical_passive_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:35.195162Z",
+        "description": "当前正文明确此分支可暴击；9/2属性口径仍用无默认输入，不猜额外暴伤枚举。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_2"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "source_stat_9_2_value"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_3"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "passive_base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "calculation_constant_1"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "critical_passive_damage",
+        "gameId": "lol",
+        "name": "强化攻击暴击分支伤害",
+        "skillKey": "kennen_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:39:35.195162Z"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:37.068841Z",
+        "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9000,
+          "3": 8000,
+          "4": 7000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kennen_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:39:37.068841Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters/energy_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:38.069463Z",
+        "description": "官方资源类型为能量；官方cost与当前manaValues逐级一致，字段名不改变资源身份。",
+        "fixedValue": 80,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础能量消耗",
+        "parameterKey": "energy_cost",
+        "skillKey": "kennen_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:39:38.069463Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:39.053585Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "kennen_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:39:39.053585Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters/energy_refund",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:39.924336Z",
+        "description": "客户端当前根绑定 DataValues.EnergyRefund 取索引1至5。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "至少伤害一名敌人后的能量回复",
+        "parameterKey": "energy_refund",
+        "skillKey": "kennen_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:39:39.924336Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters/move_speed_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:40.842435Z",
+        "description": "客户端当前根绑定 DataValues.MovementSpeed 取索引1至5。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "闪电形态移速加成比例",
+        "parameterKey": "move_speed_ratio",
+        "skillKey": "kennen_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:39:40.842435Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters/ball_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:41.800761Z",
+        "description": "客户端当前根绑定 DataValues.DurationAsBall 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 2000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "闪电形态最长时间（毫秒）",
+        "parameterKey": "ball_duration_ms",
+        "skillKey": "kennen_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:39:41.800761Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters/bonus_attack_speed_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:42.797929Z",
+        "description": "客户端当前根绑定 DataValues.TotalAS 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.4,
+          "2": 0.5,
+          "3": 0.6,
+          "4": 0.7,
+          "5": 0.8
+        },
+        "name": "结束后额外攻速比例",
+        "parameterKey": "bonus_attack_speed_ratio",
+        "skillKey": "kennen_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:39:42.797929Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters/after_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:43.888632Z",
+        "description": "客户端当前根绑定 DataValues.DurationAfterBall 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "结束后基础增益时长（毫秒）",
+        "parameterKey": "after_duration_ms",
+        "skillKey": "kennen_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:39:43.888632Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters/critical_extension_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:44.804286Z",
+        "description": "客户端当前根绑定 DataValues.CritDurationBonus 取索引1至5；单位毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每次暴击延长时长（毫秒）",
+        "parameterKey": "critical_extension_ms",
+        "skillKey": "kennen_e",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T06:39:44.804286Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:45.760474Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.8,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "雷铠伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "kennen_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T06:39:45.760474Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters/confirmed_critical_extension_count",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:47.329354Z",
+        "description": "整数且非负；只计离开闪电形态后的有效增益期内暴击。真实事件与剩余时长更新未接，不默认0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已核符合条件的暴击延长次数",
+        "parameterKey": "confirmed_critical_extension_count",
+        "skillKey": "kennen_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-09T06:39:47.329354Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/parameters/zero",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:49.478188Z",
+        "description": "计数不能负；用于明确边界，不是输入默认值。",
+        "fixedValue": 0,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "计数下限",
+        "parameterKey": "zero",
+        "skillKey": "kennen_e",
+        "sortOrder": 120,
+        "updatedAt": "2026-09-09T06:39:49.478188Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/formulas/damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:50.443649Z",
+        "description": "当前正文TotalDamage绑定BaseDamage索引1..5=80..240；不采用旧mEffectAmount及官方effect=85..245。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "雷铠伤害",
+        "skillKey": "kennen_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:39:50.443649Z"
+      }
+    },
+    {
+      "route": "/skills/kennen_e/formulas/capped_after_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:51.435001Z",
+        "description": "当前长文明确延长部分不得超过初始时长；总时长=初始4秒+MIN(实际有效次数×1秒,4秒)，不表示按此总时长重复刷新。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "after_duration_ms"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "confirmed_critical_extension_count"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "zero"
+                        }
+                      ],
+                      "operation": "MAX"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "critical_extension_ms"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "after_duration_ms"
+                }
+              ],
+              "operation": "MIN"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "capped_after_duration_ms",
+        "gameId": "lol",
+        "name": "含上限的增益总时长（毫秒）",
+        "skillKey": "kennen_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:39:51.435001Z"
+      }
+    },
+    {
+      "route": "/skills/kennen_r/parameters/cast_time_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:56.725138Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "kennen_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:39:56.725138Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_r/parameters/base_tick_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:57.742719Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 80,
+          "3": 120
+        },
+        "name": "每次命中基础伤害",
+        "parameterKey": "base_tick_damage",
+        "skillKey": "kennen_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:39:57.742719Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_r/parameters/ap_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:58.707055Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强系数",
+        "parameterKey": "ap_ratio",
+        "skillKey": "kennen_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:39:58.707055Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kennen_r/parameters/successive_damage_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:39:59.652927Z",
+        "description": "客户端当前根绑定 DataValues.DamageAmp 取索引1至3。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "后续命中提升比例",
+        "parameterKey": "successive_damage_ratio",
+        "skillKey": "kennen_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:39:59.652927Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kennen_r/parameters/tick_interval_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:00.624394Z",
+        "description": "客户端当前根绑定 DataValues.KennenRTickRate 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "原周期间隔（毫秒）",
+        "parameterKey": "tick_interval_ms",
+        "skillKey": "kennen_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:40:00.624394Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_r/parameters/bonus_resistances",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:01.525562Z",
+        "description": "客户端当前根绑定 DataValues.KennenRDefenses 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 25,
+          "2": 50,
+          "3": 75
+        },
+        "name": "护甲与魔抗增加",
+        "parameterKey": "bonus_resistances",
+        "skillKey": "kennen_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:40:01.525562Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_r/parameters/duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:02.556943Z",
+        "description": "客户端当前根绑定 DataValues.KennenRDuration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "风暴持续时间（毫秒）",
+        "parameterKey": "duration_ms",
+        "skillKey": "kennen_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:40:02.556943Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_r/parameters/maximum_marks",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:03.743556Z",
+        "description": "当前长文敌人只会被这个技能施加3层印记。",
+        "fixedValue": 3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次R最多施加印记",
+        "parameterKey": "maximum_marks",
+        "skillKey": "kennen_r",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T06:40:03.743556Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_r/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T17:38:47.545877Z",
+        "description": "DDragon16.17.1 Kennen.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 120000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kennen_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:38:47.545877Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kennen_r/formulas/base_tick_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:04.730914Z",
+        "description": "本式每次伤害，不把3秒持续总伤当单跳。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_tick_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "base_tick_damage",
+        "gameId": "lol",
+        "name": "未叠后续加成的单次伤害",
+        "skillKey": "kennen_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:40:04.730914Z"
+      }
+    },
+    {
+      "route": "/skills/velkoz_p/parameters/stack_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:07.715622Z",
+        "description": "客户端当前根绑定 DataValues.Duration 取索引1至1；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "解构层持续时间（毫秒）",
+        "parameterKey": "stack_duration_ms",
+        "skillKey": "velkoz_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:40:07.715622Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_p/parameters/trigger_stacks",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:08.691517Z",
+        "description": "客户端当前根绑定 DataValues.MaxStacks 取索引1至1。",
+        "fixedValue": 3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "消耗层数",
+        "parameterKey": "trigger_stacks",
+        "skillKey": "velkoz_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:40:08.691517Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_p/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:09.668772Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "解构真实伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "velkoz_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:40:09.668772Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/velkoz_p/parameters/true_damage_level_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:10.614602Z",
+        "description": "原等级节点完整保留；起止等级、表索引、断点求值或取整未证，实际值必须外供，不能用端点猜整曲线。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "解构真实伤害的实际等级项",
+        "parameterKey": "true_damage_level_value",
+        "skillKey": "velkoz_p",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:40:10.614602Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/velkoz_p/formulas/true_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:11.63582Z",
+        "description": "实际等级项外供；原插值35..180不展开。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "true_damage_level_value"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "true_damage",
+        "gameId": "lol",
+        "name": "解构真实伤害",
+        "skillKey": "velkoz_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:40:11.63582Z"
+      }
+    },
+    {
+      "route": "/skills/velkoz_q/parameters/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:12.627375Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "velkoz_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:40:12.627375Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_q/parameters/passive_stacks",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:13.693613Z",
+        "description": "客户端当前根绑定 DataValues.PassiveStacksToAdd 取索引1至5。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "实际命中施加解构层数",
+        "parameterKey": "passive_stacks",
+        "skillKey": "velkoz_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:40:13.693613Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_q/parameters/initial_slow_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:14.783599Z",
+        "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "初始减速比例",
+        "parameterKey": "initial_slow_ratio",
+        "skillKey": "velkoz_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:40:14.783599Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/velkoz_q/parameters/slow_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:15.698674Z",
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 1000,
+          "2": 1400,
+          "3": 1800,
+          "4": 2200,
+          "5": 2600
+        },
+        "name": "衰减减速持续时间（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "velkoz_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:40:15.698674Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_q/parameters/kill_mana_restore",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:16.696916Z",
+        "description": "客户端当前根绑定 DataValues.TooltipManaRefund 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20,
+          "2": 22.5,
+          "3": 25,
+          "4": 27.5,
+          "5": 30
+        },
+        "name": "每击杀单位回复法力",
+        "parameterKey": "kill_mana_restore",
+        "skillKey": "velkoz_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:40:16.696916Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/velkoz_q/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:17.687866Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.9,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "等离子伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "velkoz_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:40:17.687866Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/velkoz_q/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:35.850393Z",
+        "description": "DDragon16.17.1 Velkoz.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": 7000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "velkoz_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:35.850393Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_q/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:36.386252Z",
+        "description": "DDragon16.17.1 Velkoz.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "velkoz_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:36.386252Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_q/formulas/damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:18.669722Z",
+        "description": "对实际命中目标的魔法伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "等离子伤害",
+        "skillKey": "velkoz_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:40:18.669722Z"
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:21.507262Z",
+        "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "velkoz_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:40:21.507262Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/parameters/cast_time_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:22.456704Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "velkoz_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:40:22.456704Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/parameters/initial_base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:23.427129Z",
+        "description": "客户端当前根绑定 DataValues.BaseInitialDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30,
+          "2": 50,
+          "3": 70,
+          "4": 90,
+          "5": 110
+        },
+        "name": "第一段基础伤害",
+        "parameterKey": "initial_base_damage",
+        "skillKey": "velkoz_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:40:23.427129Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/parameters/secondary_base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:24.51009Z",
+        "description": "客户端当前根绑定 DataValues.BaseSecondaryDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 45,
+          "2": 75,
+          "3": 105,
+          "4": 135,
+          "5": 165
+        },
+        "name": "第二段基础伤害",
+        "parameterKey": "secondary_base_damage",
+        "skillKey": "velkoz_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:40:24.51009Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/parameters/passive_stacks",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:25.688853Z",
+        "description": "客户端当前根绑定 DataValues.PassiveStacksToAdd 取索引1至5。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每次有效伤害解构层数",
+        "parameterKey": "passive_stacks",
+        "skillKey": "velkoz_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:40:25.688853Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:26.724044Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "裂隙第一段伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "velkoz_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:40:26.724044Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/parameters/calculation_constant_2",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:27.74743Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "裂隙第二段伤害固定系数",
+        "parameterKey": "calculation_constant_2",
+        "skillKey": "velkoz_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:40:27.74743Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/parameters/max_charges",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:28.770271Z",
+        "description": "当前中英文目录与根mMaxAmmo全2一致。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最大充能",
+        "parameterKey": "max_charges",
+        "skillKey": "velkoz_w",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T06:40:28.770271Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/parameters/confirmed_recharge_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:29.84369Z",
+        "description": "根mAmmoRechargeTime有7项19/18/17/16/15/14/14；本批未证明其技能索引，不能凭数组形状取头或跳头，不默认。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已核实际充能时间（毫秒）",
+        "parameterKey": "confirmed_recharge_ms",
+        "skillKey": "velkoz_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T06:40:29.84369Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:36.927258Z",
+        "description": "DDragon16.17.1 Velkoz.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "velkoz_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:36.927258Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/formulas/initial_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:30.961974Z",
+        "description": "第一段独立伤害，保留与第二段区别。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "initial_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "initial_damage",
+        "gameId": "lol",
+        "name": "裂隙第一段伤害",
+        "skillKey": "velkoz_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:40:30.961974Z"
+      }
+    },
+    {
+      "route": "/skills/velkoz_w/formulas/secondary_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:32.014888Z",
+        "description": "第二段独立伤害，不合并成一次命中。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "secondary_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_2"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "secondary_damage",
+        "gameId": "lol",
+        "name": "裂隙第二段伤害",
+        "skillKey": "velkoz_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:40:32.014888Z"
+      }
+    },
+    {
+      "route": "/skills/velkoz_e/parameters/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:34.132901Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 100,
+          "3": 130,
+          "4": 160,
+          "5": 190
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "velkoz_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:40:34.132901Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_e/parameters/ap_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:35.204726Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强系数",
+        "parameterKey": "ap_ratio",
+        "skillKey": "velkoz_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:40:35.204726Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/velkoz_e/parameters/passive_stacks",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:36.116777Z",
+        "description": "客户端当前根绑定 DataValues.PassiveStacksToAdd 取索引1至5。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "解构层数",
+        "parameterKey": "passive_stacks",
+        "skillKey": "velkoz_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:40:36.116777Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_e/parameters/airborne_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:37.101837Z",
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 750,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "控制持续时间（毫秒）",
+        "parameterKey": "airborne_duration_ms",
+        "skillKey": "velkoz_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:40:37.101837Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_e/parameters/min_detonation_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:38.102787Z",
+        "description": "客户端当前根绑定 DataValues.MinDetonationTime 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "原最短爆炸延迟（毫秒）",
+        "parameterKey": "min_detonation_ms",
+        "skillKey": "velkoz_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:40:38.102787Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_e/parameters/max_detonation_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:39.099549Z",
+        "description": "客户端当前根绑定 DataValues.MaxDetonationTime 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 550,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "原最长爆炸延迟（毫秒）",
+        "parameterKey": "max_detonation_ms",
+        "skillKey": "velkoz_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:40:39.099549Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_e/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:37.431713Z",
+        "description": "DDragon16.17.1 Velkoz.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "velkoz_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:37.431713Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_e/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:37.886077Z",
+        "description": "DDragon16.17.1 Velkoz.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "velkoz_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:37.886077Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_e/formulas/damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:40.20001Z",
+        "description": "近处击退和其他目标击飞分别保留条件，不因源码名StunDuration改成晕眩。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "构造分解伤害",
+        "skillKey": "velkoz_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:40:40.20001Z"
+      }
+    },
+    {
+      "route": "/skills/velkoz_r/parameters/passive_stacks_per_tick",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:42.223396Z",
+        "description": "客户端当前根绑定 DataValues.PassiveStacksToAddPerTick 取索引1至3。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每次实际叠层事件施加层数",
+        "parameterKey": "passive_stacks_per_tick",
+        "skillKey": "velkoz_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:40:42.223396Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_r/parameters/base_total_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:43.273304Z",
+        "description": "原EffectValueCalculationPart.mEffectIndex=1，mEffectAmount第1项技能索引1..3与官方e1逐级一致。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 450,
+          "2": 700,
+          "3": 925
+        },
+        "name": "完整射线基础总伤害",
+        "parameterKey": "base_total_damage",
+        "skillKey": "velkoz_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:40:43.273304Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_r/parameters/slow_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:44.256996Z",
+        "description": "当前正文Effect3Amount%与官方e3对应20百分比点，转换为0.2比例。",
+        "fixedValue": 0.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "射线减速比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "velkoz_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:40:44.256996Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/velkoz_r/parameters/damage_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:45.165637Z",
+        "description": "当前正文明确2.5秒里持续造成共该总伤害。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "正文持续造成伤害时间（毫秒）",
+        "parameterKey": "damage_duration_ms",
+        "skillKey": "velkoz_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:40:45.165637Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_r/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:46.31899Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 1.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "完整射线总伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "velkoz_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:40:46.31899Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/velkoz_r/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:38.310798Z",
+        "description": "DDragon16.17.1 Velkoz.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 90000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "velkoz_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:38.310798Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_r/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:38.805427Z",
+        "description": "DDragon16.17.1 Velkoz.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "velkoz_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:38.805427Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/velkoz_r/formulas/total_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:47.416798Z",
+        "description": "此式是完整2.5秒总量；魔法/真实由目标近期被P伤害资格决定，不生成一次瞬时伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_total_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "total_damage",
+        "gameId": "lol",
+        "name": "完整射线总伤害",
+        "skillKey": "velkoz_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:40:47.416798Z"
+      }
+    },
+    {
+      "route": "/skills/ziggs_p/parameters/ap_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:49.787231Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至1。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强系数",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ziggs_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:40:49.787231Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/ziggs_p/parameters/damage_level_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:50.794278Z",
+        "description": "原等级节点完整保留；起止等级、表索引、断点求值或取整未证，实际值必须外供，不能用端点猜整曲线。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "一触即发附加伤害的实际等级项",
+        "parameterKey": "damage_level_value",
+        "skillKey": "ziggs_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:40:50.794278Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/ziggs_p/parameters/cooldown_reduction_seconds_level_value_2",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:51.836608Z",
+        "description": "原等级节点完整保留；起止等级、表索引、断点求值或取整未证，实际值必须外供，不能用端点猜整曲线。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法减少被动冷却秒数的实际等级项",
+        "parameterKey": "cooldown_reduction_seconds_level_value_2",
+        "skillKey": "ziggs_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:40:51.836608Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/ziggs_p/parameters/milliseconds_per_second",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:52.875662Z",
+        "description": "秒换毫秒单位恒等。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每秒毫秒数",
+        "parameterKey": "milliseconds_per_second",
+        "skillKey": "ziggs_p",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:40:52.875662Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_p/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:54.323194Z",
+        "description": "当前根Cooldown所有项12，正文引用Cooldown；无等级索引歧义。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "被动基础冷却（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ziggs_p",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:40:54.323194Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_p/formulas/damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:57.129498Z",
+        "description": "等级断点项外供，不采用旧mEffectAmount35..305。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_level_value"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "一触即发附加伤害",
+        "skillKey": "ziggs_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:40:57.129498Z"
+      }
+    },
+    {
+      "route": "/skills/ziggs_p/formulas/cooldown_reduction_seconds",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:58.190713Z",
+        "description": "原断点求值未知，保存实际秒数输入；不默认为4/5/6阈值表。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "cooldown_reduction_seconds_level_value_2"
+        },
+        "formulaKey": "cooldown_reduction_seconds",
+        "gameId": "lol",
+        "name": "施法减少被动冷却秒数",
+        "skillKey": "ziggs_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:40:58.190713Z"
+      }
+    },
+    {
+      "route": "/skills/ziggs_p/formulas/cooldown_reduction_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:40:59.130317Z",
+        "description": "实际已核秒数×1000；不是百分比冷却缩减。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "cooldown_reduction_seconds_level_value_2"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "milliseconds_per_second"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "cooldown_reduction_ms",
+        "gameId": "lol",
+        "name": "施法减少被动冷却毫秒数",
+        "skillKey": "ziggs_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:40:59.130317Z"
+      }
+    },
+    {
+      "route": "/skills/ziggs_q/parameters/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:00.245553Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 130,
+          "3": 180,
+          "4": 230,
+          "5": 280
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ziggs_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:41:00.245553Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_q/parameters/ap_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:01.183785Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.6,
+          "2": 0.65,
+          "3": 0.7,
+          "4": 0.75,
+          "5": 0.8
+        },
+        "name": "逐技能等级法强系数",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ziggs_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:41:01.183785Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/ziggs_q/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:30.804987Z",
+        "description": "DDragon16.17.1 Ziggs.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 6000,
+          "2": 5500,
+          "3": 5000,
+          "4": 4500,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ziggs_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:30.804987Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_q/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:31.298801Z",
+        "description": "DDragon16.17.1 Ziggs.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ziggs_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:31.298801Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_q/formulas/damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:02.134774Z",
+        "description": "当前APRatio按技能级为0.6/0.65/0.7/0.75/0.8，非固定0.65。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "弹跳炸弹伤害",
+        "skillKey": "ziggs_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:41:02.134774Z"
+      }
+    },
+    {
+      "route": "/skills/ziggs_w/parameters/cast_time_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:04.209276Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "ziggs_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:41:04.209276Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_w/parameters/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:05.227511Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "name": "基础魔法伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ziggs_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:41:05.227511Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_w/parameters/bomb_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:06.235988Z",
+        "description": "客户端当前根绑定 DataValues.BombDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "最迟自动引爆时间（毫秒）",
+        "parameterKey": "bomb_duration_ms",
+        "skillKey": "ziggs_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:41:06.235988Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_w/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:07.207133Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "定点爆破伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "ziggs_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:41:07.207133Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/ziggs_w/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:31.929597Z",
+        "description": "DDragon16.17.1 Ziggs.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ziggs_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:31.929597Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_w/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:32.398097Z",
+        "description": "DDragon16.17.1 Ziggs.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 80,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ziggs_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:32.398097Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_w/formulas/damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:08.137013Z",
+        "description": "可提前再次施放引爆；敌人伤害与击退、自身无伤击退分别留资格。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "定点爆破伤害",
+        "skillKey": "ziggs_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:41:08.137013Z"
+      }
+    },
+    {
+      "route": "/skills/ziggs_e/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:10.198624Z",
+        "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+        "fixedValue": 16000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ziggs_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:41:10.198624Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_e/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:11.161013Z",
+        "description": "官方cost与当前根manaValues逐级一致；不含额外持续资源。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ziggs_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:41:11.161013Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_e/parameters/ap_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:12.144045Z",
+        "description": "客户端当前根绑定 DataValues.APRatioPerMine 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.25,
+          "2": 0.3,
+          "3": 0.35,
+          "4": 0.4,
+          "5": 0.45
+        },
+        "name": "每颗地雷法强系数",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ziggs_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:41:12.144045Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/ziggs_e/parameters/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:13.1299Z",
+        "description": "客户端当前根绑定 DataValues.DamagePerMine 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30,
+          "2": 70,
+          "3": 110,
+          "4": 150,
+          "5": 190
+        },
+        "name": "首颗地雷基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ziggs_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:41:13.1299Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_e/parameters/subsequent_damage_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:14.116289Z",
+        "description": "客户端当前根绑定 DataValues.SubsequentMineDamageMod 取索引1至5。",
+        "fixedValue": 0.4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "同目标后续地雷保留比例",
+        "parameterKey": "subsequent_damage_ratio",
+        "skillKey": "ziggs_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:41:14.116289Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/ziggs_e/parameters/slow_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:15.123603Z",
+        "description": "客户端当前根绑定 DataValues.Slow 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.1,
+          "2": 0.2,
+          "3": 0.3,
+          "4": 0.4,
+          "5": 0.5
+        },
+        "name": "减速幅度比例",
+        "parameterKey": "slow_ratio",
+        "skillKey": "ziggs_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:41:15.123603Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/ziggs_e/parameters/slow_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:16.16067Z",
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速持续时间（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "ziggs_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:41:16.16067Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_e/parameters/mine_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:17.084113Z",
+        "description": "客户端当前根绑定 DataValues.MineDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "地雷持续时间（毫秒）",
+        "parameterKey": "mine_duration_ms",
+        "skillKey": "ziggs_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:41:17.084113Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_e/formulas/first_mine_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:18.04624Z",
+        "description": "单颗完整伤害；不猜触发地雷总数。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "first_mine_damage",
+        "gameId": "lol",
+        "name": "同目标首颗地雷伤害",
+        "skillKey": "ziggs_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:41:18.04624Z"
+      }
+    },
+    {
+      "route": "/skills/ziggs_e/formulas/subsequent_mine_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:19.130667Z",
+        "description": "每颗后续伤害是首颗的0.4倍，非减少0.4或范围外多目标。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "subsequent_damage_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "subsequent_mine_damage",
+        "gameId": "lol",
+        "name": "同目标后续单颗地雷伤害",
+        "skillKey": "ziggs_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:41:19.130667Z"
+      }
+    },
+    {
+      "route": "/skills/ziggs_r/parameters/cast_time_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:21.168369Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 375,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "ziggs_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:41:21.168369Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_r/parameters/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:22.193041Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 300,
+          "2": 500,
+          "3": 700
+        },
+        "name": "中心基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "ziggs_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:41:22.193041Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_r/parameters/ap_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:23.182961Z",
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法强系数",
+        "parameterKey": "ap_ratio",
+        "skillKey": "ziggs_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:41:23.182961Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_r/parameters/outer_ring_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:24.148708Z",
+        "description": "客户端当前根绑定 DataValues.OuterRingModifier 取索引1至3。",
+        "fixedValue": 0.65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "边缘伤害保留比例",
+        "parameterKey": "outer_ring_ratio",
+        "skillKey": "ziggs_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:41:24.148708Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/ziggs_r/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:32.798889Z",
+        "description": "DDragon16.17.1 Ziggs.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 95000,
+          "3": 70000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "ziggs_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:32.798889Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_r/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:33.338565Z",
+        "description": "DDragon16.17.1 Ziggs.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "ziggs_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:33.338565Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/ziggs_r/formulas/center_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:25.196083Z",
+        "description": "中心区域资格外供。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "center_damage",
+        "gameId": "lol",
+        "name": "中心伤害",
+        "skillKey": "ziggs_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:41:25.196083Z"
+      }
+    },
+    {
+      "route": "/skills/ziggs_r/formulas/outer_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:26.227299Z",
+        "description": "同一目标在边缘时的0.65倍伤害，不能把区域分支删成多目标。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "outer_ring_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "outer_damage",
+        "gameId": "lol",
+        "name": "边缘伤害",
+        "skillKey": "ziggs_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:41:26.227299Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_p/parameters/kill_cooldown_reduction_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:28.157762Z",
+        "description": "客户端当前根绑定 DataValues.CooldownKillRefund 取索引1至1；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 3500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每击杀单位减少冷却（毫秒）",
+        "parameterKey": "kill_cooldown_reduction_ms",
+        "skillKey": "xerath_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:41:28.157762Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_p/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:29.150074Z",
+        "description": "当前正文每过16秒。",
+        "fixedValue": 16000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "法力澎湃冷却（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "xerath_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:41:29.150074Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_p/parameters/non_champion_mana_restore_level_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:30.325939Z",
+        "description": "原等级节点完整保留；起止等级、表索引、断点求值或取整未证，实际值必须外供，不能用端点猜整曲线。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "攻击非英雄的法力回复的实际等级项",
+        "parameterKey": "non_champion_mana_restore_level_value",
+        "skillKey": "xerath_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:41:30.325939Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_p/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:31.251Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "攻击英雄的法力回复固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "xerath_p",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:41:31.251Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_p/formulas/non_champion_mana_restore",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:32.273993Z",
+        "description": "原角色等级断点算法未证，实际等级基础回复外供；包括小兵、野怪和建筑，影响自身战前状态。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "PARAMETER",
+          "parameterKey": "non_champion_mana_restore_level_value"
+        },
+        "formulaKey": "non_champion_mana_restore",
+        "gameId": "lol",
+        "name": "攻击非英雄的法力回复",
+        "skillKey": "xerath_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:41:32.273993Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_p/formulas/champion_mana_restore",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:33.242286Z",
+        "description": "当前具名计算是非英雄回复量×2；不默认角色等级表。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_1"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "non_champion_mana_restore_level_value"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "champion_mana_restore",
+        "gameId": "lol",
+        "name": "攻击英雄的法力回复",
+        "skillKey": "xerath_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:41:33.242286Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_q/parameters/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:36.246968Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "xerath_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:41:36.246968Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_q/parameters/unreleased_refund_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:37.218896Z",
+        "description": "客户端当前根绑定 DataValues.ManaRefundFail 取索引1至5。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "未释放时返还实际消耗比例",
+        "parameterKey": "unreleased_refund_ratio",
+        "skillKey": "xerath_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:41:37.218896Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_q/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:38.132754Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.9,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "奥能脉冲伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "xerath_q",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:41:38.132754Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_q/parameters/actual_mana_spent",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:39.15921Z",
+        "description": "来源写返还一半消耗，须提供这次真实已扣金额，不默认用基础mana_cost代替。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "这次蓄力实际已消耗法力",
+        "parameterKey": "actual_mana_spent",
+        "skillKey": "xerath_q",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:41:39.15921Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_q/parameters/actual_self_slow_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:40.038663Z",
+        "description": "渐增算法/间隔未证，实际非负幅度外供，不按RampingSlow值推每秒。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "当前蓄力阶段实际自身减速比例",
+        "parameterKey": "actual_self_slow_ratio",
+        "skillKey": "xerath_q",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:41:40.038663Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_q/parameters/max_self_slow_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:41.355797Z",
+        "description": "当前正文明确至多50%。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身减速上限比例",
+        "parameterKey": "max_self_slow_ratio",
+        "skillKey": "xerath_q",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:41:41.355797Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_q/parameters/zero",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:42.420882Z",
+        "description": "减速幅度非负，用于上限公式边界，不是输入默认。",
+        "fixedValue": 0,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "幅度下限",
+        "parameterKey": "zero",
+        "skillKey": "xerath_q",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T06:41:42.420882Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_q/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:05.870798Z",
+        "description": "DDragon16.17.1 Xerath.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8000,
+          "3": 7000,
+          "4": 6000,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "xerath_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:05.870798Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_q/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:06.475536Z",
+        "description": "DDragon16.17.1 Xerath.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 90,
+          "3": 100,
+          "4": 110,
+          "5": 120
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "xerath_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:06:06.475536Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_q/formulas/damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:43.420044Z",
+        "description": "当前释放时伤害；不把蓄力时间当伤害倍率。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "奥能脉冲伤害",
+        "skillKey": "xerath_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:41:43.420044Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_q/formulas/unreleased_mana_refund",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:44.522181Z",
+        "description": "只在光束未释放时返还实际消耗的0.5。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_mana_spent"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "unreleased_refund_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "unreleased_mana_refund",
+        "gameId": "lol",
+        "name": "未释放时法力返还",
+        "skillKey": "xerath_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:41:44.522181Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_q/formulas/capped_self_slow_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:45.509634Z",
+        "description": "最终幅度夹在0至0.5；尚无确证减速合并区，不将它当普通移速加成减算。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_self_slow_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "zero"
+                }
+              ],
+              "operation": "MAX"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_self_slow_ratio"
+            }
+          ],
+          "operation": "MIN"
+        },
+        "formulaKey": "capped_self_slow_ratio",
+        "gameId": "lol",
+        "name": "含明确上限的自身减速比例",
+        "skillKey": "xerath_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:41:45.509634Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_w/parameters/cast_time_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:48.52031Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "xerath_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:41:48.52031Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_w/parameters/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:49.527748Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 85,
+          "3": 120,
+          "4": 155,
+          "5": 190
+        },
+        "name": "边缘基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "xerath_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:41:49.527748Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_w/parameters/center_damage_multiplier",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:50.484495Z",
+        "description": "客户端当前根绑定 DataValues.SweetSpotMultiplier 取索引1至5。",
+        "fixedValue": 1.667,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "中心伤害倍率",
+        "parameterKey": "center_damage_multiplier",
+        "skillKey": "xerath_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:41:50.484495Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_w/parameters/normal_slow_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:51.517128Z",
+        "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5。",
+        "fixedValue": 0.25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "普通减速比例",
+        "parameterKey": "normal_slow_ratio",
+        "skillKey": "xerath_w",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:41:51.517128Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_w/parameters/center_initial_slow_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:52.720577Z",
+        "description": "客户端当前根绑定 DataValues.SweetSpotSlowAmount 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0.6,
+          "2": 0.65,
+          "3": 0.7,
+          "4": 0.75,
+          "5": 0.8
+        },
+        "name": "中心初始减速比例",
+        "parameterKey": "center_initial_slow_ratio",
+        "skillKey": "xerath_w",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:41:52.720577Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_w/parameters/slow_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:53.798086Z",
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "减速持续时间（毫秒）",
+        "parameterKey": "slow_duration_ms",
+        "skillKey": "xerath_w",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:41:53.798086Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_w/parameters/damage_delay_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:54.915688Z",
+        "description": "客户端当前根绑定 DataValues.DamageDelay 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "原伤害延迟（毫秒）",
+        "parameterKey": "damage_delay_ms",
+        "skillKey": "xerath_w",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T06:41:54.915688Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_w/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:07.079532Z",
+        "description": "DDragon16.17.1 Xerath.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "xerath_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:07.079532Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_w/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:56.001711Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "普通伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "xerath_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T06:41:56.001711Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_w/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:07.568413Z",
+        "description": "DDragon16.17.1 Xerath.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 90,
+          "3": 100,
+          "4": 110,
+          "5": 120
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "xerath_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:06:07.568413Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_w/formulas/normal_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:57.01895Z",
+        "description": "非中心分支。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "normal_damage",
+        "gameId": "lol",
+        "name": "普通伤害",
+        "skillKey": "xerath_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:41:57.01895Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_w/formulas/center_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:41:58.021918Z",
+        "description": "严格乘当前1.667，不改成5/3。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "center_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "calculation_constant_1"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "center_damage",
+        "gameId": "lol",
+        "name": "中心伤害",
+        "skillKey": "xerath_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:41:58.021918Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_e/parameters/cast_time_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:00.050082Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "xerath_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:42:00.050082Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_e/parameters/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:01.098014Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 100,
+          "3": 130,
+          "4": 160,
+          "5": 190
+        },
+        "name": "基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "xerath_e",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:42:01.098014Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_e/parameters/min_stun_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:02.207359Z",
+        "description": "客户端当前根绑定 DataValues.MinStunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 750,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "晕眩下限（毫秒）",
+        "parameterKey": "min_stun_ms",
+        "skillKey": "xerath_e",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:42:02.207359Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_e/parameters/max_stun_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:03.196072Z",
+        "description": "客户端当前根绑定 DataValues.MaxStunDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 2250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "晕眩上限（毫秒）",
+        "parameterKey": "max_stun_ms",
+        "skillKey": "xerath_e",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:42:03.196072Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_e/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:04.261018Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.45,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "冲击法球伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "xerath_e",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:42:04.261018Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_e/parameters/confirmed_distance_stun_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:05.297289Z",
+        "description": "距离到时长的完整算法没有原计算树，实际已核毫秒数外供，不用字段名0.17和端点拼线性。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "实际距离对应晕眩时长（毫秒）",
+        "parameterKey": "confirmed_distance_stun_ms",
+        "skillKey": "xerath_e",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:42:05.297289Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_e/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:08.13438Z",
+        "description": "DDragon16.17.1 Xerath.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12500,
+          "3": 12000,
+          "4": 11500,
+          "5": 11000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "xerath_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:08.13438Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_e/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:08.600764Z",
+        "description": "DDragon16.17.1 Xerath.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "xerath_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:06:08.600764Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_e/formulas/damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:06.275076Z",
+        "description": "第一个实际命中目标。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "冲击法球伤害",
+        "skillKey": "xerath_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:42:06.275076Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_e/formulas/bounded_stun_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:07.359276Z",
+        "description": "当前正文至少0.75秒、至多2.25秒；最终夹限后用于后续控制配置。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "confirmed_distance_stun_ms"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "min_stun_ms"
+                }
+              ],
+              "operation": "MAX"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_stun_ms"
+            }
+          ],
+          "operation": "MIN"
+        },
+        "formulaKey": "bounded_stun_ms",
+        "gameId": "lol",
+        "name": "含当前上下限的晕眩时长（毫秒）",
+        "skillKey": "xerath_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:42:07.359276Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/cast_time_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:09.850844Z",
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "fixedValue": 0,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "xerath_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:42:09.850844Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:10.844368Z",
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 170,
+          "2": 220,
+          "3": 270
+        },
+        "name": "每次炮击基础伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "xerath_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T06:42:10.844368Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/ramp_base_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:11.897686Z",
+        "description": "客户端当前根绑定 DataValues.RampBaseDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20,
+          "2": 25,
+          "3": 30
+        },
+        "name": "每次有效英雄命中额外基础伤害",
+        "parameterKey": "ramp_base_damage",
+        "skillKey": "xerath_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T06:42:11.897686Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:12.877889Z",
+        "description": "客户端当前根绑定 DataValues.Duration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 10000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "引导时长（毫秒）",
+        "parameterKey": "duration_ms",
+        "skillKey": "xerath_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T06:42:12.877889Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/maximum_shots",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:13.879782Z",
+        "description": "客户端当前根绑定 DataValues.NumberOfShots 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 4,
+          "2": 5,
+          "3": 6
+        },
+        "name": "本次R最多炮击次数",
+        "parameterKey": "maximum_shots",
+        "skillKey": "xerath_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T06:42:13.879782Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/between_shots_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:14.865823Z",
+        "description": "客户端当前根绑定 DataValues.CDPerShot 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+        "fixedValue": 600,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "炮击间隔（毫秒）",
+        "parameterKey": "between_shots_ms",
+        "skillKey": "xerath_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T06:42:14.865823Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/unused_cooldown_reduction_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:15.863726Z",
+        "description": "客户端当前根绑定 DataValues.FailCastRefund 取索引1至3。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "完全未再次施放时冷却降低比例",
+        "parameterKey": "unused_cooldown_reduction_ratio",
+        "skillKey": "xerath_r",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T06:42:15.863726Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/calculation_constant_1",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:17.08993Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.45,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "单次未叠加炮击伤害固定系数",
+        "parameterKey": "calculation_constant_1",
+        "skillKey": "xerath_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T06:42:17.08993Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:09.025766Z",
+        "description": "DDragon16.17.1 Xerath.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 130000,
+          "2": 115000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "xerath_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:06:09.025766Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:06:09.581467Z",
+        "description": "DDragon16.17.1 Xerath.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "xerath_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:06:09.581467Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/calculation_constant_2",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:18.128472Z",
+        "description": "当前原计算树显式常数；只用于此数学表达式。",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "每次有效英雄命中额外伤害固定系数",
+        "parameterKey": "calculation_constant_2",
+        "skillKey": "xerath_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-09T06:42:18.128472Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/actual_recasts",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:19.072603Z",
+        "description": "整数非负，实际由本次R提供，不默认打满弹药。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次实际再次施放次数",
+        "parameterKey": "actual_recasts",
+        "skillKey": "xerath_r",
+        "sortOrder": 120,
+        "updatedAt": "2026-09-09T06:42:19.072603Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/parameters/zero",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:20.04985Z",
+        "description": "计数下限，不是输入默认。",
+        "fixedValue": 0,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "次数下限",
+        "parameterKey": "zero",
+        "skillKey": "xerath_r",
+        "sortOrder": 130,
+        "updatedAt": "2026-09-09T06:42:20.04985Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/formulas/base_shot_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:21.023644Z",
+        "description": "每次基础伤害，不把全部弹药相乘当必然命中。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_1"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "base_shot_damage",
+        "gameId": "lol",
+        "name": "单次未叠加炮击伤害",
+        "skillKey": "xerath_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T06:42:21.023644Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/formulas/extra_champion_hit_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:22.105463Z",
+        "description": "额外部分是20/25/30+0.05AP；实际累计、同次或下次适用与目标关系留待核。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ramp_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_2"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "extra_champion_hit_damage",
+        "gameId": "lol",
+        "name": "每次有效英雄命中额外伤害",
+        "skillKey": "xerath_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T06:42:22.105463Z"
+      }
+    },
+    {
+      "route": "/skills/xerath_r/formulas/capped_recasts",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T06:42:23.163769Z",
+        "description": "本次最多4/5/6次；上限进入最终数值，不只写说明。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_recasts"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "zero"
+                }
+              ],
+              "operation": "MAX"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "maximum_shots"
+            }
+          ],
+          "operation": "MIN"
+        },
+        "formulaKey": "capped_recasts",
+        "gameId": "lol",
+        "name": "受本次上限约束的实际炮击次数",
+        "skillKey": "xerath_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T06:42:23.163769Z"
+      }
+    }
+  ],
+  "apiWrites": 0,
+  "inputFile": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十四批/实值核算记录/2026-09-09T06-44-07-524Z/实际核算输入.json",
+  "resultFile": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十四批/实值核算记录/2026-09-09T06-44-07-524Z/独立数学结果.json",
+  "math": {
+    "checks": 1132,
+    "sourceCases": 102,
+    "manualCases": 52,
+    "failures": []
+  },
+  "success": true,
+  "inputSha256": "6f2b017f501e15d594ba4f50395ba69f640717262e31588ac6e9d1492a5071c1",
+  "resultSha256": "14dcca1c96d3c1a46b6f361dd41d1d6e72dfc48fc7631d7fa1a9ed1ea941054f",
+  "completedAt": "2026-09-09T06:44:18.736Z"
+}

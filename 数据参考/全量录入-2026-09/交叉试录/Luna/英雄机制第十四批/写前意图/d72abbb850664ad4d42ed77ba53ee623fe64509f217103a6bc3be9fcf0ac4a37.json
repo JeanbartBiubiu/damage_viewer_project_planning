@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T06:41:10.147Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/ziggs_e/parameters/mana_cost",
+  "id": "mana_cost",
+  "method": "POST",
+  "body": {
+    "parameterKey": "mana_cost",
+    "name": "基础法力消耗",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 70,
+      "2": 80,
+      "3": 90,
+      "4": 100,
+      "5": 110
+    },
+    "description": "官方cost与当前根manaValues逐级一致；不含额外持续资源。",
+    "sortOrder": 20
+  }
+}

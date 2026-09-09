@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T06:40:00.519Z",
+  "candidateFileSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+  "route": "/skills/kennen_r/parameters/bonus_resistances",
+  "id": "bonus_resistances",
+  "method": "POST",
+  "body": {
+    "parameterKey": "bonus_resistances",
+    "name": "护甲与魔抗增加",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 25,
+      "2": 50,
+      "3": 75
+    },
+    "description": "客户端当前根绑定 DataValues.KennenRDefenses 取索引1至3。",
+    "sortOrder": 70
+  }
+}
