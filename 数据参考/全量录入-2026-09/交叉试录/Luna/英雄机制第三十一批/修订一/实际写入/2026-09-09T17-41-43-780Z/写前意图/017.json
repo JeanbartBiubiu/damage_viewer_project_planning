@@ -1,0 +1,43 @@
+{
+  "i": 16,
+  "intent": {
+    "sequence": 17,
+    "method": "POST",
+    "route": "/skills/janna_q/formulas",
+    "detailRoute": "/skills/janna_q/formulas/maximum_knockup_seconds",
+    "skillKey": "janna_q",
+    "kind": "formulas",
+    "stableKey": "maximum_knockup_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "maximum_knockup_seconds",
+      "name": "飓风呼啸满蓄力击飞时间",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_knockup_seconds"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_charge_duration_seconds"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "charged_knockup_per_second_seconds"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "MaxKnockup = BaseKnockup + MaxDuration×ChargeKnockup；当前mPrecision=2只为显示精度。",
+      "sortOrder": 40
+    }
+  }
+}

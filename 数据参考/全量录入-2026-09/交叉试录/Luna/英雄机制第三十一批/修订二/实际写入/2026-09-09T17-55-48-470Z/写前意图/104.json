@@ -1,0 +1,23 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "method": "POST",
+    "route": "/skills/nami_p/parameters",
+    "detailRoute": "/skills/nami_p/parameters/buff_duration_ms",
+    "skillKey": "nami_p",
+    "kind": "parameters",
+    "stableKey": "buff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "buff_duration_ms",
+      "name": "踏浪之行持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "客户端BuffDuration为1.5秒，转换为1500毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "method": "POST",
+    "route": "/skills/janna_r/parameters",
+    "detailRoute": "/skills/janna_r/parameters/knockback_speed",
+    "skillKey": "janna_r",
+    "kind": "parameters",
+    "stableKey": "knockback_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockback_speed",
+      "name": "击退速度",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1200,
+      "levelValues": null,
+      "description": "客户端KnockbackSpeed按等级索引1取1200；只作来源参数。",
+      "sortOrder": 70
+    }
+  }
+}

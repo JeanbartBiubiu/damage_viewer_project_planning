@@ -1,0 +1,23 @@
+{
+  "i": 174,
+  "intent": {
+    "sequence": 175,
+    "method": "POST",
+    "route": "/skills/morgana_r/parameters",
+    "detailRoute": "/skills/morgana_r/parameters/slow_percent_points",
+    "skillKey": "morgana_r",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 20,
+      "levelValues": null,
+      "description": "客户端SlowPercent为20；控制效果仅作来源参数。",
+      "sortOrder": 50
+    }
+  }
+}

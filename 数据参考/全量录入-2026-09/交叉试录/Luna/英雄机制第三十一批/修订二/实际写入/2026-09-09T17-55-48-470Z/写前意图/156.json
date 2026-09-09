@@ -1,0 +1,23 @@
+{
+  "i": 155,
+  "intent": {
+    "sequence": 156,
+    "method": "POST",
+    "route": "/skills/morgana_w/parameters",
+    "detailRoute": "/skills/morgana_w/parameters/ap_ratio",
+    "skillKey": "morgana_w",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "客户端TotalMinDamage树消费BaseApRatio=0.2×来源总法强；字段大小写差异不改变绑定关系。",
+      "sortOrder": 20
+    }
+  }
+}

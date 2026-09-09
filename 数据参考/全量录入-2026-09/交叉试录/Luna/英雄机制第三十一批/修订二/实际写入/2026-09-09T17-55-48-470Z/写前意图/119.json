@@ -1,0 +1,23 @@
+{
+  "i": 118,
+  "intent": {
+    "sequence": 119,
+    "method": "POST",
+    "route": "/skills/nami_w/parameters",
+    "detailRoute": "/skills/nami_w/parameters/max_targets",
+    "skillKey": "nami_w",
+    "kind": "parameters",
+    "stableKey": "max_targets",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_targets",
+      "name": "最多不同目标数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "客户端MaxTargets为3；本轮一对一实际最多自身和唯一敌人两个不同目标，不能把3当必达总跳数。",
+      "sortOrder": 70
+    }
+  }
+}

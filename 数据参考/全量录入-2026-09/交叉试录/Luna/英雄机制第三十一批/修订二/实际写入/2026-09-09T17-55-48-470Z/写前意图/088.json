@@ -1,0 +1,23 @@
+{
+  "i": 87,
+  "intent": {
+    "sequence": 88,
+    "method": "POST",
+    "route": "/skills/lulu_e/parameters",
+    "detailRoute": "/skills/lulu_e/parameters/pix_enemy_duration_ms",
+    "skillKey": "lulu_e",
+    "kind": "parameters",
+    "stableKey": "pix_enemy_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "pix_enemy_duration_ms",
+      "name": "皮克斯敌方附着持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "客户端PixOnEnemyDuration按等级索引1取4秒，转换为4000毫秒；只作来源参数。",
+      "sortOrder": 70
+    }
+  }
+}

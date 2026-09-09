@@ -1,0 +1,97 @@
+{
+  "i": 125,
+  "intent": {
+    "sequence": 126,
+    "method": "POST",
+    "route": "/skills/nami_w/formulas",
+    "detailRoute": "/skills/nami_w/formulas/bounced_heal",
+    "skillKey": "nami_w",
+    "kind": "formulas",
+    "stableKey": "bounced_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "bounced_heal",
+      "name": "冲击之潮第二目标自身治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_heal"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_points_to_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bounce_base_percent_points"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "bounce_ap_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "ability_power",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "第二目标治疗 = 首个治疗×(1+BounceScaling)；接口公式只能引用参数，故内联首段和弹跳修正；不创建直接治疗结果。",
+      "sortOrder": 50
+    }
+  }
+}

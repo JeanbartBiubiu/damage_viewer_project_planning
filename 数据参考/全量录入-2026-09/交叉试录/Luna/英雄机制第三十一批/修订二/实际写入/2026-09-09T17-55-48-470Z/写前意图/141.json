@@ -1,0 +1,23 @@
+{
+  "i": 140,
+  "intent": {
+    "sequence": 141,
+    "method": "POST",
+    "route": "/skills/nami_r/parameters",
+    "detailRoute": "/skills/nami_r/parameters/passive_update_area_length",
+    "skillKey": "nami_r",
+    "kind": "parameters",
+    "stableKey": "passive_update_area_length",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_update_area_length",
+      "name": "被动更新范围长度",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 200,
+      "levelValues": null,
+      "description": "客户端PassiveUpdateAreaLength为200；只作来源参数。",
+      "sortOrder": 30
+    }
+  }
+}

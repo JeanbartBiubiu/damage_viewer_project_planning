@@ -1,0 +1,55 @@
+{
+  "i": 30,
+  "intent": {
+    "sequence": 31,
+    "method": "POST",
+    "route": "/skills/janna_w/formulas",
+    "detailRoute": "/skills/janna_w/formulas/total_slow_ratio",
+    "skillKey": "janna_w",
+    "kind": "formulas",
+    "stableKey": "total_slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_slow_ratio",
+      "name": "和风守护减速比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_points_to_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "slow_percent_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "slow_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalSlow = 0.01×(SlowPercent + SlowAPRatio×来源总法强)。",
+      "sortOrder": 30
+    }
+  }
+}

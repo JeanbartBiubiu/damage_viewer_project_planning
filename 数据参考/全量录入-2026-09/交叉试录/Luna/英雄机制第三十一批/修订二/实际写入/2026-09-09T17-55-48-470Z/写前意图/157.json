@@ -1,0 +1,23 @@
+{
+  "i": 156,
+  "intent": {
+    "sequence": 157,
+    "method": "POST",
+    "route": "/skills/morgana_w/parameters",
+    "detailRoute": "/skills/morgana_w/parameters/tick_interval_ms",
+    "skillKey": "morgana_w",
+    "kind": "parameters",
+    "stableKey": "tick_interval_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tick_interval_ms",
+      "name": "持续伤害间隔（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "客户端TickRate为0.5秒，转换为500毫秒；每秒伤害与每跳结算仍分开。",
+      "sortOrder": 30
+    }
+  }
+}

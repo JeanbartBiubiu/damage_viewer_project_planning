@@ -1,0 +1,23 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "method": "POST",
+    "route": "/skills/nami_r/parameters",
+    "detailRoute": "/skills/nami_r/parameters/knockup_duration_ms",
+    "skillKey": "nami_r",
+    "kind": "parameters",
+    "stableKey": "knockup_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockup_duration_ms",
+      "name": "击飞持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "客户端KnockupDuration为0.5秒，转换为500毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

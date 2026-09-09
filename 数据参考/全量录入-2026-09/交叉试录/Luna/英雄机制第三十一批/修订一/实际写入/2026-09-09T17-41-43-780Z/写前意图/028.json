@@ -1,0 +1,23 @@
+{
+  "i": 27,
+  "intent": {
+    "sequence": 28,
+    "method": "POST",
+    "route": "/skills/janna_w/parameters",
+    "detailRoute": "/skills/janna_w/parameters/actual_bonus_move_speed",
+    "skillKey": "janna_w",
+    "kind": "parameters",
+    "stableKey": "actual_bonus_move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_bonus_move_speed",
+      "name": "当前额外移动速度点数",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "W正文消费P的BonusDamage；mStat=7、mStatFormula=2的当前额外移动速度点数没有冻结实值，不设默认。",
+      "sortOrder": 100
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "i": 176,
+  "intent": {
+    "sequence": 177,
+    "method": "POST",
+    "route": "/skills/morgana_r/formulas",
+    "detailRoute": "/skills/morgana_r/formulas/magic_damage",
+    "skillKey": "morgana_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "灵魂镣铐单次唯一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage = Damage + 0.8×来源总法强；同一锁链的后续命中仍由事件层决定是否再次消费。",
+      "sortOrder": 10
+    }
+  }
+}

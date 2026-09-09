@@ -1,0 +1,29 @@
+{
+  "i": 129,
+  "intent": {
+    "sequence": 130,
+    "method": "POST",
+    "route": "/skills/nami_e/parameters",
+    "detailRoute": "/skills/nami_e/parameters/slow_percent_points",
+    "skillKey": "nami_e",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "附加减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15,
+        "2": 20,
+        "3": 25,
+        "4": 30,
+        "5": 35
+      },
+      "description": "客户端DataValues.BaseSlow取索引1至5；TotalSlow根树再乘0.01。",
+      "sortOrder": 30
+    }
+  }
+}

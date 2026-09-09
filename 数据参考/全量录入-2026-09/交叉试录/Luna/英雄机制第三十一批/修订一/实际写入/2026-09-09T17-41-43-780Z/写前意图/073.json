@@ -1,0 +1,29 @@
+{
+  "i": 72,
+  "intent": {
+    "sequence": 73,
+    "method": "POST",
+    "route": "/skills/lulu_w/parameters",
+    "detailRoute": "/skills/lulu_w/parameters/polymorph_duration_ms",
+    "skillKey": "lulu_w",
+    "kind": "parameters",
+    "stableKey": "polymorph_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "polymorph_duration_ms",
+      "name": "敌方变形持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1200,
+        "2": 1400,
+        "3": 1600,
+        "4": 1800,
+        "5": 2000
+      },
+      "description": "客户端CCDuration取索引1至5，单位秒转换为1200/1400/1600/1800/2000毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

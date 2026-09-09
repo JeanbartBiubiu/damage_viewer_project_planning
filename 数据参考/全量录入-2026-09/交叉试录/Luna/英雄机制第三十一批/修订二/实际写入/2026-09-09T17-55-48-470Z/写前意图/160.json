@@ -1,0 +1,23 @@
+{
+  "i": 159,
+  "intent": {
+    "sequence": 160,
+    "method": "POST",
+    "route": "/skills/morgana_w/parameters",
+    "detailRoute": "/skills/morgana_w/parameters/passive_heal_cooldown_refund_ratio",
+    "skillKey": "morgana_w",
+    "kind": "parameters",
+    "stableKey": "passive_heal_cooldown_refund_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_heal_cooldown_refund_ratio",
+      "name": "被动治疗后W冷却返还比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.05,
+      "levelValues": null,
+      "description": "当前正文明确莫甘娜被P治疗时W冷却减少5%；只保留条件参数，不创建无条件冷却效果。",
+      "sortOrder": 60
+    }
+  }
+}

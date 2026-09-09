@@ -1,0 +1,87 @@
+{
+  "i": 15,
+  "intent": {
+    "sequence": 16,
+    "method": "POST",
+    "route": "/skills/janna_q/formulas",
+    "detailRoute": "/skills/janna_q/formulas/maximum_magic_damage",
+    "skillKey": "janna_q",
+    "kind": "formulas",
+    "stableKey": "maximum_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "maximum_magic_damage",
+      "name": "飓风呼啸满蓄力魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "minimum_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_charge_duration_seconds"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "charged_damage_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "charged_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "MaxDamage = MinimumDamage + MaxDuration×ExtraDamagePerSecondCharged；接口公式只能引用参数，故将两棵来源子树完整内联并保持二元结构。",
+      "sortOrder": 30
+    }
+  }
+}

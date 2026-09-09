@@ -1,0 +1,27 @@
+{
+  "i": 175,
+  "intent": {
+    "sequence": 176,
+    "method": "POST",
+    "route": "/skills/morgana_r/parameters",
+    "detailRoute": "/skills/morgana_r/parameters/self_haste_percent_points",
+    "skillKey": "morgana_r",
+    "kind": "parameters",
+    "stableKey": "self_haste_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_haste_percent_points",
+      "name": "自身移速加成百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 40,
+        "3": 60
+      },
+      "description": "客户端HastePercent取索引1至3，得到20/40/60；索引0为占位0。",
+      "sortOrder": 60
+    }
+  }
+}

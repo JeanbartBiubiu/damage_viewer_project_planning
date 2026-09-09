@@ -1,0 +1,23 @@
+{
+  "i": 26,
+  "intent": {
+    "sequence": 27,
+    "method": "POST",
+    "route": "/skills/janna_w/parameters",
+    "detailRoute": "/skills/janna_w/parameters/tailwind_bonus_damage_ratio",
+    "skillKey": "janna_w",
+    "kind": "parameters",
+    "stableKey": "tailwind_bonus_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tailwind_bonus_damage_ratio",
+      "name": "顺风而行额外魔法伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "当前W正文明确TotalDamage之外再加TailwindSelf:BonusDamage；此处保留P树的0.3比例，额外移动速度点数由W自身无默认运行输入提供，恰好计一次。",
+      "sortOrder": 90
+    }
+  }
+}

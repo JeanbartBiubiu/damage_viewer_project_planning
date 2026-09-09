@@ -1,0 +1,23 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 106,
+    "method": "POST",
+    "route": "/skills/nami_p/parameters",
+    "detailRoute": "/skills/nami_p/parameters/ability_power_ratio",
+    "skillKey": "nami_p",
+    "kind": "parameters",
+    "stableKey": "ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ability_power_ratio",
+      "name": "移动速度法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "TotalMSBonus树的StatByCoefficient系数为0.25×来源总法强；属性选择器为同版窄口径。",
+      "sortOrder": 40
+    }
+  }
+}

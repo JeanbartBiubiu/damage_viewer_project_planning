@@ -1,0 +1,29 @@
+{
+  "i": 164,
+  "intent": {
+    "sequence": 165,
+    "method": "POST",
+    "route": "/skills/morgana_e/parameters",
+    "detailRoute": "/skills/morgana_e/parameters/base_shield",
+    "skillKey": "morgana_e",
+    "kind": "parameters",
+    "stableKey": "base_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_shield",
+      "name": "基础魔法护盾值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 155,
+        "3": 210,
+        "4": 265,
+        "5": 320
+      },
+      "description": "客户端DataValues.ShieldStrength取索引1至5；索引0为旧占位45。",
+      "sortOrder": 10
+    }
+  }
+}

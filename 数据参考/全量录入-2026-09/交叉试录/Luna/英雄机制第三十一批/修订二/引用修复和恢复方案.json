@@ -1,0 +1,835 @@
+{
+  "at": "2026-09-09T17:54:42.333Z",
+  "changedPath": "skills.lulu_w.write.effects.self_attack_speed.results[0].valueRule.value",
+  "before": {
+    "kind": "FORMULA",
+    "formulaKey": "attack_speed_bonus_ratio"
+  },
+  "after": {
+    "kind": "PARAMETER",
+    "parameterKey": "attack_speed_bonus_ratio"
+  },
+  "reason": "实际定义是参数，效果须使用参数引用；接口400已阻止错误保存。",
+  "oldExecution": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero31-luna-candidate\\修订一\\实际写入\\2026-09-09T17-41-43-780Z/执行结果.json",
+  "oldExecutionSha256": "21c33d3336432fd8eee58a29ef9762b4a358da66778c8d7b2fe6e36d13f882b0",
+  "previouslySaved": [
+    "/skills/janna_p/parameters/bonus_move_speed_damage_ratio",
+    "/skills/janna_p/parameters/actual_bonus_move_speed",
+    "/skills/janna_p/formulas/bonus_magic_damage",
+    "/skills/janna_q/parameters/base_damage",
+    "/skills/janna_q/parameters/minimum_ap_ratio",
+    "/skills/janna_q/parameters/charged_damage_base",
+    "/skills/janna_q/parameters/charged_ap_ratio",
+    "/skills/janna_q/parameters/max_charge_duration_seconds",
+    "/skills/janna_q/parameters/base_knockup_seconds",
+    "/skills/janna_q/parameters/charged_knockup_per_second_seconds",
+    "/skills/janna_q/parameters/base_range",
+    "/skills/janna_q/parameters/charge_distance_percent_points",
+    "/skills/janna_q/parameters/missile_travel_time_ms",
+    "/skills/janna_q/formulas/minimum_magic_damage",
+    "/skills/janna_q/formulas/charged_magic_damage_per_second",
+    "/skills/janna_q/formulas/maximum_magic_damage",
+    "/skills/janna_q/formulas/maximum_knockup_seconds",
+    "/skills/janna_q/effects/mana_cost",
+    "/skills/janna_w/parameters/movement_speed_ratio",
+    "/skills/janna_w/parameters/base_damage",
+    "/skills/janna_w/parameters/ap_ratio",
+    "/skills/janna_w/parameters/slow_duration_ms",
+    "/skills/janna_w/parameters/slow_percent_points",
+    "/skills/janna_w/parameters/movement_speed_ap_ratio",
+    "/skills/janna_w/parameters/slow_ap_ratio",
+    "/skills/janna_w/parameters/percent_points_to_ratio",
+    "/skills/janna_w/parameters/tailwind_bonus_damage_ratio",
+    "/skills/janna_w/parameters/actual_bonus_move_speed",
+    "/skills/janna_w/formulas/total_move_speed_ratio",
+    "/skills/janna_w/formulas/total_magic_damage",
+    "/skills/janna_w/formulas/total_slow_ratio",
+    "/skills/janna_w/effects/mana_cost",
+    "/skills/janna_w/effects/self_move_speed",
+    "/skills/janna_e/parameters/cc_cooldown_refund_ratio",
+    "/skills/janna_e/parameters/empower_duration_ms",
+    "/skills/janna_e/parameters/decay_grace_period_ms",
+    "/skills/janna_e/parameters/base_shield",
+    "/skills/janna_e/parameters/shield_ap_ratio",
+    "/skills/janna_e/parameters/bonus_attack_damage",
+    "/skills/janna_e/parameters/attack_damage_ap_ratio",
+    "/skills/janna_e/parameters/shield_duration_ms",
+    "/skills/janna_e/formulas/total_shield",
+    "/skills/janna_e/formulas/total_attack_damage_bonus",
+    "/skills/janna_e/effects/mana_cost",
+    "/skills/janna_e/effects/self_shield",
+    "/skills/janna_r/parameters/heal_base_per_second",
+    "/skills/janna_r/parameters/heal_ap_ratio",
+    "/skills/janna_r/parameters/heal_duration_seconds",
+    "/skills/janna_r/parameters/heal_range",
+    "/skills/janna_r/parameters/max_knockback_distance",
+    "/skills/janna_r/parameters/knockback_base_range",
+    "/skills/janna_r/parameters/knockback_speed",
+    "/skills/janna_r/parameters/knockback_gravity",
+    "/skills/janna_r/parameters/knockback_duration_ms",
+    "/skills/janna_r/formulas/heal_per_second",
+    "/skills/janna_r/formulas/total_heal",
+    "/skills/janna_r/effects/mana_cost",
+    "/skills/lulu_p/parameters/bolts_per_attack",
+    "/skills/lulu_p/parameters/ap_ratio_per_bolt",
+    "/skills/lulu_p/parameters/actual_character_level_base_damage",
+    "/skills/lulu_p/formulas/single_bolt_magic_damage",
+    "/skills/lulu_p/formulas/combined_magic_damage",
+    "/skills/lulu_q/parameters/base_damage",
+    "/skills/lulu_q/parameters/ap_ratio",
+    "/skills/lulu_q/parameters/second_bolt_bonus_ratio",
+    "/skills/lulu_q/parameters/slow_ratio",
+    "/skills/lulu_q/parameters/slow_duration_ms",
+    "/skills/lulu_q/parameters/slow_decay_ticks",
+    "/skills/lulu_q/formulas/magic_damage",
+    "/skills/lulu_q/formulas/second_bolt_bonus_magic_damage",
+    "/skills/lulu_q/effects/mana_cost",
+    "/skills/lulu_w/parameters/base_move_speed_ratio",
+    "/skills/lulu_w/parameters/polymorph_duration_ms",
+    "/skills/lulu_w/parameters/slow_percent_points",
+    "/skills/lulu_w/parameters/ally_buff_duration_ms",
+    "/skills/lulu_w/parameters/attack_speed_bonus_ratio",
+    "/skills/lulu_w/parameters/move_speed_ap_ratio",
+    "/skills/lulu_w/formulas/ally_move_speed_ratio",
+    "/skills/lulu_w/effects/mana_cost",
+    "/skills/lulu_w/effects/self_move_speed"
+  ],
+  "priorSuccessfulPOSTs": 80,
+  "priorRejectedPOSTs": 1,
+  "remainingPOSTs": 98,
+  "allPlannedPOSTs": 178,
+  "refsChecked": 121,
+  "refs": [
+    {
+      "skillKey": "janna_p",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "bonus_move_speed_damage_ratio"
+    },
+    {
+      "skillKey": "janna_p",
+      "path": "write.formulas.0.expression.operands.1",
+      "kind": "PARAMETER",
+      "key": "actual_bonus_move_speed"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "minimum_ap_ratio"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.formulas.1.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "charged_damage_base"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.formulas.1.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "charged_ap_ratio"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.formulas.2.expression.operands.0.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.formulas.2.expression.operands.0.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "minimum_ap_ratio"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.formulas.2.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "max_charge_duration_seconds"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.formulas.2.expression.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "charged_damage_base"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.formulas.2.expression.operands.1.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "charged_ap_ratio"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.formulas.3.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_knockup_seconds"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.formulas.3.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "max_charge_duration_seconds"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.formulas.3.expression.operands.1.operands.1",
+      "kind": "PARAMETER",
+      "key": "charged_knockup_per_second_seconds"
+    },
+    {
+      "skillKey": "janna_q",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "janna_w",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "movement_speed_ratio"
+    },
+    {
+      "skillKey": "janna_w",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "movement_speed_ap_ratio"
+    },
+    {
+      "skillKey": "janna_w",
+      "path": "write.formulas.1.expression.operands.0.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "janna_w",
+      "path": "write.formulas.1.expression.operands.0.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "ap_ratio"
+    },
+    {
+      "skillKey": "janna_w",
+      "path": "write.formulas.1.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "tailwind_bonus_damage_ratio"
+    },
+    {
+      "skillKey": "janna_w",
+      "path": "write.formulas.1.expression.operands.1.operands.1",
+      "kind": "PARAMETER",
+      "key": "actual_bonus_move_speed"
+    },
+    {
+      "skillKey": "janna_w",
+      "path": "write.formulas.2.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "percent_points_to_ratio"
+    },
+    {
+      "skillKey": "janna_w",
+      "path": "write.formulas.2.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "slow_percent_points"
+    },
+    {
+      "skillKey": "janna_w",
+      "path": "write.formulas.2.expression.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "slow_ap_ratio"
+    },
+    {
+      "skillKey": "janna_w",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "janna_w",
+      "path": "write.effects.1.results.0.valueRule.value",
+      "kind": "FORMULA",
+      "key": "total_move_speed_ratio"
+    },
+    {
+      "skillKey": "janna_e",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_shield"
+    },
+    {
+      "skillKey": "janna_e",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "shield_ap_ratio"
+    },
+    {
+      "skillKey": "janna_e",
+      "path": "write.formulas.1.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "bonus_attack_damage"
+    },
+    {
+      "skillKey": "janna_e",
+      "path": "write.formulas.1.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "attack_damage_ap_ratio"
+    },
+    {
+      "skillKey": "janna_e",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "janna_e",
+      "path": "write.effects.1.lifecycle.durationValue",
+      "kind": "PARAMETER",
+      "key": "shield_duration_ms"
+    },
+    {
+      "skillKey": "janna_e",
+      "path": "write.effects.1.results.0.valueRule.value",
+      "kind": "FORMULA",
+      "key": "total_shield"
+    },
+    {
+      "skillKey": "janna_r",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "heal_base_per_second"
+    },
+    {
+      "skillKey": "janna_r",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "heal_ap_ratio"
+    },
+    {
+      "skillKey": "janna_r",
+      "path": "write.formulas.1.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "heal_duration_seconds"
+    },
+    {
+      "skillKey": "janna_r",
+      "path": "write.formulas.1.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "heal_base_per_second"
+    },
+    {
+      "skillKey": "janna_r",
+      "path": "write.formulas.1.expression.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "heal_ap_ratio"
+    },
+    {
+      "skillKey": "janna_r",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "lulu_p",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "actual_character_level_base_damage"
+    },
+    {
+      "skillKey": "lulu_p",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "ap_ratio_per_bolt"
+    },
+    {
+      "skillKey": "lulu_p",
+      "path": "write.formulas.1.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "bolts_per_attack"
+    },
+    {
+      "skillKey": "lulu_p",
+      "path": "write.formulas.1.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "actual_character_level_base_damage"
+    },
+    {
+      "skillKey": "lulu_p",
+      "path": "write.formulas.1.expression.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "ap_ratio_per_bolt"
+    },
+    {
+      "skillKey": "lulu_q",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "lulu_q",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "ap_ratio"
+    },
+    {
+      "skillKey": "lulu_q",
+      "path": "write.formulas.1.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "second_bolt_bonus_ratio"
+    },
+    {
+      "skillKey": "lulu_q",
+      "path": "write.formulas.1.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "lulu_q",
+      "path": "write.formulas.1.expression.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "ap_ratio"
+    },
+    {
+      "skillKey": "lulu_q",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "lulu_w",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_move_speed_ratio"
+    },
+    {
+      "skillKey": "lulu_w",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "move_speed_ap_ratio"
+    },
+    {
+      "skillKey": "lulu_w",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "lulu_w",
+      "path": "write.effects.1.lifecycle.durationValue",
+      "kind": "PARAMETER",
+      "key": "ally_buff_duration_ms"
+    },
+    {
+      "skillKey": "lulu_w",
+      "path": "write.effects.1.results.0.valueRule.value",
+      "kind": "FORMULA",
+      "key": "ally_move_speed_ratio"
+    },
+    {
+      "skillKey": "lulu_w",
+      "path": "write.effects.2.lifecycle.durationValue",
+      "kind": "PARAMETER",
+      "key": "ally_buff_duration_ms"
+    },
+    {
+      "skillKey": "lulu_w",
+      "path": "write.effects.2.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "attack_speed_bonus_ratio"
+    },
+    {
+      "skillKey": "lulu_e",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "lulu_e",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "damage_ap_ratio"
+    },
+    {
+      "skillKey": "lulu_e",
+      "path": "write.formulas.1.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_shield"
+    },
+    {
+      "skillKey": "lulu_e",
+      "path": "write.formulas.1.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "shield_ap_ratio"
+    },
+    {
+      "skillKey": "lulu_e",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "lulu_e",
+      "path": "write.effects.1.lifecycle.durationValue",
+      "kind": "PARAMETER",
+      "key": "shield_duration_ms"
+    },
+    {
+      "skillKey": "lulu_e",
+      "path": "write.effects.1.results.0.valueRule.value",
+      "kind": "FORMULA",
+      "key": "shield_value"
+    },
+    {
+      "skillKey": "lulu_r",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "bonus_health"
+    },
+    {
+      "skillKey": "lulu_r",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "bonus_health_ap_ratio"
+    },
+    {
+      "skillKey": "lulu_r",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "lulu_r",
+      "path": "write.effects.1.lifecycle.durationValue",
+      "kind": "PARAMETER",
+      "key": "buff_duration_ms"
+    },
+    {
+      "skillKey": "lulu_r",
+      "path": "write.effects.1.results.0.valueRule.value",
+      "kind": "FORMULA",
+      "key": "bonus_health_value"
+    },
+    {
+      "skillKey": "nami_p",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "flat_move_speed"
+    },
+    {
+      "skillKey": "nami_p",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "ability_power_ratio"
+    },
+    {
+      "skillKey": "nami_q",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "nami_q",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "ap_ratio"
+    },
+    {
+      "skillKey": "nami_q",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "damage_ap_ratio"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.1.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_heal"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.1.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "heal_ap_ratio"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.2.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "percent_points_to_ratio"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.2.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "bounce_base_percent_points"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.2.expression.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "bounce_ap_ratio"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.3.expression.operands.0.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.3.expression.operands.0.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "damage_ap_ratio"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.3.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "one_ratio"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.3.expression.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "percent_points_to_ratio"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.3.expression.operands.1.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "bounce_base_percent_points"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.3.expression.operands.1.operands.1.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "bounce_ap_ratio"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.4.expression.operands.0.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_heal"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.4.expression.operands.0.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "heal_ap_ratio"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.4.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "one_ratio"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.4.expression.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "percent_points_to_ratio"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.4.expression.operands.1.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "bounce_base_percent_points"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.formulas.4.expression.operands.1.operands.1.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "bounce_ap_ratio"
+    },
+    {
+      "skillKey": "nami_w",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "nami_e",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "nami_e",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "damage_ap_ratio"
+    },
+    {
+      "skillKey": "nami_e",
+      "path": "write.formulas.1.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "percent_points_to_ratio"
+    },
+    {
+      "skillKey": "nami_e",
+      "path": "write.formulas.1.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "slow_percent_points"
+    },
+    {
+      "skillKey": "nami_e",
+      "path": "write.formulas.1.expression.operands.1.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "slow_ap_ratio"
+    },
+    {
+      "skillKey": "nami_e",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "nami_r",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "nami_r",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "ap_ratio"
+    },
+    {
+      "skillKey": "nami_r",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "morgana_q",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "morgana_q",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "ap_ratio"
+    },
+    {
+      "skillKey": "morgana_q",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "morgana_w",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage_per_second"
+    },
+    {
+      "skillKey": "morgana_w",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "ap_ratio"
+    },
+    {
+      "skillKey": "morgana_w",
+      "path": "write.formulas.1.expression.operands.0.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage_per_second"
+    },
+    {
+      "skillKey": "morgana_w",
+      "path": "write.formulas.1.expression.operands.0.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "ap_ratio"
+    },
+    {
+      "skillKey": "morgana_w",
+      "path": "write.formulas.1.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "one_ratio"
+    },
+    {
+      "skillKey": "morgana_w",
+      "path": "write.formulas.1.expression.operands.1.operands.1",
+      "kind": "PARAMETER",
+      "key": "maximum_missing_health_amplification_ratio"
+    },
+    {
+      "skillKey": "morgana_w",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "morgana_e",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_shield"
+    },
+    {
+      "skillKey": "morgana_e",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "shield_ap_ratio"
+    },
+    {
+      "skillKey": "morgana_e",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    },
+    {
+      "skillKey": "morgana_e",
+      "path": "write.effects.1.lifecycle.durationValue",
+      "kind": "PARAMETER",
+      "key": "shield_duration_ms"
+    },
+    {
+      "skillKey": "morgana_e",
+      "path": "write.effects.1.results.0.valueRule.value",
+      "kind": "FORMULA",
+      "key": "magic_shield_value"
+    },
+    {
+      "skillKey": "morgana_r",
+      "path": "write.formulas.0.expression.operands.0",
+      "kind": "PARAMETER",
+      "key": "base_damage"
+    },
+    {
+      "skillKey": "morgana_r",
+      "path": "write.formulas.0.expression.operands.1.operands.0",
+      "kind": "PARAMETER",
+      "key": "ap_ratio"
+    },
+    {
+      "skillKey": "morgana_r",
+      "path": "write.effects.0.results.0.valueRule.value",
+      "kind": "PARAMETER",
+      "key": "mana_cost"
+    }
+  ],
+  "candidateSha256": "fed901ff7819c5a2bd1e5238936c7cf1a6916af8116be2bc776e9ade93d256c0",
+  "planSha256": "440501e0016adb35d584bf73d22eb7a7d9c21f936e86942bb891199409199b90",
+  "writerSha256": "3133f1f3b28bd5893ef9dcce337b769cbbcb61c7894cdb3e6614d9f106f49d51",
+  "apiWrites": 0,
+  "changesToSavedData": 0
+}

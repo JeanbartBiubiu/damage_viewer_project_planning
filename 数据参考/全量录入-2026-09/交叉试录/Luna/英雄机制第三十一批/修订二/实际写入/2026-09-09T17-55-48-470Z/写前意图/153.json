@@ -1,0 +1,45 @@
+{
+  "i": 152,
+  "intent": {
+    "sequence": 153,
+    "method": "POST",
+    "route": "/skills/morgana_q/formulas",
+    "detailRoute": "/skills/morgana_q/formulas/magic_damage",
+    "skillKey": "morgana_q",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "暗之禁锢唯一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage = Damage + 0.9×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

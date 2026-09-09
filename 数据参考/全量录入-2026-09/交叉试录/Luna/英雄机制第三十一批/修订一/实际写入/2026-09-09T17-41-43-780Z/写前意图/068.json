@@ -1,0 +1,23 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "method": "POST",
+    "route": "/skills/lulu_q/parameters",
+    "detailRoute": "/skills/lulu_q/parameters/slow_decay_ticks",
+    "skillKey": "lulu_q",
+    "kind": "parameters",
+    "stableKey": "slow_decay_ticks",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_decay_ticks",
+      "name": "减速衰减次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 8,
+      "levelValues": null,
+      "description": "客户端SlowDecayTicks为8；衰减时序未接线。",
+      "sortOrder": 60
+    }
+  }
+}

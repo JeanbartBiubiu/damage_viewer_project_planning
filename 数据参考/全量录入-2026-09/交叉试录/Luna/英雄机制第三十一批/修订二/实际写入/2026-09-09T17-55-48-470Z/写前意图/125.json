@@ -1,0 +1,97 @@
+{
+  "i": 124,
+  "intent": {
+    "sequence": 125,
+    "method": "POST",
+    "route": "/skills/nami_w/formulas",
+    "detailRoute": "/skills/nami_w/formulas/bounced_damage",
+    "skillKey": "nami_w",
+    "kind": "formulas",
+    "stableKey": "bounced_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "bounced_damage",
+      "name": "冲击之潮第二目标魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_points_to_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bounce_base_percent_points"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "bounce_ap_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "ability_power",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "第二目标伤害 = 首个伤害×(1+BounceScaling)；接口公式只能引用参数，故内联首段和弹跳修正；一对一只允许敌人和自身各一次。",
+      "sortOrder": 40
+    }
+  }
+}

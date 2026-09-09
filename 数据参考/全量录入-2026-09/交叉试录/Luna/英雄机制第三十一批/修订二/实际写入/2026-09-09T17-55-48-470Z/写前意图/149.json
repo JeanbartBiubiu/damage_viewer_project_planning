@@ -1,0 +1,23 @@
+{
+  "i": 148,
+  "intent": {
+    "sequence": 149,
+    "method": "POST",
+    "route": "/skills/morgana_p/parameters",
+    "detailRoute": "/skills/morgana_p/parameters/heal_percent_points",
+    "skillKey": "morgana_p",
+    "kind": "parameters",
+    "stableKey": "heal_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_percent_points",
+      "name": "符合条件伤害治疗百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 18,
+      "levelValues": null,
+      "description": "客户端DataValues.HealPercent为18；正文明确对符合目标的技能伤害回复该百分比。没有计算树，不造直接治疗量。",
+      "sortOrder": 10
+    }
+  }
+}

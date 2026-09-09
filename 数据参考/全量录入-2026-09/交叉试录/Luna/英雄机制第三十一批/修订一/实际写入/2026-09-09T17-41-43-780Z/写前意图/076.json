@@ -1,0 +1,29 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "method": "POST",
+    "route": "/skills/lulu_w/parameters",
+    "detailRoute": "/skills/lulu_w/parameters/attack_speed_bonus_ratio",
+    "skillKey": "lulu_w",
+    "kind": "parameters",
+    "stableKey": "attack_speed_bonus_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_bonus_ratio",
+      "name": "攻击速度增益比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.225,
+        "3": 0.25,
+        "4": 0.275,
+        "5": 0.3
+      },
+      "description": "客户端ASBonus取索引1至5；按0.2代表20%保存。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 39,
+  "intent": {
+    "sequence": 40,
+    "method": "POST",
+    "route": "/skills/janna_e/parameters",
+    "detailRoute": "/skills/janna_e/parameters/attack_damage_ap_ratio",
+    "skillKey": "janna_e",
+    "kind": "parameters",
+    "stableKey": "attack_damage_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_damage_ap_ratio",
+      "name": "额外攻击力法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.1,
+      "levelValues": null,
+      "description": "客户端TotalAD树按等级索引1消费ADAPRatio=0.1×来源总法强。",
+      "sortOrder": 70
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 39,
+    "method": "POST",
+    "route": "/skills/janna_e/parameters",
+    "detailRoute": "/skills/janna_e/parameters/bonus_attack_damage",
+    "skillKey": "janna_e",
+    "kind": "parameters",
+    "stableKey": "bonus_attack_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_attack_damage",
+      "name": "强化额外攻击力",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 15,
+        "3": 20,
+        "4": 25,
+        "5": 30
+      },
+      "description": "客户端DataValues.BonusAD取等级索引1至5，得到10/15/20/25/30；TotalAD树消费该基础值。",
+      "sortOrder": 60
+    }
+  }
+}

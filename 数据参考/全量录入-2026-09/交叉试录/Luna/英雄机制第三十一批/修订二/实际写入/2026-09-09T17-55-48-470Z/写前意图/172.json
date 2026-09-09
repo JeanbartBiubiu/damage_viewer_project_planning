@@ -1,0 +1,23 @@
+{
+  "i": 171,
+  "intent": {
+    "sequence": 172,
+    "method": "POST",
+    "route": "/skills/morgana_r/parameters",
+    "detailRoute": "/skills/morgana_r/parameters/ap_ratio",
+    "skillKey": "morgana_r",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.8,
+      "levelValues": null,
+      "description": "TotalDamage树的StatByCoefficient系数为0.8×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

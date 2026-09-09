@@ -1,0 +1,55 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 124,
+    "method": "POST",
+    "route": "/skills/nami_w/formulas",
+    "detailRoute": "/skills/nami_w/formulas/bounce_scaling_ratio",
+    "skillKey": "nami_w",
+    "kind": "formulas",
+    "stableKey": "bounce_scaling_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "bounce_scaling_ratio",
+      "name": "冲击之潮弹跳修正比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_points_to_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bounce_base_percent_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bounce_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "BounceScaling = 0.01×(BounceRatio + BounceRatioScaling×来源总法强)。",
+      "sortOrder": 30
+    }
+  }
+}

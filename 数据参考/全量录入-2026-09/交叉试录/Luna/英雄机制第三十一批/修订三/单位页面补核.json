@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "browser": "Codex内置浏览器tab2，http://127.0.0.1:5173/#/skills",
+  "operations": ["查询lulu_w", "打开参数与公式", "打开polymorph_slow_amount参数详情"],
+  "observed": {
+    "parameterKey": "polymorph_slow_amount",
+    "name": "变形减速原始量",
+    "fixedValue": -60,
+    "description": "客户端SlowAmount原始值为-60，当前扩展正文以SlowAmount×-1显示60且没有百分号。保留有符号原始量；未证明具体移动速度属性层，禁止除100当比例或作为百分数点自动接线。",
+    "oldParameterVisible": false
+  },
+  "additionalScriptGETs": 0,
+  "apiWrites": 0,
+  "basis": "真实浏览器点击后读取页面控件；该参数的接口实值已在页面验收24GET及最终独立379GET覆盖，不重复发整批请求。",
+  "runtimeValidation": "未执行"
+}

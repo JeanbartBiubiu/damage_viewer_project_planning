@@ -1,0 +1,70 @@
+{
+  "i": 169,
+  "intent": {
+    "sequence": 170,
+    "method": "POST",
+    "route": "/skills/morgana_e/effects",
+    "detailRoute": "/skills/morgana_e/effects/magic_shield",
+    "skillKey": "morgana_e",
+    "kind": "effects",
+    "stableKey": "magic_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "magic_shield",
+      "name": "黑暗之盾自身魔法护盾",
+      "description": "当前正文和Trait_Shield明确吸收魔法伤害；Trait_CCImmune代表限制/定身免疫语义，不能把它改写成一次性法术护盾。自身目标资格和控制免疫接线待补。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "shield",
+          "name": "黑暗之盾自身魔法护盾",
+          "resultType": "NORMAL_SHIELD",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "magic_shield_value"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "absorbedDamageTypeKey": "magic",
+            "decayMode": "NONE"
+          }
+        }
+      ]
+    }
+  }
+}

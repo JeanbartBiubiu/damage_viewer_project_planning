@@ -1,0 +1,23 @@
+{
+  "i": 128,
+  "intent": {
+    "sequence": 129,
+    "method": "POST",
+    "route": "/skills/nami_e/parameters",
+    "detailRoute": "/skills/nami_e/parameters/damage_ap_ratio",
+    "skillKey": "nami_e",
+    "kind": "parameters",
+    "stableKey": "damage_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_ap_ratio",
+      "name": "附加伤害法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "客户端TotalDamage树消费DamageRatio=0.2。",
+      "sortOrder": 20
+    }
+  }
+}

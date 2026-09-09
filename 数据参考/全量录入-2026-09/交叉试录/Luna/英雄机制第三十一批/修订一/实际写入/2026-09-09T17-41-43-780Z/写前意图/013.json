@@ -1,0 +1,23 @@
+{
+  "i": 12,
+  "intent": {
+    "sequence": 13,
+    "method": "POST",
+    "route": "/skills/janna_q/parameters",
+    "detailRoute": "/skills/janna_q/parameters/missile_travel_time_ms",
+    "skillKey": "janna_q",
+    "kind": "parameters",
+    "stableKey": "missile_travel_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missile_travel_time_ms",
+      "name": "龙卷风飞行时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1250,
+      "levelValues": null,
+      "description": "客户端DataValues.MissileTravelTime按等级索引1取1.25秒，换算为1250毫秒；不表示命中时点已接线。",
+      "sortOrder": 100
+    }
+  }
+}

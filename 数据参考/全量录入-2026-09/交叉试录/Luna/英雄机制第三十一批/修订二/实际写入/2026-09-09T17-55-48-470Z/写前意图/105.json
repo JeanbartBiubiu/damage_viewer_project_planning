@@ -1,0 +1,23 @@
+{
+  "i": 104,
+  "intent": {
+    "sequence": 105,
+    "method": "POST",
+    "route": "/skills/nami_p/parameters",
+    "detailRoute": "/skills/nami_p/parameters/ultimate_multiplier",
+    "skillKey": "nami_p",
+    "kind": "parameters",
+    "stableKey": "ultimate_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ultimate_multiplier",
+      "name": "大招命中移动速度倍数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "客户端DataValues.UltMult为2；大招触发条件保留为待核。",
+      "sortOrder": 30
+    }
+  }
+}

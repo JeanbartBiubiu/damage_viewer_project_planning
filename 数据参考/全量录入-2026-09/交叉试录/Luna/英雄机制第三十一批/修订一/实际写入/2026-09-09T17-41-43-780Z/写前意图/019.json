@@ -1,0 +1,29 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "method": "POST",
+    "route": "/skills/janna_w/parameters",
+    "detailRoute": "/skills/janna_w/parameters/movement_speed_ratio",
+    "skillKey": "janna_w",
+    "kind": "parameters",
+    "stableKey": "movement_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "movement_speed_ratio",
+      "name": "自身移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.06,
+        "2": 0.07,
+        "3": 0.08,
+        "4": 0.09,
+        "5": 0.1
+      },
+      "description": "客户端DataValues.MSPercent取等级索引1至5，得到6/7/8/9/10%；TotalMS为tooltipOnly，比例直接保存。",
+      "sortOrder": 10
+    }
+  }
+}

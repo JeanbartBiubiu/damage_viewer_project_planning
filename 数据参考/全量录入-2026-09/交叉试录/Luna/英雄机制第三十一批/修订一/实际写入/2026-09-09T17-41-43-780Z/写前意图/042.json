@@ -1,0 +1,45 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "method": "POST",
+    "route": "/skills/janna_e/formulas",
+    "detailRoute": "/skills/janna_e/formulas/total_shield",
+    "skillKey": "janna_e",
+    "kind": "formulas",
+    "stableKey": "total_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_shield",
+      "name": "风暴之眼自身护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalShield = BaseShield + ShieldAPRatio×来源总法强。目标为自身路径，实际友方目标资格待补。",
+      "sortOrder": 10
+    }
+  }
+}

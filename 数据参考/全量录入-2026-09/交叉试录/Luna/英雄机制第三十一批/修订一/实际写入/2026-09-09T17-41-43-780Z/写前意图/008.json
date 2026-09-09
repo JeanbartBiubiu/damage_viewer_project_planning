@@ -1,0 +1,29 @@
+{
+  "i": 7,
+  "intent": {
+    "sequence": 8,
+    "method": "POST",
+    "route": "/skills/janna_q/parameters",
+    "detailRoute": "/skills/janna_q/parameters/max_charge_duration_seconds",
+    "skillKey": "janna_q",
+    "kind": "parameters",
+    "stableKey": "max_charge_duration_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_charge_duration_seconds",
+      "name": "最大蓄力时间（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 3,
+        "2": 3,
+        "3": 3,
+        "4": 3,
+        "5": 3
+      },
+      "description": "客户端DataValues.MaxDuration取等级索引1至5，均为3秒；公式与每秒追加项保持秒单位。",
+      "sortOrder": 50
+    }
+  }
+}

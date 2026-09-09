@@ -1,0 +1,23 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "method": "POST",
+    "route": "/skills/janna_r/parameters",
+    "detailRoute": "/skills/janna_r/parameters/heal_range",
+    "skillKey": "janna_r",
+    "kind": "parameters",
+    "stableKey": "heal_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_range",
+      "name": "复苏季风治疗范围",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 700,
+      "levelValues": null,
+      "description": "客户端Range按等级索引1取700；只作来源参数。",
+      "sortOrder": 40
+    }
+  }
+}

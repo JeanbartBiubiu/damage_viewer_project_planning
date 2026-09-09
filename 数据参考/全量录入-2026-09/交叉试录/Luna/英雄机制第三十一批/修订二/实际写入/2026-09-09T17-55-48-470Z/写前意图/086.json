@@ -1,0 +1,23 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "method": "POST",
+    "route": "/skills/lulu_e/parameters",
+    "detailRoute": "/skills/lulu_e/parameters/shield_duration_ms",
+    "skillKey": "lulu_e",
+    "kind": "parameters",
+    "stableKey": "shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_duration_ms",
+      "name": "护盾持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "客户端ShieldDuration按等级索引1取2.5秒，转换为2500毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

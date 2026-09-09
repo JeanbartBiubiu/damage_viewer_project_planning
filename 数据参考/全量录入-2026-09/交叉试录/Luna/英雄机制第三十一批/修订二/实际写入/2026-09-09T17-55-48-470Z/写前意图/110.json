@@ -1,0 +1,23 @@
+{
+  "i": 109,
+  "intent": {
+    "sequence": 110,
+    "method": "POST",
+    "route": "/skills/nami_q/parameters",
+    "detailRoute": "/skills/nami_q/parameters/stun_duration_ms",
+    "skillKey": "nami_q",
+    "kind": "parameters",
+    "stableKey": "stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_duration_ms",
+      "name": "击飞控制持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "客户端StunDuration为1.5秒，转换为1500毫秒；控制结果待事件接线。",
+      "sortOrder": 30
+    }
+  }
+}

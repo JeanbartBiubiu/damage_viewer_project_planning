@@ -1,0 +1,23 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 60,
+    "method": "POST",
+    "route": "/skills/lulu_p/parameters",
+    "detailRoute": "/skills/lulu_p/parameters/actual_character_level_base_damage",
+    "skillKey": "lulu_p",
+    "kind": "parameters",
+    "stableKey": "actual_character_level_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_character_level_base_damage",
+      "name": "当前角色等级下每颗飞弹基础伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "TotalDamage树只有角色等级5至39的插值端点；这里的5至39是基础伤害端点，不是英雄等级范围。完整等级曲线未冻结，实际输入无默认。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,3219 @@
+{
+  "generatedAt": "2026-09-09T16:37:03.117Z",
+  "purpose": "候选前四项关键语义只读核对；不改冻结文件",
+  "freezeReferences": {
+    "inputVersionSha256": "859eced8efea73b88a725224f34a064846c639e713681a832e40dacff1cc817a",
+    "sourceBindingSha256": "3903525c50256f6c7df36e692f9648d13a073bffe105e280fd80653c99302330",
+    "sourceRangeSha256": "27f83bd55ed75570921c2482b03a60e336a6df442531fb60bad149557d2c6d47",
+    "frozenManifestSha256": "38e64bd9626e9206237b4a000ab5fd1d7a4858e82cd7c2fd60f853eb78b450fd"
+  },
+  "evidence": {
+    "luluP": {
+      "skillKey": "lulu_p",
+      "binding": "Characters/Lulu/Spells/LuluPassiveAbility/LuluPassive",
+      "objectPath": "Characters/Lulu/Spells/LuluPassiveAbility/LuluPassive",
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_LuluPassive_Name",
+          "text": "皮克斯，仙灵伙伴"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_LuluPassive_Summary",
+          "text": "每当皮克斯正在跟随的英雄进行攻击时，皮克斯就会发射魔法飞弹。这些飞弹会自动寻敌，但也会被其它单位所拦截。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_LuluPassive_Tooltip",
+          "text": "璐璐会受到仙灵皮克斯的协助。当璐璐攻击时，皮克斯会朝她的目标发射3颗飞弹，对第一个命中的敌人造成<magicDamage>@CombinedDamage@魔法伤害</magicDamage>。"
+        }
+      },
+      "client": {
+        "selectedDataValues": {
+          "NumberOfBolts": {
+            "name": "NumberOfBolts",
+            "values": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "__type": "SpellDataValue"
+          },
+          "APRatioPerHit": {
+            "name": "APRatioPerHit",
+            "values": [
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806
+            ],
+            "__type": "SpellDataValue"
+          }
+        },
+        "selectedCalculations": {
+          "TotalDamage": {
+            "mFormulaParts": [
+              {
+                "mStartValue": 5,
+                "mEndValue": 39,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              },
+              {
+                "mDataValue": "APRatioPerHit",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "CombinedDamage": {
+            "mMultiplier": {
+              "mDataValue": "NumberOfBolts",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "mModifiedGameCalculation": "TotalDamage",
+            "__type": "GameCalculationModified"
+          }
+        },
+        "selectedFields": {}
+      },
+      "official": {
+        "passive": {
+          "zh": {
+            "name": "皮克斯，仙灵伙伴",
+            "description": "每当皮克斯正在跟随的英雄进行攻击时，皮克斯就会发射魔法飞弹。这些飞弹会自动寻敌，但也会被其它单位所拦截。",
+            "image": {
+              "full": "Lulu_PixFaerieCompanion.png",
+              "sprite": "passive2.png",
+              "group": "passive",
+              "x": 288,
+              "y": 48,
+              "w": 48,
+              "h": 48
+            }
+          },
+          "en": {
+            "name": "Pix, Faerie Companion",
+            "description": "Pix fires magical bolts of energy whenever the champion he's following attacks another enemy unit. These bolts are homing, but can be intercepted by other units.",
+            "image": {
+              "full": "Lulu_PixFaerieCompanion.png",
+              "sprite": "passive2.png",
+              "group": "passive",
+              "x": 288,
+              "y": 48,
+              "w": 48,
+              "h": 48
+            }
+          }
+        }
+      }
+    },
+    "luluW": {
+      "skillKey": "lulu_w",
+      "binding": "Characters/Lulu/Spells/LuluWAbility/LuluW",
+      "objectPath": "Characters/Lulu/Spells/LuluWAbility/LuluW",
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_LuluW_Name",
+          "text": "奇思妙想"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_LuluW_Summary",
+          "text": "如果对友军施放，会暂时增加目标友军的攻击速度和移动速度。如果对敌人施放，会将一名敌方英雄变成可爱的动物，使其无法攻击或施法。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_LuluW_Tooltip",
+          "text": "当用在一名友方身上时，璐璐提供<speed>@TotalMS@移动速度</speed>和<attackSpeed>@ASBonus*100@%攻击速度</attackSpeed>，持续@MSDuration@秒。<br><br>当用在一名敌人身上时，璐璐会将其<status>变形</status>@CCDuration@秒。  "
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_LuluW_TooltipExtendedBelowLine",
+          "text": "<rules>被<status>变形</status>的目标会被<status>沉默</status>、<status>缴械</status>、并被<status>减速</status>@SlowAmount*-1@。</rules>"
+        }
+      },
+      "client": {
+        "selectedDataValues": {
+          "BaseMS": {
+            "name": "BaseMS",
+            "values": [
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25
+            ],
+            "__type": "SpellDataValue"
+          },
+          "CCDuration": {
+            "name": "CCDuration",
+            "values": [
+              1,
+              1.2000000476837158,
+              1.399999976158142,
+              1.600000023841858,
+              1.7999999523162842,
+              2,
+              2.200000047683716
+            ],
+            "__type": "SpellDataValue"
+          },
+          "SlowAmount": {
+            "name": "SlowAmount",
+            "values": [
+              -60,
+              -60,
+              -60,
+              -60,
+              -60,
+              -60,
+              -60
+            ],
+            "__type": "SpellDataValue"
+          },
+          "MSDuration": {
+            "name": "MSDuration",
+            "values": [
+              2.75,
+              3,
+              3.25,
+              3.5,
+              3.75,
+              4,
+              4.25
+            ],
+            "__type": "SpellDataValue"
+          },
+          "AmountToMultiplyCoefficient2ByForPurposesOfCalculatingMovementSpeed": {
+            "name": "AmountToMultiplyCoefficient2ByForPurposesOfCalculatingMovementSpeed",
+            "values": [
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582
+            ],
+            "__type": "SpellDataValue"
+          },
+          "ASBonus": {
+            "name": "ASBonus",
+            "values": [
+              0.20000000298023224,
+              0.20000000298023224,
+              0.22499999403953552,
+              0.25,
+              0.2750000059604645,
+              0.30000001192092896,
+              0.30000001192092896
+            ],
+            "__type": "SpellDataValue"
+          }
+        },
+        "selectedCalculations": {
+          "TotalMS": {
+            "tooltipOnly": true,
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseMS",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mCoefficient": 0.0005000000237487257,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          }
+        },
+        "selectedFields": {
+          "mAffectsTypeFlags": 5135,
+          "mRequiredUnitTags": {
+            "mObjectTagList": [
+              "{ea595ca6}"
+            ],
+            "__type": "ObjectTags"
+          },
+          "mSpellTags": [
+            "PositiveEffect_Boon",
+            "Trait_ImmobilizingCCSpell",
+            "Trait_AttackBuff_Duration",
+            "Trait_SignatureSpell"
+          ]
+        }
+      },
+      "official": {
+        "spell": {
+          "zh": {
+            "id": "LuluW",
+            "name": "奇思妙想",
+            "description": "如果对友军施放，会暂时增加目标友军的攻击速度和移动速度。如果对敌人施放，会将一名敌方英雄变成可爱的动物，使其无法攻击或施法。",
+            "tooltip": "当用在一名友方身上时，璐璐提供<speed>{{ totalms }}移动速度</speed>和<attackSpeed>{{ asbonus*100 }}%攻击速度</attackSpeed>，持续{{ msduration }}秒。<br /><br />当用在一名敌人身上时，璐璐会将其<status>变形</status>{{ ccduration }}秒。  {{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "移动速度和攻击速度持续时间",
+                "攻击速度",
+                "变形持续时间"
+              ],
+              "effect": [
+                "{{ msduration }} -> {{ msdurationNL }}",
+                "{{ asbonus*100.000000 }}% -> {{ asbonusnl*100.000000 }}%",
+                "{{ ccduration }} -> {{ ccdurationNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              18,
+              18,
+              18,
+              18,
+              18
+            ],
+            "cooldownBurn": "18",
+            "cost": [
+              65,
+              65,
+              65,
+              65,
+              65
+            ],
+            "costBurn": "65",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                1.2,
+                1.4,
+                1.6,
+                1.8,
+                2
+              ],
+              [
+                -60,
+                -60,
+                -60,
+                -60,
+                -60
+              ],
+              [
+                3,
+                3.25,
+                3.5,
+                3.75,
+                4
+              ],
+              [
+                0.01,
+                0.01,
+                0.01,
+                0.01,
+                0.01
+              ],
+              [
+                0.2,
+                0.225,
+                0.25,
+                0.275,
+                0.3
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0.25",
+              "0",
+              "1.2/1.4/1.6/1.8/2",
+              "-60",
+              "3/3.25/3.5/3.75/4",
+              "0.01",
+              "0.2/0.225/0.25/0.275/0.3",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              650,
+              650,
+              650,
+              650,
+              650
+            ],
+            "rangeBurn": "650",
+            "image": {
+              "full": "LuluW.png",
+              "sprite": "spell8.png",
+              "group": "spell",
+              "x": 432,
+              "y": 48,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          },
+          "en": {
+            "id": "LuluW",
+            "name": "Whimsy",
+            "description": "If cast on an ally, grants them Attack Speed and Move Speed for a short time. If cast on an enemy, turns them into an adorable critter that can't attack or cast spells.",
+            "tooltip": "When used on an ally, Lulu grants <speed>{{ totalms }} Move Speed</speed> and <attackSpeed>{{ asbonus*100 }}% Attack Speed</attackSpeed> for {{ msduration }} seconds.<br /><br />When used on an enemy, Lulu <status>Polymorphs</status> them for {{ ccduration }} seconds.{{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "Move Speed and Attack Speed Duration",
+                "Attack Speed",
+                "Polymorph Duration"
+              ],
+              "effect": [
+                "{{ msduration }} -> {{ msdurationNL }}",
+                "{{ asbonus*100.000000 }}% -> {{ asbonusnl*100.000000 }}%",
+                "{{ ccduration }} -> {{ ccdurationNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              18,
+              18,
+              18,
+              18,
+              18
+            ],
+            "cooldownBurn": "18",
+            "cost": [
+              65,
+              65,
+              65,
+              65,
+              65
+            ],
+            "costBurn": "65",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                1.2,
+                1.4,
+                1.6,
+                1.8,
+                2
+              ],
+              [
+                -60,
+                -60,
+                -60,
+                -60,
+                -60
+              ],
+              [
+                3,
+                3.25,
+                3.5,
+                3.75,
+                4
+              ],
+              [
+                0.01,
+                0.01,
+                0.01,
+                0.01,
+                0.01
+              ],
+              [
+                0.2,
+                0.225,
+                0.25,
+                0.275,
+                0.3
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0.25",
+              "0",
+              "1.2/1.4/1.6/1.8/2",
+              "-60",
+              "3/3.25/3.5/3.75/4",
+              "0.01",
+              "0.2/0.225/0.25/0.275/0.3",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              650,
+              650,
+              650,
+              650,
+              650
+            ],
+            "rangeBurn": "650",
+            "image": {
+              "full": "LuluW.png",
+              "sprite": "spell8.png",
+              "group": "spell",
+              "x": 432,
+              "y": 48,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        }
+      }
+    },
+    "namiP": {
+      "skillKey": "nami_p",
+      "binding": "Characters/Nami/Spells/NamiPassiveAbility/NamiPassive",
+      "objectPath": "Characters/Nami/Spells/NamiPassiveAbility/NamiPassive",
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_NamiPassive_Name",
+          "text": "踏浪之行"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NamiPassive_Tooltip",
+          "text": "每当娜美的技能命中友方英雄时，他们都会获得<speed>@TotalMSBonus@移动速度</speed>，在@BuffDuration@秒里持续衰减。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NamiPassive_Summary",
+          "text": "每当娜美的技能命中友方英雄时，他们都会暂时获得移动速度加成。"
+        }
+      },
+      "client": {
+        "selectedDataValues": {
+          "FlatMS": {
+            "name": "FlatMS",
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "__type": "SpellDataValue"
+          },
+          "BuffDuration": {
+            "name": "BuffDuration",
+            "values": [
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          "UltMult": {
+            "name": "UltMult",
+            "values": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "__type": "SpellDataValue"
+          }
+        },
+        "selectedCalculations": {
+          "TotalMSBonus": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mDataValue": "FlatMS",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mCoefficient": 0.25,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "selectedFields": {}
+      },
+      "official": {
+        "passive": {
+          "zh": {
+            "name": "踏浪之行",
+            "description": "每当娜美的技能命中友方英雄时，他们都会暂时获得移动速度加成。",
+            "image": {
+              "full": "NamiPassive.png",
+              "sprite": "passive2.png",
+              "group": "passive",
+              "x": 432,
+              "y": 96,
+              "w": 48,
+              "h": 48
+            }
+          },
+          "en": {
+            "name": "Surging Tides",
+            "description": "When Nami's Abilities hit allied champions they gain Move Speed for a short duration.",
+            "image": {
+              "full": "NamiPassive.png",
+              "sprite": "passive2.png",
+              "group": "passive",
+              "x": 432,
+              "y": 96,
+              "w": 48,
+              "h": 48
+            }
+          }
+        }
+      }
+    },
+    "namiW": {
+      "skillKey": "nami_w",
+      "binding": "Characters/Nami/Spells/NamiWAbility/NamiW",
+      "objectPath": "Characters/Nami/Spells/NamiWAbility/NamiW",
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_NamiW_Name",
+          "text": "冲击之潮"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NamiW_Summary",
+          "text": "释放一股在友方英雄和敌方英雄之间交替流动的水流，治疗友军并伤害敌军。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NamiW_Tooltip",
+          "text": "娜美释放一股在友方英雄和敌方英雄之间交替弹跳的水流。每个目标只会被弹到一次，并且水流至多可弹@MaxTargets@个目标。<li>为友方英雄回复<healing>@TotalHeal@生命值</healing>并弹向附近的一名敌方英雄身上。<li>对敌方英雄造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并弹向附近的一名友方英雄身上。<br>每次弹跳会使伤害和治疗数额修正@BounceScaling@。 "
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_NamiW_TooltipExtendedBelowLine",
+          "text": "<rules>只会弹向可见的敌人。</rules>"
+        }
+      },
+      "client": {
+        "selectedDataValues": {
+          "BaseDamage": {
+            "name": "BaseDamage",
+            "values": [
+              25,
+              60,
+              95,
+              130,
+              165,
+              200,
+              235
+            ],
+            "__type": "SpellDataValue"
+          },
+          "BaseHeal": {
+            "name": "BaseHeal",
+            "values": [
+              30,
+              55,
+              80,
+              105,
+              130,
+              155,
+              180
+            ],
+            "__type": "SpellDataValue"
+          },
+          "BounceRatio": {
+            "name": "BounceRatio",
+            "values": [
+              -20,
+              -20,
+              -20,
+              -20,
+              -20,
+              -20,
+              -20
+            ],
+            "__type": "SpellDataValue"
+          },
+          "BounceRatioScaling": {
+            "name": "BounceRatioScaling",
+            "values": [
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448
+            ],
+            "__type": "SpellDataValue"
+          },
+          "MaxTargets": {
+            "name": "MaxTargets",
+            "values": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "__type": "SpellDataValue"
+          }
+        },
+        "selectedCalculations": {
+          "TotalDamage": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "DamageAPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "TotalHeal": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseHeal",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "HealAPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "BounceScaling": {
+            "mMultiplier": {
+              "mNumber": 0.009999999776482582,
+              "__type": "NumberCalculationPart"
+            },
+            "mFormulaParts": [
+              {
+                "mDataValue": "BounceRatio",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "BounceRatioScaling",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          }
+        },
+        "selectedFields": {
+          "mAffectsTypeFlags": 5135,
+          "mRequiredUnitTags": {
+            "mObjectTagList": [
+              "{ea595ca6}"
+            ],
+            "__type": "ObjectTags"
+          },
+          "mSpellTags": [
+            "PositiveEffect_Boon",
+            "Trait_DamageAbility",
+            "Trait_ActiveHeal",
+            "Trait_SignatureSpell",
+            "Trait_AoE"
+          ],
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "NamiW",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_NamiW_Name",
+                "keySummary": "Spell_NamiW_Summary",
+                "keyTooltip": "Spell_NamiW_Tooltip",
+                "keyTooltipExtendedBelowLine": "Spell_NamiW_TooltipExtendedBelowLine"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseHeal",
+                      "typeIndex": 3,
+                      "nameOverride": "Spell_ListType_Healing",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "BaseDamage",
+                      "typeIndex": 1,
+                      "nameOverride": "Spell_ListType_Damage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "useCasterBoundingBox": false,
+                "__type": "TargeterDefinitionRange"
+              },
+              {
+                "centerLocator": {
+                  "basePosition": 2,
+                  "__type": "DrawablePositionLocator"
+                },
+                "overrideRadius": {
+                  "mPerLevelValues": [
+                    800,
+                    800,
+                    800,
+                    800,
+                    800,
+                    800
+                  ],
+                  "mValueType": 2,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "textureRadiusOverrideName": "assets/spells/textures/aoe_brand.tex",
+                "__type": "TargeterDefinitionAoe"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          }
+        }
+      },
+      "official": {
+        "spell": {
+          "zh": {
+            "id": "NamiW",
+            "name": "冲击之潮",
+            "description": "释放一股在友方英雄和敌方英雄之间交替流动的水流，治疗友军并伤害敌军。",
+            "tooltip": "娜美释放一股在友方英雄和敌方英雄之间交替弹跳的水流。每个目标只会被弹到一次，并且水流至多可弹{{ maxtargets }}个目标。<li>为友方英雄回复<healing>{{ totalheal }}生命值</healing>并弹向附近的一名敌方英雄身上。<li>对敌方英雄造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>并弹向附近的一名友方英雄身上。<br />每次弹跳会使伤害和治疗数额修正{{ bouncescaling }}。 {{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "治疗效果",
+                "伤害",
+                "@AbilityResourceName@消耗"
+              ],
+              "effect": [
+                "{{ baseheal }} -> {{ basehealNL }}",
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ cost }} -> {{ costNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "cooldownBurn": "10",
+            "cost": [
+              70,
+              75,
+              80,
+              85,
+              90
+            ],
+            "costBurn": "70/75/80/85/90",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              725,
+              725,
+              725,
+              725,
+              725
+            ],
+            "rangeBurn": "725",
+            "image": {
+              "full": "NamiW.png",
+              "sprite": "spell9.png",
+              "group": "spell",
+              "x": 48,
+              "y": 144,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          },
+          "en": {
+            "id": "NamiW",
+            "name": "Ebb and Flow",
+            "description": "Unleashes a stream of water that bounces back and forth between allied and enemy champions, healing allies and damaging enemies.",
+            "tooltip": "Nami unleashes a stream of water that bounces between allied and enemy champions. Each champion can only be hit once, and it hits up to {{ maxtargets }} targets.<li>Restores <healing>{{ totalheal }} Health</healing> to allies and will bounce to a nearby enemy champion. <li>Deals <magicDamage>{{ totaldamage }} magic damage</magicDamage> to enemies and will bounce to a nearby allied champion.<br />The damage and healing value is modified by {{ bouncescaling }} each bounce. {{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "Healing",
+                "Damage",
+                "@AbilityResourceName@ Cost"
+              ],
+              "effect": [
+                "{{ baseheal }} -> {{ basehealNL }}",
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ cost }} -> {{ costNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              10,
+              10,
+              10,
+              10,
+              10
+            ],
+            "cooldownBurn": "10",
+            "cost": [
+              70,
+              75,
+              80,
+              85,
+              90
+            ],
+            "costBurn": "70/75/80/85/90",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              725,
+              725,
+              725,
+              725,
+              725
+            ],
+            "rangeBurn": "725",
+            "image": {
+              "full": "NamiW.png",
+              "sprite": "spell9.png",
+              "group": "spell",
+              "x": 48,
+              "y": 144,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        }
+      }
+    },
+    "namiE": {
+      "skillKey": "nami_e",
+      "binding": "Characters/Nami/Spells/NamiEAbility/NamiE",
+      "objectPath": "Characters/Nami/Spells/NamiEAbility/NamiE",
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_NamiE_Name",
+          "text": "唤潮之佑"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NamiE_Summary",
+          "text": "短时间里强化一个友军英雄。友军的普通攻击和技能会对其目标造成额外伤害和减速效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NamiE_Tooltip",
+          "text": "娜美强化一位友方英雄的下@HitCount@次普通攻击和技能，持续@BuffDuration@秒，使其可以对目标造成持续@SlowDuration@秒的@TotalSlow@<status>减速</status>，并造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>。 "
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_NamiE_TooltipExtendedBelowLine",
+          "text": "<rules>在强化群体技能时会对非英雄单位造成@AoEMod@伤害。</rules>"
+        }
+      },
+      "client": {
+        "selectedDataValues": {
+          "BaseDamage": {
+            "name": "BaseDamage",
+            "values": [
+              5,
+              20,
+              35,
+              50,
+              65,
+              80,
+              95
+            ],
+            "__type": "SpellDataValue"
+          },
+          "DamageRatio": {
+            "name": "DamageRatio",
+            "values": [
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224
+            ],
+            "__type": "SpellDataValue"
+          },
+          "BaseSlow": {
+            "name": "BaseSlow",
+            "values": [
+              10,
+              15,
+              20,
+              25,
+              30,
+              35,
+              40
+            ],
+            "__type": "SpellDataValue"
+          },
+          "SlowRatio": {
+            "name": "SlowRatio",
+            "values": [
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806
+            ],
+            "__type": "SpellDataValue"
+          },
+          "SlowDuration": {
+            "name": "SlowDuration",
+            "values": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "__type": "SpellDataValue"
+          },
+          "HitCount": {
+            "name": "HitCount",
+            "values": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "__type": "SpellDataValue"
+          },
+          "BuffDuration": {
+            "name": "BuffDuration",
+            "values": [
+              6,
+              6,
+              6,
+              6,
+              6,
+              6,
+              6
+            ],
+            "__type": "SpellDataValue"
+          }
+        },
+        "selectedCalculations": {
+          "AoeMod": {
+            "mFormulaParts": [
+              {
+                "mStartValue": 0.33000001311302185,
+                "mEndValue": 0.6600000262260437,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          },
+          "TotalDamage": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "DamageRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "TotalSlow": {
+            "mMultiplier": {
+              "mNumber": 0.009999999776482582,
+              "__type": "NumberCalculationPart"
+            },
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseSlow",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "SlowRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          }
+        },
+        "selectedFields": {
+          "mAffectsTypeFlags": 1,
+          "mRequiredUnitTags": {
+            "mObjectTagList": [
+              "{ea595ca6}"
+            ],
+            "__type": "ObjectTags"
+          },
+          "mSpellTags": [
+            "PositiveEffect_Boon",
+            "Trait_DamageAbility",
+            "Trait_AttackBuff_Duration"
+          ],
+          "flags": 4,
+          "mCastTime": 0.25,
+          "TargetingForgivenessDefinitions": [
+            {
+              "ForgivenessRange": 175,
+              "TargetForgivenessDefinitions": [
+                {
+                  "mUnitTags": {
+                    "mObjectTagList": [
+                      "{ea595ca6}",
+                      "{c02a7870}"
+                    ],
+                    "__type": "ObjectTags"
+                  },
+                  "__type": "HasUnitTagsCastRequirement"
+                }
+              ],
+              "__type": "TargetingForgivenessDefinitions"
+            }
+          ],
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "NamiE",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_NamiE_Name",
+                "keySummary": "Spell_NamiE_Summary",
+                "keyTooltip": "Spell_NamiE_Tooltip",
+                "keyTooltipExtendedBelowLine": "Spell_NamiE_TooltipExtendedBelowLine"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseDamage",
+                      "typeIndex": 1,
+                      "nameOverride": "Spell_ListType_Damage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "BaseSlow",
+                      "typeIndex": 2,
+                      "nameOverride": "Spell_ListType_Slow",
+                      "Style": 1,
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "__type": "TargeterDefinitionRange"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          }
+        }
+      },
+      "official": {
+        "spell": {
+          "zh": {
+            "id": "NamiE",
+            "name": "唤潮之佑",
+            "description": "短时间里强化一个友军英雄。友军的普通攻击和技能会对其目标造成额外伤害和减速效果。",
+            "tooltip": "娜美强化一位友方英雄的下{{ hitcount }}次普通攻击和技能，持续{{ buffduration }}秒，使其可以对目标造成持续{{ slowduration }}秒的{{ totalslow }}<status>减速</status>，并造成额外的<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。 {{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "伤害",
+                "减速",
+                "@AbilityResourceName@消耗"
+              ],
+              "effect": [
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ baseslow }}% -> {{ baseslowNL }}%",
+                "{{ cost }} -> {{ costNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              11,
+              11,
+              11,
+              11,
+              11
+            ],
+            "cooldownBurn": "11",
+            "cost": [
+              55,
+              60,
+              65,
+              70,
+              75
+            ],
+            "costBurn": "55/60/65/70/75",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                20,
+                30,
+                40,
+                50,
+                60
+              ],
+              [
+                15,
+                20,
+                25,
+                30,
+                35
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              [
+                6,
+                6,
+                6,
+                6,
+                6
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "20/30/40/50/60",
+              "15/20/25/30/35",
+              "1",
+              "3",
+              "6",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              800,
+              800,
+              800,
+              800,
+              800
+            ],
+            "rangeBurn": "800",
+            "image": {
+              "full": "NamiE.png",
+              "sprite": "spell9.png",
+              "group": "spell",
+              "x": 96,
+              "y": 144,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          },
+          "en": {
+            "id": "NamiE",
+            "name": "Tidecaller's Blessing",
+            "description": "Empowers an allied champion for a short duration. The ally's basic attacks and spells deal bonus magic damage and slow the target.",
+            "tooltip": "Nami empowers an allied champion's next {{ hitcount }} Attacks and Abilities for {{ buffduration }} seconds, causing them to <status>Slow</status> their targets by {{ totalslow }} for {{ slowduration }}s and deal an additional <magicDamage>{{ totaldamage }} magic damage</magicDamage>. {{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "Damage",
+                "Slow",
+                "@AbilityResourceName@ Cost"
+              ],
+              "effect": [
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ baseslow }}% -> {{ baseslowNL }}%",
+                "{{ cost }} -> {{ costNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              11,
+              11,
+              11,
+              11,
+              11
+            ],
+            "cooldownBurn": "11",
+            "cost": [
+              55,
+              60,
+              65,
+              70,
+              75
+            ],
+            "costBurn": "55/60/65/70/75",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                20,
+                30,
+                40,
+                50,
+                60
+              ],
+              [
+                15,
+                20,
+                25,
+                30,
+                35
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              [
+                6,
+                6,
+                6,
+                6,
+                6
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "20/30/40/50/60",
+              "15/20/25/30/35",
+              "1",
+              "3",
+              "6",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              800,
+              800,
+              800,
+              800,
+              800
+            ],
+            "rangeBurn": "800",
+            "image": {
+              "full": "NamiE.png",
+              "sprite": "spell9.png",
+              "group": "spell",
+              "x": 96,
+              "y": 144,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        }
+      }
+    },
+    "jannaP": {
+      "skillKey": "janna_p",
+      "binding": "Characters/Janna/Spells/TailwindSelfAbility/TailwindSelf",
+      "objectPath": "Characters/Janna/Spells/TailwindSelfAbility/TailwindSelf",
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_TailwindSelf_Name",
+          "text": "顺风而行"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_TailwindSelf_Summary",
+          "text": "迦娜的友军在朝她移动时获得移动速度。<br><br>迦娜的普攻和【和风守护】会附带一部分额外移动速度的额外魔法伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_TailwindSelf_Tooltip",
+          "text": "迦娜的友军在朝她移动时获得<speed>@MSPercentAlly*100@%移动速度</speed>。<br><br>迦娜的普攻和<keywordMajor>和风守护</keywordMajor>会附带<magicDamage>@BonusDamage@额外魔法伤害</magicDamage> {{ Item_Keyword_OnHit }}。"
+        }
+      },
+      "client": {
+        "selectedDataValues": {
+          "MSPercentAlly": {
+            "name": "MSPercentAlly",
+            "values": [
+              0.05999999865889549,
+              0.05999999865889549,
+              0.05999999865889549,
+              0.05999999865889549,
+              0.05999999865889549,
+              0.05999999865889549,
+              0.05999999865889549
+            ],
+            "__type": "SpellDataValue"
+          },
+          "MSPercentSelf": {
+            "name": "MSPercentSelf",
+            "__type": "SpellDataValue"
+          },
+          "MSBonusMagicDamage": {
+            "name": "MSBonusMagicDamage",
+            "values": [
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896
+            ],
+            "__type": "SpellDataValue"
+          }
+        },
+        "selectedCalculations": {
+          "MSToOnHitConversionRate": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "MSBonusMagicDamage",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          },
+          "BonusDamage": {
+            "{72c5c2a8}": 1,
+            "mFormulaParts": [
+              {
+                "mStat": 7,
+                "mStatFormula": 2,
+                "mDataValue": "MSBonusMagicDamage",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "selectedFields": {}
+      },
+      "official": {
+        "passive": {
+          "zh": {
+            "name": "顺风而行",
+            "description": "迦娜的友军在朝她移动时获得移动速度。<br><br>迦娜的普攻和【和风守护】会附带一部分额外移动速度的额外魔法伤害。",
+            "image": {
+              "full": "JannaP.png",
+              "sprite": "passive1.png",
+              "group": "passive",
+              "x": 432,
+              "y": 48,
+              "w": 48,
+              "h": 48
+            }
+          },
+          "en": {
+            "name": "Tailwind",
+            "description": "Janna's allies gain Move Speed moving towards her.<br><br>Janna deals a portion of bonus Move Speed as bonus magic damage on hit and with Zephyr.",
+            "image": {
+              "full": "JannaP.png",
+              "sprite": "passive1.png",
+              "group": "passive",
+              "x": 432,
+              "y": 48,
+              "w": 48,
+              "h": 48
+            }
+          }
+        }
+      }
+    },
+    "jannaW": {
+      "skillKey": "janna_w",
+      "binding": "Characters/Janna/Spells/SowTheWindAbility/SowTheWind",
+      "objectPath": "Characters/Janna/Spells/SowTheWindAbility/SowTheWind",
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_SowTheWind_Name",
+          "text": "和风守护"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SowTheWind_Summary",
+          "text": "迦娜召唤出一个空气元素灵体，来被动地提升她的移动速度，并使她能够穿越单位。她也可以主动激活这个技能，来对一个敌人造成伤害和减速效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SowTheWind_Tooltip",
+          "text": "<spellPassive>被动：</spellPassive>迦娜获得<speed>@TotalMS@移动速度</speed>并处在幽灵状态。<br><br><spellActive>主动：</spellActive>迦娜的风灵打击一名敌人，对其造成持续@SlowDuration@秒的@TotalSlow@<status>减速</status>和<magicDamage>@TotalDamage@ + @spell.TailwindSelf:BonusDamage@魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SowTheWind_TooltipExtendedBelowLine",
+          "text": "<rules>幽灵状态的单位无视其它单位的碰撞体积。</rules><br>"
+        }
+      },
+      "client": {
+        "selectedDataValues": {
+          "MSPercent": {
+            "name": "MSPercent",
+            "values": [
+              0.05000000074505806,
+              0.05999999865889549,
+              0.07000000029802322,
+              0.07999999821186066,
+              0.09000000357627869,
+              0.10000000149011612,
+              0.10999999940395355
+            ],
+            "__type": "SpellDataValue"
+          },
+          "BaseDamage": {
+            "name": "BaseDamage",
+            "values": [
+              25,
+              55,
+              85,
+              115,
+              145,
+              175,
+              205
+            ],
+            "__type": "SpellDataValue"
+          },
+          "APRatio": {
+            "name": "APRatio",
+            "values": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          "SlowDuration": {
+            "name": "SlowDuration",
+            "values": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "__type": "SpellDataValue"
+          },
+          "SlowPercent": {
+            "name": "SlowPercent",
+            "values": [
+              16,
+              20,
+              24,
+              28,
+              32,
+              36,
+              40
+            ],
+            "__type": "SpellDataValue"
+          },
+          "MSAPRatio": {
+            "name": "MSAPRatio",
+            "values": [
+              0.00019999999494757503,
+              0.00019999999494757503,
+              0.00019999999494757503,
+              0.00019999999494757503,
+              0.00019999999494757503,
+              0.00019999999494757503,
+              0.00019999999494757503
+            ],
+            "__type": "SpellDataValue"
+          },
+          "SlowAPRatio": {
+            "name": "SlowAPRatio",
+            "values": [
+              0.05999999865889549,
+              0.05999999865889549,
+              0.05999999865889549,
+              0.05999999865889549,
+              0.05999999865889549,
+              0.05999999865889549,
+              0.05999999865889549
+            ],
+            "__type": "SpellDataValue"
+          }
+        },
+        "selectedCalculations": {
+          "TotalMS": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "MSPercent",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "MSAPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "mPrecision": 1,
+            "__type": "GameCalculation"
+          },
+          "TotalDamage": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "TotalSlow": {
+            "mMultiplier": {
+              "mNumber": 0.009999999776482582,
+              "__type": "NumberCalculationPart"
+            },
+            "mFormulaParts": [
+              {
+                "mDataValue": "SlowPercent",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "SlowAPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "mDisplayAsPercent": true,
+            "__type": "GameCalculation"
+          }
+        },
+        "selectedFields": {
+          "mAffectsTypeFlags": 6154,
+          "mSpellTags": [
+            "Trait_DamageAbility"
+          ],
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "SowTheWind",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_SowTheWind_Name",
+                "keySummary": "Spell_SowTheWind_Summary",
+                "keyTooltip": "Spell_SowTheWind_Tooltip",
+                "keyTooltipExtendedBelowLine": "Spell_SowTheWind_TooltipExtendedBelowLine"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseDamage",
+                      "typeIndex": 2,
+                      "nameOverride": "Spell_ListType_Damage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "SlowPercent",
+                      "typeIndex": 3,
+                      "nameOverride": "Spell_ListType_Slow",
+                      "Style": 1,
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "MSPercent",
+                      "typeIndex": 1,
+                      "multiplier": 100,
+                      "nameOverride": "Spell_ListType_PassiveMovementSpeed",
+                      "Style": 1,
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cooldown",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "__type": "TargeterDefinitionRange"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          }
+        }
+      },
+      "official": {
+        "spell": {
+          "zh": {
+            "id": "SowTheWind",
+            "name": "和风守护",
+            "description": "迦娜召唤出一个空气元素灵体，来被动地提升她的移动速度，并使她能够穿越单位。她也可以主动激活这个技能，来对一个敌人造成伤害和减速效果。",
+            "tooltip": "<spellPassive>被动：</spellPassive>迦娜获得<speed>{{ totalms }}移动速度</speed>并处在幽灵状态。<br /><br /><spellActive>主动：</spellActive>迦娜的风灵打击一名敌人，对其造成持续{{ slowduration }}秒的{{ totalslow }}<status>减速</status>和<magicDamage>{{ totaldamage }} + {{ spell.tailwindself:bonusdamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "伤害",
+                "减速",
+                "被动移动速度",
+                "冷却时间",
+                "@AbilityResourceName@消耗"
+              ],
+              "effect": [
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ slowpercent }}% -> {{ slowpercentNL }}%",
+                "{{ mspercent*100.000000 }}% -> {{ mspercentnl*100.000000 }}%",
+                "{{ cooldown }} -> {{ cooldownNL }}",
+                "{{ cost }} -> {{ costNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              8,
+              7.5,
+              7,
+              6.5,
+              6
+            ],
+            "cooldownBurn": "8/7.5/7/6.5/6",
+            "cost": [
+              50,
+              55,
+              60,
+              65,
+              70
+            ],
+            "costBurn": "50/55/60/65/70",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              4294967295,
+              4294967295,
+              4294967295,
+              4294967295,
+              4294967295
+            ],
+            "rangeBurn": "4294967295",
+            "image": {
+              "full": "SowTheWind.png",
+              "sprite": "spell5.png",
+              "group": "spell",
+              "x": 48,
+              "y": 144,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          },
+          "en": {
+            "id": "SowTheWind",
+            "name": "Zephyr",
+            "description": "Janna summons an air elemental that passively increases her Move Speed and enables her to pass through units. She may also activate this ability to deal damage and slow an enemy's Move Speed.",
+            "tooltip": "<spellPassive>Passive:</spellPassive> Janna gains <speed>{{ totalms }} Move Speed</speed> and is Ghosted.<br /><br /><spellActive>Active:</spellActive> Janna's elemental strikes an enemy, <status>Slowing</status> them by {{ totalslow }} for {{ slowduration }} seconds, and dealing <magicDamage>{{ totaldamage }} + {{ spell.tailwindself:bonusdamage }} magic damage</magicDamage>.{{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "Damage",
+                "Slow",
+                "Passive Move Speed",
+                "Cooldown",
+                "@AbilityResourceName@ Cost"
+              ],
+              "effect": [
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ slowpercent }}% -> {{ slowpercentNL }}%",
+                "{{ mspercent*100.000000 }}% -> {{ mspercentnl*100.000000 }}%",
+                "{{ cooldown }} -> {{ cooldownNL }}",
+                "{{ cost }} -> {{ costNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              8,
+              7.5,
+              7,
+              6.5,
+              6
+            ],
+            "cooldownBurn": "8/7.5/7/6.5/6",
+            "cost": [
+              50,
+              55,
+              60,
+              65,
+              70
+            ],
+            "costBurn": "50/55/60/65/70",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              4294967295,
+              4294967295,
+              4294967295,
+              4294967295,
+              4294967295
+            ],
+            "rangeBurn": "4294967295",
+            "image": {
+              "full": "SowTheWind.png",
+              "sprite": "spell5.png",
+              "group": "spell",
+              "x": 48,
+              "y": 144,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        }
+      }
+    },
+    "morganaE": {
+      "skillKey": "morgana_e",
+      "binding": "Characters/Morgana/Spells/MorganaEAbility/MorganaE",
+      "objectPath": "Characters/Morgana/Spells/MorganaEAbility/MorganaE",
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_MorganaE_Name",
+          "text": "黑暗之盾"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MorganaE_Summary",
+          "text": "莫甘娜为一名友方英雄涂上一层保护性的星火屏障，在被打破之前吸收魔法伤害和限制效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MorganaE_Tooltip",
+          "text": "莫甘娜为一名友方英雄提供<shield>@TotalShieldStrength@魔法护盾</shield>，持续@ShieldDuration@秒。护盾会阻挡<status>限制</status>和<status>定身</status>效果，直至被打破为止。"
+        }
+      },
+      "client": {
+        "selectedDataValues": {
+          "ShieldStrength": {
+            "name": "ShieldStrength",
+            "values": [
+              45,
+              100,
+              155,
+              210,
+              265,
+              320,
+              375
+            ],
+            "__type": "SpellDataValue"
+          },
+          "ShieldDuration": {
+            "name": "ShieldDuration",
+            "values": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "__type": "SpellDataValue"
+          }
+        },
+        "selectedCalculations": {
+          "TotalShieldStrength": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mDataValue": "ShieldStrength",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mCoefficient": 0.699999988079071,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "selectedFields": {
+          "mAffectsTypeFlags": 1,
+          "mRequiredUnitTags": {
+            "mObjectTagList": [
+              "{ea595ca6}"
+            ],
+            "__type": "ObjectTags"
+          },
+          "mSpellTags": [
+            "PositiveEffect_Boon",
+            "Trait_Shield",
+            "Trait_CCImmune"
+          ],
+          "flags": 4,
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "MorganaE",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_MorganaE_Name",
+                "keySummary": "Spell_MorganaE_Summary",
+                "keyTooltip": "Spell_MorganaE_Tooltip"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "ShieldStrength",
+                      "nameOverride": "Spell_ListType_ShieldAmount",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cooldown",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "__type": "TargeterDefinitionRange"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          }
+        }
+      },
+      "official": {
+        "spell": {
+          "zh": {
+            "id": "MorganaE",
+            "name": "黑暗之盾",
+            "description": "莫甘娜为一名友方英雄涂上一层保护性的星火屏障，在被打破之前吸收魔法伤害和限制效果。",
+            "tooltip": "莫甘娜为一名友方英雄提供<shield>{{ totalshieldstrength }}魔法护盾</shield>，持续{{ shieldduration }}秒。护盾会阻挡<status>限制</status>和<status>定身</status>效果，直至被打破为止。{{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "护盾值",
+                "冷却时间"
+              ],
+              "effect": [
+                "{{ shieldstrength }} -> {{ shieldstrengthNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              26,
+              23.5,
+              21,
+              18.5,
+              16
+            ],
+            "cooldownBurn": "26/23.5/21/18.5/16",
+            "cost": [
+              80,
+              80,
+              80,
+              80,
+              80
+            ],
+            "costBurn": "80",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              800,
+              800,
+              800,
+              800,
+              800
+            ],
+            "rangeBurn": "800",
+            "image": {
+              "full": "MorganaE.png",
+              "sprite": "spell9.png",
+              "group": "spell",
+              "x": 192,
+              "y": 96,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          },
+          "en": {
+            "id": "MorganaE",
+            "name": "Black Shield",
+            "description": "Morgana anoints an ally with a protective barrier of starfire, which absorbs magical damage and disabling effects until it is broken.",
+            "tooltip": "Morgana grants an ally champion <shield>{{ totalshieldstrength }} Magic Shield</shield> for {{ shieldduration }} seconds. The shield prevents <status>Disabling</status> and <status>Immobilizing</status> effects until it breaks.{{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "Shield Amount",
+                "Cooldown"
+              ],
+              "effect": [
+                "{{ shieldstrength }} -> {{ shieldstrengthNL }}",
+                "{{ cooldown }} -> {{ cooldownNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              26,
+              23.5,
+              21,
+              18.5,
+              16
+            ],
+            "cooldownBurn": "26/23.5/21/18.5/16",
+            "cost": [
+              80,
+              80,
+              80,
+              80,
+              80
+            ],
+            "costBurn": "80",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              800,
+              800,
+              800,
+              800,
+              800
+            ],
+            "rangeBurn": "800",
+            "image": {
+              "full": "MorganaE.png",
+              "sprite": "spell9.png",
+              "group": "spell",
+              "x": 192,
+              "y": 96,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        }
+      }
+    },
+    "morganaW": {
+      "skillKey": "morgana_w",
+      "binding": "Characters/Morgana/Spells/MorganaWAbility/MorganaW",
+      "objectPath": "Characters/Morgana/Spells/MorganaWAbility/MorganaW",
+      "currentTexts": {
+        "keyName": {
+          "sourceKey": "Spell_MorganaW_Name",
+          "text": "折磨之影"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MorganaW_Summary",
+          "text": "莫甘娜在一个区域施放一团诅咒之影，对胆敢站在她黑色环形之中的敌人造成伤害。敌人会持续受到魔法伤害，并且生命值越低受到伤害越高。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MorganaW_Tooltip",
+          "text": "莫甘娜点燃一个区域@WDuration@秒，每秒对区域内的敌人造成<magicDamage>@TotalMinDamage@魔法伤害</magicDamage>，基于目标的已损失生命值，伤害可最多提升<magicDamage>@TotalMaxDamage@</magicDamage>。<br><br>每当莫甘娜被<spellName>{{Spell_MorganaPassive_Name}}</spellName>治疗时，这个技能的冷却时间就会减少@CDRefundPercent*100@%。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_MorganaW_TooltipExtendedBelowLine",
+          "text": "<rules>这个技能对野怪造成@MonsterMod@%伤害。</rules>"
+        }
+      },
+      "client": {
+        "selectedDataValues": {
+          "BaseDamage": {
+            "name": "BaseDamage",
+            "values": [
+              5,
+              18,
+              31,
+              44,
+              57,
+              70,
+              83
+            ],
+            "__type": "SpellDataValue"
+          },
+          "BaseAPRatio": {
+            "name": "BaseAPRatio",
+            "values": [
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224
+            ],
+            "__type": "SpellDataValue"
+          },
+          "TickRate": {
+            "name": "TickRate",
+            "values": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          "MissingHealthAmpPercent": {
+            "name": "MissingHealthAmpPercent",
+            "values": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "__type": "SpellDataValue"
+          },
+          "WDuration": {
+            "name": "WDuration",
+            "values": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "__type": "SpellDataValue"
+          },
+          "CDRefundPercent": {
+            "name": "CDRefundPercent",
+            "values": [
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806
+            ],
+            "__type": "SpellDataValue"
+          },
+          "MonsterMod": {
+            "name": "MonsterMod",
+            "values": [
+              170,
+              170,
+              170,
+              170,
+              170,
+              170,
+              170
+            ],
+            "__type": "SpellDataValue"
+          }
+        },
+        "selectedCalculations": {
+          "TotalMinDamage": {
+            "mSimpleTooltipCalculationDisplay": 6,
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "BaseApRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "TotalMaxDamage": {
+            "mMultiplier": {
+              "mSubparts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mDataValue": "MissingHealthAmpPercent",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            },
+            "mModifiedGameCalculation": "TotalMinDamage",
+            "__type": "GameCalculationModified"
+          }
+        },
+        "selectedFields": {
+          "mAffectsTypeFlags": 6154,
+          "mSpellTags": [
+            "Trait_DamageAbility",
+            "Trait_DoT",
+            "Trait_Target_Area",
+            "Trait_Ranged_Zone",
+            "Trait_AoE"
+          ],
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "MorganaW",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_MorganaW_Name",
+                "keySummary": "Spell_MorganaW_Summary",
+                "keyTooltip": "Spell_MorganaW_Tooltip",
+                "keyTooltipExtendedBelowLine": "Spell_MorganaW_TooltipExtendedBelowLine"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseDamage",
+                      "nameOverride": "Spell_ListType_DamagePerSecond",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "__type": "TargeterDefinitionRange"
+              },
+              {
+                "centerLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "__type": "TargeterDefinitionAoe"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          }
+        }
+      },
+      "official": {
+        "spell": {
+          "zh": {
+            "id": "MorganaW",
+            "name": "折磨之影",
+            "description": "莫甘娜在一个区域施放一团诅咒之影，对胆敢站在她黑色环形之中的敌人造成伤害。敌人会持续受到魔法伤害，并且生命值越低受到伤害越高。",
+            "tooltip": "莫甘娜点燃一个区域{{ wduration }}秒，每秒对区域内的敌人造成<magicDamage>{{ totalmindamage }}魔法伤害</magicDamage>，基于目标的已损失生命值，伤害可最多提升<magicDamage>{{ totalmaxdamage }}</magicDamage>。<br /><br />每当莫甘娜被<spellName>灵魂吸取</spellName>治疗时，这个技能的冷却时间就会减少{{ cdrefundpercent*100 }}%。{{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "每秒伤害",
+                "@AbilityResourceName@消耗"
+              ],
+              "effect": [
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ cost }} -> {{ costNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "cooldownBurn": "12",
+            "cost": [
+              70,
+              80,
+              90,
+              100,
+              110
+            ],
+            "costBurn": "70/80/90/100/110",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              900,
+              900,
+              900,
+              900,
+              900
+            ],
+            "rangeBurn": "900",
+            "image": {
+              "full": "MorganaW.png",
+              "sprite": "spell9.png",
+              "group": "spell",
+              "x": 144,
+              "y": 96,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          },
+          "en": {
+            "id": "MorganaW",
+            "name": "Tormented Shadow",
+            "description": "Morgana casts a cursed shadow on an area, damaging enemies who dare stand in her dark circle. They receive magic damage over time, which increases the lower health they are.",
+            "tooltip": "Morgana ignites the ground for {{ wduration }} seconds, dealing <magicDamage>{{ totalmindamage }} magic damage</magicDamage> per second, increased by up to <magicDamage>{{ totalmaxdamage }}</magicDamage> based on the targets' missing Health.<br /><br />This Ability's Cooldown is reduced by {{ cdrefundpercent*100 }}% every time Morgana is healed by <spellName>Soul Siphon</spellName>.{{ spellmodifierdescriptionappend }}",
+            "leveltip": {
+              "label": [
+                "Damage Per Second",
+                "@AbilityResourceName@ Cost"
+              ],
+              "effect": [
+                "{{ basedamage }} -> {{ basedamageNL }}",
+                "{{ cost }} -> {{ costNL }}"
+              ]
+            },
+            "maxrank": 5,
+            "cooldown": [
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "cooldownBurn": "12",
+            "cost": [
+              70,
+              80,
+              90,
+              100,
+              110
+            ],
+            "costBurn": "70/80/90/100/110",
+            "datavalues": {},
+            "effect": [
+              null,
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0
+              ]
+            ],
+            "effectBurn": [
+              null,
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0",
+              "0"
+            ],
+            "vars": [],
+            "costType": " {{ abilityresourcename }}",
+            "maxammo": "-1",
+            "range": [
+              900,
+              900,
+              900,
+              900,
+              900
+            ],
+            "rangeBurn": "900",
+            "image": {
+              "full": "MorganaW.png",
+              "sprite": "spell9.png",
+              "group": "spell",
+              "x": 144,
+              "y": 96,
+              "w": 48,
+              "h": 48
+            },
+            "resource": "{{ cost }} {{ abilityresourcename }}"
+          }
+        }
+      }
+    }
+  }
+}

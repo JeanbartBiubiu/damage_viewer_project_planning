@@ -1,0 +1,23 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "method": "POST",
+    "route": "/skills/janna_e/parameters",
+    "detailRoute": "/skills/janna_e/parameters/shield_ap_ratio",
+    "skillKey": "janna_e",
+    "kind": "parameters",
+    "stableKey": "shield_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_ap_ratio",
+      "name": "护盾法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.55,
+      "levelValues": null,
+      "description": "TotalShield树按等级索引1消费ShieldAPRatio=0.55×来源总法强。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "batch": "英雄机制第三十一批",
+  "revision": "hero31-source-v1-revision-1",
+  "status": "修订候选已生成并完成独立数学核算",
+  "beforeDirectory": ".agents/artifacts/hero31-luna-candidate/修订前",
+  "before": {
+    "candidateSha256": "19a2a142511173d042f8e76a71b65f5421ee2785aae93dba8b14d724263e5b8e",
+    "planSha256": "e1e188d8988dd96bc36ad27e46d683be08cd0ecbfa8f870dab841b2b82bcfecd",
+    "sourceValuesSha256": "7a5cc6206f7bc2e3802abdc09abe8cc18fe99c479bc3d9ad51d77e3bef4ee314",
+    "mathSha256": "58a849323d2bce9ecf8e7c2878b74265b455fa23b81537c3f1d9b3e7a392d84d",
+    "counts": {
+      "skills": 20,
+      "parameters": 118,
+      "formulas": 35,
+      "effects": 24,
+      "requests": 177
+    }
+  },
+  "after": {
+    "candidateSha256": "57b47b85077f9066c72ff12f84f703a767e84ae1d3271824326621e0a90d2dac",
+    "planSha256": "903dc62fee877f3ceecf2b52db64be7815d3c9a4f3cc7b1c21ada7137eab47e4",
+    "sourceValuesSha256": "092fec19337db946c9f4c9f7beb978f16481e27a3d8a57a5d8930d3a2603f00b",
+    "mathSha256": "d24cf88176a088aec5738f0ad1a3c35b7c56450892230af8373e1e353d6999ca",
+    "counts": {
+      "skills": 20,
+      "parameters": 120,
+      "formulas": 35,
+      "effects": 23,
+      "requests": 178
+    }
+  },
+  "changes": [
+    {
+      "skills": ["janna_p", "janna_w"],
+      "change": "移除未证的SOURCE.move_speed_percent.BONUS映射，各技能增加同名actual_bonus_move_speed DECIMAL运行输入；P和W各自的0.3换算保持一次。",
+      "reason": "mStat=7、mStatFormula=2只证明树的属性选择器，未证明百分比属性或当前取值。"
+    },
+    {
+      "skills": ["janna_q", "janna_w", "janna_e", "janna_r", "lulu_e", "lulu_r"],
+      "change": "等级数组统一按客户端索引1至最高等级读取，修正首级基础值、比例点和时长数组。",
+      "reason": "索引0是客户端占位或非技能等级首项，旧候选误用了0起点。"
+    },
+    {
+      "skills": ["janna_e"],
+      "change": "删除self_attack_damage独立效果，保留total_attack_damage_bonus公式和empower_duration_ms来源参数；护盾使用4秒参数。",
+      "reason": "当前正文限定攻击力增益在护盾存在期间，本轮没有护盾存在条件和衰减曲线可表达。"
+    }
+  ],
+  "validation": {
+    "candidateMathReady": true,
+    "businessMathReady": false,
+    "formulaCases": 70,
+    "missingValueRejections": 37,
+    "integerChecks": 70,
+    "rangeChecks": 24,
+    "apiCalls": 0,
+    "businessWrites": 0
+  },
+  "frozenInputsUnchanged": true,
+  "oldEvidencePreserved": true
+}

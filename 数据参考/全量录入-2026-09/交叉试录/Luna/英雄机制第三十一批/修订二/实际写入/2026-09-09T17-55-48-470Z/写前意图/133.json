@@ -1,0 +1,23 @@
+{
+  "i": 132,
+  "intent": {
+    "sequence": 133,
+    "method": "POST",
+    "route": "/skills/nami_e/parameters",
+    "detailRoute": "/skills/nami_e/parameters/empowered_hit_count",
+    "skillKey": "nami_e",
+    "kind": "parameters",
+    "stableKey": "empowered_hit_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_hit_count",
+      "name": "可强化攻击或技能次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "客户端HitCount为3；实际攻击/技能扣除时点待接线。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "method": "POST",
+    "route": "/skills/janna_q/parameters",
+    "detailRoute": "/skills/janna_q/parameters/base_knockup_seconds",
+    "skillKey": "janna_q",
+    "kind": "parameters",
+    "stableKey": "base_knockup_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_knockup_seconds",
+      "name": "基础击飞时间（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.5,
+        "2": 0.5,
+        "3": 0.5,
+        "4": 0.5,
+        "5": 0.5
+      },
+      "description": "客户端DataValues.BaseKnockup取等级索引1至5，均为0.5秒；显示精度不改变原值。",
+      "sortOrder": 60
+    }
+  }
+}

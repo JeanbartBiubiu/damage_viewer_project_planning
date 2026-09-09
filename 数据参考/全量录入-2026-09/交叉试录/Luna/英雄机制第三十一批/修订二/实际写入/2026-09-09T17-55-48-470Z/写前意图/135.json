@@ -1,0 +1,23 @@
+{
+  "i": 134,
+  "intent": {
+    "sequence": 135,
+    "method": "POST",
+    "route": "/skills/nami_e/parameters",
+    "detailRoute": "/skills/nami_e/parameters/percent_points_to_ratio",
+    "skillKey": "nami_e",
+    "kind": "parameters",
+    "stableKey": "percent_points_to_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_points_to_ratio",
+      "name": "百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "客户端TotalSlow根乘数为0.01，将BaseSlow与法强项的百分数点换为比例。",
+      "sortOrder": 80
+    }
+  }
+}

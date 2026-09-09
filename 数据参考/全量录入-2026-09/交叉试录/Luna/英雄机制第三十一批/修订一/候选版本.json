@@ -1,0 +1,78 @@
+{
+  "generatedAt": "2026-09-09T17:28:34.613Z",
+  "batch": "英雄机制第三十一批",
+  "revision": "hero31-source-v1-revision-1",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceBindingSha256": "3903525c50256f6c7df36e692f9648d13a073bffe105e280fd80653c99302330",
+  "sourceRangeSha256": "27f83bd55ed75570921c2482b03a60e336a6df442531fb60bad149557d2c6d47",
+  "semanticEvidenceSha256": "9f05e1619004821c3e217aa8f9397cac898d247f353d81ac71dbabaf40f1b5e4",
+  "cursorReview": {
+    "conclusionFile": ".agents/artifacts/hero31-cursor-review-run-20260909/Cursor来源复核结论.md",
+    "conclusionSha256": "e77aa2dea849345914fc633d5ffb3fd0531fb6ec7b6c6bf92ca477c952f7fe4d",
+    "auditFile": ".agents/artifacts/hero31-cursor-review-run-20260909/主负责人执行审计.json",
+    "auditSha256": "23b95d521a4b98ac2110e50d0419ccc88c33fcb76b65d852d070c1ecbada43c3",
+    "verdict": "READY",
+    "runId": "run-2c762f37-2963-42a6-b259-c201593c8953",
+    "events": 2059,
+    "uniqueTools": 87,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "counts": {
+    "skills": 20,
+    "parameters": 120,
+    "formulas": 35,
+    "effects": 23,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "requestCount": 178,
+  "publicReuse": 29,
+  "businessWrites": 0,
+  "apiCalls": 0,
+  "candidateSha256": "57b47b85077f9066c72ff12f84f703a767e84ae1d3271824326621e0a90d2dac",
+  "planSha256": "903dc62fee877f3ceecf2b52db64be7815d3c9a4f3cc7b1c21ada7137eab47e4",
+  "sourceValuesSha256": "092fec19337db946c9f4c9f7beb978f16481e27a3d8a57a5d8930d3a2603f00b",
+  "strictMath": "独立数学核算.json",
+  "strictMathStatus": "PASS",
+  "strictMathSha256": "d24cf88176a088aec5738f0ad1a3c35b7c56450892230af8373e1e353d6999ca",
+  "candidateMathReady": true,
+  "businessMathReady": false,
+  "protectedSummary": {
+    "inputGETs": 201,
+    "protectedSubjects": 20,
+    "protectedCompositionLists": 120,
+    "protectedRepresentativeImages": 20,
+    "protectedCharacters": [
+      "champion_janna",
+      "champion_lulu",
+      "champion_nami",
+      "champion_morgana"
+    ],
+    "protectedCharacterRelations": [
+      "champion_janna",
+      "champion_lulu",
+      "champion_nami",
+      "champion_morgana"
+    ],
+    "protectedCatalogs": [
+      "/attributes",
+      "/skill-categories",
+      "/modifier-zones",
+      "/damage-types"
+    ],
+    "publicParameterDetails": 29,
+    "classificationCounts": {
+      "empty": 4,
+      "publicOnly": 13,
+      "partialPublic": 3,
+      "existingDetailed": 0
+    }
+  },
+  "noApiCalls": true
+}
