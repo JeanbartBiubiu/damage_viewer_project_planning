@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T03:47:54.264Z",
+  "generatedAt": "2026-09-09T03:58:09.479Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -1248,6 +1248,63 @@
       "browserEvidence": "装备技能实录/第十六批成长与触发装备/页面验收.json",
       "candidateSha256": "9a83728eadbc0ca64925e50a5f3bf249f114e7e4dff78b45e99760c476a55983",
       "runtimeValidation": "未执行"
+    },
+    "heroNinthBatch": {
+      "skills": [
+        "masteryi_p",
+        "masteryi_q",
+        "masteryi_w",
+        "masteryi_e",
+        "masteryi_r",
+        "trundle_p",
+        "trundle_q",
+        "trundle_w",
+        "trundle_e",
+        "trundle_r",
+        "pantheon_p",
+        "pantheon_q",
+        "pantheon_w",
+        "pantheon_e",
+        "pantheon_r",
+        "talon_p",
+        "talon_q",
+        "talon_w",
+        "talon_e",
+        "talon_r"
+      ],
+      "parameters": 131,
+      "formulas": 34,
+      "effects": 15,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "created": 161,
+      "createdByKind": {
+        "parameters": 112,
+        "formulas": 34,
+        "effects": 15
+      },
+      "reusedPublicParameters": 19,
+      "protectedPriorHero": "特朗德尔原5槽57组成全部保留，不在本批新三英雄组成数中重复累计",
+      "trundleProtectedComponents": 57,
+      "readbackGets": 405,
+      "independentBusinessFields": 2927,
+      "arithmeticCases": 333,
+      "invariantChecks": 1252,
+      "status": "三新英雄确定数值及独立效果已录；四英雄20槽回读通过，泰隆E范围外零新增。2代表页面与24额外GET通过，完整资格及时序仍待补。",
+      "executor": "Luna Max候选、交叉纠错与实际补缺；根审查、页面和提交",
+      "runtimeValidation": "未执行",
+      "candidateSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第九批/最终结果.json",
+        "commit": "de8447ac"
+      },
+      "browserEvidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第九批/页面验收.json",
+        "commit": "de8447ac"
+      }
     }
   },
   "runtimeValidation": "未执行"
