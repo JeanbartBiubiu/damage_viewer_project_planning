@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T09:50:00.460Z",
+  "generatedAt": "2026-09-09T10:12:55.828Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -2040,6 +2040,59 @@
       "runtimeValidation": "未执行",
       "evidence": "装备技能实录/第十九批自身与范围主动/当前实录状态.json",
       "browserEvidence": "装备技能实录/第十九批自身与范围主动/页面验收.json"
+    },
+    "heroFifteenthBatch": {
+      "skills": [
+        "viktor_p",
+        "viktor_q",
+        "viktor_w",
+        "viktor_e",
+        "viktor_r",
+        "orianna_p",
+        "orianna_q",
+        "orianna_w",
+        "orianna_e",
+        "orianna_r",
+        "syndra_p",
+        "syndra_q",
+        "syndra_w",
+        "syndra_e",
+        "syndra_r",
+        "taliyah_p",
+        "taliyah_q",
+        "taliyah_w",
+        "taliyah_e",
+        "taliyah_r"
+      ],
+      "parameters": 168,
+      "formulas": 31,
+      "effects": 20,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "reusedParameters": 28,
+      "created": 191,
+      "independentGets": 391,
+      "independentDetails": 219,
+      "independentFormulaCases": 32,
+      "independentSourceTreeCases": 32,
+      "representativePages": 4,
+      "pageGets": 18,
+      "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+      "planSha256": "eefb4349d27c7ac42b3192eac33981551b5dfeebe2fbdb4957f1948feeed3991",
+      "status": "191项实际新增，28项公共参数复用；391次独立GET、219对象全字段、31公式32算例及4代表页面通过；进化、目标资格、五项未知等级值和时序仍待补。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十五批/当前实录状态.json",
+        "sha256": "1288826fc18f49fc7f5564fd213120925743279587a4177cc77ad74a675477bb",
+        "commit": "f5f8ff66"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十五批/页面验收.json",
+        "commit": "f5f8ff66"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行"
