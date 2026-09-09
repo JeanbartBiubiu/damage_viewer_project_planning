@@ -1,0 +1,39 @@
+{
+  "sequence": 80,
+  "intent": {
+    "sequence": 80,
+    "method": "POST",
+    "route": "/skills/tryndamere_p/parameters",
+    "detailRoute": "/skills/tryndamere_p/parameters/crit_chance_per_fury_ratio",
+    "skillKey": "tryndamere_p",
+    "kind": "parameters",
+    "stableKey": "crit_chance_per_fury_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_chance_per_fury_ratio",
+      "name": "每点怒气暴击几率比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.005,
+      "levelValues": null,
+      "description": "当前计算树给Number(0.5)，正文以@PassiveCritConversionTooltip@%显示；0.5百分数点换算为比例0.005。",
+      "sortOrder": 60
+    }
+  },
+  "before": {
+    "sequence": 442,
+    "method": "GET",
+    "route": "/skills/tryndamere_p/parameters/crit_chance_per_fury_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "crit_chance_per_fury_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:57.356Z"
+  }
+}

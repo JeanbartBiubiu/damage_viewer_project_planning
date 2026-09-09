@@ -1,0 +1,69 @@
+{
+  "sequence": 71,
+  "intent": {
+    "sequence": 71,
+    "method": "POST",
+    "route": "/skills/drmundo_r/formulas",
+    "detailRoute": "/skills/drmundo_r/formulas/nearby_champion_effect_multiplier",
+    "skillKey": "drmundo_r",
+    "kind": "formulas",
+    "stableKey": "nearby_champion_effect_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "nearby_champion_effect_multiplier",
+      "name": "三级附近英雄效果倍率",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "unity"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_per_nearby_champion_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MIN",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "nearby_enemy_champion_count"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "unity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "只在R等级3时由bonus_per_nearby_champion_ratio提供增幅；附近数量是无默认实际输入，并在1v1内用MIN(数量,1)封顶。等级1/2的增幅参数为0，不另造输入0。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 415,
+    "method": "GET",
+    "route": "/skills/drmundo_r/formulas/nearby_champion_effect_multiplier",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "nearby_champion_effect_multiplier"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:47.461Z"
+  }
+}

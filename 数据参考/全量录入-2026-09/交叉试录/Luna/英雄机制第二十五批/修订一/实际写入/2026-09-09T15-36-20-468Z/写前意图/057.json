@@ -1,0 +1,61 @@
+{
+  "sequence": 57,
+  "intent": {
+    "sequence": 57,
+    "method": "POST",
+    "route": "/skills/drmundo_e/formulas",
+    "detailRoute": "/skills/drmundo_e/formulas/passive_bonus_attack_damage",
+    "skillKey": "drmundo_e",
+    "kind": "formulas",
+    "stableKey": "passive_bonus_attack_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "passive_bonus_attack_damage",
+      "name": "大力行医被动额外攻击力",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "health_to_ad_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "health_to_ad_scale"
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "当前PassiveBonusAD树为0.01×HealthToADRatio×来源总生命；保留实际根乘数，不把总生命和额外生命混淆。",
+      "sortOrder": 20
+    }
+  },
+  "before": {
+    "sequence": 373,
+    "method": "GET",
+    "route": "/skills/drmundo_e/formulas/passive_bonus_attack_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "passive_bonus_attack_damage"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:31.777Z"
+  }
+}

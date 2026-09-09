@@ -1,0 +1,39 @@
+{
+  "sequence": 38,
+  "intent": {
+    "sequence": 38,
+    "method": "POST",
+    "route": "/skills/drmundo_w/parameters",
+    "detailRoute": "/skills/drmundo_w/parameters/stored_gray_health",
+    "skillKey": "drmundo_w",
+    "kind": "parameters",
+    "stableKey": "stored_gray_health",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stored_gray_health",
+      "name": "当前已储存灰色生命输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "灰色生命资源尚未进入属性字典；恢复量公式只接受外供实际灰色生命，不能用普通生命或缺失生命代替。",
+      "sortOrder": 160
+    }
+  },
+  "before": {
+    "sequence": 316,
+    "method": "GET",
+    "route": "/skills/drmundo_w/parameters/stored_gray_health",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "stored_gray_health"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:11.374Z"
+  }
+}

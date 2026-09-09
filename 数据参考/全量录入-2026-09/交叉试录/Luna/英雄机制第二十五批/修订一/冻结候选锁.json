@@ -1,0 +1,76 @@
+{
+  "generatedAt": "2026-09-09T15:15:10.917Z",
+  "status": "修订一候选、计划和严格数学已锁定，等待主负责人审查；未调用业务接口",
+  "batch": "英雄机制第二十五批",
+  "revision": "hero25-source-v1-candidate-revision-1",
+  "candidateSha256": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
+  "requestPlanSha256": "b22ce20986991a7bf2d3f0db372f2265e3b7f9098e30957722f62c3c112d4cb2",
+  "sourceValuesSha256": "f973c4092defc937e81465623d5525e3693d0d92c8f1b1d4f0052ff628288055",
+  "sourceManifestSha256": "cb6b0911c384a745112b9d880033ab3c0f376528a56d3a4a560e3eeb4f66755e",
+  "currentSnapshotSha256": "06d0751e2b4b3f77773157df078cbc30894f707e2dd305982e6ed53c041c4878",
+  "originalCandidateSha256": "138db432d3e380d7b46222916f84d3ee6101a3fd79dde77704d82675a52a1228",
+  "originalPlanSha256": "8edb06a5b9b16693d57eeb48f5d1ebf083adddb2eb68ac8719b6e474f30b4f77",
+  "originalSourceValuesSha256": "660c3c4b897e1c65a5bddc53560998254fca2c7d2fb9ccfc10e36907825d0342",
+  "originalManifestSha256": "d4da9c2e97323d9b6b6eeb4f5fc02142a723693f99d0177af7bcca817b832107",
+  "strictMathSha256": "4ea728f815d04ac02bf164b3317ddc90be88d7f42eaee6ef072d3091b382be7d",
+  "counts": {
+    "parameters": 76,
+    "formulas": 23,
+    "effects": 10,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "candidateNewParameterCount": 76,
+  "currentParameterCountAfterSevenPublicReuse": 83,
+  "requestCount": 109,
+  "businessWrites": 0,
+  "apiCalls": 0,
+  "protectedCoverage": {
+    "subjects": 10,
+    "componentLists": 60,
+    "publicParameters": 7,
+    "currentSnapshotFiles": 1
+  },
+  "reusedPublicParameters": [
+    {
+      "skillKey": "drmundo_q",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "drmundo_e",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "drmundo_r",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "tryndamere_w",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "tryndamere_r",
+      "parameterKey": "cooldown_ms"
+    }
+  ],
+  "sourceFilesCopied": false,
+  "sourceFilesReadOnlyReference": true,
+  "noApiCalls": true,
+  "strictMathCounts": {
+    "formulas": 23,
+    "formulaCases": 46,
+    "rejectionCases": 23,
+    "runtimeInputRejectionCases": 13,
+    "boundaryCases": 21,
+    "sourceSeriesChecks": 38
+  }
+}

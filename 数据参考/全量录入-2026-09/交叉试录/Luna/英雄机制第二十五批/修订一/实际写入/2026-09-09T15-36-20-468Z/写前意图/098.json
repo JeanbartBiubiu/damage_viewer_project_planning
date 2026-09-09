@@ -1,0 +1,87 @@
+{
+  "sequence": 98,
+  "intent": {
+    "sequence": 98,
+    "method": "POST",
+    "route": "/skills/tryndamere_w/effects",
+    "detailRoute": "/skills/tryndamere_w/effects/attack_damage_reduction",
+    "skillKey": "tryndamere_w",
+    "kind": "effects",
+    "stableKey": "attack_damage_reduction",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "attack_damage_reduction",
+      "name": "蔑视目标攻击力降低",
+      "description": "正文明确附近敌方英雄降低攻击力；候选幅度为正值，操作为DECREASE。",
+      "sortOrder": 10,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "reduction_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "TARGET",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "蔑视目标攻击力降低",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "TARGET",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "attack_damage_reduction"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "attack_damage",
+            "operation": "DECREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  },
+  "before": {
+    "sequence": 496,
+    "method": "GET",
+    "route": "/skills/tryndamere_w/effects/attack_damage_reduction",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_EFFECT_NOT_FOUND",
+        "details": {
+          "effectKey": "attack_damage_reduction"
+        },
+        "message": "技能效果不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:38:16.811Z"
+  }
+}

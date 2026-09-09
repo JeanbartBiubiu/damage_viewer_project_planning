@@ -1,0 +1,45 @@
+{
+  "sequence": 32,
+  "intent": {
+    "sequence": 32,
+    "method": "POST",
+    "route": "/skills/drmundo_w/parameters",
+    "detailRoute": "/skills/drmundo_w/parameters/damage_per_tick",
+    "skillKey": "drmundo_w",
+    "kind": "parameters",
+    "stableKey": "damage_per_tick",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_per_tick",
+      "name": "单节拍基础魔法伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 5,
+        "2": 8.75,
+        "3": 12.5,
+        "4": 16.25,
+        "5": 20
+      },
+      "description": "客户端当前根绑定 DataValues.DamagePerTick，等级1至5取索引1至5；正文明确每秒显示为该值×4，不能据此推定实际事件排程。",
+      "sortOrder": 100
+    }
+  },
+  "before": {
+    "sequence": 298,
+    "method": "GET",
+    "route": "/skills/drmundo_w/parameters/damage_per_tick",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "damage_per_tick"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:04.956Z"
+  }
+}

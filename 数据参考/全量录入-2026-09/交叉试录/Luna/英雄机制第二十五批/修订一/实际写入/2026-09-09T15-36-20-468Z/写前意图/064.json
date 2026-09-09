@@ -1,0 +1,43 @@
+{
+  "sequence": 64,
+  "intent": {
+    "sequence": 64,
+    "method": "POST",
+    "route": "/skills/drmundo_r/parameters",
+    "detailRoute": "/skills/drmundo_r/parameters/missing_health_max_health_gain_ratio",
+    "skillKey": "drmundo_r",
+    "kind": "parameters",
+    "stableKey": "missing_health_max_health_gain_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missing_health_max_health_gain_ratio",
+      "name": "按已损失生命获得最大生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.15,
+        "2": 0.2,
+        "3": 0.25
+      },
+      "description": "客户端当前根绑定DataValues.MissingHealthHeal；正文以*100显示。该比例描述获得最大生命的量，不命名为普通直接治疗；正确应用阶段的实际已损失生命基准由无默认运行输入提供。",
+      "sortOrder": 40
+    }
+  },
+  "before": {
+    "sequence": 394,
+    "method": "GET",
+    "route": "/skills/drmundo_r/parameters/missing_health_max_health_gain_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "missing_health_max_health_gain_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:39.432Z"
+  }
+}

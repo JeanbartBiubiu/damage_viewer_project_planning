@@ -1,0 +1,39 @@
+{
+  "sequence": 102,
+  "intent": {
+    "sequence": 102,
+    "method": "POST",
+    "route": "/skills/tryndamere_e/parameters",
+    "detailRoute": "/skills/tryndamere_e/parameters/ap_ratio",
+    "skillKey": "tryndamere_e",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "旋风斩法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.8,
+      "levelValues": null,
+      "description": "客户端当前根绑定 DataValues.APRatio=0.8；省略统计选择器按同版窄证mStat0=来源总法强。",
+      "sortOrder": 30
+    }
+  },
+  "before": {
+    "sequence": 508,
+    "method": "GET",
+    "route": "/skills/tryndamere_e/parameters/ap_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "ap_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:38:21.242Z"
+  }
+}

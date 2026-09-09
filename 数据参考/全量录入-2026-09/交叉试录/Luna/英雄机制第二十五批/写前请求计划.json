@@ -1,0 +1,3172 @@
+{
+  "generatedAt": "2026-09-09T14:35:28.694Z",
+  "status": "仅写入意图，未调用业务接口",
+  "batch": "英雄机制第二十五批",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "businessWrites": 0,
+  "candidateSha256": "138db432d3e380d7b46222916f84d3ee6101a3fd79dde77704d82675a52a1228",
+  "currentSnapshotSha256": "06d0751e2b4b3f77773157df078cbc30894f707e2dd305982e6ed53c041c4878",
+  "requestCount": 109,
+  "requestCounts": {
+    "parameters": 76,
+    "formulas": 23,
+    "effects": 10,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedPublicParameters": [
+    {
+      "skillKey": "drmundo_q",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "drmundo_e",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "drmundo_r",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "tryndamere_w",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "tryndamere_e",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "tryndamere_r",
+      "parameterKey": "cooldown_ms"
+    }
+  ],
+  "protectedSkills": [
+    "drmundo_p",
+    "drmundo_q",
+    "drmundo_w",
+    "drmundo_e",
+    "drmundo_r",
+    "tryndamere_p",
+    "tryndamere_q",
+    "tryndamere_w",
+    "tryndamere_e",
+    "tryndamere_r"
+  ],
+  "requests": [
+    {
+      "sequence": 1,
+      "method": "POST",
+      "route": "/skills/drmundo_p/parameters",
+      "detailRoute": "/skills/drmundo_p/parameters/current_health_loss_ratio",
+      "skillKey": "drmundo_p",
+      "kind": "parameters",
+      "stableKey": "current_health_loss_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "current_health_loss_ratio",
+        "name": "抵抗定身时当前生命损失比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.04,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.CurrentHealthLoss；正文以 *100 显示百分数，0.04 表示4%；使用来源当前生命输入，不能默认当前生命。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 2,
+      "method": "POST",
+      "route": "/skills/drmundo_p/parameters",
+      "detailRoute": "/skills/drmundo_p/parameters/canister_ground_duration_ms",
+      "skillKey": "drmundo_p",
+      "kind": "parameters",
+      "stableKey": "canister_ground_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "canister_ground_duration_ms",
+        "name": "化学药剂留存时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 7000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.CannisterGroundDuration=7秒；单位换算为7000毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 3,
+      "method": "POST",
+      "route": "/skills/drmundo_p/parameters",
+      "detailRoute": "/skills/drmundo_p/parameters/passive_cooldown_refund_ms",
+      "skillKey": "drmundo_p",
+      "kind": "parameters",
+      "stableKey": "passive_cooldown_refund_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_cooldown_refund_ms",
+        "name": "拾取药剂减少被动冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.PassiveCooldownRefund=15秒；单位换算为15000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 4,
+      "method": "POST",
+      "route": "/skills/drmundo_p/parameters",
+      "detailRoute": "/skills/drmundo_p/parameters/max_health_gain_ratio",
+      "skillKey": "drmundo_p",
+      "kind": "parameters",
+      "stableKey": "max_health_gain_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_health_gain_ratio",
+        "name": "拾取药剂最大生命回复比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.04,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MaxHealthGain；正文以 *100 显示百分数，0.04表示4%最大生命。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 5,
+      "method": "POST",
+      "route": "/skills/drmundo_p/parameters",
+      "detailRoute": "/skills/drmundo_p/parameters/max_health_regen_interval_ms",
+      "skillKey": "drmundo_p",
+      "kind": "parameters",
+      "stableKey": "max_health_regen_interval_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_health_regen_interval_ms",
+        "name": "被动生命回复间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "当前正文明确“每5秒回复”；只记录间隔，不创建周期过程。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 6,
+      "method": "POST",
+      "route": "/skills/drmundo_p/parameters",
+      "detailRoute": "/skills/drmundo_p/parameters/passive_cooldown_ms",
+      "skillKey": "drmundo_p",
+      "kind": "parameters",
+      "stableKey": "passive_cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_cooldown_ms",
+        "name": "被动冷却实际值（毫秒，等级曲线外供）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前计算树 PassiveCooldown 的等级1值为60秒，并在3、6、9、12、15、21级各有-9秒断点；求值循环未证，转换为无默认实际毫秒输入，不能线性展开或猜测等级值。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 7,
+      "method": "POST",
+      "route": "/skills/drmundo_p/parameters",
+      "detailRoute": "/skills/drmundo_p/parameters/max_health_regen_ratio",
+      "skillKey": "drmundo_p",
+      "kind": "parameters",
+      "stableKey": "max_health_regen_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_health_regen_ratio",
+        "name": "每5秒最大生命回复比例（等级曲线外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前计算树 MaxHealthRegen 的等级断点曲线以百分数显示；求值规则未证，保留无默认比例输入。原始起点约0.004，仅作来源证据，不作为全等级固定值。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 8,
+      "method": "POST",
+      "route": "/skills/drmundo_p/formulas",
+      "detailRoute": "/skills/drmundo_p/formulas/health_loss_amount",
+      "skillKey": "drmundo_p",
+      "kind": "formulas",
+      "stableKey": "health_loss_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "health_loss_amount",
+        "name": "抵抗定身当前生命损失量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "current_health_loss_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "CURRENT"
+            }
+          ]
+        },
+        "description": "当前正文 CurrentHealthLoss*100%当前生命值；实际当前生命由属性输入提供。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 9,
+      "method": "POST",
+      "route": "/skills/drmundo_p/formulas",
+      "detailRoute": "/skills/drmundo_p/formulas/max_health_gain_amount",
+      "skillKey": "drmundo_p",
+      "kind": "formulas",
+      "stableKey": "max_health_gain_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "max_health_gain_amount",
+        "name": "拾取药剂最大生命回复量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_health_gain_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "当前正文 MaxHealthGain*100%最大生命值；只建立计算量，不创建直接治疗结果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 10,
+      "method": "POST",
+      "route": "/skills/drmundo_p/formulas",
+      "detailRoute": "/skills/drmundo_p/formulas/max_health_regen_amount",
+      "skillKey": "drmundo_p",
+      "kind": "formulas",
+      "stableKey": "max_health_regen_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "max_health_regen_amount",
+        "name": "每5秒最大生命回复量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_health_regen_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "当前正文 MaxHealthRegen最大生命值；等级曲线通过无默认比例输入提供，不把曲线端点连成线。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 11,
+      "method": "POST",
+      "route": "/skills/drmundo_p/effects",
+      "detailRoute": "/skills/drmundo_p/effects/health_cost",
+      "skillKey": "drmundo_p",
+      "kind": "effects",
+      "stableKey": "health_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "health_cost",
+        "name": "抵抗定身当前生命损失",
+        "description": "只定义当前生命损失这一非即时资源组成；定身抵抗触发与拾取时点仍待事件接线，不自动扣除。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "抵抗定身当前生命损失",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "health_loss_amount"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "hp",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 12,
+      "method": "POST",
+      "route": "/skills/drmundo_q/parameters",
+      "detailRoute": "/skills/drmundo_q/parameters/cast_time_ms",
+      "skillKey": "drmundo_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根 spellCastTime=0.25秒；仅保存字段，不表示命中发生在施法结束。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 13,
+      "method": "POST",
+      "route": "/skills/drmundo_q/parameters",
+      "detailRoute": "/skills/drmundo_q/parameters/slow_duration_ms",
+      "skillKey": "drmundo_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowDuration=2秒；单位换算为2000毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 14,
+      "method": "POST",
+      "route": "/skills/drmundo_q/parameters",
+      "detailRoute": "/skills/drmundo_q/parameters/slow_ratio",
+      "skillKey": "drmundo_q",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowAmount；正文为 @SlowAmount*100@%，0.4表示40%减速。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 15,
+      "method": "POST",
+      "route": "/skills/drmundo_q/parameters",
+      "detailRoute": "/skills/drmundo_q/parameters/current_health_damage_ratio",
+      "skillKey": "drmundo_q",
+      "kind": "parameters",
+      "stableKey": "current_health_damage_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "current_health_damage_ratio",
+        "name": "目标当前生命伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.225,
+          "3": 0.25,
+          "4": 0.275,
+          "5": 0.3
+        },
+        "description": "客户端当前根绑定 DataValues.CurrentHealthDamage，等级1至5为20%、22.5%、25%、27.5%、30%；正文为 *100 显示。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 16,
+      "method": "POST",
+      "route": "/skills/drmundo_q/parameters",
+      "detailRoute": "/skills/drmundo_q/parameters/minimum_damage",
+      "skillKey": "drmundo_q",
+      "kind": "parameters",
+      "stableKey": "minimum_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "minimum_damage",
+        "name": "最低魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 130,
+          "3": 180,
+          "4": 230,
+          "5": 280
+        },
+        "description": "客户端当前根绑定 DataValues.MinimumDamage，等级1至5取索引1至5；用于最终MAX封顶下界。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 17,
+      "method": "POST",
+      "route": "/skills/drmundo_q/parameters",
+      "detailRoute": "/skills/drmundo_q/parameters/health_cost",
+      "skillKey": "drmundo_q",
+      "kind": "parameters",
+      "stableKey": "health_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_cost",
+        "name": "生命值消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 60,
+          "3": 70,
+          "4": 80,
+          "5": 90
+        },
+        "description": "客户端当前根绑定 DataValues.HealthCost，等级1至5取索引1至5；正文明确生命值代价。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 18,
+      "method": "POST",
+      "route": "/skills/drmundo_q/parameters",
+      "detailRoute": "/skills/drmundo_q/parameters/health_refund_on_champion_monster_ratio",
+      "skillKey": "drmundo_q",
+      "kind": "parameters",
+      "stableKey": "health_refund_on_champion_monster_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_refund_on_champion_monster_ratio",
+        "name": "命中英雄或野怪生命回复比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.HealthRefundOnHitChampionMonsterPercent=1；只保留命中英雄/野怪这一正文分支的计算参数。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 19,
+      "method": "POST",
+      "route": "/skills/drmundo_q/formulas",
+      "detailRoute": "/skills/drmundo_q/formulas/magic_damage",
+      "skillKey": "drmundo_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "病毒屠刀首个敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MAX",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minimum_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "current_health_damage_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "CURRENT"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前正文与扩展正文共同确定最终值=MAX(最低伤害, 当前生命比例×目标当前生命)；不使用目标最大生命或默认当前生命。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 20,
+      "method": "POST",
+      "route": "/skills/drmundo_q/formulas",
+      "detailRoute": "/skills/drmundo_q/formulas/health_refund_on_champion_monster",
+      "skillKey": "drmundo_q",
+      "kind": "formulas",
+      "stableKey": "health_refund_on_champion_monster",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "health_refund_on_champion_monster",
+        "name": "命中英雄或野怪生命回复量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "health_refund_on_champion_monster_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "health_cost"
+            }
+          ]
+        },
+        "description": "当前计算树 HealthRestoreOnHitChampionMonster=HealthRefundOnHitChampionMonsterPercent×HealthCost；直接治疗结果留待事件接线。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 21,
+      "method": "POST",
+      "route": "/skills/drmundo_q/effects",
+      "detailRoute": "/skills/drmundo_q/effects/health_cost",
+      "skillKey": "drmundo_q",
+      "kind": "effects",
+      "stableKey": "health_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "health_cost",
+        "name": "病毒屠刀生命值消耗",
+        "description": "只记录一次施放的生命值代价；实际扣除时点与资源不足处理待事件接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "病毒屠刀生命值消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "health_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "hp",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 22,
+      "method": "POST",
+      "route": "/skills/drmundo_q/effects",
+      "detailRoute": "/skills/drmundo_q/effects/slow",
+      "skillKey": "drmundo_q",
+      "kind": "effects",
+      "stableKey": "slow",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "slow",
+        "name": "病毒屠刀目标减速",
+        "description": "正文明确对命中的第一个敌人施加40%减速；减速幅度保持正值，使用DECREASE避免负值重复取反。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "slow_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "病毒屠刀目标减速",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "TARGET",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "slow_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "DECREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 23,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/cast_time_ms",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前根 spellCastTime=0；保留整数毫秒字段，不表示过程已经接线。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 24,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/duration_ms",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "电击疗法持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.Duration=3秒；单位换算为3000毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 25,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/current_health_cost_ratio",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "current_health_cost_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "current_health_cost_ratio",
+        "name": "当前生命消耗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.08,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.CurrentHealthCost；正文为*100%当前生命值，0.08表示8%。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 26,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/gray_health_initial_duration_ms",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "gray_health_initial_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "gray_health_initial_duration_ms",
+        "name": "灰色生命首段储存时长（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.GrayHealthInitialDuration=0.75秒；单位换算为750毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 27,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/gray_health_storage_ratio",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "gray_health_storage_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "gray_health_storage_ratio",
+        "name": "灰色生命后续储存比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.GrayHealthStorage=0.25；正文以*100显示25%。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 28,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/gray_health_initial_storage_ratio",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "gray_health_initial_storage_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "gray_health_initial_storage_ratio",
+        "name": "灰色生命首段储存比例（等级曲线外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前计算树 GrayHealthStorageInitial 为等级插值约0.8至0.95；未证等级求值，不线性猜测，保留无默认比例输入。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 29,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/gray_health_hero_restore_ratio",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "gray_health_hero_restore_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "gray_health_hero_restore_ratio",
+        "name": "命中敌方英雄灰色生命回复比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.GrayHealthBigMod=1；只记录比例，不创建灰色生命直接回复结果。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 30,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/gray_health_nonhero_restore_ratio",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "gray_health_nonhero_restore_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "gray_health_nonhero_restore_ratio",
+        "name": "未命中敌方英雄灰色生命回复比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.GrayHealthSmallMod=0.5；条件分支保留来源，灰色生命属性尚无字典。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 31,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/second_cast_lockout_ms",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "second_cast_lockout_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "second_cast_lockout_ms",
+        "name": "再次施放锁定时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SecondCastLockout=0.5秒；单位换算为500毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 32,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/damage_per_tick",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "damage_per_tick",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_per_tick",
+        "name": "单节拍基础魔法伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 5,
+          "2": 8.75,
+          "3": 12.5,
+          "4": 16.25,
+          "5": 20
+        },
+        "description": "客户端当前根绑定 DataValues.DamagePerTick，等级1至5取索引1至5；正文明确每秒显示为该值×4，不能据此推定实际事件排程。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 33,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/ticks_per_second",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "ticks_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ticks_per_second",
+        "name": "正文每秒倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "当前正文明确 @DamagePerTick*4@ 每秒；这是显示计算倍率，保持次数为INTEGER，不表示实际tick数量或时长。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 34,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/recast_base_damage",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "recast_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "recast_base_damage",
+        "name": "重施放基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 35,
+          "3": 50,
+          "4": 65,
+          "5": 80
+        },
+        "description": "客户端当前根绑定 DataValues.RecastBaseDamage，等级1至5取索引1至5。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "sequence": 35,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/recast_bonus_health_ratio",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "recast_bonus_health_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "recast_bonus_health_ratio",
+        "name": "重施放额外生命倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.07,
+        "levelValues": null,
+        "description": "当前W主对象 TotalDamage树为RecastBaseDamage+0.07×来源额外生命；不被旧重施放对象的旧树替代。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "sequence": 36,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/initial_damage_taken",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "initial_damage_taken",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "initial_damage_taken",
+        "name": "首段实际承受伤害输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "灰色生命首750毫秒存储的实际伤害量；无默认值，独立于后续阶段。",
+        "sortOrder": 140
+      }
+    },
+    {
+      "sequence": 37,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/subsequent_damage_taken",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "subsequent_damage_taken",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "subsequent_damage_taken",
+        "name": "后续实际承受伤害输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "灰色生命首段结束后的实际伤害量；无默认值，不能与首段合并。",
+        "sortOrder": 150
+      }
+    },
+    {
+      "sequence": 38,
+      "method": "POST",
+      "route": "/skills/drmundo_w/parameters",
+      "detailRoute": "/skills/drmundo_w/parameters/stored_gray_health",
+      "skillKey": "drmundo_w",
+      "kind": "parameters",
+      "stableKey": "stored_gray_health",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stored_gray_health",
+        "name": "当前已储存灰色生命输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "灰色生命资源尚未进入属性字典；恢复量公式只接受外供实际灰色生命，不能用普通生命或缺失生命代替。",
+        "sortOrder": 160
+      }
+    },
+    {
+      "sequence": 39,
+      "method": "POST",
+      "route": "/skills/drmundo_w/formulas",
+      "detailRoute": "/skills/drmundo_w/formulas/health_cost",
+      "skillKey": "drmundo_w",
+      "kind": "formulas",
+      "stableKey": "health_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "health_cost",
+        "name": "电击疗法当前生命消耗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "current_health_cost_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "CURRENT"
+            }
+          ]
+        },
+        "description": "当前正文为CurrentHealthCost*100%当前生命值；当前生命由属性输入提供。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 40,
+      "method": "POST",
+      "route": "/skills/drmundo_w/formulas",
+      "detailRoute": "/skills/drmundo_w/formulas/damage_per_second",
+      "skillKey": "drmundo_w",
+      "kind": "formulas",
+      "stableKey": "damage_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage_per_second",
+        "name": "电击疗法每秒魔法伤害显示量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_per_tick"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ticks_per_second"
+            }
+          ]
+        },
+        "description": "当前正文明确DamagePerTick×4每秒；仅保存显示量，不宣称每秒事件、节拍间隔或实际命中次数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 41,
+      "method": "POST",
+      "route": "/skills/drmundo_w/formulas",
+      "detailRoute": "/skills/drmundo_w/formulas/initial_gray_health_storage",
+      "skillKey": "drmundo_w",
+      "kind": "formulas",
+      "stableKey": "initial_gray_health_storage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "initial_gray_health_storage",
+        "name": "首750毫秒灰色生命储存量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "gray_health_initial_storage_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "initial_damage_taken"
+            }
+          ]
+        },
+        "description": "首段储存=首段实际承受伤害×首段比例；首段比例和伤害都无默认输入。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 42,
+      "method": "POST",
+      "route": "/skills/drmundo_w/formulas",
+      "detailRoute": "/skills/drmundo_w/formulas/subsequent_gray_health_storage",
+      "skillKey": "drmundo_w",
+      "kind": "formulas",
+      "stableKey": "subsequent_gray_health_storage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "subsequent_gray_health_storage",
+        "name": "后续灰色生命储存量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "gray_health_storage_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "subsequent_damage_taken"
+            }
+          ]
+        },
+        "description": "后续储存=后续实际承受伤害×25%；与首段输入分开。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 43,
+      "method": "POST",
+      "route": "/skills/drmundo_w/formulas",
+      "detailRoute": "/skills/drmundo_w/formulas/hero_gray_health_restore_amount",
+      "skillKey": "drmundo_w",
+      "kind": "formulas",
+      "stableKey": "hero_gray_health_restore_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "hero_gray_health_restore_amount",
+        "name": "命中敌方英雄灰色生命回复量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "gray_health_hero_restore_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "stored_gray_health"
+            }
+          ]
+        },
+        "description": "命中敌方英雄时按100%已储存灰色生命计算；灰色生命属性缺失，保留外供输入，不创建直接回复结果。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 44,
+      "method": "POST",
+      "route": "/skills/drmundo_w/formulas",
+      "detailRoute": "/skills/drmundo_w/formulas/nonhero_gray_health_restore_amount",
+      "skillKey": "drmundo_w",
+      "kind": "formulas",
+      "stableKey": "nonhero_gray_health_restore_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "nonhero_gray_health_restore_amount",
+        "name": "未命中敌方英雄灰色生命回复量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "gray_health_nonhero_restore_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "stored_gray_health"
+            }
+          ]
+        },
+        "description": "未命中敌方英雄时按50%已储存灰色生命计算；不把该分支误写成普通生命回复。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 45,
+      "method": "POST",
+      "route": "/skills/drmundo_w/formulas",
+      "detailRoute": "/skills/drmundo_w/formulas/recast_magic_damage",
+      "skillKey": "drmundo_w",
+      "kind": "formulas",
+      "stableKey": "recast_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "recast_magic_damage",
+        "name": "电击疗法重施放魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "recast_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "recast_bonus_health_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前W主对象TotalDamage=RecastBaseDamage+0.07×来源额外生命；不使用旧额外对象的旧FlatHeal/总AD树替代。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 46,
+      "method": "POST",
+      "route": "/skills/drmundo_w/effects",
+      "detailRoute": "/skills/drmundo_w/effects/health_cost",
+      "skillKey": "drmundo_w",
+      "kind": "effects",
+      "stableKey": "health_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "health_cost",
+        "name": "电击疗法当前生命消耗",
+        "description": "只定义当前生命消耗；实际施放和资源不足处理待事件接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "电击疗法当前生命消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "health_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "hp",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 47,
+      "method": "POST",
+      "route": "/skills/drmundo_e/parameters",
+      "detailRoute": "/skills/drmundo_e/parameters/cast_time_ms",
+      "skillKey": "drmundo_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前根spellCastTime=1秒且mCastTime=1秒；两字段一致，单位换算为1000毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 48,
+      "method": "POST",
+      "route": "/skills/drmundo_e/parameters",
+      "detailRoute": "/skills/drmundo_e/parameters/attack_override_duration_ms",
+      "skillKey": "drmundo_e",
+      "kind": "parameters",
+      "stableKey": "attack_override_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_override_duration_ms",
+        "name": "强化攻击窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.AttackOverrideDuration=4秒；只记录下次攻击窗口。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 49,
+      "method": "POST",
+      "route": "/skills/drmundo_e/parameters",
+      "detailRoute": "/skills/drmundo_e/parameters/flat_health_cost",
+      "skillKey": "drmundo_e",
+      "kind": "parameters",
+      "stableKey": "flat_health_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "flat_health_cost",
+        "name": "生命值消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 25,
+          "3": 40,
+          "4": 55,
+          "5": 70
+        },
+        "description": "客户端当前根绑定 DataValues.FlatHealthCost，等级1至5取索引1至5；保留正值生命代价。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 50,
+      "method": "POST",
+      "route": "/skills/drmundo_e/parameters",
+      "detailRoute": "/skills/drmundo_e/parameters/base_damage",
+      "skillKey": "drmundo_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "额外物理伤害基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 5,
+          "2": 15,
+          "3": 25,
+          "4": 35,
+          "5": 45
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage，等级1至5取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 51,
+      "method": "POST",
+      "route": "/skills/drmundo_e/parameters",
+      "detailRoute": "/skills/drmundo_e/parameters/bonus_health_ratio",
+      "skillKey": "drmundo_e",
+      "kind": "parameters",
+      "stableKey": "bonus_health_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_health_ratio",
+        "name": "额外生命倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BonusHealthRatio=0.05；当前AdditionalDamage树使用来源额外生命。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 52,
+      "method": "POST",
+      "route": "/skills/drmundo_e/parameters",
+      "detailRoute": "/skills/drmundo_e/parameters/max_missing_health_threshold_ratio",
+      "skillKey": "drmundo_e",
+      "kind": "parameters",
+      "stableKey": "max_missing_health_threshold_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_missing_health_threshold_ratio",
+        "name": "达到最高增幅的已损失生命阈值",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "客户端扩展正文明确70%已损失生命阈值；当前主计算树未给出中间曲线，不用此值猜测增幅过程。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 53,
+      "method": "POST",
+      "route": "/skills/drmundo_e/parameters",
+      "detailRoute": "/skills/drmundo_e/parameters/max_damage_amp",
+      "skillKey": "drmundo_e",
+      "kind": "parameters",
+      "stableKey": "max_damage_amp",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_damage_amp",
+        "name": "最高伤害倍率端点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.4,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MaxDamageAmp=1.4；这是最高端点，不是当前伤害倍率默认值。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 54,
+      "method": "POST",
+      "route": "/skills/drmundo_e/parameters",
+      "detailRoute": "/skills/drmundo_e/parameters/health_to_ad_ratio",
+      "skillKey": "drmundo_e",
+      "kind": "parameters",
+      "stableKey": "health_to_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_to_ad_ratio",
+        "name": "最大生命转攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2,
+          "2": 2.3,
+          "3": 2.6,
+          "4": 2.9,
+          "5": 3.2
+        },
+        "description": "客户端当前根绑定 DataValues.HealthToADRatio，等级1至5取索引1至5；当前PassiveBonusAD树另有0.01乘数。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 55,
+      "method": "POST",
+      "route": "/skills/drmundo_e/parameters",
+      "detailRoute": "/skills/drmundo_e/parameters/unity",
+      "skillKey": "drmundo_e",
+      "kind": "parameters",
+      "stableKey": "unity",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "unity",
+        "name": "单位倍率1",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "用于复刻MaxDamageAmpTooltip树中的减1操作；不是伤害倍率默认值。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 56,
+      "method": "POST",
+      "route": "/skills/drmundo_e/parameters",
+      "detailRoute": "/skills/drmundo_e/parameters/health_to_ad_scale",
+      "skillKey": "drmundo_e",
+      "kind": "parameters",
+      "stableKey": "health_to_ad_scale",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_to_ad_scale",
+        "name": "生命转攻击力根乘数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "当前PassiveBonusAD计算树直接给出Number(0.01)；与HealthToADRatio相乘。",
+        "sortOrder": 85
+      }
+    },
+    {
+      "sequence": 57,
+      "method": "POST",
+      "route": "/skills/drmundo_e/formulas",
+      "detailRoute": "/skills/drmundo_e/formulas/additional_physical_damage",
+      "skillKey": "drmundo_e",
+      "kind": "formulas",
+      "stableKey": "additional_physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "additional_physical_damage",
+        "name": "大力行医强化攻击额外物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_health_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前AdditionalDamage树=BaseDamage+0.05×来源额外生命；已损失生命提升的中间过程仅由正文端点描述，未并入此基础组成。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 58,
+      "method": "POST",
+      "route": "/skills/drmundo_e/formulas",
+      "detailRoute": "/skills/drmundo_e/formulas/passive_bonus_attack_damage",
+      "skillKey": "drmundo_e",
+      "kind": "formulas",
+      "stableKey": "passive_bonus_attack_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "passive_bonus_attack_damage",
+        "name": "大力行医被动额外攻击力",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "health_to_ad_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "health_to_ad_scale"
+                }
+              ]
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "当前PassiveBonusAD树为0.01×HealthToADRatio×来源总生命；保留实际根乘数，不把总生命和额外生命混淆。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 59,
+      "method": "POST",
+      "route": "/skills/drmundo_e/formulas",
+      "detailRoute": "/skills/drmundo_e/formulas/maximum_damage_amplification_bonus_ratio",
+      "skillKey": "drmundo_e",
+      "kind": "formulas",
+      "stableKey": "maximum_damage_amplification_bonus_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "maximum_damage_amplification_bonus_ratio",
+        "name": "最高伤害增幅比例端点",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "SUBTRACT",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_damage_amp"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "unity"
+            }
+          ]
+        },
+        "description": "当前MaxDamageAmpTooltip树=MaxDamageAmp+Number(-1)，1.4端点转换为0.4增幅；不表示当前攻击默认乘1.4。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 60,
+      "method": "POST",
+      "route": "/skills/drmundo_e/effects",
+      "detailRoute": "/skills/drmundo_e/effects/health_cost",
+      "skillKey": "drmundo_e",
+      "kind": "effects",
+      "stableKey": "health_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "health_cost",
+        "name": "大力行医生命值消耗",
+        "description": "只定义主动生命值代价；实际施放与下次攻击事件待接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "大力行医生命值消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "flat_health_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "hp",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 61,
+      "method": "POST",
+      "route": "/skills/drmundo_e/effects",
+      "detailRoute": "/skills/drmundo_e/effects/passive_bonus_attack_damage",
+      "skillKey": "drmundo_e",
+      "kind": "effects",
+      "stableKey": "passive_bonus_attack_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "passive_bonus_attack_damage",
+        "name": "大力行医被动额外攻击力",
+        "description": "独立定义当前根被动额外攻击力；不创建自动初始化或触发，应用时读取公式。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": null,
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "大力行医被动额外攻击力",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "passive_bonus_attack_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "attack_damage",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 62,
+      "method": "POST",
+      "route": "/skills/drmundo_r/parameters",
+      "detailRoute": "/skills/drmundo_r/parameters/cast_time_ms",
+      "skillKey": "drmundo_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒；仅保存字段，不表示治疗发生在施法结束。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 63,
+      "method": "POST",
+      "route": "/skills/drmundo_r/parameters",
+      "detailRoute": "/skills/drmundo_r/parameters/duration_ms",
+      "skillKey": "drmundo_r",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "极限剂量持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.Duration=10秒；单位换算为10000毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 64,
+      "method": "POST",
+      "route": "/skills/drmundo_r/parameters",
+      "detailRoute": "/skills/drmundo_r/parameters/speed_boost_ratio",
+      "skillKey": "drmundo_r",
+      "kind": "parameters",
+      "stableKey": "speed_boost_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "speed_boost_ratio",
+        "name": "移动速度增加比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.15,
+          "2": 0.25,
+          "3": 0.35
+        },
+        "description": "客户端当前根绑定 DataValues.SpeedBoostAmount，等级1至3取索引1至3；正文以*100显示。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 65,
+      "method": "POST",
+      "route": "/skills/drmundo_r/parameters",
+      "detailRoute": "/skills/drmundo_r/parameters/missing_health_heal_ratio",
+      "skillKey": "drmundo_r",
+      "kind": "parameters",
+      "stableKey": "missing_health_heal_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "missing_health_heal_ratio",
+        "name": "已损失生命治疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.15,
+          "2": 0.2,
+          "3": 0.25
+        },
+        "description": "客户端当前根绑定 DataValues.MissingHealthHeal，等级1至3取索引1至3；按施放前实际已损失生命计算。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 66,
+      "method": "POST",
+      "route": "/skills/drmundo_r/parameters",
+      "detailRoute": "/skills/drmundo_r/parameters/max_health_hot_ratio",
+      "skillKey": "drmundo_r",
+      "kind": "parameters",
+      "stableKey": "max_health_hot_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_health_hot_ratio",
+        "name": "最大生命持续治疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.2,
+          "2": 0.4,
+          "3": 0.6
+        },
+        "description": "客户端当前根绑定 DataValues.MaxHealthHoT，等级1至3取索引1至3；按施放前最大生命计算总量。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 67,
+      "method": "POST",
+      "route": "/skills/drmundo_r/parameters",
+      "detailRoute": "/skills/drmundo_r/parameters/bonus_per_nearby_champion_ratio",
+      "skillKey": "drmundo_r",
+      "kind": "parameters",
+      "stableKey": "bonus_per_nearby_champion_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_per_nearby_champion_ratio",
+        "name": "三级附近敌方英雄治疗增幅",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BonusPerNearbyChampion=0.05；当前正文仅在3级说明附近每个敌方英雄额外增幅。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 68,
+      "method": "POST",
+      "route": "/skills/drmundo_r/parameters",
+      "detailRoute": "/skills/drmundo_r/parameters/nearby_enemy_champion_count",
+      "skillKey": "drmundo_r",
+      "kind": "parameters",
+      "stableKey": "nearby_enemy_champion_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "nearby_enemy_champion_count",
+        "name": "合资格附近敌方英雄数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "本轮1v1最多外供0或1；R等级1/2必须外供0，R等级3才可外供附近敌方英雄实际数量；不默认存在敌人。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 69,
+      "method": "POST",
+      "route": "/skills/drmundo_r/parameters",
+      "detailRoute": "/skills/drmundo_r/parameters/takedown_duration_extension_ms",
+      "skillKey": "drmundo_r",
+      "kind": "parameters",
+      "stableKey": "takedown_duration_extension_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "takedown_duration_extension_ms",
+        "name": "参与击杀延长持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.TakedownDurationExtension=2秒；当前根正文/计算树没有已接消费者，保留数值待补。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 70,
+      "method": "POST",
+      "route": "/skills/drmundo_r/parameters",
+      "detailRoute": "/skills/drmundo_r/parameters/unity",
+      "skillKey": "drmundo_r",
+      "kind": "parameters",
+      "stableKey": "unity",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "unity",
+        "name": "单位倍率1",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "用于附近英雄治疗倍率的加法基准。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 71,
+      "method": "POST",
+      "route": "/skills/drmundo_r/formulas",
+      "detailRoute": "/skills/drmundo_r/formulas/nearby_champion_heal_multiplier",
+      "skillKey": "drmundo_r",
+      "kind": "formulas",
+      "stableKey": "nearby_champion_heal_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "nearby_champion_heal_multiplier",
+        "name": "三级附近英雄治疗倍率",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "unity"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_per_nearby_champion_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "nearby_enemy_champion_count"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "仅在R等级3且附近敌方英雄数由外部资格输入提供时使用；等级1/2应输入0。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 72,
+      "method": "POST",
+      "route": "/skills/drmundo_r/formulas",
+      "detailRoute": "/skills/drmundo_r/formulas/missing_health_heal_amount",
+      "skillKey": "drmundo_r",
+      "kind": "formulas",
+      "stableKey": "missing_health_heal_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "missing_health_heal_amount",
+        "name": "极限剂量已损失生命治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missing_health_heal_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "MISSING"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "unity"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_per_nearby_champion_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "nearby_enemy_champion_count"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "治疗基数为施放前已损失生命；附近英雄增幅作为独立倍率，新增最大生命不会反馈到本次基数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 73,
+      "method": "POST",
+      "route": "/skills/drmundo_r/formulas",
+      "detailRoute": "/skills/drmundo_r/formulas/max_health_hot_total_amount",
+      "skillKey": "drmundo_r",
+      "kind": "formulas",
+      "stableKey": "max_health_hot_total_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "max_health_hot_total_amount",
+        "name": "极限剂量最大生命持续治疗总量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_health_hot_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "unity"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_per_nearby_champion_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "nearby_enemy_champion_count"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "治疗基数为施放前最大生命；持续总量与已损失生命治疗分开，新增最大生命不会反馈到本次基数。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 74,
+      "method": "POST",
+      "route": "/skills/drmundo_r/effects",
+      "detailRoute": "/skills/drmundo_r/effects/speed_boost",
+      "skillKey": "drmundo_r",
+      "kind": "effects",
+      "stableKey": "speed_boost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "speed_boost",
+        "name": "极限剂量自身移动速度",
+        "description": "正文明确自身获得持续10秒移动速度；只定义持续属性效果，施放触发待接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "极限剂量自身移动速度",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "speed_boost_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 75,
+      "method": "POST",
+      "route": "/skills/tryndamere_p/parameters",
+      "detailRoute": "/skills/tryndamere_p/parameters/attack_fury_gain",
+      "skillKey": "tryndamere_p",
+      "kind": "parameters",
+      "stableKey": "attack_fury_gain",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_fury_gain",
+        "name": "普通攻击获得怒气",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "当前根绑定正文明确普通攻击获得5怒气；怒气资源尚无属性字典，不建立资源结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 76,
+      "method": "POST",
+      "route": "/skills/tryndamere_p/parameters",
+      "detailRoute": "/skills/tryndamere_p/parameters/critical_attack_fury_gain",
+      "skillKey": "tryndamere_p",
+      "kind": "parameters",
+      "stableKey": "critical_attack_fury_gain",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "critical_attack_fury_gain",
+        "name": "暴击攻击获得怒气",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "当前根绑定正文明确暴击攻击获得10怒气；仅记录来源值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 77,
+      "method": "POST",
+      "route": "/skills/tryndamere_p/parameters",
+      "detailRoute": "/skills/tryndamere_p/parameters/kill_unit_fury_gain",
+      "skillKey": "tryndamere_p",
+      "kind": "parameters",
+      "stableKey": "kill_unit_fury_gain",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "kill_unit_fury_gain",
+        "name": "击杀单位获得怒气",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "当前根绑定正文明确击杀单位获得10怒气；仅记录来源值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 78,
+      "method": "POST",
+      "route": "/skills/tryndamere_p/parameters",
+      "detailRoute": "/skills/tryndamere_p/parameters/out_of_combat_delay_ms",
+      "skillKey": "tryndamere_p",
+      "kind": "parameters",
+      "stableKey": "out_of_combat_delay_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "out_of_combat_delay_ms",
+        "name": "脱战后怒气衰减等待（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8000,
+        "levelValues": null,
+        "description": "当前根绑定正文明确脱战8秒后开始衰减；单位换算为8000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 79,
+      "method": "POST",
+      "route": "/skills/tryndamere_p/parameters",
+      "detailRoute": "/skills/tryndamere_p/parameters/fury_decay_per_second",
+      "skillKey": "tryndamere_p",
+      "kind": "parameters",
+      "stableKey": "fury_decay_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "fury_decay_per_second",
+        "name": "每秒怒气衰减",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "当前根绑定正文明确每秒损失5怒气；保持次数/资源点数为INTEGER。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 80,
+      "method": "POST",
+      "route": "/skills/tryndamere_p/parameters",
+      "detailRoute": "/skills/tryndamere_p/parameters/crit_chance_per_fury_ratio",
+      "skillKey": "tryndamere_p",
+      "kind": "parameters",
+      "stableKey": "crit_chance_per_fury_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "crit_chance_per_fury_ratio",
+        "name": "每点怒气暴击几率比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.005,
+        "levelValues": null,
+        "description": "当前计算树给Number(0.5)，正文以@PassiveCritConversionTooltip@%显示；0.5百分数点换算为比例0.005。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 81,
+      "method": "POST",
+      "route": "/skills/tryndamere_p/parameters",
+      "detailRoute": "/skills/tryndamere_p/parameters/current_fury",
+      "skillKey": "tryndamere_p",
+      "kind": "parameters",
+      "stableKey": "current_fury",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "current_fury",
+        "name": "实际怒气输入",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "实际怒气由运行时提供且无默认值；不依据arIncrements把满怒固定为100。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 82,
+      "method": "POST",
+      "route": "/skills/tryndamere_p/formulas",
+      "detailRoute": "/skills/tryndamere_p/formulas/crit_chance_from_fury",
+      "skillKey": "tryndamere_p",
+      "kind": "formulas",
+      "stableKey": "crit_chance_from_fury",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "crit_chance_from_fury",
+        "name": "怒气提供的暴击几率",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "crit_chance_per_fury_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "current_fury"
+            }
+          ]
+        },
+        "description": "每点怒气提供0.5百分数点暴击几率，换算为0.005比例后乘实际怒气；不默认满怒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 83,
+      "method": "POST",
+      "route": "/skills/tryndamere_q/parameters",
+      "detailRoute": "/skills/tryndamere_q/parameters/base_healing",
+      "skillKey": "tryndamere_q",
+      "kind": "parameters",
+      "stableKey": "base_healing",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_healing",
+        "name": "基础治疗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 40,
+          "3": 50,
+          "4": 60,
+          "5": 70
+        },
+        "description": "客户端当前根绑定 DataValues.BaseHealing，等级1至5取索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 84,
+      "method": "POST",
+      "route": "/skills/tryndamere_q/parameters",
+      "detailRoute": "/skills/tryndamere_q/parameters/bonus_heal_per_fury",
+      "skillKey": "tryndamere_q",
+      "kind": "parameters",
+      "stableKey": "bonus_heal_per_fury",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_heal_per_fury",
+        "name": "每点怒气额外治疗",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.5,
+          "2": 0.95,
+          "3": 1.4,
+          "4": 1.85,
+          "5": 2.3
+        },
+        "description": "客户端当前根绑定 DataValues.BonusHealPerFury，等级1至5取索引1至5；实际治疗按外供怒气。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 85,
+      "method": "POST",
+      "route": "/skills/tryndamere_q/parameters",
+      "detailRoute": "/skills/tryndamere_q/parameters/ap_ratio",
+      "skillKey": "tryndamere_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "基础治疗法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio；当前BaseHeal树省略统计选择器，按同版窄证mStat0=法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 86,
+      "method": "POST",
+      "route": "/skills/tryndamere_q/parameters",
+      "detailRoute": "/skills/tryndamere_q/parameters/ap_ratio_per_fury",
+      "skillKey": "tryndamere_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_per_fury",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio_per_fury",
+        "name": "每点怒气治疗法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.012,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatioPerFury；当前HealPerFury树省略统计选择器，按同版窄证mStat0=法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 87,
+      "method": "POST",
+      "route": "/skills/tryndamere_q/parameters",
+      "detailRoute": "/skills/tryndamere_q/parameters/maximum_bonus_attack_damage",
+      "skillKey": "tryndamere_q",
+      "kind": "parameters",
+      "stableKey": "maximum_bonus_attack_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "maximum_bonus_attack_damage",
+        "name": "最高额外攻击力",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 35,
+          "3": 50,
+          "4": 65,
+          "5": 80
+        },
+        "description": "客户端当前根绑定 DataValues.MaximumBonusAD，等级1至5取索引1至5；只记录最高端点。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 88,
+      "method": "POST",
+      "route": "/skills/tryndamere_q/parameters",
+      "detailRoute": "/skills/tryndamere_q/parameters/remaining_health_threshold_ratio",
+      "skillKey": "tryndamere_q",
+      "kind": "parameters",
+      "stableKey": "remaining_health_threshold_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "remaining_health_threshold_ratio",
+        "name": "达到最高额外攻击力的剩余生命比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.RemainingHealthThreshold=0.1；中间已损失生命曲线未证，不线性展开。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 89,
+      "method": "POST",
+      "route": "/skills/tryndamere_q/parameters",
+      "detailRoute": "/skills/tryndamere_q/parameters/actual_fury_consumed",
+      "skillKey": "tryndamere_q",
+      "kind": "parameters",
+      "stableKey": "actual_fury_consumed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_fury_consumed",
+        "name": "本次实际消耗怒气",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "Q主动实际消耗怒气由运行时提供且无默认值；不把MaximumHeal树的资源节点擅自映射为满怒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 90,
+      "method": "POST",
+      "route": "/skills/tryndamere_q/formulas",
+      "detailRoute": "/skills/tryndamere_q/formulas/base_heal",
+      "skillKey": "tryndamere_q",
+      "kind": "formulas",
+      "stableKey": "base_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "base_heal",
+        "name": "嗜血杀戮基础治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_healing"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前BaseHeal树=BaseHealing+APRatio×来源总法强；不创建直接治疗结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 91,
+      "method": "POST",
+      "route": "/skills/tryndamere_q/formulas",
+      "detailRoute": "/skills/tryndamere_q/formulas/heal_per_fury",
+      "skillKey": "tryndamere_q",
+      "kind": "formulas",
+      "stableKey": "heal_per_fury",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "heal_per_fury",
+        "name": "嗜血杀戮每怒气治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_heal_per_fury"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_per_fury"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前HealPerFury树=BonusHealPerFury+APRatioPerFury×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 92,
+      "method": "POST",
+      "route": "/skills/tryndamere_q/formulas",
+      "detailRoute": "/skills/tryndamere_q/formulas/active_heal_amount",
+      "skillKey": "tryndamere_q",
+      "kind": "formulas",
+      "stableKey": "active_heal_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "active_heal_amount",
+        "name": "嗜血杀戮按实际怒气治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_healing"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_heal_per_fury"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio_per_fury"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_fury_consumed"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "主动治疗=基础治疗项+实际消耗怒气×每怒气治疗项；实际怒气无默认，禁止用满怒替代。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 93,
+      "method": "POST",
+      "route": "/skills/tryndamere_w/parameters",
+      "detailRoute": "/skills/tryndamere_w/parameters/cast_time_ms",
+      "skillKey": "tryndamere_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒；单位换算为250毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 94,
+      "method": "POST",
+      "route": "/skills/tryndamere_w/parameters",
+      "detailRoute": "/skills/tryndamere_w/parameters/attack_damage_reduction",
+      "skillKey": "tryndamere_w",
+      "kind": "parameters",
+      "stableKey": "attack_damage_reduction",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_damage_reduction",
+        "name": "目标攻击力降低值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 35,
+          "3": 50,
+          "4": 65,
+          "5": 80
+        },
+        "description": "客户端原始ADReduction为-20至-80，当前正文使用ADReduction*-1显示；候选保存正的20至80并使用DECREASE，避免双重负号。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 95,
+      "method": "POST",
+      "route": "/skills/tryndamere_w/parameters",
+      "detailRoute": "/skills/tryndamere_w/parameters/slow_ratio",
+      "skillKey": "tryndamere_w",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "背对目标减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.35,
+          "3": 0.4,
+          "4": 0.45,
+          "5": 0.5
+        },
+        "description": "客户端原始SlowPotency为-0.3至-0.5，当前正文使用SlowPotency*-100显示；候选保存正的0.3至0.5并使用DECREASE。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 96,
+      "method": "POST",
+      "route": "/skills/tryndamere_w/parameters",
+      "detailRoute": "/skills/tryndamere_w/parameters/reduction_duration_ms",
+      "skillKey": "tryndamere_w",
+      "kind": "parameters",
+      "stableKey": "reduction_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "reduction_duration_ms",
+        "name": "攻击力降低持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ReductionDuration=4秒；单位换算为4000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 97,
+      "method": "POST",
+      "route": "/skills/tryndamere_w/parameters",
+      "detailRoute": "/skills/tryndamere_w/parameters/slow_duration_ms",
+      "skillKey": "tryndamere_w",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "背对减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3250,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowDuration=3.25秒；单位换算为3250毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 98,
+      "method": "POST",
+      "route": "/skills/tryndamere_w/effects",
+      "detailRoute": "/skills/tryndamere_w/effects/attack_damage_reduction",
+      "skillKey": "tryndamere_w",
+      "kind": "effects",
+      "stableKey": "attack_damage_reduction",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "attack_damage_reduction",
+        "name": "蔑视目标攻击力降低",
+        "description": "正文明确附近敌方英雄降低攻击力；候选幅度为正值，操作为DECREASE。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "reduction_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "蔑视目标攻击力降低",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "TARGET",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_damage_reduction"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "attack_damage",
+              "operation": "DECREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 99,
+      "method": "POST",
+      "route": "/skills/tryndamere_w/effects",
+      "detailRoute": "/skills/tryndamere_w/effects/flee_slow",
+      "skillKey": "tryndamere_w",
+      "kind": "effects",
+      "stableKey": "flee_slow",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "flee_slow",
+        "name": "蔑视背对目标减速",
+        "description": "正文明确仅对逃离泰达米尔的敌人减速；背对资格由事件条件提供，幅度为正值，操作为DECREASE。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "slow_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "TARGET",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "attribute",
+            "name": "蔑视背对目标减速",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "TARGET",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "slow_ratio"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "operation": "DECREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 100,
+      "method": "POST",
+      "route": "/skills/tryndamere_e/parameters",
+      "detailRoute": "/skills/tryndamere_e/parameters/damage_base",
+      "skillKey": "tryndamere_e",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_base",
+        "name": "旋风斩基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "description": "客户端当前根绑定 DataValues.Damage，等级1至5取索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 101,
+      "method": "POST",
+      "route": "/skills/tryndamere_e/parameters",
+      "detailRoute": "/skills/tryndamere_e/parameters/ad_ratio",
+      "skillKey": "tryndamere_e",
+      "kind": "parameters",
+      "stableKey": "ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ad_ratio",
+        "name": "旋风斩额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ADRatio=1；当前TotalDamage树mStat2/mStatFormula2按同版窄证为来源额外攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 102,
+      "method": "POST",
+      "route": "/skills/tryndamere_e/parameters",
+      "detailRoute": "/skills/tryndamere_e/parameters/ap_ratio",
+      "skillKey": "tryndamere_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "旋风斩法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio=0.8；省略统计选择器按同版窄证mStat0=来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 103,
+      "method": "POST",
+      "route": "/skills/tryndamere_e/parameters",
+      "detailRoute": "/skills/tryndamere_e/parameters/champion_crit_cooldown_refund_ms",
+      "skillKey": "tryndamere_e",
+      "kind": "parameters",
+      "stableKey": "champion_crit_cooldown_refund_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "champion_crit_cooldown_refund_ms",
+        "name": "对英雄暴击减少冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ChampCDRefund=1.5秒；仅保留对英雄暴击分支，单位换算为1500毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 104,
+      "method": "POST",
+      "route": "/skills/tryndamere_e/parameters",
+      "detailRoute": "/skills/tryndamere_e/parameters/champion_fury_gain",
+      "skillKey": "tryndamere_e",
+      "kind": "parameters",
+      "stableKey": "champion_fury_gain",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "champion_fury_gain",
+        "name": "命中敌方英雄获得怒气",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ChampFuryGain=5；怒气资源未进入属性字典，保留参数不创建资源结果。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 105,
+      "method": "POST",
+      "route": "/skills/tryndamere_e/formulas",
+      "detailRoute": "/skills/tryndamere_e/formulas/physical_damage",
+      "skillKey": "tryndamere_e",
+      "kind": "formulas",
+      "stableKey": "physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "physical_damage",
+        "name": "旋风斩物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前TotalDamage树=Damage+1×来源额外攻击力+0.8×来源总法强；只保留数值公式，不创建DAMAGE结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 106,
+      "method": "POST",
+      "route": "/skills/tryndamere_e/effects",
+      "detailRoute": "/skills/tryndamere_e/effects/champion_crit_cooldown_refund",
+      "skillKey": "tryndamere_e",
+      "kind": "effects",
+      "stableKey": "champion_crit_cooldown_refund",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "champion_crit_cooldown_refund",
+        "name": "对英雄暴击缩短旋风斩冷却",
+        "description": "正文明确对英雄暴击缩短旋风斩冷却；效果只定义数值和技能范围，暴击事件待接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "cooldown",
+            "name": "对英雄暴击缩短旋风斩冷却",
+            "resultType": "COOLDOWN_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "champion_crit_cooldown_refund_ms"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "affectedSkillScope": {
+                "mode": "SKILLS",
+                "skillKeys": [
+                  "tryndamere_e"
+                ],
+                "skillCategoryKeys": []
+              },
+              "operation": "REDUCE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 107,
+      "method": "POST",
+      "route": "/skills/tryndamere_r/parameters",
+      "detailRoute": "/skills/tryndamere_r/parameters/duration_ms",
+      "skillKey": "tryndamere_r",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "无尽怒火持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.TryndRDuration=5秒；单位换算为5000毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 108,
+      "method": "POST",
+      "route": "/skills/tryndamere_r/parameters",
+      "detailRoute": "/skills/tryndamere_r/parameters/minimum_health",
+      "skillKey": "tryndamere_r",
+      "kind": "parameters",
+      "stableKey": "minimum_health",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "minimum_health",
+        "name": "生命下限",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 50,
+          "3": 70
+        },
+        "description": "客户端当前根绑定 DataValues.TryndRMinHealth，等级1至3取索引1至3；只记录明确生命下限。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 109,
+      "method": "POST",
+      "route": "/skills/tryndamere_r/parameters",
+      "detailRoute": "/skills/tryndamere_r/parameters/fury_gain",
+      "skillKey": "tryndamere_r",
+      "kind": "parameters",
+      "stableKey": "fury_gain",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "fury_gain",
+        "name": "立即获得怒气",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 75,
+          "3": 100
+        },
+        "description": "客户端当前根绑定 DataValues.TryndRFuryGain，等级1至3取索引1至3；怒气资源未进入属性字典。",
+        "sortOrder": 30
+      }
+    }
+  ],
+  "noApiCalls": true
+}

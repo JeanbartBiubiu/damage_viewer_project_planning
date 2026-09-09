@@ -1,0 +1,39 @@
+{
+  "sequence": 4,
+  "intent": {
+    "sequence": 4,
+    "method": "POST",
+    "route": "/skills/drmundo_p/parameters",
+    "detailRoute": "/skills/drmundo_p/parameters/max_health_gain_ratio",
+    "skillKey": "drmundo_p",
+    "kind": "parameters",
+    "stableKey": "max_health_gain_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_health_gain_ratio",
+      "name": "拾取药剂最大生命回复比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.04,
+      "levelValues": null,
+      "description": "客户端当前根绑定 DataValues.MaxHealthGain；正文以 *100 显示百分数，0.04表示4%最大生命。",
+      "sortOrder": 40
+    }
+  },
+  "before": {
+    "sequence": 214,
+    "method": "GET",
+    "route": "/skills/drmundo_p/parameters/max_health_gain_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "max_health_gain_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:36:35.069Z"
+  }
+}

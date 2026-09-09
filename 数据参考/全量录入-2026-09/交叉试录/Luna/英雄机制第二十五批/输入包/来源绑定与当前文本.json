@@ -1,0 +1,3782 @@
+{
+  "at": "2026-09-09T13:33:29.857Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "stringTableSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "heroes": [
+    {
+      "id": "DrMundo",
+      "key": "champion_drmundo",
+      "name": "蒙多医生",
+      "source": {
+        "championId": "DrMundo",
+        "chineseName": "祖安狂人",
+        "resourceType": "无",
+        "client": {
+          "path": "客户端原文/DrMundo.json.gz",
+          "sha256": "107ea9db2a24f81c37539345f4679e3c65ac67782b19439040c39e0ced8ab3bf",
+          "compressedSha256": "2cb1ceb70e889b28545546926e7f76afe0844d7606c01b616cb815aa947a91f0",
+          "byteSize": 58484,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/drmundo/drmundo.bin.json",
+          "fetchedAt": "2026-09-06T14:26:16.174Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/DrMundo.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/DrMundo.json",
+          "fetchedAt": "2026-09-06T14:12:46.173Z",
+          "byteSize": 12896,
+          "sha256": "e7d38d995841cf424c81a225d88446e2a69054405f464bb2bf55e8736824b34b"
+        },
+        "rootPath": "Characters/DrMundo/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "想去哪就去哪",
+            "clientPath": "Characters/DrMundo/Spells/DrMundoPassiveAbility/DrMundoP",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "CannisterGroundDuration",
+              "CannisterPickupRadius",
+              "CannisterDistanceAway",
+              "CannisterMaxAngle",
+              "VFXLineIndicatorRange",
+              "PassiveCooldownRefund",
+              "CurrentHealthLoss",
+              "MaxHealthGain"
+            ],
+            "calculationNames": [
+              "PassiveCooldown",
+              "MaxHealthRegen"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "DrMundoQ",
+            "name": "病毒屠刀",
+            "clientPath": "Characters/DrMundo/Spells/DrMundoQAbility/DrMundoQ",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "resource": "{{ healthcost }}生命值",
+            "clientCooldown": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "clientMana": null,
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "SlowDuration",
+              "SlowAmount",
+              "CurrentHealthDamage",
+              "MinimumDamage",
+              "MaximumMonsterDamage",
+              "HealthCost",
+              "HealthRefundOnHitChampionMonsterPercent",
+              "HealthRefundOnHitMinionPercent"
+            ],
+            "calculationNames": [
+              "HealthRestoreOnHitChampionMonster",
+              "HealthRestoreOnHitMinion"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "DrMundoW",
+            "name": "电击疗法",
+            "clientPath": "Characters/DrMundo/Spells/DrMundoWAbility/DrMundoW",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              17,
+              16.5,
+              16,
+              15.5,
+              15
+            ],
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "resource": "{{ currenthealthcost*100 }}%当前生命值",
+            "clientCooldown": [
+              17,
+              17,
+              16.5,
+              16,
+              15.5,
+              15,
+              15
+            ],
+            "clientMana": null,
+            "clientCastTime": 0,
+            "dataValueNames": [
+              "Duration",
+              "CurrentHealthCost",
+              "GrayHealthStorage",
+              "GrayHealthInitialDuration",
+              "GrayHealthBigMod",
+              "GrayHealthSmallMod",
+              "SecondCastRange",
+              "SecondCastLockout",
+              "DamagePerTick",
+              "RecastBaseDamage"
+            ],
+            "calculationNames": [
+              "TotalDamage",
+              "GrayHealthStorageInitial"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "DrMundoE",
+            "name": "大力行医",
+            "clientPath": "Characters/DrMundo/Spells/DrMundoEAbility/DrMundoE",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              9,
+              8.25,
+              7.5,
+              6.75,
+              6
+            ],
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "resource": "{{ flathealthcost }}生命值",
+            "clientCooldown": [
+              9,
+              9,
+              8.25,
+              7.5,
+              6.75,
+              6,
+              6
+            ],
+            "clientMana": null,
+            "clientCastTime": 1,
+            "dataValueNames": [
+              "AttackOverrideDuration",
+              "FlatHealthCost",
+              "BaseDamage",
+              "BonusHealthRatio",
+              "MaxMissingHealthThreshold",
+              "MaxDamageAmp",
+              "MinionMod",
+              "MissileDistance",
+              "MonsterMod",
+              "HealthToADRatio"
+            ],
+            "calculationNames": [
+              "AdditionalDamage",
+              "MaxDamageAmpTooltip",
+              "PassiveBonusAD"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "DrMundoR",
+            "name": "极限剂量",
+            "clientPath": "Characters/DrMundo/Spells/DrMundoRAbility/DrMundoR",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              120,
+              120,
+              120
+            ],
+            "cost": [
+              0,
+              0,
+              0
+            ],
+            "resource": "无消耗",
+            "clientCooldown": [
+              120,
+              120,
+              120,
+              120,
+              120,
+              120,
+              120
+            ],
+            "clientMana": null,
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "Duration",
+              "SpeedBoostAmount",
+              "MissingHealthHeal",
+              "MaxHealthHoT",
+              "TakedownDurationExtension",
+              "BonusPerNearbyChampion"
+            ],
+            "calculationNames": [],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      },
+      "rootPath": "Characters/DrMundo/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/DrMundo/Spells/DrMundoPassiveAbility/DrMundoP",
+        "spells": [
+          "Characters/DrMundo/Spells/DrMundoQAbility/DrMundoQ",
+          "Characters/DrMundo/Spells/DrMundoWAbility/DrMundoW",
+          "Characters/DrMundo/Spells/DrMundoEAbility/DrMundoE",
+          "Characters/DrMundo/Spells/DrMundoRAbility/DrMundoR"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "drmundo_p",
+          "binding": "Characters/DrMundo/Spells/DrMundoPassiveAbility/DrMundoP",
+          "object": {
+            "ObjectName": "DrMundoP",
+            "objectPath": "Characters/DrMundo/Spells/DrMundoPassiveAbility/DrMundoP",
+            "mScriptName": "DrMundoP",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "DataValues": [
+                {
+                  "name": "CannisterGroundDuration",
+                  "values": [
+                    7,
+                    7,
+                    7,
+                    7,
+                    7,
+                    7,
+                    7
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "CannisterPickupRadius",
+                  "values": [
+                    115,
+                    115,
+                    115,
+                    115,
+                    115,
+                    115,
+                    115
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "CannisterDistanceAway",
+                  "values": [
+                    525,
+                    525,
+                    525,
+                    525,
+                    525,
+                    525,
+                    525
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "CannisterMaxAngle",
+                  "values": [
+                    70,
+                    70,
+                    70,
+                    70,
+                    70,
+                    70,
+                    70
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "VFXLineIndicatorRange",
+                  "values": [
+                    1000,
+                    1000,
+                    1000,
+                    1000,
+                    1000,
+                    1000,
+                    1000
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PassiveCooldownRefund",
+                  "values": [
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15,
+                    15
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "CurrentHealthLoss",
+                  "values": [
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxHealthGain",
+                  "values": [
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "PassiveCooldown": {
+                  "mFormulaParts": [
+                    {
+                      "mLevel1Value": 60,
+                      "mBreakpoints": [
+                        {
+                          "mLevel": 3,
+                          "mAdditionalBonusAtThisLevel": -9,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 6,
+                          "mAdditionalBonusAtThisLevel": -9,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 9,
+                          "mAdditionalBonusAtThisLevel": -9,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 12,
+                          "mAdditionalBonusAtThisLevel": -9,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 15,
+                          "mAdditionalBonusAtThisLevel": -9,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 21,
+                          "mAdditionalBonusAtThisLevel": -9,
+                          "__type": "Breakpoint"
+                        }
+                      ],
+                      "__type": "ByCharLevelBreakpointsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "MaxHealthRegen": {
+                  "mFormulaParts": [
+                    {
+                      "mLevel1Value": 0.004000000189989805,
+                      "mInitialBonusPerLevel": 0.0005000000237487257,
+                      "mBreakpoints": [
+                        {
+                          "mLevel": 7,
+                          "mBonusPerLevelAtAndAfter": 0.0010000000474974513,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 13,
+                          "mBonusPerLevelAtAndAfter": 0.001500000013038516,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 16,
+                          "mBonusPerLevelAtAndAfter": 0.0020000000949949026,
+                          "__type": "Breakpoint"
+                        }
+                      ],
+                      "__type": "ByCharLevelBreakpointsCalculationPart"
+                    }
+                  ],
+                  "mDisplayAsPercent": true,
+                  "mPrecision": 2,
+                  "__type": "GameCalculation"
+                }
+              },
+              "mImgIconName": [
+                "ASSETS/Characters/DrMundo/HUD/Icons2D/DrMundo_P.dds"
+              ],
+              "cooldownTime": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "Cooldown": {
+                "values": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "{0a3e0478}": 0,
+                "__type": "{0a0eddc9}"
+              },
+              "mIsDisabledWhileDead": false,
+              "castRange": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "castRangeValues": {
+                "values": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "{0a3e0478}": 0,
+                "__type": "{0a0eddc9}"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "DrMundoP",
+                  "mFormat": "{476ec0b8}",
+                  "mLocKeys": {
+                    "keyName": "Spell_DrMundoPassive_Name",
+                    "keyTooltip": "Spell_DrMundoPassive_Tooltip",
+                    "keyCooldown": "game_character_passiveCooldown_DrMundo",
+                    "keySummary": "Spell_DrMundoPassive_Summary"
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_DrMundoPassive_Name",
+              "text": "想去哪就去哪"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_DrMundoPassive_Tooltip",
+              "text": "蒙多医生抵抗他受到的第一个<status>定身</status>效果，但会失去<healing>@CurrentHealthLoss*100@%当前生命值</healing>并在附近掉落一罐持续@CannisterGroundDuration@秒的化学药剂。移动到化学药剂上可使这个技能的冷却时间缩短@PassiveCooldownRefund@秒并回复<healing>@MaxHealthGain*100@%最大生命值</healing>。敌方英雄在移动到化学药剂上后会将其摧毁。<br><br>蒙多医生每5秒回复<healing>@MaxHealthRegen@最大生命值</healing>。"
+            },
+            "keyCooldown": {
+              "sourceKey": "game_character_passiveCooldown_DrMundo",
+              "text": "@PassiveCooldown@秒"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_DrMundoPassive_Summary",
+              "text": "蒙多医生抵抗他受到的第一个定身效果，但会失去生命值并在附近掉落一罐化学药剂。蒙多医生可移动到化学药剂上来拾取它，从而回复生命值并缩短这个技能的冷却时间。<br><br>蒙多医生也会显著提升生命回复。<br>"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "drmundo_q",
+          "binding": "Characters/DrMundo/Spells/DrMundoQAbility/DrMundoQ",
+          "object": {
+            "ObjectName": "DrMundoQ",
+            "objectPath": "Characters/DrMundo/Spells/DrMundoQAbility/DrMundoQ",
+            "mScriptName": "DrMundoQ",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "Trait_DamageAbility",
+                "Trait_ActiveHeal",
+                "Trait_SignatureSpell",
+                "Trait_Ranged_StopsFirstHit"
+              ],
+              "DataValues": [
+                {
+                  "name": "SlowDuration",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowAmount",
+                  "values": [
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "CurrentHealthDamage",
+                  "values": [
+                    0.17499999701976776,
+                    0.20000000298023224,
+                    0.22499999403953552,
+                    0.25,
+                    0.2750000059604645,
+                    0.30000001192092896,
+                    0.32499998807907104
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MinimumDamage",
+                  "values": [
+                    30,
+                    80,
+                    130,
+                    180,
+                    230,
+                    280,
+                    330
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaximumMonsterDamage",
+                  "values": [
+                    175,
+                    250,
+                    325,
+                    400,
+                    475,
+                    550,
+                    625
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HealthCost",
+                  "values": [
+                    40,
+                    50,
+                    60,
+                    70,
+                    80,
+                    90,
+                    100
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HealthRefundOnHitChampionMonsterPercent",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HealthRefundOnHitMinionPercent",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "HealthRestoreOnHitChampionMonster": {
+                  "mExpandedTooltipCalculationDisplay": 5,
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mPart1": {
+                        "mDataValue": "HealthRefundOnHitChampionMonsterPercent",
+                        "__type": "NamedDataValueCalculationPart"
+                      },
+                      "mPart2": {
+                        "mDataValue": "HealthCost",
+                        "__type": "NamedDataValueCalculationPart"
+                      },
+                      "__type": "ProductOfSubPartsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "HealthRestoreOnHitMinion": {
+                  "mExpandedTooltipCalculationDisplay": 5,
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mPart1": {
+                        "mDataValue": "HealthRefundOnHitMinionPercent",
+                        "__type": "NamedDataValueCalculationPart"
+                      },
+                      "mPart2": {
+                        "mDataValue": "HealthCost",
+                        "__type": "NamedDataValueCalculationPart"
+                      },
+                      "__type": "ProductOfSubPartsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell1",
+              "mImgIconName": [
+                "ASSETS/Characters/DrMundo/HUD/Icons2D/DrMundo_Q.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              "Cooldown": {
+                "values": [
+                  4,
+                  4,
+                  4,
+                  4,
+                  4,
+                  4,
+                  4
+                ],
+                "{0a3e0478}": 4,
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "useAnimatorFramerate": true,
+              "mTurnSpeedScalar": 2,
+              "mIgnoreRangeCheck": true,
+              "castRange": [
+                1050,
+                1050,
+                1050,
+                1050,
+                1050,
+                1050,
+                1050
+              ],
+              "castRangeValues": {
+                "values": [
+                  1050,
+                  1050,
+                  1050,
+                  1050,
+                  1050,
+                  1050,
+                  1050
+                ],
+                "{0a3e0478}": 1050,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                975,
+                975,
+                975,
+                975,
+                975,
+                975,
+                975
+              ],
+              "castRadius": [
+                299.29998779296875,
+                299.29998779296875,
+                299.29998779296875,
+                299.29998779296875,
+                299.29998779296875,
+                299.29998779296875,
+                299.29998779296875
+              ],
+              "castConeDistance": 100,
+              "mMissileSpec": {
+                "mMissileWidth": 60,
+                "movementComponent": {
+                  "mTracksTarget": false,
+                  "mStartBoneName": "L_Buffbone_GLB_Loc",
+                  "mProjectTargetToCastRange": true,
+                  "mSpeed": 2000,
+                  "__type": "FixedSpeedMovement"
+                },
+                "heightSolver": {
+                  "__type": "BlendedLinearHeightSolver"
+                },
+                "verticalFacing": {
+                  "__type": "VerticalFacingFaceTarget"
+                },
+                "behaviors": [
+                  {
+                    "__type": "CastOnHit"
+                  },
+                  {
+                    "__type": "DestroyOnHit"
+                  },
+                  {
+                    "__type": "DestroyOnMovementComplete"
+                  }
+                ],
+                "__type": "MissileSpecification"
+              },
+              "mCastType": 3,
+              "castFrame": 10.920000076293945,
+              "missileSpeed": 1500,
+              "mMissileEffectKey": "DrMundo_Q_mis_01",
+              "mLineWidth": 60,
+              "mHitEffectOrientType": 2,
+              "mFloatVarsDecimals": [
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "Location"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "DrMundoQ",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_DrMundoQ_Name",
+                    "keyTooltip": "Spell_DrMundoQ_Tooltip",
+                    "keyCost": "Spell_DrMundoQ_Cost",
+                    "keyTooltipExtendedBelowLine": "Spell_DrMundoQ_TooltipExtendedBelowLine",
+                    "keySummary": "Spell_DrMundoQ_Summary"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "CurrentHealthDamage",
+                          "multiplier": 100,
+                          "nameOverride": "Spell_DrMundoQ_ListType_CurrentHealthDamage",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "MinimumDamage",
+                          "nameOverride": "Spell_ListType_MinimumDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "MaximumMonsterDamage",
+                          "nameOverride": "Spell_ListType_MaxDamageToMonsters",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "HealthCost",
+                          "nameOverride": "Spell_ListType_HealthCost",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "hideWithLineIndicator": true,
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "lineStopsAtEndPosition": false,
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        60,
+                        60,
+                        60,
+                        60,
+                        60,
+                        60
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionLine"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSubparts": [
+                      {
+                        "mDataValue": "MinimumDamage",
+                        "__type": "NamedDataValueCalculationPart"
+                      },
+                      {
+                        "mPart1": {
+                          "mDataValue": "CurrentHealthDamage",
+                          "__type": "NamedDataValueCalculationPart"
+                        },
+                        "mPart2": {
+                          "{a8cb9c14}": true,
+                          "mStat": 13,
+                          "mCoefficient": 1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      }
+                    ],
+                    "__type": "{8a96ea3c}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 1,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "SlowAmount",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 8,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "HealthRefundOnHitChampionMonsterPercent",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 32768,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mNumber": 60,
+                        "__type": "NumberCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_DrMundoQ_Name",
+              "text": "病毒屠刀"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_DrMundoQ_Tooltip",
+              "text": "蒙多医生掷出一把沾染病菌的骨锯，对命中的第一个敌人造成<magicDamage>@CurrentHealthDamage*100@%当前生命值的魔法伤害</magicDamage>，并对其造成持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。<br><br>如果骨锯命中了一名英雄或野怪，蒙多医生会回复<healing>@HealthRestoreOnHitChampionMonster@生命值</healing>。如果骨锯命中了一个非英雄非野怪的单位，蒙多医生则会回复<healing>@HealthRestoreOnHitMinion@生命值</healing>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_DrMundoQ_Cost",
+              "text": "<font color='#CC3300'>@HealthCost@生命值</font>"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_DrMundoQ_TooltipExtendedBelowLine",
+              "text": "<rules>至少造成<magicDamage>@MinimumDamage@魔法伤害</magicDamage>，并且对野怪至多造成<magicDamage>@MaximumMonsterDamage@魔法伤害</magicDamage>。</rules>"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_DrMundoQ_Summary",
+              "text": "蒙多医生掷出一把沾染病菌的骨锯，对命中的第一个敌人造成基于其当前生命值的魔法伤害和减速效果。"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "drmundo_w",
+          "binding": "Characters/DrMundo/Spells/DrMundoWAbility/DrMundoW",
+          "object": {
+            "ObjectName": "DrMundoW",
+            "objectPath": "Characters/DrMundo/Spells/DrMundoWAbility/DrMundoW",
+            "mScriptName": "DrMundoW",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 9221,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mSpellTags": [
+                "Trait_DamageAbility",
+                "Trait_ActiveHeal",
+                "Trait_RecastOrReplaceSpell",
+                "Trait_DoT",
+                "Trait_AttackBuff_Duration",
+                "Trait_Low_Damage",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "Duration",
+                  "values": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "CurrentHealthCost",
+                  "values": [
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "GrayHealthStorage",
+                  "values": [
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "GrayHealthInitialDuration",
+                  "values": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "GrayHealthBigMod",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "GrayHealthSmallMod",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SecondCastRange",
+                  "values": [
+                    325,
+                    325,
+                    325,
+                    325,
+                    325,
+                    325,
+                    325
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SecondCastLockout",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DamagePerTick",
+                  "values": [
+                    1.25,
+                    5,
+                    8.75,
+                    12.5,
+                    16.25,
+                    20,
+                    23.75
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RecastBaseDamage",
+                  "values": [
+                    5,
+                    20,
+                    35,
+                    50,
+                    65,
+                    80,
+                    95
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "RecastBaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 12,
+                      "mStatFormula": 2,
+                      "mCoefficient": 0.07000000029802322,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "GrayHealthStorageInitial": {
+                  "mFormulaParts": [
+                    {
+                      "mStartValue": 0.800000011920929,
+                      "mEndValue": 0.949999988079071,
+                      "__type": "ByCharLevelInterpolationCalculationPart"
+                    }
+                  ],
+                  "mDisplayAsPercent": true,
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell2",
+              "mImgIconName": [
+                "ASSETS/Characters/DrMundo/HUD/Icons2D/DrMundo_W.dds"
+              ],
+              "spellCastTime": 0,
+              "spellTotalTime": 0,
+              "cooldownTime": [
+                17,
+                17,
+                16.5,
+                16,
+                15.5,
+                15,
+                15
+              ],
+              "Cooldown": {
+                "values": [
+                  17,
+                  17,
+                  16.5,
+                  16,
+                  15.5,
+                  15,
+                  15
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUpTargetingChampion": true,
+              "mCanMoveWhileChanneling": true,
+              "mDoNotNeedToFaceTarget": true,
+              "mIgnoreRangeCheck": true,
+              "mDoesNotConsumeMana": true,
+              "castRange": [
+                325,
+                325,
+                325,
+                325,
+                325,
+                325,
+                325
+              ],
+              "castRangeValues": {
+                "values": [
+                  325,
+                  325,
+                  325,
+                  325,
+                  325,
+                  325,
+                  325
+                ],
+                "{0a3e0478}": 325,
+                "__type": "{0a0eddc9}"
+              },
+              "mFloatVarsDecimals": [
+                0,
+                -1,
+                -1,
+                -1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "mTargetingTypeData": {
+                "__type": "SelfAoe"
+              },
+              "mSpellCooldownOrSealedQueueThreshold": 0.2750000059604645,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "DrMundoW",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_DrMundoW_Name",
+                    "keyTooltip": "Spell_DrMundoW_Tooltip",
+                    "keyCost": "Spell_DrMundoW_Cost",
+                    "keySummary": "Spell_DrMundoW_Summary"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "DamagePerTick",
+                          "nameOverride": "Spell_ListType_DamagePerTick",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "RecastBaseDamage",
+                          "nameOverride": "Spell_ListType_RecastDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "nameOverride": "Spell_ListType_Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mTooltipData": {
+                "mObjectName": "DrMundoW",
+                "mFormat": "{b34f999a}",
+                "mLocKeys": {
+                  "keyName": "Spell_DrMundoW_Name",
+                  "keyTooltip": "Buff_DrMundoWAbility_Tooltip"
+                },
+                "__type": "TooltipInstanceBuff"
+              },
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 33554432,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mPart1": {
+                          "mNumber": 4,
+                          "__type": "NumberCalculationPart"
+                        },
+                        "mPart2": {
+                          "mDataValue": "DamagePerTick",
+                          "__type": "NamedDataValueCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      },
+                      {
+                        "mDataValue": "Duration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_DrMundoW_Name",
+              "text": "电击疗法"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_DrMundoW_Tooltip",
+              "text": "蒙多医生为一台除颤器充电，每秒对附近的敌人们造成<magicDamage>@DamagePerTick*4@魔法伤害</magicDamage>，至多持续@Duration@秒。此外，他会将在最初@GrayHealthInitialDuration@秒里受到的@GrayHealthStorageInitial@伤害值和在剩余时长里受到的@GrayHealthStorage*100@%伤害值储存为灰色生命值，并能<recast>再次施放</recast>这个技能。<br><br><recast>再次施放：</recast>引爆除颤器，对附近的敌人们造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。如果这个效果命中了至少一名敌方英雄，那么蒙多医生会回复<healing>@GrayHealthBigMod*100@%的灰色生命值</healing>，否则蒙多医生会转而回复<healing>@GrayHealthSmallMod*100@%的灰色生命值</healing>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_DrMundoW_Cost",
+              "text": "<font color='#CC3300'>@CurrentHealthCost*100@%当前生命值</font>"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_DrMundoW_Summary",
+              "text": "蒙多医生电击他自己，对附近的敌人们造成持续伤害并储存他受到的一部分伤害。在持续时间结束时或再次施放时，蒙多医生会对附近的敌人们造成一次爆发伤害。如果这个效果命中了一名敌人，那么蒙多医生会回复一部分已储存的伤害值。"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "drmundo_e",
+          "binding": "Characters/DrMundo/Spells/DrMundoEAbility/DrMundoE",
+          "object": {
+            "ObjectName": "DrMundoE",
+            "objectPath": "Characters/DrMundo/Spells/DrMundoEAbility/DrMundoE",
+            "mScriptName": "DrMundoE",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "Trait_AttackReset",
+                "PositiveEffect_EmpowerAttack",
+                "Trait_DamageAbility",
+                "Trait_Strike",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "AttackOverrideDuration",
+                  "values": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "FlatHealthCost",
+                  "values": [
+                    -5,
+                    10,
+                    25,
+                    40,
+                    55,
+                    70,
+                    85
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    -5,
+                    5,
+                    15,
+                    25,
+                    35,
+                    45,
+                    55
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BonusHealthRatio",
+                  "values": [
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxMissingHealthThreshold",
+                  "values": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxDamageAmp",
+                  "values": [
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MinionMod",
+                  "values": [
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MissileDistance",
+                  "values": [
+                    800,
+                    800,
+                    800,
+                    800,
+                    800,
+                    800,
+                    800
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MonsterMod",
+                  "values": [
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142,
+                    1.399999976158142
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HealthToADRatio",
+                  "values": [
+                    1.7000000476837158,
+                    2,
+                    2.299999952316284,
+                    2.5999999046325684,
+                    2.9000000953674316,
+                    3.200000047683716,
+                    3.5
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "AdditionalDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 12,
+                      "mStatFormula": 2,
+                      "mDataValue": "BonusHealthRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "MaxDamageAmpTooltip": {
+                  "mExpandedTooltipCalculationDisplay": 5,
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "MaxDamageAmp",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mNumber": -1,
+                      "__type": "NumberCalculationPart"
+                    }
+                  ],
+                  "mDisplayAsPercent": true,
+                  "__type": "GameCalculation"
+                },
+                "PassiveBonusAD": {
+                  "mMultiplier": {
+                    "mNumber": 0.009999999776482582,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "mFormulaParts": [
+                    {
+                      "mStat": 12,
+                      "mDataValue": "HealthToADRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mImgIconName": [
+                "ASSETS/Characters/DrMundo/HUD/Icons2D/DrMundo_E.dds"
+              ],
+              "mCastTime": 1,
+              "spellCastTime": 1,
+              "spellTotalTime": 2.9333999156951904,
+              "cooldownTime": [
+                9,
+                9,
+                8.25,
+                7.5,
+                6.75,
+                6,
+                6
+              ],
+              "Cooldown": {
+                "values": [
+                  9,
+                  9,
+                  8.25,
+                  7.5,
+                  6.75,
+                  6,
+                  6
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "mCanMoveWhileChanneling": true,
+              "useAnimatorFramerate": true,
+              "mLockedSpellOriginationCastID": true,
+              "castRange": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "castRangeValues": {
+                "values": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "{0a3e0478}": 0,
+                "__type": "{0a0eddc9}"
+              },
+              "castConeDistance": 100,
+              "castFrame": 1.225000023841858,
+              "missileSpeed": 20,
+              "mTargetingTypeData": {
+                "__type": "Self"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "DrMundoE",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_DrMundoE_Name",
+                    "keyTooltip": "Spell_DrMundoE_Tooltip",
+                    "keyCost": "spell_DrMundoE_Cost",
+                    "keyTooltipExtendedBelowLine": "Spell_DrMundoE_TooltipExtendedBelowLine",
+                    "keySummary": "Spell_DrMundoE_Summary"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "Cooldown",
+                          "nameOverride": "Spell_ListType_Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "BaseDamage",
+                          "nameOverride": "Spell_ListType_BaseDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "FlatHealthCost",
+                          "nameOverride": "Spell_ListType_HealthCost",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "HealthToADRatio",
+                          "nameOverride": "Spell_DrMundoR_ListType_HealthIntoAttackDamage",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mTooltipData": {
+                "mObjectName": "DrMundoE",
+                "mFormat": "{b34f999a}",
+                "mLocKeys": {
+                  "keyName": "Spell_DrMundoE_Name",
+                  "keyTooltip": "Buff_DrMundoEAbility_Tooltip"
+                },
+                "__type": "TooltipInstanceBuff"
+              },
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 0,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "MaxDamageAmpTooltip",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 8192,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 512,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 128,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 32,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_DrMundoE_Name",
+              "text": "大力行医"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_DrMundoE_Tooltip",
+              "text": "<spellPassive>被动：</spellPassive>蒙多医生获得<physicalDamage>@PassiveBonusAD@攻击力</physicalDamage>。<br><br><spellActive>主动：</spellActive>蒙多医生粗暴地挥舞他的“医用”手提包，使他的下次攻击造成额外的<physicalDamage>@AdditionalDamage@物理伤害</physicalDamage>，基于他的已损失生命值至多提升至@MaxDamageAmpTooltip@。如果击杀了目标敌人，蒙多还会将其拍飞，对其途经的所有敌人造成<physicalDamage>@AdditionalDamage@物理伤害</physicalDamage>。"
+            },
+            "keyCost": {
+              "sourceKey": "spell_DrMundoE_Cost",
+              "text": "<font color='#CC3300'>@FlatHealthCost@生命值</font>"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_DrMundoE_TooltipExtendedBelowLine",
+              "text": "<rules>来自被动部分的加成会在@MaxMissingHealthThreshold*100@%已损失生命值时达到最大值。<br>对小兵造成@MinionMod*100@%伤害。对野怪造成@MonsterMod*100@%伤害。</rules>"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_DrMundoE_Summary",
+              "text": "被动 - 蒙多医生获得额外攻击力，数额会基于他的最大生命值而提升。<br><br>主动 - 蒙多医生用他的“医用”手提包猛砸一个敌人，造成基于他已损失生命值的额外伤害。如果这个敌人被击杀，那么还会被拍飞，对途经的所有敌人造成伤害。"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "drmundo_r",
+          "binding": "Characters/DrMundo/Spells/DrMundoRAbility/DrMundoR",
+          "object": {
+            "ObjectName": "DrMundoR",
+            "objectPath": "Characters/DrMundo/Spells/DrMundoRAbility/DrMundoR",
+            "mScriptName": "DrMundoR",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 15567,
+              "mSpellTags": [
+                "Trait_Ultimate",
+                "Trait_ActiveHeal",
+                "Trait_AttackBuff_Duration"
+              ],
+              "DataValues": [
+                {
+                  "name": "Duration",
+                  "values": [
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SpeedBoostAmount",
+                  "values": [
+                    0.05000000074505806,
+                    0.15000000596046448,
+                    0.25,
+                    0.3499999940395355,
+                    0.44999998807907104,
+                    0.550000011920929,
+                    0.6499999761581421
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MissingHealthHeal",
+                  "values": [
+                    0.10000000149011612,
+                    0.15000000596046448,
+                    0.20000000298023224,
+                    0.25,
+                    0.30000001192092896,
+                    0.3499999940395355,
+                    0.4000000059604645
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxHealthHoT",
+                  "values": [
+                    0,
+                    0.20000000298023224,
+                    0.4000000059604645,
+                    0.6000000238418579,
+                    0.800000011920929,
+                    1,
+                    1.2000000476837158
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TakedownDurationExtension",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BonusPerNearbyChampion",
+                  "values": [
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806,
+                    0.05000000074505806
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mAnimationName": "Spell4",
+              "mImgIconName": [
+                "ASSETS/Characters/DrMundo/HUD/Icons2D/DrMundo_R.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                120,
+                120,
+                120,
+                120,
+                120,
+                120,
+                120
+              ],
+              "Cooldown": {
+                "values": [
+                  120,
+                  120,
+                  120,
+                  120,
+                  120,
+                  120,
+                  120
+                ],
+                "{0a3e0478}": 120,
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              "castRangeValues": {
+                "values": [
+                  20,
+                  20,
+                  20,
+                  20,
+                  20,
+                  20,
+                  20
+                ],
+                "{0a3e0478}": 20,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600
+              ],
+              "castConeDistance": 100,
+              "castFrame": 15,
+              "missileSpeed": 828.5,
+              "bHaveHitBone": true,
+              "mHitBoneName": "root",
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mTargetingTypeData": {
+                "__type": "Self"
+              },
+              "mSpellCooldownOrSealedQueueThreshold": 0.5,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "DrMundoR",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_DrMundoR_Name",
+                    "keyTooltip": "Spell_DrMundoR_Tooltip",
+                    "keyCost": "Spell_Cost_NoCost",
+                    "keySummary": "Spell_DrMundoR_Summary"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 3,
+                      "Elements": [
+                        {
+                          "type": "MissingHealthHeal",
+                          "multiplier": 100,
+                          "nameOverride": "Spell_ListType_BonusHealth",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "SpeedBoostAmount",
+                          "multiplier": 100,
+                          "nameOverride": "Spell_ListType_MovementSpeed",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "MaxHealthHoT",
+                          "multiplier": 100,
+                          "nameOverride": "Spell_ListType_MaxHealthPercent",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mTooltipData": {
+                "mObjectName": "DrMundoR",
+                "mFormat": "{b34f999a}",
+                "mLocKeys": {
+                  "keyName": "Spell_DrMundoR_Name",
+                  "keyTooltip": "Buff_DrMundoRAbility_Tooltip"
+                },
+                "__type": "TooltipInstanceBuff"
+              },
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 2,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "SpeedBoostAmount",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 8,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "MissingHealthHeal",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 32,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mStat": 12,
+                        "mSubpart": {
+                          "mDataValue": "MaxHealthHoT",
+                          "__type": "NamedDataValueCalculationPart"
+                        },
+                        "__type": "StatBySubPartCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 64,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 128,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_DrMundoR_Name",
+              "text": "极限剂量"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_DrMundoR_Tooltip",
+              "text": "蒙多将化学药剂注入体内，获得<healing>相当于他@MissingHealthHeal*100@%已损失生命值的最大生命值</healing>、<speed>@SpeedBoostAmount*100@%移动速度</speed>、并在@Duration@秒里持续回复共<healing>@MaxHealthHoT*100@%最大生命值</healing>。<br><br>在3级时，附近的每个敌方英雄都会使这两种治疗效果提升额外的@BonusPerNearbyChampion*100@%。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_NoCost",
+              "text": "无消耗"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_DrMundoR_Summary",
+              "text": "蒙多医生给自己注入化学药剂，立刻治疗他的一部分已损失生命值。随后他会获得移动速度并在一段长周期内持续回复自身一部分最大生命值。"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Tryndamere",
+      "key": "champion_tryndamere",
+      "name": "泰达米尔",
+      "source": {
+        "championId": "Tryndamere",
+        "chineseName": "蛮族之王",
+        "resourceType": "怒气",
+        "client": {
+          "path": "客户端原文/Tryndamere.json.gz",
+          "sha256": "c5317c42a7c5652b8f5dd47f54f69a8204fc93b5b54a56579423706083886ef6",
+          "compressedSha256": "1e13b76cc00efc829af9d94cdaa97075993970c939255df8b93ae2cb31ca3620",
+          "byteSize": 39734,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/tryndamere/tryndamere.bin.json",
+          "fetchedAt": "2026-09-06T14:26:43.099Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Tryndamere.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Tryndamere.json",
+          "fetchedAt": "2026-09-06T14:12:54.923Z",
+          "byteSize": 12073,
+          "sha256": "78def14678945c4197c0d5f56ecc9ca78271ae86361cf7e013dedc2b5f10d957"
+        },
+        "rootPath": "Characters/Tryndamere/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "战斗狂怒",
+            "clientPath": "Characters/Tryndamere/Spells/TryndamerePassiveAbility/TryndamerePassive",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": null,
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "CherryFuryModifier"
+            ],
+            "calculationNames": [
+              "PassiveCritConversionTooltip",
+              "{dc63b617}"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "TryndamereQ",
+            "name": "嗜血杀戮",
+            "clientPath": "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "resource": "无消耗",
+            "clientCooldown": [
+              12,
+              12,
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "BaseHealing",
+              "BonusHealPerFury",
+              "APRatio",
+              "APRatioPerFury",
+              "MaximumBonusAD",
+              "RemainingHealthThreshold"
+            ],
+            "calculationNames": [
+              "BaseHeal",
+              "HealPerFury",
+              "MaximumHeal"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "TryndamereW",
+            "name": "蔑视",
+            "clientPath": "Characters/Tryndamere/Spells/TryndamereWAbility/TryndamereW",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              14,
+              14,
+              14,
+              14,
+              14
+            ],
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "resource": "无消耗",
+            "clientCooldown": [
+              14,
+              14,
+              14,
+              14,
+              14,
+              14,
+              14
+            ],
+            "clientMana": null,
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "ADReduction",
+              "SlowPotency",
+              "ReductionDuration",
+              "SlowDuration"
+            ],
+            "calculationNames": [],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "TryndamereE",
+            "name": "旋风斩",
+            "clientPath": "Characters/Tryndamere/Spells/TryndamereEAbility/TryndamereE",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              12,
+              11,
+              10,
+              9,
+              8
+            ],
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "resource": "无消耗",
+            "clientCooldown": [
+              12,
+              12,
+              11,
+              10,
+              9,
+              8,
+              7
+            ],
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "Damage",
+              "ADRatio",
+              "APRatio",
+              "NonChampCDRefund",
+              "ChampCDRefund",
+              "NonChampFuryGain",
+              "ChampFuryGain",
+              "DamageAoE"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "UndyingRage",
+            "name": "无尽怒火",
+            "clientPath": "Characters/Tryndamere/Spells/UndyingRageAbility/UndyingRage",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              120,
+              100,
+              80
+            ],
+            "cost": [
+              0,
+              0,
+              0
+            ],
+            "resource": "无消耗",
+            "clientCooldown": [
+              120,
+              120,
+              100,
+              80,
+              80,
+              80,
+              80
+            ],
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "TryndRFuryGain",
+              "TryndRMinHealth",
+              "TryndRDuration"
+            ],
+            "calculationNames": [],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      },
+      "rootPath": "Characters/Tryndamere/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Tryndamere/Spells/TryndamerePassiveAbility/TryndamerePassive",
+        "spells": [
+          "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ",
+          "Characters/Tryndamere/Spells/TryndamereWAbility/TryndamereW",
+          "Characters/Tryndamere/Spells/TryndamereEAbility/TryndamereE",
+          "Characters/Tryndamere/Spells/UndyingRageAbility/UndyingRage"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "tryndamere_p",
+          "binding": "Characters/Tryndamere/Spells/TryndamerePassiveAbility/TryndamerePassive",
+          "object": {
+            "ObjectName": "TryndamerePassive",
+            "objectPath": "Characters/Tryndamere/Spells/TryndamerePassiveAbility/TryndamerePassive",
+            "mScriptName": "TryndamerePassive",
+            "mSpell": {
+              "DataValues": [
+                {
+                  "name": "CherryFuryModifier",
+                  "values": [
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "PassiveCritConversionTooltip": {
+                  "mExpandedTooltipCalculationDisplay": 5,
+                  "mFormulaParts": [
+                    {
+                      "mNumber": 0.5,
+                      "__type": "NumberCalculationPart"
+                    }
+                  ],
+                  "mPrecision": 1,
+                  "__type": "GameCalculation"
+                },
+                "{dc63b617}": {
+                  "mMultiplier": {
+                    "mNumber": 0.10000000149011612,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "mFormulaParts": [
+                    {
+                      "mLevel1Value": 0.05000000074505806,
+                      "__type": "ByCharLevelBreakpointsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mImgIconName": [
+                "ASSETS/Characters/Tryndamere/HUD/Icons2D/Tryndamere_Passive.dds"
+              ],
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "TryndamerePassive",
+                  "mFormat": "{476ec0b8}",
+                  "EnableExtendedTooltip": false,
+                  "mLocKeys": {
+                    "keyTooltip": "Spell_TryndamerePassive_Tooltip",
+                    "keyName": "Spell_TryndamerePassive_Name"
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_TryndamerePassive",
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyTooltip": {
+              "sourceKey": "Spell_TryndamerePassive_Tooltip",
+              "text": "泰达米尔的攻击会为他提供<keywordMajor>5怒气</keywordMajor>或在暴击时提供<keywordMajor>10怒气</keywordMajor>，并在击杀一个单位后提供<keywordMajor>10怒气</keywordMajor>。在脱离战斗状态8秒后，泰达米尔会每秒损失<keywordMajor>5怒气</keywordMajor>。<br><br>每点<keywordMajor>怒气</keywordMajor>提供@PassiveCritConversionTooltip@%暴击几率。"
+            },
+            "keyName": {
+              "sourceKey": "Spell_TryndamerePassive_Name",
+              "text": "战斗狂怒"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "tryndamere_q",
+          "binding": "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ",
+          "object": {
+            "ObjectName": "TryndamereQ",
+            "objectPath": "Characters/Tryndamere/Spells/TryndamereQAbility/TryndamereQ",
+            "mScriptName": "TryndamereQ",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 9221,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mSpellTags": [
+                "Trait_ActiveHeal"
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseHealing",
+                  "values": [
+                    20,
+                    30,
+                    40,
+                    50,
+                    60,
+                    70,
+                    80
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BonusHealPerFury",
+                  "values": [
+                    0.05000000074505806,
+                    0.5,
+                    0.949999988079071,
+                    1.399999976158142,
+                    1.850000023841858,
+                    2.299999952316284,
+                    2.75
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatioPerFury",
+                  "values": [
+                    0.012000000104308128,
+                    0.012000000104308128,
+                    0.012000000104308128,
+                    0.012000000104308128,
+                    0.012000000104308128,
+                    0.012000000104308128,
+                    0.012000000104308128
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaximumBonusAD",
+                  "values": [
+                    5,
+                    20,
+                    35,
+                    50,
+                    65,
+                    80,
+                    95
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RemainingHealthThreshold",
+                  "values": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "BaseHealing",
+                      "values": [
+                        40,
+                        60,
+                        80,
+                        100,
+                        120,
+                        140,
+                        160
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "BonusHealPerFury",
+                      "values": [
+                        0.25,
+                        1,
+                        1.75,
+                        2.5,
+                        3.25,
+                        4,
+                        4.75
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "APRatio",
+                      "values": [
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5,
+                        0.5
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "APRatioPerFury",
+                      "values": [
+                        0.019999999552965164,
+                        0.019999999552965164,
+                        0.019999999552965164,
+                        0.019999999552965164,
+                        0.019999999552965164,
+                        0.019999999552965164,
+                        0.019999999552965164
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "BaseHeal": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseHealing",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "HealPerFury": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BonusHealPerFury",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatioPerFury",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "mPrecision": 1,
+                  "__type": "GameCalculation"
+                },
+                "MaximumHeal": {
+                  "mExpandedTooltipCalculationDisplay": 6,
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseHealing",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    },
+                    {
+                      "mPart1": {
+                        "mCoefficient": 1,
+                        "mAbilityResource": 4,
+                        "__type": "AbilityResourceByCoefficientCalculationPart"
+                      },
+                      "mPart2": {
+                        "mSubparts": [
+                          {
+                            "mDataValue": "BonusHealPerFury",
+                            "__type": "NamedDataValueCalculationPart"
+                          },
+                          {
+                            "mDataValue": "APRatioPerFury",
+                            "__type": "StatByNamedDataValueCalculationPart"
+                          }
+                        ],
+                        "__type": "SumOfSubPartsCalculationPart"
+                      },
+                      "__type": "ProductOfSubPartsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.30000001192092896,
+              "mCoefficient2": 0.012000000104308128,
+              "mAnimationName": "Spell1",
+              "mImgIconName": [
+                "ASSETS/Characters/Tryndamere/HUD/Icons2D/Tryndamere_Q.dds"
+              ],
+              "cooldownTime": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "Cooldown": {
+                "values": [
+                  12,
+                  12,
+                  12,
+                  12,
+                  12,
+                  12,
+                  12
+                ],
+                "{0a3e0478}": 12,
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "bHaveHitEffect": true,
+              "castRadius": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              "castConeDistance": 100,
+              "castFrame": 10,
+              "mHitEffectKey": "Tryndamere_Q_Heal_01",
+              "mFloatVarsDecimals": [
+                2,
+                1,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mTargetingTypeData": {
+                "__type": "Self"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "TryndamereQ",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_TryndamereQ_Name",
+                    "keySummary": "Spell_TryndamereQ_Summary",
+                    "keyTooltip": "Spell_TryndamereQ_Tooltip",
+                    "keyCost": "Spell_Cost_NoCost",
+                    "keyTooltipExtendedBelowLine": "Spell_TryndamereQ_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "MaximumBonusAD",
+                          "typeIndex": 2,
+                          "nameOverride": "Spell_ListType_MaximumDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "BaseHealing",
+                          "typeIndex": 3,
+                          "nameOverride": "Spell_ListType_Healing",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "BonusHealPerFury",
+                          "typeIndex": 4,
+                          "nameOverride": "Spell_ListType_TryndamereHealPerFury",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_TryndamereQ",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "{ec17e271}": [
+                {
+                  "EffectTag": 8,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mSpellCalculationKey": "HealPerFury",
+                        "__type": "{f3cbe7b2}"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_TryndamereQ_Name",
+              "text": "嗜血杀戮"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_TryndamereQ_Summary",
+              "text": "泰达米尔对战斗极度饥渴，他受伤程度越高，攻击力越强。他能通过释放【Q嗜血杀戮】消耗怒气并治疗自己。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_TryndamereQ_Tooltip",
+              "text": "<spellPassive>被动：</spellPassive>泰达米尔嗜血成性，获得至多<scaleAD>@MaximumBonusAD@攻击力</scaleAD>，基于他的已损失生命值。<br><br><spellActive>主动：</spellActive>泰达米尔消耗他的<keywordMajor>怒气</keywordMajor>，回复<healing>@BaseHeal@外加@HealPerFury@x怒气的生命值(最大值：@MaximumHeal@)</healing>。 "
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_NoCost",
+              "text": "无消耗"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_TryndamereQ_TooltipExtendedBelowLine",
+              "text": "<rules>在@RemainingHealthThreshold*100@%剩余生命值时即可获取最大攻击力。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "tryndamere_w",
+          "binding": "Characters/Tryndamere/Spells/TryndamereWAbility/TryndamereW",
+          "object": {
+            "ObjectName": "TryndamereW",
+            "objectPath": "Characters/Tryndamere/Spells/TryndamereWAbility/TryndamereW",
+            "mScriptName": "TryndamereW",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "DataValues": [
+                {
+                  "name": "ADReduction",
+                  "values": [
+                    -5,
+                    -20,
+                    -35,
+                    -50,
+                    -65,
+                    -80,
+                    -95
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowPotency",
+                  "values": [
+                    -0.25,
+                    -0.30000001192092896,
+                    -0.3499999940395355,
+                    -0.4000000059604645,
+                    -0.44999998807907104,
+                    -0.5,
+                    -0.550000011920929
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ReductionDuration",
+                  "values": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowDuration",
+                  "values": [
+                    3.25,
+                    3.25,
+                    3.25,
+                    3.25,
+                    3.25,
+                    3.25,
+                    3.25
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mAnimationName": "Spell2",
+              "mImgIconName": [
+                "ASSETS/Characters/Tryndamere/HUD/Icons2D/Tryndamere_W.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                14,
+                14,
+                14,
+                14,
+                14,
+                14,
+                14
+              ],
+              "Cooldown": {
+                "values": [
+                  14,
+                  14,
+                  14,
+                  14,
+                  14,
+                  14,
+                  14
+                ],
+                "{0a3e0478}": 14,
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "bHaveHitEffect": true,
+              "mPingableWhileDisabled": true,
+              "castRangeDisplayOverride": [
+                850,
+                850,
+                850,
+                850,
+                850,
+                850,
+                850
+              ],
+              "castRadius": [
+                830,
+                830,
+                830,
+                830,
+                830,
+                830,
+                830
+              ],
+              "castConeDistance": 100,
+              "castFrame": 7.5,
+              "mHitEffectKey": "Tryndamere_W_Tar_01",
+              "mFloatVarsDecimals": [
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "SelfAoe"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "TryndamereW",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_TryndamereW_Name",
+                    "keySummary": "Spell_TryndamereW_Summary",
+                    "keyTooltip": "Spell_TryndamereW_Tooltip",
+                    "keyCost": "Spell_Cost_NoCost"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "ADReduction",
+                          "typeIndex": 1,
+                          "multiplier": -1,
+                          "nameOverride": "Spell_ListType_PhysicalDamageReduction",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "SlowPotency",
+                          "typeIndex": 2,
+                          "multiplier": -100,
+                          "nameOverride": "Spell_ListType_Slow",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_TryndamereW_AttackDown",
+              "mFloatVarsDecimals": [
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1,
+                -1
+              ],
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "{ec17e271}": [
+                {
+                  "EffectTag": 1,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "SlowPotency",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 8,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_TryndamereW_Name",
+              "text": "蔑视"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_TryndamereW_Summary",
+              "text": "泰达米尔嘲笑敌人，减少身边敌方英雄的攻击力。背对泰达米尔的敌人还会被减速。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_TryndamereW_Tooltip",
+              "text": "泰达米尔抛出羞辱之语，使英雄们降低@ADReduction*-1@攻击力，持续@ReductionDuration@秒，并且对逃离泰达米尔的敌人造成@SlowPotency*-100@%<status>减速</status>，持续@SlowDuration@秒。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_NoCost",
+              "text": "无消耗"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "tryndamere_e",
+          "binding": "Characters/Tryndamere/Spells/TryndamereEAbility/TryndamereE",
+          "object": {
+            "ObjectName": "TryndamereE",
+            "objectPath": "Characters/Tryndamere/Spells/TryndamereEAbility/TryndamereE",
+            "mScriptName": "TryndamereE",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "PositiveEffect_MoveBlock",
+                "Trait_PlayerSelectedDashDirection",
+                "Trait_DamageAbility",
+                "Trait_SignatureSpell",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "Damage",
+                  "values": [
+                    40,
+                    80,
+                    120,
+                    160,
+                    200,
+                    240,
+                    280
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ADRatio",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "NonChampCDRefund",
+                  "values": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ChampCDRefund",
+                  "values": [
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "NonChampFuryGain",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ChampFuryGain",
+                  "values": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DamageAoE",
+                  "values": [
+                    225,
+                    225,
+                    225,
+                    225,
+                    225,
+                    225,
+                    225
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "{f9c2333e}": {
+                "{a110bc47}": {
+                  "value": [
+                    8,
+                    8,
+                    8,
+                    8,
+                    8,
+                    8,
+                    8
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "Damage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 2,
+                      "mStatFormula": 2,
+                      "mDataValue": "ADRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell3",
+              "mImgIconName": [
+                "ASSETS/Characters/Tryndamere/HUD/Icons2D/Tryndamere_E.dds"
+              ],
+              "cooldownTime": [
+                12,
+                12,
+                11,
+                10,
+                9,
+                8,
+                7
+              ],
+              "Cooldown": {
+                "values": [
+                  12,
+                  12,
+                  11,
+                  10,
+                  9,
+                  8,
+                  7
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "cantCastWhileRooted": true,
+              "mProjectTargetToCastRange": true,
+              "castRange": [
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000
+              ],
+              "castRangeValues": {
+                "values": [
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000
+                ],
+                "{0a3e0478}": 25000,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                650,
+                650,
+                650,
+                650,
+                650,
+                650,
+                650
+              ],
+              "castRadius": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              "castConeDistance": 100,
+              "castFrame": 9.75,
+              "missileSpeed": 700,
+              "mLineWidth": 160,
+              "mFloatVarsDecimals": [
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mTargetingTypeData": {
+                "__type": "Location"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "TryndamereE",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_TryndamereE_Name",
+                    "keySummary": "Spell_TryndamereE_Summary",
+                    "keyTooltip": "Spell_TryndamereE_Tooltip",
+                    "keyCost": "Spell_Cost_NoCost"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "Damage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "hideWithLineIndicator": true,
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "lineStopsAtEndPosition": true,
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        160,
+                        160,
+                        160,
+                        160,
+                        160,
+                        160
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionLine"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 128,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_TryndamereE_Name",
+              "text": "旋风斩"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_TryndamereE_Summary",
+              "text": "泰达米尔挥舞大剑冲向目标，对冲锋路线上所有敌人造成伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_TryndamereE_Tooltip",
+              "text": "泰达米尔旋转并穿过他的敌人，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>并且每命中一个敌人就会生成<keywordMajor>@NonChampFuryGain@怒气</keywordMajor>，在命中敌方英雄时提升至<keywordMajor>@ChampFuryGain@怒气</keywordMajor>。<br><br>这个技能的冷却时间会在泰达米尔暴击时缩短@NonChampCDRefund@秒，并在对英雄暴击时缩短@ChampCDRefund@秒。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_NoCost",
+              "text": "无消耗"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "tryndamere_r",
+          "binding": "Characters/Tryndamere/Spells/UndyingRageAbility/UndyingRage",
+          "object": {
+            "ObjectName": "UndyingRage",
+            "objectPath": "Characters/Tryndamere/Spells/UndyingRageAbility/UndyingRage",
+            "mScriptName": "UndyingRage",
+            "mSpell": {
+              "flags": 20,
+              "mAffectsTypeFlags": 9221,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mSpellTags": [
+                "SpecialCase_StasisLocked",
+                "Trait_Ultimate",
+                "Trait_AttackBuff_Duration"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    50,
+                    50,
+                    75,
+                    100,
+                    100,
+                    100,
+                    100
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    30,
+                    30,
+                    50,
+                    70,
+                    70,
+                    70,
+                    70
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "TryndRFuryGain",
+                  "values": [
+                    50,
+                    50,
+                    75,
+                    100,
+                    125,
+                    150,
+                    175
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TryndRMinHealth",
+                  "values": [
+                    30,
+                    30,
+                    50,
+                    70,
+                    90,
+                    110,
+                    130
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TryndRDuration",
+                  "values": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "{f9c2333e}": {
+                "{a110bc47}": {
+                  "value": [
+                    60,
+                    60,
+                    50,
+                    40,
+                    40,
+                    40,
+                    40
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mAnimationName": "Spell4",
+              "mImgIconName": [
+                "ASSETS/Characters/Tryndamere/HUD/Icons2D/Tryndamere_R.dds"
+              ],
+              "cooldownTime": [
+                120,
+                120,
+                100,
+                80,
+                80,
+                80,
+                80
+              ],
+              "Cooldown": {
+                "values": [
+                  120,
+                  120,
+                  100,
+                  80,
+                  80,
+                  80,
+                  80
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "cannotBeSuppressed": true,
+              "canCastWhileDisabled": true,
+              "mCantCancelWhileWindingUp": true,
+              "castRadius": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              "castConeDistance": 100,
+              "castFrame": 4.179999828338623,
+              "mTargetingTypeData": {
+                "__type": "Self"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "UndyingRage",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_UndyingRage_Name",
+                    "keySummary": "Spell_UndyingRage_Summary",
+                    "keyTooltip": "Spell_UndyingRage_Tooltip",
+                    "keyCost": "Spell_Cost_NoCost",
+                    "keyTooltipExtendedBelowLine": "Spell_UndyingRage_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 3,
+                      "Elements": [
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "TryndRMinHealth",
+                          "nameOverride": "Spell_ListType_MinimumHealth",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "TryndRFuryGain",
+                          "nameOverride": "Spell_ListType_TryndamereFuryGained",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 0,
+              "{6d548702}": {
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 8388608,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "TryndRDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 32,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "TryndRMinHealth",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_UndyingRage_Name",
+              "text": "无尽怒火"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_UndyingRage_Summary",
+              "text": "泰达米尔是如此渴望战斗，以至于承受再多的伤害也不会死亡。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_UndyingRage_Tooltip",
+              "text": "泰达米尔变得对死亡完全免疫，持续@TryndRDuration@秒，拒绝将生命值降至@TryndRMinHealth@以下，并瞬间获得<keywordMajor>@TryndRFuryGain@怒气</keywordMajor>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_NoCost",
+              "text": "无消耗"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_UndyingRage_TooltipExtendedBelowLine",
+              "text": "<rules>这个技能可以在被<status>限制</status>时施放。</rules>"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

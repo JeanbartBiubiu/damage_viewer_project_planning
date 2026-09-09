@@ -1,0 +1,39 @@
+{
+  "sequence": 75,
+  "intent": {
+    "sequence": 75,
+    "method": "POST",
+    "route": "/skills/tryndamere_p/parameters",
+    "detailRoute": "/skills/tryndamere_p/parameters/attack_fury_gain",
+    "skillKey": "tryndamere_p",
+    "kind": "parameters",
+    "stableKey": "attack_fury_gain",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_fury_gain",
+      "name": "普通攻击获得怒气",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "当前根绑定正文明确普通攻击获得5怒气；怒气资源尚无属性字典，不建立资源结果。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 427,
+    "method": "GET",
+    "route": "/skills/tryndamere_p/parameters/attack_fury_gain",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "attack_fury_gain"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:51.815Z"
+  }
+}

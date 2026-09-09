@@ -1,0 +1,103 @@
+{
+  "sequence": 92,
+  "intent": {
+    "sequence": 92,
+    "method": "POST",
+    "route": "/skills/tryndamere_q/formulas",
+    "detailRoute": "/skills/tryndamere_q/formulas/active_heal_amount",
+    "skillKey": "tryndamere_q",
+    "kind": "formulas",
+    "stableKey": "active_heal_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "active_heal_amount",
+      "name": "嗜血杀戮按实际怒气治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_healing"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_heal_per_fury"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio_per_fury"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_fury_consumed"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "主动治疗=基础治疗项+实际消耗怒气×每怒气治疗项；实际怒气无默认，禁止用满怒替代。",
+      "sortOrder": 30
+    }
+  },
+  "before": {
+    "sequence": 478,
+    "method": "GET",
+    "route": "/skills/tryndamere_q/formulas/active_heal_amount",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "active_heal_amount"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:38:10.693Z"
+  }
+}

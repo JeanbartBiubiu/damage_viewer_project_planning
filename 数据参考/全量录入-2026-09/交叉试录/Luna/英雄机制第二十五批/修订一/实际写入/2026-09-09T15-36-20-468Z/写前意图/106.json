@@ -1,0 +1,67 @@
+{
+  "sequence": 106,
+  "intent": {
+    "sequence": 106,
+    "method": "POST",
+    "route": "/skills/tryndamere_e/effects",
+    "detailRoute": "/skills/tryndamere_e/effects/champion_crit_cooldown_refund",
+    "skillKey": "tryndamere_e",
+    "kind": "effects",
+    "stableKey": "champion_crit_cooldown_refund",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "champion_crit_cooldown_refund",
+      "name": "对英雄暴击缩短旋风斩冷却",
+      "description": "正文明确对英雄暴击缩短旋风斩冷却；效果只定义数值和技能范围，暴击事件待接线。",
+      "sortOrder": 10,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "cooldown",
+          "name": "对英雄暴击缩短旋风斩冷却",
+          "resultType": "COOLDOWN_CHANGE",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "champion_crit_cooldown_refund_ms"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "affectedSkillScope": {
+              "mode": "SKILLS",
+              "skillKeys": [
+                "tryndamere_e"
+              ],
+              "skillCategoryKeys": []
+            },
+            "operation": "REDUCE"
+          }
+        }
+      ]
+    }
+  },
+  "before": {
+    "sequence": 520,
+    "method": "GET",
+    "route": "/skills/tryndamere_e/effects/champion_crit_cooldown_refund",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_EFFECT_NOT_FOUND",
+        "details": {
+          "effectKey": "champion_crit_cooldown_refund"
+        },
+        "message": "技能效果不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:38:25.478Z"
+  }
+}

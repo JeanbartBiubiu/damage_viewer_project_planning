@@ -1,0 +1,89 @@
+{
+  "sequence": 73,
+  "intent": {
+    "sequence": 73,
+    "method": "POST",
+    "route": "/skills/drmundo_r/formulas",
+    "detailRoute": "/skills/drmundo_r/formulas/max_health_regeneration_amount",
+    "skillKey": "drmundo_r",
+    "kind": "formulas",
+    "stableKey": "max_health_regeneration_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "max_health_regeneration_amount",
+      "name": "极限剂量持续恢复最大生命量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_health_regeneration_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_health_regeneration_basis"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "unity"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_per_nearby_champion_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MIN",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "nearby_enemy_champion_count"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "unity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "持续恢复总量=最大生命恢复比例×正确应用阶段的实际最大生命基准×附近效果倍率；基准无默认，应用阶段未知，不创建周期或HP反馈。",
+      "sortOrder": 30
+    }
+  },
+  "before": {
+    "sequence": 421,
+    "method": "GET",
+    "route": "/skills/drmundo_r/formulas/max_health_regeneration_amount",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "max_health_regeneration_amount"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:49.683Z"
+  }
+}
