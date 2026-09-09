@@ -1,0 +1,161 @@
+{
+  "generatedAt": "2026-09-09T12:12:54.534Z",
+  "revision": "修订一",
+  "baseCandidateSha256": "723d467d65d4942ec64261530b863f3cd0d06e101fcc3b38731feeb3af1f93d2",
+  "baseRequestPlanSha256": "9a220bc33362948aa170c518e551a64cf34dcfe1def8b291b19bdd3410586d9a",
+  "baseSnapshotSha256": "c422962b4c93fb0d642fe294b2dc1b7044566985039a141f8291a1151f74387f",
+  "baseSourceManifestSha256": "57a9546ba221db52063ba438aa9454e251c296f64e621918b54524505f0e97d0",
+  "baseMathSha256": "ce8bc87a5bc17026c805f3f1f35296d054b980799d9aec12762dfedd2ffae686",
+  "originalFilesUnchanged": true,
+  "changes": [
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "target_max_health_percent_points",
+      "before": [
+        3,
+        2.8,
+        3.2,
+        3.55,
+        3.9
+      ],
+      "after": [
+        2.5,
+        2.85,
+        3.2,
+        3.55,
+        3.9
+      ],
+      "reason": "逐项修正map(round)将索引误当小数位数。"
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "damage_reduction_base",
+      "before": "原候选首级被round(0)破坏",
+      "after": [
+        0.25,
+        0.3,
+        0.35,
+        0.4,
+        0.45
+      ],
+      "reason": "客户端原始索引1至5，显式逐项比对。"
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "passive_shield_health_ratio_by_skill_level",
+      "before": "原候选首级被round(0)破坏",
+      "after": [
+        0.075,
+        0.09,
+        0.105,
+        0.12,
+        0.135
+      ],
+      "reason": "客户端原始索引1至5，显式逐项比对。"
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "bonus_armor_ratio",
+      "before": "原候选首级被round(0)破坏",
+      "after": [
+        0.3,
+        0.375,
+        0.45,
+        0.525,
+        0.6
+      ],
+      "reason": "客户端原始索引1至5，显式逐项比对。"
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "bonus_magic_resistance_ratio",
+      "before": "原候选首级被round(0)破坏",
+      "after": [
+        0.3,
+        0.375,
+        0.45,
+        0.525,
+        0.6
+      ],
+      "reason": "客户端原始索引1至5，显式逐项比对。"
+    },
+    {
+      "skillKey": "rammus_r",
+      "parameterKey": "slow_ratio",
+      "before": "原候选首级被round(0)破坏",
+      "after": [
+        0.3,
+        0.4,
+        0.5
+      ],
+      "reason": "客户端原始索引1至3，显式逐项比对。"
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "attack_range_per_stack",
+      "before": "原候选首级被round(0)破坏",
+      "after": [
+        4.7,
+        6.2,
+        7.7
+      ],
+      "reason": "客户端原始索引1至3，显式逐项比对。"
+    },
+    {
+      "skillKey": "chogath_p",
+      "parameterKeys": [
+        "health_restore_on_kill",
+        "mana_restore_on_kill"
+      ],
+      "before": "CHARACTER_LEVEL展开、mana按mPrecision舍入、各自单参数直通公式",
+      "after": "DECIMAL RUNTIME_INPUT，无默认值且无公式",
+      "reason": "未知ByCharLevelBreakpoints曲线和显示精度不当作实际运行规则。"
+    },
+    {
+      "skillKey": "galio_p",
+      "parameterKey": "passive_base_damage",
+      "before": "CHARACTER_LEVEL线性展开",
+      "after": "DECIMAL RUNTIME_INPUT，无默认值",
+      "reason": "未知ByCharLevelInterpolation曲线不自行展开。"
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "minimum_move_speed_ratio",
+      "before": "CHARACTER_LEVEL线性展开",
+      "after": "DECIMAL RUNTIME_INPUT，无默认值",
+      "reason": "未知ByCharLevelInterpolation曲线不自行展开。"
+    },
+    {
+      "skillKey": "chogath_r",
+      "field": "RMinionMaxStacks",
+      "before": "与非英雄伤害一并排除",
+      "after": "preconditions来源约束值6；不强迫actual_feast_stacks<=6",
+      "reason": "保留战前盛宴层数来源约束，不建立小兵伤害。"
+    },
+    {
+      "skillKey": "scope",
+      "before": "科加斯Q击杀成长",
+      "after": "科加斯P击杀回复与R盛宴历史层数前置分开记录",
+      "reason": "纠正范围说明归属。"
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "source_mstat12_for_hero_damage",
+      "after": "source_bonus_health_for_hero_damage",
+      "reason": "同版同类选择器来源支持额外生命值口径；用户参数名不暴露mStat编号。"
+    }
+  ],
+  "newCandidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+  "newRequestPlanSha256": "b542da6edbc8fedba977ea20bb61e78ab436ae9a9fd7f290f6419b8bb19e855a",
+  "counts": {
+    "parameters": 122,
+    "formulas": 24,
+    "effects": 12,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "requestCount": 158,
+  "newMathScriptSha256": "c13b77acdc20d7ac83ecca634ba26ff8520141c7e5ed352306a36f5698b9b37b",
+  "newMathResultSha256": "910d4db5adbeca11b85c19e894766df1be3c9e0e24586876347855520ad0a638"
+}

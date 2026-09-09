@@ -1,0 +1,7154 @@
+{
+  "at": "2026-09-09T12:47:03.727Z",
+  "runId": "2026-09-09T12-47-03-724Z",
+  "mode": "受保护实际写入",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateFile": "修订一-完整候选.json",
+  "planFile": "修订一-写前请求意图.json",
+  "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+  "planSha256": "b542da6edbc8fedba977ea20bb61e78ab436ae9a9fd7f290f6419b8bb19e855a",
+  "source": "client16.17/official16.17.1",
+  "expected": {
+    "catalogs": 4,
+    "characters": 4,
+    "relations": 4,
+    "subjects": 20,
+    "images": 20,
+    "lists": 120,
+    "frozenDetails": 69,
+    "candidateRequests": 158
+  },
+  "staticChecks": [
+    {
+      "name": "修订候选哈希",
+      "passed": true,
+      "detail": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9"
+    },
+    {
+      "name": "修订请求计划哈希",
+      "passed": true,
+      "detail": "b542da6edbc8fedba977ea20bb61e78ab436ae9a9fd7f290f6419b8bb19e855a"
+    },
+    {
+      "name": "旧候选保持原字节",
+      "passed": true,
+      "detail": "723d467d65d4942ec64261530b863f3cd0d06e101fcc3b38731feeb3af1f93d2"
+    },
+    {
+      "name": "旧请求保持原字节",
+      "passed": true,
+      "detail": "9a220bc33362948aa170c518e551a64cf34dcfe1def8b291b19bdd3410586d9a"
+    },
+    {
+      "name": "现值快照保持原字节",
+      "passed": true,
+      "detail": "c422962b4c93fb0d642fe294b2dc1b7044566985039a141f8291a1151f74387f"
+    },
+    {
+      "name": "来源清单保持原字节",
+      "passed": true,
+      "detail": "57a9546ba221db52063ba438aa9454e251c296f64e621918b54524505f0e97d0"
+    },
+    {
+      "name": "旧数学结果保持原字节",
+      "passed": true,
+      "detail": "ce8bc87a5bc17026c805f3f1f35296d054b980799d9aec12762dfedd2ffae686"
+    },
+    {
+      "name": "修订数学结果已核对",
+      "passed": true,
+      "detail": "910d4db5adbeca11b85c19e894766df1be3c9e0e24586876347855520ad0a638"
+    },
+    {
+      "name": "nasus_p/parameters为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_p/formulas为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_p/effects为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_p/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_p/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_p/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_q/parameters为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_q/formulas为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_q/effects为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_q/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_q/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_q/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_w/parameters为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_w/formulas为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_w/effects为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_w/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_w/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_w/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_e/parameters为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_e/formulas为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_e/effects为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_e/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_e/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_e/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_r/parameters为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_r/formulas为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_r/effects为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_r/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_r/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "nasus_r/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_p/parameters为数组",
+      "passed": true,
+      "detail": 2
+    },
+    {
+      "name": "chogath_p/formulas为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_p/effects为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_p/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_p/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_p/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_q/parameters为数组",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "chogath_q/formulas为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "chogath_q/effects为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "chogath_q/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_q/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_q/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_w/parameters为数组",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "chogath_w/formulas为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "chogath_w/effects为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "chogath_w/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_w/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_w/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_e/parameters为数组",
+      "passed": true,
+      "detail": 12
+    },
+    {
+      "name": "chogath_e/formulas为数组",
+      "passed": true,
+      "detail": 2
+    },
+    {
+      "name": "chogath_e/effects为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "chogath_e/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_e/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_e/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_r/parameters为数组",
+      "passed": true,
+      "detail": 10
+    },
+    {
+      "name": "chogath_r/formulas为数组",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "chogath_r/effects为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "chogath_r/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_r/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "chogath_r/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_p/parameters为数组",
+      "passed": true,
+      "detail": 7
+    },
+    {
+      "name": "galio_p/formulas为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "galio_p/effects为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_p/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_p/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_p/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_q/parameters为数组",
+      "passed": true,
+      "detail": 8
+    },
+    {
+      "name": "galio_q/formulas为数组",
+      "passed": true,
+      "detail": 2
+    },
+    {
+      "name": "galio_q/effects为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "galio_q/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_q/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_q/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_w/parameters为数组",
+      "passed": true,
+      "detail": 19
+    },
+    {
+      "name": "galio_w/formulas为数组",
+      "passed": true,
+      "detail": 5
+    },
+    {
+      "name": "galio_w/effects为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "galio_w/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_w/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_w/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_e/parameters为数组",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "galio_e/formulas为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "galio_e/effects为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "galio_e/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_e/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_e/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_r/parameters为数组",
+      "passed": true,
+      "detail": 8
+    },
+    {
+      "name": "galio_r/formulas为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "galio_r/effects为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "galio_r/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_r/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "galio_r/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_p/parameters为数组",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "rammus_p/formulas为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "rammus_p/effects为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_p/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_p/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_p/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_q/parameters为数组",
+      "passed": true,
+      "detail": 9
+    },
+    {
+      "name": "rammus_q/formulas为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "rammus_q/effects为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "rammus_q/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_q/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_q/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_w/parameters为数组",
+      "passed": true,
+      "detail": 13
+    },
+    {
+      "name": "rammus_w/formulas为数组",
+      "passed": true,
+      "detail": 3
+    },
+    {
+      "name": "rammus_w/effects为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "rammus_w/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_w/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_w/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_e/parameters为数组",
+      "passed": true,
+      "detail": 2
+    },
+    {
+      "name": "rammus_e/formulas为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_e/effects为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "rammus_e/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_e/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_e/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_r/parameters为数组",
+      "passed": true,
+      "detail": 16
+    },
+    {
+      "name": "rammus_r/formulas为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "rammus_r/effects为数组",
+      "passed": true,
+      "detail": 1
+    },
+    {
+      "name": "rammus_r/processes为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_r/internalStates为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "rammus_r/triggerRules为数组",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "候选技能位恰为20项",
+      "passed": true,
+      "detail": [
+        "nasus_p",
+        "nasus_q",
+        "nasus_w",
+        "nasus_e",
+        "nasus_r",
+        "chogath_p",
+        "chogath_q",
+        "chogath_w",
+        "chogath_e",
+        "chogath_r",
+        "galio_p",
+        "galio_q",
+        "galio_w",
+        "galio_e",
+        "galio_r",
+        "rammus_p",
+        "rammus_q",
+        "rammus_w",
+        "rammus_e",
+        "rammus_r"
+      ]
+    },
+    {
+      "name": "候选组成恰为158项",
+      "passed": true,
+      "detail": 158
+    },
+    {
+      "name": "候选计数与修订计数一致",
+      "passed": true,
+      "detail": {
+        "candidateCounts": {
+          "parameters": 122,
+          "formulas": 24,
+          "effects": 12,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "declared": {
+          "parameters": 122,
+          "formulas": 24,
+          "effects": 12,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      }
+    },
+    {
+      "name": "候选计数符合修订预期",
+      "passed": true,
+      "detail": {
+        "parameters": 122,
+        "formulas": 24,
+        "effects": 12,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "候选元数据没有业务写入",
+      "passed": true,
+      "detail": {
+        "businessWrites": 0,
+        "apiCalls": 0
+      }
+    },
+    {
+      "name": "请求计划恰为158条POST意图",
+      "passed": true,
+      "detail": {
+        "requestCount": 158,
+        "actual": 158
+      }
+    },
+    {
+      "name": "请求计划绑定修订候选",
+      "passed": true,
+      "detail": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9"
+    },
+    {
+      "name": "请求属于候选chogath_p/parameters/health_restore_on_kill",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_p/parameters",
+        "expected": "/skills/chogath_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_p/parameters/mana_restore_on_kill",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_p/parameters",
+        "expected": "/skills/chogath_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_q/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_q/parameters",
+        "expected": "/skills/chogath_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_q/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_q/parameters",
+        "expected": "/skills/chogath_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_q/parameters/knockup_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_q/parameters",
+        "expected": "/skills/chogath_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_q/parameters/slow_percent_points",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_q/parameters",
+        "expected": "/skills/chogath_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_q/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_q/parameters",
+        "expected": "/skills/chogath_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_q/formulas/magic_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_q/formulas",
+        "expected": "/skills/chogath_q/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_q/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_q/effects",
+        "expected": "/skills/chogath_q/effects"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_w/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_w/parameters",
+        "expected": "/skills/chogath_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_w/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_w/parameters",
+        "expected": "/skills/chogath_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_w/parameters/silence_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_w/parameters",
+        "expected": "/skills/chogath_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_w/formulas/magic_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_w/formulas",
+        "expected": "/skills/chogath_w/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_w/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_w/effects",
+        "expected": "/skills/chogath_w/effects"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/parameters",
+        "expected": "/skills/chogath_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/parameters",
+        "expected": "/skills/chogath_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/parameters",
+        "expected": "/skills/chogath_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/parameters/target_max_health_percent_points",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/parameters",
+        "expected": "/skills/chogath_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/parameters/feast_stack_multiplier_percent_points",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/parameters",
+        "expected": "/skills/chogath_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/parameters/percent_point_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/parameters",
+        "expected": "/skills/chogath_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/parameters/actual_feast_stacks",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/parameters",
+        "expected": "/skills/chogath_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/parameters/slow_percent_points",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/parameters",
+        "expected": "/skills/chogath_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/parameters",
+        "expected": "/skills/chogath_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/parameters/attack_range_increase",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/parameters",
+        "expected": "/skills/chogath_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/parameters/maximum_attacks",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/parameters",
+        "expected": "/skills/chogath_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/parameters/buff_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/parameters",
+        "expected": "/skills/chogath_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/formulas/flat_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/formulas",
+        "expected": "/skills/chogath_e/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/formulas/max_health_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/formulas",
+        "expected": "/skills/chogath_e/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_e/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_e/effects",
+        "expected": "/skills/chogath_e/effects"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/parameters/hero_base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/parameters",
+        "expected": "/skills/chogath_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/parameters",
+        "expected": "/skills/chogath_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/parameters/source_bonus_health_for_hero_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/parameters",
+        "expected": "/skills/chogath_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/parameters/unmapped_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/parameters",
+        "expected": "/skills/chogath_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/parameters/actual_feast_stacks",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/parameters",
+        "expected": "/skills/chogath_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/parameters/health_per_stack",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/parameters",
+        "expected": "/skills/chogath_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/parameters/cast_range_per_stack",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/parameters",
+        "expected": "/skills/chogath_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/parameters/max_bonus_cast_range",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/parameters",
+        "expected": "/skills/chogath_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/parameters/attack_range_per_stack",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/parameters",
+        "expected": "/skills/chogath_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/parameters/max_bonus_attack_range",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/parameters",
+        "expected": "/skills/chogath_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/formulas/hero_true_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/formulas",
+        "expected": "/skills/chogath_r/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/formulas/max_health_gain",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/formulas",
+        "expected": "/skills/chogath_r/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/formulas/bonus_cast_range",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/formulas",
+        "expected": "/skills/chogath_r/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/formulas/bonus_attack_range",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/formulas",
+        "expected": "/skills/chogath_r/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选chogath_r/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/chogath_r/effects",
+        "expected": "/skills/chogath_r/effects"
+      }
+    },
+    {
+      "name": "请求属于候选galio_p/parameters/passive_base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_p/parameters",
+        "expected": "/skills/galio_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_p/parameters/total_attack_damage_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_p/parameters",
+        "expected": "/skills/galio_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_p/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_p/parameters",
+        "expected": "/skills/galio_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_p/parameters/source_mstat6_for_passive",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_p/parameters",
+        "expected": "/skills/galio_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_p/parameters/unmapped_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_p/parameters",
+        "expected": "/skills/galio_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_p/parameters/charge_rate_per_hit",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_p/parameters",
+        "expected": "/skills/galio_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_p/parameters/passive_cooldown_seconds",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_p/parameters",
+        "expected": "/skills/galio_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_p/formulas/passive_magic_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_p/formulas",
+        "expected": "/skills/galio_p/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选galio_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_q/parameters",
+        "expected": "/skills/galio_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_q/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_q/parameters",
+        "expected": "/skills/galio_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_q/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_q/parameters",
+        "expected": "/skills/galio_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_q/parameters/super_q_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_q/parameters",
+        "expected": "/skills/galio_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_q/parameters/super_q_base_percent_points",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_q/parameters",
+        "expected": "/skills/galio_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_q/parameters/super_q_ap_percent_points_per_ap",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_q/parameters",
+        "expected": "/skills/galio_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_q/parameters/tornado_ticks",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_q/parameters",
+        "expected": "/skills/galio_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_q/parameters/percent_point_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_q/parameters",
+        "expected": "/skills/galio_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_q/formulas/missile_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_q/formulas",
+        "expected": "/skills/galio_q/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选galio_q/formulas/tornado_max_health_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_q/formulas",
+        "expected": "/skills/galio_q/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选galio_q/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_q/effects",
+        "expected": "/skills/galio_q/effects"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/minimum_base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/maximum_base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/damage_reduction_base",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/mstat6_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/mstat12_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/source_mstat6_for_reduction",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/source_mstat12_for_reduction",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/source_hp_for_passive_shield",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/passive_shield_health_ratio_by_skill_level",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/physical_damage_reduction_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/max_charge_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/self_slow_percent_points",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/cc_duration_min_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/cc_duration_max_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/dr_linger_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/ap_damage_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/parameters/maximum_damage_multiplier",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/parameters",
+        "expected": "/skills/galio_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/formulas/passive_shield",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/formulas",
+        "expected": "/skills/galio_w/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/formulas/magic_damage_reduction",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/formulas",
+        "expected": "/skills/galio_w/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/formulas/physical_damage_reduction",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/formulas",
+        "expected": "/skills/galio_w/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/formulas/minimum_magic_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/formulas",
+        "expected": "/skills/galio_w/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/formulas/maximum_magic_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/formulas",
+        "expected": "/skills/galio_w/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选galio_w/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_w/effects",
+        "expected": "/skills/galio_w/effects"
+      }
+    },
+    {
+      "name": "请求属于候选galio_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_e/parameters",
+        "expected": "/skills/galio_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_e/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_e/parameters",
+        "expected": "/skills/galio_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_e/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_e/parameters",
+        "expected": "/skills/galio_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_e/parameters/knockup_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_e/parameters",
+        "expected": "/skills/galio_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_e/formulas/first_champion_magic_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_e/formulas",
+        "expected": "/skills/galio_e/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选galio_e/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_e/effects",
+        "expected": "/skills/galio_e/effects"
+      }
+    },
+    {
+      "name": "请求属于候选galio_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_r/parameters",
+        "expected": "/skills/galio_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_r/parameters",
+        "expected": "/skills/galio_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_r/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_r/parameters",
+        "expected": "/skills/galio_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_r/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_r/parameters",
+        "expected": "/skills/galio_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_r/parameters/source_mstat6_for_landing_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_r/parameters",
+        "expected": "/skills/galio_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_r/parameters/unmapped_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_r/parameters",
+        "expected": "/skills/galio_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_r/parameters/stun_duration_outer_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_r/parameters",
+        "expected": "/skills/galio_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_r/parameters/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_r/parameters",
+        "expected": "/skills/galio_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选galio_r/formulas/landing_magic_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_r/formulas",
+        "expected": "/skills/galio_r/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选galio_r/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/galio_r/effects",
+        "expected": "/skills/galio_r/effects"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_p/parameters/armor_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_p/parameters",
+        "expected": "/skills/rammus_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_p/parameters/magic_resistance_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_p/parameters",
+        "expected": "/skills/rammus_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_p/parameters/source_armor_for_passive",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_p/parameters",
+        "expected": "/skills/rammus_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_p/parameters/source_magic_resistance_for_passive",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_p/parameters",
+        "expected": "/skills/rammus_p/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_p/formulas/bonus_attack_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_p/formulas",
+        "expected": "/skills/rammus_p/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_q/parameters",
+        "expected": "/skills/rammus_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_q/parameters/cooldown_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_q/parameters",
+        "expected": "/skills/rammus_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_q/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_q/parameters",
+        "expected": "/skills/rammus_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_q/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_q/parameters",
+        "expected": "/skills/rammus_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_q/parameters/roll_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_q/parameters",
+        "expected": "/skills/rammus_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_q/parameters/minimum_move_speed_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_q/parameters",
+        "expected": "/skills/rammus_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_q/parameters/slow_percent_points",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_q/parameters",
+        "expected": "/skills/rammus_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_q/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_q/parameters",
+        "expected": "/skills/rammus_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_q/parameters/stun_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_q/parameters",
+        "expected": "/skills/rammus_q/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_q/formulas/power_ball_magic_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_q/formulas",
+        "expected": "/skills/rammus_q/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_q/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_q/effects",
+        "expected": "/skills/rammus_q/effects"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/bonus_armor_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/bonus_magic_resistance_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/flat_bonus_armor",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/flat_bonus_magic_resistance",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/buff_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/damage_armor_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/damage_magic_resistance_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/flat_damage_return",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/source_armor_for_w",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/source_magic_resistance_for_w",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/parameters/one",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/parameters",
+        "expected": "/skills/rammus_w/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/formulas/return_magic_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/formulas",
+        "expected": "/skills/rammus_w/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/formulas/bonus_armor",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/formulas",
+        "expected": "/skills/rammus_w/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/formulas/bonus_magic_resistance",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/formulas",
+        "expected": "/skills/rammus_w/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_w/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_w/effects",
+        "expected": "/skills/rammus_w/effects"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_e/parameters",
+        "expected": "/skills/rammus_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_e/parameters/taunt_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_e/parameters",
+        "expected": "/skills/rammus_e/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_e/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_e/effects",
+        "expected": "/skills/rammus_e/effects"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/initial_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/slow_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/number_of_pulses",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/buff_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/base_cast_range",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/tremors_aoe_range",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/tremors_knockup_range",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/knockup_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/dash_range_growth",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/max_range_for_damage_growth",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/dash_speed_growth",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/min_dash_speed",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/parameters/max_dash_speed",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/parameters",
+        "expected": "/skills/rammus_r/parameters"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/formulas/initial_magic_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/formulas",
+        "expected": "/skills/rammus_r/formulas"
+      }
+    },
+    {
+      "name": "请求属于候选rammus_r/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rammus_r/effects",
+        "expected": "/skills/rammus_r/effects"
+      }
+    },
+    {
+      "name": "候选与请求组成逐项一致",
+      "passed": true,
+      "detail": {
+        "candidate": 158,
+        "plan": 158
+      }
+    },
+    {
+      "name": "Nasus整槽无新增组成nasus_p",
+      "passed": true,
+      "detail": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      }
+    },
+    {
+      "name": "Nasus整槽无新增组成nasus_q",
+      "passed": true,
+      "detail": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      }
+    },
+    {
+      "name": "Nasus整槽无新增组成nasus_w",
+      "passed": true,
+      "detail": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      }
+    },
+    {
+      "name": "Nasus整槽无新增组成nasus_e",
+      "passed": true,
+      "detail": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      }
+    },
+    {
+      "name": "Nasus整槽无新增组成nasus_r",
+      "passed": true,
+      "detail": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      }
+    },
+    {
+      "name": "冻结已有组成详情恰为69项",
+      "passed": true,
+      "detail": 69
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_p/parameters/life_steal_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_p/effects/soul_eater_lifesteal",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_p/triggerRules/initialize_lifesteal",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_q/parameters/champion_kill_stack_gain",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_q/parameters/base_bonus_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_q/parameters/buff_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_q/parameters/q_stack_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_q/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_q/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_q/formulas/bonus_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_q/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_w/parameters/slow_start_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_w/parameters/attack_speed_slow_multiplier",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_w/parameters/duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_w/parameters/slow_max_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_w/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_w/formulas/initial_attack_speed_slow_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_w/formulas/max_attack_speed_slow_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_w/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_w/processes/cast",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/parameters/initial_ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/parameters/initial_base_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/parameters/damage_per_second_ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/parameters/damage_per_second_base",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/parameters/duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/parameters/armor_reduction_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/formulas/initial_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/formulas/damage_per_second",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/effects/initial_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_e/processes/cast",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/parameters/q_cooldown_reduction_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/parameters/ap_ratio_per_second",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/parameters/max_health_damage_ratio_per_second",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/parameters/bonus_resistance",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/parameters/bonus_health",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/parameters/duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/formulas/damage_per_second",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/effects/fury_attributes",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成nasus_r/processes/cast",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成chogath_q/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成chogath_q/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成chogath_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成chogath_w/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成chogath_e/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成chogath_e/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成chogath_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成chogath_r/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成galio_q/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成galio_q/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成galio_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成galio_w/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成galio_e/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成galio_e/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成rammus_q/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成rammus_w/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成rammus_e/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成rammus_e/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成rammus_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖冻结组成rammus_r/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_p/parameters/health_restore_on_kill",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_p/parameters/mana_restore_on_kill",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_q/parameters/base_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_q/parameters/ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_q/parameters/knockup_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_q/parameters/slow_percent_points",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_q/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_q/formulas/magic_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_q/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_w/parameters/base_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_w/parameters/ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_w/parameters/silence_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_w/formulas/magic_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_w/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/parameters/base_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/parameters/ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/parameters/target_max_health_percent_points",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/parameters/feast_stack_multiplier_percent_points",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/parameters/percent_point_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/parameters/actual_feast_stacks",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/parameters/slow_percent_points",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/parameters/attack_range_increase",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/parameters/maximum_attacks",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/parameters/buff_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/formulas/flat_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/formulas/max_health_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_e/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/parameters/hero_base_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/parameters/ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/parameters/source_bonus_health_for_hero_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/parameters/unmapped_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/parameters/actual_feast_stacks",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/parameters/health_per_stack",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/parameters/cast_range_per_stack",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/parameters/max_bonus_cast_range",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/parameters/attack_range_per_stack",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/parameters/max_bonus_attack_range",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/formulas/hero_true_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/formulas/max_health_gain",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/formulas/bonus_cast_range",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/formulas/bonus_attack_range",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成chogath_r/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_p/parameters/passive_base_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_p/parameters/total_attack_damage_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_p/parameters/ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_p/parameters/source_mstat6_for_passive",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_p/parameters/unmapped_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_p/parameters/charge_rate_per_hit",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_p/parameters/passive_cooldown_seconds",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_p/formulas/passive_magic_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_q/parameters/base_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_q/parameters/ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_q/parameters/super_q_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_q/parameters/super_q_base_percent_points",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_q/parameters/super_q_ap_percent_points_per_ap",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_q/parameters/tornado_ticks",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_q/parameters/percent_point_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_q/formulas/missile_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_q/formulas/tornado_max_health_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_q/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/minimum_base_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/maximum_base_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/damage_reduction_base",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/mstat6_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/mstat12_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/source_mstat6_for_reduction",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/source_mstat12_for_reduction",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/source_hp_for_passive_shield",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/passive_shield_health_ratio_by_skill_level",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/physical_damage_reduction_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/max_charge_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/self_slow_percent_points",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/cc_duration_min_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/cc_duration_max_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/dr_linger_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/ap_damage_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/parameters/maximum_damage_multiplier",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/formulas/passive_shield",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/formulas/magic_damage_reduction",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/formulas/physical_damage_reduction",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/formulas/minimum_magic_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/formulas/maximum_magic_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_w/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_e/parameters/base_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_e/parameters/ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_e/parameters/knockup_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_e/formulas/first_champion_magic_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_e/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_r/parameters/base_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_r/parameters/ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_r/parameters/source_mstat6_for_landing_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_r/parameters/unmapped_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_r/parameters/stun_duration_outer_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_r/parameters/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_r/formulas/landing_magic_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成galio_r/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_p/parameters/armor_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_p/parameters/magic_resistance_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_p/parameters/source_armor_for_passive",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_p/parameters/source_magic_resistance_for_passive",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_p/formulas/bonus_attack_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_q/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_q/parameters/base_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_q/parameters/ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_q/parameters/roll_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_q/parameters/minimum_move_speed_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_q/parameters/slow_percent_points",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_q/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_q/parameters/stun_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_q/formulas/power_ball_magic_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_q/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/bonus_armor_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/bonus_magic_resistance_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/flat_bonus_armor",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/flat_bonus_magic_resistance",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/buff_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/damage_armor_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/damage_magic_resistance_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/flat_damage_return",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/source_armor_for_w",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/source_magic_resistance_for_w",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/parameters/one",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/formulas/return_magic_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/formulas/bonus_armor",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/formulas/bonus_magic_resistance",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_w/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_e/parameters/taunt_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_e/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/initial_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/ap_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/slow_ratio",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/number_of_pulses",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/buff_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/base_cast_range",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/tremors_aoe_range",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/tremors_knockup_range",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/knockup_duration_ms",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/dash_range_growth",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/max_range_for_damage_growth",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/dash_speed_growth",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/min_dash_speed",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/parameters/max_dash_speed",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/formulas/initial_magic_damage",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "候选不覆盖已有组成rammus_r/effects/mana_cost",
+      "passed": true,
+      "detail": false
+    },
+    {
+      "name": "nasus_p/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_p/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_p/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_q/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_q/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_q/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_w/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_w/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_w/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_e/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_e/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_e/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_r/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_r/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "nasus_r/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_p/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_p/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_p/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_q/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_q/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_q/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_q/mana_cost仅资源变化",
+      "passed": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "chogath_w/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_w/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_w/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_w/mana_cost仅资源变化",
+      "passed": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "chogath_e/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_e/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_e/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_e/mana_cost仅资源变化",
+      "passed": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "chogath_r/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_r/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_r/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "chogath_r/mana_cost仅资源变化",
+      "passed": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "galio_p/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_p/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_p/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_q/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_q/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_q/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_q/mana_cost仅资源变化",
+      "passed": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "galio_w/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_w/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_w/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_w/mana_cost仅资源变化",
+      "passed": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "galio_e/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_e/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_e/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_e/mana_cost仅资源变化",
+      "passed": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "galio_r/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_r/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_r/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "galio_r/mana_cost仅资源变化",
+      "passed": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "rammus_p/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_p/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_p/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_q/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_q/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_q/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_q/mana_cost仅资源变化",
+      "passed": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "rammus_w/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_w/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_w/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_w/mana_cost仅资源变化",
+      "passed": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "rammus_e/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_e/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_e/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_e/mana_cost仅资源变化",
+      "passed": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "rammus_r/processes不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_r/internalStates不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_r/triggerRules不创建",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "rammus_r/mana_cost仅资源变化",
+      "passed": true,
+      "detail": "RESOURCE_CHANGE"
+    },
+    {
+      "name": "公式节点类型chogath_q/magic_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_q/magic_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_q/magic_damage$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_q/magic_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_q/magic_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_q/magic_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_q/magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属chogath_q/magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类chogath_q/magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型chogath_w/magic_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_w/magic_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_w/magic_damage$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_w/magic_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_w/magic_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_w/magic_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_w/magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属chogath_w/magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类chogath_w/magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型chogath_e/flat_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_e/flat_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_e/flat_damage$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_e/flat_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_e/flat_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_e/flat_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_e/flat_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属chogath_e/flat_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类chogath_e/flat_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型chogath_e/max_health_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_e/max_health_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_point_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "target_max_health_percent_points"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_feast_stacks"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "feast_stack_multiplier_percent_points"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_e/max_health_damage$.operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_e/max_health_damage$.operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_point_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "target_max_health_percent_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_feast_stacks"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "feast_stack_multiplier_percent_points"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_e/max_health_damage$.operands[0].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_e/max_health_damage$.operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_e/max_health_damage$.operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "target_max_health_percent_points"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_feast_stacks"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "feast_stack_multiplier_percent_points"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_e/max_health_damage$.operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_e/max_health_damage$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_e/max_health_damage$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_feast_stacks"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "feast_stack_multiplier_percent_points"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_e/max_health_damage$.operands[0].operands[1].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_e/max_health_damage$.operands[0].operands[1].operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_e/max_health_damage$.operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属chogath_e/max_health_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "TARGET",
+        "attributeKey": "hp",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类chogath_e/max_health_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "TARGET",
+        "attributeKey": "hp",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型chogath_r/hero_true_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_r/hero_true_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "hero_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "unmapped_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_bonus_health_for_hero_damage"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_r/hero_true_damage$.operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_r/hero_true_damage$.operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "hero_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_r/hero_true_damage$.operands[0].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_r/hero_true_damage$.operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_r/hero_true_damage$.operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_r/hero_true_damage$.operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_r/hero_true_damage$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属chogath_r/hero_true_damage$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类chogath_r/hero_true_damage$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型chogath_r/hero_true_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_r/hero_true_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "unmapped_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_bonus_health_for_hero_damage"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_r/hero_true_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_r/hero_true_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_r/max_health_gain$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_r/max_health_gain$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_feast_stacks"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "health_per_stack"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_r/max_health_gain$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_r/max_health_gain$.operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_r/bonus_cast_range$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_r/bonus_cast_range$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MIN",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_bonus_cast_range"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_feast_stacks"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "cast_range_per_stack"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_r/bonus_cast_range$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_r/bonus_cast_range$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_r/bonus_cast_range$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_feast_stacks"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "cast_range_per_stack"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_r/bonus_cast_range$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_r/bonus_cast_range$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_r/bonus_attack_range$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_r/bonus_attack_range$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MIN",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_bonus_attack_range"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_feast_stacks"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_range_per_stack"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_r/bonus_attack_range$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_r/bonus_attack_range$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算chogath_r/bonus_attack_range$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_feast_stacks"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "attack_range_per_stack"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型chogath_r/bonus_attack_range$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型chogath_r/bonus_attack_range$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_p/passive_magic_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "passive_base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "total_attack_damage_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "unmapped_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_mstat6_for_passive"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$.operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_p/passive_magic_damage$.operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "total_attack_damage_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$.operands[0].operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_p/passive_magic_damage$.operands[0].operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_attack_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$.operands[0].operands[0].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$.operands[0].operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_p/passive_magic_damage$.operands[0].operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "total_attack_damage_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "attack_damage",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$.operands[0].operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$.operands[0].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属galio_p/passive_magic_damage$.operands[0].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类galio_p/passive_magic_damage$.operands[0].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$.operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_p/passive_magic_damage$.operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$.operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属galio_p/passive_magic_damage$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类galio_p/passive_magic_damage$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_p/passive_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "unmapped_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_mstat6_for_passive"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_p/passive_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_q/missile_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_q/missile_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_q/missile_damage$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_q/missile_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_q/missile_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_q/missile_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_q/missile_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属galio_q/missile_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类galio_q/missile_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型galio_q/tornado_max_health_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_q/tornado_max_health_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_point_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "tornado_ticks"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "super_q_base_percent_points"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "super_q_ap_percent_points_per_ap"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_q/tornado_max_health_damage$.operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_q/tornado_max_health_damage$.operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_point_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "tornado_ticks"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_q/tornado_max_health_damage$.operands[0].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_q/tornado_max_health_damage$.operands[0].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_q/tornado_max_health_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_q/tornado_max_health_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "super_q_base_percent_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "super_q_ap_percent_points_per_ap"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_q/tornado_max_health_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_q/tornado_max_health_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "super_q_base_percent_points"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "super_q_ap_percent_points_per_ap"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_q/tornado_max_health_damage$.operands[1].operands[0].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_q/tornado_max_health_damage$.operands[1].operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_q/tornado_max_health_damage$.operands[1].operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "super_q_ap_percent_points_per_ap"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_q/tornado_max_health_damage$.operands[1].operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_q/tornado_max_health_damage$.operands[1].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属galio_q/tornado_max_health_damage$.operands[1].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类galio_q/tornado_max_health_damage$.operands[1].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型galio_q/tornado_max_health_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属galio_q/tornado_max_health_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "TARGET",
+        "attributeKey": "hp",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类galio_q/tornado_max_health_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "TARGET",
+        "attributeKey": "hp",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/passive_shield$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/passive_shield$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_shield_health_ratio_by_skill_level"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_hp_for_passive_shield"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/passive_shield$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/passive_shield$.operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/magic_damage_reduction$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_reduction_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "mstat6_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "source_mstat6_for_reduction"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mstat12_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_mstat12_for_reduction"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$.operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/magic_damage_reduction$.operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_reduction_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mstat6_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_mstat6_for_reduction"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$.operands[0].operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/magic_damage_reduction$.operands[0].operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_reduction_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$.operands[0].operands[0].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$.operands[0].operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/magic_damage_reduction$.operands[0].operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$.operands[0].operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$.operands[0].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属galio_w/magic_damage_reduction$.operands[0].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类galio_w/magic_damage_reduction$.operands[0].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$.operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/magic_damage_reduction$.operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mstat6_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_mstat6_for_reduction"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$.operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/magic_damage_reduction$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mstat12_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_mstat12_for_reduction"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/magic_damage_reduction$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/physical_damage_reduction$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "physical_damage_reduction_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "damage_reduction_base"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "ap_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "ability_power",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "mstat6_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "source_mstat6_for_reduction"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "mstat12_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "source_mstat12_for_reduction"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/physical_damage_reduction$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_reduction_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "mstat6_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "source_mstat6_for_reduction"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mstat12_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_mstat12_for_reduction"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/physical_damage_reduction$.operands[1].operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_reduction_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mstat6_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_mstat6_for_reduction"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1].operands[0].operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/physical_damage_reduction$.operands[1].operands[0].operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_reduction_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1].operands[0].operands[0].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1].operands[0].operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/physical_damage_reduction$.operands[1].operands[0].operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1].operands[0].operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1].operands[0].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属galio_w/physical_damage_reduction$.operands[1].operands[0].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类galio_w/physical_damage_reduction$.operands[1].operands[0].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1].operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/physical_damage_reduction$.operands[1].operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mstat6_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_mstat6_for_reduction"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1].operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1].operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/physical_damage_reduction$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mstat12_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_mstat12_for_reduction"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/physical_damage_reduction$.operands[1].operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/minimum_magic_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/minimum_magic_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "minimum_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/minimum_magic_damage$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/minimum_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/minimum_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_damage_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/minimum_magic_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/minimum_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属galio_w/minimum_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类galio_w/minimum_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/maximum_magic_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/maximum_magic_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "maximum_damage_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "minimum_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_damage_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/maximum_magic_damage$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/maximum_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/maximum_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "minimum_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/maximum_magic_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/maximum_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_w/maximum_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_damage_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_w/maximum_magic_damage$.operands[1].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_w/maximum_magic_damage$.operands[1].operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属galio_w/maximum_magic_damage$.operands[1].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类galio_w/maximum_magic_damage$.operands[1].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型galio_e/first_champion_magic_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_e/first_champion_magic_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_e/first_champion_magic_damage$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_e/first_champion_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_e/first_champion_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_e/first_champion_magic_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_e/first_champion_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属galio_e/first_champion_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类galio_e/first_champion_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型galio_r/landing_magic_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_r/landing_magic_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "unmapped_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_mstat6_for_landing_damage"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_r/landing_magic_damage$.operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_r/landing_magic_damage$.operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_r/landing_magic_damage$.operands[0].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_r/landing_magic_damage$.operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_r/landing_magic_damage$.operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_r/landing_magic_damage$.operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_r/landing_magic_damage$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属galio_r/landing_magic_damage$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类galio_r/landing_magic_damage$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型galio_r/landing_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算galio_r/landing_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "unmapped_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_mstat6_for_landing_damage"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型galio_r/landing_magic_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型galio_r/landing_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_p/bonus_attack_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_p/bonus_attack_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "armor_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_armor_for_passive"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "magic_resistance_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_magic_resistance_for_passive"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_p/bonus_attack_damage$.operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_p/bonus_attack_damage$.operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "armor_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_armor_for_passive"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_p/bonus_attack_damage$.operands[0].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_p/bonus_attack_damage$.operands[0].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_p/bonus_attack_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_p/bonus_attack_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "magic_resistance_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_magic_resistance_for_passive"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_p/bonus_attack_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_p/bonus_attack_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_q/power_ball_magic_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_q/power_ball_magic_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_q/power_ball_magic_damage$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_q/power_ball_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_q/power_ball_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_q/power_ball_magic_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_q/power_ball_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属rammus_q/power_ball_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类rammus_q/power_ball_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/return_magic_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_w/return_magic_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "flat_damage_return"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_armor_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "source_armor_for_w"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_magic_resistance_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_magic_resistance_for_w"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/return_magic_damage$.operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_w/return_magic_damage$.operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "flat_damage_return"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_armor_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_armor_for_w"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/return_magic_damage$.operands[0].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/return_magic_damage$.operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_w/return_magic_damage$.operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_armor_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_armor_for_w"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/return_magic_damage$.operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/return_magic_damage$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/return_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_w/return_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_magic_resistance_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_magic_resistance_for_w"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/return_magic_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/return_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_armor$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_w/bonus_armor$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "flat_bonus_armor"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_armor_ratio"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_armor_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_armor_for_w"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_armor$.operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_w/bonus_armor$.operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "flat_bonus_armor"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_armor_ratio"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_armor$.operands[0].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_armor$.operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_w/bonus_armor$.operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "one"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_armor_ratio"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_armor$.operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_armor$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_armor$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_w/bonus_armor$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_armor_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_armor_for_w"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_armor$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_armor$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_magic_resistance$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_w/bonus_magic_resistance$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "flat_bonus_magic_resistance"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_magic_resistance_ratio"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_magic_resistance_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "source_magic_resistance_for_w"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_magic_resistance$.operands[0]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_w/bonus_magic_resistance$.operands[0]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "flat_bonus_magic_resistance"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_magic_resistance_ratio"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_magic_resistance$.operands[0].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_magic_resistance$.operands[0].operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_w/bonus_magic_resistance$.operands[0].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "one"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_magic_resistance_ratio"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_magic_resistance$.operands[0].operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_magic_resistance$.operands[0].operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_magic_resistance$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_w/bonus_magic_resistance$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_magic_resistance_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "source_magic_resistance_for_w"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_magic_resistance$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_w/bonus_magic_resistance$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_r/initial_magic_damage$",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_r/initial_magic_damage$",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "initial_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_r/initial_magic_damage$.operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_r/initial_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": "OPERATION"
+    },
+    {
+      "name": "公式运算rammus_r/initial_magic_damage$.operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ap_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "ability_power",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      }
+    },
+    {
+      "name": "公式节点类型rammus_r/initial_magic_damage$.operands[1].operands[0]",
+      "passed": true,
+      "detail": "PARAMETER"
+    },
+    {
+      "name": "公式节点类型rammus_r/initial_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": "ATTRIBUTE"
+    },
+    {
+      "name": "公式属性归属rammus_r/initial_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "公式属性值类rammus_r/initial_magic_damage$.operands[1].operands[1]",
+      "passed": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    }
+  ],
+  "staticFailures": [],
+  "apiWrites": 158,
+  "calls": {
+    "total": 1114,
+    "methods": {
+      "GET": 956,
+      "POST": 158
+    },
+    "statuses": {
+      "200": 798,
+      "201": 158,
+      "404": 158
+    }
+  },
+  "success": true,
+  "errors": [],
+  "preflight": {
+    "pass": true,
+    "protectionConflicts": 0,
+    "catalogReferences": 31,
+    "catalogConflicts": 0,
+    "requiredCatalog": {
+      "key": "passive",
+      "status": "ENABLED",
+      "passed": true
+    },
+    "componentConflicts": 0,
+    "conflicts": 0,
+    "counts": {
+      "lists": 120,
+      "details": 69,
+      "existing": 69,
+      "missing": 158
+    },
+    "candidateAlreadySame": 0,
+    "candidateAlreadyDifferent": 0,
+    "candidateMissing": 158,
+    "frozenDetails": 69
+  },
+  "writeEvents": 317,
+  "apply": {
+    "startedAt": "2026-09-09T12:47:17.709Z",
+    "expected": 158,
+    "posted": 158,
+    "skippedSame": 0,
+    "confirmed": 158,
+    "stopped": false,
+    "stopReason": null,
+    "finishedAt": "2026-09-09T12:50:08.768Z"
+  },
+  "final": {
+    "lists": 120,
+    "details": 227,
+    "missing": 0,
+    "componentConflicts": 0,
+    "protectionDrift": 0,
+    "pass": true
+  },
+  "finishedAt": "2026-09-09T12:50:31.719Z"
+}

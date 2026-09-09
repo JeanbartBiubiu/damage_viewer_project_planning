@@ -1,0 +1,92 @@
+{
+  "at": "2026-09-09T13:28:43.411Z",
+  "status": "科加斯加里奥拉莫斯明确组成已保存与验收，内瑟斯既有五槽保持保护",
+  "skills": [
+    "chogath_p",
+    "chogath_q",
+    "chogath_w",
+    "chogath_e",
+    "chogath_r",
+    "galio_p",
+    "galio_q",
+    "galio_w",
+    "galio_e",
+    "galio_r",
+    "rammus_p",
+    "rammus_q",
+    "rammus_w",
+    "rammus_e",
+    "rammus_r"
+  ],
+  "protectedHeroes": [
+    "nasus"
+  ],
+  "counts": {
+    "parameters": 142,
+    "formulas": 24,
+    "effects": 12,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newCounts": {
+    "parameters": 122,
+    "formulas": 24,
+    "effects": 12
+  },
+  "reusedParameters": 20,
+  "protectedNasusComponents": 49,
+  "businessWrites": 158,
+  "candidateFileSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+  "writePlanSha256": "b542da6edbc8fedba977ea20bb61e78ab436ae9a9fd7f290f6419b8bb19e855a",
+  "execution": {
+    "file": "修订一-执行归档/实际写入/执行结果.json",
+    "GETs": 956,
+    "successfulPOSTs": 158,
+    "rejectedPOSTs": 0,
+    "unknownPOSTs": 0,
+    "passed": true
+  },
+  "independentReadback": {
+    "file": "修订一-执行归档/独立回读/执行结果.json",
+    "GETs": 399,
+    "details": 227,
+    "lists": 120,
+    "protectedDetails": 69,
+    "formulaCount": 24,
+    "passed": true
+  },
+  "strictMath": {
+    "file": "修订一-执行归档/实际数学严格核对.json",
+    "expectedFormulaCount": 24,
+    "actualFormulaCount": 24,
+    "formulaBodyChecks": 24,
+    "formulaCaseChecks": 48,
+    "missingRuntimeRejections": 19,
+    "missingAttributeRejections": 18,
+    "integerInputRejections": 4,
+    "boundaryChecks": 13,
+    "shieldNoDefaultChecks": 2,
+    "semanticChecks": 104,
+    "passed": true
+  },
+  "browser": {
+    "file": "页面验收.json",
+    "representativePages": 3,
+    "GETs": 16,
+    "mathCases": 8,
+    "passed": true
+  },
+  "issues": [
+    "初稿生成器.map(round)错误地将数组下标传给精度参数，七组数组在写入前已修正并按冻结原值逐项核对。",
+    "原写入器的循环request变量遮蔽HTTP函数，主负责人审查发现后修正，未执行原件；只执行修正版一次。",
+    "首次实际表达式检查仅保证结果为正且有样例默认输入，只记作冒烟检查；后补严格来源期望、双输入和缺值拒绝，不用前者代替数学验收。"
+  ],
+  "pending": [
+    "科加斯P和加里奥P等未知角色等级曲线继续以实际输入表达；mPrecision为展示精度，不推定真实取整。",
+    "科加斯R兵野6层仅为已保留的战前来源约束，未创建对应参数或层数事件；英雄来源总层数不强迫小于等于6。",
+    "加里奥R的友方选中施放资格仍待核，不能因为资格未证就直接当作无关技能排除。",
+    "加里奥和拉莫斯部分抗性取值、周期命中、蓄力及技能互作事件待接；后续脉冲缺值不补零。"
+  ],
+  "runtimeValidation": "未执行"
+}

@@ -1,0 +1,1317 @@
+{
+  "at": "2026-09-09T13:28:35.491Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "representativePages": 3,
+  "observations": [
+    {
+      "skillKey": "chogath_e",
+      "observed": "代表图片、2.5/2.85/3.2/3.55/3.9百分数点数组和无默认盛宴层数可见，百分比伤害与固定基础伤害分列。"
+    },
+    {
+      "skillKey": "galio_w",
+      "observed": "被动护盾比例0.075/0.09/0.105/0.12/0.135与伤害减免0.25/0.3/0.35/0.4/0.45可见；无默认生命输入及独立护盾公式可见。"
+    },
+    {
+      "skillKey": "rammus_w",
+      "observed": "护甲与魔抗比例0.3/0.375/0.45/0.525/0.6可见，实际抗性为外供输入；额外护甲公式包含平坦值乘(1+比例)后再加来源护甲乘比例。"
+    }
+  ],
+  "GETs": 16,
+  "requests": [
+    {
+      "route": "/skills/chogath_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:05.17417Z",
+        "description": "科加斯的攻击会释放致命的尖刺，伤害并减速面前所有的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "科加斯·恐惧之刺",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "chogath_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:05.17417Z"
+      }
+    },
+    {
+      "route": "/skills/chogath_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_chogath_e",
+          "name": "chogath_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/chogath_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:47:31.957047Z",
+          "description": "当前根spellCastTime为0.3812499940395355秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+          "fixedValue": 381,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "chogath_e",
+          "sortOrder": 5,
+          "updatedAt": "2026-09-09T12:47:31.957047Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:32.964824Z",
+          "description": "客户端根DataValues.BaseDamage取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 50,
+            "3": 70,
+            "4": 90,
+            "5": 110
+          },
+          "name": "基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "chogath_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:47:32.964824Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:33.987157Z",
+          "description": "FlatDamageCalc的StatByNamedDataValue APRatio=0.3，mStat省略按同版窄口径取来源总法强。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "chogath_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:47:33.987157Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:35.139534Z",
+          "description": "客户端根PercentHealthDamage为百分数点，公式统一由percent_point_ratio转换。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 2.5,
+            "2": 2.85,
+            "3": 3.2,
+            "4": 3.55,
+            "5": 3.9
+          },
+          "name": "目标最大生命值百分数点",
+          "parameterKey": "target_max_health_percent_points",
+          "skillKey": "chogath_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:47:35.139534Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:36.182036Z",
+          "description": "客户端根FeastStackMultiplier=0.5百分数点；仅作为E最大生命值公式输入。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层盛宴额外百分数点",
+          "parameterKey": "feast_stack_multiplier_percent_points",
+          "skillKey": "chogath_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T12:47:36.182036Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:37.180783Z",
+          "description": "客户端MaxHealthPercentCalc的mMultiplier=0.01。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "百分数点转比例",
+          "parameterKey": "percent_point_ratio",
+          "skillKey": "chogath_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T12:47:37.180783Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:38.406956Z",
+          "description": "当前1V1前置输入；实际层数必须为整数，无默认值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前盛宴层数",
+          "parameterKey": "actual_feast_stacks",
+          "skillKey": "chogath_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T12:47:38.406956Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:39.419404Z",
+          "description": "客户端根SlowAmountPercentage为百分数点，保留原单位。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 35,
+            "3": 40,
+            "4": 45,
+            "5": 50
+          },
+          "name": "减速百分数点",
+          "parameterKey": "slow_percent_points",
+          "skillKey": "chogath_e",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T12:47:39.419404Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:40.444182Z",
+          "description": "客户端根SlowDuration=1.5秒，转毫秒。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减速持续（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "chogath_e",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T12:47:40.444182Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:15.422328Z",
+          "description": "DDragon16.17.1 Chogath.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 8000,
+            "2": 7000,
+            "3": 6000,
+            "4": 5000,
+            "5": 4000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "chogath_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:15.422328Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:41.479007Z",
+          "description": "客户端根AttackRangeIncrease=50。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "攻击距离增加",
+          "parameterKey": "attack_range_increase",
+          "skillKey": "chogath_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T12:47:41.479007Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:15.884334Z",
+          "description": "DDragon16.17.1 Chogath.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "chogath_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:15.884334Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:42.570607Z",
+          "description": "客户端根MaximumAttacks=3。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最多攻击次数",
+          "parameterKey": "maximum_attacks",
+          "skillKey": "chogath_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T12:47:42.570607Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:43.628541Z",
+          "description": "客户端根BuffDuration=6秒，转毫秒。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化攻击持续（毫秒）",
+          "parameterKey": "buff_duration_ms",
+          "skillKey": "chogath_e",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T12:47:43.628541Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/chogath_e/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:47:44.739147Z",
+          "description": "FlatDamageCalc=BaseDamage+0.3×来源总法强；只建立数值公式。",
+          "formulaKey": "flat_damage",
+          "gameId": "lol",
+          "name": "恐惧之刺基础伤害",
+          "skillKey": "chogath_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:47:44.739147Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:47:45.876041Z",
+          "description": "MaxHealthPercentCalc=0.01×(目标最大生命值百分数点+当前盛宴层数×每层百分数点)×目标最大生命值；不创建DAMAGE结果。",
+          "formulaKey": "max_health_damage",
+          "gameId": "lol",
+          "name": "恐惧之刺目标最大生命值伤害",
+          "skillKey": "chogath_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:47:45.876041Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/galio_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:21.938381Z",
+        "description": "加里奥在防御姿态下蓄力，同时移动速度减慢。在蓄力得以释放时，加里奥将嘲讽并伤害附近的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "加里奥·杜朗护盾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "galio_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:21.938381Z"
+      }
+    },
+    {
+      "route": "/skills/galio_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_galio_w",
+          "name": "galio_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/galio_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:48:24.888953Z",
+          "description": "当前根spellCastTime为0秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+          "fixedValue": 0,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "galio_w",
+          "sortOrder": 5,
+          "updatedAt": "2026-09-09T12:48:24.888953Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:25.847796Z",
+          "description": "客户端根MinimumWBaseDamage取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20,
+            "2": 30,
+            "3": 40,
+            "4": 50,
+            "5": 60
+          },
+          "name": "最低蓄力基础魔法伤害",
+          "parameterKey": "minimum_base_damage",
+          "skillKey": "galio_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:48:25.847796Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:26.859002Z",
+          "description": "客户端根MaximumWBaseDamage取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 90,
+            "3": 120,
+            "4": 150,
+            "5": 180
+          },
+          "name": "满蓄力基础魔法伤害",
+          "parameterKey": "maximum_base_damage",
+          "skillKey": "galio_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:48:26.859002Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:27.865389Z",
+          "description": "客户端根DamageReductionBase已是比例，保留0至1单位。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.25,
+            "2": 0.3,
+            "3": 0.35,
+            "4": 0.4,
+            "5": 0.45
+          },
+          "name": "伤害减免基础比例",
+          "parameterKey": "damage_reduction_base",
+          "skillKey": "galio_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:48:27.865389Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:28.965787Z",
+          "description": "MagicDamageReduction树APRation=0.0004；单位为每点法强比例。",
+          "fixedValue": 0.0004,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "伤害减免法术强度倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "galio_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T12:48:28.965787Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:29.98509Z",
+          "description": "MagicDamageReduction树mStat6/formula2系数0.0008；属性归属保留运行时输入。",
+          "fixedValue": 0.0008,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "未映射mStat6减免倍率",
+          "parameterKey": "mstat6_ratio",
+          "skillKey": "galio_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T12:48:29.98509Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:31.069199Z",
+          "description": "MagicDamageReduction树mStat12/formula2系数0.0001；属性归属保留运行时输入。",
+          "fixedValue": 0.0001,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "未映射mStat12减免倍率",
+          "parameterKey": "mstat12_ratio",
+          "skillKey": "galio_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T12:48:31.069199Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:32.080303Z",
+          "description": "当前同版根树未证明mStat6属性映射，无默认值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减免树中的未映射mStat6输入",
+          "parameterKey": "source_mstat6_for_reduction",
+          "skillKey": "galio_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T12:48:32.080303Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:33.181776Z",
+          "description": "当前同版根树未证明mStat12属性映射，无默认值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减免树中的未映射mStat12输入",
+          "parameterKey": "source_mstat12_for_reduction",
+          "skillKey": "galio_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T12:48:33.181776Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:59:52.030519Z",
+          "description": "DDragon16.17.1 Galio.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 18000,
+            "2": 17000,
+            "3": 16000,
+            "4": 15000,
+            "5": 14000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "galio_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:59:52.030519Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:34.202074Z",
+          "description": "TotalPassiveShield含mStat12、mDataValue PassiveShieldHealthRatio；当前未形成同版属性映射，保留运行时输入。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "被动护盾树的生命值输入",
+          "parameterKey": "source_hp_for_passive_shield",
+          "skillKey": "galio_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T12:48:34.202074Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:59:52.493351Z",
+          "description": "DDragon16.17.1 Galio.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "galio_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:59:52.493351Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:35.30082Z",
+          "description": "客户端根PassiveShieldHealthRatio取索引1至5；公式使用技能等级值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.075,
+            "2": 0.09,
+            "3": 0.105,
+            "4": 0.12,
+            "5": 0.135
+          },
+          "name": "脱战被动护盾生命值倍率（技能等级）",
+          "parameterKey": "passive_shield_health_ratio_by_skill_level",
+          "skillKey": "galio_w",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T12:48:35.30082Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:36.394177Z",
+          "description": "客户端PhysicalDRPercent=0.5。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "物理伤害减免倍率",
+          "parameterKey": "physical_damage_reduction_ratio",
+          "skillKey": "galio_w",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T12:48:36.394177Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:37.383095Z",
+          "description": "客户端MaxChargeDuration=2秒，转毫秒。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最大蓄力时间（毫秒）",
+          "parameterKey": "max_charge_duration_ms",
+          "skillKey": "galio_w",
+          "sortOrder": 140,
+          "updatedAt": "2026-09-09T12:48:37.383095Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:38.452222Z",
+          "description": "客户端SelfSlowPercent=15百分数点。",
+          "fixedValue": 15,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "蓄力自身减速百分数点",
+          "parameterKey": "self_slow_percent_points",
+          "skillKey": "galio_w",
+          "sortOrder": 150,
+          "updatedAt": "2026-09-09T12:48:38.452222Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:39.435253Z",
+          "description": "客户端CCDurationMin=0.5秒，转毫秒。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最短嘲讽持续（毫秒）",
+          "parameterKey": "cc_duration_min_ms",
+          "skillKey": "galio_w",
+          "sortOrder": 160,
+          "updatedAt": "2026-09-09T12:48:39.435253Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:40.376691Z",
+          "description": "客户端CCDurationMax=1.5秒，转毫秒。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最长嘲讽持续（毫秒）",
+          "parameterKey": "cc_duration_max_ms",
+          "skillKey": "galio_w",
+          "sortOrder": 170,
+          "updatedAt": "2026-09-09T12:48:40.376691Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:41.357844Z",
+          "description": "客户端DRLingerDuration=2秒，转毫秒。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "伤害减免残留（毫秒）",
+          "parameterKey": "dr_linger_duration_ms",
+          "skillKey": "galio_w",
+          "sortOrder": 180,
+          "updatedAt": "2026-09-09T12:48:41.357844Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:42.412675Z",
+          "description": "客户端根计算树固定乘数。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "伤害法术强度倍率",
+          "parameterKey": "ap_damage_ratio",
+          "skillKey": "galio_w",
+          "sortOrder": 207,
+          "updatedAt": "2026-09-09T12:48:42.412675Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:43.424095Z",
+          "description": "客户端根计算树固定乘数。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "满蓄力伤害倍率",
+          "parameterKey": "maximum_damage_multiplier",
+          "skillKey": "galio_w",
+          "sortOrder": 208,
+          "updatedAt": "2026-09-09T12:48:43.424095Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/galio_w/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:48:45.125633Z",
+          "description": "TotalPassiveShield的mStat12输入映射未证；以显式运行时生命值输入计算，不创建护盾效果。",
+          "formulaKey": "passive_shield",
+          "gameId": "lol",
+          "name": "脱战被动护盾数值",
+          "skillKey": "galio_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:48:45.125633Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:46.942006Z",
+          "description": "MagicDamageReduction按根树四项相加；mStat6/mStat12保持运行时输入，不猜属性。",
+          "formulaKey": "magic_damage_reduction",
+          "gameId": "lol",
+          "name": "魔法伤害减免比例",
+          "skillKey": "galio_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:48:46.942006Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:48.165626Z",
+          "description": "PhysicalDamageReduction=0.5×MagicDamageReduction；内嵌完整减免树，避免把公式键当参数引用。",
+          "formulaKey": "physical_damage_reduction",
+          "gameId": "lol",
+          "name": "物理伤害减免比例",
+          "skillKey": "galio_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:48:48.165626Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:49.178857Z",
+          "description": "MinTotalDamage=MinimumWBaseDamage+0.3×来源总法强。",
+          "formulaKey": "minimum_magic_damage",
+          "gameId": "lol",
+          "name": "最低蓄力魔法伤害",
+          "skillKey": "galio_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:48:49.178857Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:48:50.176869Z",
+          "description": "MaxTotalDamage=3×MinTotalDamage；内嵌最低伤害树，避免把公式键当参数引用。",
+          "formulaKey": "maximum_magic_damage",
+          "gameId": "lol",
+          "name": "满蓄力魔法伤害",
+          "skillKey": "galio_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T12:48:50.176869Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/rammus_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:56.836607Z",
+        "description": "拉莫斯进入防御状态，极大提高护甲值和魔法抗性，并回敬伤害给那些攻击他的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "拉莫斯·尖刺防御",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "rammus_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:56.836607Z"
+      }
+    },
+    {
+      "route": "/skills/rammus_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_rammus_w",
+          "name": "rammus_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/rammus_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:49:26.645922Z",
+          "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "rammus_w",
+          "sortOrder": 5,
+          "updatedAt": "2026-09-09T12:49:26.645922Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:28.838405Z",
+          "description": "客户端BonusArmorPercent取索引1至5，保留0至1比例。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.3,
+            "2": 0.375,
+            "3": 0.45,
+            "4": 0.525,
+            "5": 0.6
+          },
+          "name": "额外护甲比例",
+          "parameterKey": "bonus_armor_ratio",
+          "skillKey": "rammus_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:49:28.838405Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:29.898929Z",
+          "description": "客户端BonusMRPercent取索引1至5，保留0至1比例。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.3,
+            "2": 0.375,
+            "3": 0.45,
+            "4": 0.525,
+            "5": 0.6
+          },
+          "name": "额外魔法抗性比例",
+          "parameterKey": "bonus_magic_resistance_ratio",
+          "skillKey": "rammus_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:49:29.898929Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:31.021344Z",
+          "description": "客户端FlatBonusArmor取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 27,
+            "2": 32,
+            "3": 37,
+            "4": 42,
+            "5": 47
+          },
+          "name": "额外护甲基础值",
+          "parameterKey": "flat_bonus_armor",
+          "skillKey": "rammus_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:49:31.021344Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:32.092448Z",
+          "description": "客户端FlatBonusMR取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20,
+            "2": 25,
+            "3": 30,
+            "4": 35,
+            "5": 40
+          },
+          "name": "额外魔法抗性基础值",
+          "parameterKey": "flat_bonus_magic_resistance",
+          "skillKey": "rammus_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T12:49:32.092448Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:33.141296Z",
+          "description": "客户端BuffDuration=7秒，转毫秒。",
+          "fixedValue": 7000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化持续（毫秒）",
+          "parameterKey": "buff_duration_ms",
+          "skillKey": "rammus_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T12:49:33.141296Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:34.207182Z",
+          "description": "客户端DamageArmorRatio=0.1；作用域仍用运行时护甲输入。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护甲反伤倍率",
+          "parameterKey": "damage_armor_ratio",
+          "skillKey": "rammus_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T12:49:34.207182Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:35.277216Z",
+          "description": "客户端DamageMRRatio=0.1；作用域仍用运行时魔抗输入。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "魔抗反伤倍率",
+          "parameterKey": "damage_magic_resistance_ratio",
+          "skillKey": "rammus_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T12:49:35.277216Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:36.270609Z",
+          "description": "客户端FlatDamageReturn=15。",
+          "fixedValue": 15,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "反伤基础值",
+          "parameterKey": "flat_damage_return",
+          "skillKey": "rammus_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T12:49:36.270609Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:37.493702Z",
+          "description": "ReturnDamageCalc含mStat1，当前未证明总/额外作用域。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "反伤计算用护甲输入",
+          "parameterKey": "source_armor_for_w",
+          "skillKey": "rammus_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T12:49:37.493702Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:27.808208Z",
+          "description": "官方16.17.1技能冷却数组，等级1起索引0，秒转毫秒；未计急速或技能修正。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 7000,
+            "2": 7000,
+            "3": 7000,
+            "4": 7000,
+            "5": 7000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "rammus_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T12:49:27.808208Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:38.633259Z",
+          "description": "ReturnDamageCalc含mStat6，当前未证明作用域。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "反伤计算用魔法抗性输入",
+          "parameterKey": "source_magic_resistance_for_w",
+          "skillKey": "rammus_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T12:49:38.633259Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:57.131532Z",
+          "description": "DDragon16.17.1 Rammus.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "rammus_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:57.131532Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:39.6266Z",
+          "description": "用于还原客户端乘加树。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "常数1",
+          "parameterKey": "one",
+          "skillKey": "rammus_w",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T12:49:39.6266Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/rammus_w/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:49:40.662602Z",
+          "description": "ReturnDamageCalc=15+0.1×护甲输入+0.1×魔抗输入；不创建DAMAGE结果。",
+          "formulaKey": "return_magic_damage",
+          "gameId": "lol",
+          "name": "尖刺防御反伤数值",
+          "skillKey": "rammus_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:49:40.662602Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:41.890416Z",
+          "description": "BonusArmorTooltip=FlatBonusArmor×(1+BonusArmorPercent)+mStat1×BonusArmorPercent；mStat1作用域保留为运行时护甲输入。",
+          "formulaKey": "bonus_armor",
+          "gameId": "lol",
+          "name": "尖刺防御额外护甲数值",
+          "skillKey": "rammus_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:49:41.890416Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:49:42.982687Z",
+          "description": "BonusMRTooltip=FlatBonusMR×(1+BonusMRPercent)+mStat6×BonusMRPercent；mStat6作用域保留为运行时魔抗输入。",
+          "formulaKey": "bonus_magic_resistance",
+          "gameId": "lol",
+          "name": "尖刺防御额外魔抗数值",
+          "skillKey": "rammus_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:49:42.982687Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/chogath_e/formulas/max_health_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:47:45.876041Z",
+        "description": "MaxHealthPercentCalc=0.01×(目标最大生命值百分数点+当前盛宴层数×每层百分数点)×目标最大生命值；不创建DAMAGE结果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_point_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_max_health_percent_points"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_feast_stacks"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "feast_stack_multiplier_percent_points"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "attributeKey": "hp",
+              "attributeOwner": "TARGET",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "max_health_damage",
+        "gameId": "lol",
+        "name": "恐惧之刺目标最大生命值伤害",
+        "skillKey": "chogath_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:47:45.876041Z"
+      }
+    },
+    {
+      "route": "/skills/galio_w/formulas/passive_shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:48:45.125633Z",
+        "description": "TotalPassiveShield的mStat12输入映射未证；以显式运行时生命值输入计算，不创建护盾效果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_shield_health_ratio_by_skill_level"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "source_hp_for_passive_shield"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "passive_shield",
+        "gameId": "lol",
+        "name": "脱战被动护盾数值",
+        "skillKey": "galio_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:48:45.125633Z"
+      }
+    },
+    {
+      "route": "/skills/rammus_w/formulas/bonus_armor",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:49:41.890416Z",
+        "description": "BonusArmorTooltip=FlatBonusArmor×(1+BonusArmorPercent)+mStat1×BonusArmorPercent；mStat1作用域保留为运行时护甲输入。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_bonus_armor"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_armor_ratio"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_armor_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_armor_for_w"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "bonus_armor",
+        "gameId": "lol",
+        "name": "尖刺防御额外护甲数值",
+        "skillKey": "rammus_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:49:41.890416Z"
+      }
+    },
+    {
+      "route": "/skills/rammus_w/formulas/return_magic_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:49:40.662602Z",
+        "description": "ReturnDamageCalc=15+0.1×护甲输入+0.1×魔抗输入；不创建DAMAGE结果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_damage_return"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_armor_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "source_armor_for_w"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_magic_resistance_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_magic_resistance_for_w"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "return_magic_damage",
+        "gameId": "lol",
+        "name": "尖刺防御反伤数值",
+        "skillKey": "rammus_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T12:49:40.662602Z"
+      }
+    }
+  ],
+  "mathCases": 8,
+  "cases": [
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "input": {
+        "rank": 1,
+        "actual_feast_stacks": 0,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 50,
+      "expected": 50,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "input": {
+        "rank": 5,
+        "actual_feast_stacks": 10,
+        "TARGET.hp.TOTAL": 2000
+      },
+      "actual": 178.00000000000003,
+      "expected": 178,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "passive_shield",
+      "input": {
+        "rank": 1,
+        "source_hp_for_passive_shield": 2000
+      },
+      "actual": 150,
+      "expected": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "passive_shield",
+      "input": {
+        "rank": 5,
+        "source_hp_for_passive_shield": 2000
+      },
+      "actual": 270,
+      "expected": 270,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_armor",
+      "input": {
+        "rank": 1,
+        "source_armor_for_w": 100
+      },
+      "actual": 65.1,
+      "expected": 65.1,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_armor",
+      "input": {
+        "rank": 5,
+        "source_armor_for_w": 100
+      },
+      "actual": 135.2,
+      "expected": 135.2,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "return_magic_damage",
+      "input": {
+        "rank": 1,
+        "source_armor_for_w": 100,
+        "source_magic_resistance_for_w": 80
+      },
+      "actual": 33,
+      "expected": 33,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "return_magic_damage",
+      "input": {
+        "rank": 5,
+        "source_armor_for_w": 250,
+        "source_magic_resistance_for_w": 180
+      },
+      "actual": 58,
+      "expected": 58,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "apiWrites": 0,
+  "runtimeValidation": "未执行"
+}
