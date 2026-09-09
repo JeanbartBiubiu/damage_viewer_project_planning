@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T09:54:54.618Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/orianna_q/parameters/reduced_damage_ratio",
+  "id": "reduced_damage_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "reduced_damage_ratio",
+    "name": "后续目标伤害减少幅度",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.3,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.ReducedDamagePercent 取索引1至5；源字段表示减少百分数，候选保存正的0.3减少幅度，不使用负号。",
+    "sortOrder": 50
+  }
+}

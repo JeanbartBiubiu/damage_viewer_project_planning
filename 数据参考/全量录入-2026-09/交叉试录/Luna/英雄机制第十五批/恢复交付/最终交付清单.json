@@ -1,0 +1,196 @@
+{
+  "at": "2026-09-09T09:19:53.825Z",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "originalCandidateSha256": "a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7",
+  "finalCandidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "finalPlanSha256": "eefb4349d27c7ac42b3192eac33981551b5dfeebe2fbdb4957f1948feeed3991",
+  "scope": {
+    "gameId": "lol",
+    "sourceVersions": {
+      "client": "16.17",
+      "official": "16.17.1"
+    },
+    "heroes": [
+      "Viktor",
+      "Orianna",
+      "Syndra",
+      "Taliyah"
+    ],
+    "skillCount": 20,
+    "skillKeys": [
+      "viktor_p",
+      "viktor_q",
+      "viktor_w",
+      "viktor_e",
+      "viktor_r",
+      "orianna_p",
+      "orianna_q",
+      "orianna_w",
+      "orianna_e",
+      "orianna_r",
+      "syndra_p",
+      "syndra_q",
+      "syndra_w",
+      "syndra_e",
+      "syndra_r",
+      "taliyah_p",
+      "taliyah_q",
+      "taliyah_w",
+      "taliyah_e",
+      "taliyah_r"
+    ],
+    "targetRule": "普通范围按唯一敌方目标；自身收益保留；奥莉安娜球不按名称当作独立召唤。",
+    "exclusions": [
+      "独立召唤",
+      "完整变形",
+      "Sylas",
+      "Aphelios"
+    ]
+  },
+  "counts": {
+    "candidateParameters": 168,
+    "candidateFormulas": 31,
+    "candidateEffects": 20,
+    "reusedPublicParameters": 28,
+    "plannedNewParameters": 140,
+    "plannedNewFormulas": 31,
+    "plannedNewEffects": 20,
+    "plannedNewRequests": 191,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "readonlyEvidence": {
+    "candidateGETs": 172,
+    "candidateGETsAll200": true,
+    "relationProtectionGETs": 28,
+    "relationProtectionAll200": true,
+    "totalGETs": 200,
+    "candidateDuplicates": 0,
+    "candidateErrors": 0,
+    "cursorReadCalls": 85,
+    "cursorInputsUnchanged": 9,
+    "apiWrites": 0
+  },
+  "independent": {
+    "originalMathChecks": 1260,
+    "originalMathFailures": 0,
+    "retainedSourceCases": 118,
+    "retainedManualCases": 31,
+    "retainedRuntimeChecks": 5,
+    "correctionSourceChecks": 13,
+    "correctionFailures": 0,
+    "finalFailures": 0,
+    "unknownCurves": 5
+  },
+  "boundaries": [
+    "普通范围按唯一敌方目标，自身收益保留。",
+    "奥莉安娜球保留为技能自身状态与路径，不能凭名称当作独立召唤。",
+    "Taliyah Q普通法力和掘石场法力是互斥分支，不同时扣除。",
+    "Viktor Q护盾与强化护盾互斥，强化移速仅进化分支；效果定义不等于自动触发。",
+    "未知等级曲线不凭端点猜，缺输入不默认0。",
+    "未证明结果资格或事件接线时不创建默认伤害、治疗、过程、内部状态或触发规则。"
+  ],
+  "files": {
+    "候选/完整候选.json": {
+      "bytes": 398043,
+      "sha256": "a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7"
+    },
+    "候选/候选版本.json": {
+      "bytes": 10808,
+      "sha256": "fe82f744fd44ac8cf238ba5af50ca4f165e2f0406962e1c1694ebd99d6e4b86e"
+    },
+    "候选/写前现值.json": {
+      "bytes": 191060,
+      "sha256": "79142b374fba9a9b5f099dda33525788ca1071ea35bc668b5998721cabe8f834"
+    },
+    "候选/当前20技能组成核对.json": {
+      "bytes": 499,
+      "sha256": "1978a3e4a73099aef1b9028ed34a1ccf0a1b6f5db0cdb65579805388d0133859"
+    },
+    "候选/根绑定与数值证据.json": {
+      "bytes": 351457,
+      "sha256": "90222e15f6e62b2854eb8a3b3260cedf94f08137b0c672e36457a7c5cda42f0a"
+    },
+    "候选/来源冻结/来源与哈希汇总.json": {
+      "bytes": 8907,
+      "sha256": "517f95b240a9ad93b0b30a92af971611b5a129a29614119f3a76ab23f4ac40fd"
+    },
+    "候选/来源冻结/主技能数值展开.json": {
+      "bytes": 102222,
+      "sha256": "3e8629c96dc65f939f4c0bc390e1c9e8190c4e9d14d8ab990de978794151f549"
+    },
+    "候选/补充文本证据.json": {
+      "bytes": 45904,
+      "sha256": "16e93cc9d6104ce263fbc3d248a1eb821c813f8575a8142f6687031e4c6d0d0b"
+    },
+    "候选/独立源值与算例.json": {
+      "bytes": 61385,
+      "sha256": "4193033527a2a31b2ab00cab5b9f9ee89f7e7585293e5296f2921cd3f3cd4c03"
+    },
+    "候选/Cursor独立复核.json": {
+      "bytes": 7003,
+      "sha256": "c0207ccb0da03e35e61bc729ee91d6b0c95688284e56bddad66ab3680db6c261"
+    },
+    "候选/Cursor独立复核.md": {
+      "bytes": 4990,
+      "sha256": "0efa7559fddedbc756ccb68e33a68a5c124e3cecc80a2146ea78112bd821c798"
+    },
+    "交付/恢复交付.mjs": {
+      "bytes": 20193,
+      "sha256": "737c2734a7553073dd533ae887cdeb5602e78df12c1f0dafece30a9932d5dafa"
+    },
+    "交付/补写冻结锁.mjs": {
+      "bytes": 2634,
+      "sha256": "b40243cbd33a25d236e5f13c343970a31fcc10e74e5235626f059a9d1e61e877"
+    },
+    "交付/修正最终候选.mjs": {
+      "bytes": 41028,
+      "sha256": "db2e291b67e2989fc3001755db64f153e5a7b8ab2dd86bebbf7208a29670cd49"
+    },
+    "交付/定稿冻结.mjs": {
+      "bytes": 9915,
+      "sha256": "7f307f4643ef4c804cba65af01d7f6deac007bfe341593c1d6e30b7a6bfc6301"
+    },
+    "交付/README.md": {
+      "bytes": 4132,
+      "sha256": "2884f9976ab61ca6dc04de951ec5faf7917168a37fbc2d42787365ce15ba265c"
+    },
+    "交付/体验与缺口.md": {
+      "bytes": 3955,
+      "sha256": "3f7bba642320b74cea8a42f26b9142d11d87108a7dcb3eaa1e619a4e5683b150"
+    },
+    "交付/候选现况与哈希.json": {
+      "bytes": 2694,
+      "sha256": "97e9f6420149dba6ea3d66f7a0a8a67b93bb58d3dd08ee2248ad37e880dbe9e7"
+    },
+    "交付/关联与图片保护快照.json": {
+      "bytes": 16106,
+      "sha256": "7d28da1ee0f617759b410d9e6eef187bef4a5d8f7074da1c0ce8c228f85e7953"
+    },
+    "交付/写前计划.json": {
+      "bytes": 205703,
+      "sha256": "67f09c23641e8a1e0c3e17f5365082b503c65f3d28d6812e2a0484d1addda749"
+    },
+    "交付/独立来源与公式算例摘要.json": {
+      "bytes": 34548,
+      "sha256": "ff7e8ed4aa5dee1042d8743393e0712fc612d11e6da767328873b8ce85b76468"
+    },
+    "交付/最终候选.json": {
+      "bytes": 401636,
+      "sha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1"
+    },
+    "交付/修正独立核对.json": {
+      "bytes": 12557,
+      "sha256": "91216e7a186a3835855b1a6d2714ea969026fbcc3bc35616f020310f9d1d846c"
+    },
+    "交付/最终独立来源与公式算例摘要.json": {
+      "bytes": 18281,
+      "sha256": "e43dd1b1ef9e92dedaa75dcd747ee04d448c96b9b904394ccd7656cf9ad1fc4b"
+    },
+    "交付/最终写前计划.json": {
+      "bytes": 202061,
+      "sha256": "eefb4349d27c7ac42b3192eac33981551b5dfeebe2fbdb4957f1948feeed3991"
+    }
+  }
+}

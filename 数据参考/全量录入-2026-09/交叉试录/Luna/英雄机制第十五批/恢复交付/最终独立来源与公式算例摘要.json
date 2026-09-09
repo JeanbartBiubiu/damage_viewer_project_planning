@@ -1,0 +1,657 @@
+{
+  "at": "2026-09-09T09:16:30.760Z",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "candidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "originalCandidateSha256": "a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7",
+  "sourceVersions": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "inheritedMath": {
+    "file": "独立源值与算例.json",
+    "sha256": "4193033527a2a31b2ab00cab5b9f9ee89f7e7585293e5296f2921cd3f3cd4c03",
+    "originalCandidateSha256": "a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7",
+    "originalChecks": 1260,
+    "originalFailures": 0,
+    "note": "原始全量算例保持不改；修正版只移除无业务必要的直通公式，因此保留案例按最终公式集合筛选。"
+  },
+  "finalFormulaCoverage": {
+    "candidateFormulaCount": 31,
+    "retainedSourceCases": 118,
+    "retainedManualCases": 31,
+    "retainedRuntimeChecks": 5,
+    "removedFormulaKeys": [
+      "next_attack_total_ad",
+      "slow_amount",
+      "stacks_per_proc",
+      "mana_per_proc",
+      "wall_move_speed_ratio"
+    ],
+    "allRetainedPassed": true,
+    "groups": [
+      "viktor_q/missile_damage",
+      "viktor_q/next_attack_damage",
+      "viktor_q/shield_amount",
+      "viktor_q/augmented_shield_amount",
+      "viktor_e/laser_damage",
+      "viktor_e/aftershock_damage",
+      "viktor_r/initial_burst_damage",
+      "viktor_r/subsequent_burst_damage",
+      "orianna_p/passive_total_damage",
+      "orianna_p/passive_stack_damage",
+      "orianna_p/passive_max_stack_damage",
+      "orianna_q/damage",
+      "orianna_q/minimum_damage",
+      "orianna_w/damage",
+      "orianna_e/pass_through_damage",
+      "orianna_e/shield_amount",
+      "orianna_r/damage",
+      "syndra_q/damage",
+      "syndra_w/throw_damage",
+      "syndra_w/passive_bonus_damage",
+      "syndra_w/passive_bonus_ratio",
+      "syndra_e/damage",
+      "syndra_r/damage_per_sphere_total",
+      "syndra_r/minimum_damage",
+      "syndra_r/maximum_damage",
+      "taliyah_q/rock_damage",
+      "taliyah_q/big_rock_damage",
+      "taliyah_q/max_rock_damage",
+      "taliyah_e/scatter_damage",
+      "taliyah_e/detonation_damage",
+      "taliyah_e/max_detonation_damage"
+    ]
+  },
+  "correctionChecks": [
+    {
+      "id": "taliyah_q_slow_ratio",
+      "passed": true,
+      "expected": {
+        "levelValues": [
+          0.2,
+          0.25,
+          0.3,
+          0.35,
+          0.4
+        ],
+        "display": "*100%"
+      },
+      "actual": {
+        "levelValues": [
+          0.2,
+          0.25,
+          0.3,
+          0.35,
+          0.4
+        ],
+        "tooltip": "@SlowPercent*100@%"
+      },
+      "source": "根绑定 TaliyahQ.DataValues.SlowPercent；补充文本证据.entries.spell_taliyahq_tooltip"
+    },
+    {
+      "id": "taliyah_e_slow_ratio",
+      "passed": true,
+      "expected": {
+        "fixedValue": 0.2,
+        "display": "*100%"
+      },
+      "actual": {
+        "fixedValue": 0.2,
+        "tooltip": "@SlowPercent*100@%"
+      },
+      "source": "根绑定 TaliyahE.DataValues.SlowPercent；补充文本证据.entries.spell_taliyahe_tooltip"
+    },
+    {
+      "id": "taliyah_q_worked_ground_mana_branch",
+      "passed": true,
+      "expected": {
+        "branchCost": 10,
+        "branches": "互斥"
+      },
+      "actual": {
+        "branchCost": 10,
+        "normalEffect": "仅普通石穿五石分支适用；与掘石场分支法力消耗互斥，不与10法力相加。实际分支判定和扣除时点未接线。",
+        "workedEffect": "仅【掘石场】大石块分支适用；与普通石穿分支基础法力消耗互斥，不叠加。实际工作地面状态和扣除时点未接线。"
+      },
+      "source": "根绑定 TaliyahQ.DataValues.BigRockManaCost；官方当前Q文本"
+    },
+    {
+      "id": "viktor_q_window_split",
+      "passed": true,
+      "expected": {
+        "buffDurationMs": 2500,
+        "attackWindowMs": 4000
+      },
+      "actual": {
+        "buffDurationMs": 2500,
+        "attackWindowMs": 4000
+      },
+      "source": "根绑定 ViktorQ.DataValues.BuffDuration；官方当前Q文本"
+    },
+    {
+      "id": "viktor_w_residence",
+      "passed": true,
+      "expected": {
+        "residenceMs": 1250
+      },
+      "actual": {
+        "residenceMs": 1250
+      },
+      "source": "官方当前W文本；不使用StackCadence×StacksForStun"
+    },
+    {
+      "id": "viktor_q_shield_mana_pending",
+      "passed": true,
+      "expected": {
+        "writtenParameter": false,
+        "shieldFormulaConsumes": false
+      },
+      "actual": {
+        "writtenParameter": false,
+        "shieldFormulaConsumes": false
+      },
+      "source": "ViktorQ.ShieldLevelScaling根计算树"
+    },
+    {
+      "id": "viktor_r_unconsumed_fields_pending",
+      "passed": true,
+      "expected": {
+        "writtenParameters": false,
+        "currentTextConsumes": false
+      },
+      "actual": {
+        "writtenParameters": [],
+        "currentTextConsumes": false
+      },
+      "source": "ViktorR当前官方文本与根绑定字段"
+    },
+    {
+      "id": "syndra_q_upgrade2_pending",
+      "passed": true,
+      "expected": {
+        "writtenParameter": false,
+        "currentText": "Upgrade1 only"
+      },
+      "actual": {
+        "writtenParameter": false,
+        "currentTextHasUpgrade2": false
+      },
+      "source": "SyndraQ当前官方文本与根绑定字段"
+    },
+    {
+      "id": "syndra_w_direct_display_removed",
+      "passed": true,
+      "expected": {
+        "formula": false,
+        "ratio": 0.25
+      },
+      "actual": {
+        "formula": false,
+        "ratio": 0.25
+      },
+      "source": "SyndraW.TotalSlowAmount根计算树与当前文本"
+    },
+    {
+      "id": "viktor_q_total_ad_passthrough_removed",
+      "passed": true,
+      "expected": {
+        "formula": false,
+        "parameter": false
+      },
+      "actual": {
+        "formula": false,
+        "parameter": false
+      },
+      "source": "ViktorQ匿名总AD×1根计算树"
+    },
+    {
+      "id": "runtime_passthrough_removed",
+      "passed": true,
+      "expected": [],
+      "actual": [],
+      "source": "全20技能候选公式树扫描"
+    },
+    {
+      "id": "orianna_q_reduction_positive",
+      "passed": true,
+      "expected": {
+        "fixedValue": 0.3,
+        "sign": "positive"
+      },
+      "actual": {
+        "fixedValue": 0.3,
+        "name": "后续目标伤害减少幅度",
+        "scale": 0.01
+      },
+      "source": "OriannaQ.DataValues.ReducedDamagePercent=30"
+    },
+    {
+      "id": "orianna_w_haste_target_wording",
+      "passed": true,
+      "expected": {
+        "name": "合资格友方英雄加速比例",
+        "selfQualification": "pending"
+      },
+      "actual": {
+        "name": "合资格友方英雄加速比例",
+        "description": "客户端当前根绑定 DataValues.HasteAmount 取索引1至5；当前仅保存合资格友方英雄加速比例，自身目标资格未证，实际目标判定待补，不默认作用于自身。"
+      },
+      "source": "OriannaW.DataValues.HasteAmount；Cursor复核建议"
+    }
+  ],
+  "directRuntimeInputReview": {
+    "before": [
+      {
+        "skillKey": "syndra_p",
+        "formulaKey": "stacks_per_proc",
+        "parameterKey": "stacks_per_proc_level_value"
+      },
+      {
+        "skillKey": "syndra_p",
+        "formulaKey": "mana_per_proc",
+        "parameterKey": "mana_per_proc_level_value_2"
+      },
+      {
+        "skillKey": "taliyah_p",
+        "formulaKey": "wall_move_speed_ratio",
+        "parameterKey": "wall_move_speed_ratio_level_value"
+      }
+    ],
+    "after": [],
+    "allRemoved": true
+  },
+  "examples": {
+    "changedValues": [
+      {
+        "id": "taliyah_q_slow_ratio",
+        "passed": true,
+        "expected": {
+          "levelValues": [
+            0.2,
+            0.25,
+            0.3,
+            0.35,
+            0.4
+          ],
+          "display": "*100%"
+        },
+        "actual": {
+          "levelValues": [
+            0.2,
+            0.25,
+            0.3,
+            0.35,
+            0.4
+          ],
+          "tooltip": "@SlowPercent*100@%"
+        },
+        "source": "根绑定 TaliyahQ.DataValues.SlowPercent；补充文本证据.entries.spell_taliyahq_tooltip"
+      },
+      {
+        "id": "taliyah_e_slow_ratio",
+        "passed": true,
+        "expected": {
+          "fixedValue": 0.2,
+          "display": "*100%"
+        },
+        "actual": {
+          "fixedValue": 0.2,
+          "tooltip": "@SlowPercent*100@%"
+        },
+        "source": "根绑定 TaliyahE.DataValues.SlowPercent；补充文本证据.entries.spell_taliyahe_tooltip"
+      },
+      {
+        "id": "taliyah_q_worked_ground_mana_branch",
+        "passed": true,
+        "expected": {
+          "branchCost": 10,
+          "branches": "互斥"
+        },
+        "actual": {
+          "branchCost": 10,
+          "normalEffect": "仅普通石穿五石分支适用；与掘石场分支法力消耗互斥，不与10法力相加。实际分支判定和扣除时点未接线。",
+          "workedEffect": "仅【掘石场】大石块分支适用；与普通石穿分支基础法力消耗互斥，不叠加。实际工作地面状态和扣除时点未接线。"
+        },
+        "source": "根绑定 TaliyahQ.DataValues.BigRockManaCost；官方当前Q文本"
+      },
+      {
+        "id": "viktor_q_window_split",
+        "passed": true,
+        "expected": {
+          "buffDurationMs": 2500,
+          "attackWindowMs": 4000
+        },
+        "actual": {
+          "buffDurationMs": 2500,
+          "attackWindowMs": 4000
+        },
+        "source": "根绑定 ViktorQ.DataValues.BuffDuration；官方当前Q文本"
+      },
+      {
+        "id": "viktor_w_residence",
+        "passed": true,
+        "expected": {
+          "residenceMs": 1250
+        },
+        "actual": {
+          "residenceMs": 1250
+        },
+        "source": "官方当前W文本；不使用StackCadence×StacksForStun"
+      },
+      {
+        "id": "orianna_q_reduction_positive",
+        "passed": true,
+        "expected": {
+          "fixedValue": 0.3,
+          "sign": "positive"
+        },
+        "actual": {
+          "fixedValue": 0.3,
+          "name": "后续目标伤害减少幅度",
+          "scale": 0.01
+        },
+        "source": "OriannaQ.DataValues.ReducedDamagePercent=30"
+      },
+      {
+        "id": "orianna_w_haste_target_wording",
+        "passed": true,
+        "expected": {
+          "name": "合资格友方英雄加速比例",
+          "selfQualification": "pending"
+        },
+        "actual": {
+          "name": "合资格友方英雄加速比例",
+          "description": "客户端当前根绑定 DataValues.HasteAmount 取索引1至5；当前仅保存合资格友方英雄加速比例，自身目标资格未证，实际目标判定待补，不默认作用于自身。"
+        },
+        "source": "OriannaW.DataValues.HasteAmount；Cursor复核建议"
+      }
+    ],
+    "retained": [
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "missile_damage",
+        "rank": 1,
+        "ap": 100,
+        "actual": 100,
+        "sourceValue": 100.00000059604645,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "missile_damage",
+        "rank": 1,
+        "ap": 237,
+        "actual": 154.8,
+        "sourceValue": 154.80000141263008,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "missile_damage",
+        "rank": 5,
+        "ap": 100,
+        "actual": 160,
+        "sourceValue": 160.00000059604645,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "missile_damage",
+        "rank": 5,
+        "ap": 237,
+        "actual": 214.8,
+        "sourceValue": 214.80000141263008,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "next_attack_damage",
+        "rank": 1,
+        "ap": 100,
+        "actual": 270,
+        "sourceValue": 270,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "next_attack_damage",
+        "rank": 1,
+        "ap": 237,
+        "actual": 455.5,
+        "sourceValue": 455.5,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "next_attack_damage",
+        "rank": 5,
+        "ap": 100,
+        "actual": 370,
+        "sourceValue": 370,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "next_attack_damage",
+        "rank": 5,
+        "ap": 237,
+        "actual": 555.5,
+        "sourceValue": 555.5,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "shield_amount",
+        "rank": 1,
+        "ap": 100,
+        "actual": 165,
+        "sourceValue": 165,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "shield_amount",
+        "rank": 1,
+        "ap": 237,
+        "actual": 199.25,
+        "sourceValue": 199.25,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "shield_amount",
+        "rank": 5,
+        "ap": 100,
+        "actual": 165,
+        "sourceValue": 165,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "shield_amount",
+        "rank": 5,
+        "ap": 237,
+        "actual": 199.25,
+        "sourceValue": 199.25,
+        "passed": true
+      }
+    ],
+    "manual": [
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "missile_damage",
+        "rank": 1,
+        "expected": 100,
+        "actual": 100,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "missile_damage",
+        "rank": 5,
+        "expected": 220,
+        "actual": 220,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "next_attack_damage",
+        "rank": 3,
+        "expected": 320,
+        "actual": 320,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "shield_amount",
+        "rank": 5,
+        "expected": 190,
+        "actual": 190,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_q",
+        "formulaKey": "augmented_shield_amount",
+        "rank": 5,
+        "expected": 304,
+        "actual": 304,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_e",
+        "formulaKey": "laser_damage",
+        "rank": 5,
+        "expected": 380,
+        "actual": 380,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_e",
+        "formulaKey": "aftershock_damage",
+        "rank": 5,
+        "expected": 380,
+        "actual": 380,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_r",
+        "formulaKey": "initial_burst_damage",
+        "rank": 3,
+        "expected": 450,
+        "actual": 450,
+        "passed": true
+      },
+      {
+        "skillKey": "viktor_r",
+        "formulaKey": "subsequent_burst_damage",
+        "rank": 3,
+        "expected": 285,
+        "actual": 285,
+        "passed": true
+      },
+      {
+        "skillKey": "orianna_p",
+        "formulaKey": "passive_total_damage",
+        "rank": 1,
+        "expected": 80,
+        "actual": 80,
+        "passed": true
+      },
+      {
+        "skillKey": "orianna_p",
+        "formulaKey": "passive_stack_damage",
+        "rank": 1,
+        "expected": 12,
+        "actual": 12,
+        "passed": true
+      },
+      {
+        "skillKey": "orianna_p",
+        "formulaKey": "passive_max_stack_damage",
+        "rank": 1,
+        "expected": 24,
+        "actual": 24,
+        "passed": true
+      }
+    ]
+  },
+  "counterexamples": [
+    {
+      "case": "Taliyah Q rank1",
+      "wrong": 0.002,
+      "display": "0.2%",
+      "corrected": 0.2,
+      "displayCorrected": "20%",
+      "reason": "源SlowPercent已是比例，正文再乘100显示。"
+    },
+    {
+      "case": "Taliyah E",
+      "wrong": 0.002,
+      "display": "0.2%",
+      "corrected": 0.2,
+      "displayCorrected": "20%",
+      "reason": "源SlowPercent已是比例，正文再乘100显示。"
+    },
+    {
+      "case": "Taliyah Q掘石场法力",
+      "wrong": "55..75+10",
+      "corrected": 10,
+      "reason": "10是掘石场分支唯一消耗；与普通分支互斥。"
+    },
+    {
+      "case": "Viktor Q时长",
+      "wrong": "用2500ms覆盖4秒攻击窗口",
+      "corrected": "护盾/移速2500ms；后续普攻独立4000ms",
+      "reason": "正文分别绑定BuffDuration和硬编码4秒。"
+    },
+    {
+      "case": "Viktor W眩晕前驻留",
+      "wrong": "500ms×6=1500ms",
+      "corrected": 1250,
+      "reason": "正文直接写驻留1.25秒，不能由节拍和层数推导。"
+    },
+    {
+      "case": "Syndra W减速",
+      "wrong": "0.25/0.01=25再作为比例",
+      "corrected": 0.25,
+      "reason": "TotalSlowAmount是显示百分数，已有slow_ratio直接表达比例。"
+    }
+  ],
+  "sourcePending": [
+    {
+      "skillKey": "viktor_q",
+      "sourceKey": "ShieldManaRatio",
+      "reason": "当前护盾公式未消费。"
+    },
+    {
+      "skillKey": "viktor_r",
+      "sourceKey": "EnhancedSlow/EnhancedSlowDuration",
+      "reason": "当前R正文和选定计算树未消费。"
+    },
+    {
+      "skillKey": "syndra_q",
+      "sourceKey": "Upgrade2MaxAmmo",
+      "reason": "当前Q正文仅有Upgrade1MaxAmmo。"
+    }
+  ],
+  "sourceFiles": {
+    "rootEvidence": {
+      "file": "根绑定与数值证据.json",
+      "sha256": "90222e15f6e62b2854eb8a3b3260cedf94f08137b0c672e36457a7c5cda42f0a"
+    },
+    "localizedText": {
+      "file": "补充文本证据.json",
+      "sha256": "16e93cc9d6104ce263fbc3d248a1eb821c813f8575a8142f6687031e4c6d0d0b"
+    },
+    "sourceFreeze": {
+      "file": "来源冻结/来源与哈希汇总.json",
+      "sha256": "517f95b240a9ad93b0b30a92af971611b5a129a29614119f3a76ab23f4ac40fd"
+    },
+    "cursorReview": {
+      "file": "Cursor独立复核.json",
+      "sha256": "c0207ccb0da03e35e61bc729ee91d6b0c95688284e56bddad66ab3680db6c261",
+      "reviewedCandidateSha256": "a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7"
+    }
+  },
+  "failures": []
+}

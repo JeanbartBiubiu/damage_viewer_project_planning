@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-09T09:54:04.876Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/viktor_q/effects/augmented_shield",
+  "id": "augmented_shield",
+  "method": "POST",
+  "body": {
+    "effectKey": "augmented_shield",
+    "name": "虹吸能量强化自身护盾",
+    "description": "仅进化Q命中分支；与普通Q护盾互斥。强化资格和实际命中/取样时点未接线，不表示无条件自动应用。",
+    "sortOrder": 30,
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "buff_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "results": [
+      {
+        "resultKey": "shield",
+        "name": "虹吸能量强化自身护盾",
+        "resultType": "NORMAL_SHIELD",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "valueReadMode": "APPLICATION_SNAPSHOT",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": "REPLACE",
+          "periodicExecutionMode": null
+        },
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "augmented_shield_amount"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "absorbedDamageTypeKey": null,
+          "decayMode": "NONE"
+        }
+      }
+    ]
+  }
+}

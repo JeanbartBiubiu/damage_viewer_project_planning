@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T09:56:47.325Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/taliyah_q/effects/mana_cost",
+  "id": "mana_cost",
+  "method": "POST",
+  "body": {
+    "effectKey": "mana_cost",
+    "name": "普通石穿分支法力消耗",
+    "description": "仅普通石穿五石分支适用；与掘石场分支法力消耗互斥，不与10法力相加。实际分支判定和扣除时点未接线。",
+    "sortOrder": 10,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "consume_mana",
+        "name": "普通分支消耗法力",
+        "resultType": "RESOURCE_CHANGE",
+        "target": "SOURCE",
+        "description": "普通石穿分支；与掘石场分支互斥。",
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "mana",
+          "operation": "CONSUME"
+        }
+      }
+    ]
+  }
+}

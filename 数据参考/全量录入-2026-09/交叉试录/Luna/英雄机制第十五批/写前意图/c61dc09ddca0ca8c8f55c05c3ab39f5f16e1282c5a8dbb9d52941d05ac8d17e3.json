@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T09:56:40.945Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/taliyah_q/parameters/worked_ground_mana_cost",
+  "id": "worked_ground_mana_cost",
+  "method": "POST",
+  "body": {
+    "parameterKey": "worked_ground_mana_cost",
+    "name": "掘石场分支法力消耗",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 10,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.BigRockManaCost 取索引1至5；正文仅在【掘石场】分支使用10法力，这是该分支的唯一法力消耗，不与普通石穿基础法力消耗相加。",
+    "sortOrder": 110
+  }
+}

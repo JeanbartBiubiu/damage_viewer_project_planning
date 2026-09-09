@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T09:56:15.504Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/syndra_e/formulas/damage",
+  "id": "damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "damage",
+    "name": "弱者退散魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "锥形命中当前敌方目标的伤害；法球命中控制另接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

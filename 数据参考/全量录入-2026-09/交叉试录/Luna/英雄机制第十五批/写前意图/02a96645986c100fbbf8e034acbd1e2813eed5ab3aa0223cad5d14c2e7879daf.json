@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T09:56:06.717Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/syndra_w/formulas/passive_bonus_ratio",
+  "id": "passive_bonus_ratio",
+  "method": "POST",
+  "body": {
+    "formulaKey": "passive_bonus_ratio",
+    "name": "升级W额外伤害比例",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "calculation_constant_4"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_5"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_3"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "tooltipOnly数学关系保留；不把显示百分比误当独立伤害结果。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 40
+  }
+}

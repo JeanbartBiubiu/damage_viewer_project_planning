@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T09:56:48.513Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/taliyah_q/effects/worked_ground_mana_cost",
+  "id": "worked_ground_mana_cost",
+  "method": "POST",
+  "body": {
+    "effectKey": "worked_ground_mana_cost",
+    "name": "掘石场分支法力消耗",
+    "description": "仅【掘石场】大石块分支适用；与普通石穿分支基础法力消耗互斥，不叠加。实际工作地面状态和扣除时点未接线。",
+    "sortOrder": 20,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "consume",
+        "name": "掘石场分支消耗法力",
+        "resultType": "RESOURCE_CHANGE",
+        "target": "SOURCE",
+        "description": "掘石场分支唯一法力消耗10；与普通分支互斥。",
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "worked_ground_mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "mana",
+          "operation": "CONSUME"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T09:55:20.666Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/orianna_e/formulas/pass_through_damage",
+  "id": "pass_through_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "pass_through_damage",
+    "name": "指令：防卫经过伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "pass_through_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_1"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "球移动经过当前敌方目标的伤害；第三方友军附着关系待接。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

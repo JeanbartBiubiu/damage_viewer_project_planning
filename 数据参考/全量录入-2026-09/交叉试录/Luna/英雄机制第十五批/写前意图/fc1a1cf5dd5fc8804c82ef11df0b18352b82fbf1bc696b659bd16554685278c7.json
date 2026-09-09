@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T09:56:35.806Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/taliyah_q/parameters/base_damage",
+  "id": "base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "石块基础魔法伤害",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 55,
+      "2": 72.5,
+      "3": 90,
+      "4": 107.5,
+      "5": 125
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+    "sortOrder": 60
+  }
+}

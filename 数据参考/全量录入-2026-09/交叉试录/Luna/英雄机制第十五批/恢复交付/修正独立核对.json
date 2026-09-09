@@ -1,0 +1,437 @@
+{
+  "at": "2026-09-09T09:16:30.767Z",
+  "status": "READY_FOR_FINAL_CANDIDATE",
+  "originalCandidateSha256": "a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7",
+  "previousFinalCandidateSha256": "8b623fdf8962bfbd24c75c9c89793efcfc452a3556d51b6739e8c8e301be1eed",
+  "finalCandidateSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "finalPlanSha256": "eefb4349d27c7ac42b3192eac33981551b5dfeebe2fbdb4957f1948feeed3991",
+  "sourceVersions": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "cursorReview": {
+    "file": "Cursor独立复核.json",
+    "sha256": "c0207ccb0da03e35e61bc729ee91d6b0c95688284e56bddad66ab3680db6c261",
+    "reviewedCandidateSha256": "a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7",
+    "verdict": "REVISE",
+    "businessWrites": 0,
+    "outsideScopeCount": 0
+  },
+  "sourceBindings": {
+    "taliyahQSlow": {
+      "raw": [
+        0.15000000596046448,
+        0.20000000298023224,
+        0.25,
+        0.30000001192092896,
+        0.3499999940395355,
+        0.4000000059604645,
+        0.44999998807907104
+      ],
+      "candidateValues": [
+        0.2,
+        0.25,
+        0.3,
+        0.35,
+        0.4
+      ],
+      "scale": 1,
+      "tooltipKey": "spell_taliyahq_tooltip",
+      "tooltip": "塔莉垭挥出5块石头，每块会在命中的第一个敌人的附近区域内造成<magicDamage>@RockDamage@魔法伤害</magicDamage>并在该区域生成【掘石场】。对相同敌人的后续命中造成的伤害降低@ExtraMissileReducedDamagePercent@%。<br><br>在【掘石场】上施放时会消耗@BigRockManaCost@法力并且冷却时间缩短@WorkedGroundCDR*100@%，消耗掉【掘石场】，并挥出一块巨石来对命中的敌人们造成持续@SlowDuration@秒的 @SlowPercent*100@%<status>减速</status>，对首要目标造成<magicDamage>@BigRockDamage@魔法伤害</magicDamage>。巨石对命中的野怪们造成@MonsterStunDuration@秒<status>晕眩</status>。"
+    },
+    "taliyahESlow": {
+      "raw": [
+        0.20000000298023224,
+        0.20000000298023224,
+        0.20000000298023224,
+        0.20000000298023224,
+        0.20000000298023224,
+        0.20000000298023224,
+        0.20000000298023224
+      ],
+      "candidateValue": 0.2,
+      "scale": 1,
+      "tooltipKey": "spell_taliyahe_tooltip",
+      "tooltip": "塔莉垭在一个区域内布下碎石阵，对命中的敌人造成<magicDamage>@ScatterDamage@魔法伤害</magicDamage>和@SlowPercent*100@%<status>减速</status>。碎石会在敌人冲刺或被<status>强制位移</status>途经它们时爆炸，造成剩余位移时长+@StunDuration@秒<status>晕眩</status>和<magicDamage>@DetonationDamage@魔法伤害</magicDamage>。"
+    },
+    "taliyahQWorkedGroundMana": {
+      "raw": [
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "candidateValue": 10,
+      "tooltipKey": "spell_taliyahq_tooltip",
+      "semantic": "BigRockManaCost=10是掘石场分支的法力消耗，不是普通石穿基础法力之上的额外叠加。"
+    },
+    "viktorQDurations": {
+      "buffDurationRaw": [
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5
+      ],
+      "buffDurationMs": 2500,
+      "nextAttackWindowMs": 4000,
+      "tooltipKey": "game_spell_tooltip_viktorpowertransfer"
+    },
+    "viktorWResidence": {
+      "literalSeconds": 1.25,
+      "residenceMs": 1250,
+      "tooltipKey": "game_spell_tooltip_viktorgravitonfield"
+    },
+    "oriannaQReduction": {
+      "raw": [
+        30,
+        30,
+        30,
+        30,
+        30,
+        30,
+        30
+      ],
+      "candidateValue": 0.3,
+      "scale": 0.01
+    }
+  },
+  "sourcePending": [
+    {
+      "skillKey": "viktor_q",
+      "sourceKey": "ShieldManaRatio",
+      "raw": [
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066,
+        0.07999999821186066
+      ],
+      "reason": "当前ShieldLevelScaling只消费等级插值和ShieldAPRatio。"
+    },
+    {
+      "skillKey": "viktor_r",
+      "sourceKey": "EnhancedSlow",
+      "raw": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "reason": "当前R正文未出现该字段或进化减速分支。"
+    },
+    {
+      "skillKey": "viktor_r",
+      "sourceKey": "EnhancedSlowDuration",
+      "raw": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "reason": "当前R正文未出现该字段或进化减速分支。"
+    },
+    {
+      "skillKey": "syndra_q",
+      "sourceKey": "Upgrade2MaxAmmo",
+      "raw": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "reason": "当前Q正文只有Upgrade1MaxAmmo。"
+    }
+  ],
+  "removedDirectPassThroughFormulas": {
+    "before": [
+      {
+        "skillKey": "syndra_p",
+        "formulaKey": "stacks_per_proc",
+        "parameterKey": "stacks_per_proc_level_value"
+      },
+      {
+        "skillKey": "syndra_p",
+        "formulaKey": "mana_per_proc",
+        "parameterKey": "mana_per_proc_level_value_2"
+      },
+      {
+        "skillKey": "taliyah_p",
+        "formulaKey": "wall_move_speed_ratio",
+        "parameterKey": "wall_move_speed_ratio_level_value"
+      }
+    ],
+    "after": [],
+    "otherRemoved": [
+      "next_attack_total_ad",
+      "slow_amount"
+    ]
+  },
+  "sourceChecks": [
+    {
+      "id": "taliyah_q_slow_ratio",
+      "passed": true,
+      "expected": {
+        "levelValues": [
+          0.2,
+          0.25,
+          0.3,
+          0.35,
+          0.4
+        ],
+        "display": "*100%"
+      },
+      "actual": {
+        "levelValues": [
+          0.2,
+          0.25,
+          0.3,
+          0.35,
+          0.4
+        ],
+        "tooltip": "@SlowPercent*100@%"
+      },
+      "source": "根绑定 TaliyahQ.DataValues.SlowPercent；补充文本证据.entries.spell_taliyahq_tooltip"
+    },
+    {
+      "id": "taliyah_e_slow_ratio",
+      "passed": true,
+      "expected": {
+        "fixedValue": 0.2,
+        "display": "*100%"
+      },
+      "actual": {
+        "fixedValue": 0.2,
+        "tooltip": "@SlowPercent*100@%"
+      },
+      "source": "根绑定 TaliyahE.DataValues.SlowPercent；补充文本证据.entries.spell_taliyahe_tooltip"
+    },
+    {
+      "id": "taliyah_q_worked_ground_mana_branch",
+      "passed": true,
+      "expected": {
+        "branchCost": 10,
+        "branches": "互斥"
+      },
+      "actual": {
+        "branchCost": 10,
+        "normalEffect": "仅普通石穿五石分支适用；与掘石场分支法力消耗互斥，不与10法力相加。实际分支判定和扣除时点未接线。",
+        "workedEffect": "仅【掘石场】大石块分支适用；与普通石穿分支基础法力消耗互斥，不叠加。实际工作地面状态和扣除时点未接线。"
+      },
+      "source": "根绑定 TaliyahQ.DataValues.BigRockManaCost；官方当前Q文本"
+    },
+    {
+      "id": "viktor_q_window_split",
+      "passed": true,
+      "expected": {
+        "buffDurationMs": 2500,
+        "attackWindowMs": 4000
+      },
+      "actual": {
+        "buffDurationMs": 2500,
+        "attackWindowMs": 4000
+      },
+      "source": "根绑定 ViktorQ.DataValues.BuffDuration；官方当前Q文本"
+    },
+    {
+      "id": "viktor_w_residence",
+      "passed": true,
+      "expected": {
+        "residenceMs": 1250
+      },
+      "actual": {
+        "residenceMs": 1250
+      },
+      "source": "官方当前W文本；不使用StackCadence×StacksForStun"
+    },
+    {
+      "id": "viktor_q_shield_mana_pending",
+      "passed": true,
+      "expected": {
+        "writtenParameter": false,
+        "shieldFormulaConsumes": false
+      },
+      "actual": {
+        "writtenParameter": false,
+        "shieldFormulaConsumes": false
+      },
+      "source": "ViktorQ.ShieldLevelScaling根计算树"
+    },
+    {
+      "id": "viktor_r_unconsumed_fields_pending",
+      "passed": true,
+      "expected": {
+        "writtenParameters": false,
+        "currentTextConsumes": false
+      },
+      "actual": {
+        "writtenParameters": [],
+        "currentTextConsumes": false
+      },
+      "source": "ViktorR当前官方文本与根绑定字段"
+    },
+    {
+      "id": "syndra_q_upgrade2_pending",
+      "passed": true,
+      "expected": {
+        "writtenParameter": false,
+        "currentText": "Upgrade1 only"
+      },
+      "actual": {
+        "writtenParameter": false,
+        "currentTextHasUpgrade2": false
+      },
+      "source": "SyndraQ当前官方文本与根绑定字段"
+    },
+    {
+      "id": "syndra_w_direct_display_removed",
+      "passed": true,
+      "expected": {
+        "formula": false,
+        "ratio": 0.25
+      },
+      "actual": {
+        "formula": false,
+        "ratio": 0.25
+      },
+      "source": "SyndraW.TotalSlowAmount根计算树与当前文本"
+    },
+    {
+      "id": "viktor_q_total_ad_passthrough_removed",
+      "passed": true,
+      "expected": {
+        "formula": false,
+        "parameter": false
+      },
+      "actual": {
+        "formula": false,
+        "parameter": false
+      },
+      "source": "ViktorQ匿名总AD×1根计算树"
+    },
+    {
+      "id": "runtime_passthrough_removed",
+      "passed": true,
+      "expected": [],
+      "actual": [],
+      "source": "全20技能候选公式树扫描"
+    },
+    {
+      "id": "orianna_q_reduction_positive",
+      "passed": true,
+      "expected": {
+        "fixedValue": 0.3,
+        "sign": "positive"
+      },
+      "actual": {
+        "fixedValue": 0.3,
+        "name": "后续目标伤害减少幅度",
+        "scale": 0.01
+      },
+      "source": "OriannaQ.DataValues.ReducedDamagePercent=30"
+    },
+    {
+      "id": "orianna_w_haste_target_wording",
+      "passed": true,
+      "expected": {
+        "name": "合资格友方英雄加速比例",
+        "selfQualification": "pending"
+      },
+      "actual": {
+        "name": "合资格友方英雄加速比例",
+        "description": "客户端当前根绑定 DataValues.HasteAmount 取索引1至5；当前仅保存合资格友方英雄加速比例，自身目标资格未证，实际目标判定待补，不默认作用于自身。"
+      },
+      "source": "OriannaW.DataValues.HasteAmount；Cursor复核建议"
+    }
+  ],
+  "counterexamples": [
+    {
+      "case": "Taliyah Q rank1",
+      "wrong": 0.002,
+      "display": "0.2%",
+      "corrected": 0.2,
+      "displayCorrected": "20%",
+      "reason": "源SlowPercent已是比例，正文再乘100显示。"
+    },
+    {
+      "case": "Taliyah E",
+      "wrong": 0.002,
+      "display": "0.2%",
+      "corrected": 0.2,
+      "displayCorrected": "20%",
+      "reason": "源SlowPercent已是比例，正文再乘100显示。"
+    },
+    {
+      "case": "Taliyah Q掘石场法力",
+      "wrong": "55..75+10",
+      "corrected": 10,
+      "reason": "10是掘石场分支唯一消耗；与普通分支互斥。"
+    },
+    {
+      "case": "Viktor Q时长",
+      "wrong": "用2500ms覆盖4秒攻击窗口",
+      "corrected": "护盾/移速2500ms；后续普攻独立4000ms",
+      "reason": "正文分别绑定BuffDuration和硬编码4秒。"
+    },
+    {
+      "case": "Viktor W眩晕前驻留",
+      "wrong": "500ms×6=1500ms",
+      "corrected": 1250,
+      "reason": "正文直接写驻留1.25秒，不能由节拍和层数推导。"
+    },
+    {
+      "case": "Syndra W减速",
+      "wrong": "0.25/0.01=25再作为比例",
+      "corrected": 0.25,
+      "reason": "TotalSlowAmount是显示百分数，已有slow_ratio直接表达比例。"
+    }
+  ],
+  "finalCounts": {
+    "candidate": {
+      "parameters": 168,
+      "formulas": 31,
+      "effects": 20,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "reusedPublicParameters": 28,
+    "plannedNewParameters": 140,
+    "plannedNewFormulas": 31,
+    "plannedNewEffects": 20,
+    "plannedNewRequests": 191
+  },
+  "independent": {
+    "summaryFile": "最终独立来源与公式算例摘要.json",
+    "summarySha256": "e43dd1b1ef9e92dedaa75dcd747ee04d448c96b9b904394ccd7656cf9ad1fc4b",
+    "inheritedOriginalChecks": 1260,
+    "retainedSourceCases": 118,
+    "retainedManualCases": 31,
+    "retainedRuntimeChecks": 5,
+    "failures": 0
+  },
+  "readonly": {
+    "candidateGETs": 172,
+    "candidateGETsAll200": true,
+    "relationProtectionGETs": 28,
+    "relationProtectionAll200": true,
+    "apiWrites": 0
+  },
+  "failures": []
+}

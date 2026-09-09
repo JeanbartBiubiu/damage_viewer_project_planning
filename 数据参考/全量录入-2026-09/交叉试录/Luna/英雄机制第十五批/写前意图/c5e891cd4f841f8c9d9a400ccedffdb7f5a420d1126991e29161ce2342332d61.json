@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T09:55:48.875Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/syndra_q/parameters/base_damage",
+  "id": "base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "暗黑法球基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 90,
+      "2": 125,
+      "3": 160,
+      "4": 195,
+      "5": 230
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+    "sortOrder": 70
+  }
+}

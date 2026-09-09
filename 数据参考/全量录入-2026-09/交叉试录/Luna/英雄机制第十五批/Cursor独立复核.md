@@ -1,0 +1,41 @@
+# Cursor独立复核
+
+真实SDK运行完成；85个已完成工具调用仅read/grep/glob，事件完整可解析，无文件改动。9份输入逐项散列不变。主负责人逐项处置见JSON，修正单独生成最终候选。未写业务数据，未运行战斗。
+
+**VERDICT: REVISE**
+
+**REVIEWED_PLAN_REV:** `a98792185a594829b214f1aaeb0ba1503cfa34d72ac1af9a88302b4d906e31c7`  
+（与 `输入版本.json` / `候选版本.json.fileSha256` / `完整候选.json` 一致）
+
+**版本与范围：** 客户端 16.17、官方 16.17.1；20 槽；`170 + 36 + 20 = 226`，复用原 28 公共参数，预计新增 198。`meta.scope` 写「原24」已由主负责人另修，不记新阻塞。复用项政策为整对象不更新；抽查 `viktor_q.cooldown_ms` / `mana_cost` 的 name、valueType、valueMode、fixedValue、levelValues、description、sortOrder 与写前现值一致。20 个效果无 `DAMAGE` / 治疗、无空过程、无 `MOMENT_EVALUATION`。
+
+---
+
+## 有证据阻塞
+
+**1. `taliyah_q` / `taliyah_e` 的 `SlowPercent` 对已是 0–1 的源值又乘了 0.01**
+
+根绑定 `TaliyahQ.SlowPercent` 为 `0.15, 0.20, 0.25, 0.30, 0.35, …`（已是比例）。索引 1–5 应为 **0.20–0.40**。候选写成 `0.002, 0.0025, 0.003, 0.0035, 0.004`。`TaliyahE.SlowPercent` 全为 `0.20`，候选为 `0.002`。来源是 `英雄组成.mjs` 对两处都传了 `scale=.01`。掘石场减速会按约 **0.2%–0.4%** 而不是 **20%–40%** 入库。同技能 `ExtraMissileReducedDamagePercent` 源值为 `60`、换成 `0.6` 是对的，说明不是统一百分数字段都能乘 0.01。
+
+**2. `syndra_w.slow_amount` 给简单参数套了直通公式，且口径回到 25**
+
+原树 `TotalSlowAmount` 只有 `NamedDataValue BaseSlow`（源值 `25`）。参数 `slow_ratio` 已按 0.01 存成 **0.25**。公式却是 `slow_ratio / calculation_constant_4(0.01)`，求值 **25**。违反「简单直接参数不套直通公式」；若按公式消费会把 25% 当成 2500%。`PassiveBonusDamage` 本身是 `(0.12 + AP×0.02×0.01) × ThrowDamage`，真伤基数完整，此项不挡；挡的是减速直通公式。
+
+**3. `viktor_q` 把基础护盾、强化护盾、强化移速写成可写 PERSISTENT 效果，升级资格未入组成**
+
+正文：命中给 `@ShieldLevelScaling@` 护盾；**升级版**才是 `@TotalAugmentedShieldValue@` 与 `@AugmentMoveSpeedBonus@%` 移速。候选同时写入 `shield`、`augmented_shield`（均为 `NORMAL_SHIELD`）和 `augment_move_speed`，无内部状态/触发表达海克斯进化。护盾公式间接引用 `RUNTIME_INPUT`（`shield_amount_level_value`），`lifecycleBehavior` 为默认 `PERSISTENT + APPLICATION_SNAPSHOT`，不是改快照绕过 `MOMENT_EVALUATION`，但三个效果仍可被当成无条件自益。强化普攻只留公式、未造 `DAMAGE`，这一侧合格。
+
+---
+
+## 独立非阻塞建议
+
+- **`orianna_q.reduced_damage_ratio = -0.3`：** 源值 `ReducedDamagePercent=30`，`scale=-.01` 得到负数；名称是「减少比例」，且未进公式。应固定为减少量 `0.3` 或剩余量 `0.7`，不要保留负号占位。
+- **`viktor_q.shield_mana_ratio`：** `ShieldLevelScaling` 只有等级插值 + `ShieldAPRatio`，不含法力。该字段应留源、不要当护盾组成。
+- **`buff_duration_ms=2500`：** 对应 `BuffDuration=2.5`，护盾/升级移速正文用 `@BuffDuration@`；强化普攻正文是硬编码「4秒内」。参数名「强化普攻与护盾持续时间」会把两段时长绑在一起。
+- **`orianna_e` 护盾公式与 `defense_bonus` 已存、未写自身护盾/双抗效果：** 自目标未证，记待核对正确；证实可自选后必须补回自身收益，不能被友军附着一起带走。`orianna_w` 的 `HasteAmount` 不宜先命名成「自身加速」。
+- **`orianna_p`：** `stack_count=2` 只出现在满层公式常数，未把连续命中写成默认满层；合格。上限在 `passive_max_stack_damage`，不要再推定 1–18。
+- **Viktor R：** `subsequent_burst_*`、`tick_cadence_ms=1000`、`max_ticks=6`、`storm_duration_ms=6500` 分列，未用 6.5s/1s 折总伤；保持。
+- **Syndra P/R：** 阈值、3–7 球、15% 斩杀只作参数/算术公式，未造处决或满球结果；不要把可存当成执行完整。战前叠层仍待接线。
+- **Taliyah Q 伤害：** 首石、掘石场 `×1.8`、tooltip `×2.6` 与 `后续降低 0.6` 一致；源树无「后续单颗」公式，不要补造。E 的 `mine_damage_falloff_ratio=0.25` 与 tooltip `×2.5` 分列，重复触发总量仍待接。
+- **Taliyah P / Syndra P 等级断点：** 候选是 `RUNTIME_INPUT`，未展开 18 点、未补 0。独立算例外供了插值端点（如护盾 `140`、移速 `0.2`），不得写进候选默认。`wall_move_speed_ratio` / `stacks_per_proc` / `mana_per_proc` 若只是单参数直通，可只留外供参数。
+- **StatBy：** 本批实际用到 `AP 0/0 TOTAL`、`AD 2/0 TOTAL`。生成器里的 `HP 12/2 BONUS` 本批未用，禁止外推。

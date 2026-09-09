@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T09:53:45.317Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/viktor_q/parameters/missile_base_damage",
+  "id": "missile_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "missile_base_damage",
+    "name": "法球基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 60,
+      "2": 75,
+      "3": 90,
+      "4": 105,
+      "5": 120
+    },
+    "description": "客户端当前根绑定 DataValues.MissileDamage 取索引1至5。",
+    "sortOrder": 40
+  }
+}

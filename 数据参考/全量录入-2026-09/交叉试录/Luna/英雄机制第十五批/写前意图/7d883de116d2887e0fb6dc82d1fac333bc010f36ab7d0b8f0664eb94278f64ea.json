@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T09:56:54.561Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/taliyah_e/parameters/detonation_base_damage",
+  "id": "detonation_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "detonation_base_damage",
+    "name": "触发爆炸基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 25,
+      "2": 40,
+      "3": 55,
+      "4": 70,
+      "5": 85
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDetonationDamage 取索引1至5。",
+    "sortOrder": 40
+  }
+}

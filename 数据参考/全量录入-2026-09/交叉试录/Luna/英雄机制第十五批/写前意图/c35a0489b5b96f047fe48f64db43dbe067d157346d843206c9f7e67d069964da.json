@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T09:57:05.731Z",
+  "candidateFileSha256": "d5668bcda66786383f9bc0bbcf02464cee3dc7c34417f3bd244ecd0fdc0ecae1",
+  "route": "/skills/taliyah_e/formulas/scatter_damage",
+  "id": "scatter_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "scatter_damage",
+    "name": "撒石阵初始魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "scatter_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_1"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "对当前敌方目标的初始地雷伤害。；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}
