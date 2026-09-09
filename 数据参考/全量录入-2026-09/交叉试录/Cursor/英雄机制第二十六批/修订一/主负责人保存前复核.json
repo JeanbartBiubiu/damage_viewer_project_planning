@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T15:55:31.783Z",
+  "decision": "root按冻结78项计划保存；13公共详情与101保护路径保持，逐项POST后GET。",
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "planSha256": "36ab18f7ce88561d0db035c6e20b5b30d7e364f4fa7585814266c561e386a3ba",
+  "writerSha256": "379ca88bb7f9d0a800097c081a167051b9729c836da9868c4a350bd90eeab206",
+  "checks": [
+    "布里茨E正确冷却7000/6500/6000/5500/5000，客户端与官方数组已独立双源确认",
+    "删除初稿固定5000ms初始移速效果，保留2500ms衰减端点及5秒攻速，后续自身减速时点单列",
+    "78新增57参数10公式11效果，不改13公共参数，不写主体关系图片",
+    "独占锁与逐项写前意图，未知结果后停止不重放；未取得锁时不覆盖旧锁",
+    "锁内成功POST计数即时取writeCount，报告分别记录尝试POST与成功POST"
+  ],
+  "preflight": {
+    "GETs": 179,
+    "protected": 101,
+    "newMissing": 78,
+    "passed": true
+  },
+  "runtimeValidation": "未执行"
+}

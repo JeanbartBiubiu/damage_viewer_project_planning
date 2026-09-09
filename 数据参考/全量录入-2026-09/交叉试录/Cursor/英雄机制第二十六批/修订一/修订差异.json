@@ -1,0 +1,167 @@
+{
+  "generatedAt": "2026-09-09T15:37:29.754Z",
+  "status": "修订一与初稿差异已固定，初稿原件保留，未调用业务接口",
+  "original": {
+    "revision": "hero26-source-v1-candidate",
+    "candidateSha256": "f43dd3ed4a1a7b14b41e45fc555693657b6d9d821336c3202dbd82e0eb737876",
+    "requestPlanSha256": "94f4ca00ad33135ab9cc2108548c34f0051b477e38d4411d05cfce2d6ed91a97",
+    "strictMathSha256": "d5e5cde10813026b6416fef86680338d6040982cc0203f5b113f5c6aa9a20809",
+    "counts": {
+      "parameters": 57,
+      "formulas": 10,
+      "effects": 12,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "requestCount": 79
+  },
+  "revision": {
+    "revision": "hero26-source-v1-candidate-revision-1",
+    "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+    "requestPlanSha256": "36ab18f7ce88561d0db035c6e20b5b30d7e364f4fa7585814266c561e386a3ba",
+    "strictMathSha256": "86f0d92cac6aaab12b45977a2382ae9042ae91f8c11bd42a2a6e99e7db61e4c6",
+    "counts": {
+      "parameters": 57,
+      "formulas": 10,
+      "effects": 11,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "requestCount": 78
+  },
+  "exactDifferences": [
+    {
+      "path": "skills.blitzcrank_w.write.effects",
+      "before": [
+        "mana_cost",
+        "move_speed_boost",
+        "attack_speed_boost",
+        "post_overdrive_slow"
+      ],
+      "after": [
+        "mana_cost",
+        "attack_speed_boost",
+        "post_overdrive_slow"
+      ],
+      "removed": [
+        "move_speed_boost"
+      ],
+      "reason": "正文和来源明确移动速度从起始比例衰减至最低比例，不能把起始值建成固定5000毫秒属性效果；保留衰减端点和时间窗口，等待过程事件。"
+    },
+    {
+      "path": "skills.blitzcrank_w.write.parameters.move_speed_ratio",
+      "before": {
+        "name": "移动速度加成比例",
+        "description": "当前正文以MoveSpeedMod*100显示持续衰减的移动速度；保存等级1至5比例0.6/0.65/0.7/0.75/0.8。",
+        "values": {
+          "1": 0.6,
+          "2": 0.65,
+          "3": 0.7,
+          "4": 0.75,
+          "5": 0.8
+        }
+      },
+      "after": {
+        "name": "移动速度起始加成比例",
+        "description": "当前正文以MoveSpeedMod*100显示持续衰减的移动速度；保存等级1至5起始比例0.6/0.65/0.7/0.75/0.8，仅作衰减端点输入，不创建固定持续属性效果。",
+        "values": {
+          "1": 0.6,
+          "2": 0.65,
+          "3": 0.7,
+          "4": 0.75,
+          "5": 0.8
+        }
+      },
+      "reason": "明确为移动速度起始比例，只作衰减端点输入。"
+    },
+    {
+      "path": "skills.blitzcrank_w.write.effects.attack_speed_boost / post_overdrive_slow",
+      "before": {
+        "attackSpeedDescription": "当前正文的持续攻击速度加成；施放事件待接。",
+        "slowDescription": "这是结束后的独立减速组成；与前一持续窗口分开，自动衔接事件待接。"
+      },
+      "after": {
+        "attackSpeedDescription": "当前正文的攻击速度加成独立持续5000毫秒；不与移动速度衰减共用数值，施放事件待接。",
+        "slowDescription": "这是主持续窗口5000毫秒结束后才开始的独立减速，持续1500毫秒；结束自动衔接事件待接，不在本候选中自动触发。"
+      },
+      "reason": "写明攻击速度独立持续5000毫秒，结束减速仅在主窗口结束后开始并持续1500毫秒；两者均不自动触发。"
+    },
+    {
+      "path": "skills.blitzcrank_e.write.parameters.cooldown_ms",
+      "before": {
+        "values": {
+          "1": 7000,
+          "2": 7000,
+          "3": 6500,
+          "4": 6000,
+          "5": 5500
+        },
+        "description": "当前绑定cooldownTime等级1至5为7/7/6.5/6/5.5秒，转换为7000/7000/6500/6000/5500毫秒；当前槽只有mana_cost，故新增冷却参数。"
+      },
+      "after": {
+        "values": {
+          "1": 7000,
+          "2": 6500,
+          "3": 6000,
+          "4": 5500,
+          "5": 5000
+        },
+        "description": "当前客户端cooldownTime首五项为7/7/6.5/6/5.5秒且含首项重复槽位；按官方16.17.1技能等级数组和同版技能等级口径采用7/6.5/6/5.5/5秒，转换为7000/6500/6000/5500/5000毫秒。"
+      },
+      "source": {
+        "clientRaw": [
+          7,
+          7,
+          6.5,
+          6,
+          5.5,
+          5,
+          5
+        ],
+        "clientSkillRankIndices": {
+          "start": 1,
+          "end": 5,
+          "values": [
+            7,
+            6.5,
+            6,
+            5.5,
+            5
+          ]
+        },
+        "official16_17_1": [
+          7,
+          6.5,
+          6,
+          5.5,
+          5
+        ]
+      },
+      "reason": "按客户端技能等级索引1至5及官方16.17.1数组独立核对；不再采用初稿由首项重复导致的7000/7000/6500/6000/5500。"
+    }
+  ],
+  "unchanged": {
+    "parameters": 57,
+    "formulas": 10,
+    "protectedSubjects": 10,
+    "protectedCompositionLists": 60,
+    "reusedPublicParameters": 13,
+    "publicParametersUpdated": 0,
+    "blitzcrankWCooldown": [
+      15000,
+      15000,
+      15000,
+      15000,
+      15000
+    ],
+    "blitzcrankRCooldown": [
+      60000,
+      40000,
+      20000
+    ]
+  },
+  "originalPreserved": true,
+  "noApiCalls": true
+}

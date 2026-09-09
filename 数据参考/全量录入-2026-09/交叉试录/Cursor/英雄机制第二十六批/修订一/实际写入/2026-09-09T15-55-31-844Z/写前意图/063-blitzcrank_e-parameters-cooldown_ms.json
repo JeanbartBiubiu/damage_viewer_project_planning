@@ -1,0 +1,46 @@
+{
+  "sequence": 63,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 63,
+    "method": "POST",
+    "route": "/skills/blitzcrank_e/parameters",
+    "detailRoute": "/skills/blitzcrank_e/parameters/cooldown_ms",
+    "skillKey": "blitzcrank_e",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "能量铁拳冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 7000,
+        "2": 6500,
+        "3": 6000,
+        "4": 5500,
+        "5": 5000
+      },
+      "description": "当前客户端cooldownTime首五项为7/7/6.5/6/5.5秒且含首项重复槽位；按官方16.17.1技能等级数组和同版技能等级口径采用7/6.5/6/5.5/5秒，转换为7000/6500/6000/5500/5000毫秒。",
+      "sortOrder": 50
+    }
+  },
+  "before": {
+    "sequence": 366,
+    "method": "GET",
+    "route": "/skills/blitzcrank_e/parameters/cooldown_ms",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "cooldown_ms"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:53.677Z"
+  }
+}

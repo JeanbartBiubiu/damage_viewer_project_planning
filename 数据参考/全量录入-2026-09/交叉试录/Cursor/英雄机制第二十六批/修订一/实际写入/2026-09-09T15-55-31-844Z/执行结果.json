@@ -1,0 +1,3918 @@
+{
+  "generatedAt": "2026-09-09T15:55:31.845Z",
+  "runId": "2026-09-09T15-55-31-844Z",
+  "mode": "apply",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "planSha256": "36ab18f7ce88561d0db035c6e20b5b30d7e364f4fa7585814266c561e386a3ba",
+  "writerSha256": "379ca88bb7f9d0a800097c081a167051b9729c836da9868c4a350bd90eeab206",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "apiWrites": 78,
+  "postAttempts": 78,
+  "successfulPosts": 78,
+  "confirmed": 78,
+  "noBusinessWrites": false,
+  "staticChecks": [
+    {
+      "name": "冻结文件散列 candidate",
+      "passed": true,
+      "detail": {
+        "actual": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+        "expected": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230"
+      }
+    },
+    {
+      "name": "冻结文件散列 plan",
+      "passed": true,
+      "detail": {
+        "actual": "36ab18f7ce88561d0db035c6e20b5b30d7e364f4fa7585814266c561e386a3ba",
+        "expected": "36ab18f7ce88561d0db035c6e20b5b30d7e364f4fa7585814266c561e386a3ba"
+      }
+    },
+    {
+      "name": "冻结文件散列 sourceValues",
+      "passed": true,
+      "detail": {
+        "actual": "0c3ac5c7057860c5135c1b3825094c16e9acefa75675ed73df910082c680a9bd",
+        "expected": "0c3ac5c7057860c5135c1b3825094c16e9acefa75675ed73df910082c680a9bd"
+      }
+    },
+    {
+      "name": "冻结文件散列 sourceManifest",
+      "passed": true,
+      "detail": {
+        "actual": "b4296bf9678e4057fff6ea5469bfda62d4e95538a84bbcac40f52605828785e5",
+        "expected": "b4296bf9678e4057fff6ea5469bfda62d4e95538a84bbcac40f52605828785e5"
+      }
+    },
+    {
+      "name": "冻结文件散列 strictMath",
+      "passed": true,
+      "detail": {
+        "actual": "86f0d92cac6aaab12b45977a2382ae9042ae91f8c11bd42a2a6e99e7db61e4c6",
+        "expected": "86f0d92cac6aaab12b45977a2382ae9042ae91f8c11bd42a2a6e99e7db61e4c6"
+      }
+    },
+    {
+      "name": "冻结文件散列 freeze",
+      "passed": true,
+      "detail": {
+        "actual": "d553d208c25e63a0a50cab5ce659f414b91557434035615a5320314a6ef4efc4",
+        "expected": "d553d208c25e63a0a50cab5ce659f414b91557434035615a5320314a6ef4efc4"
+      }
+    },
+    {
+      "name": "冻结文件散列 inputVersion",
+      "passed": true,
+      "detail": {
+        "actual": "cc8492f70028c0d53133d870560b250b0a281b8eccf68eafbd5b05a336c79c0e",
+        "expected": "cc8492f70028c0d53133d870560b250b0a281b8eccf68eafbd5b05a336c79c0e"
+      }
+    },
+    {
+      "name": "冻结文件散列 binding",
+      "passed": true,
+      "detail": {
+        "actual": "ff84880596ebc5c44a1a881e7bfa8659572b1ab72c7d9741ae8842b3d81b3349",
+        "expected": "ff84880596ebc5c44a1a881e7bfa8659572b1ab72c7d9741ae8842b3d81b3349"
+      }
+    },
+    {
+      "name": "冻结文件散列 snapshot",
+      "passed": true,
+      "detail": {
+        "actual": "bd549959bc5c976dfc4f2209df6c2edee7c98fc0643a7cc192356f2e72e51d19",
+        "expected": "bd549959bc5c976dfc4f2209df6c2edee7c98fc0643a7cc192356f2e72e51d19"
+      }
+    },
+    {
+      "name": "冻结文件散列 reuse",
+      "passed": true,
+      "detail": {
+        "actual": "634c0691885e306d831dcdc7b6e239315601e4963fd0aebda45f07a205343fd7",
+        "expected": "634c0691885e306d831dcdc7b6e239315601e4963fd0aebda45f07a205343fd7"
+      }
+    },
+    {
+      "name": "候选修订版本正确",
+      "passed": true,
+      "detail": "hero26-source-v1-candidate-revision-1"
+    },
+    {
+      "name": "候选零业务写入",
+      "passed": true,
+      "detail": {
+        "meta": {
+          "generatedAt": "2026-09-09T15:33:26.104Z",
+          "batch": "英雄机制第二十六批",
+          "status": "候选待主负责人审查，未调用业务接口",
+          "gameId": "lol",
+          "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+          "sourceVersion": {
+            "clientVersion": "16.17",
+            "officialVersion": "16.17.1",
+            "build": "16.17.8104348+branch.releases-16-17.content.release"
+          },
+          "scope": "阿利斯塔、布里茨10个技能槽的修订一；只新增来源明确参数、实际二元公式、成熟自身护盾/属性效果和一次法力消耗组成。布里茨W移除错误的固定5000毫秒移动速度属性效果，仅保留起始/最低比例、2500毫秒衰减窗口、5000毫秒攻击速度效果和主窗口结束后1500毫秒减速；布里茨E冷却按客户端技能等级口径与官方数组修正为7000/6500/6000/5500/5000毫秒。减伤只保留参数与公式，因当前无可复用伤害乘区而不新增效果；不写主体、六类分类、关系、图片或已有公共参数，不建DAMAGE、DIRECT_HEAL、MOMENT_EVALUATION结果，不创建自动触发。",
+          "sourcePolicy": "固定客户端16.17、官方16.17.1和构建16.17.8104348；沿当前根绑定正文和当前计算树；未知等级曲线、资源类型和运行输入不猜、不设默认。",
+          "inputPackage": "输入包/",
+          "currentSnapshot": "输入包/参考资料/当前10槽保护快照.json",
+          "currentSnapshotSha256": "bd549959bc5c976dfc4f2209df6c2edee7c98fc0643a7cc192356f2e72e51d19",
+          "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+          "businessWrites": 0,
+          "apiCalls": 0,
+          "tokenStored": false,
+          "candidateSha256": null
+        },
+        "apiWrites": 0,
+        "sourceNoWrites": true
+      }
+    },
+    {
+      "name": "候选计数为57参数10公式11效果",
+      "passed": true,
+      "detail": {
+        "parameters": 57,
+        "formulas": 10,
+        "effects": 11,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "请求计划为78项",
+      "passed": true,
+      "detail": {
+        "requestCount": 78,
+        "length": 78
+      }
+    },
+    {
+      "name": "输入包来源清单一致",
+      "passed": true,
+      "detail": {
+        "files": 14,
+        "sourceManifestSha256": null
+      }
+    },
+    {
+      "name": "候选技能顺序与十槽范围一致",
+      "passed": true,
+      "detail": [
+        "alistar_p",
+        "alistar_q",
+        "alistar_w",
+        "alistar_e",
+        "alistar_r",
+        "blitzcrank_p",
+        "blitzcrank_q",
+        "blitzcrank_w",
+        "blitzcrank_e",
+        "blitzcrank_r"
+      ]
+    },
+    {
+      "name": "候选主体和六类保护与冻结快照一致",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选引用当前保护快照哈希",
+      "passed": true,
+      "detail": "bd549959bc5c976dfc4f2209df6c2edee7c98fc0643a7cc192356f2e72e51d19"
+    },
+    {
+      "name": "候选技能存在 alistar_p",
+      "passed": true,
+      "detail": "alistar_p"
+    },
+    {
+      "name": "组成列表存在 alistar_p/parameters",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_p/formulas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_p/effects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_p/processes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_p/internalStates",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_p/triggerRules",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选技能存在 alistar_q",
+      "passed": true,
+      "detail": "alistar_q"
+    },
+    {
+      "name": "组成列表存在 alistar_q/parameters",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_q/formulas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_q/effects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_q/processes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_q/internalStates",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_q/triggerRules",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选技能存在 alistar_w",
+      "passed": true,
+      "detail": "alistar_w"
+    },
+    {
+      "name": "组成列表存在 alistar_w/parameters",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_w/formulas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_w/effects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_w/processes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_w/internalStates",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_w/triggerRules",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选技能存在 alistar_e",
+      "passed": true,
+      "detail": "alistar_e"
+    },
+    {
+      "name": "组成列表存在 alistar_e/parameters",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_e/formulas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_e/effects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_e/processes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_e/internalStates",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_e/triggerRules",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选技能存在 alistar_r",
+      "passed": true,
+      "detail": "alistar_r"
+    },
+    {
+      "name": "组成列表存在 alistar_r/parameters",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_r/formulas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_r/effects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_r/processes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_r/internalStates",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 alistar_r/triggerRules",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选技能存在 blitzcrank_p",
+      "passed": true,
+      "detail": "blitzcrank_p"
+    },
+    {
+      "name": "组成列表存在 blitzcrank_p/parameters",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_p/formulas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_p/effects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_p/processes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_p/internalStates",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_p/triggerRules",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选技能存在 blitzcrank_q",
+      "passed": true,
+      "detail": "blitzcrank_q"
+    },
+    {
+      "name": "组成列表存在 blitzcrank_q/parameters",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_q/formulas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_q/effects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_q/processes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_q/internalStates",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_q/triggerRules",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选技能存在 blitzcrank_w",
+      "passed": true,
+      "detail": "blitzcrank_w"
+    },
+    {
+      "name": "组成列表存在 blitzcrank_w/parameters",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_w/formulas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_w/effects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_w/processes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_w/internalStates",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_w/triggerRules",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选技能存在 blitzcrank_e",
+      "passed": true,
+      "detail": "blitzcrank_e"
+    },
+    {
+      "name": "组成列表存在 blitzcrank_e/parameters",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_e/formulas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_e/effects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_e/processes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_e/internalStates",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_e/triggerRules",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选技能存在 blitzcrank_r",
+      "passed": true,
+      "detail": "blitzcrank_r"
+    },
+    {
+      "name": "组成列表存在 blitzcrank_r/parameters",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_r/formulas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_r/effects",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_r/processes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_r/internalStates",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "组成列表存在 blitzcrank_r/triggerRules",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选组成总数为78",
+      "passed": true,
+      "detail": 78
+    },
+    {
+      "name": "候选组成键唯一",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "复用参数均禁止提交",
+      "passed": true,
+      "detail": [
+        {
+          "skillKey": "alistar_q",
+          "parameterKey": "cooldown_ms",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        {
+          "skillKey": "alistar_q",
+          "parameterKey": "mana_cost",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        {
+          "skillKey": "alistar_w",
+          "parameterKey": "cooldown_ms",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        {
+          "skillKey": "alistar_w",
+          "parameterKey": "mana_cost",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        {
+          "skillKey": "alistar_e",
+          "parameterKey": "cooldown_ms",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        {
+          "skillKey": "alistar_e",
+          "parameterKey": "mana_cost",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        {
+          "skillKey": "alistar_r",
+          "parameterKey": "cooldown_ms",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        {
+          "skillKey": "alistar_r",
+          "parameterKey": "mana_cost",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        {
+          "skillKey": "blitzcrank_q",
+          "parameterKey": "cooldown_ms",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        {
+          "skillKey": "blitzcrank_q",
+          "parameterKey": "mana_cost",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "parameterKey": "mana_cost",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "parameterKey": "mana_cost",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "parameterKey": "mana_cost",
+          "source": "输入包/参考资料/公共参数复用清单.json",
+          "post": false
+        }
+      ]
+    },
+    {
+      "name": "候选没有复用键冲突",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "写前计划逐项覆盖候选",
+      "passed": true,
+      "detail": {
+        "planned": 78,
+        "candidates": 78
+      }
+    },
+    {
+      "name": "请求计划按组成计数",
+      "passed": true,
+      "detail": {
+        "parameters": 57,
+        "formulas": 10,
+        "effects": 11,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "保护快照为101次GET",
+      "passed": true,
+      "detail": {
+        "declared": 101,
+        "requests": 101,
+        "unique": 101,
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "保护快照覆盖4目录2角色2关系10主体10图片60列表13详情",
+      "passed": true,
+      "detail": {
+        "catalogs": 4,
+        "characters": 2,
+        "relations": 2,
+        "subjects": 10,
+        "images": 10,
+        "lists": 60,
+        "reusedDetails": 13
+      }
+    },
+    {
+      "name": "所有属性与修正区域引用已存在且启用",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "候选结构和生命周期引用有效",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "布里茨E冷却修订值正确",
+      "passed": true,
+      "detail": {
+        "parameterKey": "cooldown_ms",
+        "name": "能量铁拳冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 7000,
+          "2": 6500,
+          "3": 6000,
+          "4": 5500,
+          "5": 5000
+        },
+        "description": "当前客户端cooldownTime首五项为7/7/6.5/6/5.5秒且含首项重复槽位；按官方16.17.1技能等级数组和同版技能等级口径采用7/6.5/6/5.5/5秒，转换为7000/6500/6000/5500/5000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "name": "布里茨W移速效果已移除",
+      "passed": true,
+      "detail": [
+        "mana_cost",
+        "attack_speed_boost",
+        "post_overdrive_slow"
+      ]
+    },
+    {
+      "name": "布里茨W攻速和结束减速生命周期分离",
+      "passed": true,
+      "detail": [
+        {
+          "key": "mana_cost"
+        },
+        {
+          "key": "attack_speed_boost",
+          "lifecycle": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          }
+        },
+        {
+          "key": "post_overdrive_slow",
+          "lifecycle": {
+            "kind": "PARAMETER",
+            "parameterKey": "slow_duration_ms"
+          }
+        }
+      ]
+    },
+    {
+      "name": "布里茨W移速与攻速等级值分离",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "staticFailures": [],
+  "calls": {
+    "total": 592,
+    "methods": {
+      "GET": 514,
+      "POST": 78
+    },
+    "statuses": {
+      "200": 358,
+      "201": 78,
+      "404": 156
+    }
+  },
+  "preflight": {
+    "uniqueFreshGET": 179,
+    "protection": {
+      "checked": 101,
+      "passed": 101,
+      "failures": [],
+      "records": [
+        {
+          "route": "/attributes",
+          "category": "目录",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skill-categories",
+          "category": "目录",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/modifier-zones",
+          "category": "目录",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/damage-types",
+          "category": "目录",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/characters/champion_alistar",
+          "category": "角色",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/character-skill-relations?characterKey=champion_alistar",
+          "category": "关系",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/characters/champion_blitzcrank",
+          "category": "角色",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/character-skill-relations?characterKey=champion_blitzcrank",
+          "category": "关系",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/parameters/cooldown_ms",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/parameters/cooldown_ms",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/parameters/cooldown_ms",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/parameters/cooldown_ms",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/parameters/cooldown_ms",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        }
+      ],
+      "counts": {
+        "catalogs": 4,
+        "characters": 2,
+        "relations": 2,
+        "subjects": 10,
+        "images": 10,
+        "lists": 60,
+        "reusedDetails": 13
+      },
+      "after": false
+    },
+    "details": {
+      "checked": 78,
+      "passed": 78,
+      "failures": [],
+      "records": [
+        {
+          "skillKey": "alistar_p",
+          "kind": "parameters",
+          "stableKey": "self_heal_ratio",
+          "route": "/skills/alistar_p/parameters/self_heal_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_p",
+          "kind": "parameters",
+          "stableKey": "passive_cooldown_ms",
+          "route": "/skills/alistar_p/parameters/passive_cooldown_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_p",
+          "kind": "parameters",
+          "stableKey": "passive_max_stacks",
+          "route": "/skills/alistar_p/parameters/passive_max_stacks",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_p",
+          "kind": "parameters",
+          "stableKey": "passive_stacks_champion_kill",
+          "route": "/skills/alistar_p/parameters/passive_stacks_champion_kill",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_p",
+          "kind": "formulas",
+          "stableKey": "self_heal_amount",
+          "route": "/skills/alistar_p/formulas/self_heal_amount",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_q",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/alistar_q/parameters/cast_time_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_q",
+          "kind": "parameters",
+          "stableKey": "base_damage",
+          "route": "/skills/alistar_q/parameters/base_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_q",
+          "kind": "parameters",
+          "stableKey": "ap_ratio",
+          "route": "/skills/alistar_q/parameters/ap_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_q",
+          "kind": "parameters",
+          "stableKey": "knockup_duration_ms",
+          "route": "/skills/alistar_q/parameters/knockup_duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_q",
+          "kind": "formulas",
+          "stableKey": "magic_damage",
+          "route": "/skills/alistar_q/formulas/magic_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_q",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/alistar_q/effects/mana_cost",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/alistar_w/parameters/cast_time_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "parameters",
+          "stableKey": "base_damage",
+          "route": "/skills/alistar_w/parameters/base_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "parameters",
+          "stableKey": "ap_ratio",
+          "route": "/skills/alistar_w/parameters/ap_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "parameters",
+          "stableKey": "stun_duration_ms",
+          "route": "/skills/alistar_w/parameters/stun_duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "parameters",
+          "stableKey": "knockup_duration_ms",
+          "route": "/skills/alistar_w/parameters/knockup_duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "formulas",
+          "stableKey": "magic_damage",
+          "route": "/skills/alistar_w/formulas/magic_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/alistar_w/effects/mana_cost",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/alistar_e/parameters/cast_time_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "trample_damage",
+          "route": "/skills/alistar_e/parameters/trample_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "ap_ratio",
+          "route": "/skills/alistar_e/parameters/ap_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "duration_ms",
+          "route": "/skills/alistar_e/parameters/duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "max_stacks",
+          "route": "/skills/alistar_e/parameters/max_stacks",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "stun_duration_ms",
+          "route": "/skills/alistar_e/parameters/stun_duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "full_charge_duration_ms",
+          "route": "/skills/alistar_e/parameters/full_charge_duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "attack_bonus_damage",
+          "route": "/skills/alistar_e/parameters/attack_bonus_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "formulas",
+          "stableKey": "total_magic_damage",
+          "route": "/skills/alistar_e/formulas/total_magic_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/alistar_e/effects/mana_cost",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_r",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/alistar_r/parameters/cast_time_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_r",
+          "kind": "parameters",
+          "stableKey": "duration_ms",
+          "route": "/skills/alistar_r/parameters/duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_r",
+          "kind": "parameters",
+          "stableKey": "damage_reduction_percent_points",
+          "route": "/skills/alistar_r/parameters/damage_reduction_percent_points",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_r",
+          "kind": "parameters",
+          "stableKey": "percent_to_ratio",
+          "route": "/skills/alistar_r/parameters/percent_to_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_r",
+          "kind": "formulas",
+          "stableKey": "damage_reduction_ratio",
+          "route": "/skills/alistar_r/formulas/damage_reduction_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "alistar_r",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/alistar_r/effects/mana_cost",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "parameters",
+          "stableKey": "health_threshold_ratio",
+          "route": "/skills/blitzcrank_p/parameters/health_threshold_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "parameters",
+          "stableKey": "shield_ratio",
+          "route": "/skills/blitzcrank_p/parameters/shield_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "parameters",
+          "stableKey": "shield_duration_ms",
+          "route": "/skills/blitzcrank_p/parameters/shield_duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "parameters",
+          "stableKey": "cooldown_ms",
+          "route": "/skills/blitzcrank_p/parameters/cooldown_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "parameters",
+          "stableKey": "ability_resource_value",
+          "route": "/skills/blitzcrank_p/parameters/ability_resource_value",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "formulas",
+          "stableKey": "shield_amount",
+          "route": "/skills/blitzcrank_p/formulas/shield_amount",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "effects",
+          "stableKey": "mana_barrier_shield",
+          "route": "/skills/blitzcrank_p/effects/mana_barrier_shield",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_q",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/blitzcrank_q/parameters/cast_time_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_q",
+          "kind": "parameters",
+          "stableKey": "base_damage",
+          "route": "/skills/blitzcrank_q/parameters/base_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_q",
+          "kind": "parameters",
+          "stableKey": "ap_ratio",
+          "route": "/skills/blitzcrank_q/parameters/ap_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_q",
+          "kind": "formulas",
+          "stableKey": "magic_damage",
+          "route": "/skills/blitzcrank_q/formulas/magic_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_q",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/blitzcrank_q/effects/mana_cost",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/blitzcrank_w/parameters/cast_time_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "move_speed_ratio",
+          "route": "/skills/blitzcrank_w/parameters/move_speed_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "attack_speed_ratio",
+          "route": "/skills/blitzcrank_w/parameters/attack_speed_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "duration_ms",
+          "route": "/skills/blitzcrank_w/parameters/duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "slow_ratio",
+          "route": "/skills/blitzcrank_w/parameters/slow_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "slow_duration_ms",
+          "route": "/skills/blitzcrank_w/parameters/slow_duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "move_speed_min_ratio",
+          "route": "/skills/blitzcrank_w/parameters/move_speed_min_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "decay_duration_ms",
+          "route": "/skills/blitzcrank_w/parameters/decay_duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "cooldown_ms",
+          "route": "/skills/blitzcrank_w/parameters/cooldown_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/blitzcrank_w/effects/mana_cost",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "effects",
+          "stableKey": "attack_speed_boost",
+          "route": "/skills/blitzcrank_w/effects/attack_speed_boost",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "effects",
+          "stableKey": "post_overdrive_slow",
+          "route": "/skills/blitzcrank_w/effects/post_overdrive_slow",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/blitzcrank_e/parameters/cast_time_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "parameters",
+          "stableKey": "cc_duration_ms",
+          "route": "/skills/blitzcrank_e/parameters/cc_duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "parameters",
+          "stableKey": "total_attack_damage_multiplier",
+          "route": "/skills/blitzcrank_e/parameters/total_attack_damage_multiplier",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "parameters",
+          "stableKey": "ability_power_ratio",
+          "route": "/skills/blitzcrank_e/parameters/ability_power_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "parameters",
+          "stableKey": "cooldown_ms",
+          "route": "/skills/blitzcrank_e/parameters/cooldown_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "formulas",
+          "stableKey": "physical_damage",
+          "route": "/skills/blitzcrank_e/formulas/physical_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/blitzcrank_e/effects/mana_cost",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/blitzcrank_r/parameters/cast_time_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "passive_base_damage",
+          "route": "/skills/blitzcrank_r/parameters/passive_base_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "passive_ap_ratio",
+          "route": "/skills/blitzcrank_r/parameters/passive_ap_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "passive_resource_ratio",
+          "route": "/skills/blitzcrank_r/parameters/passive_resource_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "passive_ability_resource_value",
+          "route": "/skills/blitzcrank_r/parameters/passive_ability_resource_value",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "active_base_damage",
+          "route": "/skills/blitzcrank_r/parameters/active_base_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "active_ap_ratio",
+          "route": "/skills/blitzcrank_r/parameters/active_ap_ratio",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "zap_delay_ms",
+          "route": "/skills/blitzcrank_r/parameters/zap_delay_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "silence_duration_ms",
+          "route": "/skills/blitzcrank_r/parameters/silence_duration_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "cooldown_ms",
+          "route": "/skills/blitzcrank_r/parameters/cooldown_ms",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "formulas",
+          "stableKey": "passive_magic_damage",
+          "route": "/skills/blitzcrank_r/formulas/passive_magic_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "formulas",
+          "stableKey": "active_magic_damage",
+          "route": "/skills/blitzcrank_r/formulas/active_magic_damage",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/blitzcrank_r/effects/mana_cost",
+          "expectedStatus": 404,
+          "actualStatus": 404,
+          "passed": true
+        }
+      ]
+    },
+    "source": "实际API新GET"
+  },
+  "final": {
+    "uniqueFreshGET": 179,
+    "protection": {
+      "checked": 101,
+      "passed": 101,
+      "failures": [],
+      "records": [
+        {
+          "route": "/attributes",
+          "category": "目录",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skill-categories",
+          "category": "目录",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/modifier-zones",
+          "category": "目录",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/damage-types",
+          "category": "目录",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/characters/champion_alistar",
+          "category": "角色",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/character-skill-relations?characterKey=champion_alistar",
+          "category": "关系",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/characters/champion_blitzcrank",
+          "category": "角色",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/character-skill-relations?characterKey=champion_blitzcrank",
+          "category": "关系",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_p/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/parameters/cooldown_ms",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_q/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/parameters/cooldown_ms",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_w/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/parameters/cooldown_ms",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_e/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/parameters/cooldown_ms",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/alistar_r/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_p/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/parameters/cooldown_ms",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_q/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_w/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_e/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r",
+          "category": "主体",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/representative-image",
+          "category": "图片",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/parameters",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/parameters/mana_cost",
+          "category": "复用详情",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/formulas",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/effects",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/processes",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/internal-states",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "route": "/skills/blitzcrank_r/trigger-rules",
+          "category": "六类列表",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        }
+      ],
+      "counts": {
+        "catalogs": 4,
+        "characters": 2,
+        "relations": 2,
+        "subjects": 10,
+        "images": 10,
+        "lists": 60,
+        "reusedDetails": 13
+      },
+      "after": true
+    },
+    "details": {
+      "checked": 78,
+      "passed": 78,
+      "failures": [],
+      "records": [
+        {
+          "skillKey": "alistar_p",
+          "kind": "parameters",
+          "stableKey": "self_heal_ratio",
+          "route": "/skills/alistar_p/parameters/self_heal_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_p",
+          "kind": "parameters",
+          "stableKey": "passive_cooldown_ms",
+          "route": "/skills/alistar_p/parameters/passive_cooldown_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_p",
+          "kind": "parameters",
+          "stableKey": "passive_max_stacks",
+          "route": "/skills/alistar_p/parameters/passive_max_stacks",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_p",
+          "kind": "parameters",
+          "stableKey": "passive_stacks_champion_kill",
+          "route": "/skills/alistar_p/parameters/passive_stacks_champion_kill",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_p",
+          "kind": "formulas",
+          "stableKey": "self_heal_amount",
+          "route": "/skills/alistar_p/formulas/self_heal_amount",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_q",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/alistar_q/parameters/cast_time_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_q",
+          "kind": "parameters",
+          "stableKey": "base_damage",
+          "route": "/skills/alistar_q/parameters/base_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_q",
+          "kind": "parameters",
+          "stableKey": "ap_ratio",
+          "route": "/skills/alistar_q/parameters/ap_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_q",
+          "kind": "parameters",
+          "stableKey": "knockup_duration_ms",
+          "route": "/skills/alistar_q/parameters/knockup_duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_q",
+          "kind": "formulas",
+          "stableKey": "magic_damage",
+          "route": "/skills/alistar_q/formulas/magic_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_q",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/alistar_q/effects/mana_cost",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/alistar_w/parameters/cast_time_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "parameters",
+          "stableKey": "base_damage",
+          "route": "/skills/alistar_w/parameters/base_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "parameters",
+          "stableKey": "ap_ratio",
+          "route": "/skills/alistar_w/parameters/ap_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "parameters",
+          "stableKey": "stun_duration_ms",
+          "route": "/skills/alistar_w/parameters/stun_duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "parameters",
+          "stableKey": "knockup_duration_ms",
+          "route": "/skills/alistar_w/parameters/knockup_duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "formulas",
+          "stableKey": "magic_damage",
+          "route": "/skills/alistar_w/formulas/magic_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_w",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/alistar_w/effects/mana_cost",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/alistar_e/parameters/cast_time_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "trample_damage",
+          "route": "/skills/alistar_e/parameters/trample_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "ap_ratio",
+          "route": "/skills/alistar_e/parameters/ap_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "duration_ms",
+          "route": "/skills/alistar_e/parameters/duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "max_stacks",
+          "route": "/skills/alistar_e/parameters/max_stacks",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "stun_duration_ms",
+          "route": "/skills/alistar_e/parameters/stun_duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "full_charge_duration_ms",
+          "route": "/skills/alistar_e/parameters/full_charge_duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "parameters",
+          "stableKey": "attack_bonus_damage",
+          "route": "/skills/alistar_e/parameters/attack_bonus_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "formulas",
+          "stableKey": "total_magic_damage",
+          "route": "/skills/alistar_e/formulas/total_magic_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_e",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/alistar_e/effects/mana_cost",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_r",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/alistar_r/parameters/cast_time_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_r",
+          "kind": "parameters",
+          "stableKey": "duration_ms",
+          "route": "/skills/alistar_r/parameters/duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_r",
+          "kind": "parameters",
+          "stableKey": "damage_reduction_percent_points",
+          "route": "/skills/alistar_r/parameters/damage_reduction_percent_points",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_r",
+          "kind": "parameters",
+          "stableKey": "percent_to_ratio",
+          "route": "/skills/alistar_r/parameters/percent_to_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_r",
+          "kind": "formulas",
+          "stableKey": "damage_reduction_ratio",
+          "route": "/skills/alistar_r/formulas/damage_reduction_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "alistar_r",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/alistar_r/effects/mana_cost",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "parameters",
+          "stableKey": "health_threshold_ratio",
+          "route": "/skills/blitzcrank_p/parameters/health_threshold_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "parameters",
+          "stableKey": "shield_ratio",
+          "route": "/skills/blitzcrank_p/parameters/shield_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "parameters",
+          "stableKey": "shield_duration_ms",
+          "route": "/skills/blitzcrank_p/parameters/shield_duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "parameters",
+          "stableKey": "cooldown_ms",
+          "route": "/skills/blitzcrank_p/parameters/cooldown_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "parameters",
+          "stableKey": "ability_resource_value",
+          "route": "/skills/blitzcrank_p/parameters/ability_resource_value",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "formulas",
+          "stableKey": "shield_amount",
+          "route": "/skills/blitzcrank_p/formulas/shield_amount",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_p",
+          "kind": "effects",
+          "stableKey": "mana_barrier_shield",
+          "route": "/skills/blitzcrank_p/effects/mana_barrier_shield",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_q",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/blitzcrank_q/parameters/cast_time_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_q",
+          "kind": "parameters",
+          "stableKey": "base_damage",
+          "route": "/skills/blitzcrank_q/parameters/base_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_q",
+          "kind": "parameters",
+          "stableKey": "ap_ratio",
+          "route": "/skills/blitzcrank_q/parameters/ap_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_q",
+          "kind": "formulas",
+          "stableKey": "magic_damage",
+          "route": "/skills/blitzcrank_q/formulas/magic_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_q",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/blitzcrank_q/effects/mana_cost",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/blitzcrank_w/parameters/cast_time_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "move_speed_ratio",
+          "route": "/skills/blitzcrank_w/parameters/move_speed_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "attack_speed_ratio",
+          "route": "/skills/blitzcrank_w/parameters/attack_speed_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "duration_ms",
+          "route": "/skills/blitzcrank_w/parameters/duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "slow_ratio",
+          "route": "/skills/blitzcrank_w/parameters/slow_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "slow_duration_ms",
+          "route": "/skills/blitzcrank_w/parameters/slow_duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "move_speed_min_ratio",
+          "route": "/skills/blitzcrank_w/parameters/move_speed_min_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "decay_duration_ms",
+          "route": "/skills/blitzcrank_w/parameters/decay_duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "parameters",
+          "stableKey": "cooldown_ms",
+          "route": "/skills/blitzcrank_w/parameters/cooldown_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/blitzcrank_w/effects/mana_cost",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "effects",
+          "stableKey": "attack_speed_boost",
+          "route": "/skills/blitzcrank_w/effects/attack_speed_boost",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_w",
+          "kind": "effects",
+          "stableKey": "post_overdrive_slow",
+          "route": "/skills/blitzcrank_w/effects/post_overdrive_slow",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/blitzcrank_e/parameters/cast_time_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "parameters",
+          "stableKey": "cc_duration_ms",
+          "route": "/skills/blitzcrank_e/parameters/cc_duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "parameters",
+          "stableKey": "total_attack_damage_multiplier",
+          "route": "/skills/blitzcrank_e/parameters/total_attack_damage_multiplier",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "parameters",
+          "stableKey": "ability_power_ratio",
+          "route": "/skills/blitzcrank_e/parameters/ability_power_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "parameters",
+          "stableKey": "cooldown_ms",
+          "route": "/skills/blitzcrank_e/parameters/cooldown_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "formulas",
+          "stableKey": "physical_damage",
+          "route": "/skills/blitzcrank_e/formulas/physical_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_e",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/blitzcrank_e/effects/mana_cost",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "cast_time_ms",
+          "route": "/skills/blitzcrank_r/parameters/cast_time_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "passive_base_damage",
+          "route": "/skills/blitzcrank_r/parameters/passive_base_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "passive_ap_ratio",
+          "route": "/skills/blitzcrank_r/parameters/passive_ap_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "passive_resource_ratio",
+          "route": "/skills/blitzcrank_r/parameters/passive_resource_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "passive_ability_resource_value",
+          "route": "/skills/blitzcrank_r/parameters/passive_ability_resource_value",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "active_base_damage",
+          "route": "/skills/blitzcrank_r/parameters/active_base_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "active_ap_ratio",
+          "route": "/skills/blitzcrank_r/parameters/active_ap_ratio",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "zap_delay_ms",
+          "route": "/skills/blitzcrank_r/parameters/zap_delay_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "silence_duration_ms",
+          "route": "/skills/blitzcrank_r/parameters/silence_duration_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "parameters",
+          "stableKey": "cooldown_ms",
+          "route": "/skills/blitzcrank_r/parameters/cooldown_ms",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "formulas",
+          "stableKey": "passive_magic_damage",
+          "route": "/skills/blitzcrank_r/formulas/passive_magic_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "formulas",
+          "stableKey": "active_magic_damage",
+          "route": "/skills/blitzcrank_r/formulas/active_magic_damage",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        },
+        {
+          "skillKey": "blitzcrank_r",
+          "kind": "effects",
+          "stableKey": "mana_cost",
+          "route": "/skills/blitzcrank_r/effects/mana_cost",
+          "expectedStatus": 200,
+          "actualStatus": 200,
+          "passed": true,
+          "difference": null
+        }
+      ]
+    },
+    "source": "实际API新GET"
+  },
+  "success": true,
+  "finishedAt": "2026-09-09T15:57:21.935Z"
+}

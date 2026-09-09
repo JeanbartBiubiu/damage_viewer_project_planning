@@ -1,0 +1,40 @@
+{
+  "sequence": 72,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 72,
+    "method": "POST",
+    "route": "/skills/blitzcrank_r/parameters",
+    "detailRoute": "/skills/blitzcrank_r/parameters/active_ap_ratio",
+    "skillKey": "blitzcrank_r",
+    "kind": "parameters",
+    "stableKey": "active_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_ap_ratio",
+      "name": "主动法术强度倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前绑定DataValues.ActiveAPRatio=1；主动TotalDamage树使用来源总法术强度。",
+      "sortOrder": 70
+    }
+  },
+  "before": {
+    "sequence": 393,
+    "method": "GET",
+    "route": "/skills/blitzcrank_r/parameters/active_ap_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "active_ap_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:57:03.718Z"
+  }
+}

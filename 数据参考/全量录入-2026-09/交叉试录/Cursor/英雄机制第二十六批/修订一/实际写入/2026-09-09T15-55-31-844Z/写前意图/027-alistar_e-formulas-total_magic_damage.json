@@ -1,0 +1,62 @@
+{
+  "sequence": 27,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 27,
+    "method": "POST",
+    "route": "/skills/alistar_e/formulas",
+    "detailRoute": "/skills/alistar_e/formulas/total_magic_damage",
+    "skillKey": "alistar_e",
+    "kind": "formulas",
+    "stableKey": "total_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_magic_damage",
+      "name": "践踏持续期间魔法伤害总量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "trample_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage树标记tooltipOnly=true，且正文为持续期间总量；公式=TrampleDamage+0.7×来源总法术强度，不拆成每段tick。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 258,
+    "method": "GET",
+    "route": "/skills/alistar_e/formulas/total_magic_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "total_magic_damage"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:12.185Z"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "sequence": 61,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 61,
+    "method": "POST",
+    "route": "/skills/blitzcrank_e/parameters",
+    "detailRoute": "/skills/blitzcrank_e/parameters/total_attack_damage_multiplier",
+    "skillKey": "blitzcrank_e",
+    "kind": "parameters",
+    "stableKey": "total_attack_damage_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "total_attack_damage_multiplier",
+      "name": "整次攻击总攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前TotalDamage树第一项mStat2×2，结合当前技能“下次攻击造成双倍伤害”语义按整次攻击总攻击力使用；不替换为额外攻击力。",
+      "sortOrder": 30
+    }
+  },
+  "before": {
+    "sequence": 360,
+    "method": "GET",
+    "route": "/skills/blitzcrank_e/parameters/total_attack_damage_multiplier",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "total_attack_damage_multiplier"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:51.529Z"
+  }
+}

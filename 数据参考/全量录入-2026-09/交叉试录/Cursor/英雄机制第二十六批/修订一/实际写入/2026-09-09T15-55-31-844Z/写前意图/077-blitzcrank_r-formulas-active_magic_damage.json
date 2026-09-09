@@ -1,0 +1,62 @@
+{
+  "sequence": 77,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 77,
+    "method": "POST",
+    "route": "/skills/blitzcrank_r/formulas",
+    "detailRoute": "/skills/blitzcrank_r/formulas/active_magic_damage",
+    "skillKey": "blitzcrank_r",
+    "kind": "formulas",
+    "stableKey": "active_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "active_magic_damage",
+      "name": "静电力场主动魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "active_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "active_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前ActiveDamage树=ActiveBaseDamage+ActiveAPRatio×来源总法术强度；主动命中唯一敌方的事件待接。",
+      "sortOrder": 20
+    }
+  },
+  "before": {
+    "sequence": 408,
+    "method": "GET",
+    "route": "/skills/blitzcrank_r/formulas/active_magic_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "active_magic_damage"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "at": "2026-09-09T15:57:09.272Z"
+  }
+}

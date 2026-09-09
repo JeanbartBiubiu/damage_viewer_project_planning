@@ -1,0 +1,40 @@
+{
+  "sequence": 30,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 30,
+    "method": "POST",
+    "route": "/skills/alistar_r/parameters",
+    "detailRoute": "/skills/alistar_r/parameters/duration_ms",
+    "skillKey": "alistar_r",
+    "kind": "parameters",
+    "stableKey": "duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "duration_ms",
+      "name": "坚定意志持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 7000,
+      "levelValues": null,
+      "description": "当前绑定DataValues.RDuration=7秒，转换为7000毫秒。",
+      "sortOrder": 20
+    }
+  },
+  "before": {
+    "sequence": 267,
+    "method": "GET",
+    "route": "/skills/alistar_r/parameters/duration_ms",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "duration_ms"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:15.520Z"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "sequence": 5,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 5,
+    "method": "POST",
+    "route": "/skills/alistar_p/formulas",
+    "detailRoute": "/skills/alistar_p/formulas/self_heal_amount",
+    "skillKey": "alistar_p",
+    "kind": "formulas",
+    "stableKey": "self_heal_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_heal_amount",
+      "name": "凯旋怒吼自身治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_heal_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "当前BaseHeal树为mStat12×AlistarPassiveHealRatio；按同批已证生命选择器保存为自身总生命×0.05，治疗结果和触发时点待接。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 192,
+    "method": "GET",
+    "route": "/skills/alistar_p/formulas/self_heal_amount",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "self_heal_amount"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "at": "2026-09-09T15:55:47.501Z"
+  }
+}

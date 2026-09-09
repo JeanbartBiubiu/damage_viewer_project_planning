@@ -1,0 +1,88 @@
+{
+  "sequence": 57,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 57,
+    "method": "POST",
+    "route": "/skills/blitzcrank_w/effects",
+    "detailRoute": "/skills/blitzcrank_w/effects/attack_speed_boost",
+    "skillKey": "blitzcrank_w",
+    "kind": "effects",
+    "stableKey": "attack_speed_boost",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "attack_speed_boost",
+      "name": "过载运转自身攻击速度加成",
+      "description": "当前正文的攻击速度加成独立持续5000毫秒；不与移动速度衰减共用数值，施放事件待接。",
+      "sortOrder": 30,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "过载运转自身攻击速度加成",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "attack_speed_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "bonus_attack_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  },
+  "before": {
+    "sequence": 348,
+    "method": "GET",
+    "route": "/skills/blitzcrank_w/effects/attack_speed_boost",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_EFFECT_NOT_FOUND",
+        "details": {
+          "effectKey": "attack_speed_boost"
+        },
+        "message": "技能效果不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:46.813Z"
+  }
+}

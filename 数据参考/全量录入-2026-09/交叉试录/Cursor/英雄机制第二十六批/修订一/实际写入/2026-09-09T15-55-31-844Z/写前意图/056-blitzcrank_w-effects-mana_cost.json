@@ -1,0 +1,62 @@
+{
+  "sequence": 56,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 56,
+    "method": "POST",
+    "route": "/skills/blitzcrank_w/effects",
+    "detailRoute": "/skills/blitzcrank_w/effects/mana_cost",
+    "skillKey": "blitzcrank_w",
+    "kind": "effects",
+    "stableKey": "mana_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "mana_cost",
+      "name": "过载运转法力消耗",
+      "description": "复用当前已有mana_cost参数；只记录一次施放资源变化。",
+      "sortOrder": 10,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "resource",
+          "name": "过载运转法力消耗",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          }
+        }
+      ]
+    }
+  },
+  "before": {
+    "sequence": 345,
+    "method": "GET",
+    "route": "/skills/blitzcrank_w/effects/mana_cost",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_EFFECT_NOT_FOUND",
+        "details": {
+          "effectKey": "mana_cost"
+        },
+        "message": "技能效果不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:45.696Z"
+  }
+}

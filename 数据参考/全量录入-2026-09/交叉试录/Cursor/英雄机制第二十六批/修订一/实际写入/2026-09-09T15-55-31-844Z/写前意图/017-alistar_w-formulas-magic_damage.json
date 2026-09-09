@@ -1,0 +1,62 @@
+{
+  "sequence": 17,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 17,
+    "method": "POST",
+    "route": "/skills/alistar_w/formulas",
+    "detailRoute": "/skills/alistar_w/formulas/magic_damage",
+    "skillKey": "alistar_w",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "野蛮冲撞单一敌方魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage树=Damage+APRatio×来源总法术强度；伤害结果和击退事件待接。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 228,
+    "method": "GET",
+    "route": "/skills/alistar_w/formulas/magic_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "magic_damage"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:00.776Z"
+  }
+}

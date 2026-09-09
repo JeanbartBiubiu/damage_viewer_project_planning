@@ -1,0 +1,40 @@
+{
+  "sequence": 25,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 25,
+    "method": "POST",
+    "route": "/skills/alistar_e/parameters",
+    "detailRoute": "/skills/alistar_e/parameters/full_charge_duration_ms",
+    "skillKey": "alistar_e",
+    "kind": "parameters",
+    "stableKey": "full_charge_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "full_charge_duration_ms",
+      "name": "满层充能持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前绑定DataValues.FullChargeDuration=5秒，转换为5000毫秒；与践踏持续分开。",
+      "sortOrder": 70
+    }
+  },
+  "before": {
+    "sequence": 252,
+    "method": "GET",
+    "route": "/skills/alistar_e/parameters/full_charge_duration_ms",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "full_charge_duration_ms"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:09.975Z"
+  }
+}

@@ -1,0 +1,1232 @@
+{
+  "generatedAt": "2026-09-09T15:34:29.848Z",
+  "status": "修订一独立读取16.17原始来源并对候选实际表达式求值通过；未调用业务接口",
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "currentSnapshotSha256": "bd549959bc5c976dfc4f2209df6c2edee7c98fc0643a7cc192356f2e72e51d19",
+  "sourceTreeBasis": "本脚本重新读取输入包中的客户端压缩原文和当前绑定，独立使用原始DataValues/字段计算期望，再读取候选表达式求值；布里茨E冷却直接取客户端cooldownTime技能等级索引1至5，并独立读取官方16.17.1 PowerFist冷却数组；不信任候选源值摘要直接代替原始来源。",
+  "counts": {
+    "formulas": 10,
+    "formulaCases": 20,
+    "rejectionCases": 10,
+    "boundaryCases": 13,
+    "sourceSeriesChecks": 48,
+    "protectedSkills": 10,
+    "protectedCompositionLists": 60,
+    "reusedPublicParameters": 13
+  },
+  "sourceChecks": [
+    {
+      "skillKey": "alistar_p",
+      "parameterKey": "self_heal_ratio",
+      "sourceName": "AlistarPassiveHealRatio",
+      "raw": [
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806,
+        0.05000000074505806
+      ],
+      "candidate": [
+        0.05
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_p",
+      "parameterKey": "passive_cooldown_ms",
+      "sourceName": "PassiveCooldown",
+      "raw": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "candidate": [
+        3000
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_p",
+      "parameterKey": "passive_max_stacks",
+      "sourceName": "PassiveMaxStacks",
+      "raw": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "candidate": [
+        7
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_p",
+      "parameterKey": "passive_stacks_champion_kill",
+      "sourceName": "PassiveStacksChampionKill",
+      "raw": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "candidate": [
+        7
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_q",
+      "parameterKey": "cast_time_ms",
+      "sourceField": "spellCastTime",
+      "rawSeconds": 0.25,
+      "candidateMs": 250,
+      "normalized": true
+    },
+    {
+      "skillKey": "alistar_q",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "raw": [
+        20,
+        60,
+        100,
+        140,
+        180,
+        220,
+        260
+      ],
+      "candidate": [
+        60,
+        100,
+        140,
+        180,
+        220
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_q",
+      "parameterKey": "ap_ratio",
+      "sourceName": "APRatio",
+      "raw": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929
+      ],
+      "candidate": [
+        0.8
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_q",
+      "parameterKey": "knockup_duration_ms",
+      "sourceName": "KnockupDuration",
+      "raw": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": [
+        1000
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_w",
+      "parameterKey": "cast_time_ms",
+      "sourceField": "spellCastTime",
+      "rawSeconds": 0.5055999755859375,
+      "candidateMs": 506,
+      "normalized": true
+    },
+    {
+      "skillKey": "alistar_w",
+      "parameterKey": "base_damage",
+      "sourceName": "Damage",
+      "raw": [
+        0,
+        55,
+        110,
+        165,
+        220,
+        275,
+        330
+      ],
+      "candidate": [
+        55,
+        110,
+        165,
+        220,
+        275
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_w",
+      "parameterKey": "ap_ratio",
+      "sourceName": "APRatio",
+      "raw": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": [
+        1
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_w",
+      "parameterKey": "stun_duration_ms",
+      "sourceName": "StunDuration",
+      "raw": [
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75
+      ],
+      "candidate": [
+        750
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_w",
+      "parameterKey": "knockup_duration_ms",
+      "sourceName": "KnockUpDuration",
+      "raw": [
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75,
+        0.75
+      ],
+      "candidate": [
+        750
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_e",
+      "parameterKey": "cast_time_ms",
+      "sourceField": "spellCastTime",
+      "rawSeconds": 0.25,
+      "candidateMs": 250,
+      "normalized": true
+    },
+    {
+      "skillKey": "alistar_e",
+      "parameterKey": "trample_damage",
+      "sourceName": "TrampleDamage",
+      "raw": [
+        80,
+        80,
+        110,
+        140,
+        170,
+        200,
+        230
+      ],
+      "candidate": [
+        80,
+        110,
+        140,
+        170,
+        200
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_e",
+      "parameterKey": "ap_ratio",
+      "sourceName": "APRatio",
+      "raw": [
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071,
+        0.699999988079071
+      ],
+      "candidate": [
+        0.7
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_e",
+      "parameterKey": "duration_ms",
+      "sourceName": "Duration",
+      "raw": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "candidate": [
+        5000
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_e",
+      "parameterKey": "max_stacks",
+      "sourceName": "MaxStacks",
+      "raw": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "candidate": [
+        5
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_e",
+      "parameterKey": "stun_duration_ms",
+      "sourceName": "StunDuration",
+      "raw": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": [
+        1000
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_e",
+      "parameterKey": "full_charge_duration_ms",
+      "sourceName": "FullChargeDuration",
+      "raw": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "candidate": [
+        5000
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_r",
+      "parameterKey": "cast_time_ms",
+      "sourceField": "spellCastTime",
+      "rawSeconds": 0.25,
+      "candidateMs": 250,
+      "normalized": true
+    },
+    {
+      "skillKey": "alistar_r",
+      "parameterKey": "duration_ms",
+      "sourceName": "RDuration",
+      "raw": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "candidate": [
+        7000
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "alistar_r",
+      "parameterKey": "damage_reduction_percent_points",
+      "sourceName": "RDamageReduction",
+      "raw": [
+        45,
+        55,
+        65,
+        75,
+        85,
+        95,
+        105
+      ],
+      "candidate": [
+        55,
+        65,
+        75
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_q",
+      "parameterKey": "cast_time_ms",
+      "sourceField": "spellCastTime",
+      "rawSeconds": 0.25,
+      "candidateMs": 250,
+      "normalized": true
+    },
+    {
+      "skillKey": "blitzcrank_q",
+      "parameterKey": "base_damage",
+      "sourceName": "BaseDamage",
+      "raw": [
+        60,
+        110,
+        160,
+        210,
+        260,
+        310,
+        360
+      ],
+      "candidate": [
+        110,
+        160,
+        210,
+        260,
+        310
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_q",
+      "parameterKey": "ap_ratio",
+      "sourceName": "APRatio",
+      "raw": [
+        1.2000000476837158,
+        1.2000000476837158,
+        1.2000000476837158,
+        1.2000000476837158,
+        1.2000000476837158,
+        1.2000000476837158,
+        1.2000000476837158
+      ],
+      "candidate": [
+        1.2
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_p",
+      "parameterKey": "health_threshold_ratio",
+      "sourceName": "HealthThreshold",
+      "raw": [
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896
+      ],
+      "candidate": [
+        0.3
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_p",
+      "parameterKey": "shield_ratio",
+      "sourceName": "ManaPercent",
+      "raw": [
+        0.3499999940395355,
+        0.3499999940395355,
+        0.3499999940395355,
+        0.3499999940395355,
+        0.3499999940395355,
+        0.3499999940395355,
+        0.3499999940395355
+      ],
+      "candidate": [
+        0.35
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_p",
+      "parameterKey": "shield_duration_ms",
+      "sourceName": "ShieldDuration",
+      "raw": [
+        10,
+        10,
+        10,
+        10,
+        10,
+        10,
+        10
+      ],
+      "candidate": [
+        10000
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_p",
+      "parameterKey": "cooldown_ms",
+      "sourceName": "Cooldown",
+      "raw": [
+        90,
+        90,
+        90,
+        90,
+        90,
+        90,
+        90
+      ],
+      "candidate": [
+        90000
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_w",
+      "parameterKey": "cast_time_ms",
+      "sourceField": "spellCastTime",
+      "rawSeconds": 0.4043000042438507,
+      "candidateMs": 404,
+      "normalized": true
+    },
+    {
+      "skillKey": "blitzcrank_w",
+      "parameterKey": "move_speed_ratio",
+      "sourceName": "MoveSpeedMod",
+      "raw": [
+        0.550000011920929,
+        0.6000000238418579,
+        0.6499999761581421,
+        0.699999988079071,
+        0.75,
+        0.800000011920929,
+        0.8500000238418579
+      ],
+      "candidate": [
+        0.6,
+        0.65,
+        0.7,
+        0.75,
+        0.8
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_w",
+      "parameterKey": "attack_speed_ratio",
+      "sourceName": "AttackSpeedMod",
+      "raw": [
+        0.20000000298023224,
+        0.30000001192092896,
+        0.4000000059604645,
+        0.5,
+        0.6000000238418579,
+        0.699999988079071,
+        0.800000011920929
+      ],
+      "candidate": [
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_w",
+      "parameterKey": "duration_ms",
+      "sourceName": "Duration",
+      "raw": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "candidate": [
+        5000
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_w",
+      "parameterKey": "slow_ratio",
+      "sourceName": "MoveSpeedModReduction",
+      "raw": [
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896,
+        0.30000001192092896
+      ],
+      "candidate": [
+        0.3
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_w",
+      "parameterKey": "slow_duration_ms",
+      "sourceName": "SlowDuration",
+      "raw": [
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5,
+        1.5
+      ],
+      "candidate": [
+        1500
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_w",
+      "parameterKey": "move_speed_min_ratio",
+      "sourceName": "MoveSpeedModMin",
+      "raw": [
+        0.10000000149011612,
+        0.10000000149011612,
+        0.10000000149011612,
+        0.10000000149011612,
+        0.10000000149011612,
+        0.10000000149011612,
+        0.10000000149011612
+      ],
+      "candidate": [
+        0.1
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_w",
+      "parameterKey": "decay_duration_ms",
+      "sourceName": "MoveSpeedModMinTime",
+      "raw": [
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5,
+        2.5
+      ],
+      "candidate": [
+        2500
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_e",
+      "parameterKey": "cc_duration_ms",
+      "sourceName": "CCDuration",
+      "raw": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": [
+        1000
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_e",
+      "parameterKey": "cast_time_ms",
+      "sourceField": "spellCastTime",
+      "rawSeconds": 0.5217499732971191,
+      "candidateMs": 522,
+      "normalized": true
+    },
+    {
+      "skillKey": "blitzcrank_e",
+      "parameterKey": "cooldown_ms",
+      "sourceField": "cooldownTime",
+      "raw": [
+        7,
+        7,
+        6.5,
+        6,
+        5.5,
+        5,
+        5
+      ],
+      "clientRankSlice": {
+        "startIndex": 1,
+        "endIndex": 5,
+        "values": [
+          7,
+          6.5,
+          6,
+          5.5,
+          5
+        ]
+      },
+      "officialFile": "参考资料/官方中文/Blitzcrank.json",
+      "officialSpellId": "PowerFist",
+      "officialRankValues": [
+        7,
+        6.5,
+        6,
+        5.5,
+        5
+      ],
+      "expectedSeconds": [
+        7,
+        6.5,
+        6,
+        5.5,
+        5
+      ],
+      "candidateMs": [
+        7000,
+        6500,
+        6000,
+        5500,
+        5000
+      ],
+      "transformation": "客户端技能等级索引1至5直接取值，秒转整数毫秒；官方16.17.1数组独立交叉核对"
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "parameterKey": "passive_base_damage",
+      "sourceName": "PassiveBaseDamage",
+      "raw": [
+        0,
+        50,
+        100,
+        150,
+        200,
+        250,
+        300
+      ],
+      "candidate": [
+        50,
+        100,
+        150
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "parameterKey": "passive_ap_ratio",
+      "sourceName": "PassiveAPRatio",
+      "raw": [
+        0.20000000298023224,
+        0.30000001192092896,
+        0.4000000059604645,
+        0.5,
+        0.6000000238418579,
+        0.699999988079071,
+        0.800000011920929
+      ],
+      "candidate": [
+        0.3,
+        0.4,
+        0.5
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "parameterKey": "active_base_damage",
+      "sourceName": "ActiveBaseDamage",
+      "raw": [
+        150,
+        275,
+        400,
+        525,
+        650,
+        775,
+        900
+      ],
+      "candidate": [
+        275,
+        400,
+        525
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "parameterKey": "active_ap_ratio",
+      "sourceName": "ActiveAPRatio",
+      "raw": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": [
+        1
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "parameterKey": "zap_delay_ms",
+      "sourceName": "ZapCountdown",
+      "raw": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "candidate": [
+        1000
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "parameterKey": "silence_duration_ms",
+      "sourceName": "SilenceDuration",
+      "raw": [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "candidate": [
+        500
+      ],
+      "transformation": "转换后比对"
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "parameterKey": "cast_time_ms",
+      "sourceField": "spellCastTime",
+      "rawSeconds": 0.25,
+      "candidateMs": 250,
+      "normalized": true
+    }
+  ],
+  "formulaResults": [
+    {
+      "skillKey": "alistar_p",
+      "formulaKey": "self_heal_amount",
+      "cases": [
+        {
+          "name": "自身总生命3000",
+          "level": 1,
+          "expected": 150,
+          "actual": 150
+        },
+        {
+          "name": "自身总生命4800",
+          "level": 1,
+          "expected": 240,
+          "actual": 240
+        }
+      ]
+    },
+    {
+      "skillKey": "alistar_q",
+      "formulaKey": "magic_damage",
+      "cases": [
+        {
+          "name": "一级法强50",
+          "level": 1,
+          "expected": 100,
+          "actual": 100
+        },
+        {
+          "name": "五级法强275",
+          "level": 5,
+          "expected": 440,
+          "actual": 440
+        }
+      ]
+    },
+    {
+      "skillKey": "alistar_w",
+      "formulaKey": "magic_damage",
+      "cases": [
+        {
+          "name": "一级法强50",
+          "level": 1,
+          "expected": 105,
+          "actual": 105
+        },
+        {
+          "name": "五级法强275",
+          "level": 5,
+          "expected": 550,
+          "actual": 550
+        }
+      ]
+    },
+    {
+      "skillKey": "alistar_e",
+      "formulaKey": "total_magic_damage",
+      "cases": [
+        {
+          "name": "一级持续总量",
+          "level": 1,
+          "expected": 115,
+          "actual": 115
+        },
+        {
+          "name": "五级持续总量",
+          "level": 5,
+          "expected": 392.5,
+          "actual": 392.5
+        }
+      ]
+    },
+    {
+      "skillKey": "alistar_r",
+      "formulaKey": "damage_reduction_ratio",
+      "cases": [
+        {
+          "name": "一级55百分点",
+          "level": 1,
+          "expected": 0.55,
+          "actual": 0.55
+        },
+        {
+          "name": "三级75百分点",
+          "level": 3,
+          "expected": 0.75,
+          "actual": 0.75
+        }
+      ]
+    },
+    {
+      "skillKey": "blitzcrank_p",
+      "formulaKey": "shield_amount",
+      "cases": [
+        {
+          "name": "资源800",
+          "level": 1,
+          "expected": 280,
+          "actual": 280
+        },
+        {
+          "name": "资源1533",
+          "level": 1,
+          "expected": 536.55,
+          "actual": 536.55
+        }
+      ]
+    },
+    {
+      "skillKey": "blitzcrank_q",
+      "formulaKey": "magic_damage",
+      "cases": [
+        {
+          "name": "一级法强50",
+          "level": 1,
+          "expected": 170,
+          "actual": 170
+        },
+        {
+          "name": "五级法强275",
+          "level": 5,
+          "expected": 640,
+          "actual": 640
+        }
+      ]
+    },
+    {
+      "skillKey": "blitzcrank_e",
+      "formulaKey": "physical_damage",
+      "cases": [
+        {
+          "name": "总攻击力160法强50",
+          "level": 1,
+          "expected": 332.5,
+          "actual": 332.5
+        },
+        {
+          "name": "总攻击力405法强275",
+          "level": 5,
+          "expected": 878.75,
+          "actual": 878.75
+        }
+      ]
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "formulaKey": "passive_magic_damage",
+      "cases": [
+        {
+          "name": "一级资源500",
+          "level": 1,
+          "expected": 75,
+          "actual": 75
+        },
+        {
+          "name": "三级资源1725",
+          "level": 3,
+          "expected": 322,
+          "actual": 322
+        }
+      ]
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "formulaKey": "active_magic_damage",
+      "cases": [
+        {
+          "name": "一级法强50",
+          "level": 1,
+          "expected": 325,
+          "actual": 325
+        },
+        {
+          "name": "三级法强275",
+          "level": 3,
+          "expected": 800,
+          "actual": 800
+        }
+      ]
+    }
+  ],
+  "rejectionResults": [
+    {
+      "skillKey": "alistar_p",
+      "formulaKey": "self_heal_amount",
+      "removed": {
+        "type": "ATTRIBUTE",
+        "key": "SOURCE/hp/TOTAL"
+      },
+      "rejected": true,
+      "error": "缺少属性输入 SOURCE/hp/TOTAL"
+    },
+    {
+      "skillKey": "alistar_q",
+      "formulaKey": "magic_damage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "base_damage"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 alistar_q/base_damage"
+    },
+    {
+      "skillKey": "alistar_w",
+      "formulaKey": "magic_damage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "base_damage"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 alistar_w/base_damage"
+    },
+    {
+      "skillKey": "alistar_e",
+      "formulaKey": "total_magic_damage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "trample_damage"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 alistar_e/trample_damage"
+    },
+    {
+      "skillKey": "alistar_r",
+      "formulaKey": "damage_reduction_ratio",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "damage_reduction_percent_points"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 alistar_r/damage_reduction_percent_points"
+    },
+    {
+      "skillKey": "blitzcrank_p",
+      "formulaKey": "shield_amount",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "ability_resource_value"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 blitzcrank_p/ability_resource_value"
+    },
+    {
+      "skillKey": "blitzcrank_q",
+      "formulaKey": "magic_damage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "base_damage"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 blitzcrank_q/base_damage"
+    },
+    {
+      "skillKey": "blitzcrank_e",
+      "formulaKey": "physical_damage",
+      "removed": {
+        "type": "ATTRIBUTE",
+        "key": "SOURCE/attack_damage/TOTAL"
+      },
+      "rejected": true,
+      "error": "缺少属性输入 SOURCE/attack_damage/TOTAL"
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "formulaKey": "passive_magic_damage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "passive_base_damage"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 blitzcrank_r/passive_base_damage"
+    },
+    {
+      "skillKey": "blitzcrank_r",
+      "formulaKey": "active_magic_damage",
+      "removed": {
+        "type": "PARAMETER",
+        "key": "active_base_damage"
+      },
+      "rejected": true,
+      "error": "缺少参数输入 blitzcrank_r/active_base_damage"
+    }
+  ],
+  "boundaryResults": [
+    {
+      "name": "阿利斯塔R减伤55到75百分点",
+      "passed": true,
+      "detail": "一级=0.55,三级=0.75"
+    },
+    {
+      "name": "布里茨E使用总攻击力",
+      "passed": true,
+      "detail": "总攻击力200/额外攻击力80/法强120时=430"
+    },
+    {
+      "name": "布里茨P资源0与2000",
+      "passed": true,
+      "detail": "零=0,高资源=700"
+    },
+    {
+      "name": "布里茨P缺资源不默认0",
+      "passed": true,
+      "detail": "缺少ability_resource_value时拒绝求值"
+    },
+    {
+      "name": "布里茨R被动资源输入变化",
+      "passed": true,
+      "detail": "资源0=65,资源1000=85"
+    },
+    {
+      "name": "布里茨W衰减终点和时间窗口",
+      "passed": true,
+      "detail": "持续=5000,衰减=2500,最低=0.1"
+    },
+    {
+      "name": "布里茨W只保留衰减端点而不固定移动速度效果",
+      "passed": true,
+      "detail": "移动效果数=0,起始=0.6,末级=0.8"
+    },
+    {
+      "name": "布里茨W攻击速度五秒与结束减速分离",
+      "passed": true,
+      "detail": "攻击速度效果应独立引用5000毫秒主窗口，结束减速应独立引用1500毫秒"
+    },
+    {
+      "name": "布里茨W移动和攻击速度取值不混用",
+      "passed": true,
+      "detail": "移动={\"1\":0.6,\"2\":0.65,\"3\":0.7,\"4\":0.75,\"5\":0.8},攻击={\"1\":0.3,\"2\":0.4,\"3\":0.5,\"4\":0.6,\"5\":0.7}"
+    },
+    {
+      "name": "布里茨E客户端和官方冷却等级1至5",
+      "passed": true,
+      "detail": "候选毫秒={\"1\":7000,\"2\":6500,\"3\":6000,\"4\":5500,\"5\":5000}"
+    },
+    {
+      "name": "阿利斯塔P友方收益排除",
+      "passed": true,
+      "detail": "友方治疗只在排除证据中保留"
+    },
+    {
+      "name": "布里茨R野怪护盾规则排除",
+      "passed": true,
+      "detail": "野怪护盾特殊规则未进入唯一敌方英雄候选"
+    },
+    {
+      "name": "浮点施法时间整数化",
+      "passed": true,
+      "detail": "AlistarW=506,BlitzE=522"
+    }
+  ],
+  "structural": {
+    "operationNodes": 20,
+    "operationArityFailures": [],
+    "runtimeDefaultsFailures": [],
+    "integerTypeFailures": [],
+    "duplicateParameterKeys": [],
+    "forbiddenResultTypes": [],
+    "lifecycleReferenceFailures": [],
+    "forbiddenFuryAttribute": false,
+    "abilityResourceManaAlias": false
+  },
+  "protectedFailures": [],
+  "noApiCalls": true,
+  "passed": true
+}

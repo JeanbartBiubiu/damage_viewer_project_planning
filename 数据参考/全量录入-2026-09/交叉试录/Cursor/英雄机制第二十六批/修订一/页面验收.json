@@ -1,0 +1,768 @@
+{
+  "at": "2026-09-09T16:05:55.186Z",
+  "passed": true,
+  "browser": "Codex内置浏览器既有tab2，http://127.0.0.1:5173/#/skills，实际查询及打开参数、公式和效果详情",
+  "representativePages": 3,
+  "observations": [
+    {
+      "skillKey": "blitzcrank_w",
+      "ui": "清单只有法力消耗、攻速增益和结束后自身减速；详情明确主5000ms窗口之后开始1500ms减速，无固定初始移动增益。"
+    },
+    {
+      "skillKey": "blitzcrank_e",
+      "ui": "参数等级表为7000/6500/6000/5500/5000；整次攻击总AD倍率与法强系数独立。"
+    },
+    {
+      "skillKey": "alistar_r",
+      "ui": "55/65/75百分数点、7000ms，公式将百分点乘0.01，描述明确仅物理魔法资格。"
+    }
+  ],
+  "GETs": 14,
+  "mathCases": 7,
+  "calls": [
+    {
+      "route": "/skills/blitzcrank_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:55.394668Z",
+        "description": "布里茨对自己进行了超级充电，它的攻击速度和移动速度得到了显著提升。它会在效果结束后暂时减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "布里茨·过载运转",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "blitzcrank_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:55.394668Z"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_blitzcrank_w",
+          "name": "blitzcrank_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:56:35.168374Z",
+          "description": "当前绑定spellCastTime约0.4043秒，按毫秒四舍五入为404。",
+          "fixedValue": 404,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:56:35.168374Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:36.370017Z",
+          "description": "当前正文以MoveSpeedMod*100显示持续衰减的移动速度；保存等级1至5起始比例0.6/0.65/0.7/0.75/0.8，仅作衰减端点输入，不创建固定持续属性效果。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.6,
+            "2": 0.65,
+            "3": 0.7,
+            "4": 0.75,
+            "5": 0.8
+          },
+          "name": "移动速度起始加成比例",
+          "parameterKey": "move_speed_ratio",
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T15:56:36.370017Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:37.52942Z",
+          "description": "当前正文以AttackSpeedMod*100显示攻击速度；保存等级1至5比例0.3/0.4/0.5/0.6/0.7，独立于移动速度衰减。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.3,
+            "2": 0.4,
+            "3": 0.5,
+            "4": 0.6,
+            "5": 0.7
+          },
+          "name": "攻击速度加成比例",
+          "parameterKey": "attack_speed_ratio",
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T15:56:37.52942Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:38.66206Z",
+          "description": "当前绑定DataValues.Duration=5秒，转换为5000毫秒。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "超级充能持续（毫秒）",
+          "parameterKey": "duration_ms",
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T15:56:38.66206Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:39.869569Z",
+          "description": "当前正文以MoveSpeedModReduction*100显示30%减速；保存正幅度并使用DECREASE，避免双重负号。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "结束后移动速度降低比例",
+          "parameterKey": "slow_ratio",
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T15:56:39.869569Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:40.982181Z",
+          "description": "当前绑定DataValues.SlowDuration=1.5秒，转换为1500毫秒。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "结束后减速持续（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T15:56:40.982181Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:42.134032Z",
+          "description": "当前来源扩展文本明确衰减终点为MoveSpeedModMin*100；保存0.1，不把中间曲线猜成线性。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "衰减最低移动速度比例",
+          "parameterKey": "move_speed_min_ratio",
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T15:56:42.134032Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:43.306259Z",
+          "description": "当前绑定DataValues.MoveSpeedModMinTime=2.5秒，转换为2500毫秒；只记录时间窗口。",
+          "fixedValue": 2500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "衰减至最低值时间（毫秒）",
+          "parameterKey": "decay_duration_ms",
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T15:56:43.306259Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:44.487483Z",
+          "description": "当前绑定cooldownTime各等级为15秒，转换为15000毫秒；当前槽只有mana_cost，故新增冷却参数。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 15000,
+            "2": 15000,
+            "3": 15000,
+            "4": 15000,
+            "5": 15000
+          },
+          "name": "过载运转冷却（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T15:56:44.487483Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:09.630913Z",
+          "description": "DDragon16.17.1 Blitzcrank.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:09.630913Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/blitzcrank_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:55.684161Z",
+        "description": "布里茨为机械手臂充能，下次攻击造成双倍伤害并击飞目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "布里茨·能量铁拳",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "blitzcrank_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:55.684161Z"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_blitzcrank_e",
+          "name": "blitzcrank_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:56:49.300254Z",
+          "description": "当前绑定spellCastTime约0.52175秒，按毫秒四舍五入为522。",
+          "fixedValue": 522,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "blitzcrank_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:56:49.300254Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:50.487717Z",
+          "description": "当前绑定DataValues.CCDuration=1秒，转换为1000毫秒。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "击飞持续（毫秒）",
+          "parameterKey": "cc_duration_ms",
+          "skillKey": "blitzcrank_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T15:56:50.487717Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:51.62557Z",
+          "description": "当前TotalDamage树第一项mStat2×2，结合当前技能“下次攻击造成双倍伤害”语义按整次攻击总攻击力使用；不替换为额外攻击力。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "整次攻击总攻击力倍率",
+          "parameterKey": "total_attack_damage_multiplier",
+          "skillKey": "blitzcrank_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T15:56:51.62557Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:52.665406Z",
+          "description": "当前TotalDamage树第二项mCoefficient=0.25，当前节点未给单独数据名，按同版窄证法术强度选择器使用。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法术强度倍率",
+          "parameterKey": "ability_power_ratio",
+          "skillKey": "blitzcrank_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T15:56:52.665406Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:53.77249Z",
+          "description": "当前客户端cooldownTime首五项为7/7/6.5/6/5.5秒且含首项重复槽位；按官方16.17.1技能等级数组和同版技能等级口径采用7/6.5/6/5.5/5秒，转换为7000/6500/6000/5500/5000毫秒。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 7000,
+            "2": 6500,
+            "3": 6000,
+            "4": 5500,
+            "5": 5000
+          },
+          "name": "能量铁拳冷却（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "blitzcrank_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T15:56:53.77249Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:09.978614Z",
+          "description": "DDragon16.17.1 Blitzcrank.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "blitzcrank_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:09.978614Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/alistar_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:20.213749Z",
+        "description": "阿利斯塔发出野性的咆哮，移除身上所有控制效果，并且持续时间内所受的物理和魔法伤害将减少。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "阿利斯塔·坚定意志",
+        "skillCategoryKeys": [],
+        "skillKey": "alistar_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:20.213749Z"
+      }
+    },
+    {
+      "route": "/skills/alistar_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_alistar_r",
+          "name": "alistar_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/alistar_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:56:14.580687Z",
+          "description": "当前绑定spellCastTime=0.25秒，转换为250毫秒。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "alistar_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:56:14.580687Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:15.615001Z",
+          "description": "当前绑定DataValues.RDuration=7秒，转换为7000毫秒。",
+          "fixedValue": 7000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "坚定意志持续（毫秒）",
+          "parameterKey": "duration_ms",
+          "skillKey": "alistar_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T15:56:15.615001Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:16.746851Z",
+          "description": "当前绑定DataValues.RDamageReduction原数组索引1至3为55/65/75；正文直接以百分号显示，保存百分点整数。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 55,
+            "2": 65,
+            "3": 75
+          },
+          "name": "伤害减免百分点",
+          "parameterKey": "damage_reduction_percent_points",
+          "skillKey": "alistar_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T15:56:16.746851Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:17.87706Z",
+          "description": "将正文显示的55/65/75百分数点转换为0.55/0.65/0.75供减伤区间使用。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "百分比转比例",
+          "parameterKey": "percent_to_ratio",
+          "skillKey": "alistar_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T15:56:17.87706Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:08.332321Z",
+          "description": "DDragon16.17.1 Alistar.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "alistar_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:08.332321Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:08.708158Z",
+          "description": "DDragon16.17.1 Alistar.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "alistar_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:08.708158Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/blitzcrank_w/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:56:45.791205Z",
+          "description": "复用当前已有mana_cost参数；只记录一次施放资源变化。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "过载运转法力消耗",
+          "resultCount": 1,
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:56:45.791205Z"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:46.908613Z",
+          "description": "当前正文的攻击速度加成独立持续5000毫秒；不与移动速度衰减共用数值，施放事件待接。",
+          "effectKey": "attack_speed_boost",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "过载运转自身攻击速度加成",
+          "resultCount": 1,
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T15:56:46.908613Z"
+        },
+        {
+          "createdAt": "2026-09-09T15:56:48.13183Z",
+          "description": "这是主持续窗口5000毫秒结束后才开始的独立减速，持续1500毫秒；结束自动衔接事件待接，不在本候选中自动触发。",
+          "effectKey": "post_overdrive_slow",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "过载运转结束后自身减速",
+          "resultCount": 1,
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T15:56:48.13183Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/blitzcrank_w/effects/attack_speed_boost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:56:46.908613Z",
+        "description": "当前正文的攻击速度加成独立持续5000毫秒；不与移动速度衰减共用数值，施放事件待接。",
+        "effectKey": "attack_speed_boost",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "过载运转自身攻击速度加成",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "过载运转自身攻击速度加成",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_speed_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "blitzcrank_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:56:46.908613Z"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_w/effects/post_overdrive_slow",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:56:48.13183Z",
+        "description": "这是主持续窗口5000毫秒结束后才开始的独立减速，持续1500毫秒；结束自动衔接事件待接，不在本候选中自动触发。",
+        "effectKey": "post_overdrive_slow",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "slow_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "过载运转结束后自身减速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "move_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "DECREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "过载运转结束后自身减速",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "slow_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "blitzcrank_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T15:56:48.13183Z"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_e/formulas/physical_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:56:54.93274Z",
+        "description": "当前TotalDamage树=2×来源总攻击力+0.25×来源总法术强度；这是整次强化攻击的总值，不再叠加一次基础攻击。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "total_attack_damage_multiplier"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "physical_damage",
+        "gameId": "lol",
+        "name": "能量铁拳整次攻击物理伤害",
+        "skillKey": "blitzcrank_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:56:54.93274Z"
+      }
+    },
+    {
+      "route": "/skills/alistar_r/formulas/damage_reduction_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:56:18.969268Z",
+        "description": "最终减免比例=RDamageReduction百分点×0.01；减免应用于物理和魔法伤害的资格由运行事件提供。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_reduction_percent_points"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_to_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "damage_reduction_ratio",
+        "gameId": "lol",
+        "name": "坚定意志伤害减免比例",
+        "skillKey": "alistar_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:56:18.969268Z"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "name": "W一级攻击速度比例",
+      "actual": 0.3,
+      "expected": 0.3,
+      "passed": true
+    },
+    {
+      "name": "W五级攻击速度比例",
+      "actual": 0.7,
+      "expected": 0.7,
+      "passed": true
+    },
+    {
+      "name": "E总AD200法强100整次攻击",
+      "actual": 425,
+      "expected": 425,
+      "passed": true
+    },
+    {
+      "name": "E总AD350法强240整次攻击",
+      "actual": 760,
+      "expected": 760,
+      "passed": true
+    },
+    {
+      "name": "牛头R等级1减伤比例",
+      "actual": 0.55,
+      "expected": 0.55,
+      "passed": true
+    },
+    {
+      "name": "牛头R等级2减伤比例",
+      "actual": 0.65,
+      "expected": 0.65,
+      "passed": true
+    },
+    {
+      "name": "牛头R等级3减伤比例",
+      "actual": 0.75,
+      "expected": 0.75,
+      "passed": true
+    }
+  ],
+  "apiWrites": 0,
+  "runtimeValidation": "未执行",
+  "scriptSha256": "e1d67b04427345f76f0536970bfd6fb07a6a98d9e8a53d0af7e6dbaf6186e8bc"
+}

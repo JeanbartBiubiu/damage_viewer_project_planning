@@ -1,0 +1,40 @@
+{
+  "sequence": 26,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 26,
+    "method": "POST",
+    "route": "/skills/alistar_e/parameters",
+    "detailRoute": "/skills/alistar_e/parameters/attack_bonus_damage",
+    "skillKey": "alistar_e",
+    "kind": "parameters",
+    "stableKey": "attack_bonus_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_bonus_damage",
+      "name": "满层后普攻额外魔法伤害实际输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前AttackBonusDamage树为ByCharLevelBreakpoints(mLevel1Value=20,mInitialBonusPerLevel=15)，实际等级曲线求值未证；保留无默认运行输入，不猜线性曲线。",
+      "sortOrder": 80
+    }
+  },
+  "before": {
+    "sequence": 255,
+    "method": "GET",
+    "route": "/skills/alistar_e/parameters/attack_bonus_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "attack_bonus_damage"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:11.137Z"
+  }
+}
