@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T10:35:54.821Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/anivia_w/parameters/wall_width",
+  "id": "wall_width",
+  "method": "POST",
+  "body": {
+    "parameterKey": "wall_width",
+    "name": "冰墙宽度",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 400,
+      "2": 500,
+      "3": 600,
+      "4": 700,
+      "5": 800
+    },
+    "description": "客户端当前根绑定 DataValues.WallWidth 取索引1至5。",
+    "sortOrder": 50
+  }
+}

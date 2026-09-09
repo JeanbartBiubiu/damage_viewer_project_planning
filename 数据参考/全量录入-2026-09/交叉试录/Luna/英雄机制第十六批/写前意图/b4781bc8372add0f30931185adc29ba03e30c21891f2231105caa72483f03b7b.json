@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T10:36:37.996Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/lissandra_e/parameters/cooldown_ms",
+  "id": "cooldown_ms",
+  "method": "POST",
+  "body": {
+    "parameterKey": "cooldown_ms",
+    "name": "基础冷却时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 24000,
+      "2": 21000,
+      "3": 18000,
+      "4": 15000,
+      "5": 12000
+    },
+    "description": "官方逐级冷却与当前根Cooldown字段逐级一致；不含急速或其他技能修正。",
+    "sortOrder": 10
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T10:35:02.840Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/malzahar_p/parameters/damage_reduction_percent",
+  "id": "damage_reduction_percent",
+  "method": "POST",
+  "body": {
+    "parameterKey": "damage_reduction_percent",
+    "name": "伤害减免百分数点",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 90,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.DRPercent 取索引1至1；单位%；正文直接显示 @DRPercent@%，保留90，不再乘0.01。",
+    "sortOrder": 10
+  }
+}

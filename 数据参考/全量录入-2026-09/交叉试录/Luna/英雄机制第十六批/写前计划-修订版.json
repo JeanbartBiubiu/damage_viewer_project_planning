@@ -1,0 +1,3513 @@
+{
+  "at": "2026-09-09T09:51:01.199Z",
+  "status": "修订版仅准备，未获本批业务写入授权",
+  "policy": {
+    "businessWrites": 0,
+    "apiCalls": 0,
+    "method": "仅生成POST意图，不执行请求",
+    "endpoint": "http://127.0.0.1:8080/api/admin/games/lol",
+    "bearer": "由开发环境提供；不在文件中保存认证值"
+  },
+  "scope": "修订版：玛尔扎哈、艾尼维亚、丽桑卓、卡尔萨斯各P/Q/W/E/R共20个技能位。保留本技能可独立核验数值、混合技能自身收益、单一敌人==1分支、非英雄前置进度和资源依赖；独立虚灵/冰奴/纯冰墙/完整蛋形态/死亡状态事件按逐支路排除。独立召唤物专用伤害、数量和生命周期不进入写入候选；卡尔萨斯P只排除死亡状态覆盖，Q/W/E/R主体仍保留。",
+  "source": "client16.17/official16.17.1",
+  "candidateFile": "完整候选-修订版.json",
+  "candidateSha256": "2dbb94fc014619c16e0f3671d37ec0106ebde64ddcdd7ddda8c6e075e4cba27c",
+  "candidatePlanSha256": "002497434556fc227929a54bb73762aba97a7af320a9d87f63e5a0025a04f13f",
+  "snapshotSha256": "4f4c30ab1768b20f3d1f762b9fb73d96baebba8e4c70870d4bdfbf849725b339",
+  "protectionFile": "关联与图片保护快照-终稿.json",
+  "protectionSha256": "bc2e2cbc99cc940644e05ed575467a143c146eb5e17ef01f7bca593b67e78938",
+  "currentGet": {
+    "skillCount": 20,
+    "expectedSkillCount": 20,
+    "compositionCount": 22,
+    "detailCount": 22,
+    "duplicateCount": 0,
+    "errorCount": 0,
+    "requestCount": 166
+  },
+  "protectedReadOnly": {
+    "characters": 4,
+    "characterSkillRelations": 4,
+    "representativeImages": 20,
+    "apiWrites": 0
+  },
+  "reusedPublicParameters": [
+    {
+      "skillKey": "malzahar_q",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "malzahar_q",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "malzahar_e",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "malzahar_e",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "malzahar_r",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "malzahar_r",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "anivia_q",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "anivia_q",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "anivia_e",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "anivia_e",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "lissandra_q",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "lissandra_q",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "lissandra_w",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "lissandra_w",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "lissandra_e",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "lissandra_r",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "lissandra_r",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "karthus_q",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "karthus_w",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "karthus_w",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "karthus_r",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "karthus_r",
+      "parameterKey": "mana_cost"
+    }
+  ],
+  "counts": {
+    "parameters": 97,
+    "formulas": 22,
+    "effects": 17,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "requestCount": 136,
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_p/parameters",
+      "skillKey": "malzahar_p",
+      "kind": "parameters",
+      "stableKey": "damage_reduction_percent",
+      "body": {
+        "parameterKey": "damage_reduction_percent",
+        "name": "伤害减免百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 90,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.DRPercent 取索引1至1；单位%；正文直接显示 @DRPercent@%，保留90，不再乘0.01。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_p/parameters",
+      "skillKey": "malzahar_p",
+      "kind": "parameters",
+      "stableKey": "damage_reduction_linger_ms",
+      "body": {
+        "parameterKey": "damage_reduction_linger_ms",
+        "name": "受击后减伤持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.LingerDuration 取索引1至1；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_p/parameters",
+      "skillKey": "malzahar_p",
+      "kind": "parameters",
+      "stableKey": "shield_cooldown_seconds",
+      "body": {
+        "parameterKey": "shield_cooldown_seconds",
+        "name": "被动护盾冷却（秒，实际等级值外供）（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原树只有角色等级断点，当前没有把等级曲线猜展开为固定1至18级。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_q/parameters",
+      "skillKey": "malzahar_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_q/parameters",
+      "skillKey": "malzahar_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_q/parameters",
+      "skillKey": "malzahar_q",
+      "kind": "parameters",
+      "stableKey": "silence_duration_ms",
+      "body": {
+        "parameterKey": "silence_duration_ms",
+        "name": "沉默持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1000,
+          "2": 1250,
+          "3": 1500,
+          "4": 1750,
+          "5": 2000
+        },
+        "description": "客户端当前根绑定 DataValues.SilenceDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_q/parameters",
+      "skillKey": "malzahar_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_constant",
+      "body": {
+        "parameterKey": "ap_ratio_constant",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.55,
+        "levelValues": null,
+        "description": "TotalDamageTooltip树直接给出0.55；固定系数进入公式。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_q/formulas",
+      "skillKey": "malzahar_q",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "虚空召唤魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_constant"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamageTooltip = BaseDamage + 0.55×法强；当前树的StatByCoefficient无独立运行输入。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_q/effects",
+      "skillKey": "malzahar_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_w/parameters",
+      "skillKey": "malzahar_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8000,
+        "levelValues": null,
+        "description": "官方逐级冷却与当前根Cooldown字段逐级一致；不含急速或其他技能修正。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_w/parameters",
+      "skillKey": "malzahar_w",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "body": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "description": "官方cost与当前根manaValues逐级一致；法力值；未接入实际扣除时点。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_w/parameters",
+      "skillKey": "malzahar_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_w/effects",
+      "skillKey": "malzahar_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_e/parameters",
+      "skillKey": "malzahar_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_e/parameters",
+      "skillKey": "malzahar_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 115,
+          "3": 150,
+          "4": 185,
+          "5": 220
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_e/parameters",
+      "skillKey": "malzahar_e",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "感染持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.Duration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_e/parameters",
+      "skillKey": "malzahar_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_constant",
+      "body": {
+        "parameterKey": "ap_ratio_constant",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "TotalDamage树直接给出0.8；固定系数进入公式。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_e/formulas",
+      "skillKey": "malzahar_e",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "虚空先知持续总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_constant"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + 0.8×法强；当前候选保存总量关系，不创建瞬时或周期伤害。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_e/effects",
+      "skillKey": "malzahar_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_r/parameters",
+      "skillKey": "malzahar_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_r/parameters",
+      "skillKey": "malzahar_r",
+      "kind": "parameters",
+      "stableKey": "beam_base_damage",
+      "body": {
+        "parameterKey": "beam_base_damage",
+        "name": "压制光束基础伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 125,
+          "2": 200,
+          "3": 275
+        },
+        "description": "客户端当前根绑定 DataValues.BeamDamage 取索引1至3。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_r/parameters",
+      "skillKey": "malzahar_r",
+      "kind": "parameters",
+      "stableKey": "beam_ap_ratio",
+      "body": {
+        "parameterKey": "beam_ap_ratio",
+        "name": "压制光束法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BeamAPRatio 取索引1至3。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_r/parameters",
+      "skillKey": "malzahar_r",
+      "kind": "parameters",
+      "stableKey": "pool_duration_ms",
+      "body": {
+        "parameterKey": "pool_duration_ms",
+        "name": "虚空区域持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.PoolDuration 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_r/parameters",
+      "skillKey": "malzahar_r",
+      "kind": "parameters",
+      "stableKey": "max_health_damage_percent",
+      "body": {
+        "parameterKey": "max_health_damage_percent",
+        "name": "区域最大生命伤害百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2,
+          "2": 3,
+          "3": 4
+        },
+        "description": "客户端当前根绑定 DataValues.MaxHealthDamage 取索引1至3；单位正文/树以百分数显示，保留原始1至7，不乘0.01。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_r/parameters",
+      "skillKey": "malzahar_r",
+      "kind": "parameters",
+      "stableKey": "max_health_ratio",
+      "body": {
+        "parameterKey": "max_health_ratio",
+        "name": "区域最大生命法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.005,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MaxHealthRatio 取索引1至3；单位原始0.005比例；不按字段名再乘0.01；目标最大生命所有者仍待核。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_r/parameters",
+      "skillKey": "malzahar_r",
+      "kind": "parameters",
+      "stableKey": "cc_duration_ms",
+      "body": {
+        "parameterKey": "cc_duration_ms",
+        "name": "压制持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.CCDuration 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_r/parameters",
+      "skillKey": "malzahar_r",
+      "kind": "parameters",
+      "stableKey": "zone_multiplier",
+      "body": {
+        "parameterKey": "zone_multiplier",
+        "name": "区域计算乘数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "ZoneDamageTooltip树明确给出0.05乘数。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_r/formulas",
+      "skillKey": "malzahar_r",
+      "kind": "formulas",
+      "stableKey": "beam_damage",
+      "body": {
+        "formulaKey": "beam_damage",
+        "name": "压制光束魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "beam_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "beam_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamageTooltip = BeamDamage + BeamAPRatio×法强；同版本具名树窄口径映射法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_r/formulas",
+      "skillKey": "malzahar_r",
+      "kind": "formulas",
+      "stableKey": "zone_damage_ratio",
+      "body": {
+        "formulaKey": "zone_damage_ratio",
+        "name": "虚空区域最大生命伤害比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "zone_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_health_damage_percent"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "max_health_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ZoneDamageTooltip = 0.05×(MaxHealthDamage + MaxHealthRatio×法强)；MaxHealthRatio节点未提供mStat，不擅自绑定目标hp或所有者。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/malzahar_r/effects",
+      "skillKey": "malzahar_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_p/parameters",
+      "skillKey": "anivia_p",
+      "kind": "parameters",
+      "stableKey": "egg_cooldown_ms",
+      "body": {
+        "parameterKey": "egg_cooldown_ms",
+        "name": "被动重生冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 240000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.Cooldown 取索引1至1；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_p/parameters",
+      "skillKey": "anivia_p",
+      "kind": "parameters",
+      "stableKey": "bonus_resists",
+      "body": {
+        "parameterKey": "bonus_resists",
+        "name": "蛋形态额外双抗（实际等级值外供）（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原树从-40并带5/8/12/15级断点；未知等级算法不展开。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_p/parameters",
+      "skillKey": "anivia_p",
+      "kind": "parameters",
+      "stableKey": "minus_one",
+      "body": {
+        "parameterKey": "minus_one",
+        "name": "负一",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": -1,
+        "levelValues": null,
+        "description": "BonusResistsTooltip原树的固定乘数。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_p/parameters",
+      "skillKey": "anivia_p",
+      "kind": "parameters",
+      "stableKey": "revive_survival_ms",
+      "body": {
+        "parameterKey": "revive_survival_ms",
+        "name": "蛋形态复活等待（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "官方中文说明明确存活6秒后复活。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_p/formulas",
+      "skillKey": "anivia_p",
+      "kind": "formulas",
+      "stableKey": "bonus_resists_display",
+      "body": {
+        "formulaKey": "bonus_resists_display",
+        "name": "蛋形态双抗显示值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minus_one"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_resists"
+            }
+          ]
+        },
+        "description": "BonusResistsTooltip为-1×BonusResists；保留内部树关系，不把负号改成属性枚举。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_q/parameters",
+      "skillKey": "anivia_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_q/parameters",
+      "skillKey": "anivia_q",
+      "kind": "parameters",
+      "stableKey": "passthrough_base_damage",
+      "body": {
+        "parameterKey": "passthrough_base_damage",
+        "name": "穿行基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 70,
+          "3": 90,
+          "4": 110,
+          "5": 130
+        },
+        "description": "客户端当前根绑定 DataValues.PassthroughBaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_q/parameters",
+      "skillKey": "anivia_q",
+      "kind": "parameters",
+      "stableKey": "explosion_base_damage",
+      "body": {
+        "parameterKey": "explosion_base_damage",
+        "name": "爆炸基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 95,
+          "3": 130,
+          "4": 165,
+          "5": 200
+        },
+        "description": "客户端当前根绑定 DataValues.ExplosionBaseDamage 取索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_q/parameters",
+      "skillKey": "anivia_q",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "爆炸眩晕持续（毫秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1100.000024,
+          "2": 1200.000048,
+          "3": 1299.999952,
+          "4": 1399.999976,
+          "5": 1500
+        },
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_q/parameters",
+      "skillKey": "anivia_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "穿行减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_q/parameters",
+      "skillKey": "anivia_q",
+      "kind": "parameters",
+      "stableKey": "passthrough_ap_ratio",
+      "body": {
+        "parameterKey": "passthrough_ap_ratio",
+        "name": "穿行法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "TotalPassthroughDamage树直接给出0.25。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_q/parameters",
+      "skillKey": "anivia_q",
+      "kind": "parameters",
+      "stableKey": "explosion_ap_ratio",
+      "body": {
+        "parameterKey": "explosion_ap_ratio",
+        "name": "爆炸法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.45,
+        "levelValues": null,
+        "description": "TotalExplosionDamage树直接给出0.45。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_q/formulas",
+      "skillKey": "anivia_q",
+      "kind": "formulas",
+      "stableKey": "passthrough_damage",
+      "body": {
+        "formulaKey": "passthrough_damage",
+        "name": "寒冰闪耀穿行伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passthrough_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passthrough_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalPassthroughDamage = PassthroughBaseDamage + 0.25×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_q/formulas",
+      "skillKey": "anivia_q",
+      "kind": "formulas",
+      "stableKey": "explosion_damage",
+      "body": {
+        "formulaKey": "explosion_damage",
+        "name": "寒冰闪耀爆炸伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "explosion_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "explosion_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalExplosionDamage = ExplosionBaseDamage + 0.45×法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_q/effects",
+      "skillKey": "anivia_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_w/parameters",
+      "skillKey": "anivia_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 17000,
+        "levelValues": null,
+        "description": "官方逐级冷却与当前根Cooldown字段逐级一致；不含急速或其他技能修正。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_w/parameters",
+      "skillKey": "anivia_w",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "body": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 70,
+        "levelValues": null,
+        "description": "官方cost与当前根manaValues逐级一致；法力值；未接入实际扣除时点。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_w/parameters",
+      "skillKey": "anivia_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_w/parameters",
+      "skillKey": "anivia_w",
+      "kind": "parameters",
+      "stableKey": "wall_duration_ms",
+      "body": {
+        "parameterKey": "wall_duration_ms",
+        "name": "冰墙持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.WallDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_w/parameters",
+      "skillKey": "anivia_w",
+      "kind": "parameters",
+      "stableKey": "wall_width",
+      "body": {
+        "parameterKey": "wall_width",
+        "name": "冰墙宽度",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 400,
+          "2": 500,
+          "3": 600,
+          "4": 700,
+          "5": 800
+        },
+        "description": "客户端当前根绑定 DataValues.WallWidth 取索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_w/effects",
+      "skillKey": "anivia_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_e/parameters",
+      "skillKey": "anivia_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_e/parameters",
+      "skillKey": "anivia_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 80,
+          "3": 105,
+          "4": 130,
+          "5": 155
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_e/parameters",
+      "skillKey": "anivia_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_constant",
+      "body": {
+        "parameterKey": "ap_ratio_constant",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.55,
+        "levelValues": null,
+        "description": "TotalDamage树直接给出0.55。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_e/parameters",
+      "skillKey": "anivia_e",
+      "kind": "parameters",
+      "stableKey": "empowered_multiplier",
+      "body": {
+        "parameterKey": "empowered_multiplier",
+        "name": "强化伤害倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "EmpoweredDamage修改树明确为2倍。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_e/formulas",
+      "skillKey": "anivia_e",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "寒霜之触魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_constant"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + 0.55×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_e/formulas",
+      "skillKey": "anivia_e",
+      "kind": "formulas",
+      "stableKey": "empowered_damage",
+      "body": {
+        "formulaKey": "empowered_damage",
+        "name": "冰冻目标强化魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio_constant"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "EmpoweredDamage为2×TotalDamage；只保留混合技能自身收益，不创建冰冻状态来源。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_e/effects",
+      "skillKey": "anivia_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/parameters",
+      "skillKey": "anivia_r",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 4000,
+          "2": 3000,
+          "3": 2000
+        },
+        "description": "官方逐级冷却与当前根Cooldown字段逐级一致；不含急速或其他技能修正。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/parameters",
+      "skillKey": "anivia_r",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "body": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 60,
+        "levelValues": null,
+        "description": "官方cost与当前根manaValues逐级一致；法力值；未接入实际扣除时点。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/parameters",
+      "skillKey": "anivia_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/parameters",
+      "skillKey": "anivia_r",
+      "kind": "parameters",
+      "stableKey": "damage_per_second_base",
+      "body": {
+        "parameterKey": "damage_per_second_base",
+        "name": "风暴每秒基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60
+        },
+        "description": "客户端当前根绑定 DataValues.DamagePerSecond 取索引1至3。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/parameters",
+      "skillKey": "anivia_r",
+      "kind": "parameters",
+      "stableKey": "mana_cost_per_second",
+      "body": {
+        "parameterKey": "mana_cost_per_second",
+        "name": "风暴每秒法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 35,
+          "2": 45,
+          "3": 55
+        },
+        "description": "客户端当前根绑定 DataValues.ManaCostPerSecond 取索引1至3。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/parameters",
+      "skillKey": "anivia_r",
+      "kind": "parameters",
+      "stableKey": "slow_amount_percent",
+      "body": {
+        "parameterKey": "slow_amount_percent",
+        "name": "风暴减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 30,
+          "3": 40
+        },
+        "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至3；单位正文写@SlowAmount@%，保留20/30/40等百分数点，不乘0.01。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/parameters",
+      "skillKey": "anivia_r",
+      "kind": "parameters",
+      "stableKey": "growth_time_ms",
+      "body": {
+        "parameterKey": "growth_time_ms",
+        "name": "风暴成形时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.GrowthTime 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/parameters",
+      "skillKey": "anivia_r",
+      "kind": "parameters",
+      "stableKey": "additional_slow_ratio_at_max",
+      "body": {
+        "parameterKey": "additional_slow_ratio_at_max",
+        "name": "完全成形额外减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.AdditionalSlowPercentAtMax 取索引1至3；单位原始0.5比例；树为加1后乘减速。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/parameters",
+      "skillKey": "anivia_r",
+      "kind": "parameters",
+      "stableKey": "empowered_slow_percent",
+      "body": {
+        "parameterKey": "empowered_slow_percent",
+        "name": "完全成形减速显示百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60
+        },
+        "description": "客户端当前根绑定 DataValues.SlowPercentEmpoweredTT 取索引1至3；单位正文写百分号，保留来源百分数点。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/parameters",
+      "skillKey": "anivia_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_constant",
+      "body": {
+        "parameterKey": "ap_ratio_constant",
+        "name": "每秒法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.125,
+        "levelValues": null,
+        "description": "TotalDamagePerSecond树直接给出0.125。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/parameters",
+      "skillKey": "anivia_r",
+      "kind": "parameters",
+      "stableKey": "one",
+      "body": {
+        "parameterKey": "one",
+        "name": "一",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "EnhancedSlow树中的固定加1。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/parameters",
+      "skillKey": "anivia_r",
+      "kind": "parameters",
+      "stableKey": "empowered_dps_multiplier",
+      "body": {
+        "parameterKey": "empowered_dps_multiplier",
+        "name": "完全成形伤害倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "EmpoweredDamagePerSecondTooltipOnly修改树明确为3倍。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/formulas",
+      "skillKey": "anivia_r",
+      "kind": "formulas",
+      "stableKey": "damage_per_second",
+      "body": {
+        "formulaKey": "damage_per_second",
+        "name": "冰风暴每秒魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_per_second_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_constant"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamagePerSecond = DamagePerSecond + 0.125×法强；保存每秒量，不创建周期效果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/formulas",
+      "skillKey": "anivia_r",
+      "kind": "formulas",
+      "stableKey": "enhanced_slow",
+      "body": {
+        "formulaKey": "enhanced_slow",
+        "name": "完全成形减速比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "slow_amount_percent"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "additional_slow_ratio_at_max"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "EnhancedSlow = SlowAmount×(AdditionalSlowPercentAtMax+1)；原始减速字段是正文百分数点，比例加成为0.5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/formulas",
+      "skillKey": "anivia_r",
+      "kind": "formulas",
+      "stableKey": "empowered_damage_per_second",
+      "body": {
+        "formulaKey": "empowered_damage_per_second",
+        "name": "完全成形每秒魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_dps_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_per_second_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio_constant"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "EmpoweredDamagePerSecondTooltipOnly为3×TotalDamagePerSecond；不创建周期伤害。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/anivia_r/effects",
+      "skillKey": "anivia_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_q/parameters",
+      "skillKey": "lissandra_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_q/parameters",
+      "skillKey": "lissandra_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "寒冰碎片基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 115,
+          "3": 150,
+          "4": 185,
+          "5": 220
+        },
+        "description": "客户端当前根绑定 DataValues.damage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_q/parameters",
+      "skillKey": "lissandra_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.slowDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_q/parameters",
+      "skillKey": "lissandra_q",
+      "kind": "parameters",
+      "stableKey": "slow_percent",
+      "body": {
+        "parameterKey": "slow_percent",
+        "name": "减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 24,
+          "3": 28,
+          "4": 32,
+          "5": 36
+        },
+        "description": "客户端当前根绑定 DataValues.slowPercentage；原始值为负移速修正，当前正文占位为 @slowPercentage*-100@%，转为正的20至36百分数点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_q/parameters",
+      "skillKey": "lissandra_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_constant",
+      "body": {
+        "parameterKey": "ap_ratio_constant",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.75,
+        "levelValues": null,
+        "description": "TotalDamage树直接给出0.75。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_q/formulas",
+      "skillKey": "lissandra_q",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "寒冰碎片魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_constant"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = damage + 0.75×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_q/effects",
+      "skillKey": "lissandra_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_w/parameters",
+      "skillKey": "lissandra_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_w/parameters",
+      "skillKey": "lissandra_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "冰脉驱役基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_w/parameters",
+      "skillKey": "lissandra_w",
+      "kind": "parameters",
+      "stableKey": "snare_duration_ms",
+      "body": {
+        "parameterKey": "snare_duration_ms",
+        "name": "禁锢持续（毫秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1250,
+          "2": 1350.000024,
+          "3": 1450.000048,
+          "4": 1549.999952,
+          "5": 1649.999976
+        },
+        "description": "客户端当前根绑定 DataValues.SnareDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_w/parameters",
+      "skillKey": "lissandra_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_constant",
+      "body": {
+        "parameterKey": "ap_ratio_constant",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "TotalDamage树直接给出0.7。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_w/formulas",
+      "skillKey": "lissandra_w",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "冰脉驱役魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_constant"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + 0.7×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_w/effects",
+      "skillKey": "lissandra_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_e/parameters",
+      "skillKey": "lissandra_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 24000,
+          "2": 21000,
+          "3": 18000,
+          "4": 15000,
+          "5": 12000
+        },
+        "description": "官方逐级冷却与当前根Cooldown字段逐级一致；不含急速或其他技能修正。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_e/parameters",
+      "skillKey": "lissandra_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_e/parameters",
+      "skillKey": "lissandra_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "冰川之径基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_e/parameters",
+      "skillKey": "lissandra_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_constant",
+      "body": {
+        "parameterKey": "ap_ratio_constant",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "TotalDamage树直接给出0.6。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_e/formulas",
+      "skillKey": "lissandra_e",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "冰川之径魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_constant"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + 0.6×法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_e/effects",
+      "skillKey": "lissandra_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/parameters",
+      "skillKey": "lissandra_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/parameters",
+      "skillKey": "lissandra_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "冰封陵墓法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.75,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/parameters",
+      "skillKey": "lissandra_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "冰封陵墓基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/parameters",
+      "skillKey": "lissandra_r",
+      "kind": "parameters",
+      "stableKey": "slow_percent",
+      "body": {
+        "parameterKey": "slow_percent",
+        "name": "区域减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 45,
+          "2": 60,
+          "3": 75
+        },
+        "description": "客户端当前根绑定 DataValues.SlowAmount；原始值为负移速修正，当前正文占位为 @SlowAmount*-100@%，转为正的45至75百分数点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/parameters",
+      "skillKey": "lissandra_r",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "区域减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SlowDuration 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/parameters",
+      "skillKey": "lissandra_r",
+      "kind": "parameters",
+      "stableKey": "enemy_stun_duration_ms",
+      "body": {
+        "parameterKey": "enemy_stun_duration_ms",
+        "name": "对敌人眩晕持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.EnemyCastDuration 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/parameters",
+      "skillKey": "lissandra_r",
+      "kind": "parameters",
+      "stableKey": "self_stasis_duration_ms",
+      "body": {
+        "parameterKey": "self_stasis_duration_ms",
+        "name": "自身凝滞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SelfCastDuration 取索引1至3；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/parameters",
+      "skillKey": "lissandra_r",
+      "kind": "parameters",
+      "stableKey": "self_heal_flat",
+      "body": {
+        "parameterKey": "self_heal_flat",
+        "name": "自身施放基础治疗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 150,
+          "3": 200
+        },
+        "description": "客户端当前根绑定 DataValues.SelfCastFlatHeal 取索引1至3。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/parameters",
+      "skillKey": "lissandra_r",
+      "kind": "parameters",
+      "stableKey": "self_heal_missing_hp_percent",
+      "body": {
+        "parameterKey": "self_heal_missing_hp_percent",
+        "name": "每缺失生命提升治疗百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SelfCastMissingHPRatio 取索引1至3；单位正文写百分号，保留1，不乘0.01。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/parameters",
+      "skillKey": "lissandra_r",
+      "kind": "parameters",
+      "stableKey": "self_heal_missing_hp_per_above_percent",
+      "body": {
+        "parameterKey": "self_heal_missing_hp_per_above_percent",
+        "name": "每段缺失生命百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.SelfCastMissingHPPerAbove 取索引1至3；单位正文写百分号，保留1，不乘0.01。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/parameters",
+      "skillKey": "lissandra_r",
+      "kind": "parameters",
+      "stableKey": "heal_ap_ratio",
+      "body": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "基础治疗法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.55,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.PercentMissingHPRatio；HealAmount节点省略mStat/mStatFormula，与同版本mStat0默认法强窄证一致，作为基础治疗的来源总法强倍率0.55；不按字段名绑定缺失生命或hp。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/formulas",
+      "skillKey": "lissandra_r",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "冰封陵墓对敌魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "CalculatedDamage = BaseDamage + APRatio×法强；省略统计选择器的具名节点按当前版本窄口径映射法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/formulas",
+      "skillKey": "lissandra_r",
+      "kind": "formulas",
+      "stableKey": "self_heal",
+      "body": {
+        "formulaKey": "self_heal",
+        "name": "自身施放治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "self_heal_flat"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "HealAmount基础项 = SelfCastFlatHeal + PercentMissingHPRatio×来源总法强；同版本省略mStat/mStatFormula的默认法强窄证仅支持这一基础项。已损生命提升另由正文两个数据值描述，未猜分段、取整或封顶。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/lissandra_r/effects",
+      "skillKey": "lissandra_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_p/parameters",
+      "skillKey": "karthus_p",
+      "kind": "parameters",
+      "stableKey": "death_recast_window_ms",
+      "body": {
+        "parameterKey": "death_recast_window_ms",
+        "name": "死亡后施法窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 7000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.PassiveDuration 取索引1至1；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_q/parameters",
+      "skillKey": "karthus_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "荒芜基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 59,
+          "3": 78,
+          "4": 97,
+          "5": 116
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_q/parameters",
+      "skillKey": "karthus_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "荒芜法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.35,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_q/parameters",
+      "skillKey": "karthus_q",
+      "kind": "parameters",
+      "stableKey": "single_target_multiplier",
+      "body": {
+        "parameterKey": "single_target_multiplier",
+        "name": "单一目标倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "QSingleTargetDamage修改树明确为2倍。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_q/parameters",
+      "skillKey": "karthus_q",
+      "kind": "parameters",
+      "stableKey": "actual_target_count",
+      "body": {
+        "parameterKey": "actual_target_count",
+        "name": "本次荒芜命中的实际目标数量（实际值外供）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "必须由当前命中事件提供；只有数量严格为1才能选择双倍分支，不默认单一目标。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_q/formulas",
+      "skillKey": "karthus_q",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "荒芜魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "QDamage = BaseDamage + APRatio×法强；保留具名AP窄口径映射。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_q/formulas",
+      "skillKey": "karthus_q",
+      "kind": "formulas",
+      "stableKey": "single_target_damage",
+      "body": {
+        "formulaKey": "single_target_damage",
+        "name": "荒芜单一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "single_target_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "QSingleTargetDamage为2×QDamage；是否只有一个敌人由实际目标数量输入决定。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_q/effects",
+      "skillKey": "karthus_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_w/parameters",
+      "skillKey": "karthus_w",
+      "kind": "parameters",
+      "stableKey": "magic_resist_shred_percent",
+      "body": {
+        "parameterKey": "magic_resist_shred_percent",
+        "name": "墙体魔抗削减百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 25,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MagicResistShred 取索引1至5；单位正文写百分号，保留25，不乘0.01。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_w/parameters",
+      "skillKey": "karthus_w",
+      "kind": "parameters",
+      "stableKey": "wall_width",
+      "body": {
+        "parameterKey": "wall_width",
+        "name": "墙体宽度",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 800,
+          "2": 900,
+          "3": 1000,
+          "4": 1100,
+          "5": 1200
+        },
+        "description": "客户端当前根绑定 DataValues.TT_WallWidth 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_w/parameters",
+      "skillKey": "karthus_w",
+      "kind": "parameters",
+      "stableKey": "slow_percent",
+      "body": {
+        "parameterKey": "slow_percent",
+        "name": "墙体减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 50,
+          "3": 60,
+          "4": 70,
+          "5": 80
+        },
+        "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5；单位正文写百分号，保留30至80等百分数点，不乘0.01。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_w/parameters",
+      "skillKey": "karthus_w",
+      "kind": "parameters",
+      "stableKey": "wall_duration_ms",
+      "body": {
+        "parameterKey": "wall_duration_ms",
+        "name": "墙体持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.WallDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_w/parameters",
+      "skillKey": "karthus_w",
+      "kind": "parameters",
+      "stableKey": "debuff_duration_ms",
+      "body": {
+        "parameterKey": "debuff_duration_ms",
+        "name": "穿墙减益持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.DebuffDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_w/effects",
+      "skillKey": "karthus_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_e/parameters",
+      "skillKey": "karthus_e",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "body": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 42,
+          "3": 54,
+          "4": 66,
+          "5": 78
+        },
+        "description": "官方cost与当前根manaValues逐级一致；法力值；未接入实际扣除时点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_e/parameters",
+      "skillKey": "karthus_e",
+      "kind": "parameters",
+      "stableKey": "damage_per_second_base",
+      "body": {
+        "parameterKey": "damage_per_second_base",
+        "name": "污染每秒基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 50,
+          "3": 70,
+          "4": 90,
+          "5": 110
+        },
+        "description": "客户端当前根绑定 DataValues.DamagePerSecond 取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_e/parameters",
+      "skillKey": "karthus_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_per_second",
+      "body": {
+        "parameterKey": "ap_ratio_per_second",
+        "name": "污染每秒法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatioPerSecond 取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_e/parameters",
+      "skillKey": "karthus_e",
+      "kind": "parameters",
+      "stableKey": "mana_restore_on_kill",
+      "body": {
+        "parameterKey": "mana_restore_on_kill",
+        "name": "击杀单位回复法力",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 20,
+          "3": 30,
+          "4": 40,
+          "5": 50
+        },
+        "description": "客户端当前根绑定 DataValues.ManaRestoreOnKill 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_e/parameters",
+      "skillKey": "karthus_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "官方cooldown与当前根cooldownTime[0]均为0.5秒；秒转换为毫秒。仅表示基础施放冷却，不表示伤害或资源结算周期。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_e/parameters",
+      "skillKey": "karthus_e",
+      "kind": "parameters",
+      "stableKey": "quarter_multiplier",
+      "body": {
+        "parameterKey": "quarter_multiplier",
+        "name": "四分之一倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "原树{57456bbc}明确为0.25倍。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_e/formulas",
+      "skillKey": "karthus_e",
+      "kind": "formulas",
+      "stableKey": "damage_per_second",
+      "body": {
+        "formulaKey": "damage_per_second",
+        "name": "污染每秒魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_per_second_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_per_second"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDPS = DamagePerSecond + APRatioPerSecond×法强；保留每秒量，不创建周期伤害。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_e/formulas",
+      "skillKey": "karthus_e",
+      "kind": "formulas",
+      "stableKey": "quarter_damage_per_second",
+      "body": {
+        "formulaKey": "quarter_damage_per_second",
+        "name": "污染四分之一每秒量核对",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "quarter_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_per_second_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio_per_second"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "原树{57456bbc}=0.25×TotalDPS；仅作为来源树核对，不创建瞬时伤害。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_e/effects",
+      "skillKey": "karthus_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_e/effects",
+      "skillKey": "karthus_e",
+      "kind": "effects",
+      "stableKey": "mana_restore_on_kill",
+      "body": {
+        "effectKey": "mana_restore_on_kill",
+        "name": "击杀单位回复法力",
+        "description": "正文明确击杀单位恢复法力；候选保留数值资源结果，但击杀事件和单位类别待接。",
+        "sortOrder": 20,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "击杀单位回复法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_restore_on_kill"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "RESTORE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_r/parameters",
+      "skillKey": "karthus_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "安魂曲基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 200,
+          "2": 350,
+          "3": 500
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_r/parameters",
+      "skillKey": "karthus_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "安魂曲法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_r/parameters",
+      "skillKey": "karthus_r",
+      "kind": "parameters",
+      "stableKey": "channel_duration_ms",
+      "body": {
+        "parameterKey": "channel_duration_ms",
+        "name": "引导时长（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "官方中文说明明确引导3秒后对所有敌方英雄造成伤害。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_r/formulas",
+      "skillKey": "karthus_r",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "body": {
+        "formulaKey": "damage",
+        "name": "安魂曲魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + APRatio×法强；全图英雄目标和引导过程待接。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/karthus_r/effects",
+      "skillKey": "karthus_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "historicalCandidatePreserved": true,
+  "historicalPlan": "写前计划.json"
+}

@@ -1,0 +1,557 @@
+{
+  "at": "2026-09-09T09:28:43.071Z",
+  "mode": "只读GET；保护目录主体、角色技能关系和代表图，不读取或修改图字节",
+  "candidateSha256": "7bf7f7a2e2571c40d34961407532ecc5457510227b4487146be7039967a044fb",
+  "requests": [
+    {
+      "route": "/characters/champion_malzahar",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 69,
+      "data": {
+        "characterKey": "champion_malzahar",
+        "createdAt": "2026-09-06T16:24:46.602257Z",
+        "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+        "gameId": "lol",
+        "name": "玛尔扎哈",
+        "updatedAt": "2026-09-06T16:24:46.602257Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_malzahar",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 52,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_malzahar",
+            "characterName": "玛尔扎哈",
+            "gameId": "lol",
+            "skillKey": "malzahar_p",
+            "skillName": "玛尔扎哈·虚空穿越",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_malzahar",
+            "characterName": "玛尔扎哈",
+            "gameId": "lol",
+            "skillKey": "malzahar_q",
+            "skillName": "玛尔扎哈·虚空召唤",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_malzahar",
+            "characterName": "玛尔扎哈",
+            "gameId": "lol",
+            "skillKey": "malzahar_w",
+            "skillName": "玛尔扎哈·虚空虫群",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_malzahar",
+            "characterName": "玛尔扎哈",
+            "gameId": "lol",
+            "skillKey": "malzahar_e",
+            "skillName": "玛尔扎哈·煞星幻象",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_malzahar",
+            "characterName": "玛尔扎哈",
+            "gameId": "lol",
+            "skillKey": "malzahar_r",
+            "skillName": "玛尔扎哈·冥府之握",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_anivia",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 64,
+      "data": {
+        "characterKey": "champion_anivia",
+        "createdAt": "2026-09-06T17:04:23.614656Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "艾尼维亚",
+        "updatedAt": "2026-09-06T17:04:23.614656Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_anivia",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 54,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_anivia",
+            "characterName": "艾尼维亚",
+            "gameId": "lol",
+            "skillKey": "anivia_p",
+            "skillName": "艾尼维亚·寒霜涅槃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_anivia",
+            "characterName": "艾尼维亚",
+            "gameId": "lol",
+            "skillKey": "anivia_q",
+            "skillName": "艾尼维亚·寒冰闪耀",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_anivia",
+            "characterName": "艾尼维亚",
+            "gameId": "lol",
+            "skillKey": "anivia_w",
+            "skillName": "艾尼维亚·寒冰屏障",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_anivia",
+            "characterName": "艾尼维亚",
+            "gameId": "lol",
+            "skillKey": "anivia_e",
+            "skillName": "艾尼维亚·霜寒刺骨",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_anivia",
+            "characterName": "艾尼维亚",
+            "gameId": "lol",
+            "skillKey": "anivia_r",
+            "skillName": "艾尼维亚·冰川风暴",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_lissandra",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 56,
+      "data": {
+        "characterKey": "champion_lissandra",
+        "createdAt": "2026-09-06T17:21:20.505939Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "丽桑卓",
+        "updatedAt": "2026-09-06T17:21:20.505939Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_lissandra",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 46,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_lissandra",
+            "characterName": "丽桑卓",
+            "gameId": "lol",
+            "skillKey": "lissandra_p",
+            "skillName": "丽桑卓·冰脉驱役",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_lissandra",
+            "characterName": "丽桑卓",
+            "gameId": "lol",
+            "skillKey": "lissandra_q",
+            "skillName": "丽桑卓·寒冰碎片",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_lissandra",
+            "characterName": "丽桑卓",
+            "gameId": "lol",
+            "skillKey": "lissandra_w",
+            "skillName": "丽桑卓·冰霜之环",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_lissandra",
+            "characterName": "丽桑卓",
+            "gameId": "lol",
+            "skillKey": "lissandra_e",
+            "skillName": "丽桑卓·冰川之径",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_lissandra",
+            "characterName": "丽桑卓",
+            "gameId": "lol",
+            "skillKey": "lissandra_r",
+            "skillName": "丽桑卓·冰封陵墓",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_karthus",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 37,
+      "data": {
+        "characterKey": "champion_karthus",
+        "createdAt": "2026-09-06T17:23:47.225834Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "卡尔萨斯",
+        "updatedAt": "2026-09-06T17:23:47.225834Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_karthus",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 57,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_karthus",
+            "characterName": "卡尔萨斯",
+            "gameId": "lol",
+            "skillKey": "karthus_p",
+            "skillName": "卡尔萨斯·死亡契约",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_karthus",
+            "characterName": "卡尔萨斯",
+            "gameId": "lol",
+            "skillKey": "karthus_q",
+            "skillName": "卡尔萨斯·荒芜",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_karthus",
+            "characterName": "卡尔萨斯",
+            "gameId": "lol",
+            "skillKey": "karthus_w",
+            "skillName": "卡尔萨斯·痛苦之墙",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_karthus",
+            "characterName": "卡尔萨斯",
+            "gameId": "lol",
+            "skillKey": "karthus_e",
+            "skillName": "卡尔萨斯·亵渎",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_karthus",
+            "characterName": "卡尔萨斯",
+            "gameId": "lol",
+            "skillKey": "karthus_r",
+            "skillName": "卡尔萨斯·安魂曲",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/malzahar_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 65,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_malzahar_p",
+          "name": "malzahar_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/malzahar_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 63,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_malzahar_q",
+          "name": "malzahar_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/malzahar_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 106,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_malzahar_w",
+          "name": "malzahar_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/malzahar_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 66,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_malzahar_e",
+          "name": "malzahar_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/malzahar_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 59,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_malzahar_r",
+          "name": "malzahar_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/anivia_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 75,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_anivia_p",
+          "name": "anivia_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/anivia_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 71,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_anivia_q",
+          "name": "anivia_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/anivia_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 58,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_anivia_w",
+          "name": "anivia_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/anivia_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 46,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_anivia_e",
+          "name": "anivia_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/anivia_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 67,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_anivia_r",
+          "name": "anivia_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/lissandra_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 50,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_lissandra_p",
+          "name": "lissandra_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/lissandra_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 96,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_lissandra_q",
+          "name": "lissandra_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/lissandra_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 75,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_lissandra_w",
+          "name": "lissandra_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/lissandra_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 59,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_lissandra_e",
+          "name": "lissandra_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/lissandra_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 53,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_lissandra_r",
+          "name": "lissandra_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/karthus_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 60,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_karthus_p",
+          "name": "karthus_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/karthus_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 77,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_karthus_q",
+          "name": "karthus_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/karthus_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 59,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_karthus_w",
+          "name": "karthus_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/karthus_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 59,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_karthus_e",
+          "name": "karthus_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/karthus_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "elapsedMs": 78,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_karthus_r",
+          "name": "karthus_r"
+        }
+      }
+    }
+  ],
+  "failures": [],
+  "completedAt": "2026-09-09T09:28:44.869Z",
+  "success": true,
+  "summary": {
+    "requests": 28,
+    "characters": 4,
+    "characterSkillRelationLists": 4,
+    "skillImages": 20,
+    "apiWrites": 0
+  }
+}

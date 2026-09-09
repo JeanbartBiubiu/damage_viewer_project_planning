@@ -1,0 +1,4460 @@
+{
+  "at": "2026-09-09T08:57:12.613Z",
+  "mode": "全部请求为GET；保留当前20技能及六类组成原值；不写业务接口",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "heroes": [
+    "Malzahar",
+    "Anivia",
+    "Lissandra",
+    "Karthus"
+  ],
+  "skillKeys": [
+    "malzahar_p",
+    "malzahar_q",
+    "malzahar_w",
+    "malzahar_e",
+    "malzahar_r",
+    "anivia_p",
+    "anivia_q",
+    "anivia_w",
+    "anivia_e",
+    "anivia_r",
+    "lissandra_p",
+    "lissandra_q",
+    "lissandra_w",
+    "lissandra_e",
+    "lissandra_r",
+    "karthus_p",
+    "karthus_q",
+    "karthus_w",
+    "karthus_e",
+    "karthus_r"
+  ],
+  "kinds": [
+    {
+      "name": "parameters",
+      "api": "parameters",
+      "id": "parameterKey"
+    },
+    {
+      "name": "formulas",
+      "api": "formulas",
+      "id": "formulaKey"
+    },
+    {
+      "name": "effects",
+      "api": "effects",
+      "id": "effectKey"
+    },
+    {
+      "name": "processes",
+      "api": "processes",
+      "id": "processKey"
+    },
+    {
+      "name": "internalStates",
+      "api": "internal-states",
+      "id": "stateKey"
+    },
+    {
+      "name": "triggerRules",
+      "api": "trigger-rules",
+      "id": "ruleKey"
+    }
+  ],
+  "skills": {
+    "malzahar_p": {
+      "subject": {
+        "route": "/skills/malzahar_p",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:19.306208Z",
+          "description": "玛尔扎哈如果近期没有受到伤害或控制效果，就会获得巨幅伤害减免和免疫控制的效果，并且这个效果在受到伤害后还会残留一小段时间。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "玛尔扎哈·虚空穿越",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "malzahar_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:19.306208Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/malzahar_p/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/malzahar_p/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/malzahar_p/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/malzahar_p/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/malzahar_p/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/malzahar_p/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "malzahar_q": {
+      "subject": {
+        "route": "/skills/malzahar_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:19.619328Z",
+          "description": "玛尔扎哈开启两扇通向虚空的传送门。在短暂的延迟后，两扇门之间会有虚空能量对流而过，造成魔法伤害并沉默敌方英雄。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "玛尔扎哈·虚空召唤",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "malzahar_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:19.619328Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/malzahar_q/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:38:36.42094Z",
+                "description": "DDragon16.17.1 Malzahar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 6000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "malzahar_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:36.42094Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:38:36.825025Z",
+                "description": "DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 60,
+                  "2": 65,
+                  "3": 70,
+                  "4": 75,
+                  "5": 80
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "malzahar_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:36.825025Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:38:36.42094Z",
+              "description": "DDragon16.17.1 Malzahar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 6000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "malzahar_q",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:36.42094Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:38:36.825025Z",
+              "description": "DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 60,
+                "2": 65,
+                "3": 70,
+                "4": 75,
+                "5": 80
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "malzahar_q",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:38:36.825025Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:38:36.42094Z",
+                "description": "DDragon16.17.1 Malzahar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 6000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "malzahar_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:36.42094Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/malzahar_q/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:36.42094Z",
+                  "description": "DDragon16.17.1 Malzahar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 6000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "malzahar_q",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:38:36.42094Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:38:36.825025Z",
+                "description": "DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 60,
+                  "2": 65,
+                  "3": 70,
+                  "4": 75,
+                  "5": 80
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "malzahar_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:36.825025Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/malzahar_q/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:36.825025Z",
+                  "description": "DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 60,
+                    "2": 65,
+                    "3": 70,
+                    "4": 75,
+                    "5": 80
+                  },
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "malzahar_q",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:38:36.825025Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/malzahar_q/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/malzahar_q/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/malzahar_q/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/malzahar_q/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/malzahar_q/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "malzahar_w": {
+      "subject": {
+        "route": "/skills/malzahar_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:19.87203Z",
+          "description": "玛尔扎哈召唤虚灵去攻击附近的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "玛尔扎哈·虚空虫群",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "malzahar_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:19.87203Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/malzahar_w/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/malzahar_w/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/malzahar_w/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/malzahar_w/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/malzahar_w/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/malzahar_w/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "malzahar_e": {
+      "subject": {
+        "route": "/skills/malzahar_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:20.153696Z",
+          "description": "玛尔扎哈将目标的惨死幻象侵入目标的意识中，造成持续伤害。玛尔扎哈对目标使用其它技能时会刷新幻象的持续时间。<br><br>如果目标在感染幻象期间死亡，那么幻象会传到附近的一个敌人身上，并且玛尔扎哈会回复法力值。玛尔扎哈的虚灵会优先攻击感染了幻象的单位。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "玛尔扎哈·煞星幻象",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "malzahar_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:20.153696Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/malzahar_e/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:38:37.254894Z",
+                "description": "DDragon16.17.1 Malzahar.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 11000,
+                  "2": 10000,
+                  "3": 9000,
+                  "4": 8000,
+                  "5": 7000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "malzahar_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:37.254894Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:38:37.6841Z",
+                "description": "DDragon16.17.1 Malzahar.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 60,
+                  "2": 70,
+                  "3": 80,
+                  "4": 90,
+                  "5": 100
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "malzahar_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:37.6841Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:38:37.254894Z",
+              "description": "DDragon16.17.1 Malzahar.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 11000,
+                "2": 10000,
+                "3": 9000,
+                "4": 8000,
+                "5": 7000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "malzahar_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:37.254894Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:38:37.6841Z",
+              "description": "DDragon16.17.1 Malzahar.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 60,
+                "2": 70,
+                "3": 80,
+                "4": 90,
+                "5": 100
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "malzahar_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:38:37.6841Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:38:37.254894Z",
+                "description": "DDragon16.17.1 Malzahar.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 11000,
+                  "2": 10000,
+                  "3": 9000,
+                  "4": 8000,
+                  "5": 7000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "malzahar_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:37.254894Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/malzahar_e/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:37.254894Z",
+                  "description": "DDragon16.17.1 Malzahar.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 11000,
+                    "2": 10000,
+                    "3": 9000,
+                    "4": 8000,
+                    "5": 7000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "malzahar_e",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:38:37.254894Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:38:37.6841Z",
+                "description": "DDragon16.17.1 Malzahar.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 60,
+                  "2": 70,
+                  "3": 80,
+                  "4": 90,
+                  "5": 100
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "malzahar_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:37.6841Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/malzahar_e/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:37.6841Z",
+                  "description": "DDragon16.17.1 Malzahar.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 60,
+                    "2": 70,
+                    "3": 80,
+                    "4": 90,
+                    "5": 100
+                  },
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "malzahar_e",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:38:37.6841Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/malzahar_e/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/malzahar_e/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/malzahar_e/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/malzahar_e/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/malzahar_e/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "malzahar_r": {
+      "subject": {
+        "route": "/skills/malzahar_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:20.42Z",
+          "description": "玛尔扎哈引导虚空的精萃来把一名敌方英雄压制在一个充满伤害的负能量地带上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "玛尔扎哈·冥府之握",
+          "skillCategoryKeys": [],
+          "skillKey": "malzahar_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:20.42Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/malzahar_r/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:38:38.06978Z",
+                "description": "DDragon16.17.1 Malzahar.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 140000,
+                  "2": 110000,
+                  "3": 80000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "malzahar_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:38.06978Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:38:38.532549Z",
+                "description": "DDragon16.17.1 Malzahar.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "malzahar_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:38.532549Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:38:38.06978Z",
+              "description": "DDragon16.17.1 Malzahar.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 140000,
+                "2": 110000,
+                "3": 80000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "malzahar_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:38.06978Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:38:38.532549Z",
+              "description": "DDragon16.17.1 Malzahar.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 100,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "malzahar_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:38:38.532549Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:38:38.06978Z",
+                "description": "DDragon16.17.1 Malzahar.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 140000,
+                  "2": 110000,
+                  "3": 80000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "malzahar_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:38.06978Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/malzahar_r/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:38.06978Z",
+                  "description": "DDragon16.17.1 Malzahar.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 140000,
+                    "2": 110000,
+                    "3": 80000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "malzahar_r",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:38:38.06978Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:38:38.532549Z",
+                "description": "DDragon16.17.1 Malzahar.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "malzahar_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:38.532549Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/malzahar_r/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:38.532549Z",
+                  "description": "DDragon16.17.1 Malzahar.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "malzahar_r",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:38:38.532549Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/malzahar_r/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/malzahar_r/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/malzahar_r/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/malzahar_r/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/malzahar_r/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "anivia_p": {
+      "subject": {
+        "route": "/skills/anivia_p",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:24.033571Z",
+          "description": "在受到致命伤害后，艾尼维亚将化身为凤凰蛋，然后满血复活。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "艾尼维亚·寒霜涅槃",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "anivia_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:24.033571Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/anivia_p/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/anivia_p/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/anivia_p/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/anivia_p/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/anivia_p/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/anivia_p/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "anivia_q": {
+      "subject": {
+        "route": "/skills/anivia_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:24.392362Z",
+          "description": "艾尼维亚挥动翅膀聚集空气，制造一枚冰晶向目标区域施放，冰冻并伤害路径上的所有敌人。当冰晶爆裂时，它会晕眩并伤害一定范围内的所有敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "艾尼维亚·寒冰闪耀",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "anivia_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:24.392362Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/anivia_q/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-08T01:02:21.531944Z",
+                "description": "DDragon16.17.1 Anivia.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 11000,
+                  "2": 10000,
+                  "3": 9000,
+                  "4": 8000,
+                  "5": 7000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "anivia_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-08T01:02:21.531944Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-08T01:02:22.208689Z",
+                "description": "DDragon16.17.1 Anivia.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 80,
+                  "2": 85,
+                  "3": 90,
+                  "4": 95,
+                  "5": 100
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "anivia_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-08T01:02:22.208689Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-08T01:02:21.531944Z",
+              "description": "DDragon16.17.1 Anivia.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 11000,
+                "2": 10000,
+                "3": 9000,
+                "4": 8000,
+                "5": 7000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "anivia_q",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-08T01:02:21.531944Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T01:02:22.208689Z",
+              "description": "DDragon16.17.1 Anivia.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 80,
+                "2": 85,
+                "3": 90,
+                "4": 95,
+                "5": 100
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "anivia_q",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-08T01:02:22.208689Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-08T01:02:21.531944Z",
+                "description": "DDragon16.17.1 Anivia.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 11000,
+                  "2": 10000,
+                  "3": 9000,
+                  "4": 8000,
+                  "5": 7000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "anivia_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-08T01:02:21.531944Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/anivia_q/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T01:02:21.531944Z",
+                  "description": "DDragon16.17.1 Anivia.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 11000,
+                    "2": 10000,
+                    "3": 9000,
+                    "4": 8000,
+                    "5": 7000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "anivia_q",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-08T01:02:21.531944Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-08T01:02:22.208689Z",
+                "description": "DDragon16.17.1 Anivia.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 80,
+                  "2": 85,
+                  "3": 90,
+                  "4": 95,
+                  "5": 100
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "anivia_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-08T01:02:22.208689Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/anivia_q/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T01:02:22.208689Z",
+                  "description": "DDragon16.17.1 Anivia.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 80,
+                    "2": 85,
+                    "3": 90,
+                    "4": 95,
+                    "5": 100
+                  },
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "anivia_q",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-08T01:02:22.208689Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/anivia_q/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/anivia_q/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/anivia_q/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/anivia_q/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/anivia_q/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "anivia_w": {
+      "subject": {
+        "route": "/skills/anivia_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:24.779014Z",
+          "description": "艾尼维亚利用空气中的湿气，召唤出一道不可穿越的冰之墙来阻挡所有移动。该墙持续很短一段时间后就会融化。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "艾尼维亚·寒冰屏障",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "anivia_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:24.779014Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/anivia_w/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/anivia_w/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/anivia_w/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/anivia_w/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/anivia_w/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/anivia_w/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "anivia_e": {
+      "subject": {
+        "route": "/skills/anivia_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:25.126073Z",
+          "description": "艾尼维亚扇动双翅，朝她的目标喷射出一股刺骨的强风，造成伤害。如果目标近期已被【Q寒冰闪耀】所命中或被一个完全形成的【R冰川风暴】所伤害，那么将会受到该技能双倍的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "艾尼维亚·霜寒刺骨",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "anivia_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:25.126073Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/anivia_e/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-08T01:02:22.846277Z",
+                "description": "DDragon16.17.1 Anivia.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 4000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "anivia_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-08T01:02:22.846277Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-08T01:02:23.424806Z",
+                "description": "DDragon16.17.1 Anivia.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 50,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "anivia_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-08T01:02:23.424806Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-08T01:02:22.846277Z",
+              "description": "DDragon16.17.1 Anivia.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 4000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "anivia_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-08T01:02:22.846277Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T01:02:23.424806Z",
+              "description": "DDragon16.17.1 Anivia.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 50,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "anivia_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-08T01:02:23.424806Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-08T01:02:22.846277Z",
+                "description": "DDragon16.17.1 Anivia.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 4000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "anivia_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-08T01:02:22.846277Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/anivia_e/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T01:02:22.846277Z",
+                  "description": "DDragon16.17.1 Anivia.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 4000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "anivia_e",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-08T01:02:22.846277Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-08T01:02:23.424806Z",
+                "description": "DDragon16.17.1 Anivia.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 50,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "anivia_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-08T01:02:23.424806Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/anivia_e/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T01:02:23.424806Z",
+                  "description": "DDragon16.17.1 Anivia.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 50,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "anivia_e",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-08T01:02:23.424806Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/anivia_e/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/anivia_e/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/anivia_e/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/anivia_e/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/anivia_e/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "anivia_r": {
+      "subject": {
+        "route": "/skills/anivia_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:16:25.505746Z",
+          "description": "艾尼维亚召唤出一朵夹杂着冰块和冰雹的雨云，对敌人造成伤害，并使其减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "艾尼维亚·冰川风暴",
+          "skillCategoryKeys": [],
+          "skillKey": "anivia_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:25.505746Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/anivia_r/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/anivia_r/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/anivia_r/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/anivia_r/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/anivia_r/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/anivia_r/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "lissandra_p": {
+      "subject": {
+        "route": "/skills/lissandra_p",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:12.235879Z",
+          "description": "当一名敌方英雄在丽桑卓附近阵亡时，该英雄会变成一个冰封奴仆。冰封奴仆会寻找活着的敌人，使身边敌人的移动速度减少。在一段延迟后，冰封奴仆会从极度冰寒中粉碎，对附近目标造成魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "丽桑卓·冰脉驱役",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "lissandra_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:12.235879Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/lissandra_p/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/lissandra_p/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/lissandra_p/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/lissandra_p/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/lissandra_p/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/lissandra_p/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "lissandra_q": {
+      "subject": {
+        "route": "/skills/lissandra_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:12.518594Z",
+          "description": "掷出一杆冰矛，冰矛会在命中敌人时碎裂，造成魔法伤害和减速效果。碎裂会穿过目标，对被冰矛命中的其他敌人造成等量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "丽桑卓·寒冰碎片",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "lissandra_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:12.518594Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/lissandra_q/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:38:47.906811Z",
+                "description": "DDragon16.17.1 Lissandra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 7000,
+                  "2": 6000,
+                  "3": 5000,
+                  "4": 4000,
+                  "5": 3000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "lissandra_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:47.906811Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:38:48.271351Z",
+                "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 55,
+                  "2": 60,
+                  "3": 65,
+                  "4": 70,
+                  "5": 75
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "lissandra_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:48.271351Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:38:47.906811Z",
+              "description": "DDragon16.17.1 Lissandra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 7000,
+                "2": 6000,
+                "3": 5000,
+                "4": 4000,
+                "5": 3000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "lissandra_q",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:47.906811Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:38:48.271351Z",
+              "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 55,
+                "2": 60,
+                "3": 65,
+                "4": 70,
+                "5": 75
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "lissandra_q",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:38:48.271351Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:38:47.906811Z",
+                "description": "DDragon16.17.1 Lissandra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 7000,
+                  "2": 6000,
+                  "3": 5000,
+                  "4": 4000,
+                  "5": 3000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "lissandra_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:47.906811Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/lissandra_q/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:47.906811Z",
+                  "description": "DDragon16.17.1 Lissandra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 7000,
+                    "2": 6000,
+                    "3": 5000,
+                    "4": 4000,
+                    "5": 3000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "lissandra_q",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:38:47.906811Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:38:48.271351Z",
+                "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 55,
+                  "2": 60,
+                  "3": 65,
+                  "4": 70,
+                  "5": 75
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "lissandra_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:48.271351Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/lissandra_q/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:48.271351Z",
+                  "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 55,
+                    "2": 60,
+                    "3": 65,
+                    "4": 70,
+                    "5": 75
+                  },
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "lissandra_q",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:38:48.271351Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/lissandra_q/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/lissandra_q/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/lissandra_q/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/lissandra_q/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/lissandra_q/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "lissandra_w": {
+      "subject": {
+        "route": "/skills/lissandra_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:12.755851Z",
+          "description": "将周围的敌人冻在原地，造成魔法伤害和束缚效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "丽桑卓·冰霜之环",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "lissandra_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:12.755851Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/lissandra_w/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:38:48.652975Z",
+                "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 10000,
+                  "2": 9500,
+                  "3": 9000,
+                  "4": 8500,
+                  "5": 8000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "lissandra_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:48.652975Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:38:48.964763Z",
+                "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "lissandra_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:48.964763Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:38:48.652975Z",
+              "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 10000,
+                "2": 9500,
+                "3": 9000,
+                "4": 8500,
+                "5": 8000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "lissandra_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:48.652975Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:38:48.964763Z",
+              "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 40,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "lissandra_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:38:48.964763Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:38:48.652975Z",
+                "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 10000,
+                  "2": 9500,
+                  "3": 9000,
+                  "4": 8500,
+                  "5": 8000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "lissandra_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:48.652975Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/lissandra_w/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:48.652975Z",
+                  "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 10000,
+                    "2": 9500,
+                    "3": 9000,
+                    "4": 8500,
+                    "5": 8000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "lissandra_w",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:38:48.652975Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:38:48.964763Z",
+                "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "lissandra_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:48.964763Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/lissandra_w/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:48.964763Z",
+                  "description": "DDragon16.17.1 Lissandra.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 40,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "lissandra_w",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:38:48.964763Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/lissandra_w/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/lissandra_w/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/lissandra_w/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/lissandra_w/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/lissandra_w/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "lissandra_e": {
+      "subject": {
+        "route": "/skills/lissandra_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:13.008327Z",
+          "description": "丽桑卓召唤一个寒冰魔爪来造成魔法伤害。再次激活这个技能，可以让丽桑卓传送到寒冰魔爪的当前位置上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "丽桑卓·冰川之径",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "lissandra_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:13.008327Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/lissandra_e/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:38:49.435516Z",
+                "description": "DDragon16.17.1 Lissandra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 80,
+                  "2": 85,
+                  "3": 90,
+                  "4": 95,
+                  "5": 100
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "lissandra_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:49.435516Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:38:49.435516Z",
+              "description": "DDragon16.17.1 Lissandra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 80,
+                "2": 85,
+                "3": 90,
+                "4": 95,
+                "5": 100
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "lissandra_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:38:49.435516Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:38:49.435516Z",
+                "description": "DDragon16.17.1 Lissandra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 80,
+                  "2": 85,
+                  "3": 90,
+                  "4": 95,
+                  "5": 100
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "lissandra_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:49.435516Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/lissandra_e/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:49.435516Z",
+                  "description": "DDragon16.17.1 Lissandra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 80,
+                    "2": 85,
+                    "3": 90,
+                    "4": 95,
+                    "5": 100
+                  },
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "lissandra_e",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:38:49.435516Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/lissandra_e/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/lissandra_e/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/lissandra_e/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/lissandra_e/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/lissandra_e/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "lissandra_r": {
+      "subject": {
+        "route": "/skills/lissandra_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:13.299361Z",
+          "description": "如果对敌方英雄施放，那么会冻结目标，对目标造成晕眩效果，如果对丽桑卓自己施放，那么她会暂时用暗黑之冰裹住自己，治疗自身并免疫任何伤害且不可被选取，但也无法进行任何动作。暗黑之冰可以从目标处放射寒芒对敌人造成魔法伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "丽桑卓·冰封陵墓",
+          "skillCategoryKeys": [],
+          "skillKey": "lissandra_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:13.299361Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/lissandra_r/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:38:49.81556Z",
+                "description": "DDragon16.17.1 Lissandra.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 120000,
+                  "2": 100000,
+                  "3": 80000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "lissandra_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:49.81556Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:38:50.181819Z",
+                "description": "DDragon16.17.1 Lissandra.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "lissandra_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:50.181819Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:38:49.81556Z",
+              "description": "DDragon16.17.1 Lissandra.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 120000,
+                "2": 100000,
+                "3": 80000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "lissandra_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:49.81556Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:38:50.181819Z",
+              "description": "DDragon16.17.1 Lissandra.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 100,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "lissandra_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:38:50.181819Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:38:49.81556Z",
+                "description": "DDragon16.17.1 Lissandra.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 120000,
+                  "2": 100000,
+                  "3": 80000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "lissandra_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:49.81556Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/lissandra_r/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:49.81556Z",
+                  "description": "DDragon16.17.1 Lissandra.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 120000,
+                    "2": 100000,
+                    "3": 80000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "lissandra_r",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:38:49.81556Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:38:50.181819Z",
+                "description": "DDragon16.17.1 Lissandra.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "lissandra_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:50.181819Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/lissandra_r/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:50.181819Z",
+                  "description": "DDragon16.17.1 Lissandra.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "lissandra_r",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:38:50.181819Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/lissandra_r/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/lissandra_r/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/lissandra_r/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/lissandra_r/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/lissandra_r/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "karthus_p": {
+      "subject": {
+        "route": "/skills/karthus_p",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:51.416974Z",
+          "description": "在死亡时，卡尔萨斯会化为一个灵体，能够继续施放技能。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "卡尔萨斯·死亡契约",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "karthus_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:51.416974Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/karthus_p/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/karthus_p/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/karthus_p/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/karthus_p/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/karthus_p/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/karthus_p/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "karthus_q": {
+      "subject": {
+        "route": "/skills/karthus_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:51.654703Z",
+          "description": "卡尔萨斯在目标区域释放一次有延迟的爆炸魔法，对区域内的所有敌人造成伤害。对孤立无援的敌人造成提升过的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "卡尔萨斯·荒芜",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "karthus_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:51.654703Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/karthus_q/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:38:41.659245Z",
+                "description": "DDragon16.17.1 Karthus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 20,
+                  "2": 25,
+                  "3": 30,
+                  "4": 35,
+                  "5": 40
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "karthus_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:41.659245Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:38:41.659245Z",
+              "description": "DDragon16.17.1 Karthus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 20,
+                "2": 25,
+                "3": 30,
+                "4": 35,
+                "5": 40
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "karthus_q",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:38:41.659245Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:38:41.659245Z",
+                "description": "DDragon16.17.1 Karthus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 20,
+                  "2": 25,
+                  "3": 30,
+                  "4": 35,
+                  "5": 40
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "karthus_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:41.659245Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/karthus_q/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:41.659245Z",
+                  "description": "DDragon16.17.1 Karthus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 20,
+                    "2": 25,
+                    "3": 30,
+                    "4": 35,
+                    "5": 40
+                  },
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "karthus_q",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:38:41.659245Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/karthus_q/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/karthus_q/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/karthus_q/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/karthus_q/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/karthus_q/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "karthus_w": {
+      "subject": {
+        "route": "/skills/karthus_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:51.93481Z",
+          "description": "卡尔萨斯创造一道可通过的魔能之墙。所有穿过墙体的敌方单位都会被暂时降低移动速度和魔法抗性。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "卡尔萨斯·痛苦之墙",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "karthus_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:51.93481Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/karthus_w/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:38:42.115488Z",
+                "description": "DDragon16.17.1 Karthus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 15000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "karthus_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:42.115488Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:38:42.491309Z",
+                "description": "DDragon16.17.1 Karthus.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 70,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "karthus_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:42.491309Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:38:42.115488Z",
+              "description": "DDragon16.17.1 Karthus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 15000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "karthus_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:42.115488Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:38:42.491309Z",
+              "description": "DDragon16.17.1 Karthus.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 70,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "karthus_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:38:42.491309Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:38:42.115488Z",
+                "description": "DDragon16.17.1 Karthus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 15000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "karthus_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:42.115488Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/karthus_w/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:42.115488Z",
+                  "description": "DDragon16.17.1 Karthus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 15000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "karthus_w",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:38:42.115488Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:38:42.491309Z",
+                "description": "DDragon16.17.1 Karthus.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 70,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "karthus_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:42.491309Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/karthus_w/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:42.491309Z",
+                  "description": "DDragon16.17.1 Karthus.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 70,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "karthus_w",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:38:42.491309Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/karthus_w/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/karthus_w/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/karthus_w/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/karthus_w/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/karthus_w/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "karthus_e": {
+      "subject": {
+        "route": "/skills/karthus_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:52.209544Z",
+          "description": "卡尔萨斯被动地从他的猎物那里窃取法力，每杀死一个敌人就会获得法力。卡尔萨斯也可以转化这种力量，用猎物的灵魂环绕自身，对附近的敌人造成伤害，但会急速消耗他自己的法力。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "卡尔萨斯·亵渎",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "karthus_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:52.209544Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/karthus_e/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/karthus_e/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/karthus_e/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/karthus_e/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/karthus_e/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/karthus_e/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "karthus_r": {
+      "subject": {
+        "route": "/skills/karthus_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:52.467655Z",
+          "description": "在引导3秒后，卡尔萨斯就会对所有敌方英雄造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "卡尔萨斯·安魂曲",
+          "skillCategoryKeys": [],
+          "skillKey": "karthus_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:52.467655Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/karthus_r/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:38:42.86396Z",
+                "description": "DDragon16.17.1 Karthus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 200000,
+                  "2": 180000,
+                  "3": 160000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "karthus_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:42.86396Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:38:43.220752Z",
+                "description": "DDragon16.17.1 Karthus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "karthus_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:43.220752Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:38:42.86396Z",
+              "description": "DDragon16.17.1 Karthus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 200000,
+                "2": 180000,
+                "3": 160000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "karthus_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:38:42.86396Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:38:43.220752Z",
+              "description": "DDragon16.17.1 Karthus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 100,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "karthus_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:38:43.220752Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:38:42.86396Z",
+                "description": "DDragon16.17.1 Karthus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 200000,
+                  "2": 180000,
+                  "3": 160000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "karthus_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:38:42.86396Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/karthus_r/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:42.86396Z",
+                  "description": "DDragon16.17.1 Karthus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 200000,
+                    "2": 180000,
+                    "3": 160000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "karthus_r",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:38:42.86396Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:38:43.220752Z",
+                "description": "DDragon16.17.1 Karthus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "karthus_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:38:43.220752Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/karthus_r/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:38:43.220752Z",
+                  "description": "DDragon16.17.1 Karthus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "karthus_r",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:38:43.220752Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/karthus_r/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/karthus_r/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/karthus_r/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/karthus_r/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/karthus_r/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    }
+  },
+  "catalogs": {
+    "attributes": {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    "modifier-zones": {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    "statuses": {
+      "route": "/statuses",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-28T14:55:06.53067Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "眩晕",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "statusKey": "vertigo",
+            "updatedAt": "2026-08-28T14:55:06.53067Z"
+          }
+        ],
+        "total": 1
+      }
+    },
+    "damage-types": {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    }
+  },
+  "duplicateKeys": [],
+  "requests": [
+    {
+      "route": "/attributes",
+      "status": 200
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200
+    },
+    {
+      "route": "/statuses",
+      "status": 200
+    },
+    {
+      "route": "/damage-types",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_p",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_p/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_p/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_p/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_p/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_p/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_q",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_q/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_q/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_q/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_q/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_q/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_w",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_w/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_w/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_w/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_w/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_w/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_e",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_e/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_e/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_e/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_e/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_e/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_r",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_r/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_r/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_r/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_r/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_r/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/malzahar_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_p",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_p/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_p/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_p/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_p/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_p/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_q",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_q/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_q/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_q/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_q/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_q/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_w",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_w/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_w/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_w/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_w/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_w/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_e",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_e/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_e/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_e/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_e/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_e/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_r",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_r/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_r/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_r/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_r/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_r/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/anivia_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_p",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_p/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_p/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_p/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_p/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_p/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_q",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_q/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_q/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_q/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_q/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_q/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_w",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_w/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_w/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_w/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_w/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_w/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_e",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_e/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_e/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_e/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_e/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_e/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_r",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_r/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_r/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_r/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_r/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_r/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/lissandra_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_p",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_p/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_p/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_p/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_p/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_p/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_q",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_q/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_q/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_q/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_q/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_q/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_w",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_w/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_w/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_w/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_w/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_w/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_e",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_e/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_e/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_e/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_e/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_e/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_r",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_r/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_r/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_r/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_r/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_r/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/karthus_r/trigger-rules",
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "skillCount": 20,
+    "expectedSkillCount": 20,
+    "compositionCount": 22,
+    "detailCount": 22,
+    "duplicateCount": 0,
+    "errorCount": 0,
+    "requestCount": 166
+  }
+}

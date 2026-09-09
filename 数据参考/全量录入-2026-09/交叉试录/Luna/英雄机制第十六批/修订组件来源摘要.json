@@ -1,0 +1,1724 @@
+{
+  "generatedAt": "2026-09-09T09:51:01.322Z",
+  "candidateFile": "完整候选-修订版.json",
+  "candidateSha256": "2dbb94fc014619c16e0f3671d37ec0106ebde64ddcdd7ddda8c6e075e4cba27c",
+  "sources": {
+    "rootEvidenceFile": "根绑定与数值证据.json",
+    "rootEvidenceSha256": "6d9d89bd58660ff7b0af3a4f148c5344f965b2001a10eb8a749f7eccf8a619e6",
+    "textEvidenceFile": "补充文本证据.json",
+    "textEvidenceSha256": "7c87c8fc426779496d3210ac28e6ad335093b5dabd5cce317528fb22c4817caf",
+    "narrowMappingFile": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/结论与边界.json",
+    "narrowMappingSha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+    "constructorDefaultsFile": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/同构建类型与默认.json",
+    "constructorDefaultsSha256": "b655135a440e892435ff500e2dc8034eba247f7323c532cb47ee2001137c831e"
+  },
+  "included": {
+    "malzahar_p": {
+      "name": "虚空穿越",
+      "source": {
+        "hero": "Malzahar",
+        "rootPath": "Characters/Malzahar/CharacterRecords/Root",
+        "spellPath": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+        "clientSha256": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4",
+        "officialSha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac",
+        "boundText": {
+          "binding": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_MalzaharPassive_Name",
+              "key": "spell_malzaharpassive_name",
+              "text": "虚空穿越"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_MalzaharPassive_Tooltip",
+              "key": "spell_malzaharpassive_tooltip",
+              "text": "玛尔扎哈获得@DRPercent@%伤害减免并免疫<status>限制</status>和<status>定身</status>效果，并且在受到或格挡了一次那些效果后，会存留@LingerDuration@秒。这个效果有@ShieldCooldown@秒的冷却时间。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_MalzaharPassive_Summary",
+              "key": "spell_malzaharpassive_summary",
+              "text": "玛尔扎哈如果近期没有受到伤害或控制效果，就会获得巨幅伤害减免和免疫控制的效果，并且这个效果在受到伤害后还会残留一小段时间。"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_MalzaharPassive_TooltipExtended",
+              "key": "spell_malzaharpassive_tooltipextended",
+              "text": "{{Spell_MalzaharPassive_Tooltip}}<br><br><rules>承受伤害将重启冷却时间。<br>来自小兵的伤害不会被减免，但不会触发或重启冷却时间。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "damage_reduction_percent",
+          "damage_reduction_linger_ms",
+          "shield_cooldown_seconds"
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [],
+      "excluded": [
+        {
+          "component": "独立虚空护盾触发与重置过程",
+          "reason": "被动触发条件、受击重置和护盾完整状态过程依赖事件；保留减伤值、持续和冷却原树，不造触发过程。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "等级节点求值：shield_cooldown_seconds",
+          "reason": "原树只有角色等级断点，当前没有把等级曲线猜展开为固定1至18级。"
+        },
+        {
+          "kind": "系统",
+          "component": "虚空护盾实际事件",
+          "reason": "正文说明受伤会使冷却重新开始且小兵伤害不减伤也不触发；事件来源、同一命中重置时点和护盾状态待运行时接线。"
+        }
+      ]
+    },
+    "malzahar_q": {
+      "name": "虚空召唤",
+      "source": {
+        "hero": "Malzahar",
+        "rootPath": "Characters/Malzahar/CharacterRecords/Root",
+        "spellPath": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+        "clientSha256": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4",
+        "officialSha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac",
+        "boundText": {
+          "binding": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_MalzaharQ_Name",
+              "key": "spell_malzaharq_name",
+              "text": "虚空召唤"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_MalzaharQ_Summary",
+              "key": "spell_malzaharq_summary",
+              "text": "玛尔扎哈开启两扇通向虚空的传送门。在短暂的延迟后，两扇门之间会有虚空能量对流而过，造成魔法伤害并沉默敌方英雄。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_MalzaharQ_Tooltip",
+              "key": "spell_malzaharq_tooltip",
+              "text": "玛尔扎哈开启两扇通往虚空的传送门，在短暂的延迟后，能量就会从虚空之中喷发，并且在两道传送门之间对流，对击中的敌人造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>并使其<status>沉默</status>@SilenceDuration@秒。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "base_damage",
+          "silence_duration_ms",
+          "ap_ratio_constant"
+        ],
+        "formulas": [
+          "damage"
+        ],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "excluded": [],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "虚空召唤命中与沉默范围",
+          "reason": "直线命中、范围内目标筛选和沉默时点未接事件；只保留本技能的数学量。"
+        }
+      ]
+    },
+    "malzahar_w": {
+      "name": "虚空虫群",
+      "source": {
+        "hero": "Malzahar",
+        "rootPath": "Characters/Malzahar/CharacterRecords/Root",
+        "spellPath": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+        "clientSha256": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4",
+        "officialSha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac",
+        "boundText": {
+          "binding": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_MalzaharW_Name",
+              "key": "spell_malzaharw_name",
+              "text": "虚空虫群"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_MalzaharW_Summary",
+              "key": "spell_malzaharw_summary",
+              "text": "玛尔扎哈召唤虚灵去攻击附近的敌人。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_MalzaharW_Tooltip",
+              "key": "spell_malzaharw_tooltip",
+              "text": "<spellPassive>被动：</spellPassive>玛尔扎哈的其它技能在施放时会为他提供一层效果(最多可叠到@StackCap@层)。<br><br><spellActive>主动：</spellActive>玛尔扎哈召唤一个虚灵，并且每层效果会额外召唤一个虚灵。虚灵持续@VoidlingDuration@秒并且每次命中造成<magicDamage>@VoidlingBonusDamageTooltip@魔法伤害</magicDamage>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_MalzaharW_TooltipExtendedBelowLine",
+              "key": "spell_malzaharw_tooltipextendedbelowline",
+              "text": "<rules>虚灵对中了<spellName>煞星幻象</spellName>的线上小兵造成@LaneMinionMod*100@%伤害。<br>虚灵对史诗级野怪造成@EpicMonsterMod*100@%伤害。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms"
+        ],
+        "formulas": [],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [],
+      "excluded": [
+        {
+          "component": "stack_cap",
+          "source": "DataValues.StackCap",
+          "reason": "跨技能叠层只服务独立虚灵数量；正文虽明确其他技能施放会叠层至StackCap，但本批不保存其独立召唤物数量消费。"
+        },
+        {
+          "component": "voidling_duration_ms",
+          "source": "DataValues.VoidlingDuration",
+          "reason": "独立虚灵生命周期属于本批范围外；仅保留原始DataValues证据。"
+        },
+        {
+          "component": "voidling_base_damage",
+          "source": "DataValues.VoidlingBaseDamage",
+          "reason": "独立虚灵每次攻击伤害属于本批范围外；仅保留原始DataValues和原树证据。"
+        },
+        {
+          "component": "lane_minion_ratio",
+          "source": "DataValues.LaneMinionMod",
+          "reason": "仅对线小兵限定，且本批明确排除小兵目标分支；不作为英雄技能组成。"
+        },
+        {
+          "component": "epic_monster_ratio",
+          "source": "DataValues.EpicMonsterMod",
+          "reason": "仅史诗野怪限定，且本批明确排除非英雄目标分支；不作为英雄技能组成。"
+        },
+        {
+          "component": "bonus_ad_ratio",
+          "source": "DataValues.ADRatio",
+          "reason": "独立虚灵攻击公式专用额外攻击力项；独立虚灵伤害分支范围外。"
+        },
+        {
+          "component": "ap_ratio",
+          "source": "DataValues.APRatio",
+          "reason": "独立虚灵攻击公式专用法强项；独立虚灵伤害分支范围外。"
+        },
+        {
+          "component": "voidling_level_scaling",
+          "source": "mSpellCalculations.{c2505620}.mFormulaParts[0]",
+          "reason": "独立虚灵攻击等级成长项；独立召唤物分支范围外，未知等级算法也不展开。"
+        },
+        {
+          "component": "actual_stack_count",
+          "source": "候选参数:actual_stack_count",
+          "reason": "独立虚灵数量的实际层数输入；本批不保存独立召唤物数量消费。"
+        },
+        {
+          "component": "zero",
+          "source": "候选约束",
+          "reason": "仅为独立虚灵数量封顶公式的下限常量；对应公式范围外。"
+        },
+        {
+          "component": "one",
+          "source": "官方中文说明",
+          "reason": "仅为独立虚灵召唤数量公式的基础常量；对应公式范围外。"
+        },
+        {
+          "component": "公式:voidling_hit_damage",
+          "source": "mSpellCalculations.VoidlingBonusDamageTooltip",
+          "reason": "独立虚灵每次攻击公式及其等级/属性项属于范围外；原树和具名属性节点仅留证据。"
+        },
+        {
+          "component": "公式:capped_stack_count",
+          "source": "候选公式:capped_stack_count",
+          "reason": "独立虚灵数量封顶公式属于范围外；StackCap跨技能来源只保留排除证据。"
+        },
+        {
+          "component": "公式:summon_count",
+          "source": "候选公式:summon_count",
+          "reason": "独立虚灵数量公式属于范围外；正文“召唤1只、每层增加1只”只留排除证据。"
+        },
+        {
+          "component": "跨技能叠层来源（仅独立虚灵数量消费）",
+          "source": "当前中文绑定 Spell_MalzaharW_Tooltip；DataValues.StackCap",
+          "reason": "正文明确玛尔扎哈其它技能施放提供层数且最多StackCap层；因层数只消费到独立虚灵数量，本批保留来源证据但不保存跨技能状态或数量公式。"
+        }
+      ],
+      "pending": []
+    },
+    "malzahar_e": {
+      "name": "煞星幻象",
+      "source": {
+        "hero": "Malzahar",
+        "rootPath": "Characters/Malzahar/CharacterRecords/Root",
+        "spellPath": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+        "clientSha256": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4",
+        "officialSha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac",
+        "boundText": {
+          "binding": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_MalzaharE_Name",
+              "key": "spell_malzahare_name",
+              "text": "煞星幻象"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_MalzaharE_Summary",
+              "key": "spell_malzahare_summary",
+              "text": "玛尔扎哈将目标的惨死幻象侵入目标的意识中，造成持续伤害。玛尔扎哈对目标使用其它技能时会刷新幻象的持续时间。<br><br>如果目标在感染幻象期间死亡，那么幻象会传到附近的一个敌人身上，并且玛尔扎哈会回复法力值。玛尔扎哈的虚灵会优先攻击感染了幻象的单位。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_MalzaharE_Tooltip",
+              "key": "spell_malzahare_tooltip",
+              "text": "玛尔扎哈给目标造成可怕的幻象，在@Duration@秒里对一名敌人持续造成共<magicDamage>@TotalDamage@魔法伤害</magicDamage>。在此期间，对目标使用<spellName>虚空召唤</spellName>或<spellName>冥府之握</spellName>会刷新幻象的持续时间。<br><br>如果目标被击杀，玛尔扎哈会获得<scaleMana>@ManaRestore@法力</scaleMana>并且幻象会传播给相距最近的敌人。<br><br><rules>煞星幻象会处决低于@MinionExecuteThreshold@生命值的小兵。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "base_damage",
+          "duration_ms",
+          "ap_ratio_constant"
+        ],
+        "formulas": [
+          "damage"
+        ],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "excluded": [
+        {
+          "component": "minion_execute_threshold",
+          "source": "mSpellCalculations.MinionExecuteThreshold.mFormulaParts[0]",
+          "reason": "只对小兵的处决阈值属于本批排除的小兵目标分支；仅保留原始等级断点证据。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "感染传播、刷新和击杀回蓝",
+          "reason": "Q/R刷新、目标死亡传播和击杀回蓝属于事件待接；小兵处决阈值已移到范围外，不作为英雄目标机制。"
+        }
+      ]
+    },
+    "malzahar_r": {
+      "name": "冥府之握",
+      "source": {
+        "hero": "Malzahar",
+        "rootPath": "Characters/Malzahar/CharacterRecords/Root",
+        "spellPath": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+        "clientSha256": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4",
+        "officialSha256": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac",
+        "boundText": {
+          "binding": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_MalzaharR_Name",
+              "key": "spell_malzaharr_name",
+              "text": "冥府之握"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_MalzaharR_Summary",
+              "key": "spell_malzaharr_summary",
+              "text": "玛尔扎哈引导虚空的精萃来把一名敌方英雄压制在一个充满伤害的负能量地带上。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_MalzaharR_Tooltip",
+              "key": "spell_malzaharr_tooltip",
+              "text": "玛尔扎哈<status>压制</status>一名敌方英雄并在@CCDuration@秒里持续造成共<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。一个负能量地带会在他目标周围生成，在@PoolDuration@秒里持续造成共<magicDamage>@ZoneDamageTooltip@最大生命值的魔法伤害</magicDamage>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_MalzaharR_TooltipExtendedBelowLine",
+              "key": "spell_malzaharr_tooltipextendedbelowline",
+              "text": "<rules>这个技能会使敌人<status>中断位移</status>。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "beam_base_damage",
+          "beam_ap_ratio",
+          "pool_duration_ms",
+          "max_health_damage_percent",
+          "max_health_ratio",
+          "cc_duration_ms",
+          "zone_multiplier"
+        ],
+        "formulas": [
+          "beam_damage",
+          "zone_damage_ratio"
+        ],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "excluded": [],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "压制与区域实际伤害时点",
+          "reason": "R的压制、区域重叠和中断位移需要事件与周期时点；不以BeamDamageTicks或PoolDuration制造瞬时/周期伤害效果。"
+        }
+      ]
+    },
+    "anivia_p": {
+      "name": "寒霜涅槃",
+      "source": {
+        "hero": "Anivia",
+        "rootPath": "Characters/Anivia/CharacterRecords/Root",
+        "spellPath": "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthMarker",
+        "clientSha256": "b1511eaa03ac8806b6af57a77bb0927e6e297b70ef21222e4330e22746601ff0",
+        "officialSha256": "3650fafe1e626ee703325857ba4d4a180b86c5df0f2a06ea8994dc0a894c7061",
+        "boundText": {
+          "binding": "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthMarker",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_RebirthMarker_Name",
+              "key": "spell_rebirthmarker_name",
+              "text": "寒霜涅槃"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_RebirthMarker_Tooltip",
+              "key": "spell_rebirthmarker_tooltip",
+              "text": "艾尼维亚受到致命伤害后化身为凤凰蛋，回复满血并获得<Level>@BonusResists@</Level><scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。如果她能存活6秒，则获得重生。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_RebirthMarker_Summary",
+              "key": "spell_rebirthmarker_summary",
+              "text": "在受到致命伤害后，艾尼维亚将化身为凤凰蛋，然后满血复活。"
+            },
+            "keyCooldown": {
+              "sourceKey": "Spell_AniviaP_Cooldown",
+              "key": "spell_aniviap_cooldown",
+              "text": "@Cooldown@秒%i:cooldown%"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "egg_cooldown_ms",
+          "bonus_resists",
+          "minus_one",
+          "revive_survival_ms"
+        ],
+        "formulas": [
+          "bonus_resists_display"
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [],
+      "excluded": [
+        {
+          "component": "完整蛋形态变形、复活、受击与目标选择",
+          "reason": "完整变形按本批范围后置；保留冷却、双抗原树和6秒静态进度，供后续运行时接线。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "等级节点求值：bonus_resists",
+          "reason": "原树从-40并带5/8/12/15级断点；未知等级算法不展开。"
+        },
+        {
+          "kind": "系统",
+          "component": "蛋形态真实复活结果",
+          "reason": "致死转蛋、蛋形态生命值、受击事件和复活资格未接；不将被动名称当作完整状态能力。"
+        }
+      ]
+    },
+    "anivia_q": {
+      "name": "寒冰闪耀",
+      "source": {
+        "hero": "Anivia",
+        "rootPath": "Characters/Anivia/CharacterRecords/Root",
+        "spellPath": "Characters/Anivia/Spells/FlashFrostAbility/FlashFrost",
+        "clientSha256": "b1511eaa03ac8806b6af57a77bb0927e6e297b70ef21222e4330e22746601ff0",
+        "officialSha256": "3650fafe1e626ee703325857ba4d4a180b86c5df0f2a06ea8994dc0a894c7061",
+        "boundText": {
+          "binding": "Characters/Anivia/Spells/FlashFrostAbility/FlashFrost",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_FlashFrost_Name",
+              "key": "spell_flashfrost_name",
+              "text": "寒冰闪耀"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_FlashFrost_Summary",
+              "key": "spell_flashfrost_summary",
+              "text": "艾尼维亚挥动翅膀聚集空气，制造一枚冰晶向目标区域施放，冰冻并伤害路径上的所有敌人。当冰晶爆裂时，它会晕眩并伤害一定范围内的所有敌人。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_FlashFrost_Tooltip",
+              "key": "spell_flashfrost_tooltip",
+              "text": "艾尼维亚发射出一个巨型冰块，造成<magicDamage>@TotalPassthroughDamage@魔法伤害</magicDamage>并<keywordMajor>冰冻</keywordMajor>敌人@SlowDuration@秒，使其<status>减速</status>@Spell.GlacialStorm:SlowAmount@%。在到达距离终点时，冰块会爆炸，<status>晕眩</status>敌人@StunDuration@秒并造成<magicDamage>@TotalExplosionDamage@魔法伤害</magicDamage>。<br><br>艾尼维亚可以在冰块飞行途中<recast>再次施放</recast>这个技能来将其提前引爆。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "passthrough_base_damage",
+          "explosion_base_damage",
+          "stun_duration_ms",
+          "slow_duration_ms",
+          "passthrough_ap_ratio",
+          "explosion_ap_ratio"
+        ],
+        "formulas": [
+          "passthrough_damage",
+          "explosion_damage"
+        ],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "excluded": [],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "飞行路径、重施放、眩晕与冰冻条件",
+          "reason": "Q可重施放引爆，穿行与爆炸是不同命中时点；减速百分比来自R的共享文本占位，实际状态和命中事件待接。"
+        }
+      ]
+    },
+    "anivia_w": {
+      "name": "寒冰屏障",
+      "source": {
+        "hero": "Anivia",
+        "rootPath": "Characters/Anivia/CharacterRecords/Root",
+        "spellPath": "Characters/Anivia/Spells/CrystallizeAbility/Crystallize",
+        "clientSha256": "b1511eaa03ac8806b6af57a77bb0927e6e297b70ef21222e4330e22746601ff0",
+        "officialSha256": "3650fafe1e626ee703325857ba4d4a180b86c5df0f2a06ea8994dc0a894c7061",
+        "boundText": {
+          "binding": "Characters/Anivia/Spells/CrystallizeAbility/Crystallize",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_Crystallize_Name",
+              "key": "spell_crystallize_name",
+              "text": "寒冰屏障"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_Crystallize_Summary",
+              "key": "spell_crystallize_summary",
+              "text": "艾尼维亚利用空气中的湿气，召唤出一道不可穿越的冰之墙来阻挡所有移动。该墙持续很短一段时间后就会融化。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_Crystallize_Tooltip",
+              "key": "spell_crystallize_tooltip",
+              "text": "艾尼维亚召唤出一道宽@WallWidth@码的无法通过的冰墙。冰墙会在融化前持续@WallDuration@秒。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "wall_duration_ms",
+          "wall_width"
+        ],
+        "formulas": [],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [],
+      "excluded": [
+        {
+          "component": "纯冰墙空间、阻挡、推动与消失过程",
+          "reason": "按本批范围排除独立冰墙路径；保留技能自身冷却、法力、宽度和持续这类候选值。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "冰墙空间接线",
+          "reason": "阻挡与推动需要地图空间和对象类别；本候选不以WallChunks或距离字段造过程。"
+        }
+      ]
+    },
+    "anivia_e": {
+      "name": "霜寒刺骨",
+      "source": {
+        "hero": "Anivia",
+        "rootPath": "Characters/Anivia/CharacterRecords/Root",
+        "spellPath": "Characters/Anivia/Spells/FrostbiteAbility/Frostbite",
+        "clientSha256": "b1511eaa03ac8806b6af57a77bb0927e6e297b70ef21222e4330e22746601ff0",
+        "officialSha256": "3650fafe1e626ee703325857ba4d4a180b86c5df0f2a06ea8994dc0a894c7061",
+        "boundText": {
+          "binding": "Characters/Anivia/Spells/FrostbiteAbility/Frostbite",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_Frostbite_Name",
+              "key": "spell_frostbite_name",
+              "text": "霜寒刺骨"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_Frostbite_Summary",
+              "key": "spell_frostbite_summary",
+              "text": "艾尼维亚扇动双翅，朝她的目标喷射出一股刺骨的强风，造成伤害。如果目标近期已被【Q寒冰闪耀】所命中或被一个完全形成的【R冰川风暴】所伤害，那么将会受到该技能双倍的伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_Frostbite_Tooltip",
+              "key": "spell_frostbite_tooltip",
+              "text": "艾尼维亚用一阵刺骨的寒风冲击一名敌人，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。如果目标身上带有<keywordMajor>冰冻</keywordMajor>效果，则艾尼维亚会转而造成<magicDamage>@EmpoweredDamage@魔法伤害</magicDamage>。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "base_damage",
+          "ap_ratio_constant",
+          "empowered_multiplier"
+        ],
+        "formulas": [
+          "damage",
+          "empowered_damage"
+        ],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "excluded": [],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "冰冻资格与强化消费",
+          "reason": "强化伤害依赖目标是否处于冰冻状态；该资格来源和命中顺序未接，不能默认每次E都按2倍。"
+        }
+      ]
+    },
+    "anivia_r": {
+      "name": "冰川风暴",
+      "source": {
+        "hero": "Anivia",
+        "rootPath": "Characters/Anivia/CharacterRecords/Root",
+        "spellPath": "Characters/Anivia/Spells/GlacialStormAbility/GlacialStorm",
+        "clientSha256": "b1511eaa03ac8806b6af57a77bb0927e6e297b70ef21222e4330e22746601ff0",
+        "officialSha256": "3650fafe1e626ee703325857ba4d4a180b86c5df0f2a06ea8994dc0a894c7061",
+        "boundText": {
+          "binding": "Characters/Anivia/Spells/GlacialStormAbility/GlacialStorm",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_GlacialStorm_Name",
+              "key": "spell_glacialstorm_name",
+              "text": "冰川风暴"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_GlacialStorm_Summary",
+              "key": "spell_glacialstorm_summary",
+              "text": "艾尼维亚召唤出一朵夹杂着冰块和冰雹的雨云，对敌人造成伤害，并使其减速。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_GlacialStorm_Tooltip",
+              "key": "spell_glacialstorm_tooltip",
+              "text": "<toggle>激活：</toggle>艾尼维亚在目标区域召唤出一阵夹杂着冰与雹的强雨，来使敌人<status>减速</status>@SlowAmount@%并每秒造成<magicDamage>@TotalDamagePerSecond@魔法伤害</magicDamage>。风暴会在@GrowthTime@秒里持续提升规模。<br><br>当风暴完全形成后，它会施加<keywordMajor>冰冻</keywordMajor>效果，使敌人<status>减速</status>@SlowPercentEmpoweredTT@%，并且每秒造成<magicDamage>@EmpoweredDamagePerSecondTooltipOnly@魔法伤害</magicDamage>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_GlacialStorm_Cost",
+              "key": "spell_glacialstorm_cost",
+              "text": "@Cost@+@ManaCostPerSecond@法力/秒"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_GlacialStorm_TooltipExtendedBelowLine",
+              "key": "spell_glacialstorm_tooltipextendedbelowline",
+              "text": "<rules>如果艾尼维亚过于远离风暴，那么风暴会结束。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "damage_per_second_base",
+          "mana_cost_per_second",
+          "slow_amount_percent",
+          "growth_time_ms",
+          "additional_slow_ratio_at_max",
+          "empowered_slow_percent",
+          "ap_ratio_constant",
+          "one",
+          "empowered_dps_multiplier"
+        ],
+        "formulas": [
+          "damage_per_second",
+          "enhanced_slow",
+          "empowered_damage_per_second"
+        ],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [],
+      "excluded": [],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "风暴成长、减速、离开区域和每秒节拍",
+          "reason": "保留每秒数值与每秒法力依赖；实际半秒节拍、成长状态、冰冻资格和离开区域事件待运行时接线，不造周期伤害。"
+        }
+      ]
+    },
+    "lissandra_p": {
+      "name": "冰脉驱役",
+      "source": {
+        "hero": "Lissandra",
+        "rootPath": "Characters/Lissandra/CharacterRecords/Root",
+        "spellPath": "Characters/Lissandra/Spells/LissandraPassiveAbility/LissandraPassive",
+        "clientSha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+        "officialSha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d",
+        "boundText": {
+          "binding": "Characters/Lissandra/Spells/LissandraPassiveAbility/LissandraPassive",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_LissandraPassive_Name",
+              "key": "spell_lissandrapassive_name",
+              "text": "冰脉驱役"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LissandraPassive_Summary",
+              "key": "spell_lissandrapassive_summary",
+              "text": "当一名敌方英雄在丽桑卓附近阵亡时，该英雄会变成一个冰封奴仆。冰封奴仆会寻找活着的敌人，使身边敌人的移动速度减少。在一段延迟后，冰封奴仆会从极度冰寒中粉碎，对附近目标造成魔法伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LissandraPassive_Tooltip",
+              "key": "spell_lissandrapassive_tooltip",
+              "text": "当一名敌方英雄在丽桑卓附近阵亡时，该英雄会变成一个冰霜丧尸来寻找活着的敌人们。这些丧尸附近的敌人们会被<status>减速</status>@MoveSpeedMod*-100@%。在@ExplosionDelay@秒后，冰霜丧尸会爆炸，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [],
+      "excluded": [
+        {
+          "component": "ice_servant_slow_ratio",
+          "source": "DataValues.MoveSpeedMod",
+          "reason": "独立冰奴减速专用值属于范围外；仅留原始DataValues证据。"
+        },
+        {
+          "component": "ice_servant_explosion_delay_ms",
+          "source": "DataValues.ExplosionDelay",
+          "reason": "独立冰奴爆炸等待专用值属于范围外；仅留原始DataValues证据。"
+        },
+        {
+          "component": "ice_servant_base_damage",
+          "source": "mSpellCalculations.TotalDamage.mFormulaParts[0]",
+          "reason": "独立冰奴爆炸基础伤害和等级曲线属于范围外；未知等级算法不展开。"
+        },
+        {
+          "component": "ap_ratio_constant",
+          "source": "mSpellCalculations.TotalDamage.mFormulaParts[1]",
+          "reason": "独立冰奴爆炸法强项属于范围外；仅留原树系数证据。"
+        },
+        {
+          "component": "公式:ice_servant_damage",
+          "source": "mSpellCalculations.TotalDamage",
+          "reason": "独立冰奴爆炸伤害公式属于范围外；原始计算树仅留证据。"
+        },
+        {
+          "component": "独立冰奴实体、死亡触发、范围和爆炸",
+          "source": "当前中文绑定 Spell_LissandraPassive_Tooltip；DataValues.MoveSpeedMod/ExplosionDelay/Range/Radius；mSpellCalculations.TotalDamage",
+          "reason": "本批按逐支路范围排除独立冰奴；没有把独立冰奴的专用减速、等待、伤害或等级曲线并入丽桑卓P主体。"
+        }
+      ],
+      "pending": []
+    },
+    "lissandra_q": {
+      "name": "寒冰碎片",
+      "source": {
+        "hero": "Lissandra",
+        "rootPath": "Characters/Lissandra/CharacterRecords/Root",
+        "spellPath": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+        "clientSha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+        "officialSha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d",
+        "boundText": {
+          "binding": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_LissandraQ_Name",
+              "key": "spell_lissandraq_name",
+              "text": "寒冰碎片"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LissandraQ_Summary",
+              "key": "spell_lissandraq_summary",
+              "text": "掷出一杆冰矛，冰矛会在命中敌人时碎裂，造成魔法伤害和减速效果。碎裂会穿过目标，对被冰矛命中的其他敌人造成等量伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LissandraQ_Tooltip",
+              "key": "spell_lissandraq_tooltip",
+              "text": "丽桑卓扔出一杆冰矛，冰矛会在命中第一个敌人后碎裂，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>、持续@SlowDuration@秒的@SlowPercentage*-100@%<status>减速</status>，并且还会对该敌人身后的敌人们造成伤害和减速。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "base_damage",
+          "slow_duration_ms",
+          "slow_percent",
+          "ap_ratio_constant"
+        ],
+        "formulas": [
+          "damage"
+        ],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "excluded": [],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "首个目标后方碎片和实际减速",
+          "reason": "Q命中首个目标后向后方扩散；单一敌人保留自身伤害和减速，路径与穿透对象事件待接。"
+        }
+      ]
+    },
+    "lissandra_w": {
+      "name": "冰霜之环",
+      "source": {
+        "hero": "Lissandra",
+        "rootPath": "Characters/Lissandra/CharacterRecords/Root",
+        "spellPath": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+        "clientSha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+        "officialSha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d",
+        "boundText": {
+          "binding": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_LissandraW_Name",
+              "key": "spell_lissandraw_name",
+              "text": "冰霜之环"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LissandraW_Summary",
+              "key": "spell_lissandraw_summary",
+              "text": "将周围的敌人冻在原地，造成魔法伤害和束缚效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LissandraW_Tooltip",
+              "key": "spell_lissandraw_tooltip",
+              "text": "丽桑卓生成一个冰封领域，<status>禁锢</status>附近的敌人们@SnareDuration@秒并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "base_damage",
+          "snare_duration_ms",
+          "ap_ratio_constant"
+        ],
+        "formulas": [
+          "damage"
+        ],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "excluded": [],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "范围束缚和合法命中",
+          "reason": "W为自身周围范围技能；单一敌人伤害、禁锢数值保留，范围命中与状态时点待接。"
+        }
+      ]
+    },
+    "lissandra_e": {
+      "name": "冰川之径",
+      "source": {
+        "hero": "Lissandra",
+        "rootPath": "Characters/Lissandra/CharacterRecords/Root",
+        "spellPath": "Characters/Lissandra/Spells/LissandraEAbility/LissandraE",
+        "clientSha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+        "officialSha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d",
+        "boundText": {
+          "binding": "Characters/Lissandra/Spells/LissandraEAbility/LissandraE",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_LissandraE_Name",
+              "key": "spell_lissandrae_name",
+              "text": "冰川之径"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LissandraE_Summary",
+              "key": "spell_lissandrae_summary",
+              "text": "丽桑卓召唤一个寒冰魔爪来造成魔法伤害。再次激活这个技能，可以让丽桑卓传送到寒冰魔爪的当前位置上。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LissandraE_Tooltip",
+              "key": "spell_lissandrae_tooltip",
+              "text": "丽桑卓向前放出一个冰爪，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。丽桑卓可以在冰爪飞行时<recast>再次施放</recast>来传送到它所在的位置。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "base_damage",
+          "ap_ratio_constant"
+        ],
+        "formulas": [
+          "damage"
+        ],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [
+        "mana_cost"
+      ],
+      "excluded": [],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "根字段与官方冷却差异及重施放传送",
+          "reason": "当前根冷却字段与官方逐级冷却不一致，候选保留官方基础值并留差异；传送重施放和路径状态待接。"
+        },
+        {
+          "kind": "系统",
+          "component": "冰川之径实际命中",
+          "reason": "E的路径伤害和重施放传送是不同阶段；单一敌人数值保留，不把传送过程当命中。"
+        }
+      ]
+    },
+    "lissandra_r": {
+      "name": "冰封陵墓",
+      "source": {
+        "hero": "Lissandra",
+        "rootPath": "Characters/Lissandra/CharacterRecords/Root",
+        "spellPath": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR",
+        "clientSha256": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+        "officialSha256": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d",
+        "boundText": {
+          "binding": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_LissandraR_Name",
+              "key": "spell_lissandrar_name",
+              "text": "冰封陵墓"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LissandraR_Summary",
+              "key": "spell_lissandrar_summary",
+              "text": "如果对敌方英雄施放，那么会冻结目标，对目标造成晕眩效果，如果对丽桑卓自己施放，那么她会暂时用暗黑之冰裹住自己，治疗自身并免疫任何伤害且不可被选取，但也无法进行任何动作。暗黑之冰可以从目标处放射寒芒对敌人造成魔法伤害和减速效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LissandraR_Tooltip",
+              "key": "spell_lissandrar_tooltip",
+              "text": "丽桑卓将她自身或一名敌方英雄裹进黑冰之中。敌人会被<status>晕眩</status>@EnemyCastDuration@秒。在自我施放时，丽桑卓进入凝滞状态@SelfCastDuration@秒并回复<healing>@HealAmount@生命值</healing>，每@SelfCastMissingHPPerAbove@%已损失生命值会使回复量提升@SelfCastMissingHPRatio@%。<br><br>之后，黑冰会从目标处开始蔓延，造成<magicDamage>@CalculatedDamage@魔法伤害</magicDamage>。黑冰存在@SlowDuration@秒，会使敌人<status>减速</status>@SlowAmount*-100@%。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_LissandraR_TooltipExtendedBelowLine",
+              "key": "spell_lissandrar_tooltipextendedbelowline",
+              "text": "<rules>{{Reminder_Stasis}}<br>这个技能会使敌人<status>中断位移</status>。</rules>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "cast_time_ms",
+          "ap_ratio",
+          "base_damage",
+          "slow_percent",
+          "slow_duration_ms",
+          "enemy_stun_duration_ms",
+          "self_stasis_duration_ms",
+          "self_heal_flat",
+          "self_heal_missing_hp_percent",
+          "self_heal_missing_hp_per_above_percent",
+          "heal_ap_ratio"
+        ],
+        "formulas": [
+          "damage",
+          "self_heal"
+        ],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "excluded": [],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "敌方眩晕、自身凝滞、区域减速和位移中断",
+          "reason": "目标分支、重施放、自身施放资格、区域范围和中断时点待接；保留混合技能伤害、治疗数值与资源依赖。"
+        },
+        {
+          "kind": "来源",
+          "component": "自身治疗的已损生命分段提升",
+          "reason": "正文明确每 SelfCastMissingHPPerAbove% 已损生命使回复提升 SelfCastMissingHPRatio%；两个数据值和分母已保留。实际已损生命分段输入、取整/封顶/归属及时点未在当前原树给出，不把提升猜接入基础公式。"
+        }
+      ]
+    },
+    "karthus_p": {
+      "name": "死亡契约",
+      "source": {
+        "hero": "Karthus",
+        "rootPath": "Characters/Karthus/CharacterRecords/Root",
+        "spellPath": "Characters/Karthus/Spells/KarthusDeathDefiedAbility/KarthusDeathDefied",
+        "clientSha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+        "officialSha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018",
+        "boundText": {
+          "binding": "Characters/Karthus/Spells/KarthusDeathDefiedAbility/KarthusDeathDefied",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_KarthusDeathDefied_Name",
+              "key": "spell_karthusdeathdefied_name",
+              "text": "死亡契约"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_KarthusDeathDefied_Tooltip",
+              "key": "spell_karthusdeathdefied_tooltip",
+              "text": "当卡尔萨斯阵亡时，他能够无消耗地使用技能，持续@PassiveDuration@秒。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_KarthusDeathDefied_Summary",
+              "key": "spell_karthusdeathdefied_summary",
+              "text": "在死亡时，卡尔萨斯会化为一个灵体，能够继续施放技能。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "death_recast_window_ms"
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [],
+      "excluded": [
+        {
+          "component": "死亡状态变形、触发和免费施法覆盖",
+          "source": "当前中文绑定 Spell_KarthusDeathDefied_Tooltip；PassiveDuration",
+          "reason": "本批范围排除独立死亡状态触发、状态替换和免费施法覆盖；P保留正文7秒窗口，Q/W/E/R仍保留各自正常伤害、法力和资源组成，死亡状态对法力消耗的覆盖待运行时接线。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "系统",
+          "component": "死亡状态下Q/W/E/R可施放与无消耗覆盖",
+          "reason": "正文只证明阵亡后持续7秒可无消耗使用技能；Q/W/E/R正常技能主体和资源限制已分别保留，死亡状态触发、可施放资格、无消耗覆盖和窗口结束待运行时接线，不把P扩展成四个技能的完整替换形态。"
+        }
+      ]
+    },
+    "karthus_q": {
+      "name": "荒芜",
+      "source": {
+        "hero": "Karthus",
+        "rootPath": "Characters/Karthus/CharacterRecords/Root",
+        "spellPath": "Characters/Karthus/Spells/KarthusLayWasteA1Ability/KarthusLayWasteA1",
+        "clientSha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+        "officialSha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018",
+        "boundText": {
+          "binding": "Characters/Karthus/Spells/KarthusLayWasteA1Ability/KarthusLayWasteA1",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_KarthusLayWasteA1_Name",
+              "key": "spell_karthuslaywastea1_name",
+              "text": "荒芜"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_KarthusLayWasteA1_Summary",
+              "key": "spell_karthuslaywastea1_summary",
+              "text": "卡尔萨斯在目标区域释放一次有延迟的爆炸魔法，对区域内的所有敌人造成伤害。对孤立无援的敌人造成提升过的伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_KarthusLayWasteA1_Tooltip",
+              "key": "spell_karthuslaywastea1_tooltip",
+              "text": "卡尔萨斯生成一道魔法爆裂，造成<magicDamage>@QDamage@魔法伤害</magicDamage>。如果爆裂仅命中了一名敌人，它会转而造成<magicDamage>@QSingleTargetDamage@魔法伤害</magicDamage>。"
+            },
+            "keyCooldown": {
+              "sourceKey": "Spell_KarthusLayWasteA1_Cooldown",
+              "key": "spell_karthuslaywastea1_cooldown",
+              "text": "<Cooldown>@AMMORECHARGETIME@秒%i:cooldown%</Cooldown>"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "mana_cost",
+          "base_damage",
+          "ap_ratio",
+          "single_target_multiplier",
+          "actual_target_count"
+        ],
+        "formulas": [
+          "damage",
+          "single_target_damage"
+        ],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [
+        "mana_cost"
+      ],
+      "excluded": [
+        {
+          "component": "one",
+          "source": "候选约束",
+          "reason": "单一目标资格不是目标数量下限；本批只保留实际目标数量输入并由事件判断是否 == 1。"
+        },
+        {
+          "component": "公式:single_target_eligibility_lower_bound",
+          "source": "候选公式:single_target_eligibility_lower_bound",
+          "reason": "MAX(targetCount,1)会把0或负值改成1，既非唯一目标资格判断且没有业务消费者；删除该公式。"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "spellCastTime与mCastTime冲突",
+          "reason": "两个根施法时长字段不一致；不擅自选择其中一个作为完整命中时点。"
+        },
+        {
+          "kind": "配置",
+          "component": "实际输入：actual_target_count",
+          "reason": "必须由当前命中事件提供；只有实际目标数量 == 1 才能选择双倍分支，不默认单一目标。"
+        },
+        {
+          "kind": "配置",
+          "component": "单一目标判定与延迟爆发",
+          "reason": "文本要求只有一个敌人时伤害翻倍；候选保留实际目标数量输入，但未造命中/延迟过程。"
+        },
+        {
+          "kind": "来源",
+          "component": "AMMORECHARGETIME版本字段",
+          "reason": "当前正文引用keyCooldown中的AMMORECHARGETIME，但当前计算树和DataValues没有对应消费；只留待核，不按字段名建现行能力参数。"
+        }
+      ]
+    },
+    "karthus_w": {
+      "name": "痛苦之墙",
+      "source": {
+        "hero": "Karthus",
+        "rootPath": "Characters/Karthus/CharacterRecords/Root",
+        "spellPath": "Characters/Karthus/Spells/KarthusWallOfPainAbility/KarthusWallOfPain",
+        "clientSha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+        "officialSha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018",
+        "boundText": {
+          "binding": "Characters/Karthus/Spells/KarthusWallOfPainAbility/KarthusWallOfPain",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_KarthusWallOfPain_Name",
+              "key": "spell_karthuswallofpain_name",
+              "text": "痛苦之墙"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_KarthusWallOfPain_Summary",
+              "key": "spell_karthuswallofpain_summary",
+              "text": "卡尔萨斯创造一道可通过的魔能之墙。所有穿过墙体的敌方单位都会被暂时降低移动速度和魔法抗性。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_KarthusWallOfPain_Tooltip",
+              "key": "spell_karthuswallofpain_tooltip",
+              "text": "卡尔萨斯生成一个持续@WallDuration@秒的墙体。穿过它的敌人们会受到持续@DebuffDuration@秒的<scaleMR>@MagicResistShred@%魔法抗性</scaleMR>削减，以及在此期间持续衰减的@SlowPercent@%<status>减速</status>。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "magic_resist_shred_percent",
+          "wall_width",
+          "slow_percent",
+          "wall_duration_ms",
+          "debuff_duration_ms"
+        ],
+        "formulas": [],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "excluded": [],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "施法时间缺失",
+          "reason": "当前根没有可用spellCastTime；不补写0毫秒。"
+        },
+        {
+          "kind": "系统",
+          "component": "穿墙事件、减益衰减和目标离开",
+          "reason": "W不是纯冰墙数值：保留魔抗削减、减速和持续，但穿越判定、减速衰减与刷新时点待接；不以墙体空间字段创建命中。"
+        }
+      ]
+    },
+    "karthus_e": {
+      "name": "亵渎",
+      "source": {
+        "hero": "Karthus",
+        "rootPath": "Characters/Karthus/CharacterRecords/Root",
+        "spellPath": "Characters/Karthus/Spells/KarthusDefileAbility/KarthusDefile",
+        "clientSha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+        "officialSha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018",
+        "boundText": {
+          "binding": "Characters/Karthus/Spells/KarthusDefileAbility/KarthusDefile",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_KarthusDefile_Name",
+              "key": "spell_karthusdefile_name",
+              "text": "亵渎"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_KarthusDefile_Summary",
+              "key": "spell_karthusdefile_summary",
+              "text": "卡尔萨斯被动地从他的猎物那里窃取法力，每杀死一个敌人就会获得法力。卡尔萨斯也可以转化这种力量，用猎物的灵魂环绕自身，对附近的敌人造成伤害，但会急速消耗他自己的法力。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_KarthusDefile_Tooltip",
+              "key": "spell_karthusdefile_tooltip",
+              "text": "<spellPassive>被动：</spellPassive>卡尔萨斯击杀一个单位时，回复<scaleMana>@ManaRestoreOnKill@法力值</scaleMana>。<br><br><toggle>激活：</toggle>卡尔萨斯生成一个死灵光环，每秒对附近敌人造成<magicDamage>@TotalDPS@魔法伤害</magicDamage>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_Mana_per_Second",
+              "key": "spell_cost_mana_per_second",
+              "text": "每秒@Cost@法力"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "mana_cost",
+          "damage_per_second_base",
+          "ap_ratio_per_second",
+          "mana_restore_on_kill",
+          "cooldown_ms",
+          "quarter_multiplier"
+        ],
+        "formulas": [
+          "damage_per_second",
+          "quarter_damage_per_second"
+        ],
+        "effects": [
+          "mana_cost",
+          "mana_restore_on_kill"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [],
+      "excluded": [],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "施法时间缺失",
+          "reason": "当前根没有可用spellCastTime；不补写0毫秒。"
+        },
+        {
+          "kind": "系统",
+          "component": "污染光环周期与击杀回蓝事件",
+          "reason": "官方/根cooldown为500毫秒，仅保留施放冷却语义；光环实际结算周期、离开区域、击杀单位和资源恢复资格待运行时接线，不声明每半秒结算。"
+        }
+      ]
+    },
+    "karthus_r": {
+      "name": "安魂曲",
+      "source": {
+        "hero": "Karthus",
+        "rootPath": "Characters/Karthus/CharacterRecords/Root",
+        "spellPath": "Characters/Karthus/Spells/KarthusFallenOneAbility/KarthusFallenOne",
+        "clientSha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+        "officialSha256": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018",
+        "boundText": {
+          "binding": "Characters/Karthus/Spells/KarthusFallenOneAbility/KarthusFallenOne",
+          "keys": {
+            "keyName": {
+              "sourceKey": "Spell_KarthusFallenOne_Name",
+              "key": "spell_karthusfallenone_name",
+              "text": "安魂曲"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_KarthusFallenOne_Summary",
+              "key": "spell_karthusfallenone_summary",
+              "text": "在引导3秒后，卡尔萨斯就会对所有敌方英雄造成伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_KarthusFallenOne_Tooltip",
+              "key": "spell_karthusfallenone_tooltip",
+              "text": "卡尔萨斯引导3秒，然后对敌方英雄们造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，无视距离。"
+            }
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          "cooldown_ms",
+          "mana_cost",
+          "base_damage",
+          "ap_ratio",
+          "channel_duration_ms"
+        ],
+        "formulas": [
+          "damage"
+        ],
+        "effects": [
+          "mana_cost"
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "excluded": [],
+      "pending": [
+        {
+          "kind": "来源",
+          "component": "施法时间缺失",
+          "reason": "当前根没有可用spellCastTime；不补写0毫秒。"
+        },
+        {
+          "kind": "系统",
+          "component": "安魂曲引导、中断和全体英雄命中",
+          "reason": "引导3秒、全体敌方英雄、距离无关和中断资格需要运行时事件；只保留来源明确的时长、伤害和法力。"
+        }
+      ]
+    }
+  },
+  "revisedBoundaries": [
+    {
+      "skillKey": "malzahar_w",
+      "retained": [
+        "cooldown_ms",
+        "mana_cost",
+        "cast_time_ms",
+        "mana_cost效果"
+      ],
+      "excluded": [
+        "StackCap跨技能层数及其独立虚灵数量消费",
+        "VoidlingDuration",
+        "VoidlingBaseDamage",
+        "ADRatio",
+        "APRatio",
+        "角色等级虚灵成长",
+        "actual_stack_count",
+        "召唤数量常量与封顶公式",
+        "LaneMinionMod",
+        "EpicMonsterMod"
+      ],
+      "evidence": {
+        "tooltip": "<spellPassive>被动：</spellPassive>玛尔扎哈的其它技能在施放时会为他提供一层效果(最多可叠到{{ stackcap }}层)。<br /><br /><spellActive>主动：</spellActive>玛尔扎哈召唤一个虚灵，并且每层效果会额外召唤一个虚灵。虚灵持续{{ voidlingduration }}秒并且每次命中造成<magicDamage>{{ voidlingbonusdamagetooltip }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+        "dataValues": [
+          {
+            "name": "VoidlingDuration",
+            "values": [
+              8,
+              8,
+              8,
+              9,
+              9,
+              10,
+              8
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "VoidlingBaseDamage",
+            "values": [
+              10,
+              12,
+              14,
+              16,
+              18,
+              20,
+              22
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "LaneMinionMod",
+            "values": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "EpicMonsterMod",
+            "values": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "StackCap",
+            "values": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "ADRatio",
+            "values": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "APRatio",
+            "values": [
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224
+            ],
+            "__type": "SpellDataValue"
+          }
+        ],
+        "calculationKeys": [
+          "{c2505620}",
+          "VoidlingBonusDamageTooltip"
+        ]
+      },
+      "decision": "独立虚灵实体、攻击、生命周期和小兵/史诗野怪专用分支不进入本批；正文证明的跨技能叠层只保留排除来源。"
+    },
+    {
+      "skillKey": "malzahar_e",
+      "retained": [
+        "cooldown_ms",
+        "mana_cost",
+        "cast_time_ms",
+        "base_damage",
+        "duration_ms",
+        "ap_ratio_constant",
+        "damage公式",
+        "mana_cost效果"
+      ],
+      "excluded": [
+        "MinionExecuteThreshold小兵处决阈值"
+      ],
+      "decision": "小兵限定处决阈值移到范围外证据；E总伤害关系、持续、法力和非小兵主体保留。"
+    },
+    {
+      "skillKey": "lissandra_p",
+      "retained": [],
+      "excluded": [
+        "MoveSpeedMod",
+        "ExplosionDelay",
+        "Range",
+        "Radius",
+        "TotalDamage及其等级曲线/法强项",
+        "独立冰奴实体与死亡触发"
+      ],
+      "decision": "P全部是独立冰奴专用支路，本批不把其专用组成并入技能位；原始字段与计算树保留在候选排除证据。"
+    },
+    {
+      "skillKey": "karthus_q",
+      "retained": [
+        "mana_cost",
+        "base_damage",
+        "ap_ratio",
+        "single_target_multiplier",
+        "actual_target_count",
+        "damage公式",
+        "single_target_damage公式",
+        "mana_cost效果"
+      ],
+      "excluded": [
+        "无消费者的single_target_eligibility_lower_bound公式",
+        "one常量"
+      ],
+      "decision": "实际目标数量只作为运行输入说明；只有实际数量 == 1 时选择双倍分支，不以MAX把0/负值改成1。"
+    },
+    {
+      "skillKey": "karthus_e",
+      "retained": [
+        "cooldown_ms=500",
+        "mana_cost",
+        "damage_per_second_base",
+        "ap_ratio_per_second",
+        "mana_restore_on_kill",
+        "quarter_multiplier",
+        "damage_per_second公式",
+        "quarter_damage_per_second公式",
+        "mana_cost效果",
+        "mana_restore_on_kill效果"
+      ],
+      "excluded": [
+        "以0.5秒作为damage_tick_interval_ms的错误命名"
+      ],
+      "decision": "0.5秒只按官方/root cooldownTime冷却保留；没有周期绑定，不声明每半秒伤害或资源结算。"
+    },
+    {
+      "skillKey": "lissandra_q",
+      "retained": [
+        "slow_percent正显示百分数点",
+        "base_damage",
+        "slow_duration_ms",
+        "damage公式",
+        "mana_cost效果"
+      ],
+      "excluded": [
+        "slow_ratio负值命名"
+      ],
+      "decision": "原始slowPercentage负移速修正按正文*-100转为正20/24/28/32/36减速百分数点。"
+    },
+    {
+      "skillKey": "lissandra_r",
+      "retained": [
+        "slow_percent正显示百分数点",
+        "self_heal_missing_hp_percent",
+        "self_heal_missing_hp_per_above_percent",
+        "heal_ap_ratio",
+        "self_heal基础公式",
+        "damage公式"
+      ],
+      "excluded": [
+        "slow_ratio负值命名",
+        "actual_missing_health直连HealAmount"
+      ],
+      "decision": "HealAmount基础项按SelfCastFlatHeal + 0.55×来源总法强；已损生命提升的两个正文参数另行保留，分段输入/取整/封顶/归属及时点未知，不猜接线。"
+    },
+    {
+      "skillKey": "karthus_p",
+      "retained": [
+        "death_recast_window_ms=7000"
+      ],
+      "excluded": [
+        "死亡状态变形、触发和免费施法覆盖"
+      ],
+      "decision": "P只排除死亡状态覆盖；Q/W/E/R的正常技能主体与法力/资源限制继续保留，死亡状态无消耗覆盖待运行时接线。",
+      "deathText": "当卡尔萨斯阵亡时，他能够无消耗地使用技能，持续@PassiveDuration@秒。"
+    }
+  ],
+  "lissandraRHealGuard": {
+    "rootBinding": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR",
+    "healAmountPart": {
+      "mDataValue": "PercentMissingHPRatio",
+      "__type": "StatByNamedDataValueCalculationPart"
+    },
+    "calculatedDamagePart": {
+      "mDataValue": "APRatio",
+      "__type": "StatByNamedDataValueCalculationPart"
+    },
+    "omittedFieldGuard": "HealAmount第二节点与CalculatedDamage第二节点同为StatByNamedDataValueCalculationPart且均省略mStat/mStatFormula；不因数据字段名PercentMissingHPRatio绑定hp或实际缺失生命。",
+    "narrowMapping": {
+      "confirmedKey": "legacy-stat-constructor",
+      "boundedInferenceKey": "mStat0-AP",
+      "conclusion": {
+        "key": "mStat0-AP",
+        "confidence": "同版本具名交叉支持，尚非完整属性分派证明",
+        "evidence": [
+          "Items/2503 与 Items/3118 的 APRatio 同类节点省略mStat及mStatFormula",
+          "符文Electrocute/TasteOfBlood 的 APRatio 同类节点省略mStat/mStatFormula；AD分支显式2/2",
+          "同构建三个具体类省略mStat均构造为0"
+        ],
+        "implication": "支持0为法强这一窄映射；还未取得按mStat0分派到法强的当前客户端函数，不把全部枚举映射视为已证。"
+      }
+    },
+    "chosenBaseFormula": "SelfCastFlatHeal + PercentMissingHPRatio×SOURCE/TOTAL ability_power",
+    "missingHealthText": "丽桑卓将她自身或一名敌方英雄裹进黑冰之中。敌人会被<status>晕眩</status>@EnemyCastDuration@秒。在自我施放时，丽桑卓进入凝滞状态@SelfCastDuration@秒并回复<healing>@HealAmount@生命值</healing>，每@SelfCastMissingHPPerAbove@%已损失生命值会使回复量提升@SelfCastMissingHPRatio@%。<br><br>之后，黑冰会从目标处开始蔓延，造成<magicDamage>@CalculatedDamage@魔法伤害</magicDamage>。黑冰存在@SlowDuration@秒，会使敌人<status>减速</status>@SlowAmount*-100@%。",
+    "preservedEnhancementParameters": [
+      "SelfCastMissingHPRatio",
+      "SelfCastMissingHPPerAbove"
+    ],
+    "notInferred": [
+      "actual_missing_health输入",
+      "hp属性",
+      "已损生命分段取整",
+      "封顶",
+      "所有者",
+      "治疗时点"
+    ]
+  },
+  "deathStateGuard": {
+    "sourceText": "当卡尔萨斯阵亡时，他能够无消耗地使用技能，持续@PassiveDuration@秒。",
+    "normalSkillSlotsRetained": [
+      "karthus_q",
+      "karthus_w",
+      "karthus_e",
+      "karthus_r"
+    ],
+    "normalResourceComponentsRetained": {
+      "karthus_q": [
+        "mana_cost"
+      ],
+      "karthus_w": [
+        "mana_cost"
+      ],
+      "karthus_e": [
+        "mana_cost",
+        "mana_restore_on_kill"
+      ],
+      "karthus_r": [
+        "mana_cost"
+      ]
+    },
+    "stateOverridePending": "死亡状态触发、窗口结束、Q/W/E/R可施放资格和无消耗覆盖未接；不把死亡状态扩展为技能主体替换。"
+  },
+  "businessWrites": 0
+}

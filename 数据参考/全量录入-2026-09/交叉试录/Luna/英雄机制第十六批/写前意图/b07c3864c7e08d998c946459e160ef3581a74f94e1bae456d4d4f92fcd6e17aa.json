@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T10:36:26.525Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/lissandra_q/parameters/slow_percent",
+  "id": "slow_percent",
+  "method": "POST",
+  "body": {
+    "parameterKey": "slow_percent",
+    "name": "减速百分数点",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 20,
+      "2": 24,
+      "3": 28,
+      "4": 32,
+      "5": 36
+    },
+    "description": "客户端当前根绑定 DataValues.slowPercentage；原始值为负移速修正，当前正文占位为 @slowPercentage*-100@%，转为正的20至36百分数点。",
+    "sortOrder": 60
+  }
+}

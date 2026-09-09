@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T10:37:20.747Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/karthus_e/parameters/cooldown_ms",
+  "id": "cooldown_ms",
+  "method": "POST",
+  "body": {
+    "parameterKey": "cooldown_ms",
+    "name": "基础冷却时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 500,
+    "levelValues": null,
+    "description": "官方cooldown与当前根cooldownTime[0]均为0.5秒；秒转换为毫秒。仅表示基础施放冷却，不表示伤害或资源结算周期。",
+    "sortOrder": 5
+  }
+}

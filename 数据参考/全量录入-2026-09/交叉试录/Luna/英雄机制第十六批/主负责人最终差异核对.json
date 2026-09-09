@@ -1,0 +1,861 @@
+{
+  "at": "2026-09-09T10:14:04.752Z",
+  "status": "FINAL_CANDIDATE_DIFF_REVIEWED_WRITER_PREFLIGHT_PENDING",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "planSha256": "6c2e687d3aaa74401d07fe200fa1c4bfe022f183a51f2d20d3492ba41d90b022",
+  "changes": [
+    {
+      "skill": "malzahar_w",
+      "kind": "parameters",
+      "key": "stack_cap",
+      "before": {
+        "parameterKey": "stack_cap",
+        "name": "虚灵层数上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.StackCap 取索引1至5。",
+        "sortOrder": 40
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "parameters",
+      "key": "voidling_duration_ms",
+      "before": {
+        "parameterKey": "voidling_duration_ms",
+        "name": "虚灵存续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 8000,
+          "2": 8000,
+          "3": 9000,
+          "4": 9000,
+          "5": 10000
+        },
+        "description": "客户端当前根绑定 DataValues.VoidlingDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 50
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "parameters",
+      "key": "voidling_base_damage",
+      "before": {
+        "parameterKey": "voidling_base_damage",
+        "name": "虚灵每次攻击基础伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 12,
+          "2": 14,
+          "3": 16,
+          "4": 18,
+          "5": 20
+        },
+        "description": "客户端当前根绑定 DataValues.VoidlingBaseDamage 取索引1至5。",
+        "sortOrder": 60
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "parameters",
+      "key": "lane_minion_ratio",
+      "before": {
+        "parameterKey": "lane_minion_ratio",
+        "name": "对线小兵伤害比例",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.LaneMinionMod 取索引1至5；单位正文为 @LaneMinionMod*100@%，保留原始比例3，不再乘0.01。",
+        "sortOrder": 70
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "parameters",
+      "key": "epic_monster_ratio",
+      "before": {
+        "parameterKey": "epic_monster_ratio",
+        "name": "史诗野怪伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.EpicMonsterMod 取索引1至5；单位正文为 @EpicMonsterMod*100@%，保留原始比例0.5，不再乘0.01。",
+        "sortOrder": 80
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "parameters",
+      "key": "bonus_ad_ratio",
+      "before": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "虚灵额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ADRatio 取索引1至5。",
+        "sortOrder": 90
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "parameters",
+      "key": "ap_ratio",
+      "before": {
+        "parameterKey": "ap_ratio",
+        "name": "虚灵法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.APRatio 取索引1至5。",
+        "sortOrder": 100
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "parameters",
+      "key": "voidling_level_scaling",
+      "before": {
+        "parameterKey": "voidling_level_scaling",
+        "name": "虚灵等级成长项（实际值外供）（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原树为角色等级插值5至64.5；未知等级算法不插值展开。",
+        "sortOrder": 110
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "parameters",
+      "key": "actual_stack_count",
+      "before": {
+        "parameterKey": "actual_stack_count",
+        "name": "本次主动施放实际虚灵层数（实际值外供）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "必须由本来源当次施放提供；先封顶到0至StackCap，不默认满层。",
+        "sortOrder": 120
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "parameters",
+      "key": "zero",
+      "before": {
+        "parameterKey": "zero",
+        "name": "零",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "层数下限；用于明确上限和下限进入公式。",
+        "sortOrder": 130
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "parameters",
+      "key": "one",
+      "before": {
+        "parameterKey": "one",
+        "name": "一",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "主动施放基础虚灵数量；来自正文“召唤1只”。",
+        "sortOrder": 140
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "formulas",
+      "key": "voidling_hit_damage",
+      "before": {
+        "formulaKey": "voidling_hit_damage",
+        "name": "虚灵每次攻击伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "voidling_base_damage"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "voidling_level_scaling"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "VoidlingBonusDamageTooltip = VoidlingBaseDamage + 等级成长项 + ADRatio×额外攻击力 + APRatio×法强；mStat=2、mStatFormula=2的攻击力映射已按同版本窄口径保留。",
+        "sortOrder": 10
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "formulas",
+      "key": "capped_stack_count",
+      "before": {
+        "formulaKey": "capped_stack_count",
+        "name": "封顶后的虚灵层数",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MIN",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MAX",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_stack_count"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "zero"
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "stack_cap"
+            }
+          ]
+        },
+        "description": "实际层数按MAX(实际值,0)再MIN(StackCap,结果)；越界输入不继续外推。",
+        "sortOrder": 20
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_w",
+      "kind": "formulas",
+      "key": "summon_count",
+      "before": {
+        "formulaKey": "summon_count",
+        "name": "主动施放虚灵数量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "one"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MIN",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MAX",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_stack_count"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "zero"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "stack_cap"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "正文“召唤1只，每层再增加1只”；上限StackCap明确进入最终数量公式。",
+        "sortOrder": 30
+      },
+      "after": null
+    },
+    {
+      "skill": "malzahar_e",
+      "kind": "parameters",
+      "key": "minion_execute_threshold",
+      "before": {
+        "parameterKey": "minion_execute_threshold",
+        "name": "小兵处决阈值（实际等级值外供）（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原树有等级1值、每级初始增量和12级断点；未知算法不展开。",
+        "sortOrder": 70
+      },
+      "after": null
+    },
+    {
+      "skill": "anivia_p",
+      "kind": "parameters",
+      "key": "egg_cooldown_ms",
+      "before": {
+        "parameterKey": "egg_cooldown_ms",
+        "name": "被动重生冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 240000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.Cooldown 取索引1至1；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 10
+      },
+      "after": null
+    },
+    {
+      "skill": "anivia_p",
+      "kind": "parameters",
+      "key": "bonus_resists",
+      "before": {
+        "parameterKey": "bonus_resists",
+        "name": "蛋形态额外双抗（实际等级值外供）（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原树从-40并带5/8/12/15级断点；未知等级算法不展开。",
+        "sortOrder": 20
+      },
+      "after": null
+    },
+    {
+      "skill": "anivia_p",
+      "kind": "parameters",
+      "key": "minus_one",
+      "before": {
+        "parameterKey": "minus_one",
+        "name": "负一",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": -1,
+        "levelValues": null,
+        "description": "BonusResistsTooltip原树的固定乘数。",
+        "sortOrder": 30
+      },
+      "after": null
+    },
+    {
+      "skill": "anivia_p",
+      "kind": "parameters",
+      "key": "revive_survival_ms",
+      "before": {
+        "parameterKey": "revive_survival_ms",
+        "name": "蛋形态复活等待（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "官方中文说明明确存活6秒后复活。",
+        "sortOrder": 40
+      },
+      "after": null
+    },
+    {
+      "skill": "anivia_p",
+      "kind": "formulas",
+      "key": "bonus_resists_display",
+      "before": {
+        "formulaKey": "bonus_resists_display",
+        "name": "蛋形态双抗显示值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minus_one"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_resists"
+            }
+          ]
+        },
+        "description": "BonusResistsTooltip为-1×BonusResists；保留内部树关系，不把负号改成属性枚举。",
+        "sortOrder": 10
+      },
+      "after": null
+    },
+    {
+      "skill": "lissandra_p",
+      "kind": "parameters",
+      "key": "ice_servant_slow_ratio",
+      "before": {
+        "parameterKey": "ice_servant_slow_ratio",
+        "name": "冰奴减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": -0.25,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MoveSpeedMod 取索引1至1；单位正文为@MoveSpeedMod*-100@%，保留-0.25，不乘0.01。",
+        "sortOrder": 10
+      },
+      "after": null
+    },
+    {
+      "skill": "lissandra_p",
+      "kind": "parameters",
+      "key": "ice_servant_explosion_delay_ms",
+      "before": {
+        "parameterKey": "ice_servant_explosion_delay_ms",
+        "name": "冰奴爆炸等待（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.ExplosionDelay 取索引1至1；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 20
+      },
+      "after": null
+    },
+    {
+      "skill": "lissandra_p",
+      "kind": "parameters",
+      "key": "ice_servant_base_damage",
+      "before": {
+        "parameterKey": "ice_servant_base_damage",
+        "name": "冰奴爆炸基础伤害（等级值外供）（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原树有1至6级每级增长与13级后断点；未知等级算法不展开。",
+        "sortOrder": 30
+      },
+      "after": null
+    },
+    {
+      "skill": "lissandra_p",
+      "kind": "parameters",
+      "key": "ap_ratio_constant",
+      "before": {
+        "parameterKey": "ap_ratio_constant",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "TotalDamage树直接给出0.5。",
+        "sortOrder": 40
+      },
+      "after": null
+    },
+    {
+      "skill": "lissandra_p",
+      "kind": "formulas",
+      "key": "ice_servant_damage",
+      "before": {
+        "formulaKey": "ice_servant_damage",
+        "name": "冰奴爆炸魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ice_servant_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_constant"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = 等级基础项 + 0.5×法强；独立冰奴实体与触发按范围排除，混合技能伤害数值保留。",
+        "sortOrder": 10
+      },
+      "after": null
+    },
+    {
+      "skill": "lissandra_q",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "before": {
+        "parameterKey": "slow_ratio",
+        "name": "减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": -0.2,
+          "2": -0.24,
+          "3": -0.28,
+          "4": -0.32,
+          "5": -0.36
+        },
+        "description": "客户端当前根绑定 DataValues.slowPercentage 取索引1至5；单位正文为@slowPercentage*-100@%，保留负比例，不乘0.01。",
+        "sortOrder": 60
+      },
+      "after": null
+    },
+    {
+      "skill": "lissandra_q",
+      "kind": "parameters",
+      "key": "slow_percent",
+      "before": null,
+      "after": {
+        "parameterKey": "slow_percent",
+        "name": "减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 24,
+          "3": 28,
+          "4": 32,
+          "5": 36
+        },
+        "description": "客户端当前根绑定 DataValues.slowPercentage；原始值为负移速修正，当前正文占位为 @slowPercentage*-100@%，转为正的20至36百分数点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "skill": "lissandra_r",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "before": {
+        "parameterKey": "slow_ratio",
+        "name": "区域减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": -0.45,
+          "2": -0.6,
+          "3": -0.75
+        },
+        "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至3；单位正文为@SlowAmount*-100@%，保留负比例，不乘0.01。",
+        "sortOrder": 60
+      },
+      "after": null
+    },
+    {
+      "skill": "lissandra_r",
+      "kind": "parameters",
+      "key": "missing_hp_ratio",
+      "before": {
+        "parameterKey": "missing_hp_ratio",
+        "name": "缺失生命治疗倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.55,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.PercentMissingHPRatio 取索引1至3；单位原始0.55比例；节点未提供属性选择器，实际缺失生命由运行输入提供。",
+        "sortOrder": 130
+      },
+      "after": null
+    },
+    {
+      "skill": "lissandra_r",
+      "kind": "parameters",
+      "key": "actual_missing_health",
+      "before": {
+        "parameterKey": "actual_missing_health",
+        "name": "施放时实际缺失生命（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "必须由自身施放瞬间提供；原树未给属性所有者和枚举，不设置默认值。",
+        "sortOrder": 140
+      },
+      "after": null
+    },
+    {
+      "skill": "lissandra_r",
+      "kind": "parameters",
+      "key": "slow_percent",
+      "before": null,
+      "after": {
+        "parameterKey": "slow_percent",
+        "name": "区域减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 45,
+          "2": 60,
+          "3": 75
+        },
+        "description": "客户端当前根绑定 DataValues.SlowAmount；原始值为负移速修正，当前正文占位为 @SlowAmount*-100@%，转为正的45至75百分数点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "skill": "lissandra_r",
+      "kind": "parameters",
+      "key": "heal_ap_ratio",
+      "before": null,
+      "after": {
+        "parameterKey": "heal_ap_ratio",
+        "name": "基础治疗法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.55,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.PercentMissingHPRatio；HealAmount节点省略mStat/mStatFormula，与同版本mStat0默认法强窄证一致，作为基础治疗的来源总法强倍率0.55；不按字段名绑定缺失生命或hp。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "skill": "lissandra_r",
+      "kind": "formulas",
+      "key": "self_heal",
+      "before": {
+        "formulaKey": "self_heal",
+        "name": "自身施放治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "self_heal_flat"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_missing_health"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missing_hp_ratio"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "HealAmount = SelfCastFlatHeal + 实际缺失生命×PercentMissingHPRatio；实际输入直接进入公式。",
+        "sortOrder": 20
+      },
+      "after": {
+        "formulaKey": "self_heal",
+        "name": "自身施放治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "self_heal_flat"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "HealAmount基础项 = SelfCastFlatHeal + PercentMissingHPRatio×来源总法强；同版本省略mStat/mStatFormula的默认法强窄证仅支持这一基础项。已损生命提升另由正文两个数据值描述，未猜分段、取整或封顶。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "skill": "karthus_q",
+      "kind": "parameters",
+      "key": "one",
+      "before": {
+        "parameterKey": "one",
+        "name": "一",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "目标数量至少为1。",
+        "sortOrder": 60
+      },
+      "after": null
+    },
+    {
+      "skill": "karthus_q",
+      "kind": "formulas",
+      "key": "single_target_eligibility_lower_bound",
+      "before": {
+        "formulaKey": "single_target_eligibility_lower_bound",
+        "name": "单一目标下限约束",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MAX",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_target_count"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "one"
+            }
+          ]
+        },
+        "description": "负例约束只用于说明目标数量不能为负；实际是否唯一仍由命中事件判定。",
+        "sortOrder": 30
+      },
+      "after": null
+    },
+    {
+      "skill": "karthus_e",
+      "kind": "parameters",
+      "key": "damage_tick_interval_ms",
+      "before": {
+        "parameterKey": "damage_tick_interval_ms",
+        "name": "伤害/资源节拍（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "当前根CooldownTime[0]为0.5秒；只留来源节拍，不生成周期效果。",
+        "sortOrder": 50
+      },
+      "after": null
+    },
+    {
+      "skill": "karthus_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "before": null,
+      "after": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "官方cooldown与当前根cooldownTime[0]均为0.5秒；秒转换为毫秒。仅表示基础施放冷却，不表示伤害或资源结算周期。",
+        "sortOrder": 5
+      }
+    }
+  ],
+  "changeCount": 37,
+  "totals": {
+    "parameters": 115,
+    "formulas": 21,
+    "effects": 17,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "planKeys": [
+    "at",
+    "status",
+    "policy",
+    "scope",
+    "source",
+    "candidateFile",
+    "candidateSha256",
+    "candidatePlanSha256",
+    "snapshotSha256",
+    "protectionFile",
+    "protectionSha256",
+    "currentGet",
+    "protectedReadOnly",
+    "reusedPublicParameters",
+    "counts",
+    "requestCount",
+    "requests",
+    "historicalCandidatePreserved",
+    "historicalPlan"
+  ],
+  "businessWrites": 0,
+  "scope": "根复核仅授权差异及LissR原始节点守卫；写入前仍须逐项请求与复用保护确认。"
+}

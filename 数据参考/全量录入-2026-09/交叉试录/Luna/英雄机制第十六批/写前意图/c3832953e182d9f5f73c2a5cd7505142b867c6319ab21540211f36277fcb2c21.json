@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T10:37:16.319Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/karthus_e/parameters/mana_cost",
+  "id": "mana_cost",
+  "method": "POST",
+  "body": {
+    "parameterKey": "mana_cost",
+    "name": "基础法力消耗",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 30,
+      "2": 42,
+      "3": 54,
+      "4": 66,
+      "5": 78
+    },
+    "description": "官方cost与当前根manaValues逐级一致；法力值；未接入实际扣除时点。",
+    "sortOrder": 10
+  }
+}

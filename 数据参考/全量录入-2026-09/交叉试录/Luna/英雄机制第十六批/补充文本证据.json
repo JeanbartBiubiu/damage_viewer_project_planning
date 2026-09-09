@@ -1,0 +1,523 @@
+{
+  "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+  "sha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "note": "仅保留当前角色根绑定主技能mLocKeys引用文本；动态键缺失时保留缺失事实，不借旧技能或其他英雄文案。",
+  "skills": {
+    "malzahar_p": {
+      "binding": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_MalzaharPassive_Name",
+          "key": "spell_malzaharpassive_name",
+          "text": "虚空穿越"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MalzaharPassive_Tooltip",
+          "key": "spell_malzaharpassive_tooltip",
+          "text": "玛尔扎哈获得@DRPercent@%伤害减免并免疫<status>限制</status>和<status>定身</status>效果，并且在受到或格挡了一次那些效果后，会存留@LingerDuration@秒。这个效果有@ShieldCooldown@秒的冷却时间。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MalzaharPassive_Summary",
+          "key": "spell_malzaharpassive_summary",
+          "text": "玛尔扎哈如果近期没有受到伤害或控制效果，就会获得巨幅伤害减免和免疫控制的效果，并且这个效果在受到伤害后还会残留一小段时间。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_MalzaharPassive_TooltipExtended",
+          "key": "spell_malzaharpassive_tooltipextended",
+          "text": "{{Spell_MalzaharPassive_Tooltip}}<br><br><rules>承受伤害将重启冷却时间。<br>来自小兵的伤害不会被减免，但不会触发或重启冷却时间。</rules>"
+        }
+      }
+    },
+    "malzahar_q": {
+      "binding": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_MalzaharQ_Name",
+          "key": "spell_malzaharq_name",
+          "text": "虚空召唤"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MalzaharQ_Summary",
+          "key": "spell_malzaharq_summary",
+          "text": "玛尔扎哈开启两扇通向虚空的传送门。在短暂的延迟后，两扇门之间会有虚空能量对流而过，造成魔法伤害并沉默敌方英雄。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MalzaharQ_Tooltip",
+          "key": "spell_malzaharq_tooltip",
+          "text": "玛尔扎哈开启两扇通往虚空的传送门，在短暂的延迟后，能量就会从虚空之中喷发，并且在两道传送门之间对流，对击中的敌人造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>并使其<status>沉默</status>@SilenceDuration@秒。"
+        }
+      }
+    },
+    "malzahar_w": {
+      "binding": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_MalzaharW_Name",
+          "key": "spell_malzaharw_name",
+          "text": "虚空虫群"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MalzaharW_Summary",
+          "key": "spell_malzaharw_summary",
+          "text": "玛尔扎哈召唤虚灵去攻击附近的敌人。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MalzaharW_Tooltip",
+          "key": "spell_malzaharw_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>玛尔扎哈的其它技能在施放时会为他提供一层效果(最多可叠到@StackCap@层)。<br><br><spellActive>主动：</spellActive>玛尔扎哈召唤一个虚灵，并且每层效果会额外召唤一个虚灵。虚灵持续@VoidlingDuration@秒并且每次命中造成<magicDamage>@VoidlingBonusDamageTooltip@魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_MalzaharW_TooltipExtendedBelowLine",
+          "key": "spell_malzaharw_tooltipextendedbelowline",
+          "text": "<rules>虚灵对中了<spellName>煞星幻象</spellName>的线上小兵造成@LaneMinionMod*100@%伤害。<br>虚灵对史诗级野怪造成@EpicMonsterMod*100@%伤害。</rules>"
+        }
+      }
+    },
+    "malzahar_e": {
+      "binding": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_MalzaharE_Name",
+          "key": "spell_malzahare_name",
+          "text": "煞星幻象"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MalzaharE_Summary",
+          "key": "spell_malzahare_summary",
+          "text": "玛尔扎哈将目标的惨死幻象侵入目标的意识中，造成持续伤害。玛尔扎哈对目标使用其它技能时会刷新幻象的持续时间。<br><br>如果目标在感染幻象期间死亡，那么幻象会传到附近的一个敌人身上，并且玛尔扎哈会回复法力值。玛尔扎哈的虚灵会优先攻击感染了幻象的单位。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MalzaharE_Tooltip",
+          "key": "spell_malzahare_tooltip",
+          "text": "玛尔扎哈给目标造成可怕的幻象，在@Duration@秒里对一名敌人持续造成共<magicDamage>@TotalDamage@魔法伤害</magicDamage>。在此期间，对目标使用<spellName>虚空召唤</spellName>或<spellName>冥府之握</spellName>会刷新幻象的持续时间。<br><br>如果目标被击杀，玛尔扎哈会获得<scaleMana>@ManaRestore@法力</scaleMana>并且幻象会传播给相距最近的敌人。<br><br><rules>煞星幻象会处决低于@MinionExecuteThreshold@生命值的小兵。</rules>"
+        }
+      }
+    },
+    "malzahar_r": {
+      "binding": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_MalzaharR_Name",
+          "key": "spell_malzaharr_name",
+          "text": "冥府之握"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_MalzaharR_Summary",
+          "key": "spell_malzaharr_summary",
+          "text": "玛尔扎哈引导虚空的精萃来把一名敌方英雄压制在一个充满伤害的负能量地带上。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_MalzaharR_Tooltip",
+          "key": "spell_malzaharr_tooltip",
+          "text": "玛尔扎哈<status>压制</status>一名敌方英雄并在@CCDuration@秒里持续造成共<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。一个负能量地带会在他目标周围生成，在@PoolDuration@秒里持续造成共<magicDamage>@ZoneDamageTooltip@最大生命值的魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_MalzaharR_TooltipExtendedBelowLine",
+          "key": "spell_malzaharr_tooltipextendedbelowline",
+          "text": "<rules>这个技能会使敌人<status>中断位移</status>。</rules>"
+        }
+      }
+    },
+    "anivia_p": {
+      "binding": "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthMarker",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RebirthMarker_Name",
+          "key": "spell_rebirthmarker_name",
+          "text": "寒霜涅槃"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RebirthMarker_Tooltip",
+          "key": "spell_rebirthmarker_tooltip",
+          "text": "艾尼维亚受到致命伤害后化身为凤凰蛋，回复满血并获得<Level>@BonusResists@</Level><scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。如果她能存活6秒，则获得重生。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RebirthMarker_Summary",
+          "key": "spell_rebirthmarker_summary",
+          "text": "在受到致命伤害后，艾尼维亚将化身为凤凰蛋，然后满血复活。"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_AniviaP_Cooldown",
+          "key": "spell_aniviap_cooldown",
+          "text": "@Cooldown@秒%i:cooldown%"
+        }
+      }
+    },
+    "anivia_q": {
+      "binding": "Characters/Anivia/Spells/FlashFrostAbility/FlashFrost",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_FlashFrost_Name",
+          "key": "spell_flashfrost_name",
+          "text": "寒冰闪耀"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_FlashFrost_Summary",
+          "key": "spell_flashfrost_summary",
+          "text": "艾尼维亚挥动翅膀聚集空气，制造一枚冰晶向目标区域施放，冰冻并伤害路径上的所有敌人。当冰晶爆裂时，它会晕眩并伤害一定范围内的所有敌人。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_FlashFrost_Tooltip",
+          "key": "spell_flashfrost_tooltip",
+          "text": "艾尼维亚发射出一个巨型冰块，造成<magicDamage>@TotalPassthroughDamage@魔法伤害</magicDamage>并<keywordMajor>冰冻</keywordMajor>敌人@SlowDuration@秒，使其<status>减速</status>@Spell.GlacialStorm:SlowAmount@%。在到达距离终点时，冰块会爆炸，<status>晕眩</status>敌人@StunDuration@秒并造成<magicDamage>@TotalExplosionDamage@魔法伤害</magicDamage>。<br><br>艾尼维亚可以在冰块飞行途中<recast>再次施放</recast>这个技能来将其提前引爆。"
+        }
+      }
+    },
+    "anivia_w": {
+      "binding": "Characters/Anivia/Spells/CrystallizeAbility/Crystallize",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_Crystallize_Name",
+          "key": "spell_crystallize_name",
+          "text": "寒冰屏障"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_Crystallize_Summary",
+          "key": "spell_crystallize_summary",
+          "text": "艾尼维亚利用空气中的湿气，召唤出一道不可穿越的冰之墙来阻挡所有移动。该墙持续很短一段时间后就会融化。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_Crystallize_Tooltip",
+          "key": "spell_crystallize_tooltip",
+          "text": "艾尼维亚召唤出一道宽@WallWidth@码的无法通过的冰墙。冰墙会在融化前持续@WallDuration@秒。"
+        }
+      }
+    },
+    "anivia_e": {
+      "binding": "Characters/Anivia/Spells/FrostbiteAbility/Frostbite",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_Frostbite_Name",
+          "key": "spell_frostbite_name",
+          "text": "霜寒刺骨"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_Frostbite_Summary",
+          "key": "spell_frostbite_summary",
+          "text": "艾尼维亚扇动双翅，朝她的目标喷射出一股刺骨的强风，造成伤害。如果目标近期已被【Q寒冰闪耀】所命中或被一个完全形成的【R冰川风暴】所伤害，那么将会受到该技能双倍的伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_Frostbite_Tooltip",
+          "key": "spell_frostbite_tooltip",
+          "text": "艾尼维亚用一阵刺骨的寒风冲击一名敌人，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。如果目标身上带有<keywordMajor>冰冻</keywordMajor>效果，则艾尼维亚会转而造成<magicDamage>@EmpoweredDamage@魔法伤害</magicDamage>。"
+        }
+      }
+    },
+    "anivia_r": {
+      "binding": "Characters/Anivia/Spells/GlacialStormAbility/GlacialStorm",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GlacialStorm_Name",
+          "key": "spell_glacialstorm_name",
+          "text": "冰川风暴"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GlacialStorm_Summary",
+          "key": "spell_glacialstorm_summary",
+          "text": "艾尼维亚召唤出一朵夹杂着冰块和冰雹的雨云，对敌人造成伤害，并使其减速。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GlacialStorm_Tooltip",
+          "key": "spell_glacialstorm_tooltip",
+          "text": "<toggle>激活：</toggle>艾尼维亚在目标区域召唤出一阵夹杂着冰与雹的强雨，来使敌人<status>减速</status>@SlowAmount@%并每秒造成<magicDamage>@TotalDamagePerSecond@魔法伤害</magicDamage>。风暴会在@GrowthTime@秒里持续提升规模。<br><br>当风暴完全形成后，它会施加<keywordMajor>冰冻</keywordMajor>效果，使敌人<status>减速</status>@SlowPercentEmpoweredTT@%，并且每秒造成<magicDamage>@EmpoweredDamagePerSecondTooltipOnly@魔法伤害</magicDamage>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_GlacialStorm_Cost",
+          "key": "spell_glacialstorm_cost",
+          "text": "@Cost@+@ManaCostPerSecond@法力/秒"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_GlacialStorm_TooltipExtendedBelowLine",
+          "key": "spell_glacialstorm_tooltipextendedbelowline",
+          "text": "<rules>如果艾尼维亚过于远离风暴，那么风暴会结束。</rules>"
+        }
+      }
+    },
+    "lissandra_p": {
+      "binding": "Characters/Lissandra/Spells/LissandraPassiveAbility/LissandraPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_LissandraPassive_Name",
+          "key": "spell_lissandrapassive_name",
+          "text": "冰脉驱役"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_LissandraPassive_Summary",
+          "key": "spell_lissandrapassive_summary",
+          "text": "当一名敌方英雄在丽桑卓附近阵亡时，该英雄会变成一个冰封奴仆。冰封奴仆会寻找活着的敌人，使身边敌人的移动速度减少。在一段延迟后，冰封奴仆会从极度冰寒中粉碎，对附近目标造成魔法伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_LissandraPassive_Tooltip",
+          "key": "spell_lissandrapassive_tooltip",
+          "text": "当一名敌方英雄在丽桑卓附近阵亡时，该英雄会变成一个冰霜丧尸来寻找活着的敌人们。这些丧尸附近的敌人们会被<status>减速</status>@MoveSpeedMod*-100@%。在@ExplosionDelay@秒后，冰霜丧尸会爆炸，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+        }
+      }
+    },
+    "lissandra_q": {
+      "binding": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_LissandraQ_Name",
+          "key": "spell_lissandraq_name",
+          "text": "寒冰碎片"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_LissandraQ_Summary",
+          "key": "spell_lissandraq_summary",
+          "text": "掷出一杆冰矛，冰矛会在命中敌人时碎裂，造成魔法伤害和减速效果。碎裂会穿过目标，对被冰矛命中的其他敌人造成等量伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_LissandraQ_Tooltip",
+          "key": "spell_lissandraq_tooltip",
+          "text": "丽桑卓扔出一杆冰矛，冰矛会在命中第一个敌人后碎裂，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>、持续@SlowDuration@秒的@SlowPercentage*-100@%<status>减速</status>，并且还会对该敌人身后的敌人们造成伤害和减速。"
+        }
+      }
+    },
+    "lissandra_w": {
+      "binding": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_LissandraW_Name",
+          "key": "spell_lissandraw_name",
+          "text": "冰霜之环"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_LissandraW_Summary",
+          "key": "spell_lissandraw_summary",
+          "text": "将周围的敌人冻在原地，造成魔法伤害和束缚效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_LissandraW_Tooltip",
+          "key": "spell_lissandraw_tooltip",
+          "text": "丽桑卓生成一个冰封领域，<status>禁锢</status>附近的敌人们@SnareDuration@秒并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+        }
+      }
+    },
+    "lissandra_e": {
+      "binding": "Characters/Lissandra/Spells/LissandraEAbility/LissandraE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_LissandraE_Name",
+          "key": "spell_lissandrae_name",
+          "text": "冰川之径"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_LissandraE_Summary",
+          "key": "spell_lissandrae_summary",
+          "text": "丽桑卓召唤一个寒冰魔爪来造成魔法伤害。再次激活这个技能，可以让丽桑卓传送到寒冰魔爪的当前位置上。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_LissandraE_Tooltip",
+          "key": "spell_lissandrae_tooltip",
+          "text": "丽桑卓向前放出一个冰爪，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。丽桑卓可以在冰爪飞行时<recast>再次施放</recast>来传送到它所在的位置。"
+        }
+      }
+    },
+    "lissandra_r": {
+      "binding": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_LissandraR_Name",
+          "key": "spell_lissandrar_name",
+          "text": "冰封陵墓"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_LissandraR_Summary",
+          "key": "spell_lissandrar_summary",
+          "text": "如果对敌方英雄施放，那么会冻结目标，对目标造成晕眩效果，如果对丽桑卓自己施放，那么她会暂时用暗黑之冰裹住自己，治疗自身并免疫任何伤害且不可被选取，但也无法进行任何动作。暗黑之冰可以从目标处放射寒芒对敌人造成魔法伤害和减速效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_LissandraR_Tooltip",
+          "key": "spell_lissandrar_tooltip",
+          "text": "丽桑卓将她自身或一名敌方英雄裹进黑冰之中。敌人会被<status>晕眩</status>@EnemyCastDuration@秒。在自我施放时，丽桑卓进入凝滞状态@SelfCastDuration@秒并回复<healing>@HealAmount@生命值</healing>，每@SelfCastMissingHPPerAbove@%已损失生命值会使回复量提升@SelfCastMissingHPRatio@%。<br><br>之后，黑冰会从目标处开始蔓延，造成<magicDamage>@CalculatedDamage@魔法伤害</magicDamage>。黑冰存在@SlowDuration@秒，会使敌人<status>减速</status>@SlowAmount*-100@%。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_LissandraR_TooltipExtendedBelowLine",
+          "key": "spell_lissandrar_tooltipextendedbelowline",
+          "text": "<rules>{{Reminder_Stasis}}<br>这个技能会使敌人<status>中断位移</status>。</rules>"
+        }
+      }
+    },
+    "karthus_p": {
+      "binding": "Characters/Karthus/Spells/KarthusDeathDefiedAbility/KarthusDeathDefied",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KarthusDeathDefied_Name",
+          "key": "spell_karthusdeathdefied_name",
+          "text": "死亡契约"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KarthusDeathDefied_Tooltip",
+          "key": "spell_karthusdeathdefied_tooltip",
+          "text": "当卡尔萨斯阵亡时，他能够无消耗地使用技能，持续@PassiveDuration@秒。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KarthusDeathDefied_Summary",
+          "key": "spell_karthusdeathdefied_summary",
+          "text": "在死亡时，卡尔萨斯会化为一个灵体，能够继续施放技能。"
+        }
+      }
+    },
+    "karthus_q": {
+      "binding": "Characters/Karthus/Spells/KarthusLayWasteA1Ability/KarthusLayWasteA1",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KarthusLayWasteA1_Name",
+          "key": "spell_karthuslaywastea1_name",
+          "text": "荒芜"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KarthusLayWasteA1_Summary",
+          "key": "spell_karthuslaywastea1_summary",
+          "text": "卡尔萨斯在目标区域释放一次有延迟的爆炸魔法，对区域内的所有敌人造成伤害。对孤立无援的敌人造成提升过的伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KarthusLayWasteA1_Tooltip",
+          "key": "spell_karthuslaywastea1_tooltip",
+          "text": "卡尔萨斯生成一道魔法爆裂，造成<magicDamage>@QDamage@魔法伤害</magicDamage>。如果爆裂仅命中了一名敌人，它会转而造成<magicDamage>@QSingleTargetDamage@魔法伤害</magicDamage>。"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_KarthusLayWasteA1_Cooldown",
+          "key": "spell_karthuslaywastea1_cooldown",
+          "text": "<Cooldown>@AMMORECHARGETIME@秒%i:cooldown%</Cooldown>"
+        }
+      }
+    },
+    "karthus_w": {
+      "binding": "Characters/Karthus/Spells/KarthusWallOfPainAbility/KarthusWallOfPain",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KarthusWallOfPain_Name",
+          "key": "spell_karthuswallofpain_name",
+          "text": "痛苦之墙"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KarthusWallOfPain_Summary",
+          "key": "spell_karthuswallofpain_summary",
+          "text": "卡尔萨斯创造一道可通过的魔能之墙。所有穿过墙体的敌方单位都会被暂时降低移动速度和魔法抗性。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KarthusWallOfPain_Tooltip",
+          "key": "spell_karthuswallofpain_tooltip",
+          "text": "卡尔萨斯生成一个持续@WallDuration@秒的墙体。穿过它的敌人们会受到持续@DebuffDuration@秒的<scaleMR>@MagicResistShred@%魔法抗性</scaleMR>削减，以及在此期间持续衰减的@SlowPercent@%<status>减速</status>。"
+        }
+      }
+    },
+    "karthus_e": {
+      "binding": "Characters/Karthus/Spells/KarthusDefileAbility/KarthusDefile",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KarthusDefile_Name",
+          "key": "spell_karthusdefile_name",
+          "text": "亵渎"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KarthusDefile_Summary",
+          "key": "spell_karthusdefile_summary",
+          "text": "卡尔萨斯被动地从他的猎物那里窃取法力，每杀死一个敌人就会获得法力。卡尔萨斯也可以转化这种力量，用猎物的灵魂环绕自身，对附近的敌人造成伤害，但会急速消耗他自己的法力。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KarthusDefile_Tooltip",
+          "key": "spell_karthusdefile_tooltip",
+          "text": "<spellPassive>被动：</spellPassive>卡尔萨斯击杀一个单位时，回复<scaleMana>@ManaRestoreOnKill@法力值</scaleMana>。<br><br><toggle>激活：</toggle>卡尔萨斯生成一个死灵光环，每秒对附近敌人造成<magicDamage>@TotalDPS@魔法伤害</magicDamage>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_Mana_per_Second",
+          "key": "spell_cost_mana_per_second",
+          "text": "每秒@Cost@法力"
+        }
+      }
+    },
+    "karthus_r": {
+      "binding": "Characters/Karthus/Spells/KarthusFallenOneAbility/KarthusFallenOne",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_KarthusFallenOne_Name",
+          "key": "spell_karthusfallenone_name",
+          "text": "安魂曲"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_KarthusFallenOne_Summary",
+          "key": "spell_karthusfallenone_summary",
+          "text": "在引导3秒后，卡尔萨斯就会对所有敌方英雄造成伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_KarthusFallenOne_Tooltip",
+          "key": "spell_karthusfallenone_tooltip",
+          "text": "卡尔萨斯引导3秒，然后对敌方英雄们造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，无视距离。"
+        }
+      }
+    }
+  },
+  "entries": {
+    "spell_malzaharpassive_name": "虚空穿越",
+    "spell_malzaharpassive_tooltip": "玛尔扎哈获得@DRPercent@%伤害减免并免疫<status>限制</status>和<status>定身</status>效果，并且在受到或格挡了一次那些效果后，会存留@LingerDuration@秒。这个效果有@ShieldCooldown@秒的冷却时间。",
+    "spell_malzaharpassive_summary": "玛尔扎哈如果近期没有受到伤害或控制效果，就会获得巨幅伤害减免和免疫控制的效果，并且这个效果在受到伤害后还会残留一小段时间。",
+    "spell_malzaharpassive_tooltipextended": "{{Spell_MalzaharPassive_Tooltip}}<br><br><rules>承受伤害将重启冷却时间。<br>来自小兵的伤害不会被减免，但不会触发或重启冷却时间。</rules>",
+    "spell_malzaharq_name": "虚空召唤",
+    "spell_malzaharq_summary": "玛尔扎哈开启两扇通向虚空的传送门。在短暂的延迟后，两扇门之间会有虚空能量对流而过，造成魔法伤害并沉默敌方英雄。",
+    "spell_malzaharq_tooltip": "玛尔扎哈开启两扇通往虚空的传送门，在短暂的延迟后，能量就会从虚空之中喷发，并且在两道传送门之间对流，对击中的敌人造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>并使其<status>沉默</status>@SilenceDuration@秒。",
+    "spell_malzaharw_name": "虚空虫群",
+    "spell_malzaharw_summary": "玛尔扎哈召唤虚灵去攻击附近的敌人。",
+    "spell_malzaharw_tooltip": "<spellPassive>被动：</spellPassive>玛尔扎哈的其它技能在施放时会为他提供一层效果(最多可叠到@StackCap@层)。<br><br><spellActive>主动：</spellActive>玛尔扎哈召唤一个虚灵，并且每层效果会额外召唤一个虚灵。虚灵持续@VoidlingDuration@秒并且每次命中造成<magicDamage>@VoidlingBonusDamageTooltip@魔法伤害</magicDamage>。",
+    "spell_malzaharw_tooltipextendedbelowline": "<rules>虚灵对中了<spellName>煞星幻象</spellName>的线上小兵造成@LaneMinionMod*100@%伤害。<br>虚灵对史诗级野怪造成@EpicMonsterMod*100@%伤害。</rules>",
+    "spell_malzahare_name": "煞星幻象",
+    "spell_malzahare_summary": "玛尔扎哈将目标的惨死幻象侵入目标的意识中，造成持续伤害。玛尔扎哈对目标使用其它技能时会刷新幻象的持续时间。<br><br>如果目标在感染幻象期间死亡，那么幻象会传到附近的一个敌人身上，并且玛尔扎哈会回复法力值。玛尔扎哈的虚灵会优先攻击感染了幻象的单位。",
+    "spell_malzahare_tooltip": "玛尔扎哈给目标造成可怕的幻象，在@Duration@秒里对一名敌人持续造成共<magicDamage>@TotalDamage@魔法伤害</magicDamage>。在此期间，对目标使用<spellName>虚空召唤</spellName>或<spellName>冥府之握</spellName>会刷新幻象的持续时间。<br><br>如果目标被击杀，玛尔扎哈会获得<scaleMana>@ManaRestore@法力</scaleMana>并且幻象会传播给相距最近的敌人。<br><br><rules>煞星幻象会处决低于@MinionExecuteThreshold@生命值的小兵。</rules>",
+    "spell_malzaharr_name": "冥府之握",
+    "spell_malzaharr_summary": "玛尔扎哈引导虚空的精萃来把一名敌方英雄压制在一个充满伤害的负能量地带上。",
+    "spell_malzaharr_tooltip": "玛尔扎哈<status>压制</status>一名敌方英雄并在@CCDuration@秒里持续造成共<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。一个负能量地带会在他目标周围生成，在@PoolDuration@秒里持续造成共<magicDamage>@ZoneDamageTooltip@最大生命值的魔法伤害</magicDamage>。",
+    "spell_malzaharr_tooltipextendedbelowline": "<rules>这个技能会使敌人<status>中断位移</status>。</rules>",
+    "spell_rebirthmarker_name": "寒霜涅槃",
+    "spell_rebirthmarker_tooltip": "艾尼维亚受到致命伤害后化身为凤凰蛋，回复满血并获得<Level>@BonusResists@</Level><scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。如果她能存活6秒，则获得重生。",
+    "spell_rebirthmarker_summary": "在受到致命伤害后，艾尼维亚将化身为凤凰蛋，然后满血复活。",
+    "spell_aniviap_cooldown": "@Cooldown@秒%i:cooldown%",
+    "spell_flashfrost_name": "寒冰闪耀",
+    "spell_flashfrost_summary": "艾尼维亚挥动翅膀聚集空气，制造一枚冰晶向目标区域施放，冰冻并伤害路径上的所有敌人。当冰晶爆裂时，它会晕眩并伤害一定范围内的所有敌人。",
+    "spell_flashfrost_tooltip": "艾尼维亚发射出一个巨型冰块，造成<magicDamage>@TotalPassthroughDamage@魔法伤害</magicDamage>并<keywordMajor>冰冻</keywordMajor>敌人@SlowDuration@秒，使其<status>减速</status>@Spell.GlacialStorm:SlowAmount@%。在到达距离终点时，冰块会爆炸，<status>晕眩</status>敌人@StunDuration@秒并造成<magicDamage>@TotalExplosionDamage@魔法伤害</magicDamage>。<br><br>艾尼维亚可以在冰块飞行途中<recast>再次施放</recast>这个技能来将其提前引爆。",
+    "spell_crystallize_name": "寒冰屏障",
+    "spell_crystallize_summary": "艾尼维亚利用空气中的湿气，召唤出一道不可穿越的冰之墙来阻挡所有移动。该墙持续很短一段时间后就会融化。",
+    "spell_crystallize_tooltip": "艾尼维亚召唤出一道宽@WallWidth@码的无法通过的冰墙。冰墙会在融化前持续@WallDuration@秒。",
+    "spell_frostbite_name": "霜寒刺骨",
+    "spell_frostbite_summary": "艾尼维亚扇动双翅，朝她的目标喷射出一股刺骨的强风，造成伤害。如果目标近期已被【Q寒冰闪耀】所命中或被一个完全形成的【R冰川风暴】所伤害，那么将会受到该技能双倍的伤害。",
+    "spell_frostbite_tooltip": "艾尼维亚用一阵刺骨的寒风冲击一名敌人，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。如果目标身上带有<keywordMajor>冰冻</keywordMajor>效果，则艾尼维亚会转而造成<magicDamage>@EmpoweredDamage@魔法伤害</magicDamage>。",
+    "spell_glacialstorm_name": "冰川风暴",
+    "spell_glacialstorm_summary": "艾尼维亚召唤出一朵夹杂着冰块和冰雹的雨云，对敌人造成伤害，并使其减速。",
+    "spell_glacialstorm_tooltip": "<toggle>激活：</toggle>艾尼维亚在目标区域召唤出一阵夹杂着冰与雹的强雨，来使敌人<status>减速</status>@SlowAmount@%并每秒造成<magicDamage>@TotalDamagePerSecond@魔法伤害</magicDamage>。风暴会在@GrowthTime@秒里持续提升规模。<br><br>当风暴完全形成后，它会施加<keywordMajor>冰冻</keywordMajor>效果，使敌人<status>减速</status>@SlowPercentEmpoweredTT@%，并且每秒造成<magicDamage>@EmpoweredDamagePerSecondTooltipOnly@魔法伤害</magicDamage>。",
+    "spell_glacialstorm_cost": "@Cost@+@ManaCostPerSecond@法力/秒",
+    "spell_glacialstorm_tooltipextendedbelowline": "<rules>如果艾尼维亚过于远离风暴，那么风暴会结束。</rules>",
+    "spell_lissandrapassive_name": "冰脉驱役",
+    "spell_lissandrapassive_summary": "当一名敌方英雄在丽桑卓附近阵亡时，该英雄会变成一个冰封奴仆。冰封奴仆会寻找活着的敌人，使身边敌人的移动速度减少。在一段延迟后，冰封奴仆会从极度冰寒中粉碎，对附近目标造成魔法伤害。",
+    "spell_lissandrapassive_tooltip": "当一名敌方英雄在丽桑卓附近阵亡时，该英雄会变成一个冰霜丧尸来寻找活着的敌人们。这些丧尸附近的敌人们会被<status>减速</status>@MoveSpeedMod*-100@%。在@ExplosionDelay@秒后，冰霜丧尸会爆炸，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。",
+    "spell_lissandraq_name": "寒冰碎片",
+    "spell_lissandraq_summary": "掷出一杆冰矛，冰矛会在命中敌人时碎裂，造成魔法伤害和减速效果。碎裂会穿过目标，对被冰矛命中的其他敌人造成等量伤害。",
+    "spell_lissandraq_tooltip": "丽桑卓扔出一杆冰矛，冰矛会在命中第一个敌人后碎裂，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>、持续@SlowDuration@秒的@SlowPercentage*-100@%<status>减速</status>，并且还会对该敌人身后的敌人们造成伤害和减速。",
+    "spell_lissandraw_name": "冰霜之环",
+    "spell_lissandraw_summary": "将周围的敌人冻在原地，造成魔法伤害和束缚效果。",
+    "spell_lissandraw_tooltip": "丽桑卓生成一个冰封领域，<status>禁锢</status>附近的敌人们@SnareDuration@秒并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。",
+    "spell_lissandrae_name": "冰川之径",
+    "spell_lissandrae_summary": "丽桑卓召唤一个寒冰魔爪来造成魔法伤害。再次激活这个技能，可以让丽桑卓传送到寒冰魔爪的当前位置上。",
+    "spell_lissandrae_tooltip": "丽桑卓向前放出一个冰爪，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。丽桑卓可以在冰爪飞行时<recast>再次施放</recast>来传送到它所在的位置。",
+    "spell_lissandrar_name": "冰封陵墓",
+    "spell_lissandrar_summary": "如果对敌方英雄施放，那么会冻结目标，对目标造成晕眩效果，如果对丽桑卓自己施放，那么她会暂时用暗黑之冰裹住自己，治疗自身并免疫任何伤害且不可被选取，但也无法进行任何动作。暗黑之冰可以从目标处放射寒芒对敌人造成魔法伤害和减速效果。",
+    "spell_lissandrar_tooltip": "丽桑卓将她自身或一名敌方英雄裹进黑冰之中。敌人会被<status>晕眩</status>@EnemyCastDuration@秒。在自我施放时，丽桑卓进入凝滞状态@SelfCastDuration@秒并回复<healing>@HealAmount@生命值</healing>，每@SelfCastMissingHPPerAbove@%已损失生命值会使回复量提升@SelfCastMissingHPRatio@%。<br><br>之后，黑冰会从目标处开始蔓延，造成<magicDamage>@CalculatedDamage@魔法伤害</magicDamage>。黑冰存在@SlowDuration@秒，会使敌人<status>减速</status>@SlowAmount*-100@%。",
+    "spell_lissandrar_tooltipextendedbelowline": "<rules>{{Reminder_Stasis}}<br>这个技能会使敌人<status>中断位移</status>。</rules>",
+    "spell_karthusdeathdefied_name": "死亡契约",
+    "spell_karthusdeathdefied_tooltip": "当卡尔萨斯阵亡时，他能够无消耗地使用技能，持续@PassiveDuration@秒。",
+    "spell_karthusdeathdefied_summary": "在死亡时，卡尔萨斯会化为一个灵体，能够继续施放技能。",
+    "spell_karthuslaywastea1_name": "荒芜",
+    "spell_karthuslaywastea1_summary": "卡尔萨斯在目标区域释放一次有延迟的爆炸魔法，对区域内的所有敌人造成伤害。对孤立无援的敌人造成提升过的伤害。",
+    "spell_karthuslaywastea1_tooltip": "卡尔萨斯生成一道魔法爆裂，造成<magicDamage>@QDamage@魔法伤害</magicDamage>。如果爆裂仅命中了一名敌人，它会转而造成<magicDamage>@QSingleTargetDamage@魔法伤害</magicDamage>。",
+    "spell_karthuslaywastea1_cooldown": "<Cooldown>@AMMORECHARGETIME@秒%i:cooldown%</Cooldown>",
+    "spell_karthuswallofpain_name": "痛苦之墙",
+    "spell_karthuswallofpain_summary": "卡尔萨斯创造一道可通过的魔能之墙。所有穿过墙体的敌方单位都会被暂时降低移动速度和魔法抗性。",
+    "spell_karthuswallofpain_tooltip": "卡尔萨斯生成一个持续@WallDuration@秒的墙体。穿过它的敌人们会受到持续@DebuffDuration@秒的<scaleMR>@MagicResistShred@%魔法抗性</scaleMR>削减，以及在此期间持续衰减的@SlowPercent@%<status>减速</status>。",
+    "spell_karthusdefile_name": "亵渎",
+    "spell_karthusdefile_summary": "卡尔萨斯被动地从他的猎物那里窃取法力，每杀死一个敌人就会获得法力。卡尔萨斯也可以转化这种力量，用猎物的灵魂环绕自身，对附近的敌人造成伤害，但会急速消耗他自己的法力。",
+    "spell_karthusdefile_tooltip": "<spellPassive>被动：</spellPassive>卡尔萨斯击杀一个单位时，回复<scaleMana>@ManaRestoreOnKill@法力值</scaleMana>。<br><br><toggle>激活：</toggle>卡尔萨斯生成一个死灵光环，每秒对附近敌人造成<magicDamage>@TotalDPS@魔法伤害</magicDamage>。",
+    "spell_cost_mana_per_second": "每秒@Cost@法力",
+    "spell_karthusfallenone_name": "安魂曲",
+    "spell_karthusfallenone_summary": "在引导3秒后，卡尔萨斯就会对所有敌方英雄造成伤害。",
+    "spell_karthusfallenone_tooltip": "卡尔萨斯引导3秒，然后对敌方英雄们造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，无视距离。"
+  }
+}
