@@ -4,17 +4,20 @@ import type { ImageUsages } from '../../../types/imageRelation';
 import { cachedRelationImageContent, imageSourceLabel, imageTargetIdentity, imageUsageGroups, representativeImageReplacementMessage } from './imageRelationForm';
 
 describe('image relation choices and reverse usages', () => {
-  it('keeps seven explicit groups, disabled statuses and same-key effects under their actual skill', () => {
+  it('keeps nine explicit groups, disabled statuses and same-key effects under their actual skill', () => {
     const usages: ImageUsages = {
       imageKey: 'image', games: [{ gameId: 'game', gameName: '游戏' }], characters: [], equipment: [],
       attributes: [{ attributeKey: 'attack', attributeName: '攻击力', attributeStatus: 'DISABLED' }], skills: [], statuses: [],
+      runes: [{ runeKey: 'shard', runeName: '碎片' }], runePaths: [{ pathKey: 'shards', pathName: '碎片组' }],
       skillEffects: [
         { skillKey: 'skill/one', skillName: '技能一', effectKey: 'effect', effectName: '同名效果' },
         { skillKey: 'skill/two', skillName: '技能二', effectKey: 'effect', effectName: '同名效果' }
       ]
     };
     const groups = imageUsageGroups(usages);
-    expect(groups.map((row) => row.kind)).toEqual(['game', 'character', 'attribute', 'equipment', 'skill', 'skillEffect', 'status']);
+    expect(groups.map((row) => row.kind)).toEqual(['game', 'character', 'attribute', 'equipment', 'rune', 'runePath', 'skill', 'skillEffect', 'status']);
+    expect(groups.find(row => row.kind === 'rune')!.items[0].target).toEqual({ kind: 'rune', key: 'shard', name: '碎片' });
+    expect(groups.find(row => row.kind === 'runePath')!.items[0].target).toEqual({ kind: 'runePath', key: 'shards', name: '碎片组' });
     const effects = groups.find((row) => row.kind === 'skillEffect')!.items;
     expect(effects.map((row) => row.target.skillKey)).toEqual(['skill/one', 'skill/two']);
     expect(imageTargetIdentity(effects[0].target)).not.toBe(imageTargetIdentity(effects[1].target));

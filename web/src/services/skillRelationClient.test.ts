@@ -7,7 +7,8 @@ import {
   listCharacterSkillRelations,
   listEquipmentSkillRelations,
   updateCharacterSkillRelation,
-  updateEquipmentSkillRelation
+  updateEquipmentSkillRelation,
+  listRuneSkillRelations, createRuneSkillRelation, updateRuneSkillRelation, deleteRuneSkillRelation
 } from './skillRelationClient';
 
 const character = {
@@ -26,6 +27,28 @@ function response(status: number, body?: unknown) {
 
 describe('skillRelationClient', () => {
   afterEach(() => { vi.unstubAllGlobals(); vi.restoreAllMocks(); });
+
+  it('queries rune relations both ways, preserves disabled mounts, and updates only sortOrder', async () => {
+    const rune = { gameId: 'g', runeKey: 'r', runeName: '符文', skillKey: 's', skillName: '技能', skillStatus: 'DISABLED', sortOrder: 1 };
+    const calls: Array<{ url: URL; body: unknown }> = [];
+    vi.stubGlobal('fetch', vi.fn(async (input, init) => {
+      const url = new URL(String(input)); calls.push({ url, body: init.body ? JSON.parse(init.body) : null });
+      return init.method === 'DELETE' ? response(204) : response(200, !init.method ? { items: [rune], total: 1 } : rune);
+    }));
+    expect((await listRuneSkillRelations(base, 'g', 'test', { runeKey: 'r' })).data.items[0].skillStatus).toBe('DISABLED');
+    await listRuneSkillRelations(base, 'g', 'test', { skillKey: 's' });
+    await createRuneSkillRelation(base, 'g', 'test', { runeKey: 'r', skillKey: 's', sortOrder: 1 });
+    await updateRuneSkillRelation(base, 'g', 'r', 's', 'test', { sortOrder: 1 });
+    await deleteRuneSkillRelation(base, 'g', 'r', 's', 'test');
+    expect(calls[0].url.searchParams.get('runeKey')).toBe('r'); expect(calls[1].url.searchParams.get('skillKey')).toBe('s');
+    expect(calls[3].url.pathname).toBe('/api/admin/games/g/rune-skill-relations/r/s'); expect(calls[3].body).toEqual({ sortOrder: 1 });
+  });
+  it('rejects another rune identity on both query and write responses', async () => {
+    const rune = { gameId: 'g', runeKey: 'other', runeName: '符文', skillKey: 's', skillName: '技能', skillStatus: 'ENABLED', sortOrder: 0 };
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce(response(200, { items: [rune], total: 1 })).mockResolvedValueOnce(response(200, rune)));
+    await expect(listRuneSkillRelations(base, 'g', 'test', { runeKey: 'r' })).rejects.toMatchObject({ status: 502 });
+    await expect(createRuneSkillRelation(base, 'g', 'test', { runeKey: 'r', skillKey: 's', sortOrder: 0 })).rejects.toMatchObject({ status: 502 });
+  });
 
   it('queries both directions on their explicit paths and preserves disabled relations', async () => {
     const calls: URL[] = [];

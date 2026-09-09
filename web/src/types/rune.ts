@@ -1,0 +1,15 @@
+export const RUNE_CATEGORIES = ['KEYSTONE', 'MINOR', 'SHARD'] as const;
+export type RuneCategory = typeof RUNE_CATEGORIES[number];
+export const RUNE_CATEGORY_LABELS: Record<RuneCategory, string> = { KEYSTONE: '基石', MINOR: '小符文', SHARD: '属性碎片' };
+export type RunePathKind = 'RUNE_PATH' | 'SHARD_GROUP';
+export const RUNE_PATH_KIND_LABELS: Record<RunePathKind, string> = { RUNE_PATH: '符文系', SHARD_GROUP: '碎片组' };
+export type RuneSlot = { name: string; category: RuneCategory; runeKeys: string[] };
+type Common = { gameId: string; name: string; description: string | null; createdAt: string; updatedAt: string };
+export type Rune = Common & { runeKey: string; category: RuneCategory };
+export type RunePath = Common & { pathKey: string; kind: RunePathKind; sortOrder: number; slots: RuneSlot[] };
+export type RuneListResponse = { items: Rune[]; total: number };
+export type RunePathListResponse = { items: RunePath[]; total: number };
+export type CreateRuneRequest = { runeKey: string; name: string; description: string | null; category: RuneCategory };
+export type UpdateRuneRequest = Omit<CreateRuneRequest, 'runeKey'>;
+export type CreateRunePathRequest = { pathKey: string; name: string; description: string | null; kind: RunePathKind; sortOrder: number; slots: RuneSlot[] };
+export type UpdateRunePathRequest = Omit<CreateRunePathRequest, 'pathKey'>;

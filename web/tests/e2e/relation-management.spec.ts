@@ -11,7 +11,7 @@ const NOW = '2026-09-06T08:00:00Z';
 const IMAGE = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aR1cAAAAASUVORK5CYII=';
 type Json = Record<string, unknown>;
 type Row = Json & { name: string };
-type Mount = { gameId: string; kind: 'character' | 'equipment'; ownerKey: string; skillKey: string; sortOrder: number };
+type Mount = { gameId: string; kind: 'character' | 'equipment' | 'rune'; ownerKey: string; skillKey: string; sortOrder: number };
 type Failure = { status: number; code: string; message: string; field: string };
 
 function catalogs(gameId: string): Record<string, Row[]> {
@@ -24,6 +24,8 @@ function catalogs(gameId: string): Record<string, Row[]> {
       { ...common, characterKey: 'hero_b', name: `${prefix}角色乙` }
     ],
     equipment: [{ ...common, equipmentKey: 'blade', name: `${prefix}装备甲` }],
+    runes: [],
+    'rune-paths': [],
     attributes: [{ ...enabled, attributeKey: 'attack', name: `${prefix}攻击属性`, valueType: 'DECIMAL', minValue: 0, maxValue: null }],
     skills: [
       { ...enabled, skillKey: 'strike', name: `${prefix}打击技能`, maxLevel: 5, skillCategoryKeys: [] },
@@ -44,6 +46,7 @@ function catalogs(gameId: string): Record<string, Row[]> {
 
 const KEY_FIELDS: Record<string, string> = {
   characters: 'characterKey', equipment: 'equipmentKey', attributes: 'attributeKey',
+  runes: 'runeKey', 'rune-paths': 'pathKey',
   skills: 'skillKey', statuses: 'statusKey', images: 'imageKey'
 };
 
@@ -56,6 +59,9 @@ class RelationApi {
   mountFailure: Failure | null = null;
   imageFailure: Failure | null = null;
   imageCreateFailure: Failure | null = null;
+  runePathFailure: Failure | null = null;
+  runeDetailFailure: Failure | null = null;
+  runeListReads = 0;
   heldOptions: { started: boolean; promise: Promise<void> } | null = null;
 
   sourceId(gameId: string, source: string) { return `${gameId}/${source}`; }
@@ -86,14 +92,14 @@ class RelationApi {
       details: { fieldIssues: [{ field: failure.field, code: 'INVALID', message: failure.message }] } } }, failure.status);
   }
   mountResponse(mount: Mount): Json {
-    const ownerResource = mount.kind === 'character' ? 'characters' : 'equipment';
+    const ownerResource = mount.kind === 'character' ? 'characters' : mount.kind === 'rune' ? 'runes' : 'equipment';
     const skill = this.row(mount.gameId, 'skills', mount.skillKey);
     return { gameId: mount.gameId, [`${mount.kind}Key`]: mount.ownerKey,
       [`${mount.kind}Name`]: this.row(mount.gameId, ownerResource, mount.ownerKey).name,
       skillKey: mount.skillKey, skillName: skill.name, skillStatus: skill.status, sortOrder: mount.sortOrder };
   }
   usages(gameId: string, imageKey: string) {
-    const response: Json = { imageKey, games: [], characters: [], attributes: [], equipment: [], skills: [], skillEffects: [], statuses: [] };
+    const response: Json = { imageKey, games: [], characters: [], attributes: [], equipment: [], skills: [], skillEffects: [], statuses: [], runes: [], runePaths: [] };
     for (const [identity, currentImage] of this.representatives) {
       if (currentImage !== imageKey || !identity.startsWith(`${gameId}/`)) continue;
       const source = identity.slice(gameId.length + 1);
@@ -109,7 +115,7 @@ class RelationApi {
         const noun = field.slice(0, -3);
         const item: Json = { [field]: key, [`${noun}Name`]: row.name };
         if ('status' in row) item[`${noun}Status`] = row.status;
-        (response[resource!] as Json[]).push(item);
+        (response[resource === 'rune-paths' ? 'runePaths' : resource!] as Json[]).push(item);
       }
     }
     return response;
@@ -160,8 +166,8 @@ class RelationApi {
       await this.json(route, { items, total: items.length });
       return;
     }
-    if (resource === 'character-skill-relations' || resource === 'equipment-skill-relations') {
-      const kind = resource === 'character-skill-relations' ? 'character' : 'equipment';
+    if (resource === 'character-skill-relations' || resource === 'equipment-skill-relations' || resource === 'rune-skill-relations') {
+      const kind = resource === 'character-skill-relations' ? 'character' : resource === 'rune-skill-relations' ? 'rune' : 'equipment';
       const ownerKey = method === 'POST' ? String(body[`${kind}Key`]) : tail[1];
       const skillKey = method === 'POST' ? String(body.skillKey) : tail[2];
       const existing = this.mounts.find(row => row.gameId === gameId && row.kind === kind && row.ownerKey === ownerKey && row.skillKey === skillKey);
@@ -243,10 +249,26 @@ class RelationApi {
       return;
     }
     const rows = this.rows[gameId]![resource];
+    if (resource === 'runes' && method === 'GET' && tail.length === 2 && this.runeDetailFailure) {
+      await this.error(route, this.runeDetailFailure); return;
+    }
+    if (rows && (resource === 'runes' || resource === 'rune-paths') && ['POST', 'PUT', 'DELETE'].includes(method)) {
+      if (resource === 'rune-paths' && this.runePathFailure) { await this.error(route, this.runePathFailure); return; }
+      const keyField = KEY_FIELDS[resource]!;
+      const key = method === 'POST' ? body[keyField] : tail[1];
+      const index = rows.findIndex(row => row[keyField] === key);
+      if (method === 'DELETE') { rows.splice(index, 1); await this.json(route, null, 204); return; }
+      const row: Row = { ...(index >= 0 ? rows[index] : { gameId, [keyField]: key, createdAt: NOW }), ...body, name: String(body.name), updatedAt: NOW };
+      if (index >= 0) rows[index] = row; else rows.push(row);
+      await this.json(route, row, method === 'POST' ? 201 : 200); return;
+    }
     if (rows && resource !== 'images' && method === 'GET' && tail.length === 1) {
+      if (resource === 'runes') this.runeListReads++;
       const keyword = url.searchParams.get('keyword') ?? '';
       const status = url.searchParams.get('status');
+      const category = url.searchParams.get('category');
       const items = rows.filter(row => (!status || row.status === status)
+        && (!category || row.category === category)
         && (!keyword || row.name.includes(keyword) || String(row[KEY_FIELDS[resource]!]).includes(keyword)));
       await this.json(route, { items, total: items.length });
       return;
@@ -277,6 +299,105 @@ async function prepare(page: Page, api: RelationApi) {
     expect(api.unexpected, '未定义或已删除接口请求').toEqual([]);
   };
 }
+
+test('rune management saves identity, uploads image, keeps disabled skill links and reopens ordered shard layout', async ({ page }) => {
+  const api = new RelationApi();
+  const assertClean = await prepare(page, api);
+  await navigate(page, 'runes');
+  await page.getByRole('button', { name: '新增符文', exact: true }).click();
+  let dialog = modal(page, '新增符文');
+  await dialog.getByLabel('符文标识', { exact: true }).fill('shared_shard');
+  await dialog.getByLabel('符文名称', { exact: true }).fill('复用属性碎片');
+  await choose(page, dialog, '符文类别', '属性碎片');
+  await dialog.getByRole('button', { name: '保存', exact: true }).click();
+  await expect(dialog).toBeHidden();
+  await expect(row(page, 'shared_shard')).toContainText('属性碎片');
+  expect(api.rows[FIRST_GAME]!.runes).toHaveLength(1);
+  dialog = await openRepresentative(page, 'runes', 'shared_shard', '复用属性碎片');
+  await selectImageFile(dialog, await pngUpload(page, 32, 32, 'rune.png'));
+  await uploadAndUse(dialog); await closeModal(dialog);
+  await expectRowImage(page, 'shared_shard', '复用属性碎片', String(api.rows[FIRST_GAME]!.images!.at(-1)!.imageBase64));
+  await row(page, 'shared_shard').getByRole('button', { name: '关联技能', exact: true }).click();
+  dialog = modal(page, '关联技能 · 复用属性碎片');
+  await choose(page, dialog, '选择符文技能', '打击技能', true);
+  await dialog.getByRole('button', { name: '添加符文挂载', exact: true }).click();
+  await expect(dialog.getByRole('row').filter({ hasText: 'strike' })).toBeVisible();
+  await closeModal(dialog);
+  api.row(FIRST_GAME, 'skills', 'strike').status = 'DISABLED';
+  await navigate(page, 'skills');
+  await row(page, 'strike').getByRole('button', { name: '挂载对象', exact: true }).click();
+  dialog = modal(page, '挂载对象 · 打击技能');
+  const runeSection = dialog.getByRole('region', { name: '符文挂载' });
+  await expect(runeSection.getByRole('button', { name: '添加符文挂载', exact: true })).toBeDisabled();
+  await runeSection.getByRole('row').filter({ hasText: 'shared_shard' }).getByLabel('复用属性碎片排序').fill('7');
+  await runeSection.getByRole('row').filter({ hasText: 'shared_shard' }).getByRole('button', { name: '保存排序', exact: true }).click();
+  await expect(dialog.getByText('挂载顺序已保存。', { exact: true })).toBeVisible();
+  expect(api.mounts.find(mount => mount.kind === 'rune')?.sortOrder).toBe(7);
+  await closeModal(dialog);
+  await navigate(page, 'runes');
+  await page.getByRole('tab', { name: '分组与槽位', exact: true }).click();
+  await page.getByRole('button', { name: '新增符文分组', exact: true }).click();
+  dialog = modal(page, '新增符文分组');
+  await dialog.getByLabel('分组标识', { exact: true }).fill('shards');
+  await dialog.getByLabel('分组名称', { exact: true }).fill('碎片布局');
+  await choose(page, dialog, '分组种类', '碎片组');
+  for (const [index, name] of ['第一行', '第二行'].entries()) {
+    await dialog.getByRole('button', { name: '添加槽位', exact: true }).click();
+    const slot = dialog.getByRole('region', { name: `槽位${index + 1}`, exact: true });
+    await slot.getByLabel(`槽位${index + 1}名称`, { exact: true }).fill(name);
+    await slot.getByRole('button', { name: '添加候选', exact: true }).click();
+    await choose(page, slot, `槽位${index + 1}候选1`, '复用属性碎片', true);
+  }
+  await dialog.getByRole('region', { name: '槽位2', exact: true }).getByRole('button', { name: '上移槽位', exact: true }).click();
+  api.runePathFailure = { status: 400, code: '400.INVALID_RUNE_PATH_REQUEST', message: '服务端布局核对失败', field: 'slots[0].runeKeys[0]' };
+  await dialog.getByRole('button', { name: '保存完整布局', exact: true }).click();
+  await expect(dialog.getByText('服务端布局核对失败', { exact: true })).toBeVisible();
+  await expect(dialog.getByLabel('槽位1名称', { exact: true })).toHaveValue('第二行');
+  expect(api.rows[FIRST_GAME]!['rune-paths']).toHaveLength(0);
+  api.runePathFailure = null;
+  await dialog.getByRole('button', { name: '保存完整布局', exact: true }).click();
+  await expect(dialog).toBeHidden();
+  await row(page, 'shards').getByRole('button', { name: '查看', exact: true }).click();
+  dialog = modal(page, '查看分组与槽位');
+  await expect(dialog.getByLabel('槽位1名称', { exact: true })).toHaveValue('第二行');
+  await expect(dialog.getByLabel('槽位2名称', { exact: true })).toHaveValue('第一行');
+  expect(api.row(FIRST_GAME, 'rune-paths', 'shards').slots).toEqual([{ name: '第二行', category: 'SHARD', runeKeys: ['shared_shard'] }, { name: '第一行', category: 'SHARD', runeKeys: ['shared_shard'] }]);
+  expect(api.rows[FIRST_GAME]!.runes).toHaveLength(1);
+  await closeModal(dialog);
+  assertClean();
+});
+
+test('rune management paginates locally and retries only the final read after a successful save', async ({ page }) => {
+  const api = new RelationApi();
+  api.rows[FIRST_GAME]!.runes = Array.from({ length: 26 }, (_, index) => ({ gameId: FIRST_GAME, runeKey: `r_${String(index + 1).padStart(2, '0')}`, name: `符文${index + 1}`, category: 'MINOR', description: null, createdAt: NOW, updatedAt: NOW }));
+  const assertClean = await prepare(page, api);
+  await navigate(page, 'runes');
+  await expect(page.locator('tbody tr')).toHaveCount(25);
+  const listReads = api.runeListReads;
+  await page.getByRole('listitem', { name: '第 2 页', exact: true }).click();
+  await expect(page.locator('tbody tr')).toHaveCount(1);
+  await expect(row(page, 'r_26')).toBeVisible();
+  expect(api.runeListReads).toBe(listReads);
+  await row(page, 'r_26').getByRole('button', { name: '编辑', exact: true }).click();
+  const dialog = modal(page, '编辑符文');
+  await expect(dialog.getByLabel('符文名称', { exact: true })).toHaveValue('符文26');
+  await dialog.getByLabel('符文名称', { exact: true }).fill('保存后需回读');
+  api.runeDetailFailure = { status: 503, code: '503.TEST_READ_FAILURE', message: '最终读取暂时失败', field: 'runeKey' };
+  await dialog.getByRole('button', { name: '保存', exact: true }).click();
+  await expect(dialog.getByText(/已写入，最终回读失败/)).toBeVisible();
+  await expect(dialog.getByLabel('符文名称', { exact: true })).toBeDisabled();
+  expect(api.writes.filter(write => write.path.endsWith('/runes/r_26'))).toHaveLength(1);
+  api.runeDetailFailure = null;
+  await dialog.getByRole('button', { name: '重新回读', exact: true }).click();
+  await expect(dialog).toBeHidden();
+  await expect(row(page, 'r_26')).toContainText('保存后需回读');
+  expect(api.writes.filter(write => write.path.endsWith('/runes/r_26'))).toHaveLength(1);
+  await page.getByLabel('符文关键词', { exact: true }).fill('r_01');
+  await page.getByRole('button', { name: '查询', exact: true }).click();
+  await expect(row(page, 'r_01')).toBeVisible();
+  await expect(page.locator('.arco-pagination-item-active')).toHaveText('1');
+  assertClean();
+});
 
 function row(scope: Page | Locator, key: string) {
   return scope.getByRole('row').filter({ has: scope.getByRole('cell', { name: key, exact: true }) });
@@ -320,6 +441,7 @@ async function choose(page: Page, scope: Locator, label: string, option: string,
   const candidate = page.locator('.arco-select-option:visible').filter({ hasText: option });
   await expect(candidate).toBeVisible();
   await candidate.click();
+  await expect(candidate).toBeHidden();
 }
 async function closeModal(dialog: Locator) {
   await dialog.getByRole('button', { name: '关闭', exact: true }).click();

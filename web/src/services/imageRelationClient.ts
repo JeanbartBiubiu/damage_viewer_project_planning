@@ -17,6 +17,8 @@ function representativeImagePath(gameId: string, target: ImageRelationTarget): s
     case 'character': return `${base}/characters/${key}/representative-image`;
     case 'attribute': return `${base}/attributes/${key}/representative-image`;
     case 'equipment': return `${base}/equipment/${key}/representative-image`;
+    case 'rune': return `${base}/runes/${key}/representative-image`;
+    case 'runePath': return `${base}/rune-paths/${key}/representative-image`;
     case 'skill': return `${base}/skills/${key}/representative-image`;
     case 'skillEffect':
       if (!target.skillKey?.trim()) throw new ApiRequestError('技能效果缺少所属技能。', 400, '400.VALIDATION_FAILED');
@@ -81,6 +83,8 @@ function parseUsages(value: unknown, gameId: string, imageKey: string): ImageUsa
     characters: group('characters', (row) => ({ characterKey: textField(row, 'characterKey'), characterName: textField(row, 'characterName') })),
     attributes: group('attributes', (row) => ({ attributeKey: textField(row, 'attributeKey'), attributeName: textField(row, 'attributeName'), attributeStatus: statusField(row, 'attributeStatus') })),
     equipment: group('equipment', (row) => ({ equipmentKey: textField(row, 'equipmentKey'), equipmentName: textField(row, 'equipmentName') })),
+    runes: group('runes', (row) => ({ runeKey: textField(row, 'runeKey'), runeName: textField(row, 'runeName') })),
+    runePaths: group('runePaths', (row) => ({ pathKey: textField(row, 'pathKey'), pathName: textField(row, 'pathName') })),
     skills: group('skills', (row) => ({ skillKey: textField(row, 'skillKey'), skillName: textField(row, 'skillName'), skillStatus: statusField(row, 'skillStatus') })),
     skillEffects: group('skillEffects', (row) => ({ skillKey: textField(row, 'skillKey'), skillName: textField(row, 'skillName'), effectKey: textField(row, 'effectKey'), effectName: textField(row, 'effectName') })),
     statuses: group('statuses', (row) => ({ statusKey: textField(row, 'statusKey'), statusName: textField(row, 'statusName'), statusStatus: statusField(row, 'statusStatus') }))
