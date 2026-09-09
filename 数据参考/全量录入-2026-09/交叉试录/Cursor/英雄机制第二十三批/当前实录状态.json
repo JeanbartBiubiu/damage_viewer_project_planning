@@ -1,0 +1,87 @@
+{
+  "at": "2026-09-09T14:53:54.965Z",
+  "skills": [
+    "amumu_p",
+    "amumu_q",
+    "amumu_w",
+    "amumu_e",
+    "amumu_r",
+    "zac_p",
+    "zac_q",
+    "zac_w",
+    "zac_e",
+    "zac_r"
+  ],
+  "status": "明确组成已保存并独立回读和页面验收，未知取值曲线和事件仍待接线",
+  "counts": {
+    "parameters": 90,
+    "formulas": 22,
+    "effects": 6,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newCounts": {
+    "parameters": 81,
+    "formulas": 22,
+    "effects": 6
+  },
+  "reusedParameters": 9,
+  "businessWrites": 109,
+  "candidateFileSha256": "772528a5abd0ec24285f4db64f7cb03b5c6415a106aa83fbb7ffe40b651d3358",
+  "writePlanSha256": "ba31f93dee47c0ce73128cb1d1e94283c74c00aae4a5d42791dbbfbff84c3169",
+  "execution": {
+    "file": "修订一/受保护写入器-实际写入-2026-09-09T14-32-02.600Z.json",
+    "GETs": 424,
+    "successfulPOSTs": 109,
+    "rejectedPOSTs": 0,
+    "unknownPOSTs": 0,
+    "passed": true
+  },
+  "independentReadback": {
+    "file": "修订一/独立全量回读-写后-2026-09-09T14-39-06.775Z.json",
+    "GETs": 206,
+    "protectedRoutes": 97,
+    "details": 118,
+    "lists": 60,
+    "passed": true
+  },
+  "strictMath": {
+    "actualFormulas": 22,
+    "formulaCases": 44,
+    "missingInputChecks": 29,
+    "integerRejects": 3,
+    "capChecks": 5,
+    "binaryNodes": 64,
+    "passed": true
+  },
+  "browser": {
+    "file": "页面验收.json",
+    "representativePages": 3,
+    "GETs": 14,
+    "mathCases": 8,
+    "passed": true
+  },
+  "hashes": {
+    "完整候选.json": "772528a5abd0ec24285f4db64f7cb03b5c6415a106aa83fbb7ffe40b651d3358",
+    "按顺序缺项POST意图计划.json": "ba31f93dee47c0ce73128cb1d1e94283c74c00aae4a5d42791dbbfbff84c3169",
+    "独立全量回读.mjs": "67f491aa2a4ba1c60a54675bc29c01520e974bda7831451c5f9ab3d42d84f8df",
+    "受保护写入器.mjs": "3e3f01fc2c17b5882dbb0ad56a847333edaa7707633c9c214860c9a287b85762",
+    "第二十三批录入共用.mjs": "778ab73e6c173628bbb2720cfc4ded1532850d8936a53c0f3cf06017f65dd3a6",
+    "独立全量回读-写后-2026-09-09T14-39-06.775Z.json": "1f7b7196e57df207f8a0d6b599840ce0f8069aa3da335433be562c7d899121c1",
+    "受保护写入器-实际写入-2026-09-09T14-32-02.600Z.json": "9d28b8587bcf7972d31b244cec1c4fc0d793ba8d21979dac67d88ee3a592acab"
+  },
+  "issues": [
+    "阿木木E实际为固定点数减免，并受本次物理伤害50%封顶；不能把固定点数再除100。",
+    "首稿三元加法折叠为二元树，扎克R减速浮点尾数归一为整数20。",
+    "首次独立回读把levelValues对象误按引用比较，修订回读器后重新GET通过；各次原报告保留。",
+    "主负责人页面补核脚本首次使用错误结果字段名而失败，按实际resultType/target/valueRule/detail字段修正后14次GET通过；未修改业务数据。",
+    "阿木木E两条封顶前同义公式重复，后续精简合并；不影响当前数值正确性。"
+  ],
+  "pending": [
+    "阿木木被动魔法伤害基准、额外双抗取值与扎克被动曲线等外供值需要后续接线。",
+    "扎克Q双目标碰撞、独立复活细胞排除；第一命中与同一敌人强化攻击的相关组成保留。",
+    "生命值消耗时点、资格、控制、持续和多次命中事件尚未接线。"
+  ],
+  "runtimeValidation": "未执行"
+}

@@ -1,0 +1,1114 @@
+{
+  "at": "2026-09-09T14:49:46.096Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "method": "主负责人通过CUA逐页点击查看详情，以下独立GET补核与页面同键数据，不代替浏览器操作",
+  "representativePages": 3,
+  "observations": [
+    {
+      "skillKey": "amumu_e",
+      "view": "参数与公式/封顶后物理伤害减免量",
+      "observed": "页面中文预览为固定点数与本次物理伤害50%取较小值，额外双抗倍率均0.03，基础等级值5/7/9/11/13。"
+    },
+    {
+      "skillKey": "zac_q",
+      "view": "效果与结果/health_cost/consume_hp",
+      "observed": "无生命周期，结果为施法者生命值资源变化，数值引用本技能health_cost公式；描述明确实际扣除时点与资格未接线。"
+    },
+    {
+      "skillKey": "zac_r",
+      "view": "参数与公式/max_damage_tooltip",
+      "observed": "整数减速点20，弹跳间隔1000毫秒；总伤害预览为首跳+后续倍率乘首跳乘(次数-1)，未重复按首跳累计。"
+    }
+  ],
+  "GETs": 14,
+  "mathCases": 8,
+  "checks": [
+    {
+      "sk": "amumu_e",
+      "key": "capped_physical_damage_reduction",
+      "l": 1,
+      "runtime": {
+        "source_bonus_armor": 100,
+        "source_bonus_magic_resistance": 200,
+        "incoming_physical_damage": 10
+      },
+      "ap": 100,
+      "actual": 5,
+      "expected": 5,
+      "passed": true
+    },
+    {
+      "sk": "amumu_e",
+      "key": "capped_physical_damage_reduction",
+      "l": 1,
+      "runtime": {
+        "source_bonus_armor": 100,
+        "source_bonus_magic_resistance": 200,
+        "incoming_physical_damage": 100
+      },
+      "ap": 100,
+      "actual": 14,
+      "expected": 14,
+      "passed": true
+    },
+    {
+      "sk": "amumu_e",
+      "key": "capped_physical_damage_reduction",
+      "l": 1,
+      "runtime": {
+        "source_bonus_armor": 100,
+        "source_bonus_magic_resistance": 200,
+        "incoming_physical_damage": 1000
+      },
+      "ap": 100,
+      "actual": 14,
+      "expected": 14,
+      "passed": true
+    },
+    {
+      "sk": "zac_q",
+      "key": "health_cost",
+      "l": 1,
+      "runtime": {
+        "source_current_hp_for_cost": 500
+      },
+      "ap": 100,
+      "actual": 40,
+      "expected": 40,
+      "passed": true
+    },
+    {
+      "sk": "zac_q",
+      "key": "health_cost",
+      "l": 1,
+      "runtime": {
+        "source_current_hp_for_cost": 1250
+      },
+      "ap": 100,
+      "actual": 100,
+      "expected": 100,
+      "passed": true
+    },
+    {
+      "sk": "zac_r",
+      "key": "max_damage_tooltip",
+      "l": 1,
+      "runtime": {},
+      "ap": 100,
+      "actual": 400,
+      "expected": 400,
+      "passed": true
+    },
+    {
+      "sk": "zac_r",
+      "key": "max_damage_tooltip",
+      "l": 3,
+      "runtime": {},
+      "ap": 275,
+      "actual": 925,
+      "expected": 925,
+      "passed": true
+    },
+    {
+      "sk": "zac_r",
+      "key": "duration_tooltip_ms",
+      "l": 1,
+      "runtime": {},
+      "ap": 100,
+      "actual": 3000,
+      "expected": 3000,
+      "passed": true
+    }
+  ],
+  "calls": [
+    {
+      "method": "GET",
+      "route": "/skills/amumu_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:23.378121Z",
+        "description": "永久减少阿木木所受的物理伤害。主动施放时，阿木木可以发泄他的怒火，对周围的敌人造成伤害。阿木木每被攻击一次，该技能的冷却时间就会缩短。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿木木·阿木木的愤怒",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "amumu_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:23.378121Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/amumu_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_amumu_e",
+          "name": "amumu_e"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/amumu_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T14:32:39.808708Z",
+          "description": "客户端根绑定 spellCastTime=0.25秒，按毫秒录入；不表示主动伤害命中时点。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "amumu_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T14:32:39.808708Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:40.930889Z",
+          "description": "客户端根绑定 DataValues.BaseDamage 取原始数组索引1至5，录入65/95/125/155/185。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 65,
+            "2": 95,
+            "3": 125,
+            "4": 155,
+            "5": 185
+          },
+          "name": "基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "amumu_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T14:32:40.930889Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:42.05287Z",
+          "description": "TantrumDamage 第二项 StatByCoefficient 原始mCoefficient=0.5，按窄口径映射来源总法强。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "主动法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "amumu_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T14:32:42.05287Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:43.189516Z",
+          "description": "客户端根绑定 DataValues.BaseDamageReduction 取原始数组索引1至5，录入5/7/9/11/13固定点数。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 5,
+            "2": 7,
+            "3": 9,
+            "4": 11,
+            "5": 13
+          },
+          "name": "基础物理伤害减免点数",
+          "parameterKey": "base_damage_reduction_points",
+          "skillKey": "amumu_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T14:32:43.189516Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:44.304715Z",
+          "description": "DamageReduction的mStat=1、mStatFormula=2项原始系数0.03；属性枚举未窄证，倍率保留，输入另行外供。",
+          "fixedValue": 0.03,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外护甲减免倍率",
+          "parameterKey": "bonus_armor_ratio",
+          "skillKey": "amumu_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T14:32:44.304715Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:45.460367Z",
+          "description": "DamageReduction的mStat=6、mStatFormula=2项原始系数0.03；属性枚举未窄证，倍率保留，输入另行外供。",
+          "fixedValue": 0.03,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外魔抗减免倍率",
+          "parameterKey": "bonus_magic_resistance_ratio",
+          "skillKey": "amumu_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T14:32:45.460367Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:46.684685Z",
+          "description": "客户端根绑定 DataValues.FlatDamageReductionMax 原始数组索引1取0.5；正文说明减伤不能将伤害降至50%以下。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "物理伤害减免上限比例",
+          "parameterKey": "reduction_cap_ratio",
+          "skillKey": "amumu_e",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T14:32:46.684685Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:34.303912Z",
+          "description": "DDragon16.17.1 Amumu.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 8000,
+            "3": 7000,
+            "4": 6000,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "amumu_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:34.303912Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:47.801225Z",
+          "description": "上限公式需要本次物理伤害输入；来源只证明减免量不超过伤害的一半，不设置默认值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "本次承受物理伤害",
+          "parameterKey": "incoming_physical_damage",
+          "skillKey": "amumu_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T14:32:47.801225Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:35.145698Z",
+          "description": "DDragon16.17.1 Amumu.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 35,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "amumu_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:35.145698Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:48.927054Z",
+          "description": "mStat=1、mStatFormula=2的具体属性选择器未在当前窄口径证实，不猜枚举，使用无默认运行输入。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "来源额外护甲",
+          "parameterKey": "source_bonus_armor",
+          "skillKey": "amumu_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T14:32:48.927054Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:50.050159Z",
+          "description": "mStat=6、mStatFormula=2的具体属性选择器未在当前窄口径证实，不猜枚举，使用无默认运行输入。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "来源额外魔法抗性",
+          "parameterKey": "source_bonus_magic_resistance",
+          "skillKey": "amumu_e",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T14:32:50.050159Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:32:51.166413Z",
+          "description": "客户端根绑定 DataValues.CDROnHit 原始数组索引1取0.75秒，按毫秒录入；不创建受击事件。",
+          "fixedValue": 750,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "受击后冷却缩短（毫秒）",
+          "parameterKey": "cooldown_reduction_on_hit_ms",
+          "skillKey": "amumu_e",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T14:32:51.166413Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/zac_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:19.192763Z",
+        "description": "扎克延伸他的双臂，捕获一个敌人。攻击一个不同的敌人将使他把两个目标投向彼此。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "扎克·延伸打击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zac_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:19.192763Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/zac_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zac_q",
+          "name": "zac_q"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/zac_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T14:33:07.03497Z",
+          "description": "客户端根绑定 DataValues.BaseDamage 取原始数组索引1至5，录入60/90/120/150/180。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 90,
+            "3": 120,
+            "4": 150,
+            "5": 180
+          },
+          "name": "基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "zac_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T14:33:07.03497Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:33:08.194663Z",
+          "description": "TotalDamage的StatByNamedDataValue APRatio原始值0.3000000119，按窄口径映射来源总法强并归一为0.3。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "zac_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T14:33:08.194663Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:33:09.357286Z",
+          "description": "TotalDamage的mStat=12、mStatFormula=2、HealthRatio原始0.03；按同类窄证映射来源额外生命值，单位为比例。",
+          "fixedValue": 0.03,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "来源额外生命值倍率",
+          "parameterKey": "source_bonus_health_ratio",
+          "skillKey": "zac_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T14:33:09.357286Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:33:10.48439Z",
+          "description": "客户端根绑定 DataValues.HPCost 原始数组索引1取0.08，正文明确为当前生命值百分比。",
+          "fixedValue": 0.08,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前生命值消耗比例",
+          "parameterKey": "hp_cost_ratio",
+          "skillKey": "zac_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T14:33:10.48439Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:33:11.636004Z",
+          "description": "HealthCostTooltip需要施放前当前生命值；当前表达式树的mStat=12与mStat=14具体输入未形成可用当前属性节点，不设置默认值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施放前当前生命值",
+          "parameterKey": "source_current_hp_for_cost",
+          "skillKey": "zac_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T14:33:11.636004Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:33:12.722104Z",
+          "description": "客户端根绑定 DataValues.SlowAmount 原始数组索引1为-0.4；当前正文使用SlowAmount×-100，录入正的40百分数点。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减速百分数点",
+          "parameterKey": "slow_percent_points",
+          "skillKey": "zac_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T14:33:12.722104Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:33:13.796427Z",
+          "description": "客户端根绑定 DataValues.SlowDuration 原始数组索引1取0.5秒，按毫秒录入。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减速持续（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "zac_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T14:33:13.796427Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:33:14.909219Z",
+          "description": "MaxDamageTooltip的ProductOfSubPartsCalculationPart使用固定2，保留为最大伤害提示倍率。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最大伤害提示倍率",
+          "parameterKey": "max_damage_multiplier",
+          "skillKey": "zac_q",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T14:33:14.909219Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:06:18.089093Z",
+          "description": "DDragon16.17.1 Zac.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 12500,
+            "3": 11000,
+            "4": 9500,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zac_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:18.089093Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:33:16.0435Z",
+          "description": "客户端根绑定 DataValues.MissileRange 原始数组索引1取800；命中资格未接线。",
+          "fixedValue": 800,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "绷带射程",
+          "parameterKey": "missile_range",
+          "skillKey": "zac_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T14:33:16.0435Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:33:17.287812Z",
+          "description": "客户端根绑定 DataValues.TetherDuration 原始数组索引1取2.5秒，按毫秒录入。",
+          "fixedValue": 2500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "吸附持续（毫秒）",
+          "parameterKey": "tether_duration_ms",
+          "skillKey": "zac_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T14:33:17.287812Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:33:18.374635Z",
+          "description": "客户端根绑定 DataValues.TetherFalloffDistance 原始数组索引1取900；碰撞过程未接线。",
+          "fixedValue": 900,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "吸附衰减距离",
+          "parameterKey": "tether_falloff_distance",
+          "skillKey": "zac_q",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T14:33:18.374635Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/zac_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:20.057825Z",
+        "description": "扎克弹跳4次，对命中的敌人造成击飞和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "扎克·动感弹球",
+        "skillCategoryKeys": [],
+        "skillKey": "zac_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:20.057825Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/zac_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zac_r",
+          "name": "zac_r"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/zac_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T14:33:59.056005Z",
+          "description": "客户端根绑定 DataValues.Bounces 原始数组索引1取4；次数使用整数。",
+          "fixedValue": 4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "弹跳次数",
+          "parameterKey": "bounce_count",
+          "skillKey": "zac_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T14:33:59.056005Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:34:00.215139Z",
+          "description": "客户端根绑定 DataValues.TimeBetweenBounces 原始数组索引1取1秒，按毫秒录入。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "弹跳间隔（毫秒）",
+          "parameterKey": "interval_ms",
+          "skillKey": "zac_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T14:34:00.215139Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:34:01.416149Z",
+          "description": "客户端根绑定 DataValues.KnockupDuration 原始数组索引1取1秒，按毫秒录入；实际碰撞事件未接线。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "击退持续（毫秒）",
+          "parameterKey": "knockup_duration_ms",
+          "skillKey": "zac_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T14:34:01.416149Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:34:02.555111Z",
+          "description": "客户端根绑定 DataValues.BaseDamageBounce 取原始数组索引1至3，录入120/190/260。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120,
+            "2": 190,
+            "3": 260
+          },
+          "name": "首次弹跳基础魔法伤害",
+          "parameterKey": "first_base_damage",
+          "skillKey": "zac_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T14:34:02.555111Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:34:03.591546Z",
+          "description": "客户端根绑定 DataValues.DamageReductionBounce 原始数组索引1取0.5；后续每跳为首次弹跳伤害的一半。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "后续弹跳伤害倍率",
+          "parameterKey": "subsequent_damage_multiplier",
+          "skillKey": "zac_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T14:34:03.591546Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:34:04.938482Z",
+          "description": "客户端根绑定 DataValues.KnockbackDistance 原始数组索引1取250；碰撞过程未接线。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "击退距离",
+          "parameterKey": "knockback_distance",
+          "skillKey": "zac_r",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T14:34:04.938482Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:34:07.761231Z",
+          "description": "客户端根绑定 DataValues.KnockbackRange 原始数组索引1取300；碰撞过程未接线。",
+          "fixedValue": 300,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "击退范围",
+          "parameterKey": "knockback_range",
+          "skillKey": "zac_r",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T14:34:07.761231Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:34:08.96645Z",
+          "description": "客户端根绑定 DataValues.BeginningMS 原始数组索引1取0.2，正文显示20%；仅保留端点。",
+          "fixedValue": 0.2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "起始移动速度比例",
+          "parameterKey": "beginning_move_speed_ratio",
+          "skillKey": "zac_r",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T14:34:08.96645Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T02:06:19.459725Z",
+          "description": "DDragon16.17.1 Zac.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 105000,
+            "3": 90000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zac_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:19.459725Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:34:10.09448Z",
+          "description": "客户端根绑定 DataValues.EndingMS 原始数组索引1取0.5，正文显示50%；仅保留端点。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "结束移动速度比例",
+          "parameterKey": "ending_move_speed_ratio",
+          "skillKey": "zac_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T14:34:10.09448Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:34:11.333729Z",
+          "description": "客户端根绑定 DataValues.SlowAmount 原始索引1的浮点值归一为整数20；正文显示20%，录入百分数点20。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减速百分数点",
+          "parameterKey": "slow_percent_points",
+          "skillKey": "zac_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T14:34:11.333729Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:34:12.488739Z",
+          "description": "客户端根绑定 DataValues.SlowDuration 原始数组索引1取1秒，按毫秒录入。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减速持续（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "zac_r",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T14:34:12.488739Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:34:13.614635Z",
+          "description": "DamagePerBounce的StatByNamedDataValue引用BounceAPRatioTooltip原始0.4，按窄口径映射来源总法强。",
+          "fixedValue": 0.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "弹跳法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "zac_r",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T14:34:13.614635Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:34:14.726587Z",
+          "description": "DurationTooltip与MaxDamageTooltip原树使用Bounces-1；该固定偏移是公式消费者，不是额外运行层数。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "后续弹跳次数偏移",
+          "parameterKey": "subsequent_bounce_offset",
+          "skillKey": "zac_r",
+          "sortOrder": 140,
+          "updatedAt": "2026-09-09T14:34:14.726587Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/amumu_e/formulas/capped_physical_damage_reduction",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:32:54.442337Z",
+        "description": "最终减免量 = MIN(固定减免点数, 0.5×本次承受物理伤害)；保留50%最低承伤边界。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage_reduction_points"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_armor_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "source_bonus_armor"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_magic_resistance_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "source_bonus_magic_resistance"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "reduction_cap_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "incoming_physical_damage"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "MIN"
+        },
+        "formulaKey": "capped_physical_damage_reduction",
+        "gameId": "lol",
+        "name": "封顶后物理伤害减免量",
+        "skillKey": "amumu_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T14:32:54.442337Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/zac_q/formulas/health_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:33:22.021718Z",
+        "description": "HealthCostTooltip = 0.08×施放前当前生命值；当前输入无默认值，实际扣除时点未接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "hp_cost_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "source_current_hp_for_cost"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "health_cost",
+        "gameId": "lol",
+        "name": "延伸打击生命值消耗",
+        "skillKey": "zac_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T14:33:22.021718Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/zac_r/formulas/max_damage_tooltip",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:34:19.218874Z",
+        "description": "MaxDamageTooltip = 首次伤害 + 后续伤害×(Bounces-1)，四次弹跳即首跳加三次半额后续跳。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "first_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "subsequent_damage_multiplier"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "first_base_damage"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bounce_count"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "subsequent_bounce_offset"
+                    }
+                  ],
+                  "operation": "SUBTRACT"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "max_damage_tooltip",
+        "gameId": "lol",
+        "name": "弹跳总提示伤害",
+        "skillKey": "zac_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T14:34:19.218874Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/zac_r/formulas/duration_tooltip_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:34:18.074521Z",
+        "description": "DurationTooltip = TimeBetweenBounces×(Bounces-1)；原始提示为3秒，按毫秒录入，不强加额外4秒。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "interval_ms"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bounce_count"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "subsequent_bounce_offset"
+                }
+              ],
+              "operation": "SUBTRACT"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "duration_tooltip_ms",
+        "gameId": "lol",
+        "name": "弹跳总提示持续（毫秒）",
+        "skillKey": "zac_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T14:34:18.074521Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/zac_q/effects/health_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:33:23.172438Z",
+        "description": "仅保留当前生命值比例的资源变化；实际扣除时点与施放资格尚未接线。",
+        "effectKey": "health_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放生命值消耗",
+        "results": [
+          {
+            "description": "候选只记录资源变化载荷，实际扣除时点和施放资格未接线。",
+            "detail": {
+              "attributeKey": "hp",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "消耗生命值",
+            "resultKey": "consume_hp",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "health_cost",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "zac_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:33:23.172438Z"
+      }
+    }
+  ],
+  "passed": true,
+  "runtimeValidation": "未执行"
+}
