@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T16:21:10.847Z",
+  "generatedAt": "2026-09-09T16:22:27.991Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -2963,6 +2963,52 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十六批/修订一/页面验收.json",
         "commit": "6ff3ead0a653b80b6d034d1c43d3dd1842d1f45a"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroTwentyEighthBatch": {
+      "skills": [
+        "maokai_p",
+        "maokai_q",
+        "maokai_w",
+        "maokai_e",
+        "maokai_r",
+        "poppy_p",
+        "poppy_q",
+        "poppy_w",
+        "poppy_e",
+        "poppy_r"
+      ],
+      "parameters": 74,
+      "formulas": 17,
+      "effects": 7,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "reusedParameters": 14,
+      "created": 84,
+      "independentGets": 186,
+      "additionalMathGets": 0,
+      "independentFormulaChecks": 17,
+      "independentSourceCases": 34,
+      "independentMissingRejects": 56,
+      "representativePages": 3,
+      "pageGets": 16,
+      "pageMathCases": 10,
+      "candidateSha256": "a07d0fa895cfdd6babaeb6c711d5e5b86dbd5a05530933d6d571baeb70aa6c6d",
+      "planSha256": "955d4428ec9f0a3b7c6ce571660fff2a156e3b51a98ef799fc4e632d6f932c47",
+      "executor": "Cursor来源复核，Luna Max候选与独立回读，主负责人保存和页面验收",
+      "status": "明确组成已保存并完成独立实际GET核算和代表页面；未知曲线及事件接线继续处理",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十八批/当前实录状态.json",
+        "sha256": "1794927e288cd0f31d663361fa58ed5e950f87a958760e1d6d6079a69f237195",
+        "commit": "beaef1937ca4a05e4ab7136d10080e73e8d7c074"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十八批/页面验收.json",
+        "commit": "beaef1937ca4a05e4ab7136d10080e73e8d7c074"
       },
       "runtimeValidation": "未执行"
     }
