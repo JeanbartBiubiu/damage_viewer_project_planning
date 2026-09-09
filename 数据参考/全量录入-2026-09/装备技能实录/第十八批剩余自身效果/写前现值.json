@@ -1,0 +1,781 @@
+{
+  "generatedAt": "2026-09-09T05:51:34.631Z",
+  "mode": "第十八批候选写前核心字段保护GET",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "apiWrites": 0,
+  "noBusinessWrites": true,
+  "inventoryEvidence": {
+    "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear18-20260909\\当前198装备与挂载独立GET.json",
+    "generatedAt": "2026-09-09T05:37:04.318Z",
+    "summary": {
+      "equipmentCount": 198,
+      "relationRequestCount": 198,
+      "mountedEquipmentCount": 108,
+      "unmountedEquipmentCount": 90,
+      "relationCount": 110,
+      "uniqueMountedSkillCount": 110,
+      "mountedSkillDetailsCount": 110,
+      "missingMountedSkillDetails": []
+    }
+  },
+  "objects": [
+    {
+      "equipmentKey": "item_3036",
+      "skillKey": "item_3036_passive",
+      "name": "多米尼克领主的致意",
+      "records": [
+        {
+          "route": "/equipment/item_3036",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "createdAt": "2026-09-06T17:10:23.648277Z",
+            "description": "来源：官方16.17.1装备3036。 原始说明：35攻击力 35%护甲穿透 25%暴击几率 巨人杀手 基于敌方英雄的额外生命值，对其至多造成15%额外伤害。最大伤害加成在1500额外生命值时达成。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_3036",
+            "gameId": "lol",
+            "name": "多米尼克领主的致意",
+            "updatedAt": "2026-09-06T17:10:23.648277Z"
+          }
+        },
+        {
+          "route": "/equipment/item_3036/attributes",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "attributeValues": {
+              "armor_pen_percent": 0.35,
+              "attack_damage": 35,
+              "critical_strike_chance": 0.25
+            },
+            "equipmentKey": "item_3036"
+          }
+        },
+        {
+          "route": "/equipment/item_3036/representative-image",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3036",
+              "name": "item_3036"
+            }
+          }
+        },
+        {
+          "route": "/equipment-skill-relations?equipmentKey=item_3036",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        }
+      ],
+      "skillSubjectGET": {
+        "route": "/skills/item_3036_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3036_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "relationCount": 0,
+      "representativeImageKey": "item_3036"
+    },
+    {
+      "equipmentKey": "item_3179",
+      "skillKey": "item_3179_passive",
+      "name": "黯影阔剑",
+      "records": [
+        {
+          "route": "/equipment/item_3179",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "createdAt": "2026-09-06T18:11:03.099077Z",
+            "description": "来源：官方16.17.1装备3179。 原始说明：60攻击力\n18穿甲\n15技能急速\n\n夜行者\n未被敌人看见达一小段时间后，你对英雄的下一次攻击造成额外真实伤害。\n\n封锁 \n在你处在敌方侦察守卫和陷阱附近时，将其短暂显形。在显形守卫状态下，你的攻击对其造成额外伤害。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_3179",
+            "gameId": "lol",
+            "name": "黯影阔剑",
+            "updatedAt": "2026-09-06T18:11:03.099077Z"
+          }
+        },
+        {
+          "route": "/equipment/item_3179/attributes",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "attributeValues": {
+              "armor_pen_flat": 18,
+              "attack_damage": 60,
+              "ability_haste": 15
+            },
+            "equipmentKey": "item_3179"
+          }
+        },
+        {
+          "route": "/equipment/item_3179/representative-image",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3179",
+              "name": "item_3179"
+            }
+          }
+        },
+        {
+          "route": "/equipment-skill-relations?equipmentKey=item_3179",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        }
+      ],
+      "skillSubjectGET": {
+        "route": "/skills/item_3179_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3179_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "relationCount": 0,
+      "representativeImageKey": "item_3179"
+    },
+    {
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "name": "界弓",
+      "records": [
+        {
+          "route": "/equipment/item_3302",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "createdAt": "2026-09-06T18:11:05.57826Z",
+            "description": "来源：官方16.17.1装备3302。 原始说明：30攻击力\n35%攻击速度\n\n晦影\n攻击造成0额外魔法伤害 攻击特效。\n\n交相\n对抗英雄时，在光明特效和黑暗特效之间轮换：附带光明特效的攻击提供持续5秒的护甲和魔抗。附带黑暗特效的攻击提供持续5秒的10%护甲穿透和法术穿透。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_3302",
+            "gameId": "lol",
+            "name": "界弓",
+            "updatedAt": "2026-09-06T18:11:05.57826Z"
+          }
+        },
+        {
+          "route": "/equipment/item_3302/attributes",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "attributeValues": {
+              "attack_damage": 30,
+              "bonus_attack_speed_percent": 0.35
+            },
+            "equipmentKey": "item_3302"
+          }
+        },
+        {
+          "route": "/equipment/item_3302/representative-image",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3302",
+              "name": "item_3302"
+            }
+          }
+        },
+        {
+          "route": "/equipment-skill-relations?equipmentKey=item_3302",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        }
+      ],
+      "skillSubjectGET": {
+        "route": "/skills/item_3302_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3302_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "relationCount": 0,
+      "representativeImageKey": "item_3302"
+    },
+    {
+      "equipmentKey": "item_3742",
+      "skillKey": "item_3742_passive",
+      "name": "亡者的板甲",
+      "records": [
+        {
+          "route": "/equipment/item_3742",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "createdAt": "2026-09-06T18:11:07.409181Z",
+            "description": "来源：官方16.17.1装备3742。 原始说明：350生命值\n55护甲\n4%移动速度\n\n沉船者\n在移动时，积攒至多20额外移动速度。你的下一次攻击会释放掉已积攒的移动速度来造成额外物理伤害。\n\n永不沉没\n使所受的减速效果的效能降低15%。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_3742",
+            "gameId": "lol",
+            "name": "亡者的板甲",
+            "updatedAt": "2026-09-06T18:11:07.409181Z"
+          }
+        },
+        {
+          "route": "/equipment/item_3742/attributes",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "attributeValues": {
+              "move_speed_percent": 0.04,
+              "hp": 350,
+              "armor": 55
+            },
+            "equipmentKey": "item_3742"
+          }
+        },
+        {
+          "route": "/equipment/item_3742/representative-image",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_3742",
+              "name": "item_3742"
+            }
+          }
+        },
+        {
+          "route": "/equipment-skill-relations?equipmentKey=item_3742",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        }
+      ],
+      "skillSubjectGET": {
+        "route": "/skills/item_3742_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3742_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "relationCount": 0,
+      "representativeImageKey": "item_3742"
+    },
+    {
+      "equipmentKey": "item_4005",
+      "skillKey": "item_4005_passive",
+      "name": "帝国指令",
+      "records": [
+        {
+          "route": "/equipment/item_4005",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "createdAt": "2026-09-06T18:11:11.175983Z",
+            "description": "来源：官方16.17.1装备4005。 原始说明：60法术强度\n15技能急速\n150%基础法力回复\n\n控制\n你的带有定身效果的那些技能获得20技能急速。\n\n命令\n在定身一个敌方英雄时，为其打上标记，施加持续4秒的7%易损。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_4005",
+            "gameId": "lol",
+            "name": "帝国指令",
+            "updatedAt": "2026-09-06T18:11:11.175983Z"
+          }
+        },
+        {
+          "route": "/equipment/item_4005/attributes",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "attributeValues": {
+              "base_mana_regen_percent": 1.5,
+              "ability_power": 60,
+              "ability_haste": 15
+            },
+            "equipmentKey": "item_4005"
+          }
+        },
+        {
+          "route": "/equipment/item_4005/representative-image",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_4005",
+              "name": "item_4005"
+            }
+          }
+        },
+        {
+          "route": "/equipment-skill-relations?equipmentKey=item_4005",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        }
+      ],
+      "skillSubjectGET": {
+        "route": "/skills/item_4005_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_4005_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "relationCount": 0,
+      "representativeImageKey": "item_4005"
+    },
+    {
+      "equipmentKey": "item_4645",
+      "skillKey": "item_4645_passive",
+      "name": "影焰",
+      "records": [
+        {
+          "route": "/equipment/item_4645",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "createdAt": "2026-09-06T18:11:14.773013Z",
+            "description": "来源：官方16.17.1装备4645。 原始说明：110法术强度\n15法术穿透\n\n余烬绽放\n魔法伤害和真实伤害会暴击低于40%生命值的敌人，造成20%提升伤害。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_4645",
+            "gameId": "lol",
+            "name": "影焰",
+            "updatedAt": "2026-09-06T18:11:14.773013Z"
+          }
+        },
+        {
+          "route": "/equipment/item_4645/attributes",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "attributeValues": {
+              "magic_pen_flat": 15,
+              "ability_power": 110
+            },
+            "equipmentKey": "item_4645"
+          }
+        },
+        {
+          "route": "/equipment/item_4645/representative-image",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_4645",
+              "name": "item_4645"
+            }
+          }
+        },
+        {
+          "route": "/equipment-skill-relations?equipmentKey=item_4645",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        }
+      ],
+      "skillSubjectGET": {
+        "route": "/skills/item_4645_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_4645_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "relationCount": 0,
+      "representativeImageKey": "item_4645"
+    },
+    {
+      "equipmentKey": "item_6631",
+      "skillKey": "item_6631_active",
+      "name": "挺进破坏者",
+      "records": [
+        {
+          "route": "/equipment/item_6631",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "createdAt": "2026-09-06T18:11:20.247282Z",
+            "description": "来源：官方16.17.1装备6631。 原始说明：40攻击力\n25%攻击速度\n450生命值\n\n顺劈\n攻击会对附近的敌人们造成物理伤害。\n破阵冲击波\n对附近的敌人们造成物理伤害和35%减速。\n每命中一个英雄就会获得持续衰减的35%移动速度，持续3秒。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_6631",
+            "gameId": "lol",
+            "name": "挺进破坏者",
+            "updatedAt": "2026-09-06T18:11:20.247282Z"
+          }
+        },
+        {
+          "route": "/equipment/item_6631/attributes",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "attributeValues": {
+              "hp": 450,
+              "attack_damage": 40,
+              "bonus_attack_speed_percent": 0.25
+            },
+            "equipmentKey": "item_6631"
+          }
+        },
+        {
+          "route": "/equipment/item_6631/representative-image",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_6631",
+              "name": "item_6631"
+            }
+          }
+        },
+        {
+          "route": "/equipment-skill-relations?equipmentKey=item_6631",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        }
+      ],
+      "skillSubjectGET": {
+        "route": "/skills/item_6631_active",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_6631_active"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "relationCount": 0,
+      "representativeImageKey": "item_6631"
+    },
+    {
+      "equipmentKey": "item_6662",
+      "skillKey": "item_6662_passive",
+      "name": "冰脉护手",
+      "records": [
+        {
+          "route": "/equipment/item_6662",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "createdAt": "2026-09-06T18:11:23.355339Z",
+            "description": "来源：官方16.17.1装备6662。 原始说明：300生命值\n50护甲\n15技能急速\n\n咒刃\n在施放一个技能后，你的下一次攻击造成额外物理伤害攻击特效并生成一个持续2秒的冰冷地带，这个地带可造成减速。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_6662",
+            "gameId": "lol",
+            "name": "冰脉护手",
+            "updatedAt": "2026-09-06T18:11:23.355339Z"
+          }
+        },
+        {
+          "route": "/equipment/item_6662/attributes",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "attributeValues": {
+              "hp": 300,
+              "armor": 50,
+              "ability_haste": 15
+            },
+            "equipmentKey": "item_6662"
+          }
+        },
+        {
+          "route": "/equipment/item_6662/representative-image",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_6662",
+              "name": "item_6662"
+            }
+          }
+        },
+        {
+          "route": "/equipment-skill-relations?equipmentKey=item_6662",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        }
+      ],
+      "skillSubjectGET": {
+        "route": "/skills/item_6662_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_6662_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "relationCount": 0,
+      "representativeImageKey": "item_6662"
+    },
+    {
+      "equipmentKey": "item_6694",
+      "skillKey": "item_6694_passive",
+      "name": "赛瑞尔达的怨恨",
+      "records": [
+        {
+          "route": "/equipment/item_6694",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "createdAt": "2026-09-06T18:11:28.23602Z",
+            "description": "来源：官方16.17.1装备6694。 原始说明：45攻击力\n35%护甲穿透\n15技能急速\n\n严寒\n伤害型技能会对低于50%生命值的敌人造成持续1秒的30%减速。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_6694",
+            "gameId": "lol",
+            "name": "赛瑞尔达的怨恨",
+            "updatedAt": "2026-09-06T18:11:28.23602Z"
+          }
+        },
+        {
+          "route": "/equipment/item_6694/attributes",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "attributeValues": {
+              "armor_pen_percent": 0.35,
+              "attack_damage": 45,
+              "ability_haste": 15
+            },
+            "equipmentKey": "item_6694"
+          }
+        },
+        {
+          "route": "/equipment/item_6694/representative-image",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_6694",
+              "name": "item_6694"
+            }
+          }
+        },
+        {
+          "route": "/equipment-skill-relations?equipmentKey=item_6694",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        }
+      ],
+      "skillSubjectGET": {
+        "route": "/skills/item_6694_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_6694_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "relationCount": 0,
+      "representativeImageKey": "item_6694"
+    },
+    {
+      "equipmentKey": "item_6697",
+      "skillKey": "item_6697_passive",
+      "name": "狂妄",
+      "records": [
+        {
+          "route": "/equipment/item_6697",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "createdAt": "2026-09-06T18:11:30.045026Z",
+            "description": "来源：官方16.17.1装备6697。 原始说明：55攻击力\n18穿甲\n10技能急速\n\n盛名\n如果一名在过去3秒内曾被你造成过伤害的英雄阵亡，则获得持续90秒的12+3x已击杀英雄数的攻击力。 被动与主动效果尚待配置。",
+            "equipmentKey": "item_6697",
+            "gameId": "lol",
+            "name": "狂妄",
+            "updatedAt": "2026-09-06T18:11:30.045026Z"
+          }
+        },
+        {
+          "route": "/equipment/item_6697/attributes",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "attributeValues": {
+              "armor_pen_flat": 18,
+              "attack_damage": 55,
+              "ability_haste": 10
+            },
+            "equipmentKey": "item_6697"
+          }
+        },
+        {
+          "route": "/equipment/item_6697/representative-image",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "image": {
+              "enabled": true,
+              "imageKey": "item_6697",
+              "name": "item_6697"
+            }
+          }
+        },
+        {
+          "route": "/equipment-skill-relations?equipmentKey=item_6697",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "data": {
+            "items": [],
+            "total": 0
+          }
+        }
+      ],
+      "skillSubjectGET": {
+        "route": "/skills/item_6697_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_6697_passive"
+            },
+            "message": "技能不存在"
+          }
+        }
+      },
+      "relationCount": 0,
+      "representativeImageKey": "item_6697"
+    }
+  ],
+  "summary": {
+    "equipmentCount": 10,
+    "equipmentCoreGETCount": 30,
+    "relationGETCount": 10,
+    "relationEmptyCount": 10,
+    "skillSubject404Count": 10,
+    "apiWrites": 0
+  }
+}

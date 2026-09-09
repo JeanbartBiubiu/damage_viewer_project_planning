@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T07:03:18.696Z",
+  "generatedAt": "2026-09-09T07:10:16.080Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -89,7 +89,7 @@
     "status": "181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理"
   },
   "images": {
-    "objectUses": 1370,
+    "objectUses": 1380,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
@@ -101,7 +101,7 @@
     ],
     "additionalRuneGeneratedFormUses": 4,
     "additionalRuneGeneratedFormEvidence": "API实录/符文生成装备第一批/独立最终回读.json",
-    "additionalEquipmentSkillRepresentativeReuses": 110,
+    "additionalEquipmentSkillRepresentativeReuses": 120,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/护盾消费纠错/批次复核.json",
@@ -120,7 +120,8 @@
       "装备技能实录/Luna第十批/第三组/页面验收.json",
       "装备技能实录/第十五批伤害装备/页面验收.json",
       "装备技能实录/第十六批成长与触发装备/页面验收.json",
-      "装备技能实录/第十七批防御与状态装备/页面验收.json"
+      "装备技能实录/第十七批防御与状态装备/页面验收.json",
+      "装备技能实录/第十八批剩余自身效果/页面验收.json"
     ],
     "status": "原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3279,
@@ -1827,6 +1828,41 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十四批/页面验收.json",
         "commit": "852e021a"
       },
+      "runtimeValidation": "未执行"
+    },
+    "equipmentEighteenthBatch": {
+      "skills": [
+        "item_3036_passive",
+        "item_3179_passive",
+        "item_3302_passive",
+        "item_3742_passive",
+        "item_4005_passive",
+        "item_4645_passive",
+        "item_6631_active",
+        "item_6662_passive",
+        "item_6694_passive",
+        "item_6697_passive"
+      ],
+      "parameters": 52,
+      "formulas": 8,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "equipmentRelations": 10,
+      "representativeImageReuses": 10,
+      "created": 90,
+      "independentGets": 130,
+      "independentTargetGets": 90,
+      "independentProtectionGets": 40,
+      "independentMathCases": 15,
+      "representativePages": 3,
+      "pageGets": 41,
+      "scriptStageChecks": 7,
+      "status": "90项实际保存，独立130GET含90目标和40保护、15实值算例与3页面通过；写后关系检查误报已修且未重放，未知曲线及接线继续补。",
+      "candidateSha256": "4863b2119fd7f154d188d207f4b6e465d3719146f35dd1cc2bfb047e4b294a2b",
+      "evidence": "装备技能实录/第十八批剩余自身效果/当前实录状态.json",
+      "browserEvidence": "装备技能实录/第十八批剩余自身效果/页面验收.json",
       "runtimeValidation": "未执行"
     }
   },

@@ -1,0 +1,1718 @@
+{
+  "at": "2026-09-09T06:37:13.152Z",
+  "candidateSha256": "4863b2119fd7f154d188d207f4b6e465d3719146f35dd1cc2bfb047e4b294a2b",
+  "sourceSha256": "98d14396062ef2189cf364faf863f4d2ee62481dff9dacbaf4641fa9663c0492",
+  "beforeSha256": "d21a71991758032112009478a123761e1d0628fb660c59f2c26d13ba2c947250",
+  "scope": [
+    {
+      "equipmentKey": "item_3036",
+      "skillKey": "item_3036_passive"
+    },
+    {
+      "equipmentKey": "item_3179",
+      "skillKey": "item_3179_passive"
+    },
+    {
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive"
+    },
+    {
+      "equipmentKey": "item_3742",
+      "skillKey": "item_3742_passive"
+    },
+    {
+      "equipmentKey": "item_4005",
+      "skillKey": "item_4005_passive"
+    },
+    {
+      "equipmentKey": "item_4645",
+      "skillKey": "item_4645_passive"
+    },
+    {
+      "equipmentKey": "item_6631",
+      "skillKey": "item_6631_active"
+    },
+    {
+      "equipmentKey": "item_6662",
+      "skillKey": "item_6662_passive"
+    },
+    {
+      "equipmentKey": "item_6694",
+      "skillKey": "item_6694_passive"
+    },
+    {
+      "equipmentKey": "item_6697",
+      "skillKey": "item_6697_passive"
+    }
+  ],
+  "requests": [
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3036",
+      "skillKey": "item_3036_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3036_passive",
+      "body": {
+        "skillKey": "item_3036_passive",
+        "name": "多米尼克领主的致意·巨人杀手",
+        "description": "保留对当前敌方英雄额外生命值的伤害上限参数和达到上限的生命值门槛。客户端只给出端点，不把端点擅自解释为线性成长，也不添加默认伤害资格。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3036",
+      "skillKey": "item_3036_passive",
+      "method": "POST",
+      "route": "/skills/item_3036_passive/parameters",
+      "readRoute": "/skills/item_3036_passive/parameters/max_bonus_damage_ratio",
+      "body": {
+        "parameterKey": "max_bonus_damage_ratio",
+        "name": "最大额外伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.15,
+        "levelValues": null,
+        "description": "客户端MaxBonusDamagePercent明确至多15%额外伤害。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3036",
+      "skillKey": "item_3036_passive",
+      "method": "POST",
+      "route": "/skills/item_3036_passive/parameters",
+      "readRoute": "/skills/item_3036_passive/parameters/bonus_health_at_max_damage",
+      "body": {
+        "parameterKey": "bonus_health_at_max_damage",
+        "name": "达到最大额外伤害所需额外生命值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端MaxBonusHealth明确1500额外生命值时达成上限。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3036",
+      "skillKey": "item_3036_passive",
+      "method": "POST",
+      "route": "/skills/item_3036_passive/parameters",
+      "readRoute": "/skills/item_3036_passive/parameters/actual_target_bonus_health",
+      "body": {
+        "parameterKey": "actual_target_bonus_health",
+        "name": "当前敌方英雄额外生命值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前敌方英雄额外生命值的实际小数数值，例如1234.5；与固定1500上限门槛分别保存。当前来源未证明伤害增幅中间曲线；本参数无默认值，不按端点插值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3036",
+      "skillKey": "item_3036_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3036",
+      "body": {
+        "equipmentKey": "item_3036",
+        "skillKey": "item_3036_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3036",
+      "skillKey": "item_3036_passive",
+      "method": "PUT",
+      "route": "/skills/item_3036_passive/representative-image",
+      "readRoute": "/skills/item_3036_passive/representative-image",
+      "body": {
+        "imageKey": "item_3036"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3179",
+      "skillKey": "item_3179_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3179_passive",
+      "body": {
+        "skillKey": "item_3179_passive",
+        "name": "黯影阔剑·夜行者",
+        "description": "保留未被敌人看见后对当前英雄下一次攻击的50+1.5×原mStat29真实伤害公式，以及明确的时间参数。mStat29枚举仍以运行时输入表示；侦察守卫、陷阱和视野空间支路不录入。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3179",
+      "skillKey": "item_3179_passive",
+      "method": "POST",
+      "route": "/skills/item_3179_passive/parameters",
+      "readRoute": "/skills/item_3179_passive/parameters/proc_base_true_damage",
+      "body": {
+        "parameterKey": "proc_base_true_damage",
+        "name": "夜行者基础真实伤害",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "description": "客户端ProcDamage第一项明确为50。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3179",
+      "skillKey": "item_3179_passive",
+      "method": "POST",
+      "route": "/skills/item_3179_passive/parameters",
+      "readRoute": "/skills/item_3179_passive/parameters/mstat29_ratio",
+      "body": {
+        "parameterKey": "mstat29_ratio",
+        "name": "夜行者原mStat29系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.5,
+        "levelValues": null,
+        "description": "客户端ProcDamage第二项明确为1.5×mStat29。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3179",
+      "skillKey": "item_3179_passive",
+      "method": "POST",
+      "route": "/skills/item_3179_passive/parameters",
+      "readRoute": "/skills/item_3179_passive/parameters/actual_mstat29",
+      "body": {
+        "parameterKey": "actual_mstat29",
+        "name": "夜行者原mStat29实际值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "mStat29属性枚举及取值口径没有独立具名证据，必须外供原节点实际值；不以穿甲或其他装备属性替代。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3179",
+      "skillKey": "item_3179_passive",
+      "method": "POST",
+      "route": "/skills/item_3179_passive/parameters",
+      "readRoute": "/skills/item_3179_passive/parameters/cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "夜行者冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 90000,
+        "levelValues": null,
+        "description": "客户端Cooldown明确90秒，按秒转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3179",
+      "skillKey": "item_3179_passive",
+      "method": "POST",
+      "route": "/skills/item_3179_passive/parameters",
+      "readRoute": "/skills/item_3179_passive/parameters/out_of_vision_duration_ms",
+      "body": {
+        "parameterKey": "out_of_vision_duration_ms",
+        "name": "未被看见所需时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "客户端OutOfVisionDuration明确1秒，按秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3179",
+      "skillKey": "item_3179_passive",
+      "method": "POST",
+      "route": "/skills/item_3179_passive/parameters",
+      "readRoute": "/skills/item_3179_passive/parameters/attack_ready_duration_ms",
+      "body": {
+        "parameterKey": "attack_ready_duration_ms",
+        "name": "攻击准备持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端AttackReadyDuration明确4秒，按秒转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3179",
+      "skillKey": "item_3179_passive",
+      "method": "POST",
+      "route": "/skills/item_3179_passive/formulas",
+      "readRoute": "/skills/item_3179_passive/formulas/nightstalker_true_damage",
+      "body": {
+        "formulaKey": "nightstalker_true_damage",
+        "name": "夜行者额外真实伤害",
+        "description": "客户端ProcDamage：50+1.5×原mStat29实际输入。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "proc_base_true_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mstat29_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_mstat29"
+                }
+              ]
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3179",
+      "skillKey": "item_3179_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3179",
+      "body": {
+        "equipmentKey": "item_3179",
+        "skillKey": "item_3179_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3179",
+      "skillKey": "item_3179_passive",
+      "method": "PUT",
+      "route": "/skills/item_3179_passive/representative-image",
+      "readRoute": "/skills/item_3179_passive/representative-image",
+      "body": {
+        "imageKey": "item_3179"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3302_passive",
+      "body": {
+        "skillKey": "item_3302_passive",
+        "name": "界弓·晦影与交相",
+        "description": "保留当前英雄攻击的额外魔法伤害、光明与黑暗效果的持续时间、黑暗穿透上限及光明双抗成长原始端点。mStat2/formula2按同版具名旁证映射额外攻击力，默认0/0按同版旁证映射法术强度；等级断点求值仍运行时输入。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/parameters",
+      "readRoute": "/skills/item_3302_passive/parameters/on_hit_base_magic_damage",
+      "body": {
+        "parameterKey": "on_hit_base_magic_damage",
+        "name": "攻击附加基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "description": "客户端OnHitDamage第一项明确为30。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/parameters",
+      "readRoute": "/skills/item_3302_passive/parameters/bonus_attack_damage_ratio",
+      "body": {
+        "parameterKey": "bonus_attack_damage_ratio",
+        "name": "额外攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "客户端OnHitDamage的mStat2/formula2节点系数为0.1；按同版具名旁证映射额外攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/parameters",
+      "readRoute": "/skills/item_3302_passive/parameters/ability_power_ratio",
+      "body": {
+        "parameterKey": "ability_power_ratio",
+        "name": "法术强度系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "当前OnHitDamage原树中法术强度系数0.1，乘施法者总法术强度；不是10点固定伤害。沿用同版已证法强属性窄映射。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/parameters",
+      "readRoute": "/skills/item_3302_passive/parameters/light_dark_buff_duration_ms",
+      "body": {
+        "parameterKey": "light_dark_buff_duration_ms",
+        "name": "光明与黑暗效果持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端BuffDuration明确5秒，按秒转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/parameters",
+      "readRoute": "/skills/item_3302_passive/parameters/dark_penetration_per_hit_ratio",
+      "body": {
+        "parameterKey": "dark_penetration_per_hit_ratio",
+        "name": "黑暗每次攻击穿透比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "客户端PenPerHit明确10%。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/parameters",
+      "readRoute": "/skills/item_3302_passive/parameters/dark_penetration_max_ratio",
+      "body": {
+        "parameterKey": "dark_penetration_max_ratio",
+        "name": "黑暗穿透上限比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "客户端PenMax明确30%上限。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/parameters",
+      "readRoute": "/skills/item_3302_passive/parameters/light_resistance_level1",
+      "body": {
+        "parameterKey": "light_resistance_level1",
+        "name": "光明双抗一级端点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "客户端ARMRPerHitScaling明确mLevel1Value=6；只保存端点，不据此生成等级曲线。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/parameters",
+      "readRoute": "/skills/item_3302_passive/parameters/light_resistance_breakpoint_level11_add",
+      "body": {
+        "parameterKey": "light_resistance_breakpoint_level11_add",
+        "name": "光明双抗11级增量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端断点明确11级增加1；断点算法仍未证。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/parameters",
+      "readRoute": "/skills/item_3302_passive/parameters/light_resistance_breakpoint_level14_add",
+      "body": {
+        "parameterKey": "light_resistance_breakpoint_level14_add",
+        "name": "光明双抗14级增量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端断点明确14级增加1；断点算法仍未证。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/parameters",
+      "readRoute": "/skills/item_3302_passive/parameters/light_resistance_max_multiplier",
+      "body": {
+        "parameterKey": "light_resistance_max_multiplier",
+        "name": "光明双抗最大倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端ARMRMaxScaling明确为3×ARMRPerHitScaling。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/parameters",
+      "readRoute": "/skills/item_3302_passive/parameters/actual_light_resistance_per_hit",
+      "body": {
+        "parameterKey": "actual_light_resistance_per_hit",
+        "name": "当前光明每次攻击双抗值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "等级端点和断点字段不能证明完整求值算法，当前每次攻击的实际双抗值由运行时输入；不按等级线性插值。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/formulas",
+      "readRoute": "/skills/item_3302_passive/formulas/on_hit_magic_damage",
+      "body": {
+        "formulaKey": "on_hit_magic_damage",
+        "name": "攻击附加魔法伤害",
+        "description": "客户端OnHitDamage：30+0.1×额外攻击力+0.1×法术强度。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "on_hit_base_magic_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_attack_damage_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ability_power_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/skills/item_3302_passive/formulas",
+      "readRoute": "/skills/item_3302_passive/formulas/light_resistance_max",
+      "body": {
+        "formulaKey": "light_resistance_max",
+        "name": "光明双抗最大值",
+        "description": "客户端ARMRMaxScaling：3×当前光明每次攻击双抗值；等级求值由运行时提供。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "light_resistance_max_multiplier"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_light_resistance_per_hit"
+            }
+          ]
+        },
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3302",
+      "body": {
+        "equipmentKey": "item_3302",
+        "skillKey": "item_3302_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3302",
+      "skillKey": "item_3302_passive",
+      "method": "PUT",
+      "route": "/skills/item_3302_passive/representative-image",
+      "readRoute": "/skills/item_3302_passive/representative-image",
+      "body": {
+        "imageKey": "item_3302"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3742",
+      "skillKey": "item_3742_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3742_passive",
+      "body": {
+        "skillKey": "item_3742_passive",
+        "name": "亡者的板甲·沉船者",
+        "description": "保留移动积攒上限、下一次攻击的最大额外物理伤害、达到满层时间和自身减速抗性。最大攻击公式使用基础攻击力窄映射；移动过程和中间层数不按端点猜曲线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3742",
+      "skillKey": "item_3742_passive",
+      "method": "POST",
+      "route": "/skills/item_3742_passive/parameters",
+      "readRoute": "/skills/item_3742_passive/parameters/max_movement_speed",
+      "body": {
+        "parameterKey": "max_movement_speed",
+        "name": "最大额外移动速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "客户端MaxMovementSpeed明确20。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3742",
+      "skillKey": "item_3742_passive",
+      "method": "POST",
+      "route": "/skills/item_3742_passive/parameters",
+      "readRoute": "/skills/item_3742_passive/parameters/max_stacks",
+      "body": {
+        "parameterKey": "max_stacks",
+        "name": "最大层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "description": "客户端MaxStacks明确100。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3742",
+      "skillKey": "item_3742_passive",
+      "method": "POST",
+      "route": "/skills/item_3742_passive/parameters",
+      "readRoute": "/skills/item_3742_passive/parameters/bonus_damage_per_stack",
+      "body": {
+        "parameterKey": "bonus_damage_per_stack",
+        "name": "每层额外伤害常数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "客户端BonusDamagePerStack明确0.4。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3742",
+      "skillKey": "item_3742_passive",
+      "method": "POST",
+      "route": "/skills/item_3742_passive/parameters",
+      "readRoute": "/skills/item_3742_passive/parameters/max_stacks_base_ad_ratio",
+      "body": {
+        "parameterKey": "max_stacks_base_ad_ratio",
+        "name": "满层基础攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端MaxStacksADRatio为mStat2/formula1×1；按同版具名旁证映射基础攻击力。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3742",
+      "skillKey": "item_3742_passive",
+      "method": "POST",
+      "route": "/skills/item_3742_passive/parameters",
+      "readRoute": "/skills/item_3742_passive/parameters/duration_to_max_stack_ms",
+      "body": {
+        "parameterKey": "duration_to_max_stack_ms",
+        "name": "达到最大层数时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端DurationToMaxStack明确4秒，按秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3742",
+      "skillKey": "item_3742_passive",
+      "method": "POST",
+      "route": "/skills/item_3742_passive/parameters",
+      "readRoute": "/skills/item_3742_passive/parameters/slow_resist_ratio",
+      "body": {
+        "parameterKey": "slow_resist_ratio",
+        "name": "减速效能降低比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.15,
+        "levelValues": null,
+        "description": "客户端SlowResistTooltip明确15%。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3742",
+      "skillKey": "item_3742_passive",
+      "method": "POST",
+      "route": "/skills/item_3742_passive/formulas",
+      "readRoute": "/skills/item_3742_passive/formulas/max_bonus_damage",
+      "body": {
+        "formulaKey": "max_bonus_damage",
+        "name": "满层下一次攻击额外物理伤害",
+        "description": "客户端MaxDamageCalc：1×基础攻击力+0.4×100；仅表达满层端点，不表示中间层数。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_stacks_base_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BASE"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_damage_per_stack"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_stacks"
+                }
+              ]
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3742",
+      "skillKey": "item_3742_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3742",
+      "body": {
+        "equipmentKey": "item_3742",
+        "skillKey": "item_3742_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3742",
+      "skillKey": "item_3742_passive",
+      "method": "PUT",
+      "route": "/skills/item_3742_passive/representative-image",
+      "readRoute": "/skills/item_3742_passive/representative-image",
+      "body": {
+        "imageKey": "item_3742"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_4005",
+      "skillKey": "item_4005_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_4005_passive",
+      "body": {
+        "skillKey": "item_4005_passive",
+        "name": "帝国指令·控制与命令",
+        "description": "保留定身技能获得的技能急速、对敌方英雄施加的7%易损比例及4秒持续时间。易损目标筛选和伤害乘区尚未接线，不生成默认伤害效果。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_4005",
+      "skillKey": "item_4005_passive",
+      "method": "POST",
+      "route": "/skills/item_4005_passive/parameters",
+      "readRoute": "/skills/item_4005_passive/parameters/immobilizing_ability_haste",
+      "body": {
+        "parameterKey": "immobilizing_ability_haste",
+        "name": "定身技能技能急速",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "客户端ImmobilizingAbilityAH明确20。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_4005",
+      "skillKey": "item_4005_passive",
+      "method": "POST",
+      "route": "/skills/item_4005_passive/parameters",
+      "readRoute": "/skills/item_4005_passive/parameters/vulnerability_ratio",
+      "body": {
+        "parameterKey": "vulnerability_ratio",
+        "name": "易损比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.07,
+        "levelValues": null,
+        "description": "客户端DamageAmp明确7%。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_4005",
+      "skillKey": "item_4005_passive",
+      "method": "POST",
+      "route": "/skills/item_4005_passive/parameters",
+      "readRoute": "/skills/item_4005_passive/parameters/vulnerability_duration_ms",
+      "body": {
+        "parameterKey": "vulnerability_duration_ms",
+        "name": "易损持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端DamageAmpDuration明确4秒，按秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_4005",
+      "skillKey": "item_4005_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_4005",
+      "body": {
+        "equipmentKey": "item_4005",
+        "skillKey": "item_4005_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_4005",
+      "skillKey": "item_4005_passive",
+      "method": "PUT",
+      "route": "/skills/item_4005_passive/representative-image",
+      "readRoute": "/skills/item_4005_passive/representative-image",
+      "body": {
+        "imageKey": "item_4005"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_4645",
+      "skillKey": "item_4645_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_4645_passive",
+      "body": {
+        "skillKey": "item_4645_passive",
+        "name": "影焰·余烬绽放",
+        "description": "保留敌方生命低于40%时魔法伤害和真实伤害获得20%提升的倍率参数。来源扩展规则明确该暴击修正只影响额外伤害；不创建未具备资格证据的DAMAGE。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_4645",
+      "skillKey": "item_4645_passive",
+      "method": "POST",
+      "route": "/skills/item_4645_passive/parameters",
+      "readRoute": "/skills/item_4645_passive/parameters/target_health_threshold_ratio",
+      "body": {
+        "parameterKey": "target_health_threshold_ratio",
+        "name": "目标生命值阈值",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "客户端HealthThreshold明确40%。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_4645",
+      "skillKey": "item_4645_passive",
+      "method": "POST",
+      "route": "/skills/item_4645_passive/parameters",
+      "readRoute": "/skills/item_4645_passive/parameters/magic_true_damage_amp_ratio",
+      "body": {
+        "parameterKey": "magic_true_damage_amp_ratio",
+        "name": "魔法与真实伤害提升比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "客户端SpellItemDamageAmp明确20%。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_4645",
+      "skillKey": "item_4645_passive",
+      "method": "POST",
+      "route": "/skills/item_4645_passive/parameters",
+      "readRoute": "/skills/item_4645_passive/parameters/base_damage_multiplier",
+      "body": {
+        "parameterKey": "base_damage_multiplier",
+        "name": "基础伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "公式中的中性基础倍率，用于表达“基础伤害×(1+20%)”；不是来源新增属性。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_4645",
+      "skillKey": "item_4645_passive",
+      "method": "POST",
+      "route": "/skills/item_4645_passive/formulas",
+      "readRoute": "/skills/item_4645_passive/formulas/eligible_magic_true_damage_multiplier",
+      "body": {
+        "formulaKey": "eligible_magic_true_damage_multiplier",
+        "name": "符合条件的魔法与真实伤害倍率",
+        "description": "低于生命阈值时的额外20%提升，输出1.2倍率；资格判定仍由运行时接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage_multiplier"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "magic_true_damage_amp_ratio"
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_4645",
+      "skillKey": "item_4645_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_4645",
+      "body": {
+        "equipmentKey": "item_4645",
+        "skillKey": "item_4645_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_4645",
+      "skillKey": "item_4645_passive",
+      "method": "PUT",
+      "route": "/skills/item_4645_passive/representative-image",
+      "readRoute": "/skills/item_4645_passive/representative-image",
+      "body": {
+        "imageKey": "item_4645"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_6631",
+      "skillKey": "item_6631_active",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_6631_active",
+      "body": {
+        "skillKey": "item_6631_active",
+        "name": "挺进破坏者·破阵冲击波",
+        "description": "只保留主动技能对当前敌方英雄的物理伤害公式、减速和自身衰减移动速度参数。被动顺劈及主动附近其他目标支路属于多目标/空间范围，本候选不创建空被动技能。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 10,
+        "skillCategoryKeys": []
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6631",
+      "skillKey": "item_6631_active",
+      "method": "POST",
+      "route": "/skills/item_6631_active/parameters",
+      "readRoute": "/skills/item_6631_active/parameters/cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "主动冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15000,
+        "levelValues": null,
+        "description": "客户端Cooldown明确15秒，按秒转毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6631",
+      "skillKey": "item_6631_active",
+      "method": "POST",
+      "route": "/skills/item_6631_active/parameters",
+      "readRoute": "/skills/item_6631_active/parameters/active_damage_ad_ratio",
+      "body": {
+        "parameterKey": "active_damage_ad_ratio",
+        "name": "主动伤害总攻击力系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "客户端SlashDamage的mStat2且默认formula0节点绑定ADRatio=0.8；按同版旁证映射总攻击力。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6631",
+      "skillKey": "item_6631_active",
+      "method": "POST",
+      "route": "/skills/item_6631_active/parameters",
+      "readRoute": "/skills/item_6631_active/parameters/slow_ratio",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "主动减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.35,
+        "levelValues": null,
+        "description": "客户端MSSlow原值为-0.35，中文绑定以@MSSlow*-100@%显示，候选保存正向减速比例0.35。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6631",
+      "skillKey": "item_6631_active",
+      "method": "POST",
+      "route": "/skills/item_6631_active/parameters",
+      "readRoute": "/skills/item_6631_active/parameters/self_move_speed_ratio",
+      "body": {
+        "parameterKey": "self_move_speed_ratio",
+        "name": "命中英雄后自身移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.35,
+        "levelValues": null,
+        "description": "客户端ActiveMS明确35%。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6631",
+      "skillKey": "item_6631_active",
+      "method": "POST",
+      "route": "/skills/item_6631_active/parameters",
+      "readRoute": "/skills/item_6631_active/parameters/duration_ms",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "自身移动速度持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端Duration明确3秒，按秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6631",
+      "skillKey": "item_6631_active",
+      "method": "POST",
+      "route": "/skills/item_6631_active/parameters",
+      "readRoute": "/skills/item_6631_active/parameters/decay_rate",
+      "body": {
+        "parameterKey": "decay_rate",
+        "name": "自身移动速度衰减率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "客户端DecayRate明确0.8；具体衰减算法和节拍未证，仅保留原数值。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_6631",
+      "skillKey": "item_6631_active",
+      "method": "POST",
+      "route": "/skills/item_6631_active/formulas",
+      "readRoute": "/skills/item_6631_active/formulas/active_damage",
+      "body": {
+        "formulaKey": "active_damage",
+        "name": "主动对当前英雄物理伤害",
+        "description": "客户端SlashDamage：0.8×总攻击力；本公式只供单个当前英雄目标使用。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "active_damage_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_6631",
+      "skillKey": "item_6631_active",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_6631",
+      "body": {
+        "equipmentKey": "item_6631",
+        "skillKey": "item_6631_active",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_6631",
+      "skillKey": "item_6631_active",
+      "method": "PUT",
+      "route": "/skills/item_6631_active/representative-image",
+      "readRoute": "/skills/item_6631_active/representative-image",
+      "body": {
+        "imageKey": "item_6631"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_6662",
+      "skillKey": "item_6662_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_6662_passive",
+      "body": {
+        "skillKey": "item_6662_passive",
+        "name": "冰脉护手·咒刃",
+        "description": "保留施放技能后下一次攻击的基础攻击力附加物理伤害、当前敌方英雄减速比例和持续时间。mStat2/formula1按同版具名旁证映射基础攻击力；怪物倍率和空间半径不录入。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6662",
+      "skillKey": "item_6662_passive",
+      "method": "POST",
+      "route": "/skills/item_6662_passive/parameters",
+      "readRoute": "/skills/item_6662_passive/parameters/slow_ratio_melee",
+      "body": {
+        "parameterKey": "slow_ratio_melee",
+        "name": "近战减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "客户端SlowAmount明确25%。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6662",
+      "skillKey": "item_6662_passive",
+      "method": "POST",
+      "route": "/skills/item_6662_passive/parameters",
+      "readRoute": "/skills/item_6662_passive/parameters/slow_ratio_ranged",
+      "body": {
+        "parameterKey": "slow_ratio_ranged",
+        "name": "远程减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.125,
+        "levelValues": null,
+        "description": "客户端RangedSlowAmount明确12.5%。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6662",
+      "skillKey": "item_6662_passive",
+      "method": "POST",
+      "route": "/skills/item_6662_passive/parameters",
+      "readRoute": "/skills/item_6662_passive/parameters/slow_field_duration_ms",
+      "body": {
+        "parameterKey": "slow_field_duration_ms",
+        "name": "冰冷地带持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端SlowFieldDuration明确2秒，按秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6662",
+      "skillKey": "item_6662_passive",
+      "method": "POST",
+      "route": "/skills/item_6662_passive/parameters",
+      "readRoute": "/skills/item_6662_passive/parameters/spellblade_multiplier",
+      "body": {
+        "parameterKey": "spellblade_multiplier",
+        "name": "咒刃基础攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.5,
+        "levelValues": null,
+        "description": "客户端SpellbladeMultiplier明确1.5；计算节点为mStat2/formula1。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6662",
+      "skillKey": "item_6662_passive",
+      "method": "POST",
+      "route": "/skills/item_6662_passive/parameters",
+      "readRoute": "/skills/item_6662_passive/parameters/spellblade_cooldown_ms",
+      "body": {
+        "parameterKey": "spellblade_cooldown_ms",
+        "name": "咒刃冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端SpellbladeCooldown明确1.5秒，按秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6662",
+      "skillKey": "item_6662_passive",
+      "method": "POST",
+      "route": "/skills/item_6662_passive/parameters",
+      "readRoute": "/skills/item_6662_passive/parameters/item_cooldown_ms",
+      "body": {
+        "parameterKey": "item_cooldown_ms",
+        "name": "装备冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端Cooldown同样明确1.5秒；与SpellbladeCooldown保留为两个源字段，未合并语义。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_6662",
+      "skillKey": "item_6662_passive",
+      "method": "POST",
+      "route": "/skills/item_6662_passive/formulas",
+      "readRoute": "/skills/item_6662_passive/formulas/spellblade_damage",
+      "body": {
+        "formulaKey": "spellblade_damage",
+        "name": "咒刃额外物理伤害",
+        "description": "客户端SpellbladeDamage：1.5×基础攻击力；mStat2/formula1按同版具名旁证映射基础攻击力。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "spellblade_multiplier"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BASE"
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_6662",
+      "skillKey": "item_6662_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_6662",
+      "body": {
+        "equipmentKey": "item_6662",
+        "skillKey": "item_6662_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_6662",
+      "skillKey": "item_6662_passive",
+      "method": "PUT",
+      "route": "/skills/item_6662_passive/representative-image",
+      "readRoute": "/skills/item_6662_passive/representative-image",
+      "body": {
+        "imageKey": "item_6662"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_6694",
+      "skillKey": "item_6694_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_6694_passive",
+      "body": {
+        "skillKey": "item_6694_passive",
+        "name": "赛瑞尔达的怨恨·严寒",
+        "description": "保留伤害型技能命中当前敌方英雄且其生命值低于50%时的30%减速和1秒持续时间。15穿甲属于装备直接属性不重复添加，原mStat29计算树不猜属性。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6694",
+      "skillKey": "item_6694_passive",
+      "method": "POST",
+      "route": "/skills/item_6694_passive/parameters",
+      "readRoute": "/skills/item_6694_passive/parameters/slow_ratio",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "严寒减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "客户端SlowAmount明确30%。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6694",
+      "skillKey": "item_6694_passive",
+      "method": "POST",
+      "route": "/skills/item_6694_passive/parameters",
+      "readRoute": "/skills/item_6694_passive/parameters/slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "严寒持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "客户端SlowDuration明确1秒，按秒转毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6694",
+      "skillKey": "item_6694_passive",
+      "method": "POST",
+      "route": "/skills/item_6694_passive/parameters",
+      "readRoute": "/skills/item_6694_passive/parameters/target_health_threshold_ratio",
+      "body": {
+        "parameterKey": "target_health_threshold_ratio",
+        "name": "目标生命值阈值",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端SlowThreshold明确50%。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_6694",
+      "skillKey": "item_6694_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_6694",
+      "body": {
+        "equipmentKey": "item_6694",
+        "skillKey": "item_6694_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_6694",
+      "skillKey": "item_6694_passive",
+      "method": "PUT",
+      "route": "/skills/item_6694_passive/representative-image",
+      "readRoute": "/skills/item_6694_passive/representative-image",
+      "body": {
+        "imageKey": "item_6694"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_6697",
+      "skillKey": "item_6697_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_6697_passive",
+      "body": {
+        "skillKey": "item_6697_passive",
+        "name": "狂妄·盛名",
+        "description": "保留伤害后3秒内敌方英雄阵亡时获得90秒临时攻击力的基础值和每名已击杀英雄增量。击杀计数作为运行时输入，未接线前不自动施加增益。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6697",
+      "skillKey": "item_6697_passive",
+      "method": "POST",
+      "route": "/skills/item_6697_passive/parameters",
+      "readRoute": "/skills/item_6697_passive/parameters/takedown_window_ms",
+      "body": {
+        "parameterKey": "takedown_window_ms",
+        "name": "伤害后击杀窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端TakedownWindow明确3秒，按秒转毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6697",
+      "skillKey": "item_6697_passive",
+      "method": "POST",
+      "route": "/skills/item_6697_passive/parameters",
+      "readRoute": "/skills/item_6697_passive/parameters/buff_duration_ms",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "盛名持续时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 90000,
+        "levelValues": null,
+        "description": "客户端BuffDuration明确90秒，按秒转毫秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6697",
+      "skillKey": "item_6697_passive",
+      "method": "POST",
+      "route": "/skills/item_6697_passive/parameters",
+      "readRoute": "/skills/item_6697_passive/parameters/base_ad_bonus",
+      "body": {
+        "parameterKey": "base_ad_bonus",
+        "name": "盛名基础攻击力",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12,
+        "levelValues": null,
+        "description": "客户端BaseADBonus明确12。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6697",
+      "skillKey": "item_6697_passive",
+      "method": "POST",
+      "route": "/skills/item_6697_passive/parameters",
+      "readRoute": "/skills/item_6697_passive/parameters/ad_per_killed_hero",
+      "body": {
+        "parameterKey": "ad_per_killed_hero",
+        "name": "每名已击杀英雄攻击力",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端ADPerStatue明确每名3点攻击力。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_6697",
+      "skillKey": "item_6697_passive",
+      "method": "POST",
+      "route": "/skills/item_6697_passive/parameters",
+      "readRoute": "/skills/item_6697_passive/parameters/actual_killed_hero_count",
+      "body": {
+        "parameterKey": "actual_killed_hero_count",
+        "name": "当前已击杀英雄数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "动态击杀计数由运行时提供；不以召唤物、非英雄或静态层数替代。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_6697",
+      "skillKey": "item_6697_passive",
+      "method": "POST",
+      "route": "/skills/item_6697_passive/formulas",
+      "readRoute": "/skills/item_6697_passive/formulas/bonus_attack_damage",
+      "body": {
+        "formulaKey": "bonus_attack_damage",
+        "name": "盛名临时攻击力",
+        "description": "客户端说明：12+3×已击杀英雄数；击杀资格和计数由运行时提供。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_ad_bonus"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ad_per_killed_hero"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_killed_hero_count"
+                }
+              ]
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_6697",
+      "skillKey": "item_6697_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_6697",
+      "body": {
+        "equipmentKey": "item_6697",
+        "skillKey": "item_6697_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_6697",
+      "skillKey": "item_6697_passive",
+      "method": "PUT",
+      "route": "/skills/item_6697_passive/representative-image",
+      "readRoute": "/skills/item_6697_passive/representative-image",
+      "body": {
+        "imageKey": "item_6697"
+      }
+    }
+  ]
+}

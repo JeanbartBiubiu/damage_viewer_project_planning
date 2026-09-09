@@ -1,0 +1,5208 @@
+{
+  "generatedAt": "2026-09-09T06:37:13.150Z",
+  "stage": "独立审查后最终候选，未写业务",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "boundary": "第十八批剩余自身效果：只保留当前英雄一对一可解释的自身伤害、治疗、抗性、控制、冷却和强化攻击依赖；纯空间、多目标、仅小兵野怪、第三方友军和视野支路范围外。未知字段保留来源或运行时输入，不补零、不猜等级插值、不造默认DAMAGE或DIRECT_HEAL。",
+  "sourceFreezeSha256": "98d14396062ef2189cf364faf863f4d2ee62481dff9dacbaf4641fa9663c0492",
+  "sourceFreezePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十八批剩余自身效果\\冻结来源.json",
+  "objects": [
+    {
+      "equipmentKey": "item_3036",
+      "equipmentName": "多米尼克领主的致意",
+      "skillKey": "item_3036_passive",
+      "source": {
+        "path": "Items/3036",
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_3036_Name",
+            "key": "item_3036_name",
+            "text": "多米尼克领主的致意"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_3036_Brief",
+            "key": "item_3036_brief",
+            "text": "护甲克星"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_3036_Colloquialism",
+            "key": "item_3036_colloquialism",
+            "text": ";Lord Dominik's Regards;qy;zuihoudeqingyu;duominikelingzhudezhiyi;dmnklzdzy"
+          },
+          {
+            "binding": "keySecondaryBrief",
+            "sourceKey": "Item_Unique_Fatality",
+            "key": "item_unique_fatality",
+            "text": "唯一：夺命"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_3036_Tooltip",
+            "key": "item_3036_tooltip",
+            "text": "<passive>巨人杀手</passive><br>基于敌方英雄的额外生命值，对其至多造成@MaxBonusDamagePercent*100@%额外伤害。最大伤害加成在@MaxBonusHealth@额外生命值时达成。"
+          },
+          {
+            "binding": "keyInventoryOnlyText",
+            "sourceKey": "Item_3036_InventoryOnlyText",
+            "key": "item_3036_inventoryonlytext",
+            "text": "巨人杀手额外伤害：<attention>@f1@</attention>"
+          }
+        ],
+        "official": {
+          "name": "多米尼克领主的致意",
+          "description": "<mainText><stats><attention>35</attention>攻击力<br><attention>35%</attention>护甲穿透<br><attention>25%</attention>暴击几率</stats><br><br><passive>巨人杀手</passive><br>基于敌方英雄的额外生命值，对其至多造成15%额外伤害。最大伤害加成在1500额外生命值时达成。</mainText>",
+          "colloq": ";qy;zuihoudeqingyu;Lord Dominik's Regards",
+          "plaintext": "用于对抗拥有高生命值和高护甲的敌人",
+          "from": [
+            "3035",
+            "6670"
+          ],
+          "image": {
+            "full": "3036.png",
+            "sprite": "item3.png",
+            "group": "item",
+            "x": 240,
+            "y": 144,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 550,
+            "purchasable": true,
+            "total": 3300,
+            "sell": 2310
+          },
+          "tags": [
+            "Damage",
+            "CriticalStrike",
+            "ArmorPenetration"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatCritChanceMod": 0.25,
+            "FlatPhysicalDamageMod": 35
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 3036,
+          "name": "多米尼克领主的致意",
+          "description": "<mainText><stats><attention>35</attention>攻击力<br><attention>35%</attention>护甲穿透<br><attention>25%</attention>暴击几率</stats><br><br><passive>巨人杀手</passive><br>基于敌方英雄的额外生命值，对其至多造成15%额外伤害。最大伤害加成在1500额外生命值时达成。</mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            3035,
+            6670
+          ],
+          "to": [],
+          "categories": [
+            "Damage",
+            "CriticalStrike",
+            "ArmorPenetration"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 550,
+          "priceTotal": 3300,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/3036_Marksman_T3_DominikRegards.png"
+        },
+        "client": {
+          "mDisplayName": "Item_3036_Name",
+          "itemID": 3036,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "Items/ItemGroups/LastWhisper"
+          ],
+          "mItemAdviceAttributes": [
+            "{72256343}",
+            "{e625a35a}"
+          ],
+          "price": 550,
+          "mItemCalloutSpectator": true,
+          "mCanBeSold": true,
+          "epicness": 5,
+          "recipeItemLinks": [
+            "Items/3035",
+            "Items/6670"
+          ],
+          "mDataValues": [
+            {
+              "mName": "MaxBonusDamagePercent",
+              "mValue": 0.15000000596046448,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxBonusHealth",
+              "mValue": 1500,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mPercentArmorPenetrationMod": 0.3499999940395355,
+          "mFlatCritChanceMod": 0.25,
+          "mFlatPhysicalDamageMod": 35,
+          "mCategories": [
+            "Damage",
+            "CriticalStrike",
+            "ArmorPenetration"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            2
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3036",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_3036_Name",
+                "keyBrief": "Item_3036_Brief",
+                "keyColloquialism": "Item_3036_Colloquialism",
+                "keySecondaryBrief": "Item_Unique_Fatality",
+                "keyTooltip": "Item_3036_Tooltip",
+                "keyInventoryOnlyText": "Item_3036_InventoryOnlyText"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AttackDamage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "ArmorPenPercent",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "CritChance",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3036_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3036_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3036_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/3036_marksman_t3_dominikregards.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3036_Marksman_T3_DominikRegards.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3036_Marksman_T3_DominikRegards.png",
+            "epicness": 5,
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明主证",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3036_passive",
+          "name": "多米尼克领主的致意·巨人杀手",
+          "description": "保留对当前敌方英雄额外生命值的伤害上限参数和达到上限的生命值门槛。客户端只给出端点，不把端点擅自解释为线性成长，也不添加默认伤害资格。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "max_bonus_damage_ratio",
+            "name": "最大额外伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.15,
+            "levelValues": null,
+            "description": "客户端MaxBonusDamagePercent明确至多15%额外伤害。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "bonus_health_at_max_damage",
+            "name": "达到最大额外伤害所需额外生命值",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1500,
+            "levelValues": null,
+            "description": "客户端MaxBonusHealth明确1500额外生命值时达成上限。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "actual_target_bonus_health",
+            "name": "当前敌方英雄额外生命值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "当前敌方英雄额外生命值的实际小数数值，例如1234.5；与固定1500上限门槛分别保存。当前来源未证明伤害增幅中间曲线；本参数无默认值，不按端点插值。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3036",
+          "skillKey": "item_3036_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3036"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "中间曲线求值",
+            "reason": "当前客户端与官方说明只证明15%上限及1500额外生命值端点，未证明中间点算法。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "巨人杀手伤害资格",
+            "reason": "目标英雄筛选、额外生命值读取和伤害结果乘区尚未接线，不生成无条件DAMAGE。"
+          }
+        ]
+      },
+      "omittedComponents": [],
+      "pendingComponents": [
+        {
+          "component": "中间曲线求值",
+          "reason": "保留端点和运行时目标值，不猜线性或其他插值。"
+        },
+        {
+          "component": "伤害资格与乘区",
+          "reason": "目标英雄、额外生命值属性以及额外伤害乘区尚未接线。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/MaxBonusDamagePercent",
+          "accepted": 0.15
+        },
+        {
+          "pointer": "/mDataValues/MaxBonusHealth",
+          "accepted": 1500
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyTooltip",
+          "acceptedKey": "Item_3036_Tooltip"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_3036",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3036",
+        "apiWrites": 0
+      }
+    },
+    {
+      "equipmentKey": "item_3179",
+      "equipmentName": "黯影阔剑",
+      "skillKey": "item_3179_passive",
+      "source": {
+        "path": "Items/3179",
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_3179_Name",
+            "key": "item_3179_name",
+            "text": "黯影阔剑"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_3179_Brief",
+            "key": "item_3179_brief",
+            "text": "视野克星"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_3179_Tooltip",
+            "key": "item_3179_tooltip",
+            "text": "<passive>夜行者</passive><br>未被敌人看见达@OutOfVisionDuration@秒后，你对英雄的下一次攻击造成额外<trueDamage>@ProcDamage@真实伤害</trueDamage>。<br><br><passive>封锁</passive> {{ Item_Cooldown}}<br>在你处在敌方侦察守卫和陷阱附近时，将其显形@Effect2Amount@秒。在显形守卫状态下，你的攻击对其造成@TotalWardDamage@伤害。"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_3179_Colloquialism",
+            "key": "item_3179_colloquialism",
+            "text": ";Umbral Glaive;anyingkuojian;aykj;排眼刀;paiyandao;穿甲;chuanjia"
+          },
+          {
+            "binding": "keyInventoryOnlyText",
+            "sourceKey": "Item_3179_InventoryOnlyText",
+            "key": "item_3179_inventoryonlytext",
+            "text": "已击杀的守卫：<attention>@f1@</attention>"
+          },
+          {
+            "binding": "keyTooltipExtendedRules",
+            "sourceKey": "Item_3179_TooltipExtendedRules",
+            "key": "item_3179_tooltipextendedrules",
+            "text": "<rules>被显形的侦察守卫会在显形期间失效。</rules>"
+          },
+          {
+            "binding": "keyTooltipExternal",
+            "sourceKey": "Item_3179_TooltipExternal",
+            "key": "item_3179_tooltipexternal",
+            "text": "<passive>夜行者</passive><br>未被敌人看见达一小段时间后，你对英雄的下一次攻击造成额外<trueDamage>真实伤害</trueDamage>。<br><br><passive>封锁</passive> <br>在你处在敌方侦察守卫和陷阱附近时，将其短暂显形。在显形守卫状态下，你的攻击对其造成额外伤害。"
+          }
+        ],
+        "official": {
+          "name": "黯影阔剑",
+          "description": "<mainText><stats><attention>60</attention>攻击力<br><attention>18</attention>穿甲<br><attention>15</attention>技能急速</stats><br><br><passive>夜行者</passive><br>未被敌人看见达一小段时间后，你对英雄的下一次攻击造成额外<trueDamage>真实伤害</trueDamage>。<br><br><passive>封锁</passive> <br>在你处在敌方侦察守卫和陷阱附近时，将其短暂显形。在显形守卫状态下，你的攻击对其造成额外伤害。</mainText>",
+          "colloq": ";黯影阔剑;穿甲;Umbral Glaive",
+          "plaintext": "周期性地提供陷阱和守卫侦测能力",
+          "from": [
+            "3134",
+            "3133"
+          ],
+          "image": {
+            "full": "3179.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 0,
+            "y": 96,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 750,
+            "purchasable": true,
+            "total": 2800,
+            "sell": 1960
+          },
+          "tags": [
+            "Damage",
+            "Vision",
+            "CooldownReduction",
+            "ArmorPenetration",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatPhysicalDamageMod": 60
+          },
+          "effect": {
+            "Effect1Amount": "10",
+            "Effect2Amount": "8",
+            "Effect3Amount": "90"
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 3179,
+          "name": "黯影阔剑",
+          "description": "<mainText><stats><attention>60</attention>攻击力<br><attention> 18</attention>穿甲<br><attention>15</attention>技能急速</stats><br><br><passive>夜行者</passive><br>未被敌人看见达一小段时间后，你对英雄的下一次攻击造成额外<trueDamage>真实伤害</trueDamage>。<br><br><passive>封锁</passive> <br>在你处在敌方侦察守卫和陷阱附近时，将其短暂显形。在显形守卫状态下，你的攻击对其造成额外伤害。</mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            3134,
+            3133
+          ],
+          "to": [],
+          "categories": [
+            "Damage",
+            "Vision",
+            "CooldownReduction",
+            "ArmorPenetration",
+            "AbilityHaste"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 750,
+          "priceTotal": 2800,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/3179_Assassin_T3_UmbralGlaive.png"
+        },
+        "client": {
+          "mDisplayName": "Item_3179_Name",
+          "mDeathRecapName": "DuskbladeOfDraktharr",
+          "itemID": 3179,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{993602f5}"
+          ],
+          "mItemAdviceAttributes": [
+            "{0fe5f3f2}"
+          ],
+          "price": 750,
+          "mItemCalloutSpectator": true,
+          "mCanBeSold": true,
+          "epicness": 5,
+          "recipeItemLinks": [
+            "Items/3134",
+            "Items/3133"
+          ],
+          "mEffectAmount": [
+            10,
+            8,
+            90
+          ],
+          "mDataValues": [
+            {
+              "mName": "LethalityAmount",
+              "mValue": 18,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MeleeDamage",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "RangedDamage",
+              "mValue": 2,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Cooldown",
+              "mValue": 90,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "OutOfVisionDuration",
+              "mValue": 1,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "AttackReadyDuration",
+              "mValue": 4,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "MeleeItemCalcValue": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MeleeDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "RangedItemCalcValue": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "RangedDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ChampRange": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mDefaultGameCalculation": "{792cf56b}",
+              "mConditionalGameCalculation": "{06387172}",
+              "mConditionalCalculationRequirements": {
+                "__type": "IsRangedCastRequirement"
+              },
+              "__type": "GameCalculationConditional"
+            },
+            "{792cf56b}": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{06387172}": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 2,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ProcDamage": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 50,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mStat": 29,
+                  "mCoefficient": 1.5,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalWardDamage": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 3,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "mRangedMultiplier": {
+                "mNumber": 0.6669999957084656,
+                "__type": "NumberCalculationPart"
+              },
+              "__type": "{e9a3c91d}"
+            }
+          },
+          "mAbilityHasteMod": 15,
+          "mFlatPhysicalDamageMod": 60,
+          "PhysicalLethality": 18,
+          "mCategories": [
+            "Damage",
+            "Vision",
+            "CooldownReduction",
+            "ArmorPenetration",
+            "AbilityHaste"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            4
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3179",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_3179_Name",
+                "keyBrief": "Item_3179_Brief",
+                "keyTooltip": "Item_3179_Tooltip",
+                "keyColloquialism": "Item_3179_Colloquialism",
+                "keyInventoryOnlyText": "Item_3179_InventoryOnlyText",
+                "keyTooltipExtendedRules": "Item_3179_TooltipExtendedRules",
+                "keyTooltipExternal": "Item_3179_TooltipExternal"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AttackDamage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Lethality",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AbilityHaste",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3179_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3179_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3179_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/3179_assassin_t3_umbralglaive.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3179_Assassin_T3_UmbralGlaive.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3179_Assassin_T3_UmbralGlaive.png",
+            "epicness": 5,
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{53a87d41}": "Items/3179/Particles/3179_tar",
+              "{a750023b}": "Items/3179/Particles/3179_buf"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明主证",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3179_passive",
+          "name": "黯影阔剑·夜行者",
+          "description": "保留未被敌人看见后对当前英雄下一次攻击的50+1.5×原mStat29真实伤害公式，以及明确的时间参数。mStat29枚举仍以运行时输入表示；侦察守卫、陷阱和视野空间支路不录入。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "proc_base_true_damage",
+            "name": "夜行者基础真实伤害",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 50,
+            "levelValues": null,
+            "description": "客户端ProcDamage第一项明确为50。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "mstat29_ratio",
+            "name": "夜行者原mStat29系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.5,
+            "levelValues": null,
+            "description": "客户端ProcDamage第二项明确为1.5×mStat29。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "actual_mstat29",
+            "name": "夜行者原mStat29实际值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "mStat29属性枚举及取值口径没有独立具名证据，必须外供原节点实际值；不以穿甲或其他装备属性替代。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "夜行者冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90000,
+            "levelValues": null,
+            "description": "客户端Cooldown明确90秒，按秒转毫秒。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "out_of_vision_duration_ms",
+            "name": "未被看见所需时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "客户端OutOfVisionDuration明确1秒，按秒转毫秒。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "attack_ready_duration_ms",
+            "name": "攻击准备持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "客户端AttackReadyDuration明确4秒，按秒转毫秒。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "nightstalker_true_damage",
+            "name": "夜行者额外真实伤害",
+            "description": "客户端ProcDamage：50+1.5×原mStat29实际输入。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "proc_base_true_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "mstat29_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_mstat29"
+                    }
+                  ]
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3179",
+          "skillKey": "item_3179_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3179"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "封锁侦察守卫与陷阱",
+            "reason": "仅视野、空间和非英雄目标支路，超出本批当前英雄一对一数值范围。"
+          },
+          {
+            "component": "TotalWardDamage及远程守卫倍率",
+            "reason": "仅对侦察守卫，不能迁移为英雄伤害。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "mStat29枚举",
+            "reason": "原计算树有mStat29但没有具名属性旁证，保留运行时输入。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "夜行者触发",
+            "reason": "未被看见、下一次攻击、目标英雄筛选及冷却消费尚未接线，不生成无条件DAMAGE。"
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "来源",
+          "key": "TotalWardDamage",
+          "reason": "仅守卫目标，范围外。"
+        },
+        {
+          "kind": "来源",
+          "key": "MeleeDamage/RangedDamage",
+          "reason": "仅守卫目标伤害，范围外。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "mStat29枚举",
+          "reason": "必须由运行时提供实际属性值，不能用18穿甲替代。"
+        },
+        {
+          "component": "视野与下一次攻击资格",
+          "reason": "触发条件、目标英雄筛选、冷却消费尚未接线。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mItemCalculations/ProcDamage/mFormulaParts",
+          "accepted": "50+1.5×mStat29"
+        },
+        {
+          "pointer": "/mDataValues/Cooldown",
+          "accepted": 90
+        },
+        {
+          "pointer": "/mDataValues/OutOfVisionDuration",
+          "accepted": 1
+        },
+        {
+          "pointer": "/mDataValues/AttackReadyDuration",
+          "accepted": 4
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyTooltip",
+          "acceptedKey": "Item_3179_Tooltip"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_3179",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3179",
+        "apiWrites": 0
+      }
+    },
+    {
+      "equipmentKey": "item_3302",
+      "equipmentName": "界弓",
+      "skillKey": "item_3302_passive",
+      "source": {
+        "path": "Items/3302",
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_3302_Name",
+            "key": "item_3302_name",
+            "text": "界弓"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_3302_Brief",
+            "key": "item_3302_brief",
+            "text": "附伤增幅"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_3302_Tooltip",
+            "key": "item_3302_tooltip",
+            "text": "<passive>晦影</passive><br>攻击造成<magicDamage>@OnHitDamage@额外魔法伤害</magicDamage> {{ Item_Keyword_OnHit }}。<br><br><passive>交相</passive><br>对抗英雄时，在<keywordMajor>光明</keywordMajor>特效和<keywordMajor>黑暗</keywordMajor>特效之间轮换：<li>附带<keywordMajor>光明</keywordMajor>特效的攻击提供持续@BuffDuration@秒的@ARMRPerHitScaling@ <scaleArmor>护甲</scaleArmor>和<scaleMR>魔抗</scaleMR>(至多至@ARMRMaxScaling@)。<li>附带<keywordMajor>黑暗</keywordMajor>特效的攻击提供持续@BuffDuration@秒的@PenPerHit*100@%<scaleArmor>护甲穿透</scaleArmor>和<scaleMR>法术穿透</scaleMR>(至多至@PenMax*100@%)。 "
+          },
+          {
+            "binding": "keySecondaryBrief",
+            "sourceKey": "Item_3302_SecondaryBrief",
+            "key": "item_3302_secondarybrief",
+            "text": "唯一：枯萎，夺命"
+          },
+          {
+            "binding": "keyInventoryOnlyText",
+            "sourceKey": "Item_3302_InventoryOnlyText",
+            "key": "item_3302_inventoryonlytext",
+            "text": "对英雄的伤害：<attention>@f1@</attention>"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_3302_Colloquialism",
+            "key": "item_3302_colloquialism",
+            "text": ";bow;sentinel;gong;jiegong;jg;Terminus"
+          },
+          {
+            "binding": "keyTooltipExternal",
+            "sourceKey": "Item_3302_TooltipExternal",
+            "key": "item_3302_tooltipexternal",
+            "text": "<passive>晦影</passive><br>攻击造成<magicDamage>@OnHitDamage@额外魔法伤害</magicDamage> {{ Item_Keyword_OnHit }}。<br><br><passive>交相</passive><br>对抗英雄时，在<keywordMajor>光明</keywordMajor>特效和<keywordMajor>黑暗</keywordMajor>特效之间轮换：<li>附带<keywordMajor>光明</keywordMajor>特效的攻击提供持续@BuffDuration@秒的<scaleArmor>护甲</scaleArmor>和<scaleMR>魔抗</scaleMR>。<li>附带<keywordMajor>黑暗</keywordMajor>特效的攻击提供持续@BuffDuration@秒的@PenPerHit*100@%<scaleArmor>护甲穿透</scaleArmor>和<scaleMR>法术穿透</scaleMR>。 "
+          }
+        ],
+        "official": {
+          "name": "界弓",
+          "description": "<mainText><stats><attention>30</attention>攻击力<br><attention>35%</attention>攻击速度</stats><br><br><passive>晦影</passive><br>攻击造成<magicDamage>0额外魔法伤害</magicDamage> <OnHit>攻击特效</OnHit>。<br><br><passive>交相</passive><br>对抗英雄时，在<keywordMajor>光明</keywordMajor>特效和<keywordMajor>黑暗</keywordMajor>特效之间轮换：<li>附带<keywordMajor>光明</keywordMajor>特效的攻击提供持续5秒的<scaleArmor>护甲</scaleArmor>和<scaleMR>魔抗</scaleMR>。<li>附带<keywordMajor>黑暗</keywordMajor>特效的攻击提供持续5秒的10%<scaleArmor>护甲穿透</scaleArmor>和<scaleMR>法术穿透</scaleMR>。 </mainText>",
+          "colloq": ";Terminus",
+          "plaintext": "周期性击杀敌方小兵来为一名附近友军提供治疗和金币",
+          "from": [
+            "3051",
+            "1043"
+          ],
+          "image": {
+            "full": "3302.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 144,
+            "y": 240,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 1100,
+            "purchasable": true,
+            "total": 3000,
+            "sell": 2100
+          },
+          "tags": [
+            "Damage",
+            "AttackSpeed",
+            "OnHit",
+            "MagicPenetration",
+            "ArmorPenetration"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatPhysicalDamageMod": 30,
+            "PercentAttackSpeedMod": 0.35
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 3302,
+          "name": "界弓",
+          "description": "<mainText><stats><attention>30</attention>攻击力<br><attention>35%</attention>攻击速度</stats><br><br><passive>晦影</passive><br>攻击造成<magicDamage>0额外魔法伤害</magicDamage> <OnHit>攻击特效</OnHit>。<br><br><passive>交相</passive><br>对抗英雄时，在<keywordMajor>光明</keywordMajor>特效和<keywordMajor>黑暗</keywordMajor>特效之间轮换：<li>附带<keywordMajor>光明</keywordMajor>特效的攻击提供持续5秒的<scaleArmor>护甲</scaleArmor>和<scaleMR>魔抗</scaleMR>。<li>附带<keywordMajor>黑暗</keywordMajor>特效的攻击提供持续5秒的10%<scaleArmor>护甲穿透</scaleArmor>和<scaleMR>法术穿透</scaleMR>。 </mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            3051,
+            1043
+          ],
+          "to": [],
+          "categories": [
+            "Damage",
+            "AttackSpeed",
+            "OnHit",
+            "MagicPenetration",
+            "ArmorPenetration"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 1100,
+          "priceTotal": 3000,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/3302_Terminus.png"
+        },
+        "client": {
+          "mDisplayName": "Item_3302_Name",
+          "itemID": 3302,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{370ee665}",
+            "Items/ItemGroups/LastWhisper",
+            "Items/ItemGroups/VoidPen"
+          ],
+          "mItemAdviceAttributes": [
+            "{72256343}",
+            "{6b46d6ab}",
+            "{3868804c}"
+          ],
+          "price": 1100,
+          "mItemCalloutSpectator": true,
+          "mCanBeSold": true,
+          "epicness": 5,
+          "recipeItemLinks": [
+            "Items/3051",
+            "Items/1043"
+          ],
+          "mDataValues": [
+            {
+              "mName": "BuffDuration",
+              "mValue": 5,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "DebuffDuration",
+              "mValue": 5,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "PenMax",
+              "mValue": 0.30000001192092896,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "PenPerHit",
+              "mValue": 0.10000000149011612,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "ARMRPerHitScaling": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 6,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 11,
+                      "mAdditionalBonusAtThisLevel": 1,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 14,
+                      "mAdditionalBonusAtThisLevel": 1,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ARMRMaxScaling": {
+              "mMultiplier": {
+                "mNumber": 3,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "ARMRPerHitScaling",
+              "__type": "GameCalculationModified"
+            },
+            "{592c02e8}": {
+              "{72c5c2a8}": 1,
+              "mFormulaParts": [
+                {
+                  "mSpellCalculationKey": "OnHitDamage",
+                  "__type": "{f3cbe7b2}"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "OnHitDamage": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 30,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 0.10000000149011612,
+                  "__type": "StatByCoefficientCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.10000000149011612,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "{fe87f21e}": [
+            {
+              "{6166b756}": "{592c02e8}",
+              "__type": "{fe87f21e}"
+            }
+          ],
+          "mFlatPhysicalDamageMod": 30,
+          "mPercentAttackSpeedMod": 0.3499999940395355,
+          "mCategories": [
+            "Damage",
+            "AttackSpeed",
+            "OnHit",
+            "MagicPenetration",
+            "ArmorPenetration"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            2,
+            1
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3302",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_3302_Name",
+                "keyBrief": "Item_3302_Brief",
+                "keyTooltip": "Item_3302_Tooltip",
+                "keySecondaryBrief": "Item_3302_SecondaryBrief",
+                "keyInventoryOnlyText": "Item_3302_InventoryOnlyText",
+                "keyColloquialism": "Item_3302_Colloquialism",
+                "keyTooltipExternal": "Item_3302_TooltipExternal"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AttackDamage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AttackSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3302_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3302_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3302_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/3302_terminus.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3302_Terminus44.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3302_Terminus88.png",
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{c673e491}": "{00000000}",
+              "{7fe27859}": "Items/3302/Particles/3302_Trail_Dark",
+              "{5b39f571}": "Items/3302/Particles/3302_Dark_Impact",
+              "{aa1a435d}": "Items/3302/Particles/3302_Trail_Light",
+              "{19892189}": "Items/3302/Particles/3302_Light_Impact"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明主证",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3302_passive",
+          "name": "界弓·晦影与交相",
+          "description": "保留当前英雄攻击的额外魔法伤害、光明与黑暗效果的持续时间、黑暗穿透上限及光明双抗成长原始端点。mStat2/formula2按同版具名旁证映射额外攻击力，默认0/0按同版旁证映射法术强度；等级断点求值仍运行时输入。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "on_hit_base_magic_damage",
+            "name": "攻击附加基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 30,
+            "levelValues": null,
+            "description": "客户端OnHitDamage第一项明确为30。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "bonus_attack_damage_ratio",
+            "name": "额外攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.1,
+            "levelValues": null,
+            "description": "客户端OnHitDamage的mStat2/formula2节点系数为0.1；按同版具名旁证映射额外攻击力。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "ability_power_ratio",
+            "name": "法术强度系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.1,
+            "levelValues": null,
+            "description": "当前OnHitDamage原树中法术强度系数0.1，乘施法者总法术强度；不是10点固定伤害。沿用同版已证法强属性窄映射。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "light_dark_buff_duration_ms",
+            "name": "光明与黑暗效果持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5000,
+            "levelValues": null,
+            "description": "客户端BuffDuration明确5秒，按秒转毫秒。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "dark_penetration_per_hit_ratio",
+            "name": "黑暗每次攻击穿透比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.1,
+            "levelValues": null,
+            "description": "客户端PenPerHit明确10%。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "dark_penetration_max_ratio",
+            "name": "黑暗穿透上限比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "客户端PenMax明确30%上限。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "light_resistance_level1",
+            "name": "光明双抗一级端点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6,
+            "levelValues": null,
+            "description": "客户端ARMRPerHitScaling明确mLevel1Value=6；只保存端点，不据此生成等级曲线。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "light_resistance_breakpoint_level11_add",
+            "name": "光明双抗11级增量",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端断点明确11级增加1；断点算法仍未证。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "light_resistance_breakpoint_level14_add",
+            "name": "光明双抗14级增量",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端断点明确14级增加1；断点算法仍未证。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "light_resistance_max_multiplier",
+            "name": "光明双抗最大倍率",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "客户端ARMRMaxScaling明确为3×ARMRPerHitScaling。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "actual_light_resistance_per_hit",
+            "name": "当前光明每次攻击双抗值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "等级端点和断点字段不能证明完整求值算法，当前每次攻击的实际双抗值由运行时输入；不按等级线性插值。",
+            "sortOrder": 110
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "on_hit_magic_damage",
+            "name": "攻击附加魔法伤害",
+            "description": "客户端OnHitDamage：30+0.1×额外攻击力+0.1×法术强度。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "on_hit_base_magic_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_attack_damage_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "BONUS"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "light_resistance_max",
+            "name": "光明双抗最大值",
+            "description": "客户端ARMRMaxScaling：3×当前光明每次攻击双抗值；等级求值由运行时提供。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "light_resistance_max_multiplier"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_light_resistance_per_hit"
+                }
+              ]
+            },
+            "sortOrder": 20
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3302",
+          "skillKey": "item_3302_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3302"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "光明双抗等级曲线",
+            "reason": "只证明1级端点和11、14级增量，未证明其余等级、断点累计和实际节拍。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "光暗轮换与攻击资格",
+            "reason": "英雄目标筛选、光暗状态轮换、每次攻击计数、持续刷新及穿透/双抗实际乘区尚未接线。"
+          }
+        ]
+      },
+      "omittedComponents": [],
+      "pendingComponents": [
+        {
+          "component": "光明双抗求值",
+          "reason": "实际每次攻击值运行时输入，不能从端点或断点名称猜完整曲线。"
+        },
+        {
+          "component": "光暗状态与乘区",
+          "reason": "轮换、去重、持续刷新及属性生效阶段尚未接线。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mItemCalculations/OnHitDamage/mFormulaParts",
+          "accepted": "30+0.1×mStat2/formula2+0.1×默认0/0"
+        },
+        {
+          "pointer": "/mItemCalculations/ARMRPerHitScaling",
+          "accepted": "level1=6; level11+=1; level14+=1"
+        },
+        {
+          "pointer": "/mItemCalculations/ARMRMaxScaling",
+          "accepted": "3×ARMRPerHitScaling"
+        },
+        {
+          "pointer": "/mDataValues/BuffDuration",
+          "accepted": 5
+        },
+        {
+          "pointer": "/mDataValues/PenPerHit",
+          "accepted": 0.1
+        },
+        {
+          "pointer": "/mDataValues/PenMax",
+          "accepted": 0.3
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyTooltip",
+          "acceptedKey": "Item_3302_Tooltip"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_3302",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3302",
+        "apiWrites": 0
+      }
+    },
+    {
+      "equipmentKey": "item_3742",
+      "equipmentName": "亡者的板甲",
+      "skillKey": "item_3742_passive",
+      "source": {
+        "path": "Items/3742",
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_3742_Name",
+            "key": "item_3742_name",
+            "text": "亡者的板甲"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_3742_Brief",
+            "key": "item_3742_brief",
+            "text": "机动力"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_3742_Tooltip",
+            "key": "item_3742_tooltip",
+            "text": "<passive>沉船者</passive><br>在移动时，积攒至多<speed>@MaxMovementSpeed@额外移动速度</speed>。你的下一次攻击会释放掉已积攒的移动速度来造成至多<physicalDamage>@MaxDamageCalc@额外物理伤害</physicalDamage>。<br><br><passive>永不沉没</passive><br>使所受的<keyword>减速</keyword>效果的效能降低@SlowResistTooltip*100@%。<br><br>"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_3742_Colloquialism",
+            "key": "item_3742_colloquialism",
+            "text": ";Dead Man's Plate;wangzhebanjia;wzbj;亡板;wangban"
+          },
+          {
+            "binding": "keyFlavorText",
+            "sourceKey": "Item_3742_FlavorText",
+            "key": "item_3742_flavortext",
+            "text": "“只有一种方法能让你从我这里拿到这件盔甲……” - 被遗忘的名字"
+          },
+          {
+            "binding": "keySecondaryBrief",
+            "sourceKey": "Item_Unique_Momentum",
+            "key": "item_unique_momentum",
+            "text": "唯一：气势"
+          },
+          {
+            "binding": "keyTooltipExternal",
+            "sourceKey": "Item_3742_TooltipExternal",
+            "key": "item_3742_tooltipexternal",
+            "text": "<passive>沉船者</passive><br>在移动时，积攒至多<speed>@MaxMovementSpeed@额外移动速度</speed>。你的下一次攻击会释放掉已积攒的移动速度来造成<physicalDamage>额外物理伤害</physicalDamage>。<br><br><passive>永不沉没</passive><br>使所受的<keyword>减速</keyword>效果的效能降低@SlowResistTooltip*100@%。"
+          }
+        ],
+        "official": {
+          "name": "亡者的板甲",
+          "description": "<mainText><stats><attention>350</attention>生命值<br><attention>55</attention>护甲<br><attention>4%</attention>移动速度</stats><br><br><passive>沉船者</passive><br>在移动时，积攒至多<speed>20额外移动速度</speed>。你的下一次攻击会释放掉已积攒的移动速度来造成<physicalDamage>额外物理伤害</physicalDamage>。<br><br><passive>永不沉没</passive><br>使所受的<keyword>减速</keyword>效果的效能降低15%。</mainText>",
+          "colloq": ";wangzhe;wuwei;Dead Man's Plate",
+          "plaintext": "在你四处移动时积攒气势，然后猛击敌人。",
+          "from": [
+            "3066",
+            "1028",
+            "1031"
+          ],
+          "image": {
+            "full": "3742.png",
+            "sprite": "item4.png",
+            "group": "item",
+            "x": 432,
+            "y": 288,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 900,
+            "purchasable": true,
+            "total": 2900,
+            "sell": 2030
+          },
+          "tags": [
+            "Health",
+            "Armor",
+            "Slow",
+            "NonbootsMovement"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 350,
+            "FlatArmorMod": 55,
+            "PercentMovementSpeedMod": 0.04
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 3742,
+          "name": "亡者的板甲",
+          "description": "<mainText><stats><attention>350</attention>生命值<br><attention>55</attention>护甲<br><attention>4%</attention>移动速度</stats><br><br><passive>沉船者</passive><br>在移动时，积攒至多<speed>20额外移动速度</speed>。你的下一次攻击会释放掉已积攒的移动速度来造成<physicalDamage>额外物理伤害</physicalDamage>。<br><br><passive>永不沉没</passive><br>使所受的<keyword>减速</keyword>效果的效能降低15%。</mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            3066,
+            1028,
+            1031
+          ],
+          "to": [],
+          "categories": [
+            "Health",
+            "Armor",
+            "Slow",
+            "NonbootsMovement"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 900,
+          "priceTotal": 2900,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/3742_Tank_T3_DeadmansPlate.png"
+        },
+        "client": {
+          "mDisplayName": "Item_3742_Name",
+          "itemID": 3742,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{92901b7d}",
+            "{1b1c30d5}"
+          ],
+          "mItemAdviceAttributes": [
+            "{165d7c1f}",
+            "{705ee247}",
+            "{d91fc1af}"
+          ],
+          "price": 900,
+          "mItemCalloutSpectator": true,
+          "mCanBeSold": true,
+          "epicness": 5,
+          "recipeItemLinks": [
+            "Items/3066",
+            "Items/1028",
+            "Items/1031"
+          ],
+          "mEffectAmount": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mDataValues": [
+            {
+              "mName": "MaxMovementSpeed",
+              "mValue": 20,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxStacks",
+              "mValue": 100,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "BonusDamagePerStack",
+              "mValue": 0.4000000059604645,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxStackSlowAmount",
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxStackSlowDuration",
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxStacksADRatio",
+              "mValue": 1,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "DurationToMaxStack",
+              "mValue": 4,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "SlowResistTooltip",
+              "mValue": 0.15000000596046448,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "MaxDamageCalc": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mStatFormula": 1,
+                  "mDataValue": "MaxStacksADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                {
+                  "mPart1": {
+                    "mDataValue": "BonusDamagePerStack",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "mPart2": {
+                    "mNumber": 100,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mFlatHPPoolMod": 350,
+          "mPercentSlowResistMod": 0.15000000596046448,
+          "mPercentMovementSpeedMod": 0.03999999910593033,
+          "mFlatArmorMod": 55,
+          "mCategories": [
+            "Health",
+            "Armor",
+            "Slow",
+            "NonbootsMovement"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            8,
+            1
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "3742",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_3742_Name",
+                "keyBrief": "Item_3742_Brief",
+                "keyTooltip": "Item_3742_Tooltip",
+                "keyColloquialism": "Item_3742_Colloquialism",
+                "keyFlavorText": "Item_3742_FlavorText",
+                "keySecondaryBrief": "Item_Unique_Momentum",
+                "keyTooltipExternal": "Item_3742_TooltipExternal"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "Health",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Armor",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "MoveSpeedPercent",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_3742_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_3742_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_3742_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/3742_tank_t3_deadmansplate.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3742_Tank_T3_DeadmansPlate.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3742_Tank_T3_DeadmansPlate.png",
+            "epicness": 5,
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{490abf2e}": "Items/3742/Particles/3742_Speedline_Trail_DreadnaughtWarplate",
+              "{78834ec4}": "Items/3742/Particles/3742_Speed_Low",
+              "{c446aba0}": "Items/3742/Particles/3742_Speed_Med",
+              "{d83c3dc0}": "Items/3742/Particles/3742_Speed_Max",
+              "{6ca38bde}": "Items/3742/Particles/3742_Full_Impact"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明主证",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3742_passive",
+          "name": "亡者的板甲·沉船者",
+          "description": "保留移动积攒上限、下一次攻击的最大额外物理伤害、达到满层时间和自身减速抗性。最大攻击公式使用基础攻击力窄映射；移动过程和中间层数不按端点猜曲线。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "max_movement_speed",
+            "name": "最大额外移动速度",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 20,
+            "levelValues": null,
+            "description": "客户端MaxMovementSpeed明确20。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "max_stacks",
+            "name": "最大层数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 100,
+            "levelValues": null,
+            "description": "客户端MaxStacks明确100。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "bonus_damage_per_stack",
+            "name": "每层额外伤害常数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "客户端BonusDamagePerStack明确0.4。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "max_stacks_base_ad_ratio",
+            "name": "满层基础攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "客户端MaxStacksADRatio为mStat2/formula1×1；按同版具名旁证映射基础攻击力。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "duration_to_max_stack_ms",
+            "name": "达到最大层数时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "客户端DurationToMaxStack明确4秒，按秒转毫秒。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "slow_resist_ratio",
+            "name": "减速效能降低比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.15,
+            "levelValues": null,
+            "description": "客户端SlowResistTooltip明确15%。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "max_bonus_damage",
+            "name": "满层下一次攻击额外物理伤害",
+            "description": "客户端MaxDamageCalc：1×基础攻击力+0.4×100；仅表达满层端点，不表示中间层数。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "max_stacks_base_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BASE"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_damage_per_stack"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "max_stacks"
+                    }
+                  ]
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3742",
+          "skillKey": "item_3742_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3742"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "移动积攒中间值",
+            "reason": "客户端只给出速度和层数上限及满层时间，未证明中间层数到伤害的求值节拍。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "强化攻击触发",
+            "reason": "移动积攒、下一次攻击消费、当前目标命中和满层/非满层取值尚未接线，不生成无条件DAMAGE。"
+          }
+        ]
+      },
+      "omittedComponents": [],
+      "pendingComponents": [
+        {
+          "component": "移动积攒与中间层数",
+          "reason": "保留满层端点，运行时提供实际状态，不按端点插值。"
+        },
+        {
+          "component": "强化攻击消费",
+          "reason": "攻击触发和消费规则尚未接线。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mItemCalculations/MaxDamageCalc/mFormulaParts",
+          "accepted": "1×mStat2/formula1+0.4×100"
+        },
+        {
+          "pointer": "/mDataValues/MaxMovementSpeed",
+          "accepted": 20
+        },
+        {
+          "pointer": "/mDataValues/MaxStacks",
+          "accepted": 100
+        },
+        {
+          "pointer": "/mDataValues/BonusDamagePerStack",
+          "accepted": 0.4
+        },
+        {
+          "pointer": "/mDataValues/DurationToMaxStack",
+          "accepted": 4
+        },
+        {
+          "pointer": "/mDataValues/SlowResistTooltip",
+          "accepted": 0.15
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyTooltip",
+          "acceptedKey": "Item_3742_Tooltip"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_3742",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_3742",
+        "apiWrites": 0
+      }
+    },
+    {
+      "equipmentKey": "item_4005",
+      "equipmentName": "帝国指令",
+      "skillKey": "item_4005_passive",
+      "source": {
+        "path": "Items/4005",
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_4005_Name",
+            "key": "item_4005_name",
+            "text": "帝国指令"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_4005_Brief",
+            "key": "item_4005_brief",
+            "text": "控制效果强化"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_4005_Tooltip",
+            "key": "item_4005_tooltip",
+            "text": "<passive>控制</passive><br>你的带有<keyword>定身</keyword>效果的那些技能获得%i:scaleAH% @ImmobilizingAbilityAH@技能急速。<br><br><passive>命令</passive><br>在<keyword>定身</keyword>一个敌方英雄时，为其打上标记，施加持续@DamageAmpDuration@秒的@DamageAmp*100@%<Keyword>易损</Keyword>。<br>"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_4005_Colloquialism",
+            "key": "item_4005_colloquialism",
+            "text": ";Imperial Mandate;diguozhiling;dgzl"
+          },
+          {
+            "binding": "keyKeywordDefinitions",
+            "sourceKey": "Item_4005_KeywordDefinitions",
+            "key": "item_4005_keyworddefinitions",
+            "text": "<br>{{ Item_KeywordDefinition_Immobilize }}<br>{{ Item_KeywordDefinition_Vulnerable }}<br>"
+          },
+          {
+            "binding": "keyInventoryOnlyText",
+            "sourceKey": "Item_4005_InventoryOnlyText",
+            "key": "item_4005_inventoryonlytext",
+            "text": "已造成的额外伤害：<attention>@f2@</attention>"
+          },
+          {
+            "binding": "keyTooltipExtendedRules",
+            "sourceKey": "Item_4005_TooltipExtendedRules",
+            "key": "item_4005_tooltipextendedrules",
+            "text": "<rules>在对那些你已用【命令】标记过的敌人造成定身时，将会使该效果延长，而非叠加该增幅</rules>"
+          }
+        ],
+        "official": {
+          "name": "帝国指令",
+          "description": "<mainText><stats><attention>60</attention>法术强度<br><attention>15</attention>技能急速<br><attention>150%</attention>基础法力回复</stats><br><br><passive>控制</passive><br>你的带有<keyword>定身</keyword>效果的那些技能获得20技能急速。<br><br><passive>命令</passive><br>在<keyword>定身</keyword>一个敌方英雄时，为其打上标记，施加持续4秒的7%<Keyword>易损</Keyword>。<br></mainText>",
+          "colloq": ";Imperial;Mandate",
+          "plaintext": "将伤害延后。",
+          "from": [
+            "1052",
+            "4642",
+            "1052"
+          ],
+          "image": {
+            "full": "4005.png",
+            "sprite": "item5.png",
+            "group": "item",
+            "x": 48,
+            "y": 0,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 700,
+            "purchasable": true,
+            "total": 2400,
+            "sell": 1680
+          },
+          "tags": [
+            "SpellDamage",
+            "ManaRegen",
+            "CooldownReduction",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMagicDamageMod": 60
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 4005,
+          "name": "帝国指令",
+          "description": "<mainText><stats><attention>60</attention>法术强度<br><attention>15</attention>技能急速<br><attention>150%</attention>基础法力回复</stats><br><br><passive>控制</passive><br>你的带有<keyword>定身</keyword>效果的那些技能获得 20技能急速。<br><br><passive>命令</passive><br>在<keyword>定身</keyword>一个敌方英雄时，为其打上标记，施加持续4秒的7%<Keyword>易损</Keyword>。<br></mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            1052,
+            4642,
+            1052
+          ],
+          "to": [],
+          "categories": [
+            "SpellDamage",
+            "ManaRegen",
+            "CooldownReduction",
+            "AbilityHaste"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 700,
+          "priceTotal": 2400,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/4005_Enchanter_T4_ImperialMandate.png"
+        },
+        "client": {
+          "mDisplayName": "Item_4005_Name",
+          "itemID": 4005,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{5f2a99fe}"
+          ],
+          "price": 700,
+          "mCanBeSold": true,
+          "epicness": 5,
+          "recipeItemLinks": [
+            "Items/1052",
+            "Items/4642",
+            "Items/1052"
+          ],
+          "mScripts": [
+            "4005"
+          ],
+          "mEffectAmount": [
+            0,
+            0
+          ],
+          "mDataValues": [
+            {
+              "mName": "DamageAmp",
+              "mValue": 0.07000000029802322,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "DamageAmpDuration",
+              "mValue": 4,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ImmobilizingAbilityAH",
+              "mValue": 20,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mAbilityHasteMod": 15,
+          "mFlatMagicDamageMod": 60,
+          "percentBaseMPRegenMod": 1.5,
+          "mCategories": [
+            "SpellDamage",
+            "ManaRegen",
+            "CooldownReduction",
+            "AbilityHaste"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            32,
+            16
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "4005",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_4005_Name",
+                "keyBrief": "Item_4005_Brief",
+                "keyTooltip": "Item_4005_Tooltip",
+                "keyColloquialism": "Item_4005_Colloquialism",
+                "keyKeywordDefinitions": "Item_4005_KeywordDefinitions",
+                "keyInventoryOnlyText": "Item_4005_InventoryOnlyText",
+                "keyTooltipExtendedRules": "Item_4005_TooltipExtendedRules"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AbilityPower",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AbilityHaste",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "BaseManaRegen",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_4005_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_4005_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_4005_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/4005_enchanter_t4_imperialmandate.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/4005_Enchanter_T4_ImperialMandate.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/4005_Enchanter_T4_ImperialMandate.png",
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{eab6a0dd}": "Items/4628/Particles/SRI_Lightning_Marker",
+              "{ba3df5c4}": "Items/4005/Particles/4005_hit_proc",
+              "{b3ea75a7}": "Items/4628/Particles/SRI_Lightning_Proc",
+              "{e139f626}": "Shared/Particles/Global_Haste",
+              "{c781333e}": "Items/4005/Particles/4005_Ready",
+              "{d6076125}": "Items/4005/Particles/4005_Debuff_Tar"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明主证",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_4005_passive",
+          "name": "帝国指令·控制与命令",
+          "description": "保留定身技能获得的技能急速、对敌方英雄施加的7%易损比例及4秒持续时间。易损目标筛选和伤害乘区尚未接线，不生成默认伤害效果。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "immobilizing_ability_haste",
+            "name": "定身技能技能急速",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 20,
+            "levelValues": null,
+            "description": "客户端ImmobilizingAbilityAH明确20。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "vulnerability_ratio",
+            "name": "易损比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.07,
+            "levelValues": null,
+            "description": "客户端DamageAmp明确7%。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "vulnerability_duration_ms",
+            "name": "易损持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "客户端DamageAmpDuration明确4秒，按秒转毫秒。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_4005",
+          "skillKey": "item_4005_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_4005"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "定身识别与易损乘区",
+            "reason": "定身来源技能识别、敌方英雄目标、标记刷新和允许的伤害乘区尚未接线，不生成DAMAGE。"
+          }
+        ]
+      },
+      "omittedComponents": [],
+      "pendingComponents": [
+        {
+          "component": "标记与伤害乘区",
+          "reason": "只保存明确比例和时长，未假设对所有伤害自动增幅。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/ImmobilizingAbilityAH",
+          "accepted": 20
+        },
+        {
+          "pointer": "/mDataValues/DamageAmp",
+          "accepted": 0.07
+        },
+        {
+          "pointer": "/mDataValues/DamageAmpDuration",
+          "accepted": 4
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyTooltip",
+          "acceptedKey": "Item_4005_Tooltip"
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyTooltipExtendedRules",
+          "acceptedKey": "Item_4005_TooltipExtendedRules"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_4005",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_4005",
+        "apiWrites": 0
+      }
+    },
+    {
+      "equipmentKey": "item_4645",
+      "equipmentName": "影焰",
+      "skillKey": "item_4645_passive",
+      "source": {
+        "path": "Items/4645",
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_4645_Name",
+            "key": "item_4645_name",
+            "text": "影焰"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_4645_Brief",
+            "key": "item_4645_brief",
+            "text": "技能暴击"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_4645_Tooltip",
+            "key": "item_4645_tooltip",
+            "text": "<passive>余烬绽放</passive><br><magicDamage>魔法伤害</magicDamage>和<trueDamage>真实伤害</trueDamage>会<attention>暴击</attention>低于@HealthThreshold*100@%生命值的敌人，造成@SpellItemDamageAmp*100@%提升伤害。 "
+          },
+          {
+            "binding": "keyTooltipExtended",
+            "sourceKey": "Item_4645_TooltipExtended",
+            "key": "item_4645_tooltipextended",
+            "text": "<passive>余烬绽放</passive><br><magicDamage>魔法伤害</magicDamage>和<trueDamage>真实伤害</trueDamage>会暴击低于@HealthThreshold*100@%生命值的敌人，造成@SpellItemDamageAmp*100@%提升伤害。"
+          },
+          {
+            "binding": "keyTooltipExtendedRules",
+            "sourceKey": "Item_4645_TooltipExtendedRules",
+            "key": "item_4645_tooltipextendedrules",
+            "text": "<br><br><rules>暴击伤害修正因素仅影响<passive>余烬绽放</passive>的额外伤害。</rules>"
+          }
+        ],
+        "official": {
+          "name": "影焰",
+          "description": "<mainText><stats><attention>110</attention>法术强度<br><attention>15</attention>法术穿透</stats><br><br><passive>余烬绽放</passive><br><magicDamage>魔法伤害</magicDamage>和<trueDamage>真实伤害</trueDamage>会<attention>暴击</attention>低于40%生命值的敌人，造成20%提升伤害。 </mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "3145",
+            "1058"
+          ],
+          "image": {
+            "full": "4645.png",
+            "sprite": "item5.png",
+            "group": "item",
+            "x": 240,
+            "y": 336,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 900,
+            "purchasable": true,
+            "total": 3200,
+            "sell": 2240
+          },
+          "tags": [
+            "SpellDamage",
+            "MagicPenetration"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatMagicDamageMod": 110
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 4645,
+          "name": "影焰",
+          "description": "<mainText><stats><attention>110</attention>法术强度<br><attention>15</attention>法术穿透</stats><br><br><passive>余烬绽放</passive><br><magicDamage>魔法伤害</magicDamage>和<trueDamage>真实伤害</trueDamage>会<attention>暴击</attention>低于40%生命值的敌人，造成20%提升伤害。 </mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            3145,
+            1058
+          ],
+          "to": [],
+          "categories": [
+            "SpellDamage",
+            "MagicPenetration"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 900,
+          "priceTotal": 3200,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/4645_Shadowflame.png"
+        },
+        "client": {
+          "mDisplayName": "Item_4645_Name",
+          "itemID": 4645,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{bd7d02c0}"
+          ],
+          "mItemAdviceAttributes": [
+            "{8fd6c485}"
+          ],
+          "price": 900,
+          "mItemCalloutSpectator": true,
+          "mCanBeSold": true,
+          "epicness": 5,
+          "recipeItemLinks": [
+            "Items/3145",
+            "Items/1058"
+          ],
+          "mDataValues": [
+            {
+              "mName": "HealthThreshold",
+              "mValue": 0.4000000059604645,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "SpellItemDamageAmp",
+              "mValue": 0.20000000298023224,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "DamageOverTimeAmp",
+              "mValue": 0.20000000298023224,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mFlatMagicPenetrationMod": 15,
+          "mFlatMagicDamageMod": 110,
+          "mCategories": [
+            "SpellDamage",
+            "MagicPenetration"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            16
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "4645",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_4645_Name",
+                "keyBrief": "Item_4645_Brief",
+                "keyTooltip": "Item_4645_Tooltip",
+                "keyTooltipExtended": "Item_4645_TooltipExtended",
+                "keyTooltipExtendedRules": "Item_4645_TooltipExtendedRules"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AbilityPower",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "MagicPen",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_4645_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_4645_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_4645_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/4645_shadowflame.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/4645_Shadowflame.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/4645_Shadowflame_Large.png",
+            "epicness": 5,
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{90290f36}": "Items/4645/Particles/8007_Shadowflame_Rotation_Mis_Tar"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明主证",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_4645_passive",
+          "name": "影焰·余烬绽放",
+          "description": "保留敌方生命低于40%时魔法伤害和真实伤害获得20%提升的倍率参数。来源扩展规则明确该暴击修正只影响额外伤害；不创建未具备资格证据的DAMAGE。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "target_health_threshold_ratio",
+            "name": "目标生命值阈值",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "客户端HealthThreshold明确40%。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "magic_true_damage_amp_ratio",
+            "name": "魔法与真实伤害提升比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.2,
+            "levelValues": null,
+            "description": "客户端SpellItemDamageAmp明确20%。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "base_damage_multiplier",
+            "name": "基础伤害倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "公式中的中性基础倍率，用于表达“基础伤害×(1+20%)”；不是来源新增属性。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "eligible_magic_true_damage_multiplier",
+            "name": "符合条件的魔法与真实伤害倍率",
+            "description": "低于生命阈值时的额外20%提升，输出1.2倍率；资格判定仍由运行时接线。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage_multiplier"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "magic_true_damage_amp_ratio"
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_4645",
+          "skillKey": "item_4645_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_4645"
+        }
+      },
+      "disposition": {
+        "范围外": [],
+        "来源待核": [
+          {
+            "component": "持续伤害字段绑定",
+            "reason": "DamageOverTimeAmp虽存在于客户端数据值，但当前中文说明与扩展规则未将其作为本技能独立消费，保留源证据不录入候选。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "魔法与真实伤害资格",
+            "reason": "敌方生命阈值读取、伤害类型筛选和额外伤害乘区尚未接线，不生成默认DAMAGE。"
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "来源",
+          "key": "DamageOverTimeAmp",
+          "reason": "未绑定当前中文说明的额外字段，不能推成持续伤害专用乘区。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "伤害类型与生命阈值",
+          "reason": "保留倍率公式和阈值参数，实际资格由运行时提供。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/HealthThreshold",
+          "accepted": 0.4
+        },
+        {
+          "pointer": "/mDataValues/SpellItemDamageAmp",
+          "accepted": 0.2
+        },
+        {
+          "pointer": "/mDataValues/DamageOverTimeAmp",
+          "accepted": 0.2,
+          "disposition": "来源待核，不录入"
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyTooltip",
+          "acceptedKey": "Item_4645_Tooltip"
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyTooltipExtendedRules",
+          "acceptedKey": "Item_4645_TooltipExtendedRules"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_4645",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_4645",
+        "apiWrites": 0
+      }
+    },
+    {
+      "equipmentKey": "item_6631",
+      "equipmentName": "挺进破坏者",
+      "skillKey": "item_6631_active",
+      "source": {
+        "path": "Items/6631",
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_6631_Name",
+            "key": "item_6631_name",
+            "text": "挺进破坏者"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_6631_Brief",
+            "key": "item_6631_brief",
+            "text": "战斗机动力"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_6631_Tooltip",
+            "key": "item_6631_tooltip",
+            "text": "<passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>{{ Item_Melee_Ranged_Split_Dynamic }}物理伤害</physicalDamage>。"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_6631_Colloquialism",
+            "key": "item_6631_colloquialism",
+            "text": ";Stridebreaker;tingjinpohuaizhe;tjphz"
+          },
+          {
+            "binding": "keyActive",
+            "sourceKey": "Item_6631_Active",
+            "key": "item_6631_active",
+            "text": "%i:activeEffect% <active>破阵冲击波</active> {{Item_Cooldown}}<br>对附近的敌人们造成<physicalDamage>@SlashDamage@物理伤害</physicalDamage>和@MSSlow*-100@%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的@ActiveMS*100@%移动速度</speed>，持续@Duration@秒。"
+          },
+          {
+            "binding": "keySecondaryBrief",
+            "sourceKey": "Item_Unique_Hydra",
+            "key": "item_unique_hydra",
+            "text": "唯一：九头蛇"
+          },
+          {
+            "binding": "keyActiveExternal",
+            "sourceKey": "Item_6631_ActiveExternal",
+            "key": "item_6631_activeexternal",
+            "text": "%i:activeEffect% <active>破阵冲击波</active><br>对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>和@MSSlow*-100@%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的@ActiveMS*100@%移动速度</speed>，持续@Duration@秒。"
+          },
+          {
+            "binding": "keyTooltipExtendedRules",
+            "sourceKey": "Item_6631_TooltipExtendedRules",
+            "key": "item_6631_tooltipextendedrules",
+            "text": "<rules><passive>顺劈</passive>不会在建筑物上触发。<br>你在施放<passive>破阵冲击波</passive>期间可以移动。</rules>"
+          },
+          {
+            "binding": "keyTooltipExternal",
+            "sourceKey": "Item_6631_TooltipExternal",
+            "key": "item_6631_tooltipexternal",
+            "text": "<passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br>"
+          }
+        ],
+        "official": {
+          "name": "挺进破坏者",
+          "description": "<mainText><stats><attention>40</attention>攻击力<br><attention>25%</attention>攻击速度<br><attention>450</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br><active>破阵冲击波</active><br>对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>和35%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的35%移动速度</speed>，持续3秒。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "3077",
+            "3044",
+            "1042"
+          ],
+          "image": {
+            "full": "6631.png",
+            "sprite": "item6.png",
+            "group": "item",
+            "x": 48,
+            "y": 0,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 750,
+            "purchasable": true,
+            "total": 3300,
+            "sell": 2310
+          },
+          "tags": [
+            "Health",
+            "Damage",
+            "AttackSpeed",
+            "Slow"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 450,
+            "FlatPhysicalDamageMod": 40,
+            "PercentAttackSpeedMod": 0.25
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 6631,
+          "name": "挺进破坏者",
+          "description": "<mainText><stats><attention>40</attention>攻击力<br><attention>25%</attention>攻击速度<br><attention>450</attention>生命值</stats><br><br><passive>顺劈</passive><br>攻击会对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>。<br> <active>破阵冲击波</active><br>对附近的敌人们造成<physicalDamage>物理伤害</physicalDamage>和35%<status>减速</status>。<br>每命中一个英雄就会获得<speed>持续衰减的35%移动速度</speed>，持续3秒。</mainText>",
+          "active": true,
+          "inStore": true,
+          "from": [
+            3077,
+            3044,
+            1042
+          ],
+          "to": [],
+          "categories": [
+            "Health",
+            "Damage",
+            "AttackSpeed",
+            "Slow"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 750,
+          "priceTotal": 3300,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/6631_Fighter_T4_StrideBreaker.png"
+        },
+        "client": {
+          "spellName": "6631Active",
+          "mDisplayName": "Item_6631_Name",
+          "itemID": 6631,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{b45aafc5}",
+            "{cf1a44c0}"
+          ],
+          "mItemAdviceAttributes": [
+            "{705ee247}",
+            "{39b1adc9}"
+          ],
+          "price": 750,
+          "clickable": true,
+          "mItemCalloutSpectator": true,
+          "ShowCooldownVfxToAllies": false,
+          "mCanBeSold": true,
+          "epicness": 5,
+          "recipeItemLinks": [
+            "Items/3077",
+            "Items/3044",
+            "Items/1042"
+          ],
+          "mEffectAmount": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mDataValues": [
+            {
+              "mName": "Cooldown",
+              "mValue": 15,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ADRatio",
+              "mValue": 0.800000011920929,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Haste",
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MSSlow",
+              "mValue": -0.3499999940395355,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Duration",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "FlatMS",
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "CleaveRadius",
+              "mValue": 450,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ActiveMS",
+              "mValue": 0.3499999940395355,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "PassiveRadius",
+              "mValue": 350,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MoveSpeedMod",
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MoveSpeedDuration",
+              "mValue": 2,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "DecayRate",
+              "mValue": 0.800000011920929,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MaxProcPerAuto",
+              "mValue": 10,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "DataValuesModeOverride": {
+            "ARAM": {
+              "DataValues": [
+                {
+                  "mName": "ADRatio",
+                  "mValue": 1,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "ActiveMS",
+                  "mValue": 0.44999998807907104,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "{bffdf499}": {
+              "DataValues": [
+                {
+                  "mName": "ADRatio",
+                  "mValue": 1,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "ActiveMS",
+                  "mValue": 0.44999998807907104,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            }
+          },
+          "mItemCalculations": {
+            "SlashDamage": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mDataValue": "ADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MeleeItemCalcValue": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.4000000059604645,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "RangedItemCalcValue": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.20000000298023224,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ChampRange": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mDefaultGameCalculation": "{792cf56b}",
+              "mConditionalGameCalculation": "{06387172}",
+              "mConditionalCalculationRequirements": {
+                "__type": "IsRangedCastRequirement"
+              },
+              "__type": "GameCalculationConditional"
+            },
+            "{792cf56b}": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{06387172}": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mNumber": 2,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mFlatHPPoolMod": 450,
+          "mFlatPhysicalDamageMod": 40,
+          "mPercentAttackSpeedMod": 0.25,
+          "mCategories": [
+            "Health",
+            "Damage",
+            "AttackSpeed",
+            "Slow"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            1
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "6631",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_6631_Name",
+                "keyBrief": "Item_6631_Brief",
+                "keyTooltip": "Item_6631_Tooltip",
+                "keyColloquialism": "Item_6631_Colloquialism",
+                "keyActive": "Item_6631_Active",
+                "keySecondaryBrief": "Item_Unique_Hydra",
+                "keyActiveExternal": "Item_6631_ActiveExternal",
+                "keyTooltipExtendedRules": "Item_6631_TooltipExtendedRules",
+                "keyTooltipExternal": "Item_6631_TooltipExternal"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AttackDamage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AttackSpeed",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Health",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_6631_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_6631_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_6631_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/6631_fighter_t4_stridebreaker.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/6631_Fighter_T4_StrideBreaker.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/6631_Fighter_T4_StrideBreaker.png",
+            "epicness": 6,
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{3f6405d9}": "Items/6631/Particles/Whipchain_Slash",
+              "{7121dc2b}": "Items/6631/Particles/Whipchain_Slow",
+              "{3a1f9578}": "Items/6631/Particles/Whipchain_Haste",
+              "{204e512e}": "Items/6631/Particles/Whipchain_Haste_Trail",
+              "{548973ff}": "Items/6631/Particles/Item_Stridebreaker_6631_Haste",
+              "{256a45b9}": "Items/6631/Particles/6631_Shockwave"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明主证",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_6631_active",
+          "name": "挺进破坏者·破阵冲击波",
+          "description": "只保留主动技能对当前敌方英雄的物理伤害公式、减速和自身衰减移动速度参数。被动顺劈及主动附近其他目标支路属于多目标/空间范围，本候选不创建空被动技能。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 10,
+          "skillCategoryKeys": []
+        },
+        "parameters": [
+          {
+            "parameterKey": "cooldown_ms",
+            "name": "主动冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 15000,
+            "levelValues": null,
+            "description": "客户端Cooldown明确15秒，按秒转毫秒。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "active_damage_ad_ratio",
+            "name": "主动伤害总攻击力系数",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "客户端SlashDamage的mStat2且默认formula0节点绑定ADRatio=0.8；按同版旁证映射总攻击力。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "slow_ratio",
+            "name": "主动减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.35,
+            "levelValues": null,
+            "description": "客户端MSSlow原值为-0.35，中文绑定以@MSSlow*-100@%显示，候选保存正向减速比例0.35。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "self_move_speed_ratio",
+            "name": "命中英雄后自身移动速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.35,
+            "levelValues": null,
+            "description": "客户端ActiveMS明确35%。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "duration_ms",
+            "name": "自身移动速度持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端Duration明确3秒，按秒转毫秒。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "decay_rate",
+            "name": "自身移动速度衰减率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "客户端DecayRate明确0.8；具体衰减算法和节拍未证，仅保留原数值。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "active_damage",
+            "name": "主动对当前英雄物理伤害",
+            "description": "客户端SlashDamage：0.8×总攻击力；本公式只供单个当前英雄目标使用。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "active_damage_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_6631",
+          "skillKey": "item_6631_active",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_6631"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "被动顺劈",
+            "reason": "攻击附近多个目标的独立伤害支路，属于多目标范围外。"
+          },
+          {
+            "component": "主动附近其他目标与半径字段",
+            "reason": "本候选仅保留当前一对一敌方英雄分支，不新增纯空间半径和第三者目标。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "衰减节拍",
+            "reason": "DecayRate有数值但没有当前候选可验证的时间函数，不把它展开成线性或固定跳数。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "主动技能目标与控制",
+            "reason": "主动施放、单个当前英雄目标、减速命中和自身移速衰减尚未接线，不生成默认DAMAGE。"
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "来源",
+          "key": "MeleeItemCalcValue/RangedItemCalcValue",
+          "reason": "被动顺劈的多目标攻击伤害，范围外。"
+        },
+        {
+          "kind": "来源",
+          "key": "CleaveRadius/PassiveRadius/MaxProcPerAuto",
+          "reason": "多目标或纯空间字段，范围外。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "主动命中资格",
+          "reason": "仅保留公式和明确参数；当前目标、伤害资格及控制事件尚未接线。"
+        },
+        {
+          "component": "衰减算法",
+          "reason": "只保存DecayRate源值，不猜时间节拍。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mItemCalculations/SlashDamage/mFormulaParts",
+          "accepted": "mStat2默认formula0×ADRatio=0.8"
+        },
+        {
+          "pointer": "/mDataValues/Cooldown",
+          "accepted": 15
+        },
+        {
+          "pointer": "/mDataValues/ADRatio",
+          "accepted": 0.8
+        },
+        {
+          "pointer": "/mDataValues/MSSlow",
+          "accepted": -0.35
+        },
+        {
+          "pointer": "/mDataValues/ActiveMS",
+          "accepted": 0.35
+        },
+        {
+          "pointer": "/mDataValues/Duration",
+          "accepted": 3
+        },
+        {
+          "pointer": "/mDataValues/DecayRate",
+          "accepted": 0.8
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyActive",
+          "acceptedKey": "Item_6631_Active"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_6631",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_6631",
+        "apiWrites": 0
+      }
+    },
+    {
+      "equipmentKey": "item_6662",
+      "equipmentName": "冰脉护手",
+      "skillKey": "item_6662_passive",
+      "source": {
+        "path": "Items/6662",
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_6662_Name",
+            "key": "item_6662_name",
+            "text": "冰脉护手"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_6662_Brief",
+            "key": "item_6662_brief",
+            "text": "减速敌人"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_6662_Tooltip",
+            "key": "item_6662_tooltip",
+            "text": "<passive>咒刃</passive> {{ Item_Cooldown }}<br>在施放一个技能后，你的下一次攻击造成额外的<physicalDamage>@SpellbladeDamage@物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}并生成一个持续@SlowFieldDuration@秒的冰冷地带，这个地带可造成@SlowAmountMeleeRangedSplit@<status>减速</status>。"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_6662_Colloquialism",
+            "key": "item_6662_colloquialism",
+            "text": ";shuanghuohushou;shhs;bingmaihushou;bmhs;咒刃;zhouren;Iceborn;Gauntlet"
+          },
+          {
+            "binding": "keySecondaryBrief",
+            "sourceKey": "Item_Unique_Spellblade",
+            "key": "item_unique_spellblade",
+            "text": "唯一：咒刃"
+          },
+          {
+            "binding": "keyInventoryOnlyText",
+            "sourceKey": "Item_6662_InventoryOnlyText",
+            "key": "item_6662_inventoryonlytext",
+            "text": "对英雄的伤害：<attention>@f1@</attention><br>"
+          },
+          {
+            "binding": "keyTooltipExternal",
+            "sourceKey": "Item_6662_TooltipExternal",
+            "key": "item_6662_tooltipexternal",
+            "text": "<passive>咒刃</passive><br>在施放一个技能后，你的下一次攻击造成<physicalDamage>额外物理伤害</physicalDamage>{{ Item_Keyword_OnHit }}并生成一个持续@SlowFieldDuration@秒的冰冷地带，这个地带可造成<status>减速</status>。"
+          }
+        ],
+        "official": {
+          "name": "冰脉护手",
+          "description": "<mainText><stats><attention>300</attention>生命值<br><attention>50</attention>护甲<br><attention>15</attention>技能急速</stats><br><br><passive>咒刃</passive><br>在施放一个技能后，你的下一次攻击造成<physicalDamage>额外物理伤害</physicalDamage><OnHit>攻击特效</OnHit>并生成一个持续2秒的冰冷地带，这个地带可造成<status>减速</status>。</mainText>",
+          "colloq": "",
+          "plaintext": "高魔法抗性。被动减速附近敌人。当附近有技能释放时，释放一道能量波来造成伤害和减速。",
+          "from": [
+            "3057",
+            "1028",
+            "1031"
+          ],
+          "image": {
+            "full": "6662.png",
+            "sprite": "item6.png",
+            "group": "item",
+            "x": 192,
+            "y": 48,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 800,
+            "purchasable": true,
+            "total": 2900,
+            "sell": 2030
+          },
+          "tags": [
+            "Health",
+            "Armor",
+            "CooldownReduction",
+            "Slow",
+            "OnHit",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatHPPoolMod": 300,
+            "FlatArmorMod": 50
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 6662,
+          "name": "冰脉护手",
+          "description": "<mainText><stats><attention>300</attention>生命值<br><attention>50</attention>护甲<br><attention>15</attention>技能急速</stats><br><br><passive>咒刃</passive><br>在施放一个技能后，你的下一次攻击造成<physicalDamage>额外物理伤害</physicalDamage><OnHit>攻击特效</OnHit>并生成一个持续2秒的冰冷地带，这个地带可造成<status>减速</status>。</mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            3057,
+            1028,
+            1031
+          ],
+          "to": [],
+          "categories": [
+            "Health",
+            "Armor",
+            "CooldownReduction",
+            "Slow",
+            "OnHit",
+            "AbilityHaste"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 800,
+          "priceTotal": 2900,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/6662_Tank_T3_IcebornGauntlet.png"
+        },
+        "client": {
+          "spellName": "6662_DummySpell",
+          "mDisplayName": "Item_6662_Name",
+          "itemID": 6662,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{b3677a25}",
+            "{8b55a7b3}"
+          ],
+          "mItemAdviceAttributes": [
+            "{165d7c1f}",
+            "{39b1adc9}",
+            "{3868804c}",
+            "{d91fc1af}",
+            "{af00f7f5}"
+          ],
+          "price": 800,
+          "mItemCalloutSpectator": true,
+          "ShowCooldownVfxToAllies": false,
+          "ShowCooldownInPings": false,
+          "mCanBeSold": true,
+          "epicness": 5,
+          "recipeItemLinks": [
+            "Items/3057",
+            "Items/1028",
+            "Items/1031"
+          ],
+          "mItemModifiers": [
+            "{0c7ef6d4}"
+          ],
+          "mDataValues": [
+            {
+              "mName": "SlowAmount",
+              "mValue": 0.25,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "SlowFieldDuration",
+              "mValue": 2,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "AoERadius",
+              "mValue": 300,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MonsterMod",
+              "mValue": 1.5,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "AuraDuration",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "RangedSlowAmount",
+              "mValue": 0.125,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "SpellbladeMultiplier",
+              "mValue": 1.5,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "SpellbladeCooldown",
+              "mValue": 1.5,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "Cooldown",
+              "mValue": 1.5,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "MeleeItemCalcValue": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "SlowAmount",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "RangedItemCalcValue": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "RangedSlowAmount",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "SpellbladeDamage": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mStatFormula": 1,
+                  "mDataValue": "SpellbladeMultiplier",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "StringCalculations": {
+            "SlowAmountMeleeRangedSplit": {
+              "MeleeResult": "@MeleeItemCalcValue@",
+              "RangedResult": "@RangedItemCalcValue@",
+              "DefaultResult": "@MeleeItemCalcValue@",
+              "__type": "{4750ceb6}"
+            }
+          },
+          "mAbilityHasteMod": 15,
+          "mFlatHPPoolMod": 300,
+          "mFlatArmorMod": 50,
+          "mCategories": [
+            "Health",
+            "Armor",
+            "CooldownReduction",
+            "Slow",
+            "OnHit",
+            "AbilityHaste"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            8,
+            1
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "6662",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_6662_Name",
+                "keyBrief": "Item_6662_Brief",
+                "keyTooltip": "Item_6662_Tooltip",
+                "keyColloquialism": "Item_6662_Colloquialism",
+                "keySecondaryBrief": "Item_Unique_Spellblade",
+                "keyInventoryOnlyText": "Item_6662_InventoryOnlyText",
+                "keyTooltipExternal": "Item_6662_TooltipExternal"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "Health",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Armor",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AbilityHaste",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_6662_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_6662_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_6662_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/6662_tank_t3_iceborngauntlet.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/6662_Tank_T3_IcebornGauntlet.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/6662_Tank_T3_IcebornGauntlet.png",
+            "epicness": 6,
+            "effectRadius": 325,
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{e37594d8}": "Items/6662/Particles/6662_Slow_Field",
+              "{03acfa57}": "Items/6662/Particles/6662_Iceborn_Hand_Glow"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明主证",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_6662_passive",
+          "name": "冰脉护手·咒刃",
+          "description": "保留施放技能后下一次攻击的基础攻击力附加物理伤害、当前敌方英雄减速比例和持续时间。mStat2/formula1按同版具名旁证映射基础攻击力；怪物倍率和空间半径不录入。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "slow_ratio_melee",
+            "name": "近战减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.25,
+            "levelValues": null,
+            "description": "客户端SlowAmount明确25%。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "slow_ratio_ranged",
+            "name": "远程减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.125,
+            "levelValues": null,
+            "description": "客户端RangedSlowAmount明确12.5%。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "slow_field_duration_ms",
+            "name": "冰冷地带持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "客户端SlowFieldDuration明确2秒，按秒转毫秒。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "spellblade_multiplier",
+            "name": "咒刃基础攻击力倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.5,
+            "levelValues": null,
+            "description": "客户端SpellbladeMultiplier明确1.5；计算节点为mStat2/formula1。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "spellblade_cooldown_ms",
+            "name": "咒刃冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1500,
+            "levelValues": null,
+            "description": "客户端SpellbladeCooldown明确1.5秒，按秒转毫秒。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "item_cooldown_ms",
+            "name": "装备冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1500,
+            "levelValues": null,
+            "description": "客户端Cooldown同样明确1.5秒；与SpellbladeCooldown保留为两个源字段，未合并语义。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "spellblade_damage",
+            "name": "咒刃额外物理伤害",
+            "description": "客户端SpellbladeDamage：1.5×基础攻击力；mStat2/formula1按同版具名旁证映射基础攻击力。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spellblade_multiplier"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BASE"
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_6662",
+          "skillKey": "item_6662_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_6662"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "MonsterMod",
+            "reason": "仅怪物目标倍率，当前一对一英雄范围外。"
+          },
+          {
+            "component": "AuraDuration",
+            "reason": "客户端源字段没有绑定当前中文技能说明，保留源证据不猜其消费语义。"
+          },
+          {
+            "component": "AoERadius/effectRadius",
+            "reason": "纯空间字段，且源中300与325存在差异，不在候选中定值。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "空间半径",
+            "reason": "AoERadius=300与mItemDataClient.effectRadius=325冲突；当前仅保留当前敌方英雄减速，不选择半径。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "咒刃触发与减速",
+            "reason": "技能施放后下一次攻击、近远程资格、目标英雄和减速地带事件尚未接线，不生成默认DAMAGE或控制效果。"
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "来源",
+          "key": "MonsterMod",
+          "reason": "只对怪物，范围外。"
+        },
+        {
+          "kind": "来源",
+          "key": "AoERadius/effectRadius",
+          "reason": "纯空间字段，且300与325冲突，留作来源待核。"
+        },
+        {
+          "kind": "来源",
+          "key": "AuraDuration",
+          "reason": "未绑定当前说明，来源待核。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "咒刃触发",
+          "reason": "施法后下一次攻击和冷却消费尚未接线。"
+        },
+        {
+          "component": "空间半径",
+          "reason": "源值冲突，不在当前候选中猜定。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mItemCalculations/SpellbladeDamage/mFormulaParts",
+          "accepted": "mStat2/formula1×SpellbladeMultiplier=1.5×基础攻击力"
+        },
+        {
+          "pointer": "/mDataValues/SlowAmount",
+          "accepted": 0.25
+        },
+        {
+          "pointer": "/mDataValues/RangedSlowAmount",
+          "accepted": 0.125
+        },
+        {
+          "pointer": "/mDataValues/SlowFieldDuration",
+          "accepted": 2
+        },
+        {
+          "pointer": "/mDataValues/SpellbladeMultiplier",
+          "accepted": 1.5
+        },
+        {
+          "pointer": "/mDataValues/SpellbladeCooldown",
+          "accepted": 1.5
+        },
+        {
+          "pointer": "/mDataValues/Cooldown",
+          "accepted": 1.5
+        },
+        {
+          "pointer": "/mItemDataClient/effectRadius",
+          "accepted": 325,
+          "disposition": "与AoERadius=300冲突，来源待核"
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyTooltip",
+          "acceptedKey": "Item_6662_Tooltip"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_6662",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_6662",
+        "apiWrites": 0
+      }
+    },
+    {
+      "equipmentKey": "item_6694",
+      "equipmentName": "赛瑞尔达的怨恨",
+      "skillKey": "item_6694_passive",
+      "source": {
+        "path": "Items/6694",
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_6694_Name",
+            "key": "item_6694_name",
+            "text": "赛瑞尔达的怨恨"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_6694_Brief",
+            "key": "item_6694_brief",
+            "text": "护甲克星"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_6694_Tooltip",
+            "key": "item_6694_tooltip",
+            "text": "<passive>严寒</passive><br>伤害型技能会对低于@SlowThreshold*100@%生命值的敌人造成持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_6694_Colloquialism",
+            "key": "item_6694_colloquialism",
+            "text": ";Serylda's Grudge;sreddyh;sairuierdadeyuanhen;减速;slow;yuanhen;yh"
+          },
+          {
+            "binding": "keySecondaryBrief",
+            "sourceKey": "Item_Unique_Fatality",
+            "key": "item_unique_fatality",
+            "text": "唯一：夺命"
+          }
+        ],
+        "official": {
+          "name": "赛瑞尔达的怨恨",
+          "description": "<mainText><stats><attention>45</attention>攻击力<br><attention>35%</attention>护甲穿透<br><attention>15</attention>技能急速</stats><br><br><passive>严寒</passive><br>伤害型技能会对低于50%生命值的敌人造成持续1秒的30%<status>减速</status>。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "3133",
+            "3035"
+          ],
+          "image": {
+            "full": "6694.png",
+            "sprite": "item6.png",
+            "group": "item",
+            "x": 144,
+            "y": 144,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 500,
+            "purchasable": true,
+            "total": 3000,
+            "sell": 2100
+          },
+          "tags": [
+            "Damage",
+            "CooldownReduction",
+            "ArmorPenetration",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": true,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatPhysicalDamageMod": 45
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 6694,
+          "name": "赛瑞尔达的怨恨",
+          "description": "<mainText><stats><attention>45</attention>攻击力<br><attention>35%</attention>护甲穿透<br><attention>15</attention>技能急速</stats><br><br><passive>严寒</passive><br>伤害型技能会对低于50%生命值的敌人造成持续1秒的30%<status>减速</status>。</mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            3133,
+            3035
+          ],
+          "to": [],
+          "categories": [
+            "Damage",
+            "CooldownReduction",
+            "ArmorPenetration",
+            "AbilityHaste"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 500,
+          "priceTotal": 3000,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/6694_Assasin_T3_SeryldasGrudge.png"
+        },
+        "client": {
+          "mDisplayName": "Item_6694_Name",
+          "itemID": 6694,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "Items/ItemGroups/LastWhisper"
+          ],
+          "mItemAdviceAttributes": [
+            "{72256343}",
+            "{39b1adc9}",
+            "{3868804c}"
+          ],
+          "price": 500,
+          "mItemCalloutSpectator": true,
+          "mCanBeSold": true,
+          "epicness": 5,
+          "recipeItemLinks": [
+            "Items/3133",
+            "Items/3035"
+          ],
+          "mDataValues": [
+            {
+              "mName": "SlowAmount",
+              "mValue": 0.30000001192092896,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "SlowDuration",
+              "mValue": 1,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "LethalityAmount",
+              "mValue": 15,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "SlowThreshold",
+              "mValue": 0.5,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "mItemCalculations": {
+            "PenCalc": {
+              "mFormulaParts": [
+                {
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mStat": 29,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            }
+          },
+          "mAbilityHasteMod": 15,
+          "mPercentArmorPenetrationMod": 0.3499999940395355,
+          "mFlatPhysicalDamageMod": 45,
+          "mCategories": [
+            "Damage",
+            "CooldownReduction",
+            "ArmorPenetration",
+            "AbilityHaste"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            4
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "6694",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_6694_Name",
+                "keyBrief": "Item_6694_Brief",
+                "keyTooltip": "Item_6694_Tooltip",
+                "keyColloquialism": "Item_6694_Colloquialism",
+                "keySecondaryBrief": "Item_Unique_Fatality"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AttackDamage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "ArmorPenPercent",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AbilityHaste",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_6694_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_6694_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_6694_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/6694_assasin_t3_seryldasgrudge.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/6694_Assasin_T3_SeryldasGrudge.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/6694_Assasin_T3_SeryldasGrudge.png",
+            "epicness": 6,
+            "__type": "ItemDataClient"
+          },
+          "__type": "ItemData"
+        },
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明主证",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_6694_passive",
+          "name": "赛瑞尔达的怨恨·严寒",
+          "description": "保留伤害型技能命中当前敌方英雄且其生命值低于50%时的30%减速和1秒持续时间。15穿甲属于装备直接属性不重复添加，原mStat29计算树不猜属性。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "slow_ratio",
+            "name": "严寒减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "客户端SlowAmount明确30%。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "严寒持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "客户端SlowDuration明确1秒，按秒转毫秒。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "target_health_threshold_ratio",
+            "name": "目标生命值阈值",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "客户端SlowThreshold明确50%。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_6694",
+          "skillKey": "item_6694_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_6694"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "LethalityAmount",
+            "reason": "15穿甲是装备直接属性，已有主体数据承担，不在技能中重复。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "PenCalc",
+            "reason": "原计算树含未具名Number和mStat29，当前说明不消费该计算，保留源证据不推断。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "伤害型技能与生命阈值资格",
+            "reason": "伤害技能归因、目标英雄和低于阈值判定尚未接线，不生成默认控制效果。"
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "来源",
+          "key": "LethalityAmount",
+          "reason": "直接属性已存在，不重复录入。"
+        },
+        {
+          "kind": "来源",
+          "key": "PenCalc",
+          "reason": "未绑定当前说明且mStat29未解码。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "严寒触发",
+          "reason": "仅保留明确参数，伤害型技能归因和目标生命阈值尚未接线。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/SlowAmount",
+          "accepted": 0.3
+        },
+        {
+          "pointer": "/mDataValues/SlowDuration",
+          "accepted": 1
+        },
+        {
+          "pointer": "/mDataValues/SlowThreshold",
+          "accepted": 0.5
+        },
+        {
+          "pointer": "/mDataValues/LethalityAmount",
+          "accepted": 15,
+          "disposition": "直接属性，不录入技能"
+        },
+        {
+          "pointer": "/mItemCalculations/PenCalc",
+          "accepted": "含未解码mStat29，仅来源证据"
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyTooltip",
+          "acceptedKey": "Item_6694_Tooltip"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_6694",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_6694",
+        "apiWrites": 0
+      }
+    },
+    {
+      "equipmentKey": "item_6697",
+      "equipmentName": "狂妄",
+      "skillKey": "item_6697_passive",
+      "source": {
+        "path": "Items/6697",
+        "bindings": [
+          {
+            "binding": "keyName",
+            "sourceKey": "Item_6697_Name",
+            "key": "item_6697_name",
+            "text": "狂妄"
+          },
+          {
+            "binding": "keyBrief",
+            "sourceKey": "Item_6693_Brief",
+            "key": "item_6693_brief",
+            "text": "收集击杀"
+          },
+          {
+            "binding": "keyTooltip",
+            "sourceKey": "Item_6697_Tooltip",
+            "key": "item_6697_tooltip",
+            "text": "<passive>盛名</passive><br>如果一名在过去@TakedownWindow@秒内曾被你造成过伤害的英雄阵亡，则获得持续@BuffDuration@秒的<physicalDamage>@BaseADBonus@+@ADPerStatue@x已击杀英雄数的攻击力</physicalDamage>。"
+          },
+          {
+            "binding": "keyColloquialism",
+            "sourceKey": "Item_6693_Colloquialism",
+            "key": "item_6693_colloquialism",
+            "text": ";Prowler's Claw;anxingzhezhizhua;axzzz;穿甲;chuanjia"
+          },
+          {
+            "binding": "keyFlavorText",
+            "sourceKey": "Item_6697_FlavorText",
+            "key": "item_6697_flavortext",
+            "text": "已征服的英雄：@f2@"
+          }
+        ],
+        "official": {
+          "name": "狂妄",
+          "description": "<mainText><stats><attention>55</attention>攻击力<br><attention>18</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>盛名</passive><br>如果一名在过去3秒内曾被你造成过伤害的英雄阵亡，则获得持续90秒的<physicalDamage>12+3x已击杀英雄数的攻击力</physicalDamage>。</mainText>",
+          "colloq": "",
+          "plaintext": "",
+          "from": [
+            "3134",
+            "3133"
+          ],
+          "image": {
+            "full": "6697.png",
+            "sprite": "item6.png",
+            "group": "item",
+            "x": 288,
+            "y": 144,
+            "w": 48,
+            "h": 48
+          },
+          "gold": {
+            "base": 750,
+            "purchasable": true,
+            "total": 2800,
+            "sell": 1960
+          },
+          "tags": [
+            "Damage",
+            "Active",
+            "CooldownReduction",
+            "ArmorPenetration",
+            "AbilityHaste"
+          ],
+          "maps": {
+            "11": true,
+            "12": false,
+            "22": false,
+            "30": false,
+            "453": true
+          },
+          "stats": {
+            "FlatPhysicalDamageMod": 55
+          },
+          "depth": 3
+        },
+        "clientItemList": {
+          "id": 6697,
+          "name": "狂妄",
+          "description": "<mainText><stats><attention>55</attention>攻击力<br><attention> 18</attention>穿甲<br><attention>10</attention>技能急速</stats><br><br><passive>盛名</passive><br>如果一名在过去3秒内曾被你造成过伤害的英雄阵亡，则获得持续90秒的<physicalDamage>12+3x已击杀英雄数的攻击力</physicalDamage>。</mainText>",
+          "active": false,
+          "inStore": true,
+          "from": [
+            3134,
+            3133
+          ],
+          "to": [],
+          "categories": [
+            "Damage",
+            "Active",
+            "CooldownReduction",
+            "ArmorPenetration",
+            "AbilityHaste"
+          ],
+          "maxStacks": 1,
+          "requiredChampion": "",
+          "requiredAlly": "",
+          "requiredBuffCurrencyName": "",
+          "requiredBuffCurrencyCost": 0,
+          "specialRecipe": 0,
+          "isEnchantment": false,
+          "price": 750,
+          "priceTotal": 2800,
+          "displayInItemSets": true,
+          "iconPath": "/lol-game-data/assets/ASSETS/Items/Icons2D/6697_Hubris.png"
+        },
+        "client": {
+          "mDisplayName": "Item_6697_Name",
+          "itemID": 6697,
+          "maxStack": 1,
+          "mItemGroups": [
+            "Items/ItemGroups/Default",
+            "{be69ca0d}"
+          ],
+          "mItemAdviceAttributes": [
+            "{0fe5f3f2}",
+            "{72256343}",
+            "{705ee247}"
+          ],
+          "price": 750,
+          "mItemCalloutSpectator": true,
+          "mCanBeSold": true,
+          "epicness": 5,
+          "recipeItemLinks": [
+            "Items/3134",
+            "Items/3133"
+          ],
+          "mDataValues": [
+            {
+              "mName": "LethalityAmount",
+              "mValue": 18,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MSDuration",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "MinHealthThreshold",
+              "mValue": 0.30000001192092896,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "SpellMaxAmp",
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "TakedownWindow",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "SpeedAmount",
+              "mValue": 0.30000001192092896,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "BonusLethality",
+              "mValue": 15,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "ADPerStatue",
+              "mValue": 3,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "BuffDuration",
+              "mValue": 90,
+              "__type": "ItemDataValue"
+            },
+            {
+              "mName": "BaseADBonus",
+              "mValue": 12,
+              "__type": "ItemDataValue"
+            }
+          ],
+          "DataValuesModeOverride": {
+            "ARAM": {
+              "DataValues": [
+                {
+                  "mName": "ADPerStatue",
+                  "mValue": 1,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "BaseADBonus",
+                  "mValue": 10,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "BuffDuration",
+                  "mValue": 45,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "URF": {
+              "DataValues": [
+                {
+                  "mName": "ADPerStatue",
+                  "mValue": 1,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "BaseADBonus",
+                  "mValue": 10,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "BuffDuration",
+                  "mValue": 45,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            },
+            "{a110bc47}": {
+              "DataValues": [
+                {
+                  "mName": "ADPerStatue",
+                  "mValue": 1,
+                  "__type": "ItemDataValue"
+                },
+                {
+                  "mName": "BuffDuration",
+                  "mValue": 45,
+                  "__type": "ItemDataValue"
+                }
+              ],
+              "__type": "ItemDataValues"
+            }
+          },
+          "mItemCalculations": {
+            "{5974e68a}": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{10f4da91}",
+                  "mCoefficient": 1,
+                  "__type": "BuffCounterByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAbilityHasteMod": 10,
+          "mFlatPhysicalDamageMod": 55,
+          "PhysicalLethality": 18,
+          "mCategories": [
+            "Damage",
+            "Active",
+            "CooldownReduction",
+            "ArmorPenetration",
+            "AbilityHaste"
+          ],
+          "mItemDataAvailability": {
+            "mInStore": true,
+            "__type": "ItemDataAvailability"
+          },
+          "mItemAttributes": [
+            4
+          ],
+          "mItemDataClient": {
+            "mTooltipData": {
+              "mObjectName": "6697",
+              "mFormat": "{32559c50}",
+              "mLocKeys": {
+                "keyName": "Item_6697_Name",
+                "keyBrief": "Item_6693_Brief",
+                "keyTooltip": "Item_6697_Tooltip",
+                "keyColloquialism": "Item_6693_Colloquialism",
+                "keyFlavorText": "Item_6697_FlavorText"
+              },
+              "mLists": {
+                "Stats": {
+                  "Elements": [
+                    {
+                      "type": "AttackDamage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Lethality",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "AbilityHaste",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceItem"
+            },
+            "mDescription": "GeneratedTip_Item_6697_Description",
+            "mDynamicTooltip": "GeneratedTip_Item_6697_TooltipInventory",
+            "mShopTooltip": "GeneratedTip_Item_6697_TooltipShop",
+            "inventoryIcon": "assets/items/icons2d/6697_hubris.dds",
+            "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/6697_Hubris44.png",
+            "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/6697_Hubris88.png",
+            "epicness": 6,
+            "__type": "ItemDataClient"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{341a0253}": "Items/6693/Particles/6693_buff",
+              "{820e6503}": "Items/6693/Particles/6693_Damage",
+              "{c10a9152}": "Items/6697/Particles/6697_Statue_Overlay_1",
+              "{ee2e1960}": "Items/6697/Particles/6697_Statue_Death",
+              "{26d3f1e8}": "Items/6697/Particles/6697_Statue_Overlay_2",
+              "{27d3f37b}": "Items/6697/Particles/6697_Statue_Overlay_3",
+              "{2cd3fb5a}": "Items/6697/Particles/6697_Statue_Overlay_4",
+              "{2dd3fced}": "Items/6697/Particles/6697_Statue_Overlay_5",
+              "{2ad3f834}": "Items/6697/Particles/6697_Statue_Overlay_6",
+              "{2bd3f9c7}": "Items/6697/Particles/6697_Statue_Overlay_7",
+              "{20d3e876}": "Items/6697/Particles/6697_Statue_Overlay_8",
+              "{21d3ea09}": "Items/6697/Particles/6697_Statue_Overlay_9",
+              "{69ad2643}": "Items/6697/Particles/6697_Statue_Overlay_10",
+              "{2562b5e0}": "Items/6697/Particles/6697_Player_Buff_Level_1",
+              "{2862ba99}": "Items/6697/Particles/6697_Player_Buff_Level_2",
+              "{2762b906}": "Items/6697/Particles/6697_Player_Buff_Level_3",
+              "{22d0af65}": "Items/6697/Particles/6697_Player_Celebration_Level_1",
+              "{1fd0aaac}": "Items/6697/Particles/6697_Player_Celebration_Level_2",
+              "{20d0ac3f}": "Items/6697/Particles/6697_Player_Celebration_Level_3",
+              "{2a62bdbf}": "Items/6697/Particles/6697_Player_Buff_Level_4",
+              "{78aeee6a}": "Items/6697/Particles/6697_Statue_Overlay_4_Glow",
+              "{9edfa4b3}": "Items/6697/Particles/6697_Statue_Overlay_5_Glow",
+              "{93b9a958}": "Items/6697/Particles/6697_Statue_Overlay_6_Glow",
+              "{b5f96049}": "Items/6697/Particles/6697_Statue_Overlay_7_Glow",
+              "{89ba42a6}": "Items/6697/Particles/6697_Statue_Overlay_8_Glow",
+              "{9d729c3f}": "Items/6697/Particles/6697_Statue_Overlay_9_Glow",
+              "{fffab245}": "Items/6697/Particles/6697_Statue_Overlay_10_Glow",
+              "{75c0bb79}": "Items/6697/Particles/6697_Laurel_Model",
+              "{2ad0bbfd}": "Items/6697/Particles/6697_Player_Celebration_Level_9",
+              "{238402cf}": "Items/6697/Particles/6697_Player_Celebration_Level_10",
+              "{29d0ba6a}": "Items/6697/Particles/6697_Player_Celebration_Level_8",
+              "{1cd0a5f3}": "Items/6697/Particles/6697_Player_Celebration_Level_7",
+              "{1bd0a460}": "Items/6697/Particles/6697_Player_Celebration_Level_6",
+              "{1ed0a919}": "Items/6697/Particles/6697_Player_Celebration_Level_5",
+              "{1dd0a786}": "Items/6697/Particles/6697_Player_Celebration_Level_4"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "ItemData"
+        },
+        "sourceFiles": [
+          {
+            "key": "officialItem",
+            "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+            "format": "JSON",
+            "role": "官方16.17.1装备说明、直接属性和图片键",
+            "bytes": 691131,
+            "modifiedAt": "2026-09-06T14:10:07.953Z",
+            "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+          },
+          {
+            "key": "clientItemList",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备列表和中文动态说明旁证",
+            "bytes": 96301,
+            "modifiedAt": "2026-09-06T14:59:31.906Z",
+            "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+          },
+          {
+            "key": "clientItems",
+            "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17装备对象、数据值和计算树主证",
+            "bytes": 1577238,
+            "modifiedAt": "2026-09-06T15:00:14.328Z",
+            "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+          },
+          {
+            "key": "clientStringTable",
+            "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+            "format": "gzip JSON",
+            "role": "客户端16.17中文绑定说明主证",
+            "bytes": 8350124,
+            "modifiedAt": "2026-09-06T15:08:11.306Z",
+            "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+          }
+        ]
+      },
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_6697_passive",
+          "name": "狂妄·盛名",
+          "description": "保留伤害后3秒内敌方英雄阵亡时获得90秒临时攻击力的基础值和每名已击杀英雄增量。击杀计数作为运行时输入，未接线前不自动施加增益。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "takedown_window_ms",
+            "name": "伤害后击杀窗口（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "客户端TakedownWindow明确3秒，按秒转毫秒。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "buff_duration_ms",
+            "name": "盛名持续时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 90000,
+            "levelValues": null,
+            "description": "客户端BuffDuration明确90秒，按秒转毫秒。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "base_ad_bonus",
+            "name": "盛名基础攻击力",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 12,
+            "levelValues": null,
+            "description": "客户端BaseADBonus明确12。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "ad_per_killed_hero",
+            "name": "每名已击杀英雄攻击力",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "客户端ADPerStatue明确每名3点攻击力。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "actual_killed_hero_count",
+            "name": "当前已击杀英雄数",
+            "valueType": "INTEGER",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "动态击杀计数由运行时提供；不以召唤物、非英雄或静态层数替代。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "bonus_attack_damage",
+            "name": "盛名临时攻击力",
+            "description": "客户端说明：12+3×已击杀英雄数；击杀资格和计数由运行时提供。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_ad_bonus"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ad_per_killed_hero"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_killed_hero_count"
+                    }
+                  ]
+                }
+              ]
+            },
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_6697",
+          "skillKey": "item_6697_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_6697"
+        }
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "component": "SpeedAmount/MSDuration/BonusLethality",
+            "reason": "当前中文说明未绑定这些旧字段，且直接属性或空间增益不属于本候选战斗公式。"
+          }
+        ],
+        "来源待核": [
+          {
+            "component": "击杀计数计算树",
+            "reason": "原计算为BuffCounterByCoefficient，计数来源和刷新语义未具名，保留运行时输入。"
+          }
+        ],
+        "系统缺口": [],
+        "尚未接线": [
+          {
+            "component": "伤害归因与击杀事件",
+            "reason": "过去3秒伤害归因、敌方英雄阵亡、计数刷新和临时攻击力状态尚未接线，不创建自动增益过程。"
+          }
+        ]
+      },
+      "omittedComponents": [
+        {
+          "kind": "来源",
+          "key": "SpeedAmount/MSDuration/BonusLethality/LethalityAmount/MinHealthThreshold/SpellMaxAmp",
+          "reason": "未绑定当前中文说明或属于直接属性/其他支路，不猜其现行战斗语义。"
+        }
+      ],
+      "pendingComponents": [
+        {
+          "component": "动态击杀计数",
+          "reason": "运行时输入实际英雄击杀数，未接线前不默认0也不创建空过程。"
+        },
+        {
+          "component": "伤害归因与临时攻击力",
+          "reason": "触发、刷新、持续和失效阶段尚未接线。"
+        }
+      ],
+      "proofs": [
+        {
+          "pointer": "/mDataValues/TakedownWindow",
+          "accepted": 3
+        },
+        {
+          "pointer": "/mDataValues/BuffDuration",
+          "accepted": 90
+        },
+        {
+          "pointer": "/mDataValues/BaseADBonus",
+          "accepted": 12
+        },
+        {
+          "pointer": "/mDataValues/ADPerStatue",
+          "accepted": 3
+        },
+        {
+          "pointer": "/mItemCalculations/{5974e68a}",
+          "accepted": "BuffCounterByCoefficient，仅证明动态计数节点存在"
+        },
+        {
+          "pointer": "/mItemDataClient/mTooltipData/mLocKeys/keyTooltip",
+          "acceptedKey": "Item_6697_Tooltip"
+        }
+      ],
+      "safeguards": {
+        "equipmentKey": "item_6697",
+        "beforeRelationCount": 0,
+        "directAttributesProtectedByReadOnlyGET": true,
+        "representativeImageReused": "item_6697",
+        "apiWrites": 0
+      }
+    }
+  ],
+  "totals": {
+    "equipment": 10,
+    "skills": 10,
+    "parameters": 52,
+    "formulas": 8,
+    "effects": 0,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "relations": 10,
+    "representativeImages": 10,
+    "components": 90,
+    "omittedComponents": 11,
+    "pendingComponents": 17
+  },
+  "entryBoundary": {
+    "selected": [
+      {
+        "equipmentKey": "item_3036",
+        "skillKey": "item_3036_passive",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_3179",
+        "skillKey": "item_3179_passive",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_3302",
+        "skillKey": "item_3302_passive",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_3742",
+        "skillKey": "item_3742_passive",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_4005",
+        "skillKey": "item_4005_passive",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_4645",
+        "skillKey": "item_4645_passive",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_6631",
+        "skillKey": "item_6631_active",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_6662",
+        "skillKey": "item_6662_passive",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_6694",
+        "skillKey": "item_6694_passive",
+        "currentRelationCount": 0
+      },
+      {
+        "equipmentKey": "item_6697",
+        "skillKey": "item_6697_passive",
+        "currentRelationCount": 0
+      }
+    ],
+    "unselectedMechanismBearing": [
+      {
+        "equipmentKey": "item_3046",
+        "name": "幻影之舞",
+        "reason": "仅幽灵状态，当前系统语义未证；不创建空技能。"
+      },
+      {
+        "equipmentKey": "item_3074",
+        "name": "贪欲九头蛇",
+        "reason": "多目标顺劈和主动范围伤害，当前批次范围外。"
+      },
+      {
+        "equipmentKey": "item_3085",
+        "name": "卢安娜的飓风",
+        "reason": "额外目标弹射，多目标范围外。"
+      },
+      {
+        "equipmentKey": "item_3107",
+        "name": "救赎",
+        "reason": "第三方友军治疗和延迟范围伤害，范围外。"
+      },
+      {
+        "equipmentKey": "item_3109",
+        "name": "骑士之誓",
+        "reason": "第三方友军承伤转移和治疗，范围外。"
+      },
+      {
+        "equipmentKey": "item_3179_ward_branch",
+        "name": "黯影阔剑封锁",
+        "reason": "守卫、陷阱和视野空间支路，已在item_3179候选中留源证据。"
+      },
+      {
+        "equipmentKey": "item_3190",
+        "name": "钢铁烈阳之匣",
+        "reason": "第三方友军护盾，范围外。"
+      },
+      {
+        "equipmentKey": "item_3222",
+        "name": "米凯尔的祝福",
+        "reason": "第三方友军净化和治疗，范围外。"
+      },
+      {
+        "equipmentKey": "item_3504",
+        "name": "号令之旗",
+        "reason": "依赖第三方友军治疗或护盾的效果，范围外。"
+      },
+      {
+        "equipmentKey": "item_3748",
+        "name": "巨型九头蛇",
+        "reason": "多目标和主动范围伤害，范围外。"
+      },
+      {
+        "equipmentKey": "item_4005_ally_branch",
+        "name": "帝国指令友军分支",
+        "reason": "外部说明中的友军增速和友军协同分支范围外；自身定身参数已保留。"
+      },
+      {
+        "equipmentKey": "item_4628",
+        "name": "观测仪",
+        "reason": "视野和空间效果，范围外。"
+      },
+      {
+        "equipmentKey": "item_6631_passive",
+        "name": "挺进破坏者顺劈",
+        "reason": "多目标顺劈支路，当前仅保留主动单个英雄分支。"
+      },
+      {
+        "equipmentKey": "item_6664",
+        "name": "涡轮炼金罐",
+        "reason": "附近目标范围伤害，范围外。"
+      },
+      {
+        "equipmentKey": "item_6698",
+        "name": "亵渎九头蛇",
+        "reason": "多目标主动与范围伤害，范围外。"
+      },
+      {
+        "equipmentKey": "item_8020",
+        "name": "无尽的饥渴",
+        "reason": "附近敌人空间增幅，纯空间范围外。"
+      }
+    ],
+    "directOnlyOrUnbound": "其余未挂载装备仅有直接属性、未绑定字段或无法形成非空自身机制，本批不为凑数新建技能。"
+  },
+  "configurationBoundary": {
+    "effects": 0,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "reason": "事件资格、触发、持续节拍、目标筛选和状态消费尚未接线；参数与合法公式先冻结，避免无证据的默认结果。"
+  },
+  "sourceEvidence": {
+    "sourceFreezeSha256": "98d14396062ef2189cf364faf863f4d2ee62481dff9dacbaf4641fa9663c0492",
+    "currentGETPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear18-20260909\\当前198装备与挂载独立GET.json",
+    "mappingProof": {
+      "files": [
+        {
+          "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/基础攻击力具名补证.json",
+          "sha256": "ac40d33aba90f99e4faebe3ab4a8ff8a0a8ca542b6a8e58d651479d3720e7d6f",
+          "boundedUse": "mStat2/formula1窄映射为基础攻击力；用于亡者的板甲与冰脉护手。"
+        },
+        {
+          "path": "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/通用公式来源补证/结论与边界.json",
+          "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+          "boundedUse": "默认0/0为法术强度、2/0为总攻击力、2/2为额外攻击力；其他组合不扩推。"
+        }
+      ],
+      "proofSummary": {
+        "baseAttackDamageChecks": "见原文件",
+        "boundedMappings": "见原文件"
+      }
+    },
+    "officialSource": "客户端16.17与官方16.17.1均固定为本批来源，版本标签分开保存。"
+  },
+  "revision": {
+    "originalCandidateSha256": "03214a9b07e56fecf40f1731853aa4a543d90d185ca4c604b5c06174d115108c",
+    "changedBusinessFields": [
+      "item_3036/actual_target_bonus_health.valueType:INTEGER→DECIMAL",
+      "上述参数说明澄清真实小数输入",
+      "item_3302/ability_power_ratio.description澄清0.1乘总法强"
+    ],
+    "rangeCorrection": "原范围报告过度排除的自身与单敌范围分支转第十九批逐项核对，不作为范围外完成。"
+  }
+}

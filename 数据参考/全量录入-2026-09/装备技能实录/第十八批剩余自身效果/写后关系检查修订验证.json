@@ -1,0 +1,58 @@
+{
+  "at": "2026-09-09T07:09:08.931Z",
+  "method": "提取实际新旧readCoreProtection函数，保留真实写后关系样本；隔离HTTP与原对象保护，专门验证写前/写后阶段分支。不是重新执行90请求或新增API证明。",
+  "beforeSha256": "ff1a43fd9a9b7790b84359842ee486e943b102c3c8219de298a242c85d1d87ac",
+  "afterSha256": "667c4f394a4b75ebbaabe9499b1ffc85be68c5f6448f63d584a020ebed363624",
+  "cases": [
+    {
+      "label": "原脚本在真实写后单条关系误报",
+      "phase": "final-protection",
+      "expectedPass": false,
+      "actualPass": false,
+      "pass": true
+    },
+    {
+      "label": "写前空关系允许",
+      "phase": "preflight",
+      "expectedPass": true,
+      "actualPass": true,
+      "pass": true
+    },
+    {
+      "label": "写前已挂载拒绝",
+      "phase": "preflight",
+      "expectedPass": false,
+      "actualPass": false,
+      "pass": true
+    },
+    {
+      "label": "写后真实单条关系允许",
+      "phase": "final-protection",
+      "expectedPass": true,
+      "actualPass": true,
+      "pass": true
+    },
+    {
+      "label": "写后空关系拒绝",
+      "phase": "final-protection",
+      "expectedPass": false,
+      "actualPass": false,
+      "pass": true
+    },
+    {
+      "label": "写后重复关系拒绝",
+      "phase": "final-protection",
+      "expectedPass": false,
+      "actualPass": false,
+      "pass": true
+    },
+    {
+      "label": "写后异值关系拒绝",
+      "phase": "final-protection",
+      "expectedPass": false,
+      "actualPass": false,
+      "pass": true
+    }
+  ],
+  "businessWrites": 0
+}
