@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T06:31:51.954Z",
+  "generatedAt": "2026-09-09T07:03:18.696Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -1755,6 +1755,77 @@
         "worktree": "C:/project/damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/历史等级曲线修正/页面验收.json",
         "commit": "db8911b8"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroFourteenthBatch": {
+      "heroes": [
+        "Kennen",
+        "Velkoz",
+        "Ziggs",
+        "Xerath"
+      ],
+      "skills": [
+        "kennen_p",
+        "kennen_q",
+        "kennen_w",
+        "kennen_e",
+        "kennen_r",
+        "velkoz_p",
+        "velkoz_q",
+        "velkoz_w",
+        "velkoz_e",
+        "velkoz_r",
+        "ziggs_p",
+        "ziggs_q",
+        "ziggs_w",
+        "ziggs_e",
+        "ziggs_r",
+        "xerath_p",
+        "xerath_q",
+        "xerath_w",
+        "xerath_e",
+        "xerath_r"
+      ],
+      "parameters": 154,
+      "formulas": 34,
+      "effects": 25,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "created": 189,
+      "createdByKind": {
+        "parameters": 130,
+        "formulas": 34,
+        "effects": 25
+      },
+      "reusedPublicParameters": 24,
+      "independentGets": 385,
+      "independentFullFields": 2526,
+      "actualMathGets": 188,
+      "actualMathChecks": 1132,
+      "sourceCases": 102,
+      "manualCases": 52,
+      "rootRepresentativePages": 3,
+      "rootPageGets": 21,
+      "cursorReview": {
+        "verdict": "REVISE",
+        "runId": "run-5b0fbca8-6d02-4b49-bad9-c35a8db490cd",
+        "readOnlyAudit": true,
+        "completedTools": 80,
+        "resolution": "凯南E初始效果固定4000毫秒；延长总时长公式未当作刷新剩余时间。最终差异经主审和两时序反例确认。"
+      },
+      "candidateSha256": "373595ebf5ec8f385e813972b8b6a013af64a0228c89ff3b4c870fea23e677d9",
+      "currentStatus": "213确定组成已保存，189新增；独立完整回读、数学与三个页面通过，未知输入及事件资格继续补，不计完整运行。",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十四批/当前实录状态.json",
+        "commit": "852e021a"
+      },
+      "browserEvidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十四批/页面验收.json",
+        "commit": "852e021a"
       },
       "runtimeValidation": "未执行"
     }
