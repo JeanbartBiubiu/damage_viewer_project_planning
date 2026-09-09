@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T14:54:07.696Z",
+  "generatedAt": "2026-09-09T15:02:41.863Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -2772,6 +2772,61 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十三批/页面验收.json",
         "commit": "9684e613945119dc30763f7bfade4d404d83f788"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroTwentyFourthBatch": {
+      "skills": [
+        "nunu_p",
+        "nunu_q",
+        "nunu_w",
+        "nunu_e",
+        "nunu_r",
+        "sejuani_p",
+        "sejuani_q",
+        "sejuani_w",
+        "sejuani_e",
+        "sejuani_r",
+        "sion_p",
+        "sion_q",
+        "sion_w",
+        "sion_e",
+        "sion_r",
+        "volibear_p",
+        "volibear_q",
+        "volibear_w",
+        "volibear_e",
+        "volibear_r"
+      ],
+      "parameters": 229,
+      "formulas": 38,
+      "effects": 19,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "reusedParameters": 29,
+      "created": 257,
+      "independentGets": 458,
+      "independentFormulaChecks": 38,
+      "independentSourceCases": 76,
+      "independentMissingRejects": 8,
+      "representativePages": 3,
+      "pageGets": 16,
+      "pageMathCases": 7,
+      "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+      "planSha256": "50f5a261f451928db01980ce2bb9fd5d6c0b3f720cc4ecd985e90d0d534bd3f0",
+      "executor": "Luna Max候选修订和独立回读，主负责人来源复核、保存与页面验收",
+      "status": "257新增、29公共参数复用；458次独立GET、38实际公式严格核算和3代表页面通过。未知曲线、持续时间累加和事件继续处理。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十四批/当前实录状态.json",
+        "sha256": "0ac4b37e16a40d4c42be5756a4ff8acc423425a452c274d53c91fd4726579832",
+        "commit": "2a0879002c50b39af60fffb8f14d006460ea43a1"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十四批/页面验收.json",
+        "commit": "2a0879002c50b39af60fffb8f14d006460ea43a1"
       },
       "runtimeValidation": "未执行"
     }
