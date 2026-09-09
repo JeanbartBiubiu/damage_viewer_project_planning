@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T14:11:38.936Z",
+  "generatedAt": "2026-09-09T14:54:07.696Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -2727,6 +2727,51 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十二批/页面验收.json",
         "commit": "3227e918e0fae86ac54c3fb8cb7f2aa4bfc01551"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroTwentyThirdBatch": {
+      "skills": [
+        "amumu_p",
+        "amumu_q",
+        "amumu_w",
+        "amumu_e",
+        "amumu_r",
+        "zac_p",
+        "zac_q",
+        "zac_w",
+        "zac_e",
+        "zac_r"
+      ],
+      "parameters": 90,
+      "formulas": 22,
+      "effects": 6,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "reusedParameters": 9,
+      "created": 109,
+      "independentGets": 206,
+      "independentFormulaChecks": 22,
+      "independentSourceCases": 44,
+      "independentMissingRejects": 32,
+      "representativePages": 3,
+      "pageGets": 14,
+      "pageMathCases": 8,
+      "candidateSha256": "772528a5abd0ec24285f4db64f7cb03b5c6415a106aa83fbb7ffe40b651d3358",
+      "planSha256": "ba31f93dee47c0ce73128cb1d1e94283c74c00aae4a5d42791dbbfbff84c3169",
+      "executor": "Cursor失败后主负责人接手来源和保存，Luna Max修订及独立回读，主负责人页面验收",
+      "status": "109新增，9公共参数复用，206次独立GET和3代表页面通过；未知曲线与施放命中事件继续处理。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十三批/当前实录状态.json",
+        "sha256": "9e1950c35f8a1bad3494de1921ae9b59c43bd1c6824b6b0780593617e743d900",
+        "commit": "9684e613945119dc30763f7bfade4d404d83f788"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十三批/页面验收.json",
+        "commit": "9684e613945119dc30763f7bfade4d404d83f788"
       },
       "runtimeValidation": "未执行"
     }
