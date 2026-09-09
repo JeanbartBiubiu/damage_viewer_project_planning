@@ -1,0 +1,281 @@
+{
+  "generatedAt": "2026-09-09T10:02:31.746Z",
+  "mode": "独立解析修正版候选表达式",
+  "noBusinessWrites": true,
+  "apiWrites": 0,
+  "candidateSha256": "9dc1b9628720c0afc91d9e835649ae6899dd9bfcbacac136fae7c7081ab79f62",
+  "parameterCount": 28,
+  "formulaCount": 5,
+  "formulaShapes": [
+    {
+      "skillKey": "item_3168_passive",
+      "formulaKey": "stacked_omnivamp",
+      "nodeCount": 5,
+      "illegal": [],
+      "pass": true
+    },
+    {
+      "skillKey": "item_3170_passive",
+      "formulaKey": "adaptive_force_from_move_speed",
+      "nodeCount": 3,
+      "illegal": [],
+      "pass": true
+    },
+    {
+      "skillKey": "item_3171_passive",
+      "formulaKey": "ranged_move_speed_ratio",
+      "nodeCount": 3,
+      "illegal": [],
+      "pass": true
+    },
+    {
+      "skillKey": "item_3173_passive",
+      "formulaKey": "magic_shield_value",
+      "nodeCount": 5,
+      "illegal": [],
+      "pass": true
+    },
+    {
+      "skillKey": "item_3174_passive",
+      "formulaKey": "physical_shield_value",
+      "nodeCount": 5,
+      "illegal": [],
+      "pass": true
+    }
+  ],
+  "positiveCases": [
+    {
+      "name": "不朽之路五层",
+      "skillKey": "item_3168_passive",
+      "formulaKey": "stacked_omnivamp",
+      "overrides": {
+        "actual_stacks": 5
+      },
+      "expected": 0.03,
+      "actual": 0.03,
+      "error": null,
+      "pass": true
+    },
+    {
+      "name": "迅速进军移动速度400",
+      "skillKey": "item_3170_passive",
+      "formulaKey": "adaptive_force_from_move_speed",
+      "overrides": {
+        "actual_source_move_speed": 400
+      },
+      "expected": 20,
+      "actual": 20,
+      "error": null,
+      "pass": true
+    },
+    {
+      "name": "猩红明朗远程比例",
+      "skillKey": "item_3171_passive",
+      "formulaKey": "ranged_move_speed_ratio",
+      "overrides": {},
+      "expected": 0.08,
+      "actual": 0.08000000000000002,
+      "error": null,
+      "pass": true
+    },
+    {
+      "name": "带链碾碎者护盾",
+      "skillKey": "item_3173_passive",
+      "formulaKey": "magic_shield_value",
+      "overrides": {
+        "actual_level_base_shield": 100,
+        "source_mstat12_formula2_value": 500
+      },
+      "expected": 140,
+      "actual": 140,
+      "error": null,
+      "pass": true
+    },
+    {
+      "name": "装甲战靴护盾",
+      "skillKey": "item_3174_passive",
+      "formulaKey": "physical_shield_value",
+      "overrides": {
+        "actual_level_base_shield": 100,
+        "source_mstat12_formula2_value": 500
+      },
+      "expected": 140,
+      "actual": 140,
+      "error": null,
+      "pass": true
+    }
+  ],
+  "capCases": [
+    {
+      "name": "不朽之路层数9",
+      "skillKey": "item_3168_passive",
+      "formulaKey": "stacked_omnivamp",
+      "overrides": {
+        "actual_stacks": 9
+      },
+      "expected": 0.054,
+      "actual": 0.054,
+      "error": null,
+      "pass": true
+    },
+    {
+      "name": "不朽之路层数10",
+      "skillKey": "item_3168_passive",
+      "formulaKey": "stacked_omnivamp",
+      "overrides": {
+        "actual_stacks": 10
+      },
+      "expected": 0.06,
+      "actual": 0.06,
+      "error": null,
+      "pass": true
+    },
+    {
+      "name": "不朽之路层数11",
+      "skillKey": "item_3168_passive",
+      "formulaKey": "stacked_omnivamp",
+      "overrides": {
+        "actual_stacks": 11
+      },
+      "expected": 0.06,
+      "actual": 0.06,
+      "error": null,
+      "pass": true
+    }
+  ],
+  "missingValueRejections": [
+    {
+      "name": "不朽之路缺层数",
+      "skillKey": "item_3168_passive",
+      "formulaKey": "stacked_omnivamp",
+      "overrides": {},
+      "expectedError": "Error: MISSING_RUNTIME_PARAMETER:actual_stacks",
+      "error": "Error: MISSING_RUNTIME_PARAMETER:actual_stacks",
+      "rejected": true,
+      "pass": true
+    },
+    {
+      "name": "迅速进军缺移动速度",
+      "skillKey": "item_3170_passive",
+      "formulaKey": "adaptive_force_from_move_speed",
+      "overrides": {},
+      "expectedError": "Error: MISSING_RUNTIME_PARAMETER:actual_source_move_speed",
+      "error": "Error: MISSING_RUNTIME_PARAMETER:actual_source_move_speed",
+      "rejected": true,
+      "pass": true
+    },
+    {
+      "name": "带链碾碎者缺当前等级基础护盾",
+      "skillKey": "item_3173_passive",
+      "formulaKey": "magic_shield_value",
+      "overrides": {
+        "source_mstat12_formula2_value": 500
+      },
+      "expectedError": "Error: MISSING_RUNTIME_PARAMETER:actual_level_base_shield",
+      "error": "Error: MISSING_RUNTIME_PARAMETER:actual_level_base_shield",
+      "rejected": true,
+      "pass": true
+    },
+    {
+      "name": "带链碾碎者缺来源输入",
+      "skillKey": "item_3173_passive",
+      "formulaKey": "magic_shield_value",
+      "overrides": {
+        "actual_level_base_shield": 100
+      },
+      "expectedError": "Error: MISSING_RUNTIME_PARAMETER:source_mstat12_formula2_value",
+      "error": "Error: MISSING_RUNTIME_PARAMETER:source_mstat12_formula2_value",
+      "rejected": true,
+      "pass": true
+    },
+    {
+      "name": "装甲战靴缺当前等级基础护盾",
+      "skillKey": "item_3174_passive",
+      "formulaKey": "physical_shield_value",
+      "overrides": {
+        "source_mstat12_formula2_value": 500
+      },
+      "expectedError": "Error: MISSING_RUNTIME_PARAMETER:actual_level_base_shield",
+      "error": "Error: MISSING_RUNTIME_PARAMETER:actual_level_base_shield",
+      "rejected": true,
+      "pass": true
+    },
+    {
+      "name": "装甲战靴缺来源输入",
+      "skillKey": "item_3174_passive",
+      "formulaKey": "physical_shield_value",
+      "overrides": {
+        "actual_level_base_shield": 100
+      },
+      "expectedError": "Error: MISSING_RUNTIME_PARAMETER:source_mstat12_formula2_value",
+      "error": "Error: MISSING_RUNTIME_PARAMETER:source_mstat12_formula2_value",
+      "rejected": true,
+      "pass": true
+    }
+  ],
+  "integerTypeRejections": [
+    {
+      "name": "层数拒绝小数0.5",
+      "skillKey": "item_3168_passive",
+      "formulaKey": "stacked_omnivamp",
+      "overrides": {
+        "actual_stacks": 0.5
+      },
+      "expectedError": "Error: INVALID_INTEGER_RUNTIME_PARAMETER:actual_stacks",
+      "error": "Error: INVALID_INTEGER_RUNTIME_PARAMETER:actual_stacks",
+      "rejected": true,
+      "pass": true
+    }
+  ],
+  "shieldLevelNoDefault": [
+    {
+      "skillKey": "item_3173_passive",
+      "parameter": {
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null
+      },
+      "missingEvaluation": {
+        "name": "item_3173_passive基础护盾无默认",
+        "skillKey": "item_3173_passive",
+        "formulaKey": "magic_shield_value",
+        "overrides": {
+          "source_mstat12_formula2_value": 500
+        },
+        "expectedError": "Error: MISSING_RUNTIME_PARAMETER:actual_level_base_shield",
+        "error": "Error: MISSING_RUNTIME_PARAMETER:actual_level_base_shield",
+        "rejected": true,
+        "pass": true
+      },
+      "pass": true
+    },
+    {
+      "skillKey": "item_3174_passive",
+      "parameter": {
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null
+      },
+      "missingEvaluation": {
+        "name": "item_3174_passive基础护盾无默认",
+        "skillKey": "item_3174_passive",
+        "formulaKey": "physical_shield_value",
+        "overrides": {
+          "source_mstat12_formula2_value": 500
+        },
+        "expectedError": "Error: MISSING_RUNTIME_PARAMETER:actual_level_base_shield",
+        "error": "Error: MISSING_RUNTIME_PARAMETER:actual_level_base_shield",
+        "rejected": true,
+        "pass": true
+      },
+      "pass": true
+    }
+  ],
+  "removedBreakpointParameters": true,
+  "allPass": true,
+  "candidateMathReady": true,
+  "businessMathReady": false,
+  "businessMathNote": "本结果只解析候选表达式；业务实值核算须由独立回读脚本读取完成后的业务接口。"
+}

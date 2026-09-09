@@ -1,0 +1,74 @@
+{
+  "at": "2026-09-09T09:38:23.364Z",
+  "status": "INTERRUPTED_NOT_ACCEPTED",
+  "reason": "Node进程以1退出，实际Run启动后SDK ECONNRESET；无finished/运行后runner审计，不算成功",
+  "runId": "run-5d17f2a4-ae8b-4e69-a1ee-ac9eb2afee0e",
+  "agentId": "agent-40edd740-7acf-4cc4-8edd-f794519a0118",
+  "requestId": "934882a2-e7b0-4f94-b0ff-3225bc6494c8",
+  "eventCount": 831,
+  "eventSha256": "df2dd9fc0c9d829f1635f35cc0c7f8b89821a65733067a656b2aada48b2a3503",
+  "eventTypes": {
+    "status": 1,
+    "thinking": 574,
+    "assistant": 187,
+    "tool_call": 69
+  },
+  "toolCallCount": 69,
+  "toolShapes": [
+    [
+      "type",
+      "agent_id",
+      "run_id",
+      "call_id",
+      "name",
+      "status",
+      "args"
+    ],
+    [
+      "type",
+      "agent_id",
+      "run_id",
+      "call_id",
+      "name",
+      "status",
+      "args"
+    ],
+    [
+      "type",
+      "agent_id",
+      "run_id",
+      "call_id",
+      "name",
+      "status",
+      "args",
+      "result"
+    ]
+  ],
+  "toolNames": [
+    "glob",
+    "read",
+    "grep",
+    "shell",
+    "edit"
+  ],
+  "inputHashesVerified": 5,
+  "manualGitStatus": [
+    "?? 产物/完整候选.json",
+    "?? 产物/独立核算.mjs"
+  ],
+  "files": [
+    {
+      "name": "完整候选.json",
+      "sha256": "ba7b5103003075cde856e5855079be031653b589f94c7fcbfb01603a3a099b1a",
+      "bytes": 46125
+    },
+    {
+      "name": "独立核算.mjs",
+      "sha256": "7a8d8c4482c3e76139392f257bd248d6fffcd6edff027be744aec283893456f6",
+      "bytes": 3807
+    }
+  ],
+  "businessWrites": 0,
+  "noAutomaticReplay": true,
+  "followup": "原输出保留；在独立恢复目录检查候选和脚本，不把候选或未执行数学报告计为录入完成。"
+}
