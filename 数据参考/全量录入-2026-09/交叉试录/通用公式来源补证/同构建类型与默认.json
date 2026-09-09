@@ -1,0 +1,670 @@
+{
+  "version": "16.17.8104348",
+  "commit": "3284cf031cfcdfdd49cf371765522ed576b6f3fb",
+  "evidence": [
+    "meta_dump.rs:281-299 递归读取具体实例及继承字段",
+    "meta_dump.rs:452-484 创建实例后读取属性",
+    "meta.rs:1151-1155 实际调用构造函数"
+  ],
+  "classes": {
+    "StatByCoefficientCalculationPart": {
+      "name": "StatByCoefficientCalculationPart",
+      "hash": "0x5815b0a9",
+      "raw": {
+        "base": "0xb5f69929",
+        "secondary_bases": {},
+        "secondary_children": {},
+        "size": 24,
+        "alignment": 8,
+        "is": {
+          "interface": false,
+          "value": false,
+          "secondary_base": false,
+          "finalized": false
+        },
+        "fn": {
+          "upcast_secondary": null,
+          "constructor": "0x5618f0",
+          "destructor": "0x561920",
+          "inplace_constructor": "0x561940",
+          "inplace_destructor": "0x561970",
+          "register": "0x561980"
+        },
+        "properties": {
+          "0x295c2889": {
+            "other_class": null,
+            "offset": 16,
+            "bitmask": 0,
+            "value_type": "F32",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          }
+        },
+        "defaults": {
+          "0x295c2889": 0,
+          "0x4cec2c8a": 0,
+          "0x7d3150ec": 0,
+          "0x8a544bcf": 13,
+          "0x94fb4b0c": 0,
+          "0xa8cb9c14": false,
+          "0xabc2d461": false
+        }
+      },
+      "fields": [
+        {
+          "field": "mCoefficient",
+          "hash": "0x295c2889",
+          "type": "F32",
+          "value": 0
+        },
+        {
+          "field": "mStat",
+          "hash": "0x4cec2c8a",
+          "type": "U8",
+          "value": 0
+        },
+        {
+          "field": "mStatFormula",
+          "hash": "0x7d3150ec",
+          "type": "U8",
+          "value": 0
+        },
+        {
+          "field": "statType",
+          "hash": "0x8a544bcf",
+          "type": "U8",
+          "value": 13
+        },
+        {
+          "field": "OutputType",
+          "hash": "0x94fb4b0c",
+          "type": "U8",
+          "value": 0
+        },
+        {
+          "field": "0xa8cb9c14",
+          "hash": "0xa8cb9c14",
+          "type": "Bool",
+          "value": false
+        },
+        {
+          "field": "UseNewStats",
+          "hash": "0xabc2d461",
+          "type": "Bool",
+          "value": false
+        }
+      ]
+    },
+    "StatByNamedDataValueCalculationPart": {
+      "name": "StatByNamedDataValueCalculationPart",
+      "hash": "0x5f5c70a4",
+      "raw": {
+        "base": "0xb5f69929",
+        "secondary_bases": {},
+        "secondary_children": {},
+        "size": 24,
+        "alignment": 8,
+        "is": {
+          "interface": false,
+          "value": false,
+          "secondary_base": false,
+          "finalized": false
+        },
+        "fn": {
+          "upcast_secondary": null,
+          "constructor": "0x561a30",
+          "destructor": "0x561a60",
+          "inplace_constructor": "0x561a80",
+          "inplace_destructor": "0x561ab0",
+          "register": "0x561ac0"
+        },
+        "properties": {
+          "0xb386dcf1": {
+            "other_class": null,
+            "offset": 16,
+            "bitmask": 0,
+            "value_type": "Hash",
+            "container": null,
+            "map": null,
+            "hasher": "0x25f32e0",
+            "unkptr": "0x0"
+          }
+        },
+        "defaults": {
+          "0x4cec2c8a": 0,
+          "0x7d3150ec": 0,
+          "0x8a544bcf": 13,
+          "0x94fb4b0c": 0,
+          "0xa8cb9c14": false,
+          "0xabc2d461": false,
+          "0xb386dcf1": "0x0"
+        }
+      },
+      "fields": [
+        {
+          "field": "mStat",
+          "hash": "0x4cec2c8a",
+          "type": "U8",
+          "value": 0
+        },
+        {
+          "field": "mStatFormula",
+          "hash": "0x7d3150ec",
+          "type": "U8",
+          "value": 0
+        },
+        {
+          "field": "statType",
+          "hash": "0x8a544bcf",
+          "type": "U8",
+          "value": 13
+        },
+        {
+          "field": "OutputType",
+          "hash": "0x94fb4b0c",
+          "type": "U8",
+          "value": 0
+        },
+        {
+          "field": "0xa8cb9c14",
+          "hash": "0xa8cb9c14",
+          "type": "Bool",
+          "value": false
+        },
+        {
+          "field": "UseNewStats",
+          "hash": "0xabc2d461",
+          "type": "Bool",
+          "value": false
+        },
+        {
+          "field": "mDataValue",
+          "hash": "0xb386dcf1",
+          "type": "Hash",
+          "value": "0x0"
+        }
+      ]
+    },
+    "StatBySubPartCalculationPart": {
+      "name": "StatBySubPartCalculationPart",
+      "hash": "0xcd156c7f",
+      "raw": {
+        "base": "0xb5f69929",
+        "secondary_bases": {},
+        "secondary_children": {},
+        "size": 24,
+        "alignment": 8,
+        "is": {
+          "interface": false,
+          "value": false,
+          "secondary_base": false,
+          "finalized": false
+        },
+        "fn": {
+          "upcast_secondary": null,
+          "constructor": "0x561990",
+          "destructor": "0x5619c0",
+          "inplace_constructor": "0x5619e0",
+          "inplace_destructor": "0x561a10",
+          "register": "0x561a20"
+        },
+        "properties": {
+          "0x1cd83c4b": {
+            "other_class": "0xb60012ce",
+            "offset": 16,
+            "bitmask": 0,
+            "value_type": "Pointer",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          }
+        },
+        "defaults": {
+          "0x1cd83c4b": null,
+          "0x4cec2c8a": 0,
+          "0x7d3150ec": 0,
+          "0x8a544bcf": 13,
+          "0x94fb4b0c": 0,
+          "0xa8cb9c14": false,
+          "0xabc2d461": false
+        }
+      },
+      "fields": [
+        {
+          "field": "mSubpart",
+          "hash": "0x1cd83c4b",
+          "type": "Pointer",
+          "value": null
+        },
+        {
+          "field": "mStat",
+          "hash": "0x4cec2c8a",
+          "type": "U8",
+          "value": 0
+        },
+        {
+          "field": "mStatFormula",
+          "hash": "0x7d3150ec",
+          "type": "U8",
+          "value": 0
+        },
+        {
+          "field": "statType",
+          "hash": "0x8a544bcf",
+          "type": "U8",
+          "value": 13
+        },
+        {
+          "field": "OutputType",
+          "hash": "0x94fb4b0c",
+          "type": "U8",
+          "value": 0
+        },
+        {
+          "field": "0xa8cb9c14",
+          "hash": "0xa8cb9c14",
+          "type": "Bool",
+          "value": false
+        },
+        {
+          "field": "UseNewStats",
+          "hash": "0xabc2d461",
+          "type": "Bool",
+          "value": false
+        }
+      ]
+    },
+    "IGameCalculationPartWithStats": {
+      "name": "IGameCalculationPartWithStats",
+      "hash": "0xb5f69929",
+      "raw": {
+        "base": "0xb60012ce",
+        "secondary_bases": {},
+        "secondary_children": {},
+        "size": 16,
+        "alignment": 8,
+        "is": {
+          "interface": true,
+          "value": false,
+          "secondary_base": false,
+          "finalized": false
+        },
+        "fn": {
+          "upcast_secondary": null,
+          "constructor": null,
+          "destructor": "0x5618b0",
+          "inplace_constructor": null,
+          "inplace_destructor": "0x5618d0",
+          "register": "0x5618e0"
+        },
+        "properties": {
+          "0x4cec2c8a": {
+            "other_class": null,
+            "offset": 8,
+            "bitmask": 0,
+            "value_type": "U8",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0x7d3150ec": {
+            "other_class": null,
+            "offset": 9,
+            "bitmask": 0,
+            "value_type": "U8",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0x8a544bcf": {
+            "other_class": null,
+            "offset": 12,
+            "bitmask": 0,
+            "value_type": "U8",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0x94fb4b0c": {
+            "other_class": null,
+            "offset": 13,
+            "bitmask": 0,
+            "value_type": "U8",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0xa8cb9c14": {
+            "other_class": null,
+            "offset": 11,
+            "bitmask": 0,
+            "value_type": "Bool",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0xabc2d461": {
+            "other_class": null,
+            "offset": 10,
+            "bitmask": 0,
+            "value_type": "Bool",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          }
+        },
+        "defaults": null
+      },
+      "fields": []
+    },
+    "ByCharLevelBreakpointsCalculationPart": {
+      "name": "ByCharLevelBreakpointsCalculationPart",
+      "hash": "0x5cf69ece",
+      "raw": {
+        "base": "0x12626bff",
+        "secondary_bases": {},
+        "secondary_children": {},
+        "size": 32,
+        "alignment": 8,
+        "is": {
+          "interface": false,
+          "value": false,
+          "secondary_base": false,
+          "finalized": false
+        },
+        "fn": {
+          "upcast_secondary": null,
+          "constructor": "0x562300",
+          "destructor": "0x562330",
+          "inplace_constructor": "0x562350",
+          "inplace_destructor": "0x562370",
+          "register": "0x562380"
+        },
+        "properties": {
+          "0x2deb550": {
+            "other_class": null,
+            "offset": 12,
+            "bitmask": 0,
+            "value_type": "F32",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0x7b5d1934": {
+            "other_class": "0x8e93d8ee",
+            "offset": 16,
+            "bitmask": 0,
+            "value_type": "List",
+            "container": {
+              "vtable": "0x26224f8",
+              "value_type": "Embed",
+              "value_size": 12,
+              "fixed_size": null,
+              "storage": "UnknownVector"
+            },
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0xad62f672": {
+            "other_class": null,
+            "offset": 8,
+            "bitmask": 0,
+            "value_type": "F32",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          }
+        },
+        "defaults": {
+          "0x2deb550": 0,
+          "0x7b5d1934": [],
+          "0xad62f672": 0
+        }
+      },
+      "fields": [
+        {
+          "field": "mInitialBonusPerLevel",
+          "hash": "0x2deb550",
+          "type": "F32",
+          "value": 0
+        },
+        {
+          "field": "mBreakpoints",
+          "hash": "0x7b5d1934",
+          "type": "List",
+          "value": []
+        },
+        {
+          "field": "mLevel1Value",
+          "hash": "0xad62f672",
+          "type": "F32",
+          "value": 0
+        }
+      ]
+    },
+    "Breakpoint": {
+      "name": "Breakpoint",
+      "hash": "0x8e93d8ee",
+      "raw": {
+        "base": null,
+        "secondary_bases": {},
+        "secondary_children": {},
+        "size": 12,
+        "alignment": 4,
+        "is": {
+          "interface": false,
+          "value": false,
+          "secondary_base": false,
+          "finalized": false
+        },
+        "fn": {
+          "upcast_secondary": null,
+          "constructor": "0x5625f0",
+          "destructor": "0x562610",
+          "inplace_constructor": "0x562630",
+          "inplace_destructor": "0x562650",
+          "register": null
+        },
+        "properties": {
+          "0x57fdc438": {
+            "other_class": null,
+            "offset": 8,
+            "bitmask": 0,
+            "value_type": "F32",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0xa77654ae": {
+            "other_class": null,
+            "offset": 0,
+            "bitmask": 0,
+            "value_type": "U32",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0xd5fd07ed": {
+            "other_class": null,
+            "offset": 4,
+            "bitmask": 0,
+            "value_type": "F32",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          }
+        },
+        "defaults": {
+          "0x57fdc438": 0,
+          "0xa77654ae": 1,
+          "0xd5fd07ed": 0
+        }
+      },
+      "fields": [
+        {
+          "field": "mBonusPerLevelAtAndAfter",
+          "hash": "0x57fdc438",
+          "type": "F32",
+          "value": 0
+        },
+        {
+          "field": "mLevel",
+          "hash": "0xa77654ae",
+          "type": "U32",
+          "value": 1
+        },
+        {
+          "field": "mAdditionalBonusAtThisLevel",
+          "hash": "0xd5fd07ed",
+          "type": "F32",
+          "value": 0
+        }
+      ]
+    },
+    "GameCalculation": {
+      "name": "GameCalculation",
+      "hash": "0xbc409284",
+      "raw": {
+        "base": "0x17373233",
+        "secondary_bases": {},
+        "secondary_children": {},
+        "size": 56,
+        "alignment": 8,
+        "is": {
+          "interface": false,
+          "value": false,
+          "secondary_base": false,
+          "finalized": false
+        },
+        "fn": {
+          "upcast_secondary": null,
+          "constructor": "0x562dd0",
+          "destructor": "0x562e20",
+          "inplace_constructor": "0x562e40",
+          "inplace_destructor": "0x562e80",
+          "register": "0x562e90"
+        },
+        "properties": {
+          "0x50f145c0": {
+            "other_class": "0xb60012ce",
+            "offset": 32,
+            "bitmask": 0,
+            "value_type": "List",
+            "container": {
+              "vtable": "0x2622490",
+              "value_type": "Pointer",
+              "value_size": 8,
+              "fixed_size": null,
+              "storage": "UnknownVector"
+            },
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0x5a2297d3": {
+            "other_class": null,
+            "offset": 48,
+            "bitmask": 0,
+            "value_type": "Bool",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          },
+          "0x8d47ee4": {
+            "other_class": null,
+            "offset": 52,
+            "bitmask": 0,
+            "value_type": "I32",
+            "container": null,
+            "map": null,
+            "hasher": null,
+            "unkptr": "0x0"
+          }
+        },
+        "defaults": {
+          "0x2c77adff": null,
+          "0x37070a8d": 8,
+          "0x50f145c0": [],
+          "0x5a2297d3": false,
+          "0x72c5c2a8": 4,
+          "0x75a116d5": 0,
+          "0x8d47ee4": 0,
+          "0xcbcac618": 8,
+          "0xd6b7a622": false
+        }
+      },
+      "fields": [
+        {
+          "field": "mMultiplier",
+          "hash": "0x2c77adff",
+          "type": "Pointer",
+          "value": null
+        },
+        {
+          "field": "mExpandedTooltipCalculationDisplay",
+          "hash": "0x37070a8d",
+          "type": "U8",
+          "value": 8
+        },
+        {
+          "field": "mFormulaParts",
+          "hash": "0x50f145c0",
+          "type": "List",
+          "value": []
+        },
+        {
+          "field": "mDisplayAsPercent",
+          "hash": "0x5a2297d3",
+          "type": "Bool",
+          "value": false
+        },
+        {
+          "field": "DamageType",
+          "hash": "0x72c5c2a8",
+          "type": "U32",
+          "value": 4
+        },
+        {
+          "field": "ResultModifier",
+          "hash": "0x75a116d5",
+          "type": "U8",
+          "value": 0
+        },
+        {
+          "field": "mPrecision",
+          "hash": "0x8d47ee4",
+          "type": "I32",
+          "value": 0
+        },
+        {
+          "field": "mSimpleTooltipCalculationDisplay",
+          "hash": "0xcbcac618",
+          "type": "U8",
+          "value": 8
+        },
+        {
+          "field": "tooltipOnly",
+          "hash": "0xd6b7a622",
+          "type": "Bool",
+          "value": false
+        }
+      ]
+    }
+  }
+}

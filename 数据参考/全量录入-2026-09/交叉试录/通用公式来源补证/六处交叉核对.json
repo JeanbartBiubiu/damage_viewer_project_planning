@@ -1,0 +1,3697 @@
+{
+  "checks": [
+    {
+      "key": "caitlyn_p",
+      "source": {
+        "path": "客户端原文/Caitlyn.json.gz",
+        "sha256": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+        "compressedSha256": "5a3658a4da6aeba98af280d640af142ff299f518904e1e502a4b57f40ded6079",
+        "byteSize": 50357,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/caitlyn/caitlyn.bin.json",
+        "fetchedAt": "2026-09-06T14:26:14.291Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+      "binding": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassive",
+      "objectPath": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassive",
+      "nodes": [
+        {
+          "path": "/mSpell/mSpellCalculations/HeadShotBonusDamage/mFormulaParts/0",
+          "original": {
+            "mStat": 2,
+            "mSubpart": {
+              "mSubparts": [
+                {
+                  "mLevel1Value": 0.6000000238418579,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 7,
+                      "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 13,
+                      "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                },
+                {
+                  "mPart1": {
+                    "mStat": 8,
+                    "mDataValue": "CriticalStrikeScaling",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  },
+                  "mPart2": {
+                    "mSubparts": [
+                      {
+                        "mStat": 9,
+                        "mCoefficient": 1,
+                        "__type": "StatByCoefficientCalculationPart"
+                      },
+                      {
+                        "mNumber": -1,
+                        "__type": "NumberCalculationPart"
+                      }
+                    ],
+                    "__type": "SumOfSubPartsCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            },
+            "__type": "StatBySubPartCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 2,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 2
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/HeadShotBonusDamage/mFormulaParts/0/mSubpart/mSubparts/0",
+          "original": {
+            "mLevel1Value": 0.6000000238418579,
+            "mBreakpoints": [
+              {
+                "mLevel": 7,
+                "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                "__type": "Breakpoint"
+              },
+              {
+                "mLevel": 13,
+                "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                "__type": "Breakpoint"
+              }
+            ],
+            "__type": "ByCharLevelBreakpointsCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mInitialBonusPerLevel",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mLevel1Value",
+              "present": true,
+              "serializedValue": 0.6000000238418579,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.6000000238418579
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/HeadShotBonusDamage/mFormulaParts/0/mSubpart/mSubparts/0/mBreakpoints/0",
+          "original": {
+            "mLevel": 7,
+            "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+            "__type": "Breakpoint"
+          },
+          "fields": [
+            {
+              "field": "mBonusPerLevelAtAndAfter",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mLevel",
+              "present": true,
+              "serializedValue": 7,
+              "constructorDefault": 1,
+              "valueAfterDefaultOverlay": 7
+            },
+            {
+              "field": "mAdditionalBonusAtThisLevel",
+              "present": true,
+              "serializedValue": 0.20000000298023224,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.20000000298023224
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/HeadShotBonusDamage/mFormulaParts/0/mSubpart/mSubparts/0/mBreakpoints/1",
+          "original": {
+            "mLevel": 13,
+            "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+            "__type": "Breakpoint"
+          },
+          "fields": [
+            {
+              "field": "mBonusPerLevelAtAndAfter",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mLevel",
+              "present": true,
+              "serializedValue": 13,
+              "constructorDefault": 1,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "mAdditionalBonusAtThisLevel",
+              "present": true,
+              "serializedValue": 0.20000000298023224,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.20000000298023224
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/HeadShotBonusDamage/mFormulaParts/0/mSubpart/mSubparts/1/mPart1",
+          "original": {
+            "mStat": 8,
+            "mDataValue": "CriticalStrikeScaling",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 8,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 8
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/HeadShotBonusDamage/mFormulaParts/0/mSubpart/mSubparts/1/mPart2/mSubparts/0",
+          "original": {
+            "mStat": 9,
+            "mCoefficient": 1,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 9,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 9
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/HeadShotMinionBonusDamage/mFormulaParts/0",
+          "original": {
+            "mStat": 2,
+            "mSubpart": {
+              "mSubparts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mPart1": {
+                    "mNumber": -1,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "mPart2": {
+                    "mLevel1Value": 0.5,
+                    "mBreakpoints": [
+                      {
+                        "mLevel": 7,
+                        "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 13,
+                        "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                        "__type": "Breakpoint"
+                      }
+                    ],
+                    "__type": "ByCharLevelBreakpointsCalculationPart"
+                  },
+                  "__type": "ProductOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            },
+            "__type": "StatBySubPartCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 2,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 2
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/HeadShotMinionBonusDamage/mFormulaParts/0/mSubpart/mSubparts/1/mPart2",
+          "original": {
+            "mLevel1Value": 0.5,
+            "mBreakpoints": [
+              {
+                "mLevel": 7,
+                "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                "__type": "Breakpoint"
+              },
+              {
+                "mLevel": 13,
+                "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                "__type": "Breakpoint"
+              }
+            ],
+            "__type": "ByCharLevelBreakpointsCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mInitialBonusPerLevel",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mLevel1Value",
+              "present": true,
+              "serializedValue": 0.5,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.5
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/HeadShotMinionBonusDamage/mFormulaParts/0/mSubpart/mSubparts/1/mPart2/mBreakpoints/0",
+          "original": {
+            "mLevel": 7,
+            "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+            "__type": "Breakpoint"
+          },
+          "fields": [
+            {
+              "field": "mBonusPerLevelAtAndAfter",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mLevel",
+              "present": true,
+              "serializedValue": 7,
+              "constructorDefault": 1,
+              "valueAfterDefaultOverlay": 7
+            },
+            {
+              "field": "mAdditionalBonusAtThisLevel",
+              "present": true,
+              "serializedValue": 0.20000000298023224,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.20000000298023224
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/HeadShotMinionBonusDamage/mFormulaParts/0/mSubpart/mSubparts/1/mPart2/mBreakpoints/1",
+          "original": {
+            "mLevel": 13,
+            "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+            "__type": "Breakpoint"
+          },
+          "fields": [
+            {
+              "field": "mBonusPerLevelAtAndAfter",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mLevel",
+              "present": true,
+              "serializedValue": 13,
+              "constructorDefault": 1,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "mAdditionalBonusAtThisLevel",
+              "present": true,
+              "serializedValue": 0.20000000298023224,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.20000000298023224
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/{36ebd3cf}/mFormulaParts/0",
+          "original": {
+            "mStat": 9,
+            "mCoefficient": 1,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 9,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 9
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        }
+      ],
+      "originalObject": {
+        "ObjectName": "CaitlynPassive",
+        "objectPath": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassive",
+        "mScriptName": "CaitlynPassive",
+        "mSpell": {
+          "DataValues": [
+            {
+              "name": "CriticalStrikeScaling",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TowerCap",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AttacksPerHeadshot",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BrushStackBonus",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "mSpellCalculations": {
+            "HeadShotBonusDamage": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mSubpart": {
+                    "mSubparts": [
+                      {
+                        "mLevel1Value": 0.6000000238418579,
+                        "mBreakpoints": [
+                          {
+                            "mLevel": 7,
+                            "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                            "__type": "Breakpoint"
+                          },
+                          {
+                            "mLevel": 13,
+                            "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                            "__type": "Breakpoint"
+                          }
+                        ],
+                        "__type": "ByCharLevelBreakpointsCalculationPart"
+                      },
+                      {
+                        "mPart1": {
+                          "mStat": 8,
+                          "mDataValue": "CriticalStrikeScaling",
+                          "__type": "StatByNamedDataValueCalculationPart"
+                        },
+                        "mPart2": {
+                          "mSubparts": [
+                            {
+                              "mStat": 9,
+                              "mCoefficient": 1,
+                              "__type": "StatByCoefficientCalculationPart"
+                            },
+                            {
+                              "mNumber": -1,
+                              "__type": "NumberCalculationPart"
+                            }
+                          ],
+                          "__type": "SumOfSubPartsCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      }
+                    ],
+                    "__type": "SumOfSubPartsCalculationPart"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "HeadShotMinionBonusDamage": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mSubpart": {
+                    "mSubparts": [
+                      {
+                        "mNumber": 1,
+                        "__type": "NumberCalculationPart"
+                      },
+                      {
+                        "mPart1": {
+                          "mNumber": -1,
+                          "__type": "NumberCalculationPart"
+                        },
+                        "mPart2": {
+                          "mLevel1Value": 0.5,
+                          "mBreakpoints": [
+                            {
+                              "mLevel": 7,
+                              "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                              "__type": "Breakpoint"
+                            },
+                            {
+                              "mLevel": 13,
+                              "mAdditionalBonusAtThisLevel": 0.20000000298023224,
+                              "__type": "Breakpoint"
+                            }
+                          ],
+                          "__type": "ByCharLevelBreakpointsCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      }
+                    ],
+                    "__type": "SumOfSubPartsCalculationPart"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "BrushAttackTotal": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mSubparts": [
+                    {
+                      "mNumber": 1,
+                      "__type": "NumberCalculationPart"
+                    },
+                    {
+                      "mDataValue": "BrushStackBonus",
+                      "__type": "NamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{36ebd3cf}": {
+              "mFormulaParts": [
+                {
+                  "mStat": 9,
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{42962485}": {
+              "{72c5c2a8}": 0,
+              "mFormulaParts": [
+                {
+                  "mSubparts": [
+                    {
+                      "mSpellCalculationKey": "HeadShotMinionBonusDamage",
+                      "__type": "{f3cbe7b2}"
+                    },
+                    {
+                      "mSpellCalculationKey": "HeadShotBonusDamage",
+                      "__type": "{f3cbe7b2}"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "{fe87f21e}": [
+            {
+              "{6166b756}": "{42962485}",
+              "{01987941}": [
+                {
+                  "mSuccessesRequired": 1,
+                  "mSubRequirements": [
+                    {
+                      "{d6b6109c}": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassiveDriver",
+                      "{7b66f15d}": false,
+                      "__type": "HasBuffCastRequirement"
+                    },
+                    {
+                      "{d6b6109c}": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassiveRangeMarker",
+                      "__type": "HasBuffCastRequirement"
+                    }
+                  ],
+                  "__type": "HasAtleastNSubRequirementsCastRequirement"
+                }
+              ],
+              "__type": "{fe87f21e}"
+            }
+          ],
+          "mAnimationName": "",
+          "mImgIconName": [
+            "ASSETS/Characters/Caitlyn/HUD/Icons2D/CaitlynP.dds",
+            "ASSETS/Characters/Caitlyn/HUD/Icons2D/CaitlynPGrey.dds"
+          ],
+          "mTargetingTypeData": {
+            "__type": "Self"
+          },
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "CaitlynPassive",
+              "mFormat": "{476ec0b8}",
+              "mLocKeys": {
+                "keyName": "Spell_CaitlynP_Name",
+                "keyTooltip": "Spell_CaitlynP_Tooltip",
+                "keySummary": "Spell_CaitlynP_Summary",
+                "keyTooltipExtended": "Spell_CaitlynP_TooltipExtended"
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "__type": "SpellObject"
+      }
+    },
+    {
+      "key": "caitlyn_r",
+      "source": {
+        "path": "客户端原文/Caitlyn.json.gz",
+        "sha256": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+        "compressedSha256": "5a3658a4da6aeba98af280d640af142ff299f518904e1e502a4b57f40ded6079",
+        "byteSize": 50357,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/caitlyn/caitlyn.bin.json",
+        "fetchedAt": "2026-09-06T14:26:14.291Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+      "binding": "Characters/Caitlyn/Spells/CaitlynRAbility/CaitlynR",
+      "objectPath": "Characters/Caitlyn/Spells/CaitlynRAbility/CaitlynR",
+      "nodes": [
+        {
+          "path": "/mSpell/mSpellCalculations/RTotalDamage/mMultiplier/mSubparts/1/mPart1",
+          "original": {
+            "mStat": 8,
+            "mDataValue": "CriticalStrikeModifier",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 8,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 8
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/RTotalDamage/mMultiplier/mSubparts/1/mPart2/mSubparts/0",
+          "original": {
+            "mStat": 9,
+            "mCoefficient": 1,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 9,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 9
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/RTotalDamage/mFormulaParts/1",
+          "original": {
+            "mStat": 2,
+            "mStatFormula": 2,
+            "mDataValue": "RADRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 2,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 2
+            },
+            {
+              "field": "mStatFormula",
+              "present": true,
+              "serializedValue": 2,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 2
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        }
+      ],
+      "originalObject": {
+        "ObjectName": "CaitlynR",
+        "objectPath": "Characters/Caitlyn/Spells/CaitlynRAbility/CaitlynR",
+        "mScriptName": "CaitlynR",
+        "mSpell": {
+          "mAffectsTypeFlags": 4106,
+          "mRequiredUnitTags": {
+            "mObjectTagList": [
+              "{ea595ca6}"
+            ],
+            "__type": "ObjectTags"
+          },
+          "mAlternateName": "CaitlynR",
+          "mSpellTags": [
+            "Trait_Ultimate",
+            "Trait_ChannelSpell",
+            "Trait_DamageAbility"
+          ],
+          "DataValues": [
+            {
+              "name": "RBaseDamage",
+              "values": [
+                125,
+                300,
+                475,
+                650,
+                825,
+                1000,
+                1175
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RADRatio",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CriticalStrikeModifier",
+              "values": [
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896,
+                0.30000001192092896
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "mSpellCalculations": {
+            "RTotalDamage": {
+              "mMultiplier": {
+                "mSubparts": [
+                  {
+                    "mNumber": 1,
+                    "__type": "NumberCalculationPart"
+                  },
+                  {
+                    "mPart1": {
+                      "mStat": 8,
+                      "mDataValue": "CriticalStrikeModifier",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    },
+                    "mPart2": {
+                      "mSubparts": [
+                        {
+                          "mStat": 9,
+                          "mCoefficient": 1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        },
+                        {
+                          "mNumber": -1,
+                          "__type": "NumberCalculationPart"
+                        }
+                      ],
+                      "__type": "SumOfSubPartsCalculationPart"
+                    },
+                    "__type": "ProductOfSubPartsCalculationPart"
+                  }
+                ],
+                "__type": "SumOfSubPartsCalculationPart"
+              },
+              "mFormulaParts": [
+                {
+                  "mDataValue": "RBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "RADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mAnimationName": "Spell4",
+          "mImgIconName": [
+            "ASSETS/Characters/Caitlyn/HUD/Icons2D/CaitlynR.dds",
+            ""
+          ],
+          "spellCastTime": 0.375,
+          "spellTotalTime": 1,
+          "cooldownTime": [
+            90,
+            90,
+            90,
+            90,
+            90,
+            90,
+            90
+          ],
+          "Cooldown": {
+            "values": [
+              90,
+              90,
+              90,
+              90,
+              90,
+              90,
+              90
+            ],
+            "{0a3e0478}": 90,
+            "__type": "{0a0eddc9}"
+          },
+          "mCantCancelWhileChanneling": true,
+          "mUseMinimapTargeting": true,
+          "alwaysSnapFacing": true,
+          "castRange": [
+            3500,
+            3500,
+            3500,
+            3500,
+            3500,
+            3500,
+            3500
+          ],
+          "castRangeValues": {
+            "values": [
+              3500,
+              3500,
+              3500,
+              3500,
+              3500,
+              3500,
+              3500
+            ],
+            "{0a3e0478}": 3500,
+            "__type": "{0a0eddc9}"
+          },
+          "castRadius": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "castConeDistance": 100,
+          "castFrame": 14.039999961853027,
+          "missileSpeed": 1500,
+          "mFloatVarsDecimals": [
+            0,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              0,
+              0,
+              0
+            ],
+            "__type": "{630af303}"
+          },
+          "mDimensionBehavior": 1,
+          "mCastingBreaksStealth": true,
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "CaitlynR",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "game_spell_displayname_CaitlynAceintheHole",
+                "keySummary": "Spell_CaitlynAceintheHole_Summary",
+                "keyTooltip": "Spell_CaitlynAceintheHole_Tooltip"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 3,
+                  "Elements": [
+                    {
+                      "type": "RBaseDamage",
+                      "typeIndex": 1,
+                      "nameOverride": "Spell_ListType_Damage",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "mBuff": {
+          "mDescription": "game_buff_tooltip_CaitlynAceintheHole",
+          "__type": "BuffData"
+        },
+        "BotData": {
+          "DamageTag": 0,
+          "{6d548702}": {
+            "mFormulaParts": [
+              {
+                "mSpellCalculationKey": "RTotalDamage",
+                "__type": "{f3cbe7b2}"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "{38382c53}": [
+            {
+              "{e38f54f7}": 8,
+              "{0717e686}": false,
+              "__type": "{150d1b92}"
+            },
+            {
+              "{e38f54f7}": 4096,
+              "{0717e686}": false,
+              "__type": "{150d1b92}"
+            },
+            {
+              "{e38f54f7}": 2,
+              "__type": "{150d1b92}"
+            }
+          ],
+          "__type": "BotsSpellData"
+        },
+        "__type": "SpellObject"
+      }
+    },
+    {
+      "key": "jhin_w",
+      "source": {
+        "path": "客户端原文/Jhin.json.gz",
+        "sha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+        "compressedSha256": "21146e54ed3337fd2e235fd6bda961823a4834f6e068e832dc433d59b47139f7",
+        "byteSize": 59957,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/jhin/jhin.bin.json",
+        "fetchedAt": "2026-09-06T14:26:21.201Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "rootPath": "Characters/Jhin/CharacterRecords/Root",
+      "binding": "Characters/Jhin/Spells/JhinWAbility/JhinW",
+      "objectPath": "Characters/Jhin/Spells/JhinWAbility/JhinW",
+      "nodes": [
+        {
+          "path": "/mSpell/mSpellCalculations/TotalDamage/mFormulaParts/1",
+          "original": {
+            "mStat": 2,
+            "mCoefficient": 0.5,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 2,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 2
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        }
+      ],
+      "originalObject": {
+        "ObjectName": "JhinW",
+        "objectPath": "Characters/Jhin/Spells/JhinWAbility/JhinW",
+        "mScriptName": "JhinW",
+        "mSpell": {
+          "mAffectsTypeFlags": 13327,
+          "mRequiredUnitTags": {
+            "mObjectTagList": [
+              "{ea595ca6}"
+            ],
+            "__type": "ObjectTags"
+          },
+          "mSpellTags": [
+            "Trait_ImmobilizingCCSpell",
+            "Trait_DamageAbility",
+            "Trait_Ranged_StopsFirstHit",
+            "Trait_Low_Damage"
+          ],
+          "DataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                35,
+                70,
+                105,
+                140,
+                175,
+                210,
+                245
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RootDuration",
+              "values": [
+                1,
+                1.25,
+                1.5,
+                1.75,
+                2,
+                2.25,
+                2.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinionMod",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SpottingDuration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "DataValuesModeOverride": {
+            "cherry": {
+              "SpellDataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    25,
+                    70,
+                    115,
+                    160,
+                    205,
+                    250,
+                    295
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RootDuration",
+                  "values": [
+                    1.375,
+                    1.75,
+                    2.125,
+                    2.5,
+                    2.875,
+                    3.25,
+                    3.625
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "__type": "SpellDataValueVector"
+            }
+          },
+          "mSpellCalculations": {
+            "TotalDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.5,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "mCoefficient": 0.5,
+          "mAnimationName": "Spell2",
+          "mImgIconName": [
+            "ASSETS/Characters/Jhin/HUD/Icons2D/Jhin_W.dds",
+            ""
+          ],
+          "mCastTime": 0.75,
+          "spellCastTime": 0.25,
+          "spellTotalTime": 1,
+          "cooldownTime": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "Cooldown": {
+            "values": [
+              12,
+              12,
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "{0a3e0478}": 12,
+            "__type": "{0a0eddc9}"
+          },
+          "mCantCancelWhileWindingUp": true,
+          "mCantCancelWhileChanneling": true,
+          "mSpellRevealsChampion": false,
+          "alwaysSnapFacing": true,
+          "castRange": [
+            10000,
+            10000,
+            10000,
+            10000,
+            10000,
+            10000,
+            10000
+          ],
+          "castRangeValues": {
+            "values": [
+              10000,
+              10000,
+              10000,
+              10000,
+              10000,
+              10000,
+              10000
+            ],
+            "{0a3e0478}": 10000,
+            "__type": "{0a0eddc9}"
+          },
+          "castRangeDisplayOverride": [
+            3000,
+            3000,
+            3000,
+            3000,
+            3000,
+            3000,
+            3000
+          ],
+          "castRadius": [
+            210,
+            210,
+            210,
+            210,
+            210,
+            210,
+            210
+          ],
+          "castConeDistance": 100,
+          "castFrame": 20,
+          "missileSpeed": 10000,
+          "mLineWidth": 40,
+          "mFloatVarsDecimals": [
+            0,
+            0,
+            0,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "mana": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              75
+            ],
+            "{0a3e0478}": 50,
+            "__type": "{630af303}"
+          },
+          "selectionPriority": 2,
+          "mTargetingTypeData": {
+            "__type": "Direction"
+          },
+          "mCastingBreaksStealth": true,
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "JhinW",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_JhinW_Name",
+                "keySummary": "Spell_JhinW_Summary",
+                "keyTooltip": "Spell_JhinW_Tooltip",
+                "keyTooltipExtendedBelowLine": "Spell_JhinW_TooltipExtendedBelowLine"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 5,
+                  "Elements": [
+                    {
+                      "type": "BaseDamage",
+                      "typeIndex": 1,
+                      "nameOverride": "Spell_ListType_Damage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "RootDuration",
+                      "typeIndex": 2,
+                      "nameOverride": "Spell_ListType_RootDuration",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cost",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "endLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "alwaysDraw": true,
+                "lineWidth": {
+                  "mPerLevelValues": [
+                    60,
+                    60,
+                    60,
+                    60,
+                    60,
+                    60
+                  ],
+                  "mValueType": 2,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    2500,
+                    2500,
+                    2500,
+                    2500,
+                    2500,
+                    2500
+                  ],
+                  "mValueType": 2,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "textureBaseOverrideName": "assets/spells/textures/skillshot_rectangle_base_r01_v01.tex",
+                "textureTargetOverrideName": "assets/spells/textures/skillshot_rectangle_tip_r01_v01.tex",
+                "__type": "TargeterDefinitionLine"
+              },
+              {
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    2500,
+                    2500,
+                    2500,
+                    2500,
+                    2500,
+                    2500
+                  ],
+                  "mValueType": 2,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionMinimap"
+              },
+              {
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    2500,
+                    2500,
+                    2500,
+                    2500,
+                    2500,
+                    2500
+                  ],
+                  "mValueType": 2,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "textureMaxGrowName": "assets/spells/textures/circularrangeindicator_dark.tex",
+                "__type": "TargeterDefinitionRange"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "mBuff": {
+          "mDescription": "game_buff_tooltip_JhinW",
+          "__type": "BuffData"
+        },
+        "BotData": {
+          "DamageTag": 0,
+          "{6d548702}": {
+            "mFormulaParts": [
+              {
+                "mSpellCalculationKey": "TotalDamage",
+                "__type": "{f3cbe7b2}"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "{ec17e271}": [
+            {
+              "EffectTag": 4096,
+              "EffectCalculation": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "RootDuration",
+                    "__type": "NamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "__type": "{b09016f6}"
+            }
+          ],
+          "{38382c53}": [
+            {
+              "{e38f54f7}": 1,
+              "{0717e686}": false,
+              "__type": "{150d1b92}"
+            },
+            {
+              "{e38f54f7}": 4,
+              "{0717e686}": false,
+              "__type": "{150d1b92}"
+            },
+            {
+              "{e38f54f7}": 1024,
+              "{0717e686}": false,
+              "__type": "{150d1b92}"
+            },
+            {
+              "{e38f54f7}": 8192,
+              "{0717e686}": false,
+              "__type": "{150d1b92}"
+            },
+            {
+              "{e38f54f7}": 2048,
+              "__type": "{150d1b92}"
+            }
+          ],
+          "__type": "BotsSpellData"
+        },
+        "__type": "SpellObject"
+      }
+    },
+    {
+      "key": "jhin_r",
+      "source": {
+        "path": "客户端原文/Jhin.json.gz",
+        "sha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+        "compressedSha256": "21146e54ed3337fd2e235fd6bda961823a4834f6e068e832dc433d59b47139f7",
+        "byteSize": 59957,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/jhin/jhin.bin.json",
+        "fetchedAt": "2026-09-06T14:26:21.201Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "rootPath": "Characters/Jhin/CharacterRecords/Root",
+      "binding": "Characters/Jhin/Spells/JhinRAbility/JhinR",
+      "objectPath": "Characters/Jhin/Spells/JhinRAbility/JhinR",
+      "nodes": [
+        {
+          "path": "/mSpell/mSpellCalculations/DamageCalc/mFormulaParts/1",
+          "original": {
+            "mStat": 2,
+            "mDataValue": "ADRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 2,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 2
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        }
+      ],
+      "originalObject": {
+        "ObjectName": "JhinR",
+        "objectPath": "Characters/Jhin/Spells/JhinRAbility/JhinR",
+        "mScriptName": "JhinR",
+        "mSpell": {
+          "mAffectsTypeFlags": 22538,
+          "mSpellTags": [
+            "Trait_Ultimate",
+            "Trait_ChannelSpell",
+            "Trait_DamageAbility",
+            "Trait_AoE"
+          ],
+          "DataValues": [
+            {
+              "name": "Damage",
+              "values": [
+                0,
+                64,
+                128,
+                192,
+                256,
+                320,
+                384
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "FourthShotMultiplier",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowPercent",
+              "values": [
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "PercentMissingAmp",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MInimumDelayBetweenShots",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ADRatio",
+              "values": [
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "DataValuesModeOverride": {
+            "cherry": {
+              "SpellDataValues": [
+                {
+                  "name": "Damage",
+                  "values": [
+                    -6,
+                    144,
+                    294,
+                    444,
+                    594,
+                    744,
+                    894
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ADRatio",
+                  "values": [
+                    0.4399999976158142,
+                    0.4399999976158142,
+                    0.4399999976158142,
+                    0.4399999976158142,
+                    0.4399999976158142,
+                    0.4399999976158142,
+                    0.4399999976158142
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "__type": "SpellDataValueVector"
+            }
+          },
+          "{f9c2333e}": {
+            "cherry": {
+              "value": [
+                45,
+                45,
+                30,
+                15,
+                15,
+                15,
+                15
+              ],
+              "__type": "SpellEffectAmount"
+            }
+          },
+          "mSpellCalculations": {
+            "DamageCalc": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "Damage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mDataValue": "ADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxIncreaseCalc": {
+              "mMultiplier": {
+                "mSubparts": [
+                  {
+                    "mNumber": 1,
+                    "__type": "NumberCalculationPart"
+                  },
+                  {
+                    "mDataValue": "PercentMissingAmp",
+                    "__type": "NamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "SumOfSubPartsCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mModifiedGameCalculation": "DamageCalc",
+              "__type": "GameCalculationModified"
+            }
+          },
+          "mAnimationName": "Spell4",
+          "mAnimationLoopName": "Spell4_idle",
+          "mImgIconName": [
+            "ASSETS/Characters/Jhin/HUD/Icons2D/Jhin_R.dds",
+            "ASSETS/Characters/Jhin/HUD/Icons2D/Jhin_R_Shot.dds",
+            "ASSETS/Characters/Jhin/HUD/Icons2D/Jhin_R_Shot4.dds"
+          ],
+          "mCastTime": 1,
+          "spellCastTime": 0.25,
+          "spellTotalTime": 1,
+          "cooldownTime": [
+            120,
+            120,
+            105,
+            90,
+            0,
+            0,
+            0
+          ],
+          "Cooldown": {
+            "values": [
+              120,
+              120,
+              105,
+              90,
+              0,
+              0,
+              0
+            ],
+            "__type": "{0a0eddc9}"
+          },
+          "mCantCancelWhileWindingUp": true,
+          "mSpellRevealsChampion": false,
+          "useAnimatorFramerate": true,
+          "castRange": [
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000
+          ],
+          "castRangeValues": {
+            "values": [
+              25000,
+              25000,
+              25000,
+              25000,
+              25000,
+              25000,
+              25000
+            ],
+            "{0a3e0478}": 25000,
+            "__type": "{0a0eddc9}"
+          },
+          "castRangeDisplayOverride": [
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000
+          ],
+          "castRadius": [
+            550,
+            550,
+            550,
+            550,
+            550,
+            550,
+            550
+          ],
+          "castConeDistance": 100,
+          "castFrame": 5.170000076293945,
+          "missileSpeed": 828.5,
+          "mFloatVarsDecimals": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "mTargetingTypeData": {
+            "__type": "Cone"
+          },
+          "mCastingBreaksStealth": true,
+          "mClientData": {
+            "mTooltipData": {
+              "mObjectName": "JhinR",
+              "mFormat": "{d7c27163}",
+              "mLocKeys": {
+                "keyName": "Spell_JhinR_Name",
+                "keySummary": "Spell_JhinR_Summary",
+                "keyTooltip": "Spell_JhinR_Tooltip"
+              },
+              "mLists": {
+                "LevelUp": {
+                  "levelCount": 3,
+                  "Elements": [
+                    {
+                      "type": "Damage",
+                      "typeIndex": 1,
+                      "nameOverride": "Spell_ListType_Damage",
+                      "__type": "TooltipInstanceListElement"
+                    },
+                    {
+                      "type": "Cooldown",
+                      "__type": "TooltipInstanceListElement"
+                    }
+                  ],
+                  "__type": "TooltipInstanceList"
+                }
+              },
+              "__type": "TooltipInstanceSpell"
+            },
+            "mTargeterDefinitions": [
+              {
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    3500,
+                    3500,
+                    3500,
+                    3500,
+                    3500,
+                    3500
+                  ],
+                  "mValueType": 1,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionRange"
+              },
+              {
+                "overrideBaseRange": {
+                  "mPerLevelValues": [
+                    3500,
+                    3500,
+                    3500,
+                    3500,
+                    3500,
+                    3500
+                  ],
+                  "mValueType": 2,
+                  "__type": "FloatPerSpellLevel"
+                },
+                "__type": "TargeterDefinitionMinimap"
+              },
+              {
+                "endLocator": {
+                  "basePosition": 3,
+                  "__type": "DrawablePositionLocator"
+                },
+                "coneAngleDegrees": 28,
+                "coneRange": 3500,
+                "textureConeOverrideName": "assets/characters/jhin/hud/textures/jhin_r_cone_indicator.tex",
+                "__type": "TargeterDefinitionCone"
+              }
+            ],
+            "__type": "SpellDataResourceClient"
+          },
+          "__type": "SpellDataResource"
+        },
+        "BotData": {
+          "DamageTag": 0,
+          "{6d548702}": {
+            "mFormulaParts": [
+              {
+                "mSpellCalculationKey": "DamageCalc",
+                "__type": "{f3cbe7b2}"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "{ec17e271}": [
+            {
+              "EffectTag": 1,
+              "EffectCalculation": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "SlowPercent",
+                    "__type": "NamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "__type": "{b09016f6}"
+            }
+          ],
+          "{38382c53}": [
+            {
+              "{e38f54f7}": 8,
+              "{0717e686}": false,
+              "__type": "{150d1b92}"
+            },
+            {
+              "{e38f54f7}": 2048,
+              "{0717e686}": false,
+              "__type": "{150d1b92}"
+            },
+            {
+              "{e38f54f7}": 4096,
+              "{0717e686}": false,
+              "__type": "{150d1b92}"
+            },
+            {
+              "{0717e686}": false,
+              "__type": "{150d1b92}"
+            },
+            {
+              "{e38f54f7}": 8,
+              "__type": "{150d1b92}"
+            },
+            {
+              "{e38f54f7}": 4096,
+              "__type": "{150d1b92}"
+            },
+            {
+              "{e38f54f7}": 2048,
+              "__type": "{150d1b92}"
+            }
+          ],
+          "__type": "BotsSpellData"
+        },
+        "__type": "SpellObject"
+      }
+    },
+    {
+      "key": "item_2503",
+      "rootPath": "Items/2503",
+      "source": {
+        "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+        "解压文件名": "items-16.17.cdtb.bin.json",
+        "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+        "目录或公告版本": "16.17",
+        "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+        "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+        "原始字节数": 15923188,
+        "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+        "压缩字节数": 1577238,
+        "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+        "verified": true
+      },
+      "nodes": [
+        {
+          "path": "/BurnDamagePerSecondCalc/mFormulaParts/1",
+          "original": {
+            "mDataValue": "APRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/MinionBurnCalc/mFormulaParts/1",
+          "original": {
+            "mDataValue": "MinionAP",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/MonsterBurnCalc/mFormulaParts/1",
+          "original": {
+            "mDataValue": "{434396e0}",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        }
+      ],
+      "originalObject": {
+        "spellName": "BloodthirsterDummySpell",
+        "mDisplayName": "Item_2503_Name",
+        "itemID": 2503,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{693b07b5}"
+        ],
+        "price": 700,
+        "ShowCooldownVfxToAllies": false,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3802",
+          "Items/2508"
+        ],
+        "mDataValues": [
+          {
+            "mName": "BurnFlatDamagePerSecond",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "APRatio",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BurnDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MonsterDamageBonus",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "TickFrequency",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "APPerStack",
+            "mValue": 0.03999999910593033,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MinionDPS",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MinionAP",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MonsterDPS",
+            "mValue": 40,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MonsterAP",
+            "mValue": 0.019999999552965164,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "BurnDamagePerSecondCalc": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BurnFlatDamagePerSecond",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "MinionBurnCalc": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "{9adc0c64}",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "MinionAP",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "MonsterBurnCalc": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "{afd69c5a}",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "{434396e0}",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mAbilityHasteMod": 20,
+        "mFlatMagicDamageMod": 80,
+        "flatMPPoolMod": 600,
+        "mCategories": [
+          "SpellDamage",
+          "Mana",
+          "CooldownReduction",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "2503",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_2503_Name",
+              "keyTooltip": "Item_2503_Tooltip",
+              "keyInventoryOnlyText": "Item_2503_InventoryOnlyText",
+              "keyFlavorText": "Item_2503_FlavorText",
+              "keyBrief": "Item_2503_Brief",
+              "keyTooltipExtendedRules": "Item_2503_TooltipExtendedRules",
+              "keyTooltipExternal": "Item_2503_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Mana",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_2503_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_2503_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_2503_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/2503_blackfiretorch64.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2503_BlackfireTorch44.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/2503_BlackfireTorch88.png",
+          "epicness": 6,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{a38c2941}": "Items/2503/Particles/2503_Dot_Tar"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "boundText": {
+        "keyName": {
+          "sourceKey": "Item_2503_Name",
+          "key": "item_2503_name",
+          "text": "黯炎火炬"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_2503_Tooltip",
+          "key": "item_2503_tooltip",
+          "text": "<passive>邪焰</passive><br>伤害型技能造成每秒<magicDamage>@BurnDamagePerSecondCalc@额外魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>黯炎</passive><br>被你的<passive>邪焰</passive>影响的每个敌方英雄、史诗级野怪和大型野怪都会为你提供<scaleAP>@APPerStack*100@%法术强度</scaleAP>。 "
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_2503_InventoryOnlyText",
+          "key": "item_2503_inventoryonlytext",
+          "text": "已对英雄造成的伤害：<attention>@f2@</attention>"
+        },
+        "keyFlavorText": {
+          "sourceKey": "Item_2503_FlavorText",
+          "key": "item_2503_flavortext",
+          "text": "'黑雾需要一团程度与之相配的火焰。'"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_2503_Brief",
+          "key": "item_2503_brief",
+          "text": "持续伤害"
+        },
+        "keyTooltipExtendedRules": {
+          "sourceKey": "Item_2503_TooltipExtendedRules",
+          "key": "item_2503_tooltipextendedrules",
+          "text": "<rules><passive>邪焰</passive>对小兵造成每秒<magicDamage>@MinionBurnCalc@</magicDamage>魔法伤害，并对野怪造成每秒<magicDamage>@MonsterBurnCalc@</magicDamage>魔法伤害。</rules>"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_2503_TooltipExternal",
+          "key": "item_2503_tooltipexternal",
+          "text": "<passive>邪焰</passive><br>伤害型技能造成<magicDamage>额外魔法伤害</magicDamage>，持续@BurnDuration@秒。<br><br><passive>黯炎</passive><br>被你的<passive>邪焰</passive>影响的每个敌方英雄、史诗级野怪和大型野怪都会为你提供<scaleAP>@APPerStack*100@%法术强度</scaleAP>。"
+        }
+      },
+      "interpretation": "APRatio 是同版本具名法强系数旁证；单凭名称和构造默认仍不等于已取得当前求值器的属性分派实现。"
+    },
+    {
+      "key": "item_3118",
+      "rootPath": "Items/3118",
+      "source": {
+        "文件": "客户端原始资料/items-16.17.cdtb.bin.json.gz",
+        "解压文件名": "items-16.17.cdtb.bin.json",
+        "地址": "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+        "目录或公告版本": "16.17",
+        "用途": "主证：客户端装备对象、命名数据、计算与说明绑定",
+        "下载文件修改时间UTC": "2026-09-06T15:00:14.328Z",
+        "原始字节数": 15923188,
+        "原始SHA256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f",
+        "压缩字节数": 1577238,
+        "压缩SHA256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+        "verified": true
+      },
+      "nodes": [
+        {
+          "path": "/{8e8f7a34}/mFormulaParts/1",
+          "original": {
+            "mDataValue": "APRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/GroundBurnDamagePerTickTooltipOnly/mFormulaParts/1",
+          "original": {
+            "mDataValue": "APRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        }
+      ],
+      "originalObject": {
+        "mDisplayName": "Item_3118_Name",
+        "itemID": 3118,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{143b41c4}"
+        ],
+        "mItemAdviceAttributes": [
+          "{8fd6c485}"
+        ],
+        "price": 650,
+        "mItemCalloutPlayer": true,
+        "mItemCalloutSpectator": true,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/3802",
+          "Items/1026"
+        ],
+        "mEffectAmount": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mDataValues": [
+          {
+            "mName": "AOESize",
+            "mValue": 250,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "UltimateHaste",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "GroundDuration",
+            "mValue": 3,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BaseDamage",
+            "mValue": 60,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "APRatio",
+            "mValue": 0.05000000074505806,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxRadius",
+            "mValue": 550,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "DataValuesModeOverride": {
+          "ARAM": {
+            "DataValues": [
+              {
+                "mName": "APRatio",
+                "mValue": 0.02800000086426735,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "BaseDamage",
+                "mValue": 40,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "{bffdf499}": {
+            "DataValues": [
+              {
+                "mName": "APRatio",
+                "mValue": 0.02800000086426735,
+                "__type": "ItemDataValue"
+              },
+              {
+                "mName": "BaseDamage",
+                "mValue": 40,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          }
+        },
+        "mItemCalculations": {
+          "{8e8f7a34}": {
+            "mMultiplier": {
+              "mNumber": 0.25,
+              "__type": "NumberCalculationPart"
+            },
+            "mSimpleTooltipCalculationDisplay": 5,
+            "mExpandedTooltipCalculationDisplay": 5,
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "MagicResistanceShred": {
+            "mFormulaParts": [
+              {
+                "mNumber": 10,
+                "__type": "NumberCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "GroundBurnDamagePerTickTooltipOnly": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "APRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mAbilityHasteMod": 15,
+        "mFlatMagicDamageMod": 90,
+        "flatMPPoolMod": 600,
+        "mCategories": [
+          "SpellDamage",
+          "Mana",
+          "AbilityHaste"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          16
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3118",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3118_Name",
+              "keyBrief": "Item_3118_Brief",
+              "keyTooltip": "Item_3118_Tooltip",
+              "keyColloquialism": "Item_3107_Colloquialism",
+              "keyInventoryOnlyText": "Item_3118_InventoryOnlyText",
+              "keyTooltipExtendedRules": "Item_3118_TooltipExtendedRules",
+              "keyTooltipExternal": "Item_3118_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "AbilityPower",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Mana",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AbilityHaste",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3118_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3118_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3118_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3118_malignance.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3118_Malignance44.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3118_Malignance88.png",
+          "epicness": 5,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{93044e22}": "Items/3118/Particles/3118_Ground_Burn",
+            "{21bdaee6}": "Items/3118/Particles/3118_Burn_tar",
+            "{8b74abcd}": "Items/3118/Particles/3118_Shred",
+            "{0ea037c5}": "Items/3118/Particles/3118_Ground_Burn_Enemy"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "boundText": {
+        "keyName": {
+          "sourceKey": "Item_3118_Name",
+          "key": "item_3118_name",
+          "text": "残疫"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3118_Brief",
+          "key": "item_3118_brief",
+          "text": "增强终极技能"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3118_Tooltip",
+          "key": "item_3118_tooltip",
+          "text": "<passive>蔑视</passive><br>获得@UltimateHaste@终极技能急速。<br><br><passive>憎恨之雾</passive><br>在用你的终极技能对一个英雄造成伤害时，灼烧其脚下的地面@GroundDuration@秒，每秒造成<magicDamage>@GroundBurnDamagePerTickTooltipOnly@魔法伤害</magicDamage>并削减其<scaleMR>@MagicResistanceShred@魔法抗性</scaleMR>。<br>"
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3107_Colloquialism",
+          "key": "item_3107_colloquialism",
+          "text": "灼烧;burn;zhuoshao"
+        },
+        "keyInventoryOnlyText": {
+          "sourceKey": "Item_3118_InventoryOnlyText",
+          "key": "item_3118_inventoryonlytext",
+          "text": "对英雄的伤害：<attention>@f4@</attention>"
+        },
+        "keyTooltipExtendedRules": {
+          "sourceKey": "Item_3118_TooltipExtendedRules",
+          "key": "item_3118_tooltipextendedrules",
+          "text": "<br><br><rules>半径会基于造成的伤害值来提升。<br>普攻不能触发<passive>憎恨之雾</passive>。</rules>"
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_3118_TooltipExternal",
+          "key": "item_3118_tooltipexternal",
+          "text": "<passive>蔑视</passive><br>获得@UltimateHaste@终极技能急速。<br><br><passive>憎恨之雾</passive><br>在用你的终极技能对一个英雄造成伤害时，灼烧其脚下的地面@GroundDuration@秒，每秒造成<magicDamage>魔法伤害</magicDamage>并削减其<scaleMR>魔法抗性</scaleMR>。<br>"
+        }
+      },
+      "interpretation": "APRatio 是同版本具名法强系数旁证；单凭名称和构造默认仍不等于已取得当前求值器的属性分派实现。"
+    }
+  ],
+  "anchors": [
+    {
+      "key": "caitlyn_q",
+      "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/caitlyn/caitlyn.bin.json",
+      "rawSha256": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+      "objectPath": "Characters/Caitlyn/Spells/CaitlynQAbility/CaitlynQ",
+      "labels": [
+        {
+          "path": "/mSpell/mClientData/mTooltipData/mLists/LevelUp/Elements/1",
+          "object": {
+            "type": "tADRatio",
+            "typeIndex": 5,
+            "multiplier": 100,
+            "nameOverride": "Spell_ListType_TotalADRatio",
+            "Style": 1,
+            "__type": "TooltipInstanceListElement"
+          }
+        }
+      ],
+      "calculations": {
+        "InitialDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mSubpart": {
+                "mDataValue": "tADRatio",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "__type": "StatBySubPartCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "SecondaryDamage": {
+          "mMultiplier": {
+            "mDataValue": "SecondaryMult",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "InitialDamage",
+          "__type": "GameCalculationModified"
+        }
+      }
+    },
+    {
+      "key": "jhin_p",
+      "purpose": "明确初始和分段斜率字段；当前只证明省略字段默认，不补完整曲线",
+      "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/jhin/jhin.bin.json",
+      "nodes": [
+        {
+          "path": "/mSpell/mSpellCalculations/FourthShotExecutePercent/mFormulaParts/0",
+          "original": {
+            "mLevel1Value": 0.15000000596046448,
+            "mBreakpoints": [
+              {
+                "mLevel": 6,
+                "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                "__type": "Breakpoint"
+              },
+              {
+                "mLevel": 11,
+                "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                "__type": "Breakpoint"
+              }
+            ],
+            "__type": "ByCharLevelBreakpointsCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mInitialBonusPerLevel",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mLevel1Value",
+              "present": true,
+              "serializedValue": 0.15000000596046448,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.15000000596046448
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/FourthShotExecutePercent/mFormulaParts/0/mBreakpoints/0",
+          "original": {
+            "mLevel": 6,
+            "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+            "__type": "Breakpoint"
+          },
+          "fields": [
+            {
+              "field": "mBonusPerLevelAtAndAfter",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mLevel",
+              "present": true,
+              "serializedValue": 6,
+              "constructorDefault": 1,
+              "valueAfterDefaultOverlay": 6
+            },
+            {
+              "field": "mAdditionalBonusAtThisLevel",
+              "present": true,
+              "serializedValue": 0.05000000074505806,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.05000000074505806
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/FourthShotExecutePercent/mFormulaParts/0/mBreakpoints/1",
+          "original": {
+            "mLevel": 11,
+            "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+            "__type": "Breakpoint"
+          },
+          "fields": [
+            {
+              "field": "mBonusPerLevelAtAndAfter",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mLevel",
+              "present": true,
+              "serializedValue": 11,
+              "constructorDefault": 1,
+              "valueAfterDefaultOverlay": 11
+            },
+            {
+              "field": "mAdditionalBonusAtThisLevel",
+              "present": true,
+              "serializedValue": 0.05000000074505806,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.05000000074505806
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/TotalADPercent/mFormulaParts/0",
+          "original": {
+            "mLevel1Value": 0.03999999910593033,
+            "mInitialBonusPerLevel": 0.009999999776482582,
+            "mBreakpoints": [
+              {
+                "mLevel": 10,
+                "mBonusPerLevelAtAndAfter": 0.019999999552965164,
+                "__type": "Breakpoint"
+              },
+              {
+                "mLevel": 12,
+                "mBonusPerLevelAtAndAfter": 0.03999999910593033,
+                "__type": "Breakpoint"
+              }
+            ],
+            "__type": "ByCharLevelBreakpointsCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mInitialBonusPerLevel",
+              "present": true,
+              "serializedValue": 0.009999999776482582,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.009999999776482582
+            },
+            {
+              "field": "mLevel1Value",
+              "present": true,
+              "serializedValue": 0.03999999910593033,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.03999999910593033
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/TotalADPercent/mFormulaParts/0/mBreakpoints/0",
+          "original": {
+            "mLevel": 10,
+            "mBonusPerLevelAtAndAfter": 0.019999999552965164,
+            "__type": "Breakpoint"
+          },
+          "fields": [
+            {
+              "field": "mBonusPerLevelAtAndAfter",
+              "present": true,
+              "serializedValue": 0.019999999552965164,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.019999999552965164
+            },
+            {
+              "field": "mLevel",
+              "present": true,
+              "serializedValue": 10,
+              "constructorDefault": 1,
+              "valueAfterDefaultOverlay": 10
+            },
+            {
+              "field": "mAdditionalBonusAtThisLevel",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/TotalADPercent/mFormulaParts/0/mBreakpoints/1",
+          "original": {
+            "mLevel": 12,
+            "mBonusPerLevelAtAndAfter": 0.03999999910593033,
+            "__type": "Breakpoint"
+          },
+          "fields": [
+            {
+              "field": "mBonusPerLevelAtAndAfter",
+              "present": true,
+              "serializedValue": 0.03999999910593033,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0.03999999910593033
+            },
+            {
+              "field": "mLevel",
+              "present": true,
+              "serializedValue": 12,
+              "constructorDefault": 1,
+              "valueAfterDefaultOverlay": 12
+            },
+            {
+              "field": "mAdditionalBonusAtThisLevel",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/TotalADPercent/mFormulaParts/1",
+          "original": {
+            "mStat": 8,
+            "mCoefficient": 0.3499999940395355,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 8,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 8
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/TotalADPercent/mFormulaParts/2",
+          "original": {
+            "mStat": 4,
+            "mStatFormula": 2,
+            "mCoefficient": 0.30000001192092896,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 4,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 4
+            },
+            {
+              "field": "mStatFormula",
+              "present": true,
+              "serializedValue": 2,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 2
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/mSpell/mSpellCalculations/CritMoveSpeedPercent/mFormulaParts/1",
+          "original": {
+            "mStat": 4,
+            "mStatFormula": 2,
+            "mDataValue": "CritMoveSpeedPercentASRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 4,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 4
+            },
+            {
+              "field": "mStatFormula",
+              "present": true,
+              "serializedValue": 2,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 2
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        }
+      ]
+    },
+    {
+      "key": "jhin_q",
+      "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/jhin/jhin.bin.json",
+      "rawSha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+      "objectPath": "Characters/Jhin/Spells/JhinQAbility/JhinQ",
+      "labels": [
+        {
+          "path": "/mSpell/mClientData/mTooltipData/mLists/LevelUp/Elements/1",
+          "object": {
+            "type": "ADRatio",
+            "typeIndex": 3,
+            "multiplier": 100,
+            "nameOverride": "Spell_ListType_TotalADRatio",
+            "Style": 1,
+            "__type": "TooltipInstanceListElement"
+          }
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.6000000238418579,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TooltipMaxTargetsHit": {
+          "mFormulaParts": [
+            {
+              "mSubparts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mNumber": 3,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "SumOfSubPartsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      }
+    },
+    {
+      "key": "draven_q",
+      "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/draven/draven.bin.json",
+      "rawSha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+      "objectPath": "Characters/Draven/Spells/DravenSpinningAbility/DravenSpinning",
+      "labels": [
+        {
+          "path": "/mSpell/mClientData/mTooltipData/mLists/LevelUp/Elements/1",
+          "object": {
+            "type": "ADScaling",
+            "typeIndex": 2,
+            "nameOverride": "Spell_ListType_BonusADPercentage",
+            "Style": 1,
+            "__type": "TooltipInstanceListElement"
+          }
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADScaling",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      }
+    },
+    {
+      "key": "draven_r",
+      "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/draven/draven.bin.json",
+      "rawSha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+      "objectPath": "Characters/Draven/Spells/DravenRCastAbility/DravenRCast",
+      "labels": [
+        {
+          "path": "/mSpell/mClientData/mTooltipData/mLists/LevelUp/Elements/2",
+          "object": {
+            "type": "RCoefficient",
+            "multiplier": 100,
+            "nameOverride": "Spell_ListType_BonusADRatio",
+            "Style": 1,
+            "__type": "TooltipInstanceListElement"
+          }
+        }
+      ],
+      "calculations": {
+        "RCalculatedDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "RBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "RCoefficient",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "RPassiveTrueDamage": {
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mBuffName": "{577427b5}",
+              "mDataValue": "RPassiveStacksCoefficient",
+              "__type": "BuffCounterByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      }
+    },
+    {
+      "rootPath": "Perks/Styles/Domination/Electrocute",
+      "calculationPath": "mScript/mSpellScriptData/mCalculations",
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 4,
+          "mFormulaParts": [
+            {
+              "mStartValue": 70,
+              "mEndValue": 240,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "BonusADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "nodes": [
+        {
+          "path": "/TotalDamage/mFormulaParts/1",
+          "original": {
+            "mDataValue": "APRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/TotalDamage/mFormulaParts/2",
+          "original": {
+            "mStat": 2,
+            "mStatFormula": 2,
+            "mDataValue": "BonusADRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 2,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 2
+            },
+            {
+              "field": "mStatFormula",
+              "present": true,
+              "serializedValue": 2,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 2
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        }
+      ],
+      "purpose": "APRatio 与 BonusADRatio/ADRatio 具名交叉；不扩展到其他枚举"
+    },
+    {
+      "rootPath": "Perks/Styles/Domination/TasteOfBlood",
+      "calculationPath": "mScript/mSpellScriptData/mCalculations",
+      "calculations": {
+        "HealCalc": {
+          "mSimpleTooltipCalculationDisplay": 4,
+          "mFormulaParts": [
+            {
+              "mStartValue": 16,
+              "mEndValue": 40,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "nodes": [
+        {
+          "path": "/HealCalc/mFormulaParts/1",
+          "original": {
+            "mDataValue": "APRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "mStatFormula",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        },
+        {
+          "path": "/HealCalc/mFormulaParts/2",
+          "original": {
+            "mStat": 2,
+            "mStatFormula": 2,
+            "mDataValue": "ADRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "fields": [
+            {
+              "field": "mStat",
+              "present": true,
+              "serializedValue": 2,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 2
+            },
+            {
+              "field": "mStatFormula",
+              "present": true,
+              "serializedValue": 2,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 2
+            },
+            {
+              "field": "statType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 13,
+              "valueAfterDefaultOverlay": 13
+            },
+            {
+              "field": "OutputType",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": 0,
+              "valueAfterDefaultOverlay": 0
+            },
+            {
+              "field": "UseNewStats",
+              "present": false,
+              "serializedValue": null,
+              "constructorDefault": false,
+              "valueAfterDefaultOverlay": false
+            }
+          ],
+          "limit": "叠加字段默认的静态读数；没有执行客户端计算函数，不证明触发资格、伤害归属或整个曲线算法。"
+        }
+      ],
+      "purpose": "APRatio 与 BonusADRatio/ADRatio 具名交叉；不扩展到其他枚举"
+    }
+  ],
+  "checksPassed": 6,
+  "sourceObjectEqualityPassed": 17
+}
