@@ -1,0 +1,1012 @@
+{
+  "generatedAt": "2026-09-09T09:50:35.174Z",
+  "stage": "独立候选审查后最终请求草稿，未写业务",
+  "gameId": "lol",
+  "apiBaseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "gameSourceBuild": "16.17.8104348",
+  "authHeaderPersisted": false,
+  "noApply": true,
+  "apiWrites": 0,
+  "candidateSha256": "b918d195d3cbc64710e077c03e208aec693b0414ac9ae611e59463456ae08d82",
+  "sourceSha256": "3861cdd2d66da43deb99aca9c085c894258f58a21bfdfc967b9feaa71203e649",
+  "beforeSha256": "b928abf4069b9a1b65f5eba0801bc3ecf72035b86f793eee523e440222aef463",
+  "candidatePath": "最终候选.json",
+  "sourcePath": "冻结来源.json",
+  "beforePath": "写前保护快照.json",
+  "scope": [
+    {
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive"
+    },
+    {
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive"
+    },
+    {
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive"
+    },
+    {
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive"
+    },
+    {
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive"
+    }
+  ],
+  "requestSummary": {
+    "skill": 5,
+    "parameters": 32,
+    "formulas": 5,
+    "relation": 5,
+    "image": 5,
+    "total": 52
+  },
+  "requests": [
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3168_passive",
+      "body": {
+        "skillKey": "item_3168_passive",
+        "name": "不朽之路·杀戮与现在到永远",
+        "description": "保留杀戮每层0.6%全能吸血与10层上限，最终层数公式为MIN(当前层数,10)×0.006；战前已累积层数在1V1仍有数值用途，不因击杀参与发生在对局外而排除。保留现在到永远的一半生命阈值、高于一半的4%额外伤害比例、低于一半的12%额外治疗/护盾/生命回复独立比例。精确等于一半生命的归属未证，不用>=擅自分配。已录4%全能吸血是主体直接属性，本技能不重复录入。资格、乘区、层数获取事件与效果均未接线。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "method": "POST",
+      "route": "/skills/item_3168_passive/parameters",
+      "readRoute": "/skills/item_3168_passive/parameters/omnivamp_per_stack",
+      "body": {
+        "parameterKey": "omnivamp_per_stack",
+        "name": "杀戮每层全能吸血",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.006,
+        "levelValues": null,
+        "description": "客户端OmnivampOnTakedown=0.006；中文绑定@OmnivampOnTakedown*100@%对应每层0.6%全能吸血。不是主体已录的4%全能吸血。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "method": "POST",
+      "route": "/skills/item_3168_passive/parameters",
+      "readRoute": "/skills/item_3168_passive/parameters/max_stacks",
+      "body": {
+        "parameterKey": "max_stacks",
+        "name": "杀戮层数上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "客户端MaxStacks=10；必须进入最终层数公式的MIN上界，不能只当说明文字。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "method": "POST",
+      "route": "/skills/item_3168_passive/parameters",
+      "readRoute": "/skills/item_3168_passive/parameters/actual_stacks",
+      "body": {
+        "parameterKey": "actual_stacks",
+        "name": "当前杀戮层数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "无默认值。战前或对局中已累积层数由运行时提供；层数是整数输入，不因击杀参与事件未接线而丢弃。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "method": "POST",
+      "route": "/skills/item_3168_passive/parameters",
+      "readRoute": "/skills/item_3168_passive/parameters/half_health_ratio",
+      "body": {
+        "parameterKey": "half_health_ratio",
+        "name": "一半生命值比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "中文与官方正文均为「一半生命值」。只保存明确阈值0.5；精确等于一半时走伤害支路还是治疗/护盾/回复支路未证，不用>=或<=擅自分配。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "method": "POST",
+      "route": "/skills/item_3168_passive/parameters",
+      "readRoute": "/skills/item_3168_passive/parameters/extra_damage_ratio",
+      "body": {
+        "parameterKey": "extra_damage_ratio",
+        "name": "高于一半额外伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.04,
+        "levelValues": null,
+        "description": "客户端DamageMod=0.04；仅在生命高于一半时作为额外伤害比例。不与治疗、护盾、回复比例混用，也不创建伤害增幅效果。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "method": "POST",
+      "route": "/skills/item_3168_passive/parameters",
+      "readRoute": "/skills/item_3168_passive/parameters/extra_heal_ratio",
+      "body": {
+        "parameterKey": "extra_heal_ratio",
+        "name": "低于一半额外治疗比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.12,
+        "levelValues": null,
+        "description": "客户端HealingMod=0.12对应正文额外治疗值。与护盾、生命回复分键保存，避免把同一来源系数当成同一种效果。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "method": "POST",
+      "route": "/skills/item_3168_passive/parameters",
+      "readRoute": "/skills/item_3168_passive/parameters/extra_shield_ratio",
+      "body": {
+        "parameterKey": "extra_shield_ratio",
+        "name": "低于一半额外护盾比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.12,
+        "levelValues": null,
+        "description": "客户端HealingMod=0.12对应正文额外护盾值。独立比例，资格与乘区待接。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "method": "POST",
+      "route": "/skills/item_3168_passive/parameters",
+      "readRoute": "/skills/item_3168_passive/parameters/extra_health_regen_ratio",
+      "body": {
+        "parameterKey": "extra_health_regen_ratio",
+        "name": "低于一半额外生命回复比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.12,
+        "levelValues": null,
+        "description": "客户端HealingMod=0.12对应正文额外回复。独立比例，不与治疗量或护盾量合并。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "method": "POST",
+      "route": "/skills/item_3168_passive/formulas",
+      "readRoute": "/skills/item_3168_passive/formulas/stacked_omnivamp",
+      "body": {
+        "formulaKey": "stacked_omnivamp",
+        "name": "杀戮层数全能吸血",
+        "description": "MIN(当前杀戮层数,10)×0.006；上限必须进入公式。只保存合法层数公式，不创建全能吸血效果，也不把主体已录4%算进本公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MIN",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_stacks"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_stacks"
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "omnivamp_per_stack"
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3168",
+      "body": {
+        "equipmentKey": "item_3168",
+        "skillKey": "item_3168_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "method": "PUT",
+      "route": "/skills/item_3168_passive/representative-image",
+      "readRoute": "/skills/item_3168_passive/representative-image",
+      "body": {
+        "imageKey": "item_3168"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3170_passive",
+      "body": {
+        "skillKey": "item_3170_passive",
+        "name": "迅速进军·诺克萨斯的狂热",
+        "description": "保留诺克萨斯的狂热：适应之力等于当前来源移动速度输入×0.05。客户端MSToAdaptiveCalc为mStat=7×MSAdaptiveRatio，同构建没有7属性枚举旁证，不以属性键或SOURCE映射猜测。已录25%减速抗性不写入本技能。MoveSpeedMultiplier=0.04未被当前正文消费，不录、不创造永久移速。不猜测适应之力最终AD/AP换算或取整。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive",
+      "method": "POST",
+      "route": "/skills/item_3170_passive/parameters",
+      "readRoute": "/skills/item_3170_passive/parameters/ms_adaptive_ratio",
+      "body": {
+        "parameterKey": "ms_adaptive_ratio",
+        "name": "适应之力移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.05,
+        "levelValues": null,
+        "description": "客户端MSAdaptiveRatio=0.05；中文绑定为移动速度的5%适应之力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive",
+      "method": "POST",
+      "route": "/skills/item_3170_passive/parameters",
+      "readRoute": "/skills/item_3170_passive/parameters/actual_source_move_speed",
+      "body": {
+        "parameterKey": "actual_source_move_speed",
+        "name": "当前来源移动速度输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "无默认值。MSToAdaptiveCalc读取mStat=7，本隔离包没有同构建7属性枚举旁证，因此用实际来源移动速度运行时输入，不映射ATTRIBUTE。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive",
+      "method": "POST",
+      "route": "/skills/item_3170_passive/formulas",
+      "readRoute": "/skills/item_3170_passive/formulas/adaptive_force_from_move_speed",
+      "body": {
+        "formulaKey": "adaptive_force_from_move_speed",
+        "name": "狂热适应之力",
+        "description": "0.05×当前来源移动速度输入；只保存乘算，不换算AD/AP，不取整，不创建永久移速或适应之力效果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ms_adaptive_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_source_move_speed"
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3170",
+      "body": {
+        "equipmentKey": "item_3170",
+        "skillKey": "item_3170_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive",
+      "method": "PUT",
+      "route": "/skills/item_3170_passive/representative-image",
+      "readRoute": "/skills/item_3170_passive/representative-image",
+      "body": {
+        "imageKey": "item_3170"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3171_passive",
+      "body": {
+        "skillKey": "item_3171_passive",
+        "name": "猩红明朗·洞悉与急速",
+        "description": "保留艾欧尼亚的洞悉20召唤师技能急速，与主体已录20普通技能急速分开。保留诺克萨斯的急速：持续4秒；近战额外移动速度比例10%用参数保存；远程倍率0.8由公式相乘得到8%。MSAmount的mDisplayAsPercent表明这是比例而不是固定10点移速。每次施放最多触发1次只作参数记录，未接事件故不造过程。对敌军造成技能伤害或施放召唤师技能在1V1仍相关；友方增强/保护分支的自身资格未证，不当整技能排除。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "method": "POST",
+      "route": "/skills/item_3171_passive/parameters",
+      "readRoute": "/skills/item_3171_passive/parameters/summoner_haste",
+      "body": {
+        "parameterKey": "summoner_haste",
+        "name": "召唤师技能急速",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20,
+        "levelValues": null,
+        "description": "客户端SummonerHaste=20；中文绑定为召唤师技能急速。不是主体已录的普通技能急速。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "method": "POST",
+      "route": "/skills/item_3171_passive/parameters",
+      "readRoute": "/skills/item_3171_passive/parameters/melee_move_speed_ratio",
+      "body": {
+        "parameterKey": "melee_move_speed_ratio",
+        "name": "近战额外移动速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "客户端MeleeMS=0.1；MSAmount以mDisplayAsPercent展示，因此是10%而不是固定10点移速。简单参数不套直通公式。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "method": "POST",
+      "route": "/skills/item_3171_passive/parameters",
+      "readRoute": "/skills/item_3171_passive/parameters/ranged_move_speed_multiplier",
+      "body": {
+        "parameterKey": "ranged_move_speed_multiplier",
+        "name": "远程移动速度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "客户端RangedMSMultiplier=0.8；仅供远程分支公式使用，0.1×0.8=0.08。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "method": "POST",
+      "route": "/skills/item_3171_passive/parameters",
+      "readRoute": "/skills/item_3171_passive/parameters/haste_duration_ms",
+      "body": {
+        "parameterKey": "haste_duration_ms",
+        "name": "诺克萨斯急速持续",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端Duration=4秒，按毫秒保存为4000。只保留持续时间，不创建过程。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "method": "POST",
+      "route": "/skills/item_3171_passive/parameters",
+      "readRoute": "/skills/item_3171_passive/parameters/max_triggers_per_cast",
+      "body": {
+        "parameterKey": "max_triggers_per_cast",
+        "name": "每次施放触发上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "中文规则：每次施放技能只能被触发1次。只记录次数上限，未创建触发规则或内部状态。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "method": "POST",
+      "route": "/skills/item_3171_passive/formulas",
+      "readRoute": "/skills/item_3171_passive/formulas/ranged_move_speed_ratio",
+      "body": {
+        "formulaKey": "ranged_move_speed_ratio",
+        "name": "远程额外移动速度比例",
+        "description": "近战10%比例×远程倍率0.8=8%；不把10%写成固定10点移速，不创建移速效果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melee_move_speed_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_move_speed_multiplier"
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3171",
+      "body": {
+        "equipmentKey": "item_3171",
+        "skillKey": "item_3171_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "method": "PUT",
+      "route": "/skills/item_3171_passive/representative-image",
+      "readRoute": "/skills/item_3171_passive/representative-image",
+      "body": {
+        "imageKey": "item_3171"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3173_passive",
+      "body": {
+        "skillKey": "item_3173_passive",
+        "name": "带链碾碎者·诺克萨斯的不懈",
+        "description": "保留冷却15秒、护盾持续5秒，以及护盾计算树的1级节点90、9级断点每级+10和mStat12/formula2×0.08。等级断点求值算法未证，不以90与10推18点，基础段使用无默认的当前等级基础护盾运行时输入。mStat12/formula2不按其他对象的mStat12/0证据映射为SOURCE.hp.TOTAL。魔法护盾类型来源已明确，本批不创建护盾效果。官方说明中的护盾0不是实际值，不录入。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "method": "POST",
+      "route": "/skills/item_3173_passive/parameters",
+      "readRoute": "/skills/item_3173_passive/parameters/shield_cooldown_ms",
+      "body": {
+        "parameterKey": "shield_cooldown_ms",
+        "name": "不懈冷却",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15000,
+        "levelValues": null,
+        "description": "客户端Cooldown=15秒，按毫秒保存为15000。官方正文(0秒)不是实际冷却。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "method": "POST",
+      "route": "/skills/item_3173_passive/parameters",
+      "readRoute": "/skills/item_3173_passive/parameters/shield_duration_ms",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "护盾持续",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端ShieldDuration=5秒，按毫秒保存为5000。不创建护盾过程。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "method": "POST",
+      "route": "/skills/item_3173_passive/parameters",
+      "readRoute": "/skills/item_3173_passive/parameters/shield_level1_value",
+      "body": {
+        "parameterKey": "shield_level1_value",
+        "name": "护盾1级节点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 90,
+        "levelValues": null,
+        "description": "ShieldAmountCalc的ByCharLevelBreakpoints.mLevel1Value=90。只保存原节点，不作为运行时基础盾默认值，也不用它推18。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "method": "POST",
+      "route": "/skills/item_3173_passive/parameters",
+      "readRoute": "/skills/item_3173_passive/parameters/shield_breakpoint_level",
+      "body": {
+        "parameterKey": "shield_breakpoint_level",
+        "name": "护盾断点等级",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 9,
+        "levelValues": null,
+        "description": "断点mLevel=9。求值算法未证，不进入最终护盾公式。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "method": "POST",
+      "route": "/skills/item_3173_passive/parameters",
+      "readRoute": "/skills/item_3173_passive/parameters/shield_bonus_per_level",
+      "body": {
+        "parameterKey": "shield_bonus_per_level",
+        "name": "护盾断点每级加成",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "mBonusPerLevelAtAndAfter=10。不能与1级节点90一起推18；不进入最终护盾公式。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "method": "POST",
+      "route": "/skills/item_3173_passive/parameters",
+      "readRoute": "/skills/item_3173_passive/parameters/shield_amount_ratio",
+      "body": {
+        "parameterKey": "shield_amount_ratio",
+        "name": "护盾mStat12系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.08,
+        "levelValues": null,
+        "description": "客户端ShieldAmount=0.08，绑定mStat=12且mStatFormula=2。属性口径待核。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "method": "POST",
+      "route": "/skills/item_3173_passive/parameters",
+      "readRoute": "/skills/item_3173_passive/parameters/actual_level_base_shield",
+      "body": {
+        "parameterKey": "actual_level_base_shield",
+        "name": "当前等级基础护盾输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "无默认值。不把1级节点90或未知等级端点当作基础盾默认。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "method": "POST",
+      "route": "/skills/item_3173_passive/parameters",
+      "readRoute": "/skills/item_3173_passive/parameters/source_mstat12_formula2_value",
+      "body": {
+        "parameterKey": "source_mstat12_formula2_value",
+        "name": "来源mStat12/formula2输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "无默认值。保留原12/2实际输入，不按其他对象mStat12/0映射SOURCE.hp.TOTAL。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "method": "POST",
+      "route": "/skills/item_3173_passive/formulas",
+      "readRoute": "/skills/item_3173_passive/formulas/magic_shield_value",
+      "body": {
+        "formulaKey": "magic_shield_value",
+        "name": "不懈魔法护盾值",
+        "description": "当前等级基础护盾输入+0.08×来源mStat12/formula2输入。魔法类型仅来源旁证，不创建护盾效果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_level_base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_amount_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat12_formula2_value"
+                }
+              ]
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3173",
+      "body": {
+        "equipmentKey": "item_3173",
+        "skillKey": "item_3173_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "method": "PUT",
+      "route": "/skills/item_3173_passive/representative-image",
+      "readRoute": "/skills/item_3173_passive/representative-image",
+      "body": {
+        "imageKey": "item_3173"
+      }
+    },
+    {
+      "kind": "skill",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "POST",
+      "route": "/skills",
+      "readRoute": "/skills/item_3174_passive",
+      "body": {
+        "skillKey": "item_3174_passive",
+        "name": "装甲战靴·镀板与耐久",
+        "description": "保留镀板即将到来的攻击伤害降低10%作为减幅参数，合资格攻击分量与减伤乘区待接。保留诺克萨斯的耐久冷却15秒、护盾持续5秒，以及与3173同构的护盾计算树节点；物理护盾类型来源已明确，不创建效果。等级断点求值未证，不以90与10推18；mStat12/formula2保留原12/2运行时输入与0.08系数，不映射SOURCE.hp.TOTAL。官方护盾0不录入。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": [
+          "passive"
+        ]
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "POST",
+      "route": "/skills/item_3174_passive/parameters",
+      "readRoute": "/skills/item_3174_passive/parameters/incoming_attack_damage_reduction_ratio",
+      "body": {
+        "parameterKey": "incoming_attack_damage_reduction_ratio",
+        "name": "镀板攻击伤害降低比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "客户端DamageReduction=0.1；中文绑定即将到来的攻击伤害降低10%。只保留减幅参数，不套直通公式，不合资格攻击分量与减伤乘区待接。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "POST",
+      "route": "/skills/item_3174_passive/parameters",
+      "readRoute": "/skills/item_3174_passive/parameters/shield_cooldown_ms",
+      "body": {
+        "parameterKey": "shield_cooldown_ms",
+        "name": "耐久冷却",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15000,
+        "levelValues": null,
+        "description": "客户端Cooldown=15秒，按毫秒保存为15000。官方正文(0秒)不是实际冷却。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "POST",
+      "route": "/skills/item_3174_passive/parameters",
+      "readRoute": "/skills/item_3174_passive/parameters/shield_duration_ms",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "护盾持续",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端ShieldDuration=5秒，按毫秒保存为5000。不创建护盾过程。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "POST",
+      "route": "/skills/item_3174_passive/parameters",
+      "readRoute": "/skills/item_3174_passive/parameters/shield_level1_value",
+      "body": {
+        "parameterKey": "shield_level1_value",
+        "name": "护盾1级节点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 90,
+        "levelValues": null,
+        "description": "ShieldAmountCalc的mLevel1Value=90。只保存原节点，不作为运行时基础盾默认值，也不用它推18。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "POST",
+      "route": "/skills/item_3174_passive/parameters",
+      "readRoute": "/skills/item_3174_passive/parameters/shield_breakpoint_level",
+      "body": {
+        "parameterKey": "shield_breakpoint_level",
+        "name": "护盾断点等级",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 9,
+        "levelValues": null,
+        "description": "断点mLevel=9。求值算法未证，不进入最终护盾公式。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "POST",
+      "route": "/skills/item_3174_passive/parameters",
+      "readRoute": "/skills/item_3174_passive/parameters/shield_bonus_per_level",
+      "body": {
+        "parameterKey": "shield_bonus_per_level",
+        "name": "护盾断点每级加成",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "mBonusPerLevelAtAndAfter=10。不能与1级节点90一起推18；不进入最终护盾公式。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "POST",
+      "route": "/skills/item_3174_passive/parameters",
+      "readRoute": "/skills/item_3174_passive/parameters/shield_amount_ratio",
+      "body": {
+        "parameterKey": "shield_amount_ratio",
+        "name": "护盾mStat12系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.08,
+        "levelValues": null,
+        "description": "客户端ShieldAmount=0.08，绑定mStat=12且mStatFormula=2。属性口径待核。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "POST",
+      "route": "/skills/item_3174_passive/parameters",
+      "readRoute": "/skills/item_3174_passive/parameters/actual_level_base_shield",
+      "body": {
+        "parameterKey": "actual_level_base_shield",
+        "name": "当前等级基础护盾输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "无默认值。不把1级节点90或未知等级端点当作基础盾默认。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "kind": "parameters",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "POST",
+      "route": "/skills/item_3174_passive/parameters",
+      "readRoute": "/skills/item_3174_passive/parameters/source_mstat12_formula2_value",
+      "body": {
+        "parameterKey": "source_mstat12_formula2_value",
+        "name": "来源mStat12/formula2输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "无默认值。保留原12/2实际输入，不按其他对象mStat12/0映射SOURCE.hp.TOTAL。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "kind": "formulas",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "POST",
+      "route": "/skills/item_3174_passive/formulas",
+      "readRoute": "/skills/item_3174_passive/formulas/physical_shield_value",
+      "body": {
+        "formulaKey": "physical_shield_value",
+        "name": "耐久物理护盾值",
+        "description": "当前等级基础护盾输入+0.08×来源mStat12/formula2输入。物理类型仅来源旁证，不创建护盾效果。镀板10%减幅不进入本公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_level_base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_amount_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat12_formula2_value"
+                }
+              ]
+            }
+          ]
+        },
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "relation",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "POST",
+      "route": "/equipment-skill-relations",
+      "readRoute": "/equipment-skill-relations?equipmentKey=item_3174",
+      "body": {
+        "equipmentKey": "item_3174",
+        "skillKey": "item_3174_passive",
+        "sortOrder": 10
+      }
+    },
+    {
+      "kind": "image",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "method": "PUT",
+      "route": "/skills/item_3174_passive/representative-image",
+      "readRoute": "/skills/item_3174_passive/representative-image",
+      "body": {
+        "imageKey": "item_3174"
+      }
+    }
+  ],
+  "pendingTargetQualifications": []
+}

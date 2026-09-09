@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T10:29:57.141Z",
+  "generatedAt": "2026-09-09T10:38:46.424Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -89,7 +89,7 @@
     "status": "181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理"
   },
   "images": {
-    "objectUses": 1397,
+    "objectUses": 1402,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
@@ -101,7 +101,7 @@
     ],
     "additionalRuneGeneratedFormUses": 4,
     "additionalRuneGeneratedFormEvidence": "API实录/符文生成装备第一批/独立最终回读.json",
-    "additionalEquipmentSkillRepresentativeReuses": 130,
+    "additionalEquipmentSkillRepresentativeReuses": 135,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/护盾消费纠错/批次复核.json",
@@ -123,7 +123,8 @@
       "装备技能实录/第十七批防御与状态装备/页面验收.json",
       "装备技能实录/第十八批剩余自身效果/页面验收.json",
       "装备技能实录/第十九批自身与范围主动/页面验收.json",
-      "装备技能实录/第二十一批明朗鞋与视界专注/当前实录状态.json"
+      "装备技能实录/第二十一批明朗鞋与视界专注/当前实录状态.json",
+      "装备技能实录/第二十批升级鞋/当前实录状态.json"
     ],
     "status": "原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3279,
@@ -2138,6 +2139,60 @@
       "runtimeValidation": "未执行",
       "evidence": "装备技能实录/第二十一批明朗鞋与视界专注/当前实录状态.json",
       "browserEvidence": "装备技能实录/第二十一批明朗鞋与视界专注/页面验收.json"
+    },
+    "equipmentTwentiethBatch": {
+      "at": "2026-09-09T10:38:46.423Z",
+      "equipmentKeys": [
+        "item_3168",
+        "item_3170",
+        "item_3171",
+        "item_3173",
+        "item_3174"
+      ],
+      "skillKeys": [
+        "item_3168_passive",
+        "item_3170_passive",
+        "item_3171_passive",
+        "item_3173_passive",
+        "item_3174_passive"
+      ],
+      "counts": {
+        "skills": 5,
+        "parameters": 28,
+        "formulas": 5,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0,
+        "relations": 5,
+        "representativeImages": 5
+      },
+      "successfulWrites": 48,
+      "rejectedWrites": 0,
+      "unknownWrites": 0,
+      "independentGETs": 104,
+      "positiveFormulaCases": 5,
+      "capCases": 3,
+      "missingInputCases": 4,
+      "integerInputRejection": 1,
+      "shieldNoDefaultCases": 2,
+      "representativePages": 3,
+      "pageGETs": 15,
+      "candidateSha256": "9dc1b9628720c0afc91d9e835649ae6899dd9bfcbacac136fae7c7081ab79f62",
+      "requestSha256": "873602b2c17d2db51d58f32a4b9cbb0e3e9d9e87d88c372c744ebd190ec3d902",
+      "sourceVersion": "16.17 / 16.17.1 / 16.17.8104348",
+      "status": "保存、独立回读、公式算术和3代表页面通过；目标资格、等级算法及触发待补",
+      "cursor": "实际候选录入因SDK连接中断未完成，原件已审计保留；由Luna接手，根负责人复核",
+      "pending": [
+        "半血恰好相等时的资格分配",
+        "移动速度属性枚举及适应之力换算",
+        "移速触发资格与每次施放计数",
+        "两件护盾等级基础算法与原属性12/2口径",
+        "护盾生效时点、类型应用和攻击减伤乘区"
+      ],
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/第二十批升级鞋/当前实录状态.json",
+      "browserEvidence": "装备技能实录/第二十批升级鞋/页面验收.json"
     }
   },
   "runtimeValidation": "未执行"

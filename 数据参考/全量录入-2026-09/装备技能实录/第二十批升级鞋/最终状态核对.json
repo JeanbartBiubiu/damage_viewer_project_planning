@@ -1,0 +1,130 @@
+{
+  "generatedAt": "2026-09-09T10:33:27.983Z",
+  "scope": "第二十批升级鞋",
+  "candidate": {
+    "path": "修正版最终候选.json",
+    "sha256": "9dc1b9628720c0afc91d9e835649ae6899dd9bfcbacac136fae7c7081ab79f62",
+    "expected": "9dc1b9628720c0afc91d9e835649ae6899dd9bfcbacac136fae7c7081ab79f62"
+  },
+  "request": {
+    "path": "修正版最终请求.json",
+    "sha256": "873602b2c17d2db51d58f32a4b9cbb0e3e9d9e87d88c372c744ebd190ec3d902",
+    "expected": "873602b2c17d2db51d58f32a4b9cbb0e3e9d9e87d88c372c744ebd190ec3d902"
+  },
+  "source": {
+    "path": "冻结来源.json",
+    "sha256": "3861cdd2d66da43deb99aca9c085c894258f58a21bfdfc967b9feaa71203e649"
+  },
+  "before": {
+    "path": "写前保护快照.json",
+    "sha256": "b928abf4069b9a1b65f5eba0801bc3ecf72035b86f793eee523e440222aef463"
+  },
+  "write": {
+    "runId": "2026-09-09T10-27-32-192Z",
+    "lockPath": "修正版最终写入锁.json",
+    "lockSha256": "9be74f6856600621a682f5790b0ba2b42ffd50a3c7d9fb0e3ad76c1e05d2159e",
+    "state": "COMPLETED",
+    "requestEvents": 48,
+    "apiWrites": 48,
+    "errors": []
+  },
+  "readback": {
+    "runId": "2026-09-09T10-30-06-353Z",
+    "readbackComplete": true,
+    "businessMathReady": true,
+    "counts": {
+      "requestReads": 48,
+      "requestMatches": 48,
+      "protections": 15,
+      "protectionMatches": 15,
+      "skills": 5,
+      "skillMatches": 5,
+      "finalRelations": 5,
+      "relationMatches": 5,
+      "componentLists": 30,
+      "componentMatches": 30,
+      "categoryGets": 1,
+      "categoryPass": true
+    },
+    "math": {
+      "actualParameterCount": 28,
+      "actualFormulaCount": 5,
+      "positivePassed": 5,
+      "positiveTotal": 5,
+      "capPassed": 3,
+      "capTotal": 3,
+      "missingPassed": 4,
+      "missingTotal": 4,
+      "integerTypePassed": 1,
+      "integerTypeTotal": 1,
+      "shieldNoDefaultPassed": 2,
+      "shieldNoDefaultTotal": 2
+    }
+  },
+  "scriptChecks": {
+    "path": "脚本自检-最终.json",
+    "allPass": true
+  },
+  "archivedFiles": {
+    "执行记录-最终写入.json": {
+      "bytes": 245952,
+      "sha256": "eea4755f88845a6651a4a5ae141661d7e7bfff4273502e3da16b947ff9bea34d",
+      "source": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear20-finalize\\writer-2026-09-09T10-27-32-192Z\\执行记录.json"
+    },
+    "逐请求日志-最终写入.jsonl": {
+      "bytes": 203078,
+      "sha256": "a5ec5d7535e7db703936ba38cac429cf25e74d4fc09788787c154929181b1a20",
+      "source": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear20-finalize\\writer-2026-09-09T10-27-32-192Z\\逐请求日志.jsonl"
+    },
+    "独立回读与实值核算-最终.json": {
+      "bytes": 382222,
+      "sha256": "20a47c132522db852f7d510a23456f2a84c1d1f102292e3388bd09e131632aac",
+      "source": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear20-finalize\\readback-2026-09-09T10-30-06-353Z\\独立回读与实值核算.json"
+    },
+    "当前状态-最终.json": {
+      "bytes": 112691,
+      "sha256": "0622fd10520a1c03193db4bd783b9fe696877e81fed7347b774839df683a47f0",
+      "source": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear20-finalize\\readback-2026-09-09T10-30-06-353Z\\当前状态.json"
+    },
+    "所有GET原始响应-最终.jsonl": {
+      "bytes": 182659,
+      "sha256": "6d4241ff6078012393dec3131fb910aa42f86315fd252fb10115652984831b19",
+      "source": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear20-finalize\\readback-2026-09-09T10-30-06-353Z\\所有GET原始响应.jsonl"
+    },
+    "独立回读-首次公式列表差异.json": {
+      "bytes": 386655,
+      "sha256": "ce6a9ceb029b69bfacbf889a389400f6f75d82f946223395c3de949327d66db5",
+      "source": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear20-finalize\\readback-2026-09-09T10-28-34-454Z\\独立回读与实值核算.json"
+    },
+    "独立数学核算-候选最终.json": {
+      "bytes": 8043,
+      "sha256": "a0298effb891e790db632c8eed08a7f2933e366a37fff483df2c26f3a6cc23bd",
+      "source": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear20-finalize\\独立数学核算-修正版-2026-09-09T10-02-31-747Z.json"
+    },
+    "候选修正版独立审查-最终.json": {
+      "bytes": 8119,
+      "sha256": "d4656ebd62f7997b69b2f3da34f336bfabfbe78f4f6d00eb5671f0dfb808bf00",
+      "source": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear20-finalize\\候选修正版独立审查.json"
+    },
+    "写入锁-最终.json": {
+      "bytes": 683,
+      "sha256": "9be74f6856600621a682f5790b0ba2b42ffd50a3c7d9fb0e3ad76c1e05d2159e",
+      "source": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第二十批升级鞋\\修正版最终写入锁.json"
+    },
+    "Cursor中断与接手-原件.json": {
+      "bytes": 1720,
+      "sha256": "26ce65111001d6cebeb62e5af1f9f4bb385850822cefebcda3738b7eda9f02bf",
+      "source": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear20-recovery\\Cursor中断与接手.json"
+    },
+    "分类GET-最终.json": {
+      "bytes": 1335,
+      "sha256": "115c63cbd18984563691bf0e2ec22163a4ec8361f7e6eac56c363387981b3445",
+      "source": "独立回读结果中的currentState.categories"
+    },
+    "脚本自检-最终.json": {
+      "bytes": 1363,
+      "sha256": "1ef4ef31a4886456ba89d4b86f6da3536b4df42ef3a05ecd0e5c3799ff19f58d",
+      "source": "node --check"
+    }
+  }
+}

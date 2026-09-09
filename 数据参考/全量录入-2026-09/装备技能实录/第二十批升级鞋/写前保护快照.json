@@ -1,0 +1,571 @@
+{
+  "runId": "2026-09-09T09-46-50-905Z",
+  "startedAt": "2026-09-09T09:46:50.905Z",
+  "finishedAt": "2026-09-09T09:46:52.651Z",
+  "mode": "实时写入前只读保护预检",
+  "apiRoot": "http://127.0.0.1:8080/api/admin/games/lol",
+  "noBusinessWrites": true,
+  "apiWrites": 0,
+  "selected": [
+    {
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive"
+    },
+    {
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive"
+    },
+    {
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive"
+    },
+    {
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive"
+    },
+    {
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive"
+    }
+  ],
+  "counts": {
+    "totalGets": 26,
+    "equipment": 5,
+    "attributes": 5,
+    "representativeImages": 5,
+    "relations": 5,
+    "targetSkills": 5,
+    "categoryGets": 1
+  },
+  "statusSummary": {
+    "equipment200": 5,
+    "attributes200": 5,
+    "representativeImages200": 5,
+    "relations200": 5,
+    "relationsEmpty": 5,
+    "targetSkills404": 5,
+    "category200": true
+  },
+  "errors": [],
+  "category": {
+    "route": "/skill-categories",
+    "method": "GET",
+    "status": 200,
+    "ok": true,
+    "data": {
+      "items": [
+        {
+          "createdAt": "2026-09-04T16:08:30.744289Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "位移技能",
+          "skillCategoryKey": "move_skill",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-04T16:08:30.744289Z"
+        },
+        {
+          "createdAt": "2026-08-26T05:59:27.858757Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "普通技能",
+          "skillCategoryKey": "common",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:27.858757Z"
+        },
+        {
+          "createdAt": "2026-08-26T05:59:36.038429Z",
+          "description": null,
+          "gameId": "lol",
+          "name": "被动技能",
+          "skillCategoryKey": "passive",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-08-26T05:59:36.038429Z"
+        }
+      ],
+      "total": 3
+    },
+    "dataSha256": "90a4c5203870cc8dd6c534d3f9e13158e4267f61c957841f4d21c75ae16b2951"
+  },
+  "rows": [
+    {
+      "kind": "equipmentGET",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "response": {
+        "route": "/equipment/item_3168",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-08T15:21:53.769992Z",
+          "description": "来源：官方16.17.1装备3168及客户端16.17。原始说明：45 移动速度 4% 全能吸血 杀戮 参与击杀英雄后获得0.6%全能吸血，可叠加至多10次。 现在到永远 在一半生命值以上时，造成4%额外伤害。 在一半生命值以下时，获得12%额外治疗值、护盾值和回复。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+          "equipmentKey": "item_3168",
+          "gameId": "lol",
+          "name": "不朽之路",
+          "updatedAt": "2026-09-08T15:21:53.769992Z"
+        },
+        "dataSha256": "e5f3c0a44a7a627d8c41218fd1c96d06c373c7736459ac4023301251f1657c1c"
+      }
+    },
+    {
+      "kind": "equipmentAttributesGET",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "response": {
+        "route": "/equipment/item_3168/attributes",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "attributeValues": {
+            "move_speed": 45,
+            "omnivamp_percent": 0.04
+          },
+          "equipmentKey": "item_3168"
+        },
+        "dataSha256": "9a75db7f6e91be9fde813dcef6dd2475ef498feb72816d2d4fdd6ce2f551abff"
+      }
+    },
+    {
+      "kind": "representativeImageGET",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "response": {
+        "route": "/equipment/item_3168/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3168",
+            "name": "item_3168"
+          }
+        },
+        "dataSha256": "9fe6a65d7f27030ca8cdaec85540128b27a8826013f1b6704dde7f4cce1ee188"
+      }
+    },
+    {
+      "kind": "relationGET",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3168",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        },
+        "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96"
+      }
+    },
+    {
+      "kind": "targetSkillGET",
+      "equipmentKey": "item_3168",
+      "skillKey": "item_3168_passive",
+      "response": {
+        "route": "/skills/item_3168_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3168_passive"
+            },
+            "message": "技能不存在"
+          }
+        },
+        "dataSha256": "67c19455e6e1894a9833675c7c93cb4663ea50a857ba7639fd1c52b1267a0c5a"
+      }
+    },
+    {
+      "kind": "equipmentGET",
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive",
+      "response": {
+        "route": "/equipment/item_3170",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-08T15:21:55.346902Z",
+          "description": "来源：官方16.17.1装备3170及客户端16.17。原始说明：65 移动速度 迅捷步 将 减速 效果的效能降低25%。 诺克萨斯的狂热 获得相当于你5% 移动速度 的适应之力。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+          "equipmentKey": "item_3170",
+          "gameId": "lol",
+          "name": "迅速进军",
+          "updatedAt": "2026-09-08T15:21:55.346902Z"
+        },
+        "dataSha256": "ddaea8fde99c8a40f1a7e22db1d47dfa5d1b06eea69175823588703401ae9c24"
+      }
+    },
+    {
+      "kind": "equipmentAttributesGET",
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive",
+      "response": {
+        "route": "/equipment/item_3170/attributes",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "attributeValues": {
+            "move_speed": 65,
+            "slow_resist_percent": 0.25
+          },
+          "equipmentKey": "item_3170"
+        },
+        "dataSha256": "52f62a0679ddae10ea536314489f71d703497a5540aee02ddbe2b479e1b7b0bd"
+      }
+    },
+    {
+      "kind": "representativeImageGET",
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive",
+      "response": {
+        "route": "/equipment/item_3170/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3170",
+            "name": "item_3170"
+          }
+        },
+        "dataSha256": "e0039544a2647bfa75d06a3d514bf090482414abddba4c41a612cd2a94580146"
+      }
+    },
+    {
+      "kind": "relationGET",
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3170",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        },
+        "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96"
+      }
+    },
+    {
+      "kind": "targetSkillGET",
+      "equipmentKey": "item_3170",
+      "skillKey": "item_3170_passive",
+      "response": {
+        "route": "/skills/item_3170_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3170_passive"
+            },
+            "message": "技能不存在"
+          }
+        },
+        "dataSha256": "74ba2c160e4d1129a6bf5082fe0d8e85dd7bc1bb91e1349e54ccb97c6c6754fe"
+      }
+    },
+    {
+      "kind": "equipmentGET",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "response": {
+        "route": "/equipment/item_3171",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-08T15:21:57.002759Z",
+          "description": "来源：官方16.17.1装备3171及客户端16.17。原始说明：20 技能急速 45 移动速度 艾欧尼亚的洞悉 获得20召唤师技能急速。 诺克萨斯的急速 用技能增强或保护友军、用技能对敌军造成伤害或者施放召唤师技能会提供持续4秒的 0移动速度 。 【诺克萨斯的急速】每次施放技能只能被触发1次。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+          "equipmentKey": "item_3171",
+          "gameId": "lol",
+          "name": "猩红明朗",
+          "updatedAt": "2026-09-08T15:21:57.002759Z"
+        },
+        "dataSha256": "98c5f0697ec94da01e611adf0fc70b1c7e40ae3fb4c0c1a64ddecec081ab2af8"
+      }
+    },
+    {
+      "kind": "equipmentAttributesGET",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "response": {
+        "route": "/equipment/item_3171/attributes",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "attributeValues": {
+            "move_speed": 45,
+            "ability_haste": 20
+          },
+          "equipmentKey": "item_3171"
+        },
+        "dataSha256": "ebc1fcf46fecc9237bf59998a05a6c754d7b46f0e9d71ac4dd58a3ebacb11f30"
+      }
+    },
+    {
+      "kind": "representativeImageGET",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "response": {
+        "route": "/equipment/item_3171/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3171",
+            "name": "item_3171"
+          }
+        },
+        "dataSha256": "815a8dc27944d1ba63fea45eabee4271035f5791749ac7eb4eef5da0fcc7bd39"
+      }
+    },
+    {
+      "kind": "relationGET",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3171",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        },
+        "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96"
+      }
+    },
+    {
+      "kind": "targetSkillGET",
+      "equipmentKey": "item_3171",
+      "skillKey": "item_3171_passive",
+      "response": {
+        "route": "/skills/item_3171_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3171_passive"
+            },
+            "message": "技能不存在"
+          }
+        },
+        "dataSha256": "6ece650ee7c9ecfb48a16dbf3f8d6d5f424112a8450e32098eed9dc4859edc1a"
+      }
+    },
+    {
+      "kind": "equipmentGET",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "response": {
+        "route": "/equipment/item_3173",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-08T15:22:00.492091Z",
+          "description": "来源：官方16.17.1装备3173及客户端16.17。原始说明：25 魔法抗性 45 移动速度 30% 韧性 诺克萨斯的不懈 (0秒) 在受到来自英雄的魔法伤害后，获得一个持续5秒的 0 魔法 护盾 。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+          "equipmentKey": "item_3173",
+          "gameId": "lol",
+          "name": "带链碾碎者",
+          "updatedAt": "2026-09-08T15:22:00.492091Z"
+        },
+        "dataSha256": "d99ff6af6388c2ff5fb1f76c2f7e0b663b1393c443271a4aad8616fd3b4ec7de"
+      }
+    },
+    {
+      "kind": "equipmentAttributesGET",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "response": {
+        "route": "/equipment/item_3173/attributes",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "attributeValues": {
+            "move_speed": 45,
+            "magic_resistance": 25,
+            "tenacity_percent": 0.3
+          },
+          "equipmentKey": "item_3173"
+        },
+        "dataSha256": "27e2b5b7c1675258cd6950a9a4b6bd737368374f8eddff3e7a2fe1db0d6d9e01"
+      }
+    },
+    {
+      "kind": "representativeImageGET",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "response": {
+        "route": "/equipment/item_3173/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3173",
+            "name": "item_3173"
+          }
+        },
+        "dataSha256": "1f7d64e47183d4e37201be368d53f8650d2d79e2158d1126475a0f25f6b72a44"
+      }
+    },
+    {
+      "kind": "relationGET",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3173",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        },
+        "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96"
+      }
+    },
+    {
+      "kind": "targetSkillGET",
+      "equipmentKey": "item_3173",
+      "skillKey": "item_3173_passive",
+      "response": {
+        "route": "/skills/item_3173_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3173_passive"
+            },
+            "message": "技能不存在"
+          }
+        },
+        "dataSha256": "72bd3b9ba5c17a5e04e5f5a901056a1c081d14fd33665e56cdf41934f7420105"
+      }
+    },
+    {
+      "kind": "equipmentGET",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "response": {
+        "route": "/equipment/item_3174",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-08T15:22:02.160496Z",
+          "description": "来源：官方16.17.1装备3174及客户端16.17。原始说明：35 护甲 45 移动速度 镀板 使即将到来的攻击伤害降低10%。 诺克萨斯的耐久 (0秒) 在受到来自英雄的物理伤害后，获得一个持续5秒的 0 物理 护盾 。 升级或使用后形态；本批保存明确直接属性，相关技能效果及变换接线另行录入。",
+          "equipmentKey": "item_3174",
+          "gameId": "lol",
+          "name": "装甲战靴",
+          "updatedAt": "2026-09-08T15:22:02.160496Z"
+        },
+        "dataSha256": "2f5c49a56a256c3ead4a3a293e9b9ef5888b543a6a2b4b91ae08a854c233fa6b"
+      }
+    },
+    {
+      "kind": "equipmentAttributesGET",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "response": {
+        "route": "/equipment/item_3174/attributes",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "attributeValues": {
+            "move_speed": 45,
+            "armor": 35
+          },
+          "equipmentKey": "item_3174"
+        },
+        "dataSha256": "f42520b984a662f8f0cf78e9aa890d2823d833fedd313cd1a9de1a5be59e5b80"
+      }
+    },
+    {
+      "kind": "representativeImageGET",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "response": {
+        "route": "/equipment/item_3174/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "item_3174",
+            "name": "item_3174"
+          }
+        },
+        "dataSha256": "99ad31bc4aec6b412865c10f800543acc748cfa067afdad4e6d7472d4de5e838"
+      }
+    },
+    {
+      "kind": "relationGET",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "response": {
+        "route": "/equipment-skill-relations?equipmentKey=item_3174",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [],
+          "total": 0
+        },
+        "dataSha256": "4bf7c8639bc34bbbae5aef4aba3c724f9a425cbdc0416ab6384f7745ae1acb96"
+      }
+    },
+    {
+      "kind": "targetSkillGET",
+      "equipmentKey": "item_3174",
+      "skillKey": "item_3174_passive",
+      "response": {
+        "route": "/skills/item_3174_passive",
+        "method": "GET",
+        "status": 404,
+        "ok": false,
+        "data": {
+          "error": {
+            "code": "404.SKILL_NOT_FOUND",
+            "details": {
+              "skillKey": "item_3174_passive"
+            },
+            "message": "技能不存在"
+          }
+        },
+        "dataSha256": "05e71c52634dceb415ca1ec9a36e783cc571f2809de7479d2637f6258036634b"
+      }
+    }
+  ],
+  "sourceNote": "仅GET；不含业务POST/PUT/DELETE。目标技能主体预期不存在，若现存则后续写入应拒绝。"
+}
