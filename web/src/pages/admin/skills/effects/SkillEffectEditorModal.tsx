@@ -1321,6 +1321,7 @@ export function SkillEffectEditorModal({
         parametersLoadState={parametersLoadState}
         formulas={formulas}
         formulasLoadState={formulasLoadState}
+        onRetryFormulas={() => void loadFormulas()}
         parentSkill={skill}
         parentDraft={draft}
         effectSummaries={effectSummaries}
