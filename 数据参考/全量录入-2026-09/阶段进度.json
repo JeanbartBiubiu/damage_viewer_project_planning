@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T10:12:55.828Z",
+  "generatedAt": "2026-09-09T10:29:57.141Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -89,7 +89,7 @@
     "status": "181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理"
   },
   "images": {
-    "objectUses": 1395,
+    "objectUses": 1397,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
@@ -101,7 +101,7 @@
     ],
     "additionalRuneGeneratedFormUses": 4,
     "additionalRuneGeneratedFormEvidence": "API实录/符文生成装备第一批/独立最终回读.json",
-    "additionalEquipmentSkillRepresentativeReuses": 128,
+    "additionalEquipmentSkillRepresentativeReuses": 130,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/护盾消费纠错/批次复核.json",
@@ -122,7 +122,8 @@
       "装备技能实录/第十六批成长与触发装备/页面验收.json",
       "装备技能实录/第十七批防御与状态装备/页面验收.json",
       "装备技能实录/第十八批剩余自身效果/页面验收.json",
-      "装备技能实录/第十九批自身与范围主动/页面验收.json"
+      "装备技能实录/第十九批自身与范围主动/页面验收.json",
+      "装备技能实录/第二十一批明朗鞋与视界专注/当前实录状态.json"
     ],
     "status": "原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3279,
@@ -2093,6 +2094,50 @@
         "commit": "f5f8ff66"
       },
       "runtimeValidation": "未执行"
+    },
+    "equipmentTwentyFirstBatch": {
+      "at": "2026-09-09T10:29:56.696Z",
+      "equipmentKeys": [
+        "item_3158",
+        "item_4628"
+      ],
+      "skillKeys": [
+        "item_3158_passive",
+        "item_4628_passive"
+      ],
+      "sourceVersion": "16.17 / 16.17.1 / 16.17.8104348",
+      "candidateSha256": "0527d1d034297a8b68fadf973c91688e01f3ceb881a7382f1db860f71896fad6",
+      "planSha256": "61c0b1278066eeecc3d09e42f1eed432e988f317c749f4c82862701f00e8cce9",
+      "counts": {
+        "skills": 2,
+        "parameters": 5,
+        "formulas": 1,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0,
+        "relations": 2,
+        "representativeImages": 2
+      },
+      "successfulWrites": 12,
+      "rejectedWrites": 0,
+      "unknownWrites": 0,
+      "independentGETs": 35,
+      "formulaCases": 2,
+      "missingRuntimeRejected": true,
+      "representativePages": 2,
+      "pageGETs": 9,
+      "status": "保存、独立回读、公式算术和代表页面通过；触发与伤害修正资格待补",
+      "pending": [
+        "召唤师技能范围及冷却修正入口",
+        "高能射击触发资格、首击顺序、显形状态和伤害修正乘区"
+      ],
+      "excluded": [
+        "仅显形其他敌人的专注支路"
+      ],
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/第二十一批明朗鞋与视界专注/当前实录状态.json",
+      "browserEvidence": "装备技能实录/第二十一批明朗鞋与视界专注/页面验收.json"
     }
   },
   "runtimeValidation": "未执行"
