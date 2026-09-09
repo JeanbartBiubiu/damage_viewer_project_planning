@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T17:13:13.601Z",
+  "generatedAt": "2026-09-09T17:32:12.492Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -3055,6 +3055,52 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十九批/修订二/页面验收.json",
         "commit": "8f5caca6f4c1f1715cc21adc6346b4efb7cbe227"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroThirtiethBatch": {
+      "skills": [
+        "yasuo_p",
+        "yasuo_q",
+        "yasuo_w",
+        "yasuo_e",
+        "yasuo_r",
+        "yone_p",
+        "yone_q",
+        "yone_w",
+        "yone_e",
+        "yone_r"
+      ],
+      "parameters": 72,
+      "formulas": 20,
+      "effects": 2,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "reusedParameters": 8,
+      "created": 86,
+      "independentGets": 182,
+      "additionalMathGets": 86,
+      "independentFormulaChecks": 20,
+      "independentSourceCases": 40,
+      "independentMissingRejects": 20,
+      "representativePages": 3,
+      "pageGets": 18,
+      "pageMathCases": 14,
+      "candidateSha256": "2efb89e7a4698b77b12a438922b1f9c5353460eb711e299039ab613c3cea7e12",
+      "planSha256": "bc33491aefd00be327802161eae24e749ee225d6857951d9ce91164a32b0baf1",
+      "executor": "Cursor来源复核，Luna Max候选与独立回读，主负责人保存和实际公式及页面验收",
+      "status": "明确组成已保存并通过独立回读、实际公式核算和代表页面；未知曲线和事件接线继续处理",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三十批/当前实录状态.json",
+        "sha256": "09677ad8070c531aba104f401197e815ff79bba1bd880f253fc502f91a7eb3c5",
+        "commit": "cd4bcbb2c8a66589ba0ecf12f06dad7cd2cf6947"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第三十批/页面验收.json",
+        "commit": "cd4bcbb2c8a66589ba0ecf12f06dad7cd2cf6947"
       },
       "runtimeValidation": "未执行"
     }
