@@ -1,0 +1,23 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "method": "POST",
+    "route": "/skills/lillia_r/parameters",
+    "detailRoute": "/skills/lillia_r/parameters/initial_slow_ratio",
+    "skillKey": "lillia_r",
+    "kind": "parameters",
+    "stableKey": "initial_slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "initial_slow_ratio",
+      "name": "困倦初始减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.1,
+      "levelValues": null,
+      "description": "客户端InitialSlow为-0.1；只记录初始值，空SlowIncrement不推导完整曲线。",
+      "sortOrder": 50
+    }
+  }
+}

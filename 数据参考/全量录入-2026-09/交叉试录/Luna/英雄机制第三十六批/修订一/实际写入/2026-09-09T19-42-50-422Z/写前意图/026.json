@@ -1,0 +1,23 @@
+{
+  "i": 25,
+  "intent": {
+    "sequence": 26,
+    "method": "POST",
+    "route": "/skills/evelynn_e/parameters",
+    "detailRoute": "/skills/evelynn_e/parameters/base_percent_health_points",
+    "skillKey": "evelynn_e",
+    "kind": "parameters",
+    "stableKey": "base_percent_health_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_percent_health_points",
+      "name": "普通E目标最大生命百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "普通PercentHealthBaseTOOLTIP使用BasePercentHealth=3；百分数点由0.01根乘数转为比例。",
+      "sortOrder": 30
+    }
+  }
+}

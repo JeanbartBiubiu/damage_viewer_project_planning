@@ -1,0 +1,23 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 90,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_q/parameters",
+    "detailRoute": "/skills/fiddlesticks_q/parameters/current_health_ap_ratio",
+    "skillKey": "fiddlesticks_q",
+    "kind": "parameters",
+    "stableKey": "current_health_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_health_ap_ratio",
+      "name": "当前生命法强系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0003,
+      "levelValues": null,
+      "description": "TotalPercentHealthDamage树StatByCoefficient=0.0003；读取来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 126,
+  "intent": {
+    "sequence": 127,
+    "method": "POST",
+    "route": "/skills/singed_p/parameters",
+    "detailRoute": "/skills/singed_p/parameters/ms_duration_ms",
+    "skillKey": "singed_p",
+    "kind": "parameters",
+    "stableKey": "ms_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ms_duration_ms",
+      "name": "移动速度持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前MSDuration=2秒，转换为2000毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

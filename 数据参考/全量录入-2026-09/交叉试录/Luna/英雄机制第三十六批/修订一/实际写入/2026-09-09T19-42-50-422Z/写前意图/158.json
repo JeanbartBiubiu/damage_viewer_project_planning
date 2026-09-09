@@ -1,0 +1,23 @@
+{
+  "i": 157,
+  "intent": {
+    "sequence": 158,
+    "method": "POST",
+    "route": "/skills/singed_r/parameters",
+    "detailRoute": "/skills/singed_r/parameters/grievous_ratio",
+    "skillKey": "singed_r",
+    "kind": "parameters",
+    "stableKey": "grievous_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "grievous_ratio",
+      "name": "Q期间重伤比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.4,
+      "levelValues": null,
+      "description": "当前GrievousAmount=0.4，正文按×100显示40%；只在R期间Q条件成立时使用。",
+      "sortOrder": 30
+    }
+  }
+}

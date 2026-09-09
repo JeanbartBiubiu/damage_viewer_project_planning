@@ -1,0 +1,55 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 124,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_r/formulas",
+    "detailRoute": "/skills/fiddlesticks_r/formulas/damage_done_single_tick",
+    "skillKey": "fiddlesticks_r",
+    "kind": "formulas",
+    "stableKey": "damage_done_single_tick",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_done_single_tick",
+      "name": "群鸦当前单次伤害系数值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "single_damage_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_per_second_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DamageDone = 0.25×当前匿名每秒伤害树；0.25是源树单次系数，不把每秒次数或总时序强行推导。",
+      "sortOrder": 20
+    }
+  }
+}

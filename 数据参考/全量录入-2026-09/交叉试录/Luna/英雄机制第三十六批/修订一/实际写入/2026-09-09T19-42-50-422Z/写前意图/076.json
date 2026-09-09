@@ -1,0 +1,23 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "method": "POST",
+    "route": "/skills/lillia_e/parameters",
+    "detailRoute": "/skills/lillia_e/parameters/ap_ratio",
+    "skillKey": "lillia_e",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "ImpactDamageTotal树StatByCoefficient=0.5；读取来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

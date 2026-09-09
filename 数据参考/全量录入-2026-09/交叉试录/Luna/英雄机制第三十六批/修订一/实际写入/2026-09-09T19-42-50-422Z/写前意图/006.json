@@ -1,0 +1,23 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "method": "POST",
+    "route": "/skills/evelynn_p/parameters",
+    "detailRoute": "/skills/evelynn_p/parameters/actual_heal_per_second",
+    "skillKey": "evelynn_p",
+    "kind": "parameters",
+    "stableKey": "actual_heal_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_heal_per_second",
+      "name": "当前角色等级实际每秒治疗值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "HealPerSecondTOOLTIP仅给角色等级插值端点15至150，未证完整求值；运行时必须提供实际值，不设默认。",
+      "sortOrder": 60
+    }
+  }
+}

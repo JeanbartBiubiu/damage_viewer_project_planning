@@ -1,0 +1,23 @@
+{
+  "i": 125,
+  "intent": {
+    "sequence": 126,
+    "method": "POST",
+    "route": "/skills/singed_p/parameters",
+    "detailRoute": "/skills/singed_p/parameters/ms_bonus_ratio",
+    "skillKey": "singed_p",
+    "kind": "parameters",
+    "stableKey": "ms_bonus_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ms_bonus_ratio",
+      "name": "剧毒冲流移动速度加成比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前MSPercent=0.25，正文按×100显示25%；唯一敌方英雄经过也可触发。",
+      "sortOrder": 10
+    }
+  }
+}

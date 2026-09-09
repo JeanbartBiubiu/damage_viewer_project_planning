@@ -1,0 +1,345 @@
+{
+  "generatedAt": "2026-09-09T19:41:54.629Z",
+  "batch": "英雄机制第三十六批",
+  "revision": "hero36-source-v1-revision-1",
+  "status": "READY",
+  "canSave": true,
+  "scope": "修订一候选保存前独立窄审查；不调用业务接口。",
+  "files": {
+    "candidate": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero36-luna-candidate\\修订一\\完整候选.json",
+    "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
+    "plan": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero36-luna-candidate\\修订一\\写前请求计划.json",
+    "planSha256": "2241e69a53f9538a4135515251f063aa5df4a03120e33163f56648d5471ec91b",
+    "math": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero36-luna-candidate\\修订一\\独立数学核算.mjs",
+    "mathSha256": "6e7579599809ec6e7c3b63189119a696f0c0944e821785be387d08a40a18fb2e",
+    "sourceBinding": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero36-root-entry-20260910\\来源绑定与当前文本.json",
+    "sourceBindingSha256": "9fe03948856d29d6c74d6f01c14a9be81d626dbf0f84d6e8991658ac7e606a13",
+    "revisionDiff": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero36-luna-candidate\\修订一\\修订差异.json",
+    "revisionDiffSha256": "018135e913de9f560938d05821dd853d16f41d9cc716d03c1e21364c9408be2f"
+  },
+  "counts": {
+    "candidate": {
+      "skills": 20,
+      "parameters": 129,
+      "formulas": 31,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "requestCount": 160,
+    "publicReuse": 30
+  },
+  "checks": [
+    {
+      "id": "candidate_sha256",
+      "pass": true,
+      "expected": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
+      "actual": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
+      "evidence": "修订一完整候选实际字节"
+    },
+    {
+      "id": "plan_sha256",
+      "pass": true,
+      "expected": "写前计划及别名计划均为2241e69a...",
+      "actual": {
+        "writtenPlan": "2241e69a53f9538a4135515251f063aa5df4a03120e33163f56648d5471ec91b",
+        "aliasPlan": "2241e69a53f9538a4135515251f063aa5df4a03120e33163f56648d5471ec91b"
+      },
+      "evidence": "修订一计划文件实际字节"
+    },
+    {
+      "id": "source_binding",
+      "pass": true,
+      "expected": "9fe03948856d29d6c74d6f01c14a9be81d626dbf0f84d6e8991658ac7e606a13",
+      "actual": {
+        "candidate": "9fe03948856d29d6c74d6f01c14a9be81d626dbf0f84d6e8991658ac7e606a13",
+        "sourceIndex": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8"
+      },
+      "evidence": "固定来源绑定与来源索引"
+    },
+    {
+      "id": "counts",
+      "pass": true,
+      "expected": {
+        "parameters": 129,
+        "formulas": 31,
+        "effects": 0,
+        "requestCount": 160
+      },
+      "actual": {
+        "counts": {
+          "skills": 20,
+          "parameters": 129,
+          "formulas": 31,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "requestCount": 160,
+        "planRequestCount": 160,
+        "planEntries": 160
+      },
+      "evidence": "修订一组成与计划计数"
+    },
+    {
+      "id": "no_business_writes",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "businessWrites": 0,
+        "apiCalls": 0,
+        "tokenStored": false
+      },
+      "evidence": "候选只读状态"
+    },
+    {
+      "id": "revision_parameter_delta",
+      "pass": true,
+      "expected": {
+        "removed": [
+          "evelynn_r/cast_time_ms",
+          "evelynn_w/cast_time_ms",
+          "fiddlesticks_e/cast_time_ms",
+          "fiddlesticks_r/cast_time_ms",
+          "lillia_q/cast_time_ms",
+          "lillia_r/cast_time_ms",
+          "singed_e/nonchampion_damage_cap",
+          "singed_p/cast_time_seconds",
+          "singed_q/cast_time_seconds"
+        ],
+        "added": [
+          "evelynn_q/marked_bonus_max_hits",
+          "evelynn_w/charm_charge_time_ms",
+          "singed_q/mana_per_second"
+        ]
+      },
+      "actual": {
+        "removed": [
+          "evelynn_r/cast_time_ms",
+          "evelynn_w/cast_time_ms",
+          "fiddlesticks_e/cast_time_ms",
+          "fiddlesticks_r/cast_time_ms",
+          "lillia_q/cast_time_ms",
+          "lillia_r/cast_time_ms",
+          "singed_e/nonchampion_damage_cap",
+          "singed_p/cast_time_seconds",
+          "singed_q/cast_time_seconds"
+        ],
+        "added": [
+          "evelynn_q/marked_bonus_max_hits",
+          "evelynn_w/charm_charge_time_ms",
+          "singed_q/mana_per_second"
+        ]
+      },
+      "evidence": "修订差异只移除9项并增加3项"
+    },
+    {
+      "id": "added_parameter_values",
+      "pass": true,
+      "expected": {
+        "marked_bonus_max_hits": 3,
+        "charm_charge_time_ms": 2500,
+        "mana_per_second": 13
+      },
+      "actual": {
+        "marked_bonus_max_hits": {
+          "parameterKey": "marked_bonus_max_hits",
+          "name": "标记目标最多命中次数",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null,
+          "description": "当前正文明确标记目标的下3次攻击或技能可触发标记增伤；这是命中次数上限，不等于憎恨之刺的最多3次重施。",
+          "sortOrder": 60
+        },
+        "charm_charge_time_ms": {
+          "parameterKey": "charm_charge_time_ms",
+          "name": "英雄魅惑蓄力时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2500,
+          "levelValues": null,
+          "description": "当前正文明确标记持续至少2.5秒后，英雄分支才施加魅惑和魔抗削减；转换为2500毫秒。",
+          "sortOrder": 70
+        },
+        "mana_per_second": {
+          "parameterKey": "mana_per_second",
+          "name": "剧毒踪迹每秒法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 13,
+          "levelValues": null,
+          "description": "当前根mana索引0为13，mLocKeys正文明确为每秒法力；仅保存每秒成本，不创建普通一次施放消耗效果。",
+          "sortOrder": 90
+        }
+      },
+      "evidence": "三项新增参数与当前正文/原始字段"
+    },
+    {
+      "id": "removed_cap_and_times",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "singedECap": false,
+        "singedPTiming": false,
+        "singedQTiming": false
+      },
+      "evidence": "移出兵野专用上限和未证通用施法时间"
+    },
+    {
+      "id": "math_actual_uses_candidate_values",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "evaluatorUsesCandidateParameter": true,
+        "evaluatorUsesSourceParameter": false
+      },
+      "evidence": "实际侧读取候选固定/等级参数或运行输入"
+    },
+    {
+      "id": "math_expected_uses_raw_source",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "expectedUsesRawHelpers": true,
+        "expectedUsesCandidate": false
+      },
+      "evidence": "期望侧读取冻结原始DataValues和计算树"
+    },
+    {
+      "id": "math_runtime_guard",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "noDefaultGuard": true,
+        "missingRuntimeGuard": true
+      },
+      "evidence": "运行输入缺失和默认值守卫"
+    },
+    {
+      "id": "formula_binary_and_refs",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "operationPass": true,
+        "referencePass": true
+      },
+      "evidence": "31条公式运算节点和参数引用"
+    },
+    {
+      "id": "integer_and_runtime_shape",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "integerPass": true,
+        "runtimePass": true
+      },
+      "evidence": "毫秒整数和运行输入无默认"
+    },
+    {
+      "id": "revision_diff_record",
+      "pass": true,
+      "expected": true,
+      "actual": {
+        "generatedAt": "2026-09-09T19:31:36.143Z",
+        "batch": "英雄机制第三十六批",
+        "fromRevision": "hero36-source-v1",
+        "revision": "hero36-source-v1-revision-1",
+        "originalCandidateSha256": "f13a305499d5cebcf342ce444d3fc9bbd83c53a2a883f0d18d884851bdd0e565",
+        "originalPlanSha256": "ecde28102757a301368117cb11ede14416fdf10a542d25df8a5b15cc896e4030",
+        "candidateSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
+        "planSha256": "2241e69a53f9538a4135515251f063aa5df4a03120e33163f56648d5471ec91b",
+        "counts": {
+          "before": {
+            "skills": 20,
+            "parameters": 135,
+            "formulas": 31,
+            "effects": 0,
+            "processes": 0,
+            "internalStates": 0,
+            "triggerRules": 0
+          },
+          "after": {
+            "skills": 20,
+            "parameters": 129,
+            "formulas": 31,
+            "effects": 0,
+            "processes": 0,
+            "internalStates": 0,
+            "triggerRules": 0
+          }
+        },
+        "changes": {
+          "removedParameters": [
+            {
+              "skillKey": "evelynn_w",
+              "parameterKey": "cast_time_ms"
+            },
+            {
+              "skillKey": "evelynn_r",
+              "parameterKey": "cast_time_ms"
+            },
+            {
+              "skillKey": "lillia_q",
+              "parameterKey": "cast_time_ms"
+            },
+            {
+              "skillKey": "lillia_r",
+              "parameterKey": "cast_time_ms"
+            },
+            {
+              "skillKey": "fiddlesticks_e",
+              "parameterKey": "cast_time_ms"
+            },
+            {
+              "skillKey": "fiddlesticks_r",
+              "parameterKey": "cast_time_ms"
+            },
+            {
+              "skillKey": "singed_p",
+              "parameterKey": "cast_time_seconds"
+            },
+            {
+              "skillKey": "singed_q",
+              "parameterKey": "cast_time_seconds"
+            },
+            {
+              "skillKey": "singed_e",
+              "parameterKey": "nonchampion_damage_cap"
+            }
+          ],
+          "addedParameters": [
+            {
+              "skillKey": "evelynn_q",
+              "parameterKey": "marked_bonus_max_hits",
+              "fixedValue": 3
+            },
+            {
+              "skillKey": "evelynn_w",
+              "parameterKey": "charm_charge_time_ms",
+              "fixedValue": 2500
+            },
+            {
+              "skillKey": "singed_q",
+              "parameterKey": "mana_per_second",
+              "fixedValue": 13
+            }
+          ],
+          "formulasUnchanged": true,
+          "sourceInputUnchanged": true,
+          "businessWrites": 0
+        }
+      },
+      "evidence": "修订差异记录与原候选/业务写入声明"
+    }
+  ],
+  "notes": [
+    "修订一新增3项明确参数，移出9项未证通用施法时间/兵野专用上限。",
+    "独立数学实际侧已改为候选参数，期望侧保留冻结原始来源；本报告只做静态检查，未执行业务GET。"
+  ],
+  "apiCalls": 0,
+  "apiWrites": 0,
+  "runtimeValidation": "未执行"
+}

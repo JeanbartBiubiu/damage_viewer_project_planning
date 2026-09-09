@@ -1,0 +1,23 @@
+{
+  "i": 135,
+  "intent": {
+    "sequence": 136,
+    "method": "POST",
+    "route": "/skills/singed_q/parameters",
+    "detailRoute": "/skills/singed_q/parameters/max_linger_ticks",
+    "skillKey": "singed_q",
+    "kind": "parameters",
+    "stableKey": "max_linger_ticks",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_linger_ticks",
+      "name": "最大残留跳数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 8,
+      "levelValues": null,
+      "description": "当前MaxLingerTicks=8；不把它转成任意接触时长。",
+      "sortOrder": 70
+    }
+  }
+}

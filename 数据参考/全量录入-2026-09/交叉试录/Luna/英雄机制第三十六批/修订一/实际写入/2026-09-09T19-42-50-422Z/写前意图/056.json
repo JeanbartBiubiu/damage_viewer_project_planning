@@ -1,0 +1,29 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "method": "POST",
+    "route": "/skills/lillia_q/parameters",
+    "detailRoute": "/skills/lillia_q/parameters/prance_bonus_ratio_per_stack",
+    "skillKey": "lillia_q",
+    "kind": "parameters",
+    "stableKey": "prance_bonus_ratio_per_stack",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "prance_bonus_ratio_per_stack",
+      "name": "每层移速加成比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.03,
+        "2": 0.04,
+        "3": 0.05,
+        "4": 0.06,
+        "5": 0.07
+      },
+      "description": "PranceBonusPerStack取索引1至5；正文显示3%至7%。",
+      "sortOrder": 40
+    }
+  }
+}

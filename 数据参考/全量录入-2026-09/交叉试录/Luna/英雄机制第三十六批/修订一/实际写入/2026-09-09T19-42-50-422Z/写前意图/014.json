@@ -1,0 +1,23 @@
+{
+  "i": 13,
+  "intent": {
+    "sequence": 14,
+    "method": "POST",
+    "route": "/skills/evelynn_q/parameters",
+    "detailRoute": "/skills/evelynn_q/parameters/marked_bonus_max_hits",
+    "skillKey": "evelynn_q",
+    "kind": "parameters",
+    "stableKey": "marked_bonus_max_hits",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "marked_bonus_max_hits",
+      "name": "标记目标最多命中次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前正文明确标记目标的下3次攻击或技能可触发标记增伤；这是命中次数上限，不等于憎恨之刺的最多3次重施。",
+      "sortOrder": 60
+    }
+  }
+}

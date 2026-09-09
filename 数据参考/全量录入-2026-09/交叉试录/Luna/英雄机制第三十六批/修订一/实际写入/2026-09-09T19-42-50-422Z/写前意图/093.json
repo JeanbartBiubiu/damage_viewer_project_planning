@@ -1,0 +1,23 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 93,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_q/parameters",
+    "detailRoute": "/skills/fiddlesticks_q/parameters/recent_fear_multiplier",
+    "skillKey": "fiddlesticks_q",
+    "kind": "parameters",
+    "stableKey": "recent_fear_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "recent_fear_multiplier",
+      "name": "近期恐惧伤害倍率",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "TotalPercentHealthDamageFeared根mMultiplier=2；与普通分支互斥。",
+      "sortOrder": 50
+    }
+  }
+}

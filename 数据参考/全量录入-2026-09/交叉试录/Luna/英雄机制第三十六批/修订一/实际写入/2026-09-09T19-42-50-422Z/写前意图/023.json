@@ -1,0 +1,23 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 23,
+    "method": "POST",
+    "route": "/skills/evelynn_w/parameters",
+    "detailRoute": "/skills/evelynn_w/parameters/charm_charge_time_ms",
+    "skillKey": "evelynn_w",
+    "kind": "parameters",
+    "stableKey": "charm_charge_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charm_charge_time_ms",
+      "name": "英雄魅惑蓄力时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "当前正文明确标记持续至少2.5秒后，英雄分支才施加魅惑和魔抗削减；转换为2500毫秒。",
+      "sortOrder": 70
+    }
+  }
+}

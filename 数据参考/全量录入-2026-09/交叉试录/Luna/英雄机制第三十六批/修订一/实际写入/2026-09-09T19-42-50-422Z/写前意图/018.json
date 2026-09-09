@@ -1,0 +1,23 @@
+{
+  "i": 17,
+  "intent": {
+    "sequence": 18,
+    "method": "POST",
+    "route": "/skills/evelynn_w/parameters",
+    "detailRoute": "/skills/evelynn_w/parameters/early_slow_ratio",
+    "skillKey": "evelynn_w",
+    "kind": "parameters",
+    "stableKey": "early_slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "early_slow_ratio",
+      "name": "提前抹除减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.45,
+      "levelValues": null,
+      "description": "当前SlowAmount约0.45；正文按×100显示45%，保存比例0.45。",
+      "sortOrder": 20
+    }
+  }
+}

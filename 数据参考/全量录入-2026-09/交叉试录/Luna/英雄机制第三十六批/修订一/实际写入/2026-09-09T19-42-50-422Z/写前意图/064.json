@@ -1,0 +1,45 @@
+{
+  "i": 63,
+  "intent": {
+    "sequence": 64,
+    "method": "POST",
+    "route": "/skills/lillia_q/formulas",
+    "detailRoute": "/skills/lillia_q/formulas/outer_true_damage",
+    "skillKey": "lillia_q",
+    "kind": "formulas",
+    "stableKey": "outer_true_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "outer_true_damage",
+      "name": "飞花挞外圈额外真实伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "outer_true_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "BonusTrueDamage = 外圈额外真实伤害基础值 + 0.35×来源总法强；与内圈魔法伤害分开。",
+      "sortOrder": 20
+    }
+  }
+}

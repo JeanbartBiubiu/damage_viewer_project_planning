@@ -1,0 +1,23 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "method": "POST",
+    "route": "/skills/evelynn_p/parameters",
+    "detailRoute": "/skills/evelynn_p/parameters/stealth_start_level",
+    "skillKey": "evelynn_p",
+    "kind": "parameters",
+    "stableKey": "stealth_start_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stealth_start_level",
+      "name": "开始提供伪装的角色等级",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6,
+      "levelValues": null,
+      "description": "当前正文明确从6级开始提供伪装；不把伪装视作自主召唤。",
+      "sortOrder": 30
+    }
+  }
+}

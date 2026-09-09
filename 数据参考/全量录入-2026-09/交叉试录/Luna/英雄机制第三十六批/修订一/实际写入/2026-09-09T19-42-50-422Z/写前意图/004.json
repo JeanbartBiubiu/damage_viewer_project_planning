@@ -1,0 +1,23 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "method": "POST",
+    "route": "/skills/evelynn_p/parameters",
+    "detailRoute": "/skills/evelynn_p/parameters/actual_healing_threshold_base",
+    "skillKey": "evelynn_p",
+    "kind": "parameters",
+    "stableKey": "actual_healing_threshold_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_healing_threshold_base",
+      "name": "当前角色等级实际治疗阈值基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "HealingThresholdTOOLTIP树给出角色等级1起250、每级加20，但本批没有完整等级求值算法；运行时必须提供当前等级实际基础值，不设默认。",
+      "sortOrder": 40
+    }
+  }
+}

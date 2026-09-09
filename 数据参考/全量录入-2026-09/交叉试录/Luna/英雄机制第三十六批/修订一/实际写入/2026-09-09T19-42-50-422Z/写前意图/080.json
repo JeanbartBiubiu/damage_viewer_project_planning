@@ -1,0 +1,23 @@
+{
+  "i": 79,
+  "intent": {
+    "sequence": 80,
+    "method": "POST",
+    "route": "/skills/lillia_e/parameters",
+    "detailRoute": "/skills/lillia_e/parameters/cast_time_ms",
+    "skillKey": "lillia_e",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 350,
+      "levelValues": null,
+      "description": "当前spellCastTime约0.35秒，转换为350毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

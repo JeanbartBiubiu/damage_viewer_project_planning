@@ -1,0 +1,23 @@
+{
+  "i": 68,
+  "intent": {
+    "sequence": 69,
+    "method": "POST",
+    "route": "/skills/lillia_w/parameters",
+    "detailRoute": "/skills/lillia_w/parameters/minimum_cast_time_ms",
+    "skillKey": "lillia_w",
+    "kind": "parameters",
+    "stableKey": "minimum_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "minimum_cast_time_ms",
+      "name": "最短准备时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 600,
+      "levelValues": null,
+      "description": "当前MinimumCastTime=0.6秒，转换为600毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 43,
+  "intent": {
+    "sequence": 44,
+    "method": "POST",
+    "route": "/skills/lillia_p/parameters",
+    "detailRoute": "/skills/lillia_p/parameters/dot_damage_percent_points",
+    "skillKey": "lillia_p",
+    "kind": "parameters",
+    "stableKey": "dot_damage_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dot_damage_percent_points",
+      "name": "梦尘最大生命百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "DotPercentTotal使用DotDamagePercent=5；DotPercentTooltip根0.01再转为比例。",
+      "sortOrder": 20
+    }
+  }
+}

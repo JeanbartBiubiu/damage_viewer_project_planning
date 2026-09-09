@@ -1,0 +1,23 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 114,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_e/parameters",
+    "detailRoute": "/skills/fiddlesticks_e/parameters/silence_duration_ms",
+    "skillKey": "fiddlesticks_e",
+    "kind": "parameters",
+    "stableKey": "silence_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "silence_duration_ms",
+      "name": "中心沉默持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1250,
+      "levelValues": null,
+      "description": "当前SilenceDuration=1.25秒，转换为1250毫秒；中心资格未自动创建效果。",
+      "sortOrder": 40
+    }
+  }
+}

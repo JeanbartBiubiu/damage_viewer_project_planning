@@ -1,0 +1,23 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "method": "POST",
+    "route": "/skills/evelynn_p/parameters",
+    "detailRoute": "/skills/evelynn_p/parameters/stealth_drop_duration_ms",
+    "skillKey": "evelynn_p",
+    "kind": "parameters",
+    "stableKey": "stealth_drop_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stealth_drop_duration_ms",
+      "name": "受英雄或防御塔伤害后伪装移除（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "客户端StealthDropTimer为1.5秒，转换为1500毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

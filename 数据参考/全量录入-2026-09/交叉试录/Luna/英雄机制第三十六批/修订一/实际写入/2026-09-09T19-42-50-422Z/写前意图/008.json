@@ -1,0 +1,29 @@
+{
+  "i": 7,
+  "intent": {
+    "sequence": 8,
+    "method": "POST",
+    "route": "/skills/evelynn_q/parameters",
+    "detailRoute": "/skills/evelynn_q/parameters/hate_spike_base_damage",
+    "skillKey": "evelynn_q",
+    "kind": "parameters",
+    "stableKey": "hate_spike_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "hate_spike_base_damage",
+      "name": "尖刺魔法伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 30,
+        "3": 35,
+        "4": 40,
+        "5": 45
+      },
+      "description": "MissileDamage当前消费HateSpikeBaseDamage，技能等级取索引1至5；不误用MissileBaseDamage。",
+      "sortOrder": 10
+    }
+  }
+}

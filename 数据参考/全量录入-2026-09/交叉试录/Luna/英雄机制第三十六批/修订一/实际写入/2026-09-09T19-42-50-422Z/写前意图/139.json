@@ -1,0 +1,45 @@
+{
+  "i": 138,
+  "intent": {
+    "sequence": 139,
+    "method": "POST",
+    "route": "/skills/singed_q/formulas",
+    "detailRoute": "/skills/singed_q/formulas/damage_per_second",
+    "skillKey": "singed_q",
+    "kind": "formulas",
+    "stableKey": "damage_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_per_second",
+      "name": "剧毒踪迹每秒魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_per_second_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DamagePerSecond = 每秒基础伤害 + 0.425×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 120,
+  "intent": {
+    "sequence": 121,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_r/parameters",
+    "detailRoute": "/skills/fiddlesticks_r/parameters/channel_time_ms",
+    "skillKey": "fiddlesticks_r",
+    "kind": "parameters",
+    "stableKey": "channel_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "channel_time_ms",
+      "name": "引导时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "当前ChannelTime=1.5秒，转换为1500毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

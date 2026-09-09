@@ -1,0 +1,23 @@
+{
+  "i": 133,
+  "intent": {
+    "sequence": 134,
+    "method": "POST",
+    "route": "/skills/singed_q/parameters",
+    "detailRoute": "/skills/singed_q/parameters/poison_duration_ms",
+    "skillKey": "singed_q",
+    "kind": "parameters",
+    "stableKey": "poison_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "poison_duration_ms",
+      "name": "毒状态持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前PoisonDuration=2秒，转换为2000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

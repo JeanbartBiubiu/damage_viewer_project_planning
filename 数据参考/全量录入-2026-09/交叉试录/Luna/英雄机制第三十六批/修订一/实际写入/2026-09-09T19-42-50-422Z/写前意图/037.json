@@ -1,0 +1,23 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 37,
+    "method": "POST",
+    "route": "/skills/evelynn_r/parameters",
+    "detailRoute": "/skills/evelynn_r/parameters/ap_ratio",
+    "skillKey": "evelynn_r",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.75,
+      "levelValues": null,
+      "description": "Damage树StatByCoefficient=0.75；读取来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

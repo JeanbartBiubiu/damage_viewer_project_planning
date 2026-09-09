@@ -1,0 +1,45 @@
+{
+  "i": 153,
+  "intent": {
+    "sequence": 154,
+    "method": "POST",
+    "route": "/skills/singed_e/formulas",
+    "detailRoute": "/skills/singed_e/formulas/max_health_magic_component",
+    "skillKey": "singed_e",
+    "kind": "formulas",
+    "stableKey": "max_health_magic_component",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "max_health_magic_component",
+      "name": "过肩摔最大生命魔法伤害组件",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_points_to_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_health_percent_points"
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "正文额外组件 = 0.01×MaxHPDamage百分数点×目标最大生命；兵野封顶不在英雄公式中。",
+      "sortOrder": 20
+    }
+  }
+}

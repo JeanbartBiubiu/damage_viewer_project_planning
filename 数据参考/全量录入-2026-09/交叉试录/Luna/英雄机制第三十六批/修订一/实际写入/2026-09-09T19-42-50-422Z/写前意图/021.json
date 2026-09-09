@@ -1,0 +1,29 @@
+{
+  "i": 20,
+  "intent": {
+    "sequence": 21,
+    "method": "POST",
+    "route": "/skills/evelynn_w/parameters",
+    "detailRoute": "/skills/evelynn_w/parameters/mr_shred_ratio",
+    "skillKey": "evelynn_w",
+    "kind": "parameters",
+    "stableKey": "mr_shred_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mr_shred_ratio",
+      "name": "英雄魔抗削减比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.35,
+        "2": 0.375,
+        "3": 0.4,
+        "4": 0.425,
+        "5": 0.45
+      },
+      "description": "满标记对英雄的MRShred取索引1至5；正文按×100显示35%至45%，保存比例。",
+      "sortOrder": 50
+    }
+  }
+}

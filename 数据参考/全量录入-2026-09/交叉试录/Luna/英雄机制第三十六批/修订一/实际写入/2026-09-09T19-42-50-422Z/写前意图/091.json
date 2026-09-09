@@ -1,0 +1,29 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 91,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_q/parameters",
+    "detailRoute": "/skills/fiddlesticks_q/parameters/minimum_damage",
+    "skillKey": "fiddlesticks_q",
+    "kind": "parameters",
+    "stableKey": "minimum_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "minimum_damage",
+      "name": "恐惧最小魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 60,
+        "3": 80,
+        "4": 100,
+        "5": 120
+      },
+      "description": "当前MinimumDamage取索引1至5；近期恐惧分支最小值同样乘2。",
+      "sortOrder": 30
+    }
+  }
+}
