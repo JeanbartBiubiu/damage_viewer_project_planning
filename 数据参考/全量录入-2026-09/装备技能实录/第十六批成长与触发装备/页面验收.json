@@ -1,0 +1,571 @@
+{
+  "at": "2026-09-09T03:47:54.258Z",
+  "candidateSha256": "9a83728eadbc0ca64925e50a5f3bf249f114e7e4dff78b45e99760c476a55983",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "pages": [
+    {
+      "skillKey": "item_2524_passive",
+      "verified": "列表代表图正常；8秒基础、0.5远程持续倍率、自身攻速0.3和0.667；公式中文预览乘法及0.2001单位说明。"
+    },
+    {
+      "skillKey": "item_2510_passive",
+      "verified": "治疗公式查看页明确施法者法术强度最终值与生命值加成值；未知额外生命临时输入已消失，代表图正常。"
+    },
+    {
+      "skillKey": "item_2530_passive",
+      "verified": "和谐0.005系数、无默认能力资源输入；公式输出百分数点，转小数比例须除100，代表图正常。"
+    }
+  ],
+  "operator": "主负责人真实页面只读查看，未保存草稿，全部弹窗关闭",
+  "independentGets": 36,
+  "reads": [
+    {
+      "route": "/skills/item_2524_passive/parameters/melody_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:38:32.238621Z",
+        "description": "原BuffDuration基础Duration=8秒；另有远程倍率0.5，不表示全部分支都持续8秒。",
+        "fixedValue": 8000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "嘹亮旋律基础持续时间",
+        "parameterKey": "melody_duration_ms",
+        "skillKey": "item_2524_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:38:32.238621Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_2524_passive/parameters/melody_move_speed",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:38:32.952631Z",
+        "description": "当前MoveSpeed=20。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "嘹亮旋律移动速度",
+        "parameterKey": "melody_move_speed",
+        "skillKey": "item_2524_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:38:32.952631Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_2524_passive/parameters/melody_ranged_duration_multiplier",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:38:33.646623Z",
+        "description": "BuffDuration当前树明确mRangedMultiplier=0.5；实际近远程选择待连接。",
+        "fixedValue": 0.5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "旋律远程持续倍率",
+        "parameterKey": "melody_ranged_duration_multiplier",
+        "skillKey": "item_2524_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T03:38:33.646623Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2524_passive/parameters/melody_self_base_attack_speed_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:38:34.353716Z",
+        "description": "AuraAttackSpeed哈希eb8d750f精确命中MeleeAuraAttackSpeed；0.3为30%。",
+        "fixedValue": 0.3,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身攻速基础比例",
+        "parameterKey": "melody_self_base_attack_speed_ratio",
+        "skillKey": "item_2524_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T03:38:34.353716Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2524_passive/parameters/melody_self_ranged_attack_speed_multiplier",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:38:35.03482Z",
+        "description": "当前RangedAttackSpeedMultiplier原值0.6669999957084656，仅清除浮点尾差为0.667，不改成精确2/3。",
+        "fixedValue": 0.667,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "自身攻速远程倍率",
+        "parameterKey": "melody_self_ranged_attack_speed_multiplier",
+        "skillKey": "item_2524_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T03:38:35.03482Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2524_passive/formulas/melody_ranged_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:38:35.765108Z",
+        "description": "8000×0.5=4000；只有对应远程分支已确定时可用。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melody_duration_ms"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melody_ranged_duration_multiplier"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "melody_ranged_duration_ms",
+        "gameId": "lol",
+        "name": "远程分支旋律持续毫秒数",
+        "skillKey": "item_2524_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:38:35.765108Z"
+      }
+    },
+    {
+      "route": "/skills/item_2524_passive/formulas/melody_self_ranged_attack_speed_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:38:36.493803Z",
+        "description": "当前源0.3×0.667=0.2001；不直接舍入到0.2，不默认当前持有者为远程。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melody_self_base_attack_speed_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "melody_self_ranged_attack_speed_multiplier"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "melody_self_ranged_attack_speed_ratio",
+        "gameId": "lol",
+        "name": "自身远程攻速比例数值",
+        "skillKey": "item_2524_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:38:36.493803Z"
+      }
+    },
+    {
+      "route": "/skills/item_2524_passive/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2524_passive/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2524_passive/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2524_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2524_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2524",
+          "name": "item_2524"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_2524/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2524",
+          "name": "item_2524"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters/spellblade_cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:54.585787Z",
+        "description": "客户端SpellbladeCooldown与Cooldown均为1.5秒，换算为1500毫秒；冷却消费仍待接线。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃冷却",
+        "parameterKey": "spellblade_cooldown_ms",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:37:54.585787Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters/spellblade_damage_mstat2_formula1_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:55.362593Z",
+        "description": "SpellbladeDamage第一项为mStat=2、mStatFormula=1、系数0.75；当前只保存系数。",
+        "fixedValue": 0.75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃伤害第一缩放系数",
+        "parameterKey": "spellblade_damage_mstat2_formula1_ratio",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:37:55.362593Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters/spellblade_damage_mstat2_formula1_input",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:56.121487Z",
+        "description": "非负小数显式输入；mStat=2且mStatFormula=1在本批不映射为总攻击力。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃伤害第一缩放输入",
+        "parameterKey": "spellblade_damage_mstat2_formula1_input",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T03:37:56.121487Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters/spellblade_damage_default_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:56.85427Z",
+        "description": "SpellbladeDamage第二项缺省mStat和mStatFormula；按已核同版本三类旧StatBy法强旁证映射SOURCE ability_power TOTAL，保留0.1系数。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃伤害第二缩放系数",
+        "parameterKey": "spellblade_damage_default_ratio",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T03:37:56.85427Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters/spellblade_healing_default_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:57.691182Z",
+        "description": "SpellbladeHealing第一项缺省mStat和mStatFormula；按已核同版本三类旧StatBy法强旁证映射SOURCE ability_power TOTAL，保留0.1系数。",
+        "fixedValue": 0.1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃治疗第一缩放系数",
+        "parameterKey": "spellblade_healing_default_ratio",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T03:37:57.691182Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/parameters/spellblade_healing_mstat12_formula2_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:58.409458Z",
+        "description": "同构建余震具名旁证证明mStat12、mStatFormula2为来源额外生命值；系数0.03。",
+        "fixedValue": 0.03,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "咒刃额外生命治疗系数",
+        "parameterKey": "spellblade_healing_mstat12_formula2_ratio",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T03:37:58.409458Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/formulas/spellblade_damage_value",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:59.081826Z",
+        "description": "0.75×mStat=2、mStatFormula=1显式输入 + 0.1×SOURCE ability_power TOTAL；缺省 StatBy 节点的法强映射有同版本旁证。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spellblade_damage_mstat2_formula1_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spellblade_damage_mstat2_formula1_input"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spellblade_damage_default_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "spellblade_damage_value",
+        "gameId": "lol",
+        "name": "咒刃额外魔法伤害值",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:37:59.081826Z"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/formulas/spellblade_healing_value",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:37:59.875041Z",
+        "description": "0.1×来源法术强度 + 0.03×来源额外生命值；额外生命口径由同构建余震具名文本证明。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spellblade_healing_default_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "spellblade_healing_mstat12_formula2_ratio"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "spellblade_healing_value",
+        "gameId": "lol",
+        "name": "咒刃自身治疗值",
+        "skillKey": "item_2510_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:37:59.875041Z"
+      }
+    },
+    {
+      "route": "/skills/item_2510_passive/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2510_passive/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2510_passive/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2510_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2510_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2510",
+          "name": "item_2510"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_2510/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2510",
+          "name": "item_2510"
+        }
+      }
+    },
+    {
+      "route": "/skills/item_2530_passive/parameters/harmony_resource_percent_point_coefficient",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:38:49.546148Z",
+        "description": "BonusHSPCalc系数约0.005；计算结果单位为百分数点，资源1000得到5%，不是0.05小数比例；能力资源属性未由当前树直接给出。",
+        "fixedValue": 0.005,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "歌之权冠每点能力资源治疗和护盾强度百分数点系数",
+        "parameterKey": "harmony_resource_percent_point_coefficient",
+        "skillKey": "item_2530_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:38:49.546148Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2530_passive/parameters/harmony_resource_input",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:38:50.343252Z",
+        "description": "非负小数显式输入；当前节点缺少mStat，不能默认法术强度或最大法力。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "歌之权冠和谐能力资源输入",
+        "parameterKey": "harmony_resource_input",
+        "skillKey": "item_2530_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T03:38:50.343252Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/item_2530_passive/formulas/harmony_heal_shield_strength_percent_points",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T03:38:51.103599Z",
+        "description": "0.005×显式能力资源输入，结果单位为百分数点；若后续转成0至1比例，必须再除以100。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "harmony_resource_percent_point_coefficient"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "harmony_resource_input"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "harmony_heal_shield_strength_percent_points",
+        "gameId": "lol",
+        "name": "歌之权冠和谐治疗和护盾强度百分数点",
+        "skillKey": "item_2530_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T03:38:51.103599Z"
+      }
+    },
+    {
+      "route": "/skills/item_2530_passive/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2530_passive/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2530_passive/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2530_passive/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/item_2530_passive/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2530",
+          "name": "item_2530"
+        }
+      }
+    },
+    {
+      "route": "/equipment/item_2530/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_2530",
+          "name": "item_2530"
+        }
+      }
+    }
+  ],
+  "success": true,
+  "runtimeValidation": "未执行"
+}

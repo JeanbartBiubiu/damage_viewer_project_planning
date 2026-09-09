@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T03:15:55.157Z",
+  "generatedAt": "2026-09-09T03:47:54.264Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -89,7 +89,7 @@
     "status": "181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理"
   },
   "images": {
-    "objectUses": 1322,
+    "objectUses": 1334,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
@@ -101,7 +101,7 @@
     ],
     "additionalRuneGeneratedFormUses": 4,
     "additionalRuneGeneratedFormEvidence": "API实录/符文生成装备第一批/独立最终回读.json",
-    "additionalEquipmentSkillRepresentativeReuses": 86,
+    "additionalEquipmentSkillRepresentativeReuses": 98,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/护盾消费纠错/批次复核.json",
@@ -118,7 +118,8 @@
       "装备技能实录/Luna第十批/第二组/页面验收.json",
       "装备技能实录/第十四批常规效果/独立全量回读.json",
       "装备技能实录/Luna第十批/第三组/页面验收.json",
-      "装备技能实录/第十五批伤害装备/页面验收.json"
+      "装备技能实录/第十五批伤害装备/页面验收.json",
+      "装备技能实录/第十六批成长与触发装备/页面验收.json"
     ],
     "status": "原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3279,
@@ -1216,6 +1217,36 @@
       "evidence": "API实录/符文效果第三批/实际录入结果.json",
       "browserEvidence": "API实录/符文效果第三批/页面验收.json",
       "finalSha256": "536dc79da589dd4e36a7c229a4c983aecf20c720a8be4947047719855ca13623",
+      "runtimeValidation": "未执行"
+    },
+    "equipmentSixteenthBatch": {
+      "skills": [
+        "item_2510_passive",
+        "item_2512_passive",
+        "item_2517_passive",
+        "item_2520_passive",
+        "item_2523_passive",
+        "item_2524_passive",
+        "item_2526_passive",
+        "item_2530_passive",
+        "item_3040_passive",
+        "item_3042_passive",
+        "item_3073_passive",
+        "item_3083_passive"
+      ],
+      "parameters": 67,
+      "formulas": 29,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "equipmentRelations": 12,
+      "representativeImageReuses": 12,
+      "status": "132写入及写后GET一致；另257独立GET、32实值算例、3代表页面通过。完整触发、成长、状态和治疗时序仍待补录。",
+      "executor": "Luna Max候选与交叉审查；主负责人修正范围、属性映射、录入及页面验收",
+      "evidence": "装备技能实录/第十六批成长与触发装备/最终独立全量回读.json",
+      "browserEvidence": "装备技能实录/第十六批成长与触发装备/页面验收.json",
+      "candidateSha256": "9a83728eadbc0ca64925e50a5f3bf249f114e7e4dff78b45e99760c476a55983",
       "runtimeValidation": "未执行"
     }
   },
