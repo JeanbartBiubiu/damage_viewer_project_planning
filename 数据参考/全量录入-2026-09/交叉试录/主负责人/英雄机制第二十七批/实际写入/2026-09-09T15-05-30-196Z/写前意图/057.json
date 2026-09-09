@@ -1,0 +1,20 @@
+{
+  "i": 56,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_q/parameters",
+    "skillKey": "hecarim_q",
+    "kind": "parameters",
+    "stableKey": "buff_duration_ms",
+    "body": {
+      "parameterKey": "buff_duration_ms",
+      "name": "层数持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 8000,
+      "levelValues": null,
+      "description": "当前根DataValues.BuffDuration取索引1至5，秒转为整数毫秒。",
+      "sortOrder": 110
+    }
+  }
+}

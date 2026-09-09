@@ -1,0 +1,30 @@
+{
+  "i": 14,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_q/formulas",
+    "skillKey": "gragas_q",
+    "kind": "formulas",
+    "stableKey": "maximum_slow_percent_points",
+    "body": {
+      "formulaKey": "maximum_slow_percent_points",
+      "name": "最大减速百分数点",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "slow_percent_points"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "maximum_multiplier"
+          }
+        ]
+      },
+      "description": "当前正文减速最大为1.5×SlowPercent。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "at": "2026-09-09T15:32:12.120Z",
+  "skills": [
+    "gragas_p",
+    "gragas_q",
+    "gragas_w",
+    "gragas_e",
+    "gragas_r",
+    "hecarim_p",
+    "hecarim_q",
+    "hecarim_w",
+    "hecarim_e",
+    "hecarim_r"
+  ],
+  "status": "明确组成已保存，独立回读与代表页面通过；曲线和施放命中事件继续处理",
+  "counts": {
+    "parameters": 85,
+    "formulas": 18,
+    "effects": 10,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newCounts": {
+    "parameters": 70,
+    "formulas": 18,
+    "effects": 10
+  },
+  "reusedParameters": 15,
+  "businessWrites": 98,
+  "candidateFileSha256": "046f2671121092a906008b6b07909156a90d4bc241e18ce646fc12480f3303cf",
+  "writePlanSha256": "562b5c4060671668e4fc9fd116e35cf6c8cedac8c1b96f3ffed9bc2535f57ae9",
+  "execution": {
+    "file": "实际写入/2026-09-09T15-05-30-196Z/执行结果.json",
+    "GETs": 628,
+    "successfulPOSTs": 98,
+    "rejectedPOSTs": 0,
+    "unknownPOSTs": 0,
+    "passed": true
+  },
+  "independentReadback": {
+    "file": "独立回读/2026-09-09T15-13-17.444Z/独立全量回读.json",
+    "GETs": 201,
+    "details": 113,
+    "protectedPaths": 103,
+    "lists": 60,
+    "subjects": 10,
+    "characters": 2,
+    "relations": 2,
+    "images": 10,
+    "passed": true
+  },
+  "strictMath": {
+    "file": "独立回读/2026-09-09T15-13-17.444Z/独立严格数学.json",
+    "actualFormulas": 18,
+    "formulaCases": 36,
+    "missingInputChecks": 20,
+    "boundaryChecks": 12,
+    "passed": true
+  },
+  "browser": {
+    "file": "页面验收.json",
+    "representativePages": 3,
+    "GETs": 15,
+    "mathCases": 10,
+    "passed": true
+  },
+  "hashes": {
+    "完整候选.json": "046f2671121092a906008b6b07909156a90d4bc241e18ce646fc12480f3303cf",
+    "请求计划.json": "562b5c4060671668e4fc9fd116e35cf6c8cedac8c1b96f3ffed9bc2535f57ae9",
+    "受保护写入器.mjs": "dba828a939a06c29b0d01117167815516e1d97ae96de875be57c796f8baa369b",
+    "独立回读-实际GET.mjs": "91c8ce21ec0fdc39086dd5876820a0dc3412b3db096a2c40a721388b001d3561",
+    "独立回读-严格数学.mjs": "b667fedb9ae82e4885e5f63568f78405621954c9f7407464bd80e998676b29a8",
+    "实际写入/2026-09-09T15-05-30-196Z/执行结果.json": "017e54d20079f2d2eabea4a08a6003bc32b5bf9a062fda4ac0c83e4f55835ff6",
+    "独立回读/2026-09-09T15-13-17.444Z/独立全量回读.json": "46c4a6f77b7846460efc33cda136d3d356716333977e0c719fe0a56dd1eed804",
+    "独立回读/2026-09-09T15-13-17.444Z/独立严格数学.json": "b8e3cf6b0ab4b32fa4167ed150086a080eecfdf80c1071d5adfc65fcc26a9686"
+  },
+  "issues": [
+    "酒桶W的根0.01必须乘完整减伤百分数点表达式，不能把减伤比例当固定点数。",
+    "人马Q伤害与冷却均按已有整数层数封顶3；冷却每层750毫秒，当前正文持续8秒，旧6秒未采用。",
+    "人马W自身治疗用实际造成伤害，不能替换成抗性前原始伤害；唯一敌人名称是本轮1V1范围，完整多目标来源原文仍保留。",
+    "独立写入器评审对额外效果参数扫描的描述过宽，已单独勘误；实际脚本及原报告保留。",
+    "根候选数学初稿期望分支遗漏return、页面补核初稿误拼公式键，修复核对脚本后通过，候选和已保存数据未因此改写。"
+  ],
+  "pending": [
+    "酒桶被动、人马被动等级求值、施法来源冲突、中间蓄力与移速曲线仍需外供明确实际值。",
+    "人马E被R暂停的剩余持续时间、周期首末、控制和治疗资格等事件继续接线。",
+    "酒桶Q酒桶、人马R骑兵为技能伤害载体保留，没有建立独立自主召唤。"
+  ],
+  "runtimeValidation": "未执行"
+}

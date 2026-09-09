@@ -1,0 +1,74 @@
+{
+  "i": 28,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_w/formulas",
+    "skillKey": "gragas_w",
+    "kind": "formulas",
+    "stableKey": "empowered_bonus_damage",
+    "body": {
+      "formulaKey": "empowered_bonus_damage",
+      "name": "醉酒狂暴额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_point_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "target_max_health_percent_points"
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "额外伤害=基础+.7AP+.07目标最大生命值，不包括普攻自身。",
+      "sortOrder": 20
+    }
+  }
+}

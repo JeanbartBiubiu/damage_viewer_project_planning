@@ -1,0 +1,42 @@
+{
+  "i": 41,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_r/formulas",
+    "skillKey": "gragas_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "爆破酒桶魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DamageDone按当前根绑定。",
+      "sortOrder": 10
+    }
+  }
+}

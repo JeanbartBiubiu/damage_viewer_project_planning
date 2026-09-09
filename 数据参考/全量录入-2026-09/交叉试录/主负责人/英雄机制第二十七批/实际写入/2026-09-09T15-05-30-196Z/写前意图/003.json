@@ -1,0 +1,32 @@
+{
+  "i": 2,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_p/formulas",
+    "skillKey": "gragas_p",
+    "kind": "formulas",
+    "stableKey": "heal_amount",
+    "body": {
+      "formulaKey": "heal_amount",
+      "name": "欢乐时光回复量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "heal_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "HealAmount=HealRatio×来源总生命值；只定义回复量。",
+      "sortOrder": 10
+    }
+  }
+}

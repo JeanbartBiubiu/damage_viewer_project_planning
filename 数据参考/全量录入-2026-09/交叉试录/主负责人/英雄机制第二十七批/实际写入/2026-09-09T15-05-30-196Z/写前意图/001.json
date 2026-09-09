@@ -1,0 +1,20 @@
+{
+  "i": 0,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_p/parameters",
+    "skillKey": "gragas_p",
+    "kind": "parameters",
+    "stableKey": "heal_ratio",
+    "body": {
+      "parameterKey": "heal_ratio",
+      "name": "自身最大生命回复比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.055,
+      "levelValues": null,
+      "description": "当前根DataValues.HealRatio取索引1至1。",
+      "sortOrder": 10
+    }
+  }
+}

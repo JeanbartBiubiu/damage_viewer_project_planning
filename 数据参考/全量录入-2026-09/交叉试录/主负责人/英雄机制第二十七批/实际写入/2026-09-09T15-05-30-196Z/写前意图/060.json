@@ -1,0 +1,114 @@
+{
+  "i": 59,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_q/formulas",
+    "skillKey": "hecarim_q",
+    "kind": "formulas",
+    "stableKey": "physical_damage_at_stacks",
+    "body": {
+      "formulaKey": "physical_damage_at_stacks",
+      "name": "指定已有层数的暴走伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MIN",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "actual_stacks"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "max_stacks"
+                          }
+                        ]
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "ADD",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "boost_base_percent_points"
+                          },
+                          {
+                            "nodeType": "OPERATION",
+                            "operation": "MULTIPLY",
+                            "operands": [
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "boost_bonus_ad_percent_points"
+                              },
+                              {
+                                "nodeType": "ATTRIBUTE",
+                                "attributeOwner": "SOURCE",
+                                "attributeKey": "attack_damage",
+                                "attributeValueKind": "BONUS"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_point_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "完整无叠层伤害×(1+MIN(实际已有层数,3)×每层增幅×.01)；层数取得时点待接。",
+      "sortOrder": 30
+    }
+  }
+}

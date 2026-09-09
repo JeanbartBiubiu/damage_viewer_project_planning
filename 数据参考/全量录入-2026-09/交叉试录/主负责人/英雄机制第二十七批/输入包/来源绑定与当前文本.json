@@ -1,0 +1,4791 @@
+{
+  "at": "2026-09-09T14:18:01.951Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "stringTableSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "heroes": [
+    {
+      "id": "Gragas",
+      "key": "champion_gragas",
+      "name": "古拉加斯",
+      "source": {
+        "championId": "Gragas",
+        "chineseName": "酒桶",
+        "resourceType": "法力",
+        "client": {
+          "path": "客户端原文/Gragas.json.gz",
+          "sha256": "77dbdc69e266d50decc9d117692070f8513593ae44b1de4c3e6b726b2eab1c28",
+          "compressedSha256": "00ab98ea8c5af40d605ad574ccbf8a385ad25a81adda79540b554943388c071e",
+          "byteSize": 55746,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/gragas/gragas.bin.json",
+          "fetchedAt": "2026-09-06T14:26:17.990Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Gragas.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Gragas.json",
+          "fetchedAt": "2026-09-06T14:12:47.103Z",
+          "byteSize": 12557,
+          "sha256": "3d9280c9048361e5c71942374542b3a5be37e994609d0c2eb32d693914ace472"
+        },
+        "rootPath": "Characters/Gragas/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "欢乐时光",
+            "clientPath": "Characters/Gragas/Spells/GragasPassiveAbility/GragasPassive",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": [
+              12,
+              12,
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "HealRatio",
+              "Level1Value",
+              "AdditionalBonusAtThisLevel",
+              "BonusPerLevelAtAndAfter"
+            ],
+            "calculationNames": [
+              "HealAmount",
+              "HealCooldown"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "GragasQ",
+            "name": "滚动酒桶",
+            "clientPath": "Characters/Gragas/Spells/GragasQAbility/GragasQ",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              10,
+              9,
+              8,
+              7,
+              6
+            ],
+            "cost": [
+              80,
+              80,
+              80,
+              80,
+              80
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              11,
+              10,
+              9,
+              8,
+              7,
+              6,
+              6
+            ],
+            "clientMana": [
+              80,
+              80,
+              80,
+              80,
+              80,
+              80
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "BaseDamage",
+              "SlowPercent",
+              "SlowDuration",
+              "BarrelMaxDuration",
+              "BarrelCookMaxTime",
+              "BarrelCookMaxAmp",
+              "MinionDamageMod"
+            ],
+            "calculationNames": [
+              "MinDamage",
+              "MaxDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "GragasW",
+            "name": "醉酒狂暴",
+            "clientPath": "Characters/Gragas/Spells/GragasWAbility/GragasW",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "cost": [
+              30,
+              30,
+              30,
+              30,
+              30
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "clientMana": [
+              30,
+              30,
+              30,
+              30,
+              30,
+              30
+            ],
+            "clientCastTime": 0.4393500089645386,
+            "dataValueNames": [
+              "AttackRangeBuff",
+              "MaxHPPercentDamage",
+              "BaseDamageReduction",
+              "DamageReductionAP",
+              "BaseDamage",
+              "BaseDamageAP",
+              "MonsterDamageCap",
+              "DefenseDuration",
+              "AttackDuration",
+              "TurretDamageMod"
+            ],
+            "calculationNames": [
+              "DamageReduction",
+              "TotalDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "GragasE",
+            "name": "肉弹冲击",
+            "clientPath": "Characters/Gragas/Spells/GragasEAbility/GragasE",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              14,
+              13.5,
+              13,
+              12.5,
+              12
+            ],
+            "cost": [
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              14,
+              14,
+              13.5,
+              13,
+              12.5,
+              12,
+              12
+            ],
+            "clientMana": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "BaseDamage",
+              "APRatio",
+              "CooldownRefund",
+              "StunDuration",
+              "DashSpeed",
+              "HitboxArea",
+              "ForwardHitbox"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "GragasR",
+            "name": "爆破酒桶",
+            "clientPath": "Characters/Gragas/Spells/GragasRAbility/GragasR",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              100,
+              85,
+              70
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              100,
+              100,
+              85,
+              70,
+              70,
+              70,
+              70
+            ],
+            "clientMana": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "BaseDamage",
+              "APRatio",
+              "KnockbackDistance"
+            ],
+            "calculationNames": [
+              "DamageDone"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      },
+      "rootPath": "Characters/Gragas/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Gragas/Spells/GragasPassiveAbility/GragasPassive",
+        "spells": [
+          "Characters/Gragas/Spells/GragasQAbility/GragasQ",
+          "Characters/Gragas/Spells/GragasWAbility/GragasW",
+          "Characters/Gragas/Spells/GragasEAbility/GragasE",
+          "Characters/Gragas/Spells/GragasRAbility/GragasR"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "gragas_p",
+          "binding": "Characters/Gragas/Spells/GragasPassiveAbility/GragasPassive",
+          "object": {
+            "ObjectName": "GragasPassive",
+            "objectPath": "Characters/Gragas/Spells/GragasPassiveAbility/GragasPassive",
+            "mScriptName": "GragasPassive",
+            "mSpell": {
+              "DataValues": [
+                {
+                  "name": "HealRatio",
+                  "values": [
+                    0.054999999701976776,
+                    0.054999999701976776,
+                    0.054999999701976776,
+                    0.054999999701976776,
+                    0.054999999701976776,
+                    0.054999999701976776,
+                    0.054999999701976776
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "Level1Value",
+                  "values": [
+                    12,
+                    12,
+                    12,
+                    12,
+                    12,
+                    12,
+                    12
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "AdditionalBonusAtThisLevel",
+                  "values": [
+                    -2,
+                    -2,
+                    -2,
+                    -2,
+                    -2,
+                    -2,
+                    -2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BonusPerLevelAtAndAfter",
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "Level1Value",
+                      "values": [
+                        8,
+                        8,
+                        8,
+                        8,
+                        8,
+                        8,
+                        8
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "AdditionalBonusAtThisLevel",
+                      "values": [
+                        -1.5,
+                        -1.5,
+                        -1.5,
+                        -1.5,
+                        -1.5,
+                        -1.5,
+                        -1.5
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "HealAmount": {
+                  "mFormulaParts": [
+                    {
+                      "mStat": 12,
+                      "mDataValue": "HealRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "HealCooldown": {
+                  "mFormulaParts": [
+                    {
+                      "{91d404a5}": "Level1Value",
+                      "{bbd778a2}": "BonusPerLevelAtAndAfter",
+                      "{9823b29a}": [
+                        {
+                          "level": 6,
+                          "{ae9b464d}": "AdditionalBonusAtThisLevel",
+                          "{b0d8b2ac}": "BonusPerLevelAtAndAfter",
+                          "__type": "{0333530c}"
+                        },
+                        {
+                          "level": 11,
+                          "{ae9b464d}": "AdditionalBonusAtThisLevel",
+                          "{b0d8b2ac}": "BonusPerLevelAtAndAfter",
+                          "__type": "{0333530c}"
+                        },
+                        {
+                          "level": 16,
+                          "{ae9b464d}": "AdditionalBonusAtThisLevel",
+                          "{b0d8b2ac}": "BonusPerLevelAtAndAfter",
+                          "__type": "{0333530c}"
+                        }
+                      ],
+                      "__type": "{4ce08984}"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mImgIconName": [
+                "ASSETS/Characters/Gragas/HUD/Icons2D/GragasPassiveHeal.dds"
+              ],
+              "cooldownTime": [
+                12,
+                12,
+                12,
+                12,
+                12,
+                12,
+                12
+              ],
+              "Cooldown": {
+                "values": [
+                  12,
+                  12,
+                  12,
+                  12,
+                  12,
+                  12,
+                  12
+                ],
+                "{0a3e0478}": 12,
+                "__type": "{0a0eddc9}"
+              },
+              "castRange": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "castRangeValues": {
+                "values": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "{0a3e0478}": 0,
+                "__type": "{0a0eddc9}"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "GragasPassive",
+                  "mFormat": "{476ec0b8}",
+                  "mLocKeys": {
+                    "keyName": "game_character_passiveName_Gragas",
+                    "keyTooltip": "game_character_passiveDescription_Gragas",
+                    "keySummary": "Spell_GragasPassive_Summary",
+                    "keyCooldown": "Spell_GragasP_Cooldown"
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_GragasPassive",
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "game_character_passiveName_Gragas",
+              "text": "欢乐时光"
+            },
+            "keyTooltip": {
+              "sourceKey": "game_character_passiveDescription_Gragas",
+              "text": "古拉加斯每次使用技能后都会喝一小杯，立即恢复<healing>@HealAmount@生命值</healing>。 "
+            },
+            "keySummary": {
+              "sourceKey": "Spell_GragasPassive_Summary",
+              "text": "古拉加斯可周期性地使用一个技能来治疗自身。"
+            },
+            "keyCooldown": {
+              "sourceKey": "Spell_GragasP_Cooldown",
+              "text": "@HealCooldown@秒%i:cooldown%"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "gragas_q",
+          "binding": "Characters/Gragas/Spells/GragasQAbility/GragasQ",
+          "object": {
+            "ObjectName": "GragasQ",
+            "objectPath": "Characters/Gragas/Spells/GragasQAbility/GragasQ",
+            "mScriptName": "GragasQ",
+            "mSpell": {
+              "flags": 4194304,
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "Trait_DamageAbility",
+                "Trait_RecastOrReplaceSpell",
+                "Trait_SignatureSpell",
+                "Trait_Target_Area",
+                "Trait_AoE"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    40,
+                    80,
+                    120,
+                    160,
+                    200,
+                    240,
+                    280
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    35,
+                    40,
+                    45,
+                    50,
+                    55,
+                    60,
+                    65
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    150,
+                    150,
+                    150,
+                    150,
+                    150,
+                    150,
+                    150
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    70,
+                    70,
+                    70,
+                    70,
+                    70,
+                    70,
+                    70
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    40,
+                    80,
+                    120,
+                    160,
+                    200,
+                    240,
+                    280
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowPercent",
+                  "values": [
+                    35,
+                    40,
+                    45,
+                    50,
+                    55,
+                    60,
+                    65
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowDuration",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BarrelMaxDuration",
+                  "values": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BarrelCookMaxTime",
+                  "values": [
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2,
+                    2
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BarrelCookMaxAmp",
+                  "values": [
+                    150,
+                    150,
+                    150,
+                    150,
+                    150,
+                    150,
+                    150
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MinionDamageMod",
+                  "values": [
+                    70,
+                    70,
+                    70,
+                    70,
+                    70,
+                    70,
+                    70
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "MinDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.800000011920929,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "MaxDamage": {
+                  "mMultiplier": {
+                    "mNumber": 1.5,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "tooltipOnly": true,
+                  "mModifiedGameCalculation": "MinDamage",
+                  "__type": "GameCalculationModified"
+                }
+              },
+              "mCoefficient": 0.800000011920929,
+              "mAnimationName": "Spell1",
+              "mImgIconName": [
+                "ASSETS/Characters/Gragas/HUD/Icons2D/GragasBarrelRoll.dds"
+              ],
+              "mCastTime": 0.25,
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                11,
+                10,
+                9,
+                8,
+                7,
+                6,
+                6
+              ],
+              "Cooldown": {
+                "values": [
+                  11,
+                  10,
+                  9,
+                  8,
+                  7,
+                  6,
+                  6
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "mProjectTargetToCastRange": true,
+              "mSpellRevealsChampion": false,
+              "useAnimatorFramerate": true,
+              "bIsToggleSpell": true,
+              "castRange": [
+                850,
+                850,
+                850,
+                850,
+                850,
+                850,
+                850
+              ],
+              "castRangeValues": {
+                "values": [
+                  850,
+                  850,
+                  850,
+                  850,
+                  850,
+                  850,
+                  850
+                ],
+                "{0a3e0478}": 850,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                850,
+                850,
+                850,
+                850,
+                850,
+                850,
+                850
+              ],
+              "castRadius": [
+                250,
+                250,
+                250,
+                250,
+                250,
+                250,
+                250
+              ],
+              "castConeDistance": 100,
+              "castFrame": 7.5,
+              "missileSpeed": 1000,
+              "mLineWidth": 110,
+              "bHaveHitBone": true,
+              "mHitBoneName": "pelvis",
+              "mFloatVarsDecimals": [
+                1,
+                1,
+                1,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mana": [
+                80,
+                80,
+                80,
+                80,
+                80,
+                80
+              ],
+              "manaValues": {
+                "values": [
+                  80,
+                  80,
+                  80,
+                  80,
+                  80,
+                  80
+                ],
+                "{0a3e0478}": 80,
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "Area"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "GragasQ",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_GragasQ_Name",
+                    "keySummary": "Spell_GragasQ_Summary",
+                    "keyTooltip": "Spell_GragasQ_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_GragasQ_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "SlowPercent",
+                          "nameOverride": "Spell_ListType_Slow",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "centerLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "__type": "TargeterDefinitionAoe"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_GragasQ",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "MinDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 1,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "SlowDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_GragasQ_Name",
+              "text": "滚动酒桶"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_GragasQ_Summary",
+              "text": "古拉加斯将酒桶滚到目标地点，酒桶可以被主动引爆或在到达目标地点4秒后自行爆炸。爆炸的威力会随时间持续提升。被酒桶炸到的敌人，移动速度会被降低。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_GragasQ_Tooltip",
+              "text": "古拉加斯滚动出一个酒桶，该酒桶会在@BarrelMaxDuration@秒后爆炸， 造成<magicDamage>@MinDamage@魔法伤害</magicDamage>到<magicDamage>@MaxDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowPercent@到@SlowPercent*1.5@%<status>减速</status>。伤害和<status>减速</status>会基于该酒桶在爆炸前的时长来提升。<br><br>古拉加斯可以<recast>再次施放</recast>这个技能来提前引爆该酒桶。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_GragasQ_TooltipExtendedBelowLine",
+              "text": "<rules>对小兵造成@MinionDamageMod@%伤害。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "gragas_w",
+          "binding": "Characters/Gragas/Spells/GragasWAbility/GragasW",
+          "object": {
+            "ObjectName": "GragasW",
+            "objectPath": "Characters/Gragas/Spells/GragasWAbility/GragasW",
+            "mScriptName": "GragasW",
+            "mSpell": {
+              "flags": 32,
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "Trait_DamageAbility",
+                "Trait_Parry",
+                "Trait_Strike",
+                "Trait_Low_Damage",
+                "Trait_AoE",
+                "PositiveEffect_EmpowerAttack"
+              ],
+              "DataValues": [
+                {
+                  "name": "AttackRangeBuff",
+                  "values": [
+                    50,
+                    50,
+                    50,
+                    50,
+                    50,
+                    50,
+                    50
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxHPPercentDamage",
+                  "values": [
+                    7,
+                    7,
+                    7,
+                    7,
+                    7,
+                    7,
+                    7
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseDamageReduction",
+                  "values": [
+                    6,
+                    10,
+                    14,
+                    18,
+                    22,
+                    26,
+                    30
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DamageReductionAP",
+                  "values": [
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    -10,
+                    20,
+                    50,
+                    80,
+                    110,
+                    140,
+                    170
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseDamageAP",
+                  "values": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MonsterDamageCap",
+                  "values": [
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DefenseDuration",
+                  "values": [
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "AttackDuration",
+                  "values": [
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5,
+                    5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TurretDamageMod",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "MaxHPPercentDamage",
+                      "values": [
+                        9,
+                        9,
+                        9,
+                        9,
+                        9,
+                        9,
+                        9
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "DamageReduction": {
+                  "mMultiplier": {
+                    "mNumber": 0.009999999776482582,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamageReduction",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "DamageReductionAP",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "mDisplayAsPercent": true,
+                  "__type": "GameCalculation"
+                },
+                "TotalDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "BaseDamageAP",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell2_Loop",
+              "mAnimationLoopName": "Spell2_Loop",
+              "mAnimationWinddownName": "Spell2_Winddown",
+              "mImgIconName": [
+                "ASSETS/Characters/Gragas/HUD/Icons2D/GragasDrunkenRage.dds"
+              ],
+              "mCastTime": 0.0010000000474974513,
+              "spellCastTime": 0.4393500089645386,
+              "spellTotalTime": 1.149999976158142,
+              "mChannelDuration": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              "cooldownTime": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "Cooldown": {
+                "values": [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                "{0a3e0478}": 5,
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileChanneling": true,
+              "mSpellRevealsChampion": false,
+              "mCanMoveWhileChanneling": true,
+              "mDoNotNeedToFaceTarget": true,
+              "castRange": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              "castRangeValues": {
+                "values": [
+                  20,
+                  20,
+                  20,
+                  20,
+                  20,
+                  20,
+                  20
+                ],
+                "{0a3e0478}": 20,
+                "__type": "{0a0eddc9}"
+              },
+              "castConeAngle": 0,
+              "castConeDistance": 0,
+              "castFrame": 10.289999961853027,
+              "missileSpeed": 828.5,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "mana": [
+                30,
+                30,
+                30,
+                30,
+                30,
+                30
+              ],
+              "manaValues": {
+                "values": [
+                  30,
+                  30,
+                  30,
+                  30,
+                  30,
+                  30
+                ],
+                "{0a3e0478}": 30,
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "Self"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "GragasW",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_GragasW_Name",
+                    "keySummary": "Spell_GragasW_Summary",
+                    "keyTooltip": "Spell_GragasW_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_GragasW_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamageReduction",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_DamageReduction",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 3,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_GragasW",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 8192,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 512,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 128,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_GragasW_Name",
+              "text": "醉酒狂暴"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_GragasW_Summary",
+              "text": "古拉加斯品尝他的最新佳酿，持续1秒。在喝完之后，他会变得喧闹且好斗，下次普通攻击会对附近的所有目标造成更多伤害，并且自身所受的伤害会降低。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_GragasW_Tooltip",
+              "text": "古拉加斯品尝他的最新佳酿，使即将到来的伤害降低@DamageReduction@，持续@DefenseDuration@秒，此外，他的下次攻击获得强化，对目标及目标身边的敌人们造成额外的<magicDamage>@TotalDamage@</magicDamage>外加<magicDamage>@MaxHPPercentDamage@%最大生命值的魔法伤害</magicDamage>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_GragasW_TooltipExtendedBelowLine",
+              "text": "<rules>对野怪的最大生命值伤害的上限为@MonsterDamageCap@。</rules><br><rules>对建筑物造成@TurretDamageMod*100@%伤害。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "gragas_e",
+          "binding": "Characters/Gragas/Spells/GragasEAbility/GragasE",
+          "object": {
+            "ObjectName": "GragasE",
+            "objectPath": "Characters/Gragas/Spells/GragasEAbility/GragasE",
+            "mScriptName": "GragasE",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "mSpellTags": [
+                "PositiveEffect_MoveBlock",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_PlayerSelectedDashDirection",
+                "Trait_DamageAbility",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    35,
+                    80,
+                    125,
+                    170,
+                    215,
+                    260,
+                    305
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "CooldownRefund",
+                  "values": [
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "StunDuration",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DashSpeed",
+                  "values": [
+                    900,
+                    900,
+                    900,
+                    900,
+                    900,
+                    900,
+                    900
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HitboxArea",
+                  "values": [
+                    180,
+                    180,
+                    180,
+                    180,
+                    180,
+                    180,
+                    180
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ForwardHitbox",
+                  "values": [
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40,
+                    40
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "CooldownRefund",
+                      "values": [
+                        0.25,
+                        0.25,
+                        0.25,
+                        0.25,
+                        0.25,
+                        0.25,
+                        0.25
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                },
+                "URF": {
+                  "SpellDataValues": [
+                    {
+                      "name": "CooldownRefund",
+                      "values": [
+                        0.25,
+                        0.25,
+                        0.25,
+                        0.25,
+                        0.25,
+                        0.25,
+                        0.25
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "{f9c2333e}": {
+                "cherry": {
+                  "value": [
+                    15,
+                    15,
+                    14.5,
+                    14,
+                    13.5,
+                    13,
+                    13
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell1",
+              "mImgIconName": [
+                "ASSETS/Characters/Gragas/HUD/Icons2D/GragasBodySlam.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                14,
+                14,
+                13.5,
+                13,
+                12.5,
+                12,
+                12
+              ],
+              "Cooldown": {
+                "values": [
+                  14,
+                  14,
+                  13.5,
+                  13,
+                  12.5,
+                  12,
+                  12
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "cantCastWhileRooted": true,
+              "castRange": [
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000
+              ],
+              "castRangeValues": {
+                "values": [
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000
+                ],
+                "{0a3e0478}": 25000,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                600,
+                600,
+                600,
+                600,
+                600,
+                600,
+                600
+              ],
+              "castFrame": 9,
+              "mLineWidth": 50,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mana": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ],
+              "manaValues": {
+                "values": [
+                  50,
+                  50,
+                  50,
+                  50,
+                  50,
+                  50
+                ],
+                "{0a3e0478}": 50,
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "Location"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "GragasE",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_GragasE_Name",
+                    "keySummary": "Spell_GragasE_Summary",
+                    "keyTooltip": "Spell_GragasE_Tooltip"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "hideWithLineIndicator": true,
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        600,
+                        600,
+                        600,
+                        600,
+                        600,
+                        600
+                      ],
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        180,
+                        180,
+                        180,
+                        180,
+                        180,
+                        180
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        600,
+                        600,
+                        600,
+                        600,
+                        600,
+                        600
+                      ],
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionLine"
+                  },
+                  {
+                    "startLocator": {
+                      "orientationType": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "endLocator": {
+                      "distanceOffset": 800,
+                      "orientationType": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "fallbackDirection": 3,
+                    "alwaysDraw": true,
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        180,
+                        180,
+                        180,
+                        180,
+                        180,
+                        180
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        800,
+                        800,
+                        800,
+                        800,
+                        800,
+                        800
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureBaseOverrideName": "assets/spells/textures/locallinemissilebase_dark.tex",
+                    "textureTargetOverrideName": "assets/spells/textures/locallinemissiletarget_dark.tex",
+                    "__type": "TargeterDefinitionLine"
+                  },
+                  {
+                    "hideWithLineIndicator": true,
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        800,
+                        800,
+                        800,
+                        800,
+                        800,
+                        800
+                      ],
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 2048,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4194304,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 128,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_GragasE_Name",
+              "text": "肉弹冲击"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_GragasE_Summary",
+              "text": "古拉加斯向目标区域冲锋，在撞上第一个敌人后，对附近的所有敌方单位造成伤害和晕眩效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_GragasE_Tooltip",
+              "text": "古拉加斯向前冲锋，撞击命中的第一名敌人，使附近的敌人<status>击飞</status>@StunDuration@秒并对其造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。<br><br>当古拉加斯撞到一个敌人时，这个技能的冷却时间会缩短@CooldownRefund*100@%。"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "gragas_r",
+          "binding": "Characters/Gragas/Spells/GragasRAbility/GragasR",
+          "object": {
+            "ObjectName": "GragasR",
+            "objectPath": "Characters/Gragas/Spells/GragasRAbility/GragasR",
+            "mScriptName": "GragasR",
+            "mSpell": {
+              "flags": 4194304,
+              "mAffectsTypeFlags": 7183,
+              "mSpellTags": [
+                "Trait_Ultimate",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_KnockBack",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    100,
+                    200,
+                    300,
+                    400,
+                    500,
+                    600,
+                    700
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "KnockbackDistance",
+                  "values": [
+                    900,
+                    900,
+                    900,
+                    900,
+                    900,
+                    900,
+                    900
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "DamageDone": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.800000011920929,
+              "mAnimationName": "Spell4",
+              "mImgIconName": [
+                "ASSETS/Characters/Gragas/HUD/Icons2D/GragasExplosiveCask.dds"
+              ],
+              "mCastTime": 0.25,
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                100,
+                100,
+                85,
+                70,
+                70,
+                70,
+                70
+              ],
+              "Cooldown": {
+                "values": [
+                  100,
+                  100,
+                  85,
+                  70,
+                  70,
+                  70,
+                  70
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "mSpellRevealsChampion": false,
+              "useAnimatorFramerate": true,
+              "castRange": [
+                1050,
+                1050,
+                1050,
+                1050,
+                1050,
+                1050,
+                1050
+              ],
+              "castRangeValues": {
+                "values": [
+                  1050,
+                  1050,
+                  1050,
+                  1050,
+                  1050,
+                  1050,
+                  1050
+                ],
+                "{0a3e0478}": 1050,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000
+              ],
+              "castRadius": [
+                350,
+                350,
+                350,
+                350,
+                350,
+                350,
+                350
+              ],
+              "castConeDistance": 100,
+              "castTargetAdditionalUnitsRadius": 400,
+              "castFrame": 7.5,
+              "missileSpeed": 200,
+              "mLineWidth": 120,
+              "bHaveHitBone": true,
+              "mHitBoneName": "pelvis",
+              "mana": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              "manaValues": {
+                "values": [
+                  100,
+                  100,
+                  100,
+                  100,
+                  100,
+                  100
+                ],
+                "{0a3e0478}": 100,
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 2,
+              "mTargetingTypeData": {
+                "__type": "Area"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "GragasR",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_GragasR_Name",
+                    "keySummary": "Spell_GragasR_Summary",
+                    "keyTooltip": "Spell_GragasR_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_GragasR_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 3,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "centerLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "textureRadiusOverrideName": "assets/spells/textures/aoe.tex",
+                    "__type": "TargeterDefinitionAoe"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "DamageDone",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 4194304,
+                  "EffectCalculation": {
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_GragasR_Name",
+              "text": "爆破酒桶"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_GragasR_Summary",
+              "text": "古拉加斯向目标区域投掷他的酒桶，对爆炸范围内的所有敌人造成伤害和击退效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_GragasR_Tooltip",
+              "text": "古拉加斯猛抛他的酒桶，造成<magicDamage>@DamageDone@魔法伤害</magicDamage>并将敌人们从爆炸中心<status>击退</status>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_GragasR_TooltipExtendedBelowLine",
+              "text": "<rules>敌人不可以被这个技能<status>击退</status>得越过墙体。</rules>"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Hecarim",
+      "key": "champion_hecarim",
+      "name": "赫卡里姆",
+      "source": {
+        "championId": "Hecarim",
+        "chineseName": "战争之影",
+        "resourceType": "法力",
+        "client": {
+          "path": "客户端原文/Hecarim.json.gz",
+          "sha256": "da6aaa9b6b8a1bb0c3adf35f288efee65aa4968563e34477e80343f565ec0965",
+          "compressedSha256": "e687038f382c97de90950ddc51690c11ed4330ac8a02f60f5ce54e2bae3cefbc",
+          "byteSize": 80134,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/hecarim/hecarim.bin.json",
+          "fetchedAt": "2026-09-06T14:26:19.580Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Hecarim.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Hecarim.json",
+          "fetchedAt": "2026-09-06T14:12:47.137Z",
+          "byteSize": 13439,
+          "sha256": "f6f7db213eccfc9e1e42073d628ac328dd9c74bae031cf42d7e39db5b03105f7"
+        },
+        "rootPath": "Characters/Hecarim/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "征战之路",
+            "clientPath": "Characters/Hecarim/Spells/HecarimPassiveAbility/HecarimPassive",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": null,
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [],
+            "calculationNames": [
+              "BonusAD"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "HecarimRapidSlash",
+            "name": "暴走",
+            "clientPath": "Characters/Hecarim/Spells/HecarimRapidSlashAbility/HecarimRapidSlash",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "cost": [
+              28,
+              26,
+              24,
+              22,
+              20
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "clientMana": [
+              28,
+              26,
+              24,
+              22,
+              20,
+              20
+            ],
+            "clientCastTime": null,
+            "dataValueNames": [
+              "BaseDamage",
+              "MinionDamageRatio",
+              "RampageBonusRatio",
+              "RampageDuration",
+              "RampageCooldownReduction",
+              "BaseDamageBonusAD",
+              "MaxStacks",
+              "BuffDuration"
+            ],
+            "calculationNames": [
+              "Damage",
+              "MinionDamage",
+              "RampageBonusDamagePerc"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "HecarimW",
+            "name": "恐惧之灵",
+            "clientPath": "Characters/Hecarim/Spells/HecarimWAbility/HecarimW",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              14,
+              14,
+              14,
+              14,
+              14
+            ],
+            "cost": [
+              50,
+              55,
+              60,
+              65,
+              70
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              14,
+              14,
+              14,
+              14,
+              14,
+              14,
+              14
+            ],
+            "clientMana": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              70
+            ],
+            "clientCastTime": 0.4393500089645386,
+            "dataValueNames": [
+              "NonSelfLeechRatio",
+              "DamageLeechPerc",
+              "Damage",
+              "BuffDuration",
+              "TickTime",
+              "MinionHealCap",
+              "ResistAmount",
+              "HealBonusADRatio",
+              "APRatio"
+            ],
+            "calculationNames": [
+              "TotalDamage",
+              "LeechAmount",
+              "AllyTooltipLeachValue"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "HecarimRamp",
+            "name": "毁灭冲锋",
+            "clientPath": "Characters/Hecarim/Spells/HecarimRampAbility/HecarimRamp",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              20,
+              19,
+              18,
+              17,
+              16
+            ],
+            "cost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              20,
+              20,
+              19,
+              18,
+              17,
+              16,
+              15
+            ],
+            "clientMana": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "MinMoveSpeed",
+              "MaxMoveSpeed",
+              "MinBaseDamage",
+              "BonusADRatio",
+              "MaxBaseDamage",
+              "MinKnockback",
+              "MaxKnockback",
+              "Duration",
+              "DistanceToMaxDamage",
+              "TimeToMaxMoveSpeed"
+            ],
+            "calculationNames": [
+              "MinDamage",
+              "MaxDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "HecarimUlt",
+            "name": "暗影冲击",
+            "clientPath": "Characters/Hecarim/Spells/HecarimUltAbility/HecarimUlt",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              140,
+              120,
+              100
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              0,
+              140,
+              120,
+              100,
+              100,
+              100,
+              0
+            ],
+            "clientMana": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              0
+            ],
+            "clientCastTime": 0.75,
+            "dataValueNames": [
+              "BaseDamage",
+              "FearDurationMin",
+              "FearDurationMax",
+              "APRatio",
+              "DashSpeed",
+              "MaxDashRange",
+              "RangeForMaxFearDuration"
+            ],
+            "calculationNames": [
+              "DamageDone"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      },
+      "rootPath": "Characters/Hecarim/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Hecarim/Spells/HecarimPassiveAbility/HecarimPassive",
+        "spells": [
+          "Characters/Hecarim/Spells/HecarimRapidSlashAbility/HecarimRapidSlash",
+          "Characters/Hecarim/Spells/HecarimWAbility/HecarimW",
+          "Characters/Hecarim/Spells/HecarimRampAbility/HecarimRamp",
+          "Characters/Hecarim/Spells/HecarimUltAbility/HecarimUlt"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "hecarim_p",
+          "binding": "Characters/Hecarim/Spells/HecarimPassiveAbility/HecarimPassive",
+          "object": {
+            "ObjectName": "HecarimPassive",
+            "objectPath": "Characters/Hecarim/Spells/HecarimPassiveAbility/HecarimPassive",
+            "mScriptName": "HecarimPassive",
+            "mSpell": {
+              "mSpellCalculations": {
+                "BonusAD": {
+                  "mFormulaParts": [
+                    {
+                      "mStat": 7,
+                      "mStatFormula": 2,
+                      "mSubpart": {
+                        "mLevel1Value": 0.11999999731779099,
+                        "mBreakpoints": [
+                          {
+                            "mLevel": 3,
+                            "mAdditionalBonusAtThisLevel": 0.019999999552965164,
+                            "__type": "Breakpoint"
+                          },
+                          {
+                            "mLevel": 6,
+                            "mAdditionalBonusAtThisLevel": 0.019999999552965164,
+                            "__type": "Breakpoint"
+                          },
+                          {
+                            "mLevel": 9,
+                            "mAdditionalBonusAtThisLevel": 0.019999999552965164,
+                            "__type": "Breakpoint"
+                          },
+                          {
+                            "mLevel": 12,
+                            "mAdditionalBonusAtThisLevel": 0.019999999552965164,
+                            "__type": "Breakpoint"
+                          },
+                          {
+                            "mLevel": 15,
+                            "mAdditionalBonusAtThisLevel": 0.019999999552965164,
+                            "__type": "Breakpoint"
+                          },
+                          {
+                            "mLevel": 18,
+                            "mAdditionalBonusAtThisLevel": 0.019999999552965164,
+                            "__type": "Breakpoint"
+                          }
+                        ],
+                        "__type": "ByCharLevelBreakpointsCalculationPart"
+                      },
+                      "__type": "StatBySubPartCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mImgIconName": [
+                "ASSETS/Characters/Hecarim/HUD/Icons2D/Hecarim_Passive.dds"
+              ],
+              "castRange": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "castRangeValues": {
+                "values": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "{0a3e0478}": 0,
+                "__type": "{0a0eddc9}"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "HecarimPassive",
+                  "mFormat": "{476ec0b8}",
+                  "mLocKeys": {
+                    "keyName": "Spell_HecarimPassive_Name",
+                    "keyTooltip": "Spell_HecarimPassive_Tooltip",
+                    "keySummary": "Spell_HecarimPassive_Summary",
+                    "keyTooltipExtended": "Spell_HecarimPassive_TooltipExtended"
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_HecarimPassive",
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_HecarimPassive_Name",
+              "text": "征战之路"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_HecarimPassive_Tooltip",
+              "text": "赫卡里姆获得<scaleAD>@BonusAD@攻击力</scaleAD>，基于等级提升。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_HecarimPassive_Summary",
+              "text": "赫卡里姆获得相当于他一部分额外移动速度的攻击力加成。"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_HecarimPassive_TooltipExtended",
+              "text": "{{Spell_HecarimPassive_Tooltip}}<br><br><rules>攻击力随额外移动速度而增长。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "hecarim_q",
+          "binding": "Characters/Hecarim/Spells/HecarimRapidSlashAbility/HecarimRapidSlash",
+          "object": {
+            "ObjectName": "HecarimRapidSlash",
+            "objectPath": "Characters/Hecarim/Spells/HecarimRapidSlashAbility/HecarimRapidSlash",
+            "mScriptName": "HecarimRapidSlash",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 9221,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mAlternateName": "HecarimRapidSlash",
+              "mSpellTags": [
+                "Trait_DamageAbility",
+                "Trait_SignatureSpell",
+                "Trait_AoE",
+                "PositiveEffect_EmpowerAttack"
+              ],
+              "mEffectAmount": [
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    60,
+                    60,
+                    60,
+                    60,
+                    60,
+                    60,
+                    60
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    8,
+                    8,
+                    8,
+                    8,
+                    8,
+                    8,
+                    8
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    30,
+                    60,
+                    90,
+                    120,
+                    150,
+                    180,
+                    210
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MinionDamageRatio",
+                  "values": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RampageBonusRatio",
+                  "values": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RampageDuration",
+                  "values": [
+                    6,
+                    6,
+                    6,
+                    6,
+                    6,
+                    6,
+                    6
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RampageCooldownReduction",
+                  "values": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseDamageBonusAD",
+                  "values": [
+                    0.8999999761581421,
+                    0.8999999761581421,
+                    0.8999999761581421,
+                    0.8999999761581421,
+                    0.8999999761581421,
+                    0.8999999761581421,
+                    0.8999999761581421
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxStacks",
+                  "values": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BuffDuration",
+                  "values": [
+                    8,
+                    8,
+                    8,
+                    8,
+                    8,
+                    8,
+                    8
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "URF": {
+                  "SpellDataValues": [
+                    {
+                      "name": "RampageCooldownReduction",
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                },
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "BaseDamage",
+                      "values": [
+                        45,
+                        70,
+                        95,
+                        120,
+                        145,
+                        170,
+                        195
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "Damage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 2,
+                      "mStatFormula": 2,
+                      "mDataValue": "BaseDamageBonusAD",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "MinionDamage": {
+                  "mMultiplier": {
+                    "mDataValue": "MinionDamageRatio",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "tooltipOnly": true,
+                  "mModifiedGameCalculation": "Damage",
+                  "__type": "GameCalculationModified"
+                },
+                "RampageBonusDamagePerc": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "RampageBonusRatio",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 2,
+                      "mStatFormula": 2,
+                      "mCoefficient": 0.029999999329447746,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "mPrecision": 1,
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.8999999761581421,
+              "mCoefficient2": 0.10000000149011612,
+              "mAnimationName": "Spell1_Upperbody",
+              "mImgIconName": [
+                "ASSETS/Characters/Hecarim/HUD/Icons2D/Hecarim_Rampage.dds"
+              ],
+              "spellTotalTime": 0,
+              "cooldownTime": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              "Cooldown": {
+                "values": [
+                  4,
+                  4,
+                  4,
+                  4,
+                  4,
+                  4,
+                  4
+                ],
+                "{0a3e0478}": 4,
+                "__type": "{0a0eddc9}"
+              },
+              "canCastOrQueueWhileCasting": true,
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                375,
+                375,
+                375,
+                375,
+                375,
+                375,
+                375
+              ],
+              "castRangeValues": {
+                "values": [
+                  375,
+                  375,
+                  375,
+                  375,
+                  375,
+                  375,
+                  375
+                ],
+                "{0a3e0478}": 375,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                350,
+                350,
+                350,
+                350,
+                350,
+                350,
+                350
+              ],
+              "castRadius": [
+                375,
+                375,
+                375,
+                375,
+                375,
+                375,
+                375
+              ],
+              "castConeDistance": 100,
+              "castFrame": 3.0399999618530273,
+              "missileSpeed": 1450,
+              "mFloatVarsDecimals": [
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mana": [
+                28,
+                26,
+                24,
+                22,
+                20,
+                20
+              ],
+              "manaValues": {
+                "values": [
+                  28,
+                  26,
+                  24,
+                  22,
+                  20,
+                  20
+                ],
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "SelfAoe"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "HecarimRapidSlash",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_HecarimRapidSlash_Name",
+                    "keySummary": "Spell_HecarimRapidSlash_Summary",
+                    "keyTooltip": "Spell_HecarimRapidSlash_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_HecarimRapidSlash_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cost",
+                          "nameOverride": "Spell_ListType_ManaCost",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_HecarimRapidSlash",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 0,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "Damage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_HecarimRapidSlash_Name",
+              "text": "暴走"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_HecarimRapidSlash_Summary",
+              "text": "赫卡里姆猛劈周围的敌人，同时造成物理伤害。如果这个技能对至少一名敌人造成伤害，那么赫卡里姆会提升【暴走】的伤害并为随后施放的【暴走】缩短冷却时间。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_HecarimRapidSlash_Tooltip",
+              "text": "赫卡里姆猛劈周围的敌人，造成<physicalDamage>@Damage@物理伤害</physicalDamage>。如果这个技能命中了敌人，那么他会获得一层效果，来使这次技能的冷却时间缩短@RampageCooldownReduction@秒并提升此技能@RampageBonusDamagePerc@%伤害，持续@BuffDuration@秒。至多可叠加@MaxStacks@层。<br>"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_HecarimRapidSlash_TooltipExtendedBelowLine",
+              "text": "<rules>对小兵造成<physicalDamage>@MinionDamage@</physicalDamage>基础伤害。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "hecarim_w",
+          "binding": "Characters/Hecarim/Spells/HecarimWAbility/HecarimW",
+          "object": {
+            "ObjectName": "HecarimW",
+            "objectPath": "Characters/Hecarim/Spells/HecarimWAbility/HecarimW",
+            "mScriptName": "HecarimW",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 14346,
+              "mAlternateName": "HecarimW",
+              "mSpellTags": [
+                "Trait_DamageAbility",
+                "Trait_ActiveHeal",
+                "Trait_DoT",
+                "Trait_Low_Damage",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "NonSelfLeechRatio",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DamageLeechPerc",
+                  "values": [
+                    25,
+                    25,
+                    25,
+                    25,
+                    25,
+                    25,
+                    25
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "Damage",
+                  "values": [
+                    40,
+                    80,
+                    120,
+                    160,
+                    200,
+                    240,
+                    280
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BuffDuration",
+                  "values": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TickTime",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MinionHealCap",
+                  "values": [
+                    90,
+                    120,
+                    150,
+                    180,
+                    210,
+                    240,
+                    270
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ResistAmount",
+                  "values": [
+                    0,
+                    5,
+                    10,
+                    15,
+                    20,
+                    25,
+                    30
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HealBonusADRatio",
+                  "values": [
+                    0.019999999552965164,
+                    0.019999999552965164,
+                    0.019999999552965164,
+                    0.019999999552965164,
+                    0.019999999552965164,
+                    0.019999999552965164,
+                    0.019999999552965164
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "DamageLeechPerc",
+                      "values": [
+                        35,
+                        35,
+                        35,
+                        35,
+                        35,
+                        35,
+                        35
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "HealBonusADRatio",
+                      "values": [
+                        0.029999999329447746,
+                        0.029999999329447746,
+                        0.029999999329447746,
+                        0.029999999329447746,
+                        0.029999999329447746,
+                        0.029999999329447746,
+                        0.029999999329447746
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "APRatio",
+                      "values": [
+                        1.2000000476837158,
+                        1.2000000476837158,
+                        1.2000000476837158,
+                        1.2000000476837158,
+                        1.2000000476837158,
+                        1.2000000476837158,
+                        1.2000000476837158
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "{f9c2333e}": {
+                "{a110bc47}": {
+                  "value": [
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "Damage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "LeechAmount": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "DamageLeechPerc",
+                      "__type": "NamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "AllyTooltipLeachValue": {
+                  "mMultiplier": {
+                    "mDataValue": "NonSelfLeechRatio",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "tooltipOnly": true,
+                  "mModifiedGameCalculation": "LeechAmount",
+                  "__type": "GameCalculationModified"
+                }
+              },
+              "mCoefficient": 0.800000011920929,
+              "mAnimationName": "Spell3",
+              "mImgIconName": [
+                "ASSETS/Characters/Hecarim/HUD/Icons2D/Hecarim_SpiritofDread.dds"
+              ],
+              "spellCastTime": 0.4393500089645386,
+              "spellTotalTime": 1.149999976158142,
+              "cooldownTime": [
+                14,
+                14,
+                14,
+                14,
+                14,
+                14,
+                14
+              ],
+              "Cooldown": {
+                "values": [
+                  14,
+                  14,
+                  14,
+                  14,
+                  14,
+                  14,
+                  14
+                ],
+                "{0a3e0478}": 14,
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "bHaveHitEffect": true,
+              "castRange": [
+                525,
+                525,
+                525,
+                525,
+                525,
+                525,
+                525
+              ],
+              "castRangeValues": {
+                "values": [
+                  525,
+                  525,
+                  525,
+                  525,
+                  525,
+                  525,
+                  525
+                ],
+                "{0a3e0478}": 525,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                525,
+                525,
+                525,
+                525,
+                525,
+                525,
+                525
+              ],
+              "castRadius": [
+                575,
+                575,
+                575,
+                575,
+                575,
+                575,
+                575
+              ],
+              "castConeDistance": 100,
+              "castFrame": 16.094999313354492,
+              "missileSpeed": 828.5,
+              "mHitEffectOrientType": 2,
+              "mHitEffectKey": "Hecarim_W_eff_02",
+              "mFloatVarsDecimals": [
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mana": [
+                50,
+                55,
+                60,
+                65,
+                70,
+                70
+              ],
+              "manaValues": {
+                "values": [
+                  50,
+                  55,
+                  60,
+                  65,
+                  70,
+                  70
+                ],
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "SelfAoe"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "HecarimW",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_HecarimW_Name",
+                    "keySummary": "Spell_HecarimW_Summary",
+                    "keyTooltip": "Spell_HecarimW_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_HecarimW_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "Damage",
+                          "typeIndex": 2,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "ResistAmount",
+                          "nameOverride": "Spell_ListType_HecarimW: Resist Amount",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "MinionHealCap",
+                          "nameOverride": "Spell_ListType_HealingCap",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cost",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_HecarimW",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 32,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mSpellCalculationKey": "LeechAmount",
+                        "__type": "{f3cbe7b2}"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 524288,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "ResistAmount",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 512,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 512,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_HecarimW_Name",
+              "text": "恐惧之灵"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_HecarimW_Summary",
+              "text": "赫卡里姆获得护甲和魔抗。赫卡里姆对附近敌人造成魔法伤害，并基于敌人所受的伤害来恢复生命值。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_HecarimW_Tooltip",
+              "text": "赫卡里姆在@BuffDuration@秒里对附近的敌人们持续造成共<magicDamage>@TotalDamage@魔法伤害</magicDamage>。<br><br>赫卡里姆获得<passive>@ResistAmount@</passive> <scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>并治疗自身，治疗数额相当于这些敌人受到的来自赫卡里姆的<healing>@LeechAmount@%伤害</healing>和来自赫卡里姆友军的<healing>@AllyTooltipLeachValue@%伤害</healing>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_HecarimW_TooltipExtendedBelowLine",
+              "text": "<rules>赫卡里姆从小兵或野怪处获得的治疗效果无法超过<healing>@MinionHealCap@生命值</healing>。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "hecarim_e",
+          "binding": "Characters/Hecarim/Spells/HecarimRampAbility/HecarimRamp",
+          "object": {
+            "ObjectName": "HecarimRamp",
+            "objectPath": "Characters/Hecarim/Spells/HecarimRampAbility/HecarimRamp",
+            "mScriptName": "HecarimRamp",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 9221,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mSpellTags": [
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_KnockBack",
+                "Trait_Strike"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    150,
+                    150,
+                    150,
+                    150,
+                    150,
+                    150,
+                    150
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0,
+                    60,
+                    90,
+                    120,
+                    150,
+                    180,
+                    180
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0,
+                    30,
+                    45,
+                    60,
+                    75,
+                    90,
+                    90
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1200,
+                    1200,
+                    1200,
+                    1200,
+                    1200,
+                    1200,
+                    1200
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "MinMoveSpeed",
+                  "values": [
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25,
+                    0.25
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxMoveSpeed",
+                  "values": [
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421,
+                    0.6499999761581421
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MinBaseDamage",
+                  "values": [
+                    15,
+                    30,
+                    45,
+                    60,
+                    75,
+                    90,
+                    105
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BonusADRatio",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxBaseDamage",
+                  "values": [
+                    30,
+                    60,
+                    90,
+                    120,
+                    150,
+                    180,
+                    210
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MinKnockback",
+                  "values": [
+                    150,
+                    150,
+                    150,
+                    150,
+                    150,
+                    150,
+                    150
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxKnockback",
+                  "values": [
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350,
+                    350
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "Duration",
+                  "values": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DistanceToMaxDamage",
+                  "values": [
+                    1200,
+                    1200,
+                    1200,
+                    1200,
+                    1200,
+                    1200,
+                    1200
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TimeToMaxMoveSpeed",
+                  "values": [
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "MinBaseDamage",
+                      "values": [
+                        35,
+                        50,
+                        65,
+                        80,
+                        95,
+                        110,
+                        125
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "BonusADRatio",
+                      "values": [
+                        0.6000000238418579,
+                        0.6000000238418579,
+                        0.6000000238418579,
+                        0.6000000238418579,
+                        0.6000000238418579,
+                        0.6000000238418579,
+                        0.6000000238418579
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "MaxBaseDamage",
+                      "values": [
+                        70,
+                        100,
+                        130,
+                        160,
+                        190,
+                        220,
+                        250
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "{f9c2333e}": {
+                "ARAM": {
+                  "value": [
+                    16,
+                    16,
+                    15,
+                    14,
+                    13,
+                    12,
+                    12
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                "{bffdf499}": {
+                  "value": [
+                    16,
+                    16,
+                    15,
+                    14,
+                    13,
+                    12,
+                    12
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "MinDamage": {
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "MinBaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 2,
+                      "mStatFormula": 2,
+                      "mDataValue": "BonusADRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "MaxDamage": {
+                  "mMultiplier": {
+                    "mNumber": 2,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "mModifiedGameCalculation": "MinDamage",
+                  "__type": "GameCalculationModified"
+                }
+              },
+              "mCoefficient": 0.5,
+              "mCoefficient2": 1,
+              "mAnimationName": "Spell1",
+              "mImgIconName": [
+                "ASSETS/Characters/Hecarim/HUD/Icons2D/Hecarim_DevastingCharge.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                20,
+                20,
+                19,
+                18,
+                17,
+                16,
+                15
+              ],
+              "Cooldown": {
+                "values": [
+                  20,
+                  20,
+                  19,
+                  18,
+                  17,
+                  16,
+                  15
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "bIsToggleSpell": true,
+              "castRange": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "castRangeValues": {
+                "values": [
+                  300,
+                  300,
+                  300,
+                  300,
+                  300,
+                  300,
+                  300
+                ],
+                "{0a3e0478}": 300,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                210,
+                210,
+                210,
+                210,
+                210,
+                210,
+                210
+              ],
+              "castConeDistance": 100,
+              "castFrame": 10,
+              "missileSpeed": 0,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mana": [
+                60,
+                60,
+                60,
+                60,
+                60,
+                60
+              ],
+              "manaValues": {
+                "values": [
+                  60,
+                  60,
+                  60,
+                  60,
+                  60,
+                  60
+                ],
+                "{0a3e0478}": 60,
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "Self"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "HecarimRamp",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_HecarimRamp_Name",
+                    "keySummary": "Spell_HecarimRamp_Summary",
+                    "keyTooltip": "Spell_HecarimRamp_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_HecarimRamp_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "MinBaseDamage",
+                          "typeIndex": 4,
+                          "nameOverride": "Spell_ListType_MinimumDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "MaxBaseDamage",
+                          "typeIndex": 3,
+                          "nameOverride": "Spell_ListType_MaximumDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_HecarimRamp",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 0,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "MaxDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 2,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "MaxMoveSpeed",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4194304,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "MaxKnockback",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 2048,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "MinMoveSpeed",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "MinMoveSpeed",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "MinMoveSpeed",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 128,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 512,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8192,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_HecarimRamp_Name",
+              "text": "毁灭冲锋"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_HecarimRamp_Summary",
+              "text": "赫卡里姆获得不断提升的移动速度加成并且移动时可以无视单位的碰撞体积。他的下一次攻击将会击退目标，并且造成额外物理伤害，伤害值基于他在激活该技能后所移动的距离。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_HecarimRamp_Tooltip",
+              "text": "赫卡里姆变为幽灵状态，并获得<speed>@MinMoveSpeed*100@%移动速度</speed>，在@Duration@秒里持续提升至<speed>@MaxMoveSpeed*100@%</speed>。他的下次攻击会<status>击退</status>目标并造成<physicalDamage>@MinDamage@</physicalDamage>到<physicalDamage>@MaxDamage@物理伤害</physicalDamage>。<status>击退</status>距离和伤害随此技能期间的位移距离而增长。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_HecarimRamp_TooltipExtendedBelowLine",
+              "text": "<rules>幽灵状态的单位无视其它单位的碰撞体积。<br>这个技能的剩余持续时间会在{{Spell_HecarimUlt_Name}}期间时暂停。<br>{{ buff_desc_SpellEffects }}</rules>"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "hecarim_r",
+          "binding": "Characters/Hecarim/Spells/HecarimUltAbility/HecarimUlt",
+          "object": {
+            "ObjectName": "HecarimUlt",
+            "objectPath": "Characters/Hecarim/Spells/HecarimUltAbility/HecarimUlt",
+            "mScriptName": "HecarimUlt",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "mAlternateName": "HecarimCharge",
+              "mSpellTags": [
+                "Trait_Ultimate",
+                "PositiveEffect_MoveBlock",
+                "Trait_ChannelSpell",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_PlayerSelectedDashDirection",
+                "Trait_DamageAbility",
+                "Trait_AoE"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    0,
+                    150,
+                    250,
+                    350,
+                    0,
+                    0,
+                    0
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1100,
+                    1100,
+                    1100,
+                    1100,
+                    1100,
+                    1100,
+                    1100
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1000,
+                    1000,
+                    1000,
+                    1000,
+                    1000,
+                    1000,
+                    1000
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    950,
+                    950,
+                    950,
+                    950,
+                    950,
+                    950,
+                    950
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    50,
+                    150,
+                    250,
+                    350,
+                    450,
+                    550,
+                    650
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "FearDurationMin",
+                  "values": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "FearDurationMax",
+                  "values": [
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DashSpeed",
+                  "values": [
+                    1100,
+                    1100,
+                    1100,
+                    1100,
+                    1100,
+                    1100,
+                    1100
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxDashRange",
+                  "values": [
+                    1000,
+                    1000,
+                    1000,
+                    1000,
+                    1000,
+                    1000,
+                    1000
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RangeForMaxFearDuration",
+                  "values": [
+                    950,
+                    950,
+                    950,
+                    950,
+                    950,
+                    950,
+                    950
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "cherry": {
+                  "SpellDataValues": [
+                    {
+                      "name": "APRatio",
+                      "values": [
+                        1.2999999523162842,
+                        1.2999999523162842,
+                        1.2999999523162842,
+                        1.2999999523162842,
+                        1.2999999523162842,
+                        1.2999999523162842,
+                        1.2999999523162842
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "{f9c2333e}": {
+                "{a110bc47}": {
+                  "value": [
+                    120,
+                    120,
+                    105,
+                    90,
+                    90,
+                    90,
+                    90
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              },
+              "mSpellCalculations": {
+                "DamageDone": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 1,
+              "mCoefficient2": 1,
+              "mAnimationName": "Spell4",
+              "mImgIconName": [
+                "ASSETS/Characters/Hecarim/HUD/Icons2D/Hecarim_OnslaughtofShadows.dds"
+              ],
+              "mCastTime": 0.009999999776482582,
+              "spellCastTime": 0.75,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                0,
+                140,
+                120,
+                100,
+                100,
+                100,
+                0
+              ],
+              "Cooldown": {
+                "values": [
+                  0,
+                  140,
+                  120,
+                  100,
+                  100,
+                  100,
+                  0
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "mCantCancelWhileChanneling": true,
+              "cantCastWhileRooted": true,
+              "mProjectTargetToCastRange": true,
+              "mSpellRevealsChampion": false,
+              "useAnimatorFramerate": true,
+              "castRange": [
+                50000,
+                50000,
+                50000,
+                50000,
+                50000,
+                50000,
+                50000
+              ],
+              "castRangeValues": {
+                "values": [
+                  50000,
+                  50000,
+                  50000,
+                  50000,
+                  50000,
+                  50000,
+                  50000
+                ],
+                "{0a3e0478}": 50000,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "castConeDistance": 100,
+              "castFrame": 7.5,
+              "missileSpeed": 1200,
+              "mLineWidth": 200,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mana": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                0
+              ],
+              "manaValues": {
+                "values": [
+                  100,
+                  100,
+                  100,
+                  100,
+                  100,
+                  0
+                ],
+                "__type": "{630af303}"
+              },
+              "selectionPriority": 2,
+              "mTargetingTypeData": {
+                "__type": "Area"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "HecarimUlt",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_HecarimUlt_Name",
+                    "keySummary": "Spell_HecarimUlt_Summary",
+                    "keyTooltip": "Spell_HecarimUlt_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_HecarimUlt_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 3,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "startLocator": {
+                      "basePosition": 1,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "lineStopsAtEndPosition": false,
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        265,
+                        265,
+                        265,
+                        265,
+                        265,
+                        265
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        1290,
+                        1290,
+                        1290,
+                        1290,
+                        1290,
+                        1200
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureBaseOverrideName": "assets/spells/textures/skillshot_hecarim_base.tex",
+                    "textureTargetOverrideName": "assets/spells/textures/skillshot_hecarim_tip.tex",
+                    "__type": "TargeterDefinitionLine"
+                  },
+                  {
+                    "hideWithLineIndicator": true,
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "centerLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "isConstrainedToRange": true,
+                    "constraintRange": {
+                      "mPerLevelValues": [
+                        1000,
+                        1000,
+                        1000,
+                        1000,
+                        1000,
+                        1000
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureRadiusOverrideName": "assets/characters/hecarim/hud/textures/aoe_hecarim.tex",
+                    "__type": "TargeterDefinitionAoe"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "DamageDone",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 128,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "MaxDashRange",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 2048,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "FearDurationMax",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "FearDurationMax",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_HecarimUlt_Name",
+              "text": "暗影冲击"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_HecarimUlt_Summary",
+              "text": "赫卡里姆召唤幽魂骑兵向前冲锋，对一条直线上的敌人造成魔法伤害。赫卡里姆会在完成他的冲锋时发出一道冲击波，来使周围的敌人惊慌失措地逃命。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_HecarimUlt_Tooltip",
+              "text": "赫卡里姆召唤幽魂骑兵并向前冲锋，造成<magicDamage>@DamageDone@魔法伤害</magicDamage>。赫卡里姆会在他冲锋的终点释放一道冲击波，来使敌人们<status>恐惧</status>@FearDurationMin@到@FearDurationMax@秒，随冲锋距离提升。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_HecarimUlt_TooltipExtendedBelowLine",
+              "text": "<rules>赫卡里姆将移动至目标位置，但幽魂骑兵们总会冲完全程。</rules>"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
