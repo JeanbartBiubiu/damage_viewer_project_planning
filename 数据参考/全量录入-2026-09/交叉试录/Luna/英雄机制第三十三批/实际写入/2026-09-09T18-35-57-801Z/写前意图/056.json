@@ -1,0 +1,29 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "method": "POST",
+    "route": "/skills/soraka_q/parameters",
+    "detailRoute": "/skills/soraka_q/parameters/base_damage",
+    "skillKey": "soraka_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "流星坠落基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 85,
+        "2": 120,
+        "3": 155,
+        "4": 190,
+        "5": 225
+      },
+      "description": "当前BaseDamage技能等级1至5。",
+      "sortOrder": 10
+    }
+  }
+}

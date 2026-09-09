@@ -1,0 +1,35 @@
+{
+  "at": "2026-09-09T18:35:57.729Z",
+  "decision": "按冻结计划新增166项；复用28已有参数。每项POST后GET、末尾全保护回读，再独立回读、源值数学和代表页面核验。",
+  "hashes": {
+    "完整候选.json": "f678c8d8c929feef920a97577fa559d404697f1e9d718f78fde70dec6ce90fec",
+    "写前请求计划.json": "5ab6731931844099d267ed52b8474d3bc4701741b9a703387f3ff881bb9bde5d",
+    "受保护写入器.mjs": "6bdf05aca0a7ebb39d9285c6a39b8f22d0411829bfbb0de9f23a6a03f2cbe0b7"
+  },
+  "newCounts": {
+    "parameters": 131,
+    "formulas": 34,
+    "effects": 1
+  },
+  "created": 166,
+  "reused": 28,
+  "currentComponents": 194,
+  "preflight": {
+    "GETs": 394,
+    "protectedRequests": 200,
+    "existingDetails": 28,
+    "missing": 166
+  },
+  "checks": [
+    "Cursor同版来源READY和真实只读工具审计；运行结果summary未自动收尾的情况使用事件尾部与隔离Git零变更恢复审计，保留原件",
+    "34公式68候选算例零失败；最终独立实际GET数学仍需完成",
+    "仅修正候选记账总数及摘要解释，主体和请求内容未改；原始文件字节摘要另存并固定到写入器",
+    "SonaW官方10秒冷却新增；SonaE仅自身移速、SorakaP/W纯第三友方排除",
+    "KarmaRW两阶段分别采用实际已损生命；SeraphineW自盾和8至16%延迟自身已损生命治疗分离；未知曲线不补默认",
+    "全部数值引用检查PARAMETER和FORMULA实际存在性及类型，二元运算和毫秒整数约束通过"
+  ],
+  "limits": [
+    "跨技能触发、资格、时序和资源阶段待接线；本轮不声称战斗运行通过"
+  ],
+  "apiWritesBeforeRun": 0
+}

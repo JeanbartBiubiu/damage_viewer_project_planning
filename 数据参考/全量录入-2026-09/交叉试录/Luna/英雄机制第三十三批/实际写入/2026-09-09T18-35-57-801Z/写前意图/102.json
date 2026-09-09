@@ -1,0 +1,28 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 102,
+    "method": "POST",
+    "route": "/skills/karma_r/parameters",
+    "detailRoute": "/skills/karma_r/parameters/rq_bonus_damage",
+    "skillKey": "karma_r",
+    "kind": "parameters",
+    "stableKey": "rq_bonus_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rq_bonus_damage",
+      "name": "梵咒Q冲击额外基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 100,
+        "3": 160,
+        "4": 220
+      },
+      "description": "RQBonusDamage按R技能等级1至4。",
+      "sortOrder": 20
+    }
+  }
+}

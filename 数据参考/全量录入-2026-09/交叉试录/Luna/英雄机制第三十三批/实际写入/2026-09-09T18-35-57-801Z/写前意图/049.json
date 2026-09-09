@@ -1,0 +1,45 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "method": "POST",
+    "route": "/skills/sona_e/formulas",
+    "detailRoute": "/skills/sona_e/formulas/self_move_speed_ratio_value",
+    "skillKey": "sona_e",
+    "kind": "formulas",
+    "stableKey": "self_move_speed_ratio_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_move_speed_ratio_value",
+      "name": "自身移动速度加成比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_move_speed_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_move_speed_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "自身加速按比例保存，未映射为move_speed_percent属性效果。",
+      "sortOrder": 10
+    }
+  }
+}

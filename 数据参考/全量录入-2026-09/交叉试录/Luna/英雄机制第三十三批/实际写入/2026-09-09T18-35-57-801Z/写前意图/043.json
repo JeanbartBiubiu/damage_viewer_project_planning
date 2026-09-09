@@ -1,0 +1,23 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "method": "POST",
+    "route": "/skills/sona_e/parameters",
+    "detailRoute": "/skills/sona_e/parameters/aura_duration_ms",
+    "skillKey": "sona_e",
+    "kind": "parameters",
+    "stableKey": "aura_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "aura_duration_ms",
+      "name": "迅捷奏鸣曲光环持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "当前AuraDuration=3秒。",
+      "sortOrder": 80
+    }
+  }
+}

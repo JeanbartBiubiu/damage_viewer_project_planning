@@ -1,0 +1,23 @@
+{
+  "i": 52,
+  "intent": {
+    "sequence": 53,
+    "method": "POST",
+    "route": "/skills/sona_r/parameters",
+    "detailRoute": "/skills/sona_r/parameters/stun_duration_ms",
+    "skillKey": "sona_r",
+    "kind": "parameters",
+    "stableKey": "stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_duration_ms",
+      "name": "眩晕持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "当前StunDuration=1.5秒。",
+      "sortOrder": 30
+    }
+  }
+}

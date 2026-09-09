@@ -1,0 +1,23 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 90,
+    "method": "POST",
+    "route": "/skills/karma_w/parameters",
+    "detailRoute": "/skills/karma_w/parameters/tether_duration_ms",
+    "skillKey": "karma_w",
+    "kind": "parameters",
+    "stableKey": "tether_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tether_duration_ms",
+      "name": "坚定不移连接持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前TetherDuration=2秒；不当作周期伤害间隔。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 126,
+  "intent": {
+    "sequence": 127,
+    "method": "POST",
+    "route": "/skills/seraphine_p/parameters",
+    "detailRoute": "/skills/seraphine_p/parameters/echo_cast_delay_ms",
+    "skillKey": "seraphine_p",
+    "kind": "parameters",
+    "stableKey": "echo_cast_delay_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "echo_cast_delay_ms",
+      "name": "回响施法延迟",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 10,
+      "levelValues": null,
+      "description": "当前EchoCastDelay=0.01秒，转换为10毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

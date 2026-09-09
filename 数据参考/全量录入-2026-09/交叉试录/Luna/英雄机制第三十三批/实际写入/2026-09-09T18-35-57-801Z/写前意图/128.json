@@ -1,0 +1,23 @@
+{
+  "i": 127,
+  "intent": {
+    "sequence": 128,
+    "method": "POST",
+    "route": "/skills/seraphine_p/parameters",
+    "detailRoute": "/skills/seraphine_p/parameters/adjacent_note_delay_ms",
+    "skillKey": "seraphine_p",
+    "kind": "parameters",
+    "stableKey": "adjacent_note_delay_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "adjacent_note_delay_ms",
+      "name": "相邻音符来源延迟",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 75,
+      "levelValues": null,
+      "description": "当前DelayBetweenNoteCasts=0.075秒，保留为来源时序参数。",
+      "sortOrder": 60
+    }
+  }
+}

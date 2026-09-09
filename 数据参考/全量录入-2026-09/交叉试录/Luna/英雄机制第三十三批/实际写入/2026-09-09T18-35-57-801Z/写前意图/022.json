@@ -1,0 +1,45 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "method": "POST",
+    "route": "/skills/sona_q/formulas",
+    "detailRoute": "/skills/sona_q/formulas/melody_attack_magic_damage",
+    "skillKey": "sona_q",
+    "kind": "formulas",
+    "stableKey": "melody_attack_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "melody_attack_magic_damage",
+      "name": "乐曲强化普攻额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "melody_attack_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "melody_attack_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "强化普攻窗口内的额外组成，不等于自动普攻事件。",
+      "sortOrder": 20
+    }
+  }
+}

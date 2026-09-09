@@ -1,0 +1,29 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "method": "POST",
+    "route": "/skills/sona_q/parameters",
+    "detailRoute": "/skills/sona_q/parameters/base_damage",
+    "skillKey": "sona_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "英勇赞美诗基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 85,
+        "3": 120,
+        "4": 155,
+        "5": 190
+      },
+      "description": "当前BaseDamage技能等级1至5。",
+      "sortOrder": 10
+    }
+  }
+}

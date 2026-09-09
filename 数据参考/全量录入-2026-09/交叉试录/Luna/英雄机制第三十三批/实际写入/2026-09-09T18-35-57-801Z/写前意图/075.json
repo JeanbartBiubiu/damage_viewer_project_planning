@@ -1,0 +1,23 @@
+{
+  "i": 74,
+  "intent": {
+    "sequence": 75,
+    "method": "POST",
+    "route": "/skills/soraka_r/parameters",
+    "detailRoute": "/skills/soraka_r/parameters/ability_power_ratio",
+    "skillKey": "soraka_r",
+    "kind": "parameters",
+    "stableKey": "ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ability_power_ratio",
+      "name": "祈愿法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前HealingCalc树AP比例为0.5。",
+      "sortOrder": 20
+    }
+  }
+}

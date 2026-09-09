@@ -1,0 +1,23 @@
+{
+  "i": 57,
+  "intent": {
+    "sequence": 58,
+    "method": "POST",
+    "route": "/skills/soraka_q/parameters",
+    "detailRoute": "/skills/soraka_q/parameters/slow_ratio",
+    "skillKey": "soraka_q",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "流星坠落减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "当前MoveSpeedSlow正文显示30%，保存为0.3比例。",
+      "sortOrder": 30
+    }
+  }
+}

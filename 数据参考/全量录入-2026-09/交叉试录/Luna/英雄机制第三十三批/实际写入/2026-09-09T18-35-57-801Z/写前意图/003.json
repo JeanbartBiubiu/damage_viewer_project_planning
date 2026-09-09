@@ -1,0 +1,23 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "method": "POST",
+    "route": "/skills/sona_p/parameters",
+    "detailRoute": "/skills/sona_p/parameters/accelerando_ability_haste_cap",
+    "skillKey": "sona_p",
+    "kind": "parameters",
+    "stableKey": "accelerando_ability_haste_cap",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "accelerando_ability_haste_cap",
+      "name": "渐入佳音基础技能急速上限",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 60,
+      "levelValues": null,
+      "description": "当前AccelerandoCap=60；达到上限后不再继续加层。",
+      "sortOrder": 30
+    }
+  }
+}

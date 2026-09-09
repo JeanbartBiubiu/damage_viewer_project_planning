@@ -1,0 +1,45 @@
+{
+  "i": 9,
+  "intent": {
+    "sequence": 10,
+    "method": "POST",
+    "route": "/skills/sona_p/formulas",
+    "detailRoute": "/skills/sona_p/formulas/power_chord_bonus_magic_damage",
+    "skillKey": "sona_p",
+    "kind": "formulas",
+    "stableKey": "power_chord_bonus_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "power_chord_bonus_magic_damage",
+      "name": "能量和弦额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "power_chord_character_level_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "power_chord_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "等级基础值由运行输入提供，再加0.2×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

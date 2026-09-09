@@ -1,0 +1,23 @@
+{
+  "i": 69,
+  "intent": {
+    "sequence": 70,
+    "method": "POST",
+    "route": "/skills/soraka_e/parameters",
+    "detailRoute": "/skills/soraka_e/parameters/field_duration_ms",
+    "skillKey": "soraka_e",
+    "kind": "parameters",
+    "stableKey": "field_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "field_duration_ms",
+      "name": "星界结界场持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "当前RootDelay=1.5秒，作为同一敌人的场持续时间。",
+      "sortOrder": 30
+    }
+  }
+}

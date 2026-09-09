@@ -1,0 +1,23 @@
+{
+  "i": 136,
+  "intent": {
+    "sequence": 137,
+    "method": "POST",
+    "route": "/skills/seraphine_q/parameters",
+    "detailRoute": "/skills/seraphine_q/parameters/execute_threshold_ratio",
+    "skillKey": "seraphine_q",
+    "kind": "parameters",
+    "stableKey": "execute_threshold_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "execute_threshold_ratio",
+      "name": "清籁低生命阈值",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前低于25%生命值分支。",
+      "sortOrder": 30
+    }
+  }
+}

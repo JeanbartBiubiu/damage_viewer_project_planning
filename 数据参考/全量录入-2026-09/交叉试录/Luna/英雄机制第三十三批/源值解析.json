@@ -1,0 +1,4265 @@
+{
+  "generatedAt": "2026-09-09T18:20:12.832Z",
+  "batch": "英雄机制第三十三批",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "sourcePackageSha256": "d02970e0708fa1a94afe323c3a935c67cd1762d4a283acac0f85bf0f80d9bee9",
+  "skills": {
+    "sona_p": {
+      "source": {
+        "hero": "Sona",
+        "heroName": "娑娜",
+        "heroKey": "champion_sona",
+        "slot": "P",
+        "resourceType": "法力",
+        "rootPath": "Characters/Sona/CharacterRecords/Root",
+        "spellPath": "Characters/Sona/Spells/SonaPassiveAbility/SonaPassive",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Sona.json.gz",
+        "clientSha256": "76a606c546f19929ac6e3300ffb136bdb0928a22d215f2f134dd36856261e154",
+        "clientCompressedSha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Sona.json",
+        "officialZhSha256": "ecdaf99377b60b32671ca9d30ebf79bdc91ea3689c50fd97d8d4bbda3f768311",
+        "officialEnFile": "参考资料/官方英文/Sona.json",
+        "officialEnSha256": "d78dca0182dd1edf43adf92a7925245a84d95bb3c41f2dd5a9a0bae5efa34e70",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SonaPassive_Name",
+            "text": "能量和弦"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SonaPassive_Summary",
+            "text": "<passive>渐入佳音</passive>：娑娜在出色地使用她的技能时，会获得非终极技能的技能急速，直到达到上限为止。在达到上限之后，后续的成功使用将转而缩短她终极技能的冷却时间。<br><br><passive>能量和弦</passive>：每施放若干次技能，娑娜的下次攻击将造成额外魔法伤害并基于最新激活的基础技能施加一个额外效果。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SonaPassive_Tooltip",
+            "text": "<passive>渐入佳音</passive>：娑娜可通过出色地使用她的基础技能来获得【渐入佳音】层数。每层会为她永久提供+%i:scaleAH%@AccelerandoAHPerStack@基础技能急速，至多提供%i:scaleAH% @AccelerandoCap@基础技能急速。当她达到%i:scaleAH% @AccelerandoCap@基础技能急速时，将不再进一步获得层数，转而使她当前的<keywordMajor>终极技能</keywordMajor>冷却时间缩短@Spell.SonaPassive:AccelerandoUltCDR@秒。<br><br><passive>能量和弦</passive>：在使用@PowerChordPassiveCountMax@次基础技能后，娑娜的下次攻击将造成额外的<magicDamage>@PowerChordDamage@魔法伤害</magicDamage>并会基于娑娜最新激活的乐曲来施加一个额外效果。<br><li><spellName>英勇赞美诗：</spellName>该次攻击转而造成<magicDamage>@Spell.SonaQ:TotalStaccatoDamage@魔法伤害</magicDamage>。<li><spellName>坚毅咏叹调：</spellName>使目标造成的伤害降低@Spell.SonaW:TotalDiminuendoWeakenPercent@，持续@Spell.SonaW:DiminuendoDuration@秒。<li><spellName>迅捷奏鸣曲：</spellName>对目标施加持续@Spell.SonaE:TempoDuration@秒的@Spell.SonaE:TotalTempoMoveSpeedSlow@<status>减速</status>。"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "TempoDuration": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "PowerChordPassiveCountMax": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "AccelerandoAHPerStack": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "AccelerandoCap": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "AccelerandoUltCDR": [
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ]
+          },
+          "calculations": {
+            "PowerChordDamage": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 20,
+                  "mInitialBonusPerLevel": 10,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 9,
+                      "mBonusPerLevelAtAndAfter": 15,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.20000000298023224,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "AccelerandoAHCurrent": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{1705b20f}",
+                  "mDataValue": "AccelerandoAHPerStack",
+                  "__type": "BuffCounterByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": null,
+          "mCastTime": null,
+          "cooldownTime": null,
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Sona.passive",
+          "name": "Power Chord",
+          "description": "<passive>Accelerando</passive>: Sona gains non-Ultimate ability haste permanently for her basic abilities as she uses her abilities well, up to a cap. Beyond that cap, further successful uses reduce her ultimate's remaining cooldown instead.<br><br><passive>Power Chord</passive>: Every few spell casts, Sona's next attack will deal bonus magic damage in addition to an additional effect based on what basic Ability Sona last activated.",
+          "tooltip": null,
+          "relevantEnemyTips": [
+            "Spread out when you see Sona so she can't make your entire team dance.",
+            "Kill Sona first, as she will heal up her team if left alone for too long."
+          ]
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Sona/P/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "power_chord_basic_casts",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "accelerando_ability_haste_per_stack",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "accelerando_ability_haste_cap",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 60,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "accelerando_stack_cap",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 120,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "accelerando_ult_cooldown_refund_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "accelerando_current_stacks",
+          "valueType": "INTEGER",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "power_chord_character_level_base_damage",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "power_chord_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.2,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "accelerando_current_ability_haste",
+        "power_chord_bonus_magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "第三友军收益",
+          "reason": "本轮1v1不建立第三友军效果；Q/W/E自身或单一敌人的附加数值仍按各技能保留。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "三次基础技能、满层转终极技能冷却和最新乐曲选择",
+          "reason": "当前正文明确关系，实际计数与时序尚未接线。"
+        }
+      ]
+    },
+    "sona_q": {
+      "source": {
+        "hero": "Sona",
+        "heroName": "娑娜",
+        "heroKey": "champion_sona",
+        "slot": "Q",
+        "resourceType": "法力",
+        "rootPath": "Characters/Sona/CharacterRecords/Root",
+        "spellPath": "Characters/Sona/Spells/SonaQAbility/SonaQ",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Sona.json.gz",
+        "clientSha256": "76a606c546f19929ac6e3300ffb136bdb0928a22d215f2f134dd36856261e154",
+        "clientCompressedSha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Sona.json",
+        "officialZhSha256": "ecdaf99377b60b32671ca9d30ebf79bdc91ea3689c50fd97d8d4bbda3f768311",
+        "officialEnFile": "参考资料/官方英文/Sona.json",
+        "officialEnSha256": "d78dca0182dd1edf43adf92a7925245a84d95bb3c41f2dd5a9a0bae5efa34e70",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SonaQ_Name",
+            "text": "英勇赞美诗"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SonaQ_Summary",
+            "text": "娑娜弹奏英勇赞美诗，弹出音波，对附近的两名敌人造成魔法伤害，优先选取英雄和野怪为目标。娑娜会暂时获得一个光环，为附近友军的下一次攻击提供额外魔法伤害。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SonaQ_Tooltip",
+            "text": "娑娜对相距最近的2名敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，优先以英雄为目标。她随后会开始一段新的<keywordMajor>旋律</keywordMajor>。这个技能每对一名敌方英雄造成伤害就会获得1层<keywordMajor>渐入佳音</keywordMajor>。<br><br><keywordMajor>旋律：</keywordMajor>娑娜获得一个持续@AuraDuration@秒的光环，来使其中的友方英雄在@OnHitDuration@秒内的下一次攻击附带<magicDamage>@TotalOnHitDamage@魔法伤害</magicDamage> %i:OnHit%。<br><br><keywordMajor>能量和弦—断奏：</keywordMajor>【能量和弦】造成额外伤害 (<magicDamage>@TotalStaccatoDamage@总魔法伤害</magicDamage>)。"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BaseDamage": [
+              15,
+              50,
+              85,
+              120,
+              155,
+              190,
+              225
+            ],
+            "BaseOnHitDamage": [
+              5,
+              10,
+              15,
+              20,
+              25,
+              30,
+              35
+            ],
+            "AuraRange": [
+              400,
+              400,
+              400,
+              400,
+              400,
+              400,
+              400
+            ],
+            "OnHitDuration": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "EnemiesToHit": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "AuraDuration": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "BaseGlobalCD": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "OnHitProcs": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "OnHitRatio": [
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612
+            ]
+          },
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.4000000059604645,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalOnHitDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseOnHitDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "OnHitRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalStaccatoDamage": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 30,
+                  "mInitialBonusPerLevel": 15,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 9,
+                      "mBonusPerLevelAtAndAfter": 22.5,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.30000001192092896,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "cooldownTime": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Sona.spells[0]",
+          "name": "Hymn of Valor",
+          "description": "Sona plays the Hymn of Valor, sends out bolts of sound, dealing magic damage to two nearby enemies, prioritizing champions and monsters. Sona gains a temporary aura that grants allies tagged by the zone bonus damage on their next attack against enemies.",
+          "tooltip": "Sona deals <magicDamage>{{ totaldamage }} magic damage</magicDamage> to the nearest two enemies, prioritizing champions. She then begins a new <keywordMajor>Melody</keywordMajor>. Gain a stack of <keywordMajor>Accelerando</keywordMajor> for every champion you damage with this.<br /><br /><keywordMajor>Melody:</keywordMajor> Sona gains an aura for {{ auraduration }} seconds, granting allied champions an additional <magicDamage>{{ totalonhitdamage }} magic damage</magicDamage> %i:OnHit% on their next Attack within {{ onhitduration }} seconds.<br /><br /><keywordMajor>Power Chord - Staccato:</keywordMajor> Power Chord bonus damage (<magicDamage>{{ totalstaccatodamage }} total magic damage</magicDamage>).{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Sona/Q/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 85,
+            "3": 120,
+            "4": 155,
+            "5": 190
+          }
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "melody_attack_base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 10,
+            "2": 15,
+            "3": 20,
+            "4": 25,
+            "5": 30
+          }
+        },
+        {
+          "parameterKey": "melody_attack_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "melody_aura_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "melody_attack_window_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "melody_interval_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "chord_character_level_base_damage",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "chord_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "magic_damage",
+        "melody_attack_magic_damage",
+        "chord_magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "第二个敌方目标",
+          "reason": "范围型第二目标不进入本轮唯一敌人组成。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "乐曲强化普攻资格与能量和弦切换",
+          "reason": "需要基础技能计数和当前乐曲事件，不能自动触发。"
+        }
+      ]
+    },
+    "sona_w": {
+      "source": {
+        "hero": "Sona",
+        "heroName": "娑娜",
+        "heroKey": "champion_sona",
+        "slot": "W",
+        "resourceType": "法力",
+        "rootPath": "Characters/Sona/CharacterRecords/Root",
+        "spellPath": "Characters/Sona/Spells/SonaWAbility/SonaW",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Sona.json.gz",
+        "clientSha256": "76a606c546f19929ac6e3300ffb136bdb0928a22d215f2f134dd36856261e154",
+        "clientCompressedSha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Sona.json",
+        "officialZhSha256": "ecdaf99377b60b32671ca9d30ebf79bdc91ea3689c50fd97d8d4bbda3f768311",
+        "officialEnFile": "参考资料/官方英文/Sona.json",
+        "officialEnSha256": "d78dca0182dd1edf43adf92a7925245a84d95bb3c41f2dd5a9a0bae5efa34e70",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SonaW_Name",
+            "text": "坚毅咏叹调"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SonaW_Summary",
+            "text": "娑娜弹奏坚毅咏叹调，弹出保护性的旋律，治疗娑娜和附近的一个受伤的友军。娑娜会暂时获得一个光环，为附近的友军提供一层护盾。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SonaW_Tooltip",
+            "text": "<spellPassive>主动：</spellPassive>娑娜为她自己和一名附近的友方英雄回复<healing>@TotalHeal@生命值</healing>，优先以伤势最重的英雄为目标。她随后会开始一段新的<keywordMajor>旋律</keywordMajor>。<br><br><keywordMajor>旋律：</keywordMajor>娑娜获得一个持续@AuraDuration@秒的光环，来为其中的友方英雄提供持续@ShieldDuration@秒的<shield>@TotalShield@护盾值</shield>。<br><br>每当你治疗了一名受伤的友方英雄，或用这个护盾为一名友方英雄格挡了至少@AccelerandoShieldBreakpoint@伤害时，都会获得一层<keywordMajor>渐入佳音</keywordMajor>。<br><br><keywordMajor>能量和弦—渐弱：</keywordMajor>【能量和弦】也会使目标造成的物理和魔法伤害降低@TotalDiminuendoWeakenPercent@，持续@DiminuendoDuration@秒。"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BaseHeal": [
+              15,
+              30,
+              45,
+              60,
+              75,
+              90,
+              105
+            ],
+            "BaseShield": [
+              5,
+              25,
+              45,
+              65,
+              85,
+              105,
+              125
+            ],
+            "AuraDuration": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "AuraRange": [
+              400,
+              400,
+              400,
+              400,
+              400,
+              400,
+              400
+            ],
+            "BaseGlobalCD": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "DiminuendoDuration": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "HealRange": [
+              1000,
+              1000,
+              1000,
+              1000,
+              1000,
+              1000,
+              1000
+            ],
+            "ShieldDuration": [
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "AccelerandoShieldBreakpoint": [
+              5,
+              25,
+              45,
+              65,
+              85,
+              105,
+              125
+            ],
+            "HealRatio": [
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896
+            ],
+            "ShieldRatio": [
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25
+            ]
+          },
+          "calculations": {
+            "TotalHeal": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseHeal",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "HealRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalShield": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseShield",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "ShieldRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalDiminuendoWeakenPercent": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 0.25,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.00039999998989515007,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "cooldownTime": null,
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Sona.spells[1]",
+          "name": "Aria of Perseverance",
+          "description": "Sona plays the Aria of Perseverance, sending out protective melodies, healing Sona and a nearby wounded ally. Sona gains a temporary aura that grants allies tagged by the zone a temporary shield.",
+          "tooltip": "<spellPassive>Active:</spellPassive> Sona restores <healing>{{ totalheal }} Health</healing> to herself and a nearby allied champion, prioritizing the most wounded. She then begins a new <keywordMajor>Melody</keywordMajor>.<br /><br /><keywordMajor>Melody:</keywordMajor> Sona gains an aura for {{ auraduration }} seconds, granting allied champions <shield>{{ totalshield }} Shield</shield> for {{ shieldduration }} seconds.<br /><br />Gain a stack of <keywordMajor>Accelerando</keywordMajor> whenever you heal another injured ally and every time you protect another ally from at least {{ accelerandoshieldbreakpoint }} damage with this shield.<br /><br /><keywordMajor>Power Chord - Diminuendo:</keywordMajor> Power Chord also reduces physical and magic damage dealt by the target by {{ totaldiminuendoweakenpercent }} for {{ diminuendoduration }} seconds.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Sona/W/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "cooldown_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "base_heal",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 30,
+            "2": 45,
+            "3": 60,
+            "4": 75,
+            "5": 90
+          }
+        },
+        {
+          "parameterKey": "heal_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "base_shield",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 25,
+            "2": 45,
+            "3": 65,
+            "4": 85,
+            "5": 105
+          }
+        },
+        {
+          "parameterKey": "shield_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "aura_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "diminuendo_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "melody_interval_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "diminuendo_base_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "diminuendo_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.0004,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "self_heal",
+        "shield_value",
+        "diminuendo_damage_reduction_ratio"
+      ],
+      "excluded": [
+        {
+          "item": "第三友方治疗、友方护盾和友方光环",
+          "reason": "当前正文为其他友方英雄方向，本轮1v1不录其收益。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "自身光环资格与护盾施放事件",
+          "reason": "数值已明确，但自身资格和施放时点未证，不创建无条件效果。"
+        }
+      ]
+    },
+    "sona_e": {
+      "source": {
+        "hero": "Sona",
+        "heroName": "娑娜",
+        "heroKey": "champion_sona",
+        "slot": "E",
+        "resourceType": "法力",
+        "rootPath": "Characters/Sona/CharacterRecords/Root",
+        "spellPath": "Characters/Sona/Spells/SonaEAbility/SonaE",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Sona.json.gz",
+        "clientSha256": "76a606c546f19929ac6e3300ffb136bdb0928a22d215f2f134dd36856261e154",
+        "clientCompressedSha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Sona.json",
+        "officialZhSha256": "ecdaf99377b60b32671ca9d30ebf79bdc91ea3689c50fd97d8d4bbda3f768311",
+        "officialEnFile": "参考资料/官方英文/Sona.json",
+        "officialEnSha256": "d78dca0182dd1edf43adf92a7925245a84d95bb3c41f2dd5a9a0bae5efa34e70",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SonaE_Name",
+            "text": "迅捷奏鸣曲"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SonaE_Summary",
+            "text": "娑娜弹奏迅捷奏鸣曲，为她自己提供移动速度加成。娑娜会暂时获得一个光环，为进入区域的友方英雄提供移动速度加成。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SonaE_Tooltip",
+            "text": "<spellPassive>主动：</spellPassive>她开始一段新的<keywordMajor>旋律</keywordMajor>并为自身提供<speed>@TotalSelfMovementSpeed@移动速度</speed>，持续@SelfMovementSpeedDurationMin@秒，如果她未受到伤害则延长至最多@SelfMovementSpeedDurationMax@秒。<br><br><keywordMajor>旋律：</keywordMajor>娑娜获得一个持续@AuraDuration@秒的光环，来为其中的友方英雄提供<speed>@TotalAllyMovementSpeed@移动速度</speed>，持续@AllyMovementSpeedDuration@秒。<br><br><keywordMajor>能量和弦—节奏：</keywordMajor>【能量和弦】还会对目标造成持续@TempoDuration@秒的@TotalTempoMoveSpeedSlow@的<status>减速</status>。"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "SelfBaseMovementSpeed": [
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224
+            ],
+            "AllyBaseMovementSpeed": [
+              0.07999999821186066,
+              0.10000000149011612,
+              0.11999999731779099,
+              0.14000000059604645,
+              0.1599999964237213,
+              0.18000000715255737,
+              0.20000000298023224
+            ],
+            "SelfMovementSpeedDurationMin": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "SelfMovementSpeedDurationMax": [
+              7,
+              7,
+              7,
+              7,
+              7,
+              7,
+              7
+            ],
+            "AllyMovementSpeedDuration": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "AuraRange": [
+              400,
+              400,
+              400,
+              400,
+              400,
+              400,
+              400
+            ],
+            "AuraDuration": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "BaseGlobalCD": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "TempoDuration": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          "calculations": {
+            "TotalSelfMovementSpeed": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "SelfBaseMovementSpeed",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.00019999999494757503,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "TotalAllyMovementSpeed": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "AllyBaseMovementSpeed",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.00019999999494757503,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "TotalTempoMoveSpeedSlow": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 0.5,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.00039999998989515007,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "cooldownTime": [
+            14,
+            14,
+            14,
+            14,
+            14,
+            14,
+            14
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Sona.spells[2]",
+          "name": "Song of Celerity",
+          "description": "Sona plays the Song of Celerity, granting nearby allies bonus Move Speed. Sona gains a temporary aura that grants allied champions tagged by the zone bonus Move Speed.",
+          "tooltip": "<spellPassive>Active:</spellPassive> She begins a new <keywordMajor>Melody</keywordMajor> and grants herself <speed>{{ totalselfmovementspeed }} Move Speed</speed> for {{ selfmovementspeeddurationmin }} seconds, extended to up to {{ selfmovementspeeddurationmax }} seconds if she doesn't take damage. <br /><br /><keywordMajor>Melody:</keywordMajor> Sona gains an aura for {{ auraduration }} seconds that grants allied champions <speed>{{ totalallymovementspeed }} Move Speed</speed> for {{ allymovementspeedduration }} seconds.<br /><br /><keywordMajor>Power Chord - Tempo:</keywordMajor> Power Chord also <status>Slows</status> the target by {{ totaltempomovespeedslow }} for {{ tempoduration }} seconds.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Sona/E/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "self_move_speed_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_move_speed_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.0002,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_move_speed_duration_min_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_move_speed_duration_max_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 7000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "aura_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "melody_interval_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tempo_slow_base_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tempo_slow_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.0004,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tempo_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "self_move_speed_ratio_value",
+        "tempo_slow_ratio"
+      ],
+      "excluded": [
+        {
+          "item": "第三友方加速效果",
+          "reason": "纯第三友方收益超出本轮，整支不录。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "自身加速无伤延长、乐曲切换和减速触发",
+          "reason": "时序和事件资格待接，不把持续时间当伤害周期。"
+        }
+      ]
+    },
+    "sona_r": {
+      "source": {
+        "hero": "Sona",
+        "heroName": "娑娜",
+        "heroKey": "champion_sona",
+        "slot": "R",
+        "resourceType": "法力",
+        "rootPath": "Characters/Sona/CharacterRecords/Root",
+        "spellPath": "Characters/Sona/Spells/SonaRAbility/SonaR",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Sona.json.gz",
+        "clientSha256": "76a606c546f19929ac6e3300ffb136bdb0928a22d215f2f134dd36856261e154",
+        "clientCompressedSha256": "58c693dc5f9861064506c72c73953623d8c939f2667e3878d5541d597c16685b",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Sona.json",
+        "officialZhSha256": "ecdaf99377b60b32671ca9d30ebf79bdc91ea3689c50fd97d8d4bbda3f768311",
+        "officialEnFile": "参考资料/官方英文/Sona.json",
+        "officialEnSha256": "d78dca0182dd1edf43adf92a7925245a84d95bb3c41f2dd5a9a0bae5efa34e70",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SonaR_Name",
+            "text": "狂舞终乐章"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SonaR_Summary",
+            "text": "娑娜弹奏她的终极和弦，对敌方英雄造成魔法伤害，并晕眩他们，强制他们开始跳舞。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SonaR_Tooltip",
+            "text": "娑娜弹出一段不可抗拒的音符，对敌人造成@StunDuration@秒<status>晕眩</status>和<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_SonaR_TooltipExtendedBelowLine",
+            "text": "那些知道如何跳舞的敌人，在晕眩期间将会跳舞。"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BaseDamage": [
+              50,
+              150,
+              250,
+              350,
+              450,
+              550,
+              650
+            ],
+            "StunDuration": [
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ]
+          },
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.5,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "cooldownTime": [
+            140,
+            140,
+            120,
+            100,
+            100,
+            100,
+            100
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Sona.spells[3]",
+          "name": "Crescendo",
+          "description": "Sona plays her ultimate chord, stunning enemy champions and forcing them to dance and dealing magic damage to them.",
+          "tooltip": "Sona strikes an irresistible chord, <status>Stunning</status> enemy for {{ stunduration }} seconds and dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage>.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Sona/R/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 150,
+            "2": 250,
+            "3": 350
+          }
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stun_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "多名敌人额外命中",
+          "reason": "本轮按唯一敌人，额外目标不建结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "眩晕命中事件",
+          "reason": "只保存持续时间，实际命中和控制事件待接。"
+        }
+      ]
+    },
+    "soraka_p": {
+      "source": {
+        "hero": "Soraka",
+        "heroName": "索拉卡",
+        "heroKey": "champion_soraka",
+        "slot": "P",
+        "resourceType": "法力",
+        "rootPath": "Characters/Soraka/CharacterRecords/Root",
+        "spellPath": "Characters/Soraka/Spells/Consecration_SelfAbility/Consecration_Self",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Soraka.json.gz",
+        "clientSha256": "d361c763fb39ffec15e9c7d32a6bbf31c5ffd8100015f0d1c09e6ded3d5abcf7",
+        "clientCompressedSha256": "d47a49a8a3760a64b0f7468a1eaa59b2b594998f8ff37907ca8c7f9bfd1b089a",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Soraka.json",
+        "officialZhSha256": "a4893c5310ec7128592abd5e41c67d8bd82d0aa66ba9d200da7605a4913883f2",
+        "officialEnFile": "参考资料/官方英文/Soraka.json",
+        "officialEnSha256": "773697b7e891c168c599bccb5ff621f54e85da870194fa7cc8e61e4dd8c13c94",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_Consecration_Self_Name",
+            "text": "拯救"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_Consecration_Self_Tooltip",
+            "text": "索拉卡在朝着生命值低于@HealthThreshold*100@%的友军移动时会获得<speed>@MovementSpeed*100@%移动速度</speed>。"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_Consecration_Self_Summary",
+            "text": "索拉卡在朝着附近低血量的友方英雄移动时会提升移动速度。"
+          },
+          "keyTooltipExtended": {
+            "sourceKey": "Spell_Consecration_Self_TooltipExtended",
+            "text": "{{Spell_Consecration_Self_Tooltip}}<br><br><rules>该友方英雄必须在@CastRange@码以内。</rules>"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "MovementSpeed": [
+              0.8999999761581421,
+              0.8999999761581421,
+              0.8999999761581421,
+              0.8999999761581421,
+              0.8999999761581421,
+              0.8999999761581421,
+              0.8999999761581421
+            ],
+            "HealthThreshold": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ]
+          },
+          "calculations": {},
+          "spellCastTime": null,
+          "mCastTime": null,
+          "cooldownTime": null,
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Soraka.passive",
+          "name": "Salvation",
+          "description": "Soraka runs faster towards nearby low health allies.",
+          "tooltip": null,
+          "relevantEnemyTips": [
+            "Focus on attacking Soraka when she ever ventures to the frontline to heal her allies.",
+            "Take advantage of Soraka's long cooldown on Equinox if she uses it to harass.",
+            "It's easier to focus Soraka than the ally she is healing."
+          ]
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Soraka/P/currentTexts"
+      },
+      "intendedValues": [],
+      "formulaKeys": [],
+      "excluded": [
+        {
+          "item": "低于40%生命值的另一名友方英雄与自身加速",
+          "reason": "明确依赖另一名友方英雄，本轮1v1不录自益效果。"
+        }
+      ],
+      "pending": []
+    },
+    "soraka_q": {
+      "source": {
+        "hero": "Soraka",
+        "heroName": "索拉卡",
+        "heroKey": "champion_soraka",
+        "slot": "Q",
+        "resourceType": "法力",
+        "rootPath": "Characters/Soraka/CharacterRecords/Root",
+        "spellPath": "Characters/Soraka/Spells/SorakaQAbility/SorakaQ",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Soraka.json.gz",
+        "clientSha256": "d361c763fb39ffec15e9c7d32a6bbf31c5ffd8100015f0d1c09e6ded3d5abcf7",
+        "clientCompressedSha256": "d47a49a8a3760a64b0f7468a1eaa59b2b594998f8ff37907ca8c7f9bfd1b089a",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Soraka.json",
+        "officialZhSha256": "a4893c5310ec7128592abd5e41c67d8bd82d0aa66ba9d200da7605a4913883f2",
+        "officialEnFile": "参考资料/官方英文/Soraka.json",
+        "officialEnSha256": "773697b7e891c168c599bccb5ff621f54e85da870194fa7cc8e61e4dd8c13c94",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SorakaQ_Name",
+            "text": "流星坠落"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SorakaQ_Summary",
+            "text": "一颗流星从天而降，落在目标地点，造成魔法伤害，并对区域中心的敌人造成减速效果。如果一名敌人被此技能命中，那么索拉卡就会回复生命值。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SorakaQ_Tooltip",
+            "text": "索拉卡召唤下一颗星星，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@MoveSpeedSlow*100@%<status>减速</status>效果。<br><br>命中一个敌方英雄时会为索拉卡提供<keywordMajor>活力焕发</keywordMajor>，在@HoTDuration@秒里持续回复共<healing>@TotalHoT@生命值</healing>并提供在此期间持续衰减的<speed>@MoveSpeedHaste*100@%移动速度</speed>。"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BaseDamage": [
+              50,
+              85,
+              120,
+              155,
+              190,
+              225,
+              260
+            ],
+            "BaseHoT": [
+              45,
+              60,
+              75,
+              90,
+              105,
+              120,
+              135
+            ],
+            "HotDuration": [
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5
+            ],
+            "MoveSpeedSlow": [
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896
+            ],
+            "SlowDuration": [
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "MoveSpeedHaste": [
+              0.17499999701976776,
+              0.20000000298023224,
+              0.22499999403953552,
+              0.25,
+              0.2750000059604645,
+              0.30000001192092896,
+              0.32499998807907104
+            ],
+            "MoveSpeedDuration": [
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5
+            ],
+            "HealAPRatio": [
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896
+            ]
+          },
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.3499999940395355,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalHot": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseHot",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "HealAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "cooldownTime": [
+            9,
+            8,
+            7,
+            6,
+            5,
+            4,
+            3
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Soraka.spells[0]",
+          "name": "Starcall",
+          "description": "A star falls from the sky at the target location dealing magic damage and slowing enemies. If an enemy champion is hit by Starcall, Soraka recovers Health.",
+          "tooltip": "Soraka calls down a star, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> and <status>Slowing</status> by {{ movespeedslow*100 }}% for {{ slowduration }} seconds. <br /><br />Hitting an enemy champion grants Soraka <keywordMajor>Rejuvenation</keywordMajor>, which restores <healing>{{ totalhot }} Health</healing> over {{ hotduration }} seconds and grants <speed>{{ movespeedhaste*100 }}% Move Speed</speed> decaying over the same duration.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Soraka/Q/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 85,
+            "2": 120,
+            "3": 155,
+            "4": 190,
+            "5": 225
+          }
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.35,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_heal_base",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 75,
+            "3": 90,
+            "4": 105,
+            "5": 120
+          }
+        },
+        {
+          "parameterKey": "self_heal_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_heal_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_move_speed_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.2,
+            "2": 0.225,
+            "3": 0.25,
+            "4": 0.275,
+            "5": 0.3
+          }
+        },
+        {
+          "parameterKey": "self_move_speed_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "magic_damage",
+        "self_heal_total"
+      ],
+      "excluded": [
+        {
+          "item": "敌方范围外目标",
+          "reason": "本轮仅保留一个敌方目标。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "Q命中、返身和持续治疗触发",
+          "reason": "数值与持续时间已明确，命中及治疗事件待接。"
+        }
+      ]
+    },
+    "soraka_w": {
+      "source": {
+        "hero": "Soraka",
+        "heroName": "索拉卡",
+        "heroKey": "champion_soraka",
+        "slot": "W",
+        "resourceType": "法力",
+        "rootPath": "Characters/Soraka/CharacterRecords/Root",
+        "spellPath": "Characters/Soraka/Spells/SorakaWAbility/SorakaW",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Soraka.json.gz",
+        "clientSha256": "d361c763fb39ffec15e9c7d32a6bbf31c5ffd8100015f0d1c09e6ded3d5abcf7",
+        "clientCompressedSha256": "d47a49a8a3760a64b0f7468a1eaa59b2b594998f8ff37907ca8c7f9bfd1b089a",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Soraka.json",
+        "officialZhSha256": "a4893c5310ec7128592abd5e41c67d8bd82d0aa66ba9d200da7605a4913883f2",
+        "officialEnFile": "参考资料/官方英文/Soraka.json",
+        "officialEnSha256": "773697b7e891c168c599bccb5ff621f54e85da870194fa7cc8e61e4dd8c13c94",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SorakaW_Name",
+            "text": "星之灌注"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SorakaW_Summary",
+            "text": "索拉卡牺牲自己的一部分生命值来治疗一个友方英雄。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SorakaW_Tooltip",
+            "text": "索拉卡给一名友方英雄回复<healing>@TotalHeal@生命值</healing>。<br><br>如果索拉卡带有<keywordMajor>活力焕发</keywordMajor>，那么生命值消耗会降低@PercentHealthCostRefund*100@%，并且目标也会获得<keywordMajor>活力焕发</keywordMajor>，持续@Spell.SorakaQ:HoTDuration@秒。"
+          },
+          "keyCost": {
+            "sourceKey": "Spell_SorakaW_Cost",
+            "text": "@PercentHealthCost*100@%最大生命值，@Cost@法力"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_SorakaW_TooltipExtendedBelowLine",
+            "text": "<rules>这个技能在索拉卡低于@MinimumHealth@生命值时无法使用。</rules>"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BaseHeal": [
+              70,
+              90,
+              110,
+              130,
+              150,
+              170,
+              190
+            ],
+            "PercentHealthCost": [
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612
+            ],
+            "MinimumPercentHealth": [
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806
+            ],
+            "PercentHealthCostRefund": [
+              0.75,
+              0.800000011920929,
+              0.8500000238418579,
+              0.8999999761581421,
+              0.949999988079071,
+              1,
+              1.0499999523162842
+            ]
+          },
+          "calculations": {
+            "TotalHeal": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseHeal",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.5,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MinimumHealth": {
+              "mFormulaParts": [
+                {
+                  "mStat": 12,
+                  "mDataValue": "MinimumPercentHealth",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": null,
+          "mCastTime": 0.25,
+          "cooldownTime": [
+            6,
+            6,
+            5,
+            4,
+            3,
+            2,
+            2
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Soraka.spells[1]",
+          "name": "Astral Infusion",
+          "description": "Soraka sacrifices a portion of her own health to heal another friendly champion.",
+          "tooltip": "Soraka restores <healing>{{ totalheal }} Health</healing> to another allied champion.<br /><br />If Soraka is affected by <keywordMajor>Rejuvenation</keywordMajor>, the Health cost will be reduced by {{ percenthealthcostrefund*100 }}%, and the target will gain <keywordMajor>Rejuvenation</keywordMajor> for {{ spell.sorakaq:hotduration }} seconds.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Soraka/W/currentTexts"
+      },
+      "intendedValues": [],
+      "formulaKeys": [],
+      "excluded": [
+        {
+          "item": "对另一名友方英雄治疗及其法力代价",
+          "reason": "W正文明确another ally，本轮没有友方目标，不录外部治疗结果。"
+        }
+      ],
+      "pending": []
+    },
+    "soraka_e": {
+      "source": {
+        "hero": "Soraka",
+        "heroName": "索拉卡",
+        "heroKey": "champion_soraka",
+        "slot": "E",
+        "resourceType": "法力",
+        "rootPath": "Characters/Soraka/CharacterRecords/Root",
+        "spellPath": "Characters/Soraka/Spells/SorakaEAbility/SorakaE",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Soraka.json.gz",
+        "clientSha256": "d361c763fb39ffec15e9c7d32a6bbf31c5ffd8100015f0d1c09e6ded3d5abcf7",
+        "clientCompressedSha256": "d47a49a8a3760a64b0f7468a1eaa59b2b594998f8ff37907ca8c7f9bfd1b089a",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Soraka.json",
+        "officialZhSha256": "a4893c5310ec7128592abd5e41c67d8bd82d0aa66ba9d200da7605a4913883f2",
+        "officialEnFile": "参考资料/官方英文/Soraka.json",
+        "officialEnSha256": "773697b7e891c168c599bccb5ff621f54e85da870194fa7cc8e61e4dd8c13c94",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SorakaE_Name",
+            "text": "星体结界"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SorakaE_Summary",
+            "text": "在目标区域创造一个结界，沉默结界中的所有敌人。当结界消散时，仍在结界内的敌人会被禁锢。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SorakaE_Tooltip",
+            "text": "索拉卡创造一个星之领域，对英雄造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。领域会存留@RootDelay@秒，<status>沉默</status>其中的敌人们。当领域消失后，领域中的英雄们会被<status>禁锢</status>@RootDuration@秒并受到<magicDamage>@TotalDamage@魔法伤害</magicDamage>。"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BaseDamage": [
+              45,
+              70,
+              95,
+              120,
+              145,
+              170,
+              195
+            ],
+            "RootDuration": [
+              0.75,
+              1,
+              1.25,
+              1.5,
+              1.75,
+              2,
+              2.25
+            ],
+            "RootDelay": [
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ]
+          },
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.4000000059604645,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": null,
+          "mCastTime": 0.25,
+          "cooldownTime": [
+            20,
+            20,
+            19,
+            18,
+            17,
+            16,
+            16
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Soraka.spells[2]",
+          "name": "Equinox",
+          "description": "Creates a zone at a location that silences all enemies inside. When the zone expires, all enemies still inside are rooted.",
+          "tooltip": "Soraka creates a starfield that deals <magicDamage>{{ totaldamage }} magic damage</magicDamage> to champions. The field lingers for {{ rootdelay }} seconds, <status>Silencing</status> enemies inside. When the zone disappears, champions inside the zone are <status>Rooted</status> for {{ rootduration }} second(s) and take <magicDamage>{{ totaldamage }} magic damage</magicDamage>.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Soraka/E/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 70,
+            "2": 95,
+            "3": 120,
+            "4": 145,
+            "5": 170
+          }
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "field_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "root_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 1000,
+            "2": 1250,
+            "3": 1500,
+            "4": 1750,
+            "5": 2000
+          }
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "纯视野、额外目标和小兵专用支路",
+          "reason": "本轮仅单一敌方英雄命中，视野/兵线分支不录。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "1.5秒后第二次命中与禁锢",
+          "reason": "触发取决于敌人仍在场，保存场时长和禁锢时长但不自动接线。"
+        }
+      ]
+    },
+    "soraka_r": {
+      "source": {
+        "hero": "Soraka",
+        "heroName": "索拉卡",
+        "heroKey": "champion_soraka",
+        "slot": "R",
+        "resourceType": "法力",
+        "rootPath": "Characters/Soraka/CharacterRecords/Root",
+        "spellPath": "Characters/Soraka/Spells/SorakaRAbility/SorakaR",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Soraka.json.gz",
+        "clientSha256": "d361c763fb39ffec15e9c7d32a6bbf31c5ffd8100015f0d1c09e6ded3d5abcf7",
+        "clientCompressedSha256": "d47a49a8a3760a64b0f7468a1eaa59b2b594998f8ff37907ca8c7f9bfd1b089a",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Soraka.json",
+        "officialZhSha256": "a4893c5310ec7128592abd5e41c67d8bd82d0aa66ba9d200da7605a4913883f2",
+        "officialEnFile": "参考资料/官方英文/Soraka.json",
+        "officialEnSha256": "773697b7e891c168c599bccb5ff621f54e85da870194fa7cc8e61e4dd8c13c94",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SorakaR_Name",
+            "text": "祈愿"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SorakaR_Summary",
+            "text": "索拉卡让友军充满希望，立刻使她和所有友方英雄回复生命值。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SorakaR_Tooltip",
+            "text": "索拉卡召唤神圣的能量，来为所有友方英雄回复<healing>@HealingCalc@生命值</healing>，无论相距多远。对生命值低于40%的友方英雄的回复效果提升至<healing>@AmpedHealing@</healing>。"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BaseHeal": [
+              50,
+              150,
+              250,
+              350,
+              450,
+              550,
+              650
+            ],
+            "HealingAmpForLowHealthAllies": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ]
+          },
+          "calculations": {
+            "HealingCalc": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseHeal",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.5,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "AmpedHealing": {
+              "mMultiplier": {
+                "mSubparts": [
+                  {
+                    "mNumber": 1,
+                    "__type": "NumberCalculationPart"
+                  },
+                  {
+                    "mDataValue": "HealingAmpForLowHealthAllies",
+                    "__type": "NamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "SumOfSubPartsCalculationPart"
+              },
+              "mModifiedGameCalculation": "HealingCalc",
+              "__type": "GameCalculationModified"
+            }
+          },
+          "spellCastTime": null,
+          "mCastTime": 0.25,
+          "cooldownTime": [
+            150,
+            150,
+            135,
+            120,
+            10,
+            10,
+            10
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Soraka.spells[3]",
+          "name": "Wish",
+          "description": "Soraka fills her allies with hope, instantly restoring health to herself and all allied champions.",
+          "tooltip": "Soraka calls upon divine powers, restoring <healing>{{ healingcalc }} Health</healing> to all allied champions, regardless of distance. Healing is increased to <healing>{{ ampedhealing }}</healing> on targets below 40% Health.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Soraka/R/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "base_heal",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 150,
+            "2": 250,
+            "3": 350
+          }
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "low_health_threshold_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "low_health_multiplier",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "self_heal",
+        "self_low_health_heal"
+      ],
+      "excluded": [
+        {
+          "item": "全体其他友方英雄治疗",
+          "reason": "第三友方收益本轮不建立，保留自身治疗分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "施放前生命资格与阶段选择",
+          "reason": "低生命阈值需要实际施放前输入；不能默认低生命或自动叠加两式。"
+        }
+      ]
+    },
+    "karma_p": {
+      "source": {
+        "hero": "Karma",
+        "heroName": "卡尔玛",
+        "heroKey": "champion_karma",
+        "slot": "P",
+        "resourceType": "法力",
+        "rootPath": "Characters/Karma/CharacterRecords/Root",
+        "spellPath": "Characters/Karma/Spells/KarmaPassiveAbility/KarmaPassive",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Karma.json.gz",
+        "clientSha256": "66dffb80d432595df8385fed53f35d26de55cc21d3cdb49cbadb7395568353f4",
+        "clientCompressedSha256": "bfd9b55936d1df452fb881187a487476227678328a3d742a533cac0561b2d1ae",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Karma.json",
+        "officialZhSha256": "64ff6e162133be05b7974549a370ddba1ca43011cfa084aece4f813d4a3f0576",
+        "officialEnFile": "参考资料/官方英文/Karma.json",
+        "officialEnSha256": "884c3fb901c073133f87cbf0f981fe83c4661ba54d2e8ba09994a1dad2472e43",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "game_character_passiveName_Karma",
+            "text": "聚能之炎"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_KarmaPassive_Tooltip",
+            "text": "卡尔玛在游戏开始时就会自带1级<spellName>{{Spell_KarmaMantra_Name}}</spellName>。<br><br>她每用一个技能伤害到一名敌方英雄时，<spellName>{{Spell_KarmaMantra_Name}}</spellName>的冷却时间就会缩短@SpellMantraRefund@秒。"
+          },
+          "keySummary": {
+            "sourceKey": "game_character_passiveDescription_Karma",
+            "text": "卡尔玛的伤害型技能将缩短梵咒的冷却时间。"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BasicAttackMantraRefund": null
+          },
+          "calculations": {
+            "SpellMantraRefund": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 4,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.5217499732971191,
+          "mCastTime": null,
+          "cooldownTime": [
+            9,
+            8,
+            7,
+            6,
+            5,
+            4,
+            4
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Karma.passive",
+          "name": "Gathering Fire",
+          "description": "Karma's damaging abilities will reduce the cooldown of Mantra.",
+          "tooltip": null,
+          "relevantEnemyTips": [
+            "Karma's passive lowers her Mantra cooldown when she hits enemy champions with abilities and basic attacks. Deny her from getting free hits on you.",
+            "Karma's Soulflare erupts for bonus damage in the area in which it's placed. React quickly and escape the circle to avoid taking heavy damage.",
+            "Focused Resolve is a strong disengage tool. Create distance to avoid being rooted and seek to engage afterwards."
+          ]
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Karma/P/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "mantra_cooldown_refund_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [],
+      "excluded": [
+        {
+          "item": "普通攻击梵咒缩短、根节点法力和冷却",
+          "reason": "BasicAttackMantraRefund为空或未消费，根字段不证明主动扣费。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "伤害技能命中英雄后缩短R冷却",
+          "reason": "命中资格和次数由事件层接线，数值只保存一次缩短量。"
+        }
+      ]
+    },
+    "karma_q": {
+      "source": {
+        "hero": "Karma",
+        "heroName": "卡尔玛",
+        "heroKey": "champion_karma",
+        "slot": "Q",
+        "resourceType": "法力",
+        "rootPath": "Characters/Karma/CharacterRecords/Root",
+        "spellPath": "Characters/Karma/Spells/KarmaQAbility/KarmaQ",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Karma.json.gz",
+        "clientSha256": "66dffb80d432595df8385fed53f35d26de55cc21d3cdb49cbadb7395568353f4",
+        "clientCompressedSha256": "bfd9b55936d1df452fb881187a487476227678328a3d742a533cac0561b2d1ae",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Karma.json",
+        "officialZhSha256": "64ff6e162133be05b7974549a370ddba1ca43011cfa084aece4f813d4a3f0576",
+        "officialEnFile": "参考资料/官方英文/Karma.json",
+        "officialEnSha256": "884c3fb901c073133f87cbf0f981fe83c4661ba54d2e8ba09994a1dad2472e43",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_KarmaQ_Name",
+            "text": "心灵烈焰"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_KarmaQ_Summary",
+            "text": "卡尔玛向前方发射一枚灵能法球。这枚法球会在命中第一个敌人时爆炸，并造成伤害。<br><br>梵咒增效：除爆炸之外，梵咒还会提升她的心灵烈焰的破坏力，同时创造出一个火环，火环会在短暂的延时后造成伤害。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_KarmaQ_Tooltip",
+            "text": "{{Spell_KarmaQ_Tooltip_@IsEmpowered@}}"
+          },
+          "keyTooltipExtended": {
+            "sourceKey": "Spell_KarmaQ_TooltipExtended",
+            "text": "{{Spell_KarmaQ_Tooltip_0}}<br><br>{{Spell_KarmaQ_Tooltip_1}}"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BaseDamage": [
+              10,
+              60,
+              110,
+              160,
+              210,
+              260,
+              310
+            ],
+            "APRatio": [
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071
+            ],
+            "SlowAmount": [
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645
+            ],
+            "SlowDuration": [
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ]
+          },
+          "calculations": {
+            "{087bc3ca}": {
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{5d5198eb}": {
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "IsEmpowered": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "tooltipOnly": true,
+              "mDefaultGameCalculation": "{087bc3ca}",
+              "mConditionalGameCalculation": "{5d5198eb}",
+              "mConditionalCalculationRequirements": {
+                "mBuffName": "{752d125a}",
+                "__type": "HasBuffCastRequirement"
+              },
+              "__type": "GameCalculationConditional"
+            },
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "cooldownTime": [
+            9,
+            9,
+            8,
+            7,
+            6,
+            5,
+            5
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Karma.spells[0]",
+          "name": "Inner Flame",
+          "description": "Karma sends forth a ball of spirit energy that explodes and deals damage upon hitting an enemy unit.<br><br>Mantra Bonus: In addition to the explosion, Mantra increases the destructive power of her Inner Flame, creating a cataclysm which deals damage after a short delay.",
+          "tooltip": "Karma fires a blast of energy, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> to the first target hit and surrounding enemies, and <status>Slowing</status> them by {{ slowamount*-100 }}% for {{ slowduration }} seconds.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Karma/Q/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 110,
+            "3": 160,
+            "4": 210,
+            "5": 260
+          }
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.7,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "周围额外敌人",
+          "reason": "本轮只保留唯一敌方命中。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "梵咒强化资格与减速事件",
+          "reason": "IsEmpowered为条件分支，不能无条件触发强化技能。"
+        }
+      ]
+    },
+    "karma_w": {
+      "source": {
+        "hero": "Karma",
+        "heroName": "卡尔玛",
+        "heroKey": "champion_karma",
+        "slot": "W",
+        "resourceType": "法力",
+        "rootPath": "Characters/Karma/CharacterRecords/Root",
+        "spellPath": "Characters/Karma/Spells/KarmaSpiritBindAbility/KarmaSpiritBind",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Karma.json.gz",
+        "clientSha256": "66dffb80d432595df8385fed53f35d26de55cc21d3cdb49cbadb7395568353f4",
+        "clientCompressedSha256": "bfd9b55936d1df452fb881187a487476227678328a3d742a533cac0561b2d1ae",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Karma.json",
+        "officialZhSha256": "64ff6e162133be05b7974549a370ddba1ca43011cfa084aece4f813d4a3f0576",
+        "officialEnFile": "参考资料/官方英文/Karma.json",
+        "officialEnSha256": "884c3fb901c073133f87cbf0f981fe83c4661ba54d2e8ba09994a1dad2472e43",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_KarmaSpiritBind_Name",
+            "text": "坚定不移"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_KarmaSpiritBind_Summary",
+            "text": "卡尔玛在她和目标敌人之间产生一条灵链，同时造成伤害，并使目标暴露。如果灵链在一段时间内没有被破坏，那么目标敌人就会被束缚在原地并再次受到伤害。<br><br>梵咒增效：卡尔玛强化灵链，治疗自身并延长禁锢时长。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_KarmaSpiritBind_Tooltip",
+            "text": "{{Spell_KarmaW_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+          },
+          "keyTooltipExtended": {
+            "sourceKey": "Spell_KarmaSpiritBind_TooltipExtended",
+            "text": "{{Spell_KarmaW_Tooltip_0}}<br><br>{{Spell_KarmaW_Tooltip_1}}"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BaseDamage": [
+              15,
+              40,
+              65,
+              90,
+              115,
+              140,
+              165
+            ],
+            "APRatio": [
+              0.44999998807907104,
+              0.44999998807907104,
+              0.44999998807907104,
+              0.44999998807907104,
+              0.44999998807907104,
+              0.44999998807907104,
+              0.44999998807907104
+            ],
+            "RootDuration": [
+              1.5,
+              1.600000023841858,
+              1.7000000476837158,
+              1.7999999523162842,
+              1.899999976158142,
+              2,
+              2.0999999046325684
+            ],
+            "TetherDuration": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ],
+            "LeashBreakRange": [
+              825,
+              825,
+              825,
+              825,
+              825,
+              825,
+              825
+            ]
+          },
+          "calculations": {
+            "InitialDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.25,
+          "cooldownTime": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Karma.spells[1]",
+          "name": "Focused Resolve",
+          "description": "Karma creates a tether between herself and a targeted enemy, dealing damage and revealing them. If the tether is not broken, the enemy will be rooted and damaged again.<br><br>Mantra Bonus: Karma strengthens the link, healing herself and extending the root duration.",
+          "tooltip": "Karma tethers herself to a champion or jungle monster, dealing <magicDamage>{{ initialdamage }} magic damage</magicDamage> and revealing them for {{ tetherduration }}s. If the tether remains unbroken, the target takes <magicDamage>{{ initialdamage }} magic damage</magicDamage> again and is <status>Rooted</status> for {{ rootduration }}s.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Karma/W/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 40,
+            "2": 65,
+            "3": 90,
+            "4": 115,
+            "5": 140
+          }
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.45,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tether_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "root_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 1600,
+            "2": 1700,
+            "3": 1800,
+            "4": 1900,
+            "5": 2000
+          }
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "initial_magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "LeashBreakRange与纯显形",
+          "reason": "连接断开几何/显形不是本轮组成。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "首次命中后2秒第二次伤害和禁锢",
+          "reason": "事件需确认同一目标仍在连接中，不展开为周期tick。"
+        }
+      ]
+    },
+    "karma_e": {
+      "source": {
+        "hero": "Karma",
+        "heroName": "卡尔玛",
+        "heroKey": "champion_karma",
+        "slot": "E",
+        "resourceType": "法力",
+        "rootPath": "Characters/Karma/CharacterRecords/Root",
+        "spellPath": "Characters/Karma/Spells/KarmaSolKimShieldAbility/KarmaSolKimShield",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Karma.json.gz",
+        "clientSha256": "66dffb80d432595df8385fed53f35d26de55cc21d3cdb49cbadb7395568353f4",
+        "clientCompressedSha256": "bfd9b55936d1df452fb881187a487476227678328a3d742a533cac0561b2d1ae",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Karma.json",
+        "officialZhSha256": "64ff6e162133be05b7974549a370ddba1ca43011cfa084aece4f813d4a3f0576",
+        "officialEnFile": "参考资料/官方英文/Karma.json",
+        "officialEnSha256": "884c3fb901c073133f87cbf0f981fe83c4661ba54d2e8ba09994a1dad2472e43",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_KarmaSolKimShield_Name",
+            "text": "鼓舞"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_KarmaSolKimShield_Summary",
+            "text": "卡尔玛召唤一个防御性的护盾来吸收即将到来的伤害，并为目标友军提升移动速度。<br><br>梵咒增效：能量从目标处向外辐射，强化初始护盾，并对附近的友方英雄施加鼓舞效果。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_KarmaSolKimShield_Tooltip",
+            "text": "{{Spell_KarmaE_Tooltip_@spell.KarmaQ:IsEmpowered@}}"
+          },
+          "keyTooltipExtended": {
+            "sourceKey": "Spell_KarmaSolKimShield_TooltipExtended",
+            "text": "{{Spell_KarmaE_Tooltip_0}}<br><br>{{Spell_KarmaE_Tooltip_1}}"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BaseShield": [
+              30,
+              80,
+              130,
+              180,
+              230,
+              280,
+              330
+            ],
+            "ShieldRatio": [
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579,
+              0.6000000238418579
+            ],
+            "ShieldDuration": [
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5
+            ],
+            "MoveSpeed": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "MoveSpeedDuration": [
+              2,
+              2,
+              2,
+              2,
+              2,
+              2,
+              2
+            ]
+          },
+          "calculations": {
+            "TotalShield": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseShield",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "ShieldRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "cooldownTime": [
+            10,
+            10,
+            9.5,
+            9,
+            8.5,
+            8,
+            8
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Karma.spells[2]",
+          "name": "Inspire",
+          "description": "Karma summons a protective shield that absorbs incoming damage and increases the Move Speed of the protected ally.<br><br>Mantra Bonus: Energy radiates out from her target, strengthening the initial shield and applying Inspire to nearby allied champions.",
+          "tooltip": "Karma grants an allied champion <shield>{{ totalshield }} Shield</shield> for {{ shieldduration }}s and <speed>{{ movespeed*100 }}% Move Speed</speed> for {{ movespeedduration }}s.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Karma/E/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "base_shield",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 80,
+            "2": 130,
+            "3": 180,
+            "4": 230,
+            "5": 280
+          }
+        },
+        {
+          "parameterKey": "shield_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "move_speed_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "move_speed_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "shield_value"
+      ],
+      "excluded": [
+        {
+          "item": "附近友军护盾和移动速度",
+          "reason": "第三友军纯收益超出本轮；不创建友方效果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "自身目标资格和施放事件",
+          "reason": "自身光环资格未证，数值保留但不无条件自动应用。"
+        }
+      ]
+    },
+    "karma_r": {
+      "source": {
+        "hero": "Karma",
+        "heroName": "卡尔玛",
+        "heroKey": "champion_karma",
+        "slot": "R",
+        "resourceType": "法力",
+        "rootPath": "Characters/Karma/CharacterRecords/Root",
+        "spellPath": "Characters/Karma/Spells/KarmaMantraAbility/KarmaMantra",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Karma.json.gz",
+        "clientSha256": "66dffb80d432595df8385fed53f35d26de55cc21d3cdb49cbadb7395568353f4",
+        "clientCompressedSha256": "bfd9b55936d1df452fb881187a487476227678328a3d742a533cac0561b2d1ae",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Karma.json",
+        "officialZhSha256": "64ff6e162133be05b7974549a370ddba1ca43011cfa084aece4f813d4a3f0576",
+        "officialEnFile": "参考资料/官方英文/Karma.json",
+        "officialEnSha256": "884c3fb901c073133f87cbf0f981fe83c4661ba54d2e8ba09994a1dad2472e43",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_KarmaMantra_Name",
+            "text": "梵咒"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_KarmaMantra_Summary",
+            "text": "卡尔玛的下个技能会获得强化，造成额外特效。梵咒在1级时就可以使用，并且不需要投入技能点。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_KarmaMantra_Tooltip",
+            "text": "卡尔玛增强她在8秒内使用的下一个技能。<br><li><spellName>{{Spell_KarmaQ_Name}}</spellName>：造成额外的<magicDamage>@RQImpactDamage@魔法伤害</magicDamage>并留下一道烈焰圆环，<status>减速</status>敌人并造成额外的<magicDamage>@RQFieldDamage@魔法伤害</magicDamage>。<li><spellName>{{Spell_KarmaSpiritBind_Name}}</spellName>：卡尔玛将在灵链的开始和结束时回复<healing>@RWHealAmount@已损失生命值</healing>，并且<status>禁锢</status>延长@RWBonusRoot@秒。<li><spellName>{{Spell_KarmaSolKimShield_Name}}</spellName>：卡尔玛为她的目标提供<shield>额外的@REBonusShield@护盾值</shield>，并且还会对目标附近的友军提供护盾，为他们提供<shield>@REBonusShieldArea@护盾值</shield>和<speed>@REMoveSpeed*100@%移动速度</speed>。"
+          },
+          "keyCost": {
+            "sourceKey": "Spell_Cost_NoCost",
+            "text": "无消耗"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "QBonusDamage": [
+              -20,
+              40,
+              100,
+              160,
+              220,
+              280,
+              340
+            ],
+            "QBonusAPRatio": [
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896,
+              0.30000001192092896
+            ],
+            "QDetonationDamage": [
+              -50,
+              40,
+              130,
+              220,
+              310,
+              400,
+              490
+            ],
+            "QDetonationAPRatio": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "RQSlow": [
+              -0.5,
+              -0.5,
+              -0.5,
+              -0.5,
+              -0.5,
+              -0.5,
+              -0.5
+            ],
+            "RQSlowDuration": [
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "RWBonusRoot": [
+              0.25,
+              0.5,
+              0.75,
+              1,
+              1.25,
+              1.5,
+              1.75
+            ],
+            "RWBaseHeal": [
+              17,
+              17,
+              17,
+              17,
+              17,
+              17,
+              17
+            ],
+            "RWHealRatio": [
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582
+            ],
+            "EBonusShield": [
+              5,
+              45,
+              85,
+              125,
+              165,
+              205,
+              245
+            ],
+            "EBonusShieldRatio": [
+              0.44999998807907104,
+              0.44999998807907104,
+              0.44999998807907104,
+              0.44999998807907104,
+              0.44999998807907104,
+              0.44999998807907104,
+              0.44999998807907104
+            ],
+            "REMoveSpeed": [
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448,
+              0.15000000596046448
+            ],
+            "RESharedRatio": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ]
+          },
+          "calculations": {
+            "RQImpactDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "QBonusDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "QBonusAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "RQFieldDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "QDetonationDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "QDetonationAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "REBonusShield": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "EBonusShield",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "EBonusShieldRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "RWHealAmount": {
+              "mMultiplier": {
+                "mNumber": 0.009999999776482582,
+                "__type": "NumberCalculationPart"
+              },
+              "mFormulaParts": [
+                {
+                  "mDataValue": "RWBaseHeal",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "RWHealRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "REBonusShieldArea": {
+              "mMultiplier": {
+                "mDataValue": "RESharedRatio",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "REBonusShield",
+              "__type": "GameCalculationModified"
+            }
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "cooldownTime": [
+            40,
+            40,
+            38,
+            36,
+            34,
+            34,
+            34
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Karma.spells[3]",
+          "name": "Mantra",
+          "description": "Karma empowers her next ability to do an additional effect. Mantra is available at level 1 and does not require a skill point.",
+          "tooltip": "Karma empowers her next Ability used within 8 seconds.<br /><li><spellName>Inner Flame</spellName>: Deals an additional <magicDamage>{{ rqimpactdamage }} magic damage</magicDamage> and leaves behind a circle of flame, <status>Slowing</status> enemies and dealing an additional <magicDamage>{{ rqfielddamage }} magic damage</magicDamage>.<li><spellName>Focused Resolve</spellName>: Karma will restore <healing>{{ rwhealamount }} missing Health</healing> at the beginning and end of the tether, and <status>Root</status> for {{ rwbonusroot }}s longer.<li><spellName>Inspire</spellName>: Karma shields her target for <shield>{{ rebonusshield }} more Shield</shield>, and also shields allies near her target, granting them <shield>{{ rebonusshieldarea }} Shield</shield> and <speed>{{ removespeed*100 }}% Move Speed</speed>.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Karma/R/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "mantra_window_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 8000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "rq_bonus_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 40,
+            "2": 100,
+            "3": 160,
+            "4": 220
+          }
+        },
+        {
+          "parameterKey": "rq_bonus_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "rq_field_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 40,
+            "2": 130,
+            "3": 220,
+            "4": 310
+          }
+        },
+        {
+          "parameterKey": "rq_field_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "rq_slow_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "rq_slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "rw_bonus_root_ms",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 500,
+            "2": 750,
+            "3": 1000,
+            "4": 1250
+          }
+        },
+        {
+          "parameterKey": "rw_base_heal_percent_points",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 17,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "rw_heal_percent_points_per_ap",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "rw_percent_points_to_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "rw_open_missing_health",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "rw_close_missing_health",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "re_bonus_shield",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 45,
+            "2": 85,
+            "3": 125,
+            "4": 165
+          }
+        },
+        {
+          "parameterKey": "re_bonus_shield_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.45,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 250,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "rq_impact_magic_damage",
+        "rq_field_magic_damage",
+        "rw_heal_ratio",
+        "rw_open_heal",
+        "rw_close_heal",
+        "re_bonus_shield_value"
+      ],
+      "excluded": [
+        {
+          "item": "RQ额外敌人、RE附近友军护盾与移动速度",
+          "reason": "额外目标和第三友军收益本轮排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "RQ强化条件、RW起始/结束事件、RE主目标资格",
+          "reason": "阶段与目标事件待接；两次RW使用各自实际已损生命输入。"
+        }
+      ]
+    },
+    "seraphine_p": {
+      "source": {
+        "hero": "Seraphine",
+        "heroName": "萨勒芬妮",
+        "heroKey": "champion_seraphine",
+        "slot": "P",
+        "resourceType": "法力",
+        "rootPath": "Characters/Seraphine/CharacterRecords/Root",
+        "spellPath": "Characters/Seraphine/Spells/SeraphinePassiveAbility/SeraphinePassive",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Seraphine.json.gz",
+        "clientSha256": "fcd2cedf4755636c8ea966d06f12f53ff4e82d5b70fff203d9e31e8de5f2edf9",
+        "clientCompressedSha256": "5518c28e0aa895ac000e18e7fd05ce06731c65dc9708ccac84bb812f370b4a56",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Seraphine.json",
+        "officialZhSha256": "9f9cce0312119116e2dfed1d91c7d87f1b79b42314a188b0d565330e917f6723",
+        "officialEnFile": "参考资料/官方英文/Seraphine.json",
+        "officialEnSha256": "0668fcbfe69123e319b07e06e7228ab781f6faa336f4b758b798619d7ca84445",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SeraphinePassive_Name",
+            "text": "星光漫射"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SeraphinePassive_Tooltip",
+            "text": "萨勒芬妮施放的每第三个技能将会产生回响，以自动施放第二次。<br><br>此外，萨勒芬妮会从她的友军身上汲取灵感，每当她施放技能时，附近的每位友方英雄都会为她生成一个<keywordMajor>音符</keywordMajor>。每个<keywordMajor>音符</keywordMajor>都会使萨勒芬妮提升@BonusAARange@攻击距离并造成额外的<magicDamage>@AutoDamage@魔法伤害</magicDamage>，之后<keywordMajor>音符</keywordMajor>会被消耗掉。"
+          },
+          "keyTooltipExtended": {
+            "sourceKey": "Spell_SeraphinePassive_TooltipExtended",
+            "text": "萨勒芬妮施放的每第三个技能将会产生回响，以自动施放第二次。<br><br>此外，萨勒芬妮会从她的友军身上汲取灵感，每当她施放一个技能时，都会在附近的每位友方英雄身上生成一个<keywordMajor>音符</keywordMajor>(<keywordMajor>音符</keywordMajor>持续@NoteDuration@秒并且每位友军可叠加至多@MaxNotes@层)。每个<keywordMajor>音符</keywordMajor>都会使萨勒芬妮提升@BonusAARange@攻击距离并造成额外的<magicDamage>@AutoDamage@魔法伤害</magicDamage>，之后<keywordMajor>音符</keywordMajor>会被消耗掉。<br><br><rules>来自友军的音符造成@AllyNoteDamagePercent*100@%伤害。</rules>"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SeraphinePassive_Summary",
+            "text": "萨勒芬妮施放的每第三个技能将进行双重施放。此外，施放技能时，附近的友军会为她的下一次普通攻击提供额外魔法伤害和攻击距离。"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "EchoCastDelay": [
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582,
+              0.009999999776482582
+            ],
+            "AutoAPRatio": [
+              0.07500000298023224,
+              0.07500000298023224,
+              0.07500000298023224,
+              0.07500000298023224,
+              0.07500000298023224,
+              0.07500000298023224,
+              0.07500000298023224
+            ],
+            "MaxNotes": [
+              4,
+              4,
+              4,
+              4,
+              4,
+              4,
+              4
+            ],
+            "AllyNoteDamagePercent": [
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25
+            ],
+            "NoteDuration": [
+              6,
+              6,
+              6,
+              6,
+              6,
+              6,
+              6
+            ],
+            "BonusAARange": [
+              25,
+              25,
+              25,
+              25,
+              25,
+              25,
+              25
+            ],
+            "DelayBetweenNoteCasts": [
+              0.07500000298023224,
+              0.07500000298023224,
+              0.07500000298023224,
+              0.07500000298023224,
+              0.07500000298023224,
+              0.07500000298023224,
+              0.07500000298023224
+            ],
+            "NoteRadius": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "DelayBetweenNoteCastsDecayRate": [
+              0.949999988079071,
+              0.949999988079071,
+              0.949999988079071,
+              0.949999988079071,
+              0.949999988079071,
+              0.949999988079071,
+              0.949999988079071
+            ],
+            "MinionDamageMultiplier": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "NoteAPRatio": [
+              0.03999999910593033,
+              0.03999999910593033,
+              0.03999999910593033,
+              0.03999999910593033,
+              0.03999999910593033,
+              0.03999999910593033,
+              0.03999999910593033
+            ]
+          },
+          "calculations": {
+            "AutoDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 4,
+                  "mEndValue": 25,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mDataValue": "NoteAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": null,
+          "mCastTime": null,
+          "cooldownTime": null,
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Seraphine.passive",
+          "name": "Stage Presence",
+          "description": "Every third basic spell will cast twice from Seraphine. Additionally, casting spells near allies grants her bonus magic damage and range on her next basic attack.",
+          "tooltip": null,
+          "relevantEnemyTips": []
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Seraphine/P/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "echo_basic_skill_count",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "note_max_count",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "note_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "note_attack_range_bonus",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 25,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "echo_cast_delay_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "adjacent_note_delay_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 75,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "adjacent_note_delay_decay_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.95,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "note_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.04,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "note_character_level_base_damage",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "current_note_count",
+          "valueType": "INTEGER",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "note_magic_damage",
+        "total_note_magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "友方音符折扣、第三友军收益与小兵专用分支",
+          "reason": "本轮只保留自身/单一敌人方向，第三友军和兵线专用支路排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "第三个基础技能回响、音符生成与等级曲线",
+          "reason": "触发和完整等级插值未接；相邻延迟仅作来源参数。"
+        }
+      ]
+    },
+    "seraphine_q": {
+      "source": {
+        "hero": "Seraphine",
+        "heroName": "萨勒芬妮",
+        "heroKey": "champion_seraphine",
+        "slot": "Q",
+        "resourceType": "法力",
+        "rootPath": "Characters/Seraphine/CharacterRecords/Root",
+        "spellPath": "Characters/Seraphine/Spells/SeraphineQAbility/SeraphineQ",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Seraphine.json.gz",
+        "clientSha256": "fcd2cedf4755636c8ea966d06f12f53ff4e82d5b70fff203d9e31e8de5f2edf9",
+        "clientCompressedSha256": "5518c28e0aa895ac000e18e7fd05ce06731c65dc9708ccac84bb812f370b4a56",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Seraphine.json",
+        "officialZhSha256": "9f9cce0312119116e2dfed1d91c7d87f1b79b42314a188b0d565330e917f6723",
+        "officialEnFile": "参考资料/官方英文/Seraphine.json",
+        "officialEnSha256": "0668fcbfe69123e319b07e06e7228ab781f6faa336f4b758b798619d7ca84445",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SeraphineQ_Name",
+            "text": "清籁穿云"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SeraphineQ_Tooltip",
+            "text": "萨勒芬妮放出一道清澈的音符，造成<magicDamage>@ExplosionDamage@魔法伤害</magicDamage>，对英雄和野怪的伤害会基于目标的已损失生命值而提升，最多可对@ExecuteThreshold*100@%生命值以下的目标造成<magicDamage>@TotalEmpoweredDamage@伤害</magicDamage>。"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SeraphineQ_Summary",
+            "text": "萨勒芬妮在一个区域内造成伤害。"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BaseDamage": [
+              35,
+              60,
+              85,
+              110,
+              135,
+              160,
+              185
+            ],
+            "APRatio": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "ExecuteThreshold": [
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25
+            ],
+            "DamageAmp": [
+              75,
+              75,
+              75,
+              75,
+              75,
+              75,
+              75
+            ]
+          },
+          "calculations": {
+            "ExplosionDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TotalEmpoweredDamage": {
+              "mMultiplier": {
+                "mNumber": 1.75,
+                "__type": "NumberCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 6,
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "ExplosionDamage",
+              "__type": "GameCalculationModified"
+            }
+          },
+          "spellCastTime": 0,
+          "mCastTime": null,
+          "cooldownTime": [
+            8,
+            8,
+            7.5,
+            7,
+            6.5,
+            6,
+            6
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Seraphine.spells[0]",
+          "name": "High Note",
+          "description": "Seraphine deals damage in an area.",
+          "tooltip": "Seraphine projects a pure note, dealing <magicDamage>{{ explosiondamage }} magic damage</magicDamage>, increased against champions and monsters by the target's missing Health percentage up to <magicDamage>{{ totalempowereddamage }} damage</magicDamage> below {{ executethreshold*100 }}% Health.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Seraphine/Q/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 85,
+            "3": 110,
+            "4": 135,
+            "5": 160
+          }
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "execute_threshold_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "execute_max_multiplier",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1.75,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 0,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "target_health_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "magic_damage",
+        "low_health_max_magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "第二目标、额外目标和小兵伤害支路",
+          "reason": "本轮单一敌方英雄范围；兵野专用与额外目标不录。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "生命比例判定与回响第二次命中",
+          "reason": "Q第二次命中可面对变化后的生命值，需事件层分开读取，不能总量直接乘2。"
+        }
+      ]
+    },
+    "seraphine_w": {
+      "source": {
+        "hero": "Seraphine",
+        "heroName": "萨勒芬妮",
+        "heroKey": "champion_seraphine",
+        "slot": "W",
+        "resourceType": "法力",
+        "rootPath": "Characters/Seraphine/CharacterRecords/Root",
+        "spellPath": "Characters/Seraphine/Spells/SeraphineWAbility/SeraphineW",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Seraphine.json.gz",
+        "clientSha256": "fcd2cedf4755636c8ea966d06f12f53ff4e82d5b70fff203d9e31e8de5f2edf9",
+        "clientCompressedSha256": "5518c28e0aa895ac000e18e7fd05ce06731c65dc9708ccac84bb812f370b4a56",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Seraphine.json",
+        "officialZhSha256": "9f9cce0312119116e2dfed1d91c7d87f1b79b42314a188b0d565330e917f6723",
+        "officialEnFile": "参考资料/官方英文/Seraphine.json",
+        "officialEnSha256": "0668fcbfe69123e319b07e06e7228ab781f6faa336f4b758b798619d7ca84445",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SeraphineW_Name",
+            "text": "聚和心声"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SeraphineW_Tooltip",
+            "text": "萨勒芬妮用歌曲激励她附近的友方英雄，为他们提供<speed>@HasteValueAllies@移动速度</speed>，为她自身提供<speed>不断衰减的@WMSBonusTotal@移动速度</speed>，并为自身和友方都提供<shield>@ShieldValueSeraphine@护盾值</shield>，持续@ShieldDuration@秒。<br><br>如果萨勒芬妮身上已有<shield>护盾</shield>，那么她会号召友军加入她，在@WHealSplitDelay@秒延迟后，为他们回复<healing>@WMissingHPHeal@%已损失生命值</healing>。"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SeraphineW_Summary",
+            "text": "萨勒芬妮为附近的友军提供护盾和急速。如果她身上已有护盾，那么还会治疗附近的友军。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_SeraphineW_TooltipExtendedBelowLine",
+            "text": "<rules>这个技能只会治疗一次，即使是双重施放。</rules>"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "ShieldDuration": [
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5
+            ],
+            "ShieldStrength": [
+              40,
+              60,
+              80,
+              100,
+              120,
+              140,
+              160
+            ],
+            "ShieldAPRatio": [
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224
+            ],
+            "WMSBonus": [
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224,
+              0.20000000298023224
+            ],
+            "WMSBonusAPRatio": [
+              0.00019999999494757503,
+              0.00019999999494757503,
+              0.00019999999494757503,
+              0.00019999999494757503,
+              0.00019999999494757503,
+              0.00019999999494757503,
+              0.00019999999494757503
+            ],
+            "HasteValueForAllies": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "WMissingHPBase": [
+              6,
+              8,
+              10,
+              12,
+              14,
+              16,
+              18
+            ],
+            "WMissingHPPer100AP": null,
+            "WHealSplitDelay": [
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5
+            ],
+            "ShieldAmpForSeraphine": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ]
+          },
+          "calculations": {
+            "TotalShieldStrength": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "ShieldStrength",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "ShieldAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "WMSBonusTotal": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "WMSBonus",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "WMSBonusAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            },
+            "WMissingHPHeal": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "WMissingHPBase",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            },
+            "HasteValueAllies": {
+              "mMultiplier": {
+                "mDataValue": "HasteValueForAllies",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 6,
+              "tooltipOnly": true,
+              "mModifiedGameCalculation": "WMSBonusTotal",
+              "__type": "GameCalculationModified"
+            },
+            "ShieldValueSeraphine": {
+              "mMultiplier": {
+                "mDataValue": "ShieldAmpForSeraphine",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mModifiedGameCalculation": "TotalShieldStrength",
+              "__type": "GameCalculationModified"
+            }
+          },
+          "spellCastTime": 0,
+          "mCastTime": null,
+          "cooldownTime": [
+            22,
+            22,
+            22,
+            22,
+            22,
+            22,
+            22
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Seraphine.spells[1]",
+          "name": "Surround Sound",
+          "description": "Seraphine Shields and Hastes nearby allies. If she is already Shielded she will Heal nearby allies as well.",
+          "tooltip": "Seraphine spurs her nearby allied champions in song, granting them <speed>{{ hastevalueallies }} Move Speed</speed>, herself <speed>{{ wmsbonustotal }} decaying Move Speed</speed> and both <shield>{{ shieldvalueseraphine }} Shield</shield> for {{ shieldduration }} seconds.<br /><br />If Seraphine is already <shield>Shielded</shield>, she calls out to her allies to join her, restoring <healing>{{ wmissinghpheal }}% missing Health</healing> to them after a {{ whealsplitdelay }} second delay.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Seraphine/W/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "shield_strength",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 80,
+            "3": 100,
+            "4": 120,
+            "5": 140
+          }
+        },
+        {
+          "parameterKey": "shield_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_move_speed_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_move_speed_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.0002,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "missing_health_heal_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.08,
+            "2": 0.1,
+            "3": 0.12,
+            "4": 0.14,
+            "5": 0.16
+          }
+        },
+        {
+          "parameterKey": "heal_delay_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_amp_for_seraphine",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_missing_health",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "shield_value",
+        "self_move_speed_ratio_value",
+        "self_missing_health_heal"
+      ],
+      "excluded": [
+        {
+          "item": "第三友方护盾、治疗和加速",
+          "reason": "第三友方收益超出本轮，不创建友方效果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "已有护盾判定、治疗一次性时点和移动速度衰减",
+          "reason": "数值已明确但事件时序未接；不自动重复治疗或创建加速状态。"
+        }
+      ]
+    },
+    "seraphine_e": {
+      "source": {
+        "hero": "Seraphine",
+        "heroName": "萨勒芬妮",
+        "heroKey": "champion_seraphine",
+        "slot": "E",
+        "resourceType": "法力",
+        "rootPath": "Characters/Seraphine/CharacterRecords/Root",
+        "spellPath": "Characters/Seraphine/Spells/SeraphineEAbility/SeraphineE",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Seraphine.json.gz",
+        "clientSha256": "fcd2cedf4755636c8ea966d06f12f53ff4e82d5b70fff203d9e31e8de5f2edf9",
+        "clientCompressedSha256": "5518c28e0aa895ac000e18e7fd05ce06731c65dc9708ccac84bb812f370b4a56",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Seraphine.json",
+        "officialZhSha256": "9f9cce0312119116e2dfed1d91c7d87f1b79b42314a188b0d565330e917f6723",
+        "officialEnFile": "参考资料/官方英文/Seraphine.json",
+        "officialEnSha256": "0668fcbfe69123e319b07e06e7228ab781f6faa336f4b758b798619d7ca84445",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SeraphineE_Name",
+            "text": "增幅节拍"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SeraphineE_Tooltip",
+            "text": "萨勒芬妮释放出一道强力音波，对一条直线上的敌人造成<magicDamage>@FinalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowValue@%<status>减速</status>效果。<br><br>对已被<status>减速</status>的敌人们造成<status>禁锢</status>效果，对已被<status>定身</status>的敌人们造成<status>晕眩</status>效果。"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SeraphineE_Summary",
+            "text": "萨勒芬妮对一条直线上的敌人们造成伤害和移动受损效果。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_SeraphineE_TooltipExtendedBelowLine",
+            "text": "<rules>对小兵造成@MinionDamageMod*100@%伤害。</rules>"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "BaseDamage": [
+              40,
+              70,
+              100,
+              130,
+              160,
+              190,
+              220
+            ],
+            "APRatio": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "SlowValue": [
+              99,
+              99,
+              99,
+              99,
+              99,
+              99,
+              99
+            ],
+            "SlowDuration": [
+              1,
+              1.100000023841858,
+              1.2000000476837158,
+              1.2999999523162842,
+              1.399999976158142,
+              1.5,
+              1.600000023841858
+            ],
+            "MinionDamageMod": [
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071,
+              0.699999988079071
+            ]
+          },
+          "calculations": {
+            "FinalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0,
+          "mCastTime": null,
+          "cooldownTime": [
+            11,
+            11,
+            10.5,
+            10,
+            9.5,
+            9,
+            9
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Seraphine.spells[2]",
+          "name": "Beat Drop",
+          "description": "Seraphine deals damage and impairs the movement of enemies in a line.",
+          "tooltip": "Seraphine unleashes a heavy soundwave, dealing <magicDamage>{{ finaldamage }} magic damage</magicDamage> to enemies in a line and <status>Slowing</status> them by {{ slowvalue }}% for {{ slowduration }} seconds.<br /><br />Enemies that are already <status>Slowed</status> are <status>Rooted</status> instead, and <status>Immobilized</status> enemies are <status>Stunned</status>.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Seraphine/E/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 70,
+            "2": 100,
+            "3": 130,
+            "4": 160,
+            "5": 190
+          }
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 99,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 1100,
+            "2": 1200,
+            "3": 1300,
+            "4": 1400,
+            "5": 1500
+          }
+        },
+        {
+          "parameterKey": "cast_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 0,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "status_replacement_stage",
+          "valueType": "INTEGER",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        }
+      ],
+      "formulaKeys": [
+        "magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "小兵70%伤害",
+          "reason": "兵线专用减伤支路，本轮不录。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "减速到禁锢到晕眩替换、回响命中",
+          "reason": "状态资格与事件时序待接，不创建无条件三种状态。"
+        }
+      ]
+    },
+    "seraphine_r": {
+      "source": {
+        "hero": "Seraphine",
+        "heroName": "萨勒芬妮",
+        "heroKey": "champion_seraphine",
+        "slot": "R",
+        "resourceType": "法力",
+        "rootPath": "Characters/Seraphine/CharacterRecords/Root",
+        "spellPath": "Characters/Seraphine/Spells/SeraphineRAbility/SeraphineR",
+        "bindingAvailable": true,
+        "clientFile": "参考资料/客户端原文/Seraphine.json.gz",
+        "clientSha256": "fcd2cedf4755636c8ea966d06f12f53ff4e82d5b70fff203d9e31e8de5f2edf9",
+        "clientCompressedSha256": "5518c28e0aa895ac000e18e7fd05ce06731c65dc9708ccac84bb812f370b4a56",
+        "clientBuild": "16.17.8104348+branch.releases-16-17.content.release",
+        "officialZhFile": "参考资料/官方中文/Seraphine.json",
+        "officialZhSha256": "9f9cce0312119116e2dfed1d91c7d87f1b79b42314a188b0d565330e917f6723",
+        "officialEnFile": "参考资料/官方英文/Seraphine.json",
+        "officialEnSha256": "0668fcbfe69123e319b07e06e7228ab781f6faa336f4b758b798619d7ca84445",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_SeraphineR_Name",
+            "text": "炫音返场"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_SeraphineR_Tooltip",
+            "text": "萨勒芬妮登台演出，投射出一股令人着迷的力量，来造成@RChannelDuration@秒<status>魅惑</status>效果和<magicDamage>@R1TotalDamage@魔法伤害</magicDamage>。<br><br>任何被命中的英雄(包括友方英雄)都会成为表演的一部分，延长这个技能的距离。友方英雄会获得满层的<keywordMajor>音符</keywordMajor>。"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_SeraphineR_Summary",
+            "text": "萨勒芬妮对命中的敌人们造成伤害和魅惑效果，会在每次命中友方英雄或敌方英雄时刷新距离。"
+          }
+        },
+        "raw": {
+          "dataValues": {
+            "RChannelDuration": [
+              1,
+              1.25,
+              1.5,
+              1.75,
+              2,
+              2.25,
+              2.5
+            ],
+            "R1BaseDamage": [
+              100,
+              150,
+              200,
+              250,
+              300,
+              350,
+              400
+            ],
+            "R1APRatio": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "RRange": [
+              1200,
+              1200,
+              1200,
+              1200,
+              1200,
+              1200,
+              1200
+            ],
+            "RMinSlow": [
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645,
+              -0.4000000059604645
+            ],
+            "RMaxSlow": [
+              -0.9900000095367432,
+              -0.9900000095367432,
+              -0.9900000095367432,
+              -0.9900000095367432,
+              -0.9900000095367432,
+              -0.9900000095367432,
+              -0.9900000095367432
+            ]
+          },
+          "calculations": {
+            "R1TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "R1BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "R1APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "spellCastTime": 0,
+          "mCastTime": 0.5,
+          "cooldownTime": [
+            160,
+            160,
+            140,
+            120,
+            120,
+            120,
+            120
+          ],
+          "mMaxAmmo": null,
+          "mAmmoRechargeTime": null,
+          "mDoesNotConsumeMana": null,
+          "mDoesNotConsumeCooldown": null
+        },
+        "officialEvidence": {
+          "path": "data.Seraphine.spells[3]",
+          "name": "Encore",
+          "description": "Seraphine deals damage and charms enemies hit, refreshing the range with every allied or enemy champion hit.",
+          "tooltip": "Seraphine takes the stage, projecting a captivating force that <status>Charms</status> for {{ rchannelduration }} seconds and deals <magicDamage>{{ r1totaldamage }} magic damage</magicDamage>.<br /><br />Any champions struck (including allies) become part of the performance, extending the range of this Ability. Allied champions gain maximum <keywordMajor>Notes</keywordMajor>.{{ spellmodifierdescriptionappend }}"
+        },
+        "currentTextPath": "来源绑定与当前文本.json -> Seraphine/R/currentTexts"
+      },
+      "intendedValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 150,
+            "2": 200,
+            "3": 250
+          }
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "charm_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 1250,
+            "2": 1500,
+            "3": 1750
+          }
+        }
+      ],
+      "formulaKeys": [
+        "magic_damage"
+      ],
+      "excluded": [
+        {
+          "item": "范围延伸、友方音符和额外目标",
+          "reason": "第三友军及额外目标分支本轮排除。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "mCastTime与spellCastTime冲突、魅惑命中",
+          "reason": "原始字段0与0.5秒冲突，不生成施法时间参数；命中事件待接。"
+        }
+      ]
+    }
+  }
+}

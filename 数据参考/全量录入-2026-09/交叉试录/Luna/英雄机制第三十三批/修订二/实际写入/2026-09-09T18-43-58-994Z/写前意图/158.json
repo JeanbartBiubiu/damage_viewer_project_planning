@@ -1,0 +1,23 @@
+{
+  "i": 157,
+  "intent": {
+    "sequence": 158,
+    "method": "POST",
+    "route": "/skills/seraphine_e/parameters",
+    "detailRoute": "/skills/seraphine_e/parameters/slow_percent_points",
+    "skillKey": "seraphine_e",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 99,
+      "levelValues": null,
+      "description": "当前SlowValue=99且正文按@SlowValue@%显示；这是99百分数点，不是0.99比例。",
+      "sortOrder": 30
+    }
+  }
+}

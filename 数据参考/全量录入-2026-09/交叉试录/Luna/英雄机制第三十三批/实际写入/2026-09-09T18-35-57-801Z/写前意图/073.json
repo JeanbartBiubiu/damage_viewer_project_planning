@@ -1,0 +1,45 @@
+{
+  "i": 72,
+  "intent": {
+    "sequence": 73,
+    "method": "POST",
+    "route": "/skills/soraka_e/formulas",
+    "detailRoute": "/skills/soraka_e/formulas/magic_damage",
+    "skillKey": "soraka_e",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "星界结界单一敌方单次魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "同一敌人第一次命中和满足留场条件的第二次命中各自引用该单次伤害式，不建周期tick。",
+      "sortOrder": 10
+    }
+  }
+}

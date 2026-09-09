@@ -1,0 +1,29 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 68,
+    "method": "POST",
+    "route": "/skills/soraka_e/parameters",
+    "detailRoute": "/skills/soraka_e/parameters/base_damage",
+    "skillKey": "soraka_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "星界结界基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 95,
+        "3": 120,
+        "4": 145,
+        "5": 170
+      },
+      "description": "当前BaseDamage技能等级1至5。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "batch": "英雄机制第三十三批",
+  "module": "source-expected.mjs",
+  "moduleSha256": "f3ce6c0211136fbc4f5b6a5898d622409b622ca9c34038fc91658e531dce2bf6",
+  "sourceBinding": "C:/project/damage_web_dev/.agents/artifacts/hero33-root-entry-20260910/来源绑定与当前文本.json",
+  "sourceBindingSha256": "4f75c9bd57e9c0d7d71536c0b79ef7640796655e9b10cbfbecfd7f4f8b269767",
+  "interface": "expected(skillKey, formulaKey, context, binding)",
+  "context": {
+    "skillKey": "技能键",
+    "level": "普通技能等级；由实际外部输入提供",
+    "parameters": "仅实际RUNTIME_INPUT；缺失即拒绝，不设默认",
+    "attributes": "属性输入键，例如SOURCE:ability_power:TOTAL"
+  },
+  "formulaCount": 34,
+  "sourcePolicy": "固定值、等级值和计算树根修饰从来源绑定原始DataValues/mSpellCalculations读取；未导入候选文件，不把候选参数复制为期望值。",
+  "apiWrites": 0,
+  "businessWrites": 0
+}

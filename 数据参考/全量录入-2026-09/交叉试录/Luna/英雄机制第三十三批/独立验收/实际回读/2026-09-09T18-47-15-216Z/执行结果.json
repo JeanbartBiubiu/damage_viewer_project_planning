@@ -1,0 +1,74 @@
+{
+  "generatedAt": "2026-09-09T18:47:33.963Z",
+  "mode": "第三十三批写后独立全字段GET回读",
+  "afterApply": true,
+  "status": "REVISE",
+  "complete": false,
+  "apiWrites": 0,
+  "noBusinessWrites": true,
+  "calls": 366,
+  "methods": {
+    "GET": 366
+  },
+  "statuses": {
+    "200": 366
+  },
+  "protection": {
+    "checked": 200,
+    "passed": 200
+  },
+  "details": {
+    "checked": 194,
+    "matched": 194,
+    "reusedChecked": 0,
+    "plannedChecked": 194
+  },
+  "reportPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero33-independent-review\\实际回读\\2026-09-09T18-47-15-216Z\\独立全量回读.json",
+  "journalPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero33-independent-review\\实际回读\\2026-09-09T18-47-15-216Z\\所有GET原始响应.jsonl",
+  "writeEvidence": {
+    "firstRun": {
+      "lockPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero33-luna-candidate\\实际写入锁.json",
+      "lock": {
+        "runId": "2026-09-09T18-35-57-801Z",
+        "status": "STOPPED",
+        "apiWrites": 154,
+        "confirmed": 154,
+        "reportPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero33-luna-candidate\\实际写入\\2026-09-09T18-35-57-801Z/执行结果.json"
+      },
+      "reportPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero33-luna-candidate\\实际写入\\2026-09-09T18-35-57-801Z\\执行结果.json",
+      "reportSha256": "02140e5e23fdce36fb0c77c33f9a9ef39ad8a749fa4f22951f97524da790ebf3",
+      "result": {
+        "success": false,
+        "apiWrites": 154,
+        "confirmed": 154,
+        "counts": {
+          "GET": 703,
+          "POST": 155
+        }
+      }
+    },
+    "recoveryRun": {
+      "lockPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero33-luna-candidate\\修订二\\实际写入锁.json",
+      "lock": {
+        "runId": "2026-09-09T18-43-58-994Z",
+        "status": "COMPLETED",
+        "apiWrites": 12,
+        "confirmed": 12,
+        "reportPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero33-luna-candidate\\修订二\\实际写入\\2026-09-09T18-43-58-994Z/执行结果.json"
+      },
+      "reportPath": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero33-luna-candidate\\修订二\\实际写入\\2026-09-09T18-43-58-994Z/执行结果.json",
+      "reportSha256": "42d011319b08fda977643048af37de792aa0e63280d7210424e6645f386a640c",
+      "result": {
+        "success": true,
+        "apiWrites": 12,
+        "confirmed": 12,
+        "counts": {
+          "GET": 812,
+          "POST": 12
+        }
+      }
+    },
+    "cumulativeSuccessfulPosts": 166,
+    "cumulativeRejectedPosts": 1
+  }
+}

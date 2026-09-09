@@ -1,0 +1,23 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "method": "POST",
+    "route": "/skills/sona_p/parameters",
+    "detailRoute": "/skills/sona_p/parameters/accelerando_ability_haste_per_stack",
+    "skillKey": "sona_p",
+    "kind": "parameters",
+    "stableKey": "accelerando_ability_haste_per_stack",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "accelerando_ability_haste_per_stack",
+      "name": "渐入佳音每层基础技能急速",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前AccelerandoAHPerStack=0.5；每层数值不是技能急速百分比。",
+      "sortOrder": 20
+    }
+  }
+}

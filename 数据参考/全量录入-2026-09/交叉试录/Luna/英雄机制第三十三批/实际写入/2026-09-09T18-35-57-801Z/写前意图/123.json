@@ -1,0 +1,23 @@
+{
+  "i": 122,
+  "intent": {
+    "sequence": 123,
+    "method": "POST",
+    "route": "/skills/seraphine_p/parameters",
+    "detailRoute": "/skills/seraphine_p/parameters/echo_basic_skill_count",
+    "skillKey": "seraphine_p",
+    "kind": "parameters",
+    "stableKey": "echo_basic_skill_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "echo_basic_skill_count",
+      "name": "回响所需基础技能次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前正文每第三个基础技能回响一次。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 111,
+    "method": "POST",
+    "route": "/skills/karma_r/parameters",
+    "detailRoute": "/skills/karma_r/parameters/rw_percent_points_to_ratio",
+    "skillKey": "karma_r",
+    "kind": "parameters",
+    "stableKey": "rw_percent_points_to_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rw_percent_points_to_ratio",
+      "name": "百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "17百分数点需乘0.01才得到0.17比例。",
+      "sortOrder": 110
+    }
+  }
+}

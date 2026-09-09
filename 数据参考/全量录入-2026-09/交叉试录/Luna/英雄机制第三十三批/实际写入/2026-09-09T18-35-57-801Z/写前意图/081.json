@@ -1,0 +1,23 @@
+{
+  "i": 80,
+  "intent": {
+    "sequence": 81,
+    "method": "POST",
+    "route": "/skills/karma_p/parameters",
+    "detailRoute": "/skills/karma_p/parameters/mantra_cooldown_refund_ms",
+    "skillKey": "karma_p",
+    "kind": "parameters",
+    "stableKey": "mantra_cooldown_refund_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mantra_cooldown_refund_ms",
+      "name": "技能命中缩短梵咒冷却时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前SpellMantraRefund=4秒，转换为4000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

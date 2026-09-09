@@ -1,0 +1,23 @@
+{
+  "i": 15,
+  "intent": {
+    "sequence": 16,
+    "method": "POST",
+    "route": "/skills/sona_q/parameters",
+    "detailRoute": "/skills/sona_q/parameters/melody_attack_window_ms",
+    "skillKey": "sona_q",
+    "kind": "parameters",
+    "stableKey": "melody_attack_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "melody_attack_window_ms",
+      "name": "强化普攻窗口",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前OnHitDuration=5秒，转换为5000毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 131,
+  "intent": {
+    "sequence": 132,
+    "method": "POST",
+    "route": "/skills/seraphine_p/parameters",
+    "detailRoute": "/skills/seraphine_p/parameters/current_note_count",
+    "skillKey": "seraphine_p",
+    "kind": "parameters",
+    "stableKey": "current_note_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_note_count",
+      "name": "当前音符层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "实际音符层数由运行输入提供，范围0至4，不默认满层。",
+      "sortOrder": 100
+    }
+  }
+}

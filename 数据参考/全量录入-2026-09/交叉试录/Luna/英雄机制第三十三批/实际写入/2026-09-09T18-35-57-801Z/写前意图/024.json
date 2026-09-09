@@ -1,0 +1,23 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 24,
+    "method": "POST",
+    "route": "/skills/sona_w/parameters",
+    "detailRoute": "/skills/sona_w/parameters/cooldown_ms",
+    "skillKey": "sona_w",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "坚毅咏叹调冷却时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 10000,
+      "levelValues": null,
+      "description": "客户端当前槽缺少可用冷却值；官方16.17.1明确为10秒，新增为正式候选。",
+      "sortOrder": 10
+    }
+  }
+}

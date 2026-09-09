@@ -1,0 +1,23 @@
+{
+  "i": 112,
+  "intent": {
+    "sequence": 113,
+    "method": "POST",
+    "route": "/skills/karma_r/parameters",
+    "detailRoute": "/skills/karma_r/parameters/rw_close_missing_health",
+    "skillKey": "karma_r",
+    "kind": "parameters",
+    "stableKey": "rw_close_missing_health",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rw_close_missing_health",
+      "name": "梵咒W结束阶段已损生命",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "结束治疗阶段的实际已损生命由运行输入提供，无默认且独立于起始阶段。",
+      "sortOrder": 130
+    }
+  }
+}

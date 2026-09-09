@@ -1,0 +1,29 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 94,
+    "method": "POST",
+    "route": "/skills/karma_e/parameters",
+    "detailRoute": "/skills/karma_e/parameters/base_shield",
+    "skillKey": "karma_e",
+    "kind": "parameters",
+    "stableKey": "base_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_shield",
+      "name": "鼓舞基础护盾值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 130,
+        "3": 180,
+        "4": 230,
+        "5": 280
+      },
+      "description": "E技能等级1至5的BaseShield。",
+      "sortOrder": 10
+    }
+  }
+}

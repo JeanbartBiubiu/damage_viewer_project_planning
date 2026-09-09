@@ -1,0 +1,23 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 106,
+    "method": "POST",
+    "route": "/skills/karma_r/parameters",
+    "detailRoute": "/skills/karma_r/parameters/rq_slow_ratio",
+    "skillKey": "karma_r",
+    "kind": "parameters",
+    "stableKey": "rq_slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rq_slow_ratio",
+      "name": "梵咒Q减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "原始RQSlow=-0.5，按正文显示转为正减速比例。",
+      "sortOrder": 60
+    }
+  }
+}

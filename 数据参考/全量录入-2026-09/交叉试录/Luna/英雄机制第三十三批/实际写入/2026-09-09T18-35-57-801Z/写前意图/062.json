@@ -1,0 +1,23 @@
+{
+  "i": 61,
+  "intent": {
+    "sequence": 62,
+    "method": "POST",
+    "route": "/skills/soraka_q/parameters",
+    "detailRoute": "/skills/soraka_q/parameters/self_heal_duration_ms",
+    "skillKey": "soraka_q",
+    "kind": "parameters",
+    "stableKey": "self_heal_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_heal_duration_ms",
+      "name": "流星坠落自身治疗持续时间",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "当前HotDuration=2.5秒；不按每次跳数拆分。",
+      "sortOrder": 70
+    }
+  }
+}

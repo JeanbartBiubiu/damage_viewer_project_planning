@@ -1,0 +1,43 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "method": "POST",
+    "route": "/skills/sona_p/formulas",
+    "detailRoute": "/skills/sona_p/formulas/accelerando_current_ability_haste",
+    "skillKey": "sona_p",
+    "kind": "formulas",
+    "stableKey": "accelerando_current_ability_haste",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "accelerando_current_ability_haste",
+      "name": "当前渐入佳音基础技能急速",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MIN",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "accelerando_ability_haste_cap"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "accelerando_ability_haste_per_stack"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "accelerando_current_stacks"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "MIN(60,0.5×当前层数)，上限进入最终公式。",
+      "sortOrder": 10
+    }
+  }
+}

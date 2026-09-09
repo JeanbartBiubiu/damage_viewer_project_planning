@@ -1,0 +1,23 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 84,
+    "method": "POST",
+    "route": "/skills/karma_q/parameters",
+    "detailRoute": "/skills/karma_q/parameters/slow_ratio",
+    "skillKey": "karma_q",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "心灵烈焰减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.4,
+      "levelValues": null,
+      "description": "原始SlowAmount为-0.4，正文按负百分比显示；候选保存正向减速幅度0.4。",
+      "sortOrder": 30
+    }
+  }
+}

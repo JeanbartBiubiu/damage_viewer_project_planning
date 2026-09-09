@@ -1,0 +1,23 @@
+{
+  "i": 31,
+  "intent": {
+    "sequence": 32,
+    "method": "POST",
+    "route": "/skills/sona_w/parameters",
+    "detailRoute": "/skills/sona_w/parameters/melody_interval_ms",
+    "skillKey": "sona_w",
+    "kind": "parameters",
+    "stableKey": "melody_interval_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "melody_interval_ms",
+      "name": "基础技能公共间隔",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前BaseGlobalCD=0.5秒，保存为独立间隔。",
+      "sortOrder": 100
+    }
+  }
+}

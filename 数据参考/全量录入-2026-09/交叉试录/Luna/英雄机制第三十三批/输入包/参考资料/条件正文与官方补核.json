@@ -1,0 +1,387 @@
+{
+  "at": "2026-09-09T17:15:15.986Z",
+  "texts": {
+    "Spell_KarmaQ_Tooltip_0": "卡尔玛发射一团能量，对命中的第一个目标及其周围的敌人们造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，以及持续@SlowDuration@秒的@SlowAmount*-100@%<status>减速</status>。",
+    "Spell_KarmaQ_Tooltip_1": "<spellName>梵咒：</spellName>卡尔玛释放一团毁灭性的爆裂，对命中的第一个目标及其周围的敌人们造成额外的<magicDamage>@spell.KarmaMantra:RQImpactDamage@魔法伤害</magicDamage>。爆裂会留下一个持续@spell.KarmaMantra:RQSlowDuration@秒的区域，<status>减速</status>@spell.KarmaMantra:RQSlow*-100@%，然后它会爆炸，造成<magicDamage>@spell.KarmaMantra:RQFieldDamage@魔法伤害</magicDamage>。",
+    "Spell_KarmaW_Tooltip_0": "卡尔玛用灵链来连接她和一名敌方英雄或野怪，造成<magicDamage>@InitialDamage@魔法伤害</magicDamage>并使其显形@TetherDuration@秒。如果灵链一直未断裂，那么目标会再次受到<magicDamage>@InitialDamage@魔法伤害</magicDamage>并被<status>禁锢</status>@RootDuration@秒。",
+    "Spell_KarmaW_Tooltip_1": "<spellName>梵咒：</spellName>卡尔玛生成一个强化过的灵链，回复<healing>@spell.KarmaMantra:RWHealAmount@已损失生命值</healing>，造成<magicDamage>@InitialDamage@魔法伤害</magicDamage>，并使目标显形@TetherDuration@秒。如果灵链一直未断裂，那么卡尔玛会再次回复<healing>@spell.KarmaMantra:RWHealAmount@已损失生命值</healing>，额外的@spell.KarmaMantra:RWBonusRoot@秒<status>禁锢</status>，并造成额外的<magicDamage>@InitialDamage@魔法伤害</magicDamage>。",
+    "Spell_KarmaE_Tooltip_0": "卡尔玛为一名友方英雄提供持续@ShieldDuration@秒的<shield>@TotalShield@护盾值</shield>和持续@MoveSpeedDuration@秒的<speed>@MoveSpeed*100@%移动速度</speed>。",
+    "Spell_KarmaE_Tooltip_1": "<spellName>梵咒：</spellName>卡尔玛将她的能量集中起来，为一名友方英雄提供额外的<shield>@spell.KarmaMantra:REBonusShield@护盾值</shield>。这个护盾的能量会满溢而出，为附近的所有友方英雄提供<shield>@spell.KarmaMantra:REBonusShieldArea@护盾值</shield>和<speed>@spell.KarmaMantra:REMoveSpeed*100@%移动速度</speed>。"
+  },
+  "official": {
+    "Sona": {
+      "passive": {
+        "name": "Power Chord",
+        "description": "<passive>Accelerando</passive>: Sona gains non-Ultimate ability haste permanently for her basic abilities as she uses her abilities well, up to a cap. Beyond that cap, further successful uses reduce her ultimate's remaining cooldown instead.<br><br><passive>Power Chord</passive>: Every few spell casts, Sona's next attack will deal bonus magic damage in addition to an additional effect based on what basic Ability Sona last activated.",
+        "image": {
+          "full": "Sona_Passive_Charged.png",
+          "sprite": "passive4.png",
+          "group": "passive",
+          "x": 384,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        }
+      },
+      "spells": [
+        {
+          "id": "SonaQ",
+          "tooltip": "Sona deals <magicDamage>{{ totaldamage }} magic damage</magicDamage> to the nearest two enemies, prioritizing champions. She then begins a new <keywordMajor>Melody</keywordMajor>. Gain a stack of <keywordMajor>Accelerando</keywordMajor> for every champion you damage with this.<br /><br /><keywordMajor>Melody:</keywordMajor> Sona gains an aura for {{ auraduration }} seconds, granting allied champions an additional <magicDamage>{{ totalonhitdamage }} magic damage</magicDamage> %i:OnHit% on their next Attack within {{ onhitduration }} seconds.<br /><br /><keywordMajor>Power Chord - Staccato:</keywordMajor> Power Chord bonus damage (<magicDamage>{{ totalstaccatodamage }} total magic damage</magicDamage>).{{ spellmodifierdescriptionappend }}",
+          "description": "Sona plays the Hymn of Valor, sends out bolts of sound, dealing magic damage to two nearby enemies, prioritizing champions and monsters. Sona gains a temporary aura that grants allies tagged by the zone bonus damage on their next attack against enemies.",
+          "cooldown": [
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "cost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "maxrank": 5
+        },
+        {
+          "id": "SonaW",
+          "tooltip": "<spellPassive>Active:</spellPassive> Sona restores <healing>{{ totalheal }} Health</healing> to herself and a nearby allied champion, prioritizing the most wounded. She then begins a new <keywordMajor>Melody</keywordMajor>.<br /><br /><keywordMajor>Melody:</keywordMajor> Sona gains an aura for {{ auraduration }} seconds, granting allied champions <shield>{{ totalshield }} Shield</shield> for {{ shieldduration }} seconds.<br /><br />Gain a stack of <keywordMajor>Accelerando</keywordMajor> whenever you heal another injured ally and every time you protect another ally from at least {{ accelerandoshieldbreakpoint }} damage with this shield.<br /><br /><keywordMajor>Power Chord - Diminuendo:</keywordMajor> Power Chord also reduces physical and magic damage dealt by the target by {{ totaldiminuendoweakenpercent }} for {{ diminuendoduration }} seconds.{{ spellmodifierdescriptionappend }}",
+          "description": "Sona plays the Aria of Perseverance, sending out protective melodies, healing Sona and a nearby wounded ally. Sona gains a temporary aura that grants allies tagged by the zone a temporary shield.",
+          "cooldown": [
+            10,
+            10,
+            10,
+            10,
+            10
+          ],
+          "cost": [
+            80,
+            85,
+            90,
+            95,
+            100
+          ],
+          "maxrank": 5
+        },
+        {
+          "id": "SonaE",
+          "tooltip": "<spellPassive>Active:</spellPassive> She begins a new <keywordMajor>Melody</keywordMajor> and grants herself <speed>{{ totalselfmovementspeed }} Move Speed</speed> for {{ selfmovementspeeddurationmin }} seconds, extended to up to {{ selfmovementspeeddurationmax }} seconds if she doesn't take damage. <br /><br /><keywordMajor>Melody:</keywordMajor> Sona gains an aura for {{ auraduration }} seconds that grants allied champions <speed>{{ totalallymovementspeed }} Move Speed</speed> for {{ allymovementspeedduration }} seconds.<br /><br /><keywordMajor>Power Chord - Tempo:</keywordMajor> Power Chord also <status>Slows</status> the target by {{ totaltempomovespeedslow }} for {{ tempoduration }} seconds.{{ spellmodifierdescriptionappend }}",
+          "description": "Sona plays the Song of Celerity, granting nearby allies bonus Move Speed. Sona gains a temporary aura that grants allied champions tagged by the zone bonus Move Speed.",
+          "cooldown": [
+            14,
+            14,
+            14,
+            14,
+            14
+          ],
+          "cost": [
+            65,
+            65,
+            65,
+            65,
+            65
+          ],
+          "maxrank": 5
+        },
+        {
+          "id": "SonaR",
+          "tooltip": "Sona strikes an irresistible chord, <status>Stunning</status> enemy for {{ stunduration }} seconds and dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage>.{{ spellmodifierdescriptionappend }}",
+          "description": "Sona plays her ultimate chord, stunning enemy champions and forcing them to dance and dealing magic damage to them.",
+          "cooldown": [
+            140,
+            120,
+            100
+          ],
+          "cost": [
+            100,
+            100,
+            100
+          ],
+          "maxrank": 3
+        }
+      ]
+    },
+    "Soraka": {
+      "passive": {
+        "name": "Salvation",
+        "description": "Soraka runs faster towards nearby low health allies.",
+        "image": {
+          "full": "Soraka_Passive.png",
+          "sprite": "passive4.png",
+          "group": "passive",
+          "x": 432,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        }
+      },
+      "spells": [
+        {
+          "id": "SorakaQ",
+          "tooltip": "Soraka calls down a star, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> and <status>Slowing</status> by {{ movespeedslow*100 }}% for {{ slowduration }} seconds. <br /><br />Hitting an enemy champion grants Soraka <keywordMajor>Rejuvenation</keywordMajor>, which restores <healing>{{ totalhot }} Health</healing> over {{ hotduration }} seconds and grants <speed>{{ movespeedhaste*100 }}% Move Speed</speed> decaying over the same duration.{{ spellmodifierdescriptionappend }}",
+          "description": "A star falls from the sky at the target location dealing magic damage and slowing enemies. If an enemy champion is hit by Starcall, Soraka recovers Health.",
+          "cooldown": [
+            8,
+            7,
+            6,
+            5,
+            4
+          ],
+          "cost": [
+            45,
+            50,
+            55,
+            60,
+            65
+          ],
+          "maxrank": 5
+        },
+        {
+          "id": "SorakaW",
+          "tooltip": "Soraka restores <healing>{{ totalheal }} Health</healing> to another allied champion.<br /><br />If Soraka is affected by <keywordMajor>Rejuvenation</keywordMajor>, the Health cost will be reduced by {{ percenthealthcostrefund*100 }}%, and the target will gain <keywordMajor>Rejuvenation</keywordMajor> for {{ spell.sorakaq:hotduration }} seconds.{{ spellmodifierdescriptionappend }}",
+          "description": "Soraka sacrifices a portion of her own health to heal another friendly champion.",
+          "cooldown": [
+            6,
+            5,
+            4,
+            3,
+            2
+          ],
+          "cost": [
+            40,
+            45,
+            50,
+            55,
+            60
+          ],
+          "maxrank": 5
+        },
+        {
+          "id": "SorakaE",
+          "tooltip": "Soraka creates a starfield that deals <magicDamage>{{ totaldamage }} magic damage</magicDamage> to champions. The field lingers for {{ rootdelay }} seconds, <status>Silencing</status> enemies inside. When the zone disappears, champions inside the zone are <status>Rooted</status> for {{ rootduration }} second(s) and take <magicDamage>{{ totaldamage }} magic damage</magicDamage>.{{ spellmodifierdescriptionappend }}",
+          "description": "Creates a zone at a location that silences all enemies inside. When the zone expires, all enemies still inside are rooted.",
+          "cooldown": [
+            20,
+            19,
+            18,
+            17,
+            16
+          ],
+          "cost": [
+            70,
+            75,
+            80,
+            85,
+            90
+          ],
+          "maxrank": 5
+        },
+        {
+          "id": "SorakaR",
+          "tooltip": "Soraka calls upon divine powers, restoring <healing>{{ healingcalc }} Health</healing> to all allied champions, regardless of distance. Healing is increased to <healing>{{ ampedhealing }}</healing> on targets below 40% Health.{{ spellmodifierdescriptionappend }}",
+          "description": "Soraka fills her allies with hope, instantly restoring health to herself and all allied champions.",
+          "cooldown": [
+            150,
+            135,
+            120
+          ],
+          "cost": [
+            100,
+            100,
+            100
+          ],
+          "maxrank": 3
+        }
+      ]
+    },
+    "Karma": {
+      "passive": {
+        "name": "Gathering Fire",
+        "description": "Karma's damaging abilities will reduce the cooldown of Mantra.",
+        "image": {
+          "full": "Karma_Passive.png",
+          "sprite": "passive1.png",
+          "group": "passive",
+          "x": 336,
+          "y": 96,
+          "w": 48,
+          "h": 48
+        }
+      },
+      "spells": [
+        {
+          "id": "KarmaQ",
+          "tooltip": "Karma fires a blast of energy, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> to the first target hit and surrounding enemies, and <status>Slowing</status> them by {{ slowamount*-100 }}% for {{ slowduration }} seconds.{{ spellmodifierdescriptionappend }}",
+          "description": "Karma sends forth a ball of spirit energy that explodes and deals damage upon hitting an enemy unit.<br><br>Mantra Bonus: In addition to the explosion, Mantra increases the destructive power of her Inner Flame, creating a cataclysm which deals damage after a short delay.",
+          "cooldown": [
+            9,
+            8,
+            7,
+            6,
+            5
+          ],
+          "cost": [
+            40,
+            50,
+            60,
+            70,
+            80
+          ],
+          "maxrank": 5
+        },
+        {
+          "id": "KarmaSpiritBind",
+          "tooltip": "Karma tethers herself to a champion or jungle monster, dealing <magicDamage>{{ initialdamage }} magic damage</magicDamage> and revealing them for {{ tetherduration }}s. If the tether remains unbroken, the target takes <magicDamage>{{ initialdamage }} magic damage</magicDamage> again and is <status>Rooted</status> for {{ rootduration }}s.{{ spellmodifierdescriptionappend }}",
+          "description": "Karma creates a tether between herself and a targeted enemy, dealing damage and revealing them. If the tether is not broken, the enemy will be rooted and damaged again.<br><br>Mantra Bonus: Karma strengthens the link, healing herself and extending the root duration.",
+          "cooldown": [
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "cost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "maxrank": 5
+        },
+        {
+          "id": "KarmaSolKimShield",
+          "tooltip": "Karma grants an allied champion <shield>{{ totalshield }} Shield</shield> for {{ shieldduration }}s and <speed>{{ movespeed*100 }}% Move Speed</speed> for {{ movespeedduration }}s.{{ spellmodifierdescriptionappend }}",
+          "description": "Karma summons a protective shield that absorbs incoming damage and increases the Move Speed of the protected ally.<br><br>Mantra Bonus: Energy radiates out from her target, strengthening the initial shield and applying Inspire to nearby allied champions.",
+          "cooldown": [
+            10,
+            9.5,
+            9,
+            8.5,
+            8
+          ],
+          "cost": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "maxrank": 5
+        },
+        {
+          "id": "KarmaMantra",
+          "tooltip": "Karma empowers her next Ability used within 8 seconds.<br /><li><spellName>Inner Flame</spellName>: Deals an additional <magicDamage>{{ rqimpactdamage }} magic damage</magicDamage> and leaves behind a circle of flame, <status>Slowing</status> enemies and dealing an additional <magicDamage>{{ rqfielddamage }} magic damage</magicDamage>.<li><spellName>Focused Resolve</spellName>: Karma will restore <healing>{{ rwhealamount }} missing Health</healing> at the beginning and end of the tether, and <status>Root</status> for {{ rwbonusroot }}s longer.<li><spellName>Inspire</spellName>: Karma shields her target for <shield>{{ rebonusshield }} more Shield</shield>, and also shields allies near her target, granting them <shield>{{ rebonusshieldarea }} Shield</shield> and <speed>{{ removespeed*100 }}% Move Speed</speed>.{{ spellmodifierdescriptionappend }}",
+          "description": "Karma empowers her next ability to do an additional effect. Mantra is available at level 1 and does not require a skill point.",
+          "cooldown": [
+            40,
+            38,
+            36,
+            34
+          ],
+          "cost": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "maxrank": 4
+        }
+      ]
+    },
+    "Seraphine": {
+      "passive": {
+        "name": "Stage Presence",
+        "description": "Every third basic spell will cast twice from Seraphine. Additionally, casting spells near allies grants her bonus magic damage and range on her next basic attack.",
+        "image": {
+          "full": "Seraphine_Passive.png",
+          "sprite": "passive3.png",
+          "group": "passive",
+          "x": 384,
+          "y": 96,
+          "w": 48,
+          "h": 48
+        }
+      },
+      "spells": [
+        {
+          "id": "SeraphineQ",
+          "tooltip": "Seraphine projects a pure note, dealing <magicDamage>{{ explosiondamage }} magic damage</magicDamage>, increased against champions and monsters by the target's missing Health percentage up to <magicDamage>{{ totalempowereddamage }} damage</magicDamage> below {{ executethreshold*100 }}% Health.{{ spellmodifierdescriptionappend }}",
+          "description": "Seraphine deals damage in an area.",
+          "cooldown": [
+            8,
+            7.5,
+            7,
+            6.5,
+            6
+          ],
+          "cost": [
+            60,
+            70,
+            80,
+            90,
+            100
+          ],
+          "maxrank": 5
+        },
+        {
+          "id": "SeraphineW",
+          "tooltip": "Seraphine spurs her nearby allied champions in song, granting them <speed>{{ hastevalueallies }} Move Speed</speed>, herself <speed>{{ wmsbonustotal }} decaying Move Speed</speed> and both <shield>{{ shieldvalueseraphine }} Shield</shield> for {{ shieldduration }} seconds.<br /><br />If Seraphine is already <shield>Shielded</shield>, she calls out to her allies to join her, restoring <healing>{{ wmissinghpheal }}% missing Health</healing> to them after a {{ whealsplitdelay }} second delay.{{ spellmodifierdescriptionappend }}",
+          "description": "Seraphine Shields and Hastes nearby allies. If she is already Shielded she will Heal nearby allies as well.",
+          "cooldown": [
+            22,
+            22,
+            22,
+            22,
+            22
+          ],
+          "cost": [
+            70,
+            75,
+            80,
+            85,
+            90
+          ],
+          "maxrank": 5
+        },
+        {
+          "id": "SeraphineE",
+          "tooltip": "Seraphine unleashes a heavy soundwave, dealing <magicDamage>{{ finaldamage }} magic damage</magicDamage> to enemies in a line and <status>Slowing</status> them by {{ slowvalue }}% for {{ slowduration }} seconds.<br /><br />Enemies that are already <status>Slowed</status> are <status>Rooted</status> instead, and <status>Immobilized</status> enemies are <status>Stunned</status>.{{ spellmodifierdescriptionappend }}",
+          "description": "Seraphine deals damage and impairs the movement of enemies in a line.",
+          "cooldown": [
+            11,
+            10.5,
+            10,
+            9.5,
+            9
+          ],
+          "cost": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "maxrank": 5
+        },
+        {
+          "id": "SeraphineR",
+          "tooltip": "Seraphine takes the stage, projecting a captivating force that <status>Charms</status> for {{ rchannelduration }} seconds and deals <magicDamage>{{ r1totaldamage }} magic damage</magicDamage>.<br /><br />Any champions struck (including allies) become part of the performance, extending the range of this Ability. Allied champions gain maximum <keywordMajor>Notes</keywordMajor>.{{ spellmodifierdescriptionappend }}",
+          "description": "Seraphine deals damage and charms enemies hit, refreshing the range with every allied or enemy champion hit.",
+          "cooldown": [
+            160,
+            140,
+            120
+          ],
+          "cost": [
+            100,
+            100,
+            100
+          ],
+          "maxrank": 3
+        }
+      ]
+    }
+  }
+}

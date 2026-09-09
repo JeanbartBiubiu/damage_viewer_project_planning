@@ -1,0 +1,45 @@
+{
+  "i": 54,
+  "intent": {
+    "sequence": 55,
+    "method": "POST",
+    "route": "/skills/sona_r/formulas",
+    "detailRoute": "/skills/sona_r/formulas/magic_damage",
+    "skillKey": "sona_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "狂舞终乐章单一敌方魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "只保留单一敌方命中。",
+      "sortOrder": 10
+    }
+  }
+}
