@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T15:32:42.596Z",
+  "generatedAt": "2026-09-09T15:50:53.052Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -2872,6 +2872,51 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/主负责人/英雄机制第二十七批/页面验收.json",
         "commit": "ae14c7391e11b17255b05561cc0b6b270e2168cf"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroTwentyFifthBatch": {
+      "skills": [
+        "drmundo_p",
+        "drmundo_q",
+        "drmundo_w",
+        "drmundo_e",
+        "drmundo_r",
+        "tryndamere_p",
+        "tryndamere_q",
+        "tryndamere_w",
+        "tryndamere_e",
+        "tryndamere_r"
+      ],
+      "parameters": 83,
+      "formulas": 23,
+      "effects": 10,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "reusedParameters": 7,
+      "created": 109,
+      "independentGets": 204,
+      "independentFormulaChecks": 23,
+      "independentSourceCases": 46,
+      "independentMissingRejects": 23,
+      "representativePages": 3,
+      "pageGets": 14,
+      "pageMathCases": 12,
+      "candidateSha256": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
+      "planSha256": "b22ce20986991a7bf2d3f0db372f2265e3b7f9098e30957722f62c3c112d4cb2",
+      "executor": "Cursor来源复核，Luna Max修订候选和独立回读，主负责人复核保存及页面验收",
+      "status": "109新增、7公共参数复用；204独立GET、23实际公式严格核算、3页面通过。生命应用阶段、等级曲线、怒气与事件继续处理。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十五批/当前实录状态.json",
+        "sha256": "73eee62b11324ed8c119885ba65ba749943e0f161ed43948ebb20d49f0d627e6",
+        "commit": "70ed3fb3510b3cf03a063b8f54679e6f445ceba4"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十五批/修订一/页面验收.json",
+        "commit": "70ed3fb3510b3cf03a063b8f54679e6f445ceba4"
       },
       "runtimeValidation": "未执行"
     }
