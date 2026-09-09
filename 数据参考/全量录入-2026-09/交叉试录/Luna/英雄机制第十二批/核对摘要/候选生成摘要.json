@@ -1,0 +1,4318 @@
+{
+  "generatedAt": "2026-09-09T04:18:12.202Z",
+  "apiWrites": 0,
+  "skillCount": 20,
+  "currentCompositionRead": {
+    "status": "success",
+    "path": "当前20技能组成核对.json",
+    "summary": {
+      "skillCount": 20,
+      "expectedSkillCount": 20,
+      "compositionCount": 120,
+      "detailCount": 210,
+      "duplicateCount": 0,
+      "errorCount": 0,
+      "requestCount": 354
+    }
+  },
+  "reuseReport": {
+    "existingCompleteHeroes": [],
+    "existingPartialHeroes": [
+      {
+        "heroId": "Twitch",
+        "skillKeys": [
+          "twitch_p",
+          "twitch_q",
+          "twitch_w",
+          "twitch_e",
+          "twitch_r"
+        ],
+        "structuralComplete": true,
+        "semanticCandidateComplete": false
+      },
+      {
+        "heroId": "Lucian",
+        "skillKeys": [
+          "lucian_p",
+          "lucian_q",
+          "lucian_w",
+          "lucian_e",
+          "lucian_r"
+        ],
+        "structuralComplete": true,
+        "semanticCandidateComplete": false
+      },
+      {
+        "heroId": "Sivir",
+        "skillKeys": [
+          "sivir_p",
+          "sivir_q",
+          "sivir_w",
+          "sivir_e",
+          "sivir_r"
+        ],
+        "structuralComplete": true,
+        "semanticCandidateComplete": false
+      },
+      {
+        "heroId": "Tristana",
+        "skillKeys": [
+          "tristana_p",
+          "tristana_q",
+          "tristana_w",
+          "tristana_e",
+          "tristana_r"
+        ],
+        "structuralComplete": true,
+        "semanticCandidateComplete": false
+      }
+    ],
+    "sameValueComponents": [
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "poison_duration_ms"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "max_stacks"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "base_dps"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "duration_seconds"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "poison_stacks"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "formulas",
+        "id": "damage_per_stack_second"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "formulas",
+        "id": "damage_per_second"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "formulas",
+        "id": "max_full_duration_damage"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "bonus_attack_speed_ratio"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "attack_speed_duration_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "camouflage_duration_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "fade_delay_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "camouflage_speed_ratio"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "effects",
+        "id": "exit_camouflage_speed"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "effects",
+        "id": "poisoned_death_reset"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "base_slow_ratio"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "slow_ap_ratio"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "cloud_duration_ms"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "formulas",
+        "id": "slow_ratio"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "physical_per_stack"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "bonus_ad_ratio_per_stack"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "ap_ratio_per_stack"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "max_stacks"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "poison_stacks"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "formulas",
+        "id": "physical_damage"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "formulas",
+        "id": "magic_damage"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "formulas",
+        "id": "max_physical_damage"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "formulas",
+        "id": "max_magic_damage"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "bonus_attack_damage"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "bonus_attack_range"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "buff_duration_ms"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "effects",
+        "id": "bonus_ad"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "effects",
+        "id": "bonus_range"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "empowered_window_ms"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "second_shot_ad_ratio"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "base_second_shot_crit"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_base_damage"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_total_ad_ratio"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_duration_ms"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_granted_attacks"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_max_attacks"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "formulas",
+        "id": "second_shot_damage"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "formulas",
+        "id": "second_shot_crit_multiplier"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "formulas",
+        "id": "vigilance_damage"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "bonus_ad_ratio"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "formulas",
+        "id": "damage"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "move_speed"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "speed_duration_ms"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "mark_duration_ms"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "formulas",
+        "id": "damage"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "effects",
+        "id": "mark_speed"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "champion_refund_ms"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "effects",
+        "id": "lightslinger_refund"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "base_shots"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "channel_duration_ms"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "recast_lockout_ms"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "crit_scaling"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "one"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "formulas",
+        "id": "bullet_damage"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "formulas",
+        "id": "continuous_shot_count"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "formulas",
+        "id": "tooltip_total_damage"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_p",
+        "kind": "parameters",
+        "id": "speed_decay_duration_ms"
+      },
+      {
+        "skillKey": "sivir_p",
+        "kind": "parameters",
+        "id": "initial_move_speed"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "crit_scaling"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "one"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "base_cast_time_ms"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "cast_speed_ratio"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "cast_reduction_cap"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "formulas",
+        "id": "precrit_damage"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "formulas",
+        "id": "damage"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "bonus_attack_speed_ratio"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "buff_duration_ms"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "effects",
+        "id": "ricochet_attack_speed"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "shield_duration_ms"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "heal_total_ad_ratio"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "heal_ap_ratio"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "formulas",
+        "id": "block_heal"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "effects",
+        "id": "spell_shield"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "move_speed_ratio"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "buff_duration_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "attack_refund_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "recent_damage_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "effects",
+        "id": "on_the_hunt"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "effects",
+        "id": "attack_basic_refund"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "triggerRules",
+        "id": "active_attack_refund"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "bonus_attack_speed_ratio"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "buff_duration_ms"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "effects",
+        "id": "rapid_fire"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "slow_ratio"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "slow_duration_ms"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "formulas",
+        "id": "damage"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "effects",
+        "id": "reset_jump"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "crit_scaling"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "one"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "per_stack_amp"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "max_stacks"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "bomb_duration_ms"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "bomb_stacks"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "formulas",
+        "id": "unstacked_damage"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "formulas",
+        "id": "bomb_damage"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "formulas",
+        "id": "max_damage"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "stun_duration_ms"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "knockback_distance"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "formulas",
+        "id": "damage"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "processes",
+        "id": "cast"
+      }
+    ],
+    "differentValueComponents": [],
+    "sameValueParameters": [
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "poison_duration_ms"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "max_stacks"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "base_dps"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "duration_seconds"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "poison_stacks"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "bonus_attack_speed_ratio"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "attack_speed_duration_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "camouflage_duration_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "fade_delay_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "camouflage_speed_ratio"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "base_slow_ratio"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "slow_ap_ratio"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "cloud_duration_ms"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "physical_per_stack"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "bonus_ad_ratio_per_stack"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "ap_ratio_per_stack"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "max_stacks"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "poison_stacks"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "bonus_attack_damage"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "bonus_attack_range"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "buff_duration_ms"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "empowered_window_ms"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "second_shot_ad_ratio"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "base_second_shot_crit"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_base_damage"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_total_ad_ratio"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_duration_ms"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_granted_attacks"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_max_attacks"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "bonus_ad_ratio"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "move_speed"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "speed_duration_ms"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "mark_duration_ms"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "champion_refund_ms"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "base_shots"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "channel_duration_ms"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "recast_lockout_ms"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "crit_scaling"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "one"
+      },
+      {
+        "skillKey": "sivir_p",
+        "kind": "parameters",
+        "id": "speed_decay_duration_ms"
+      },
+      {
+        "skillKey": "sivir_p",
+        "kind": "parameters",
+        "id": "initial_move_speed"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "crit_scaling"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "one"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "base_cast_time_ms"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "cast_speed_ratio"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "cast_reduction_cap"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "bonus_attack_speed_ratio"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "buff_duration_ms"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "shield_duration_ms"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "heal_total_ad_ratio"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "heal_ap_ratio"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "move_speed_ratio"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "buff_duration_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "attack_refund_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "recent_damage_ms"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "bonus_attack_speed_ratio"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "buff_duration_ms"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "slow_ratio"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "slow_duration_ms"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "crit_scaling"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "one"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "per_stack_amp"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "max_stacks"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "bomb_duration_ms"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "bomb_stacks"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "stun_duration_ms"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "knockback_distance"
+      }
+    ],
+    "differentValueParameters": [],
+    "currentProtectedComponents": [
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "poison_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "max_stacks",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "base_dps",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "duration_seconds",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "poison_stacks",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "formulas",
+        "id": "damage_per_stack_second",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "formulas",
+        "id": "damage_per_second",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "formulas",
+        "id": "max_full_duration_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "effects",
+        "id": "poison_tick",
+        "represented": false
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "bonus_attack_speed_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "attack_speed_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "camouflage_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "fade_delay_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "camouflage_speed_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "effects",
+        "id": "exit_camouflage_speed",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "effects",
+        "id": "poisoned_death_reset",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "processes",
+        "id": "cast",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "base_slow_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "slow_ap_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "cloud_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "formulas",
+        "id": "slow_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "processes",
+        "id": "cast",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "base_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "physical_per_stack",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "bonus_ad_ratio_per_stack",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "ap_ratio_per_stack",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "max_stacks",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "poison_stacks",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "formulas",
+        "id": "physical_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "formulas",
+        "id": "magic_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "formulas",
+        "id": "max_physical_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "formulas",
+        "id": "max_magic_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "effects",
+        "id": "contaminate_damage",
+        "represented": false
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "processes",
+        "id": "cast",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "bonus_attack_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "bonus_attack_range",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "buff_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "effects",
+        "id": "bonus_ad",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "effects",
+        "id": "bonus_range",
+        "represented": true
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "processes",
+        "id": "cast",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "empowered_window_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "second_shot_ad_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "base_second_shot_crit",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_base_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_total_ad_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_granted_attacks",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_max_attacks",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "formulas",
+        "id": "second_shot_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "formulas",
+        "id": "second_shot_crit_multiplier",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "formulas",
+        "id": "vigilance_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "effects",
+        "id": "second_shot",
+        "represented": false
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "effects",
+        "id": "vigilance_bonus",
+        "represented": false
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "base_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "bonus_ad_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "formulas",
+        "id": "damage",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "effects",
+        "id": "beam_hit",
+        "represented": false
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "triggerRules",
+        "id": "actual_hit",
+        "represented": false
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "base_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "move_speed",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "speed_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "mark_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "formulas",
+        "id": "damage",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "effects",
+        "id": "mark_speed",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "effects",
+        "id": "flare_hit",
+        "represented": false
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "processes",
+        "id": "cast",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "triggerRules",
+        "id": "actual_hit",
+        "represented": false
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "champion_refund_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "effects",
+        "id": "lightslinger_refund",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "processes",
+        "id": "cast",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "base_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "ad_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "base_shots",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "channel_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "recast_lockout_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "crit_scaling",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "one",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "formulas",
+        "id": "bullet_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "formulas",
+        "id": "continuous_shot_count",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "formulas",
+        "id": "tooltip_total_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "effects",
+        "id": "bullet_hit",
+        "represented": false
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "triggerRules",
+        "id": "actual_hit",
+        "represented": false
+      },
+      {
+        "skillKey": "sivir_p",
+        "kind": "parameters",
+        "id": "speed_decay_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_p",
+        "kind": "parameters",
+        "id": "initial_move_speed",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "base_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "ad_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "crit_scaling",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "one",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "base_cast_time_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "cast_speed_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "cast_reduction_cap",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "formulas",
+        "id": "precrit_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "formulas",
+        "id": "damage",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "effects",
+        "id": "boomerang_hit",
+        "represented": false
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "triggerRules",
+        "id": "actual_hit",
+        "represented": false
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "bonus_attack_speed_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "buff_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "effects",
+        "id": "ricochet_attack_speed",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "processes",
+        "id": "cast",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": false
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "shield_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "heal_total_ad_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "heal_ap_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "formulas",
+        "id": "block_heal",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "effects",
+        "id": "block_heal",
+        "represented": false
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "effects",
+        "id": "spell_shield",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "processes",
+        "id": "cast",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "triggerRules",
+        "id": "successful_spell_block",
+        "represented": false
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "move_speed_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "buff_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "attack_refund_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "recent_damage_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "effects",
+        "id": "on_the_hunt",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "effects",
+        "id": "attack_basic_refund",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "processes",
+        "id": "cast",
+        "represented": true
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "triggerRules",
+        "id": "active_attack_refund",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "bonus_attack_speed_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "buff_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "effects",
+        "id": "rapid_fire",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "processes",
+        "id": "cast",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "base_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "ad_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "slow_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "slow_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "formulas",
+        "id": "damage",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "effects",
+        "id": "landing_hit",
+        "represented": false
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "effects",
+        "id": "reset_jump",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "processes",
+        "id": "cast",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "triggerRules",
+        "id": "actual_hit",
+        "represented": false
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "base_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "ad_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "crit_scaling",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "one",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "per_stack_amp",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "max_stacks",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "bomb_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "bomb_stacks",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "formulas",
+        "id": "unstacked_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "formulas",
+        "id": "bomb_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "formulas",
+        "id": "max_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "effects",
+        "id": "bomb_explosion",
+        "represented": false
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "cast_time_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "base_damage",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "ad_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "ap_ratio",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "stun_duration_ms",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "knockback_distance",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "formulas",
+        "id": "damage",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "effects",
+        "id": "mana_cost",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "effects",
+        "id": "cannon_hit",
+        "represented": false
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "processes",
+        "id": "cast",
+        "represented": true
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "triggerRules",
+        "id": "actual_hit",
+        "represented": false
+      }
+    ],
+    "collidingComponents": [
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "poison_duration_ms"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "max_stacks"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "base_dps"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "duration_seconds"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "parameters",
+        "id": "poison_stacks"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "formulas",
+        "id": "damage_per_stack_second"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "formulas",
+        "id": "damage_per_second"
+      },
+      {
+        "skillKey": "twitch_p",
+        "kind": "formulas",
+        "id": "max_full_duration_damage"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "bonus_attack_speed_ratio"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "attack_speed_duration_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "camouflage_duration_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "fade_delay_ms"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "parameters",
+        "id": "camouflage_speed_ratio"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "effects",
+        "id": "exit_camouflage_speed"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "effects",
+        "id": "poisoned_death_reset"
+      },
+      {
+        "skillKey": "twitch_q",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "base_slow_ratio"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "slow_ap_ratio"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "parameters",
+        "id": "cloud_duration_ms"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "formulas",
+        "id": "slow_ratio"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_w",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "physical_per_stack"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "bonus_ad_ratio_per_stack"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "ap_ratio_per_stack"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "max_stacks"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "parameters",
+        "id": "poison_stacks"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "formulas",
+        "id": "physical_damage"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "formulas",
+        "id": "magic_damage"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "formulas",
+        "id": "max_physical_damage"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "formulas",
+        "id": "max_magic_damage"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_e",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "bonus_attack_damage"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "bonus_attack_range"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "parameters",
+        "id": "buff_duration_ms"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "effects",
+        "id": "bonus_ad"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "effects",
+        "id": "bonus_range"
+      },
+      {
+        "skillKey": "twitch_r",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "empowered_window_ms"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "second_shot_ad_ratio"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "base_second_shot_crit"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_base_damage"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_total_ad_ratio"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_duration_ms"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_granted_attacks"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "parameters",
+        "id": "vigilance_max_attacks"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "formulas",
+        "id": "second_shot_damage"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "formulas",
+        "id": "second_shot_crit_multiplier"
+      },
+      {
+        "skillKey": "lucian_p",
+        "kind": "formulas",
+        "id": "vigilance_damage"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "parameters",
+        "id": "bonus_ad_ratio"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "formulas",
+        "id": "damage"
+      },
+      {
+        "skillKey": "lucian_q",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "move_speed"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "speed_duration_ms"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "parameters",
+        "id": "mark_duration_ms"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "formulas",
+        "id": "damage"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "effects",
+        "id": "mark_speed"
+      },
+      {
+        "skillKey": "lucian_w",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "parameters",
+        "id": "champion_refund_ms"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "effects",
+        "id": "lightslinger_refund"
+      },
+      {
+        "skillKey": "lucian_e",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "base_shots"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "channel_duration_ms"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "recast_lockout_ms"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "crit_scaling"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "parameters",
+        "id": "one"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "formulas",
+        "id": "bullet_damage"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "formulas",
+        "id": "continuous_shot_count"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "formulas",
+        "id": "tooltip_total_damage"
+      },
+      {
+        "skillKey": "lucian_r",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_p",
+        "kind": "parameters",
+        "id": "speed_decay_duration_ms"
+      },
+      {
+        "skillKey": "sivir_p",
+        "kind": "parameters",
+        "id": "initial_move_speed"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "crit_scaling"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "one"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "base_cast_time_ms"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "cast_speed_ratio"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "parameters",
+        "id": "cast_reduction_cap"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "formulas",
+        "id": "precrit_damage"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "formulas",
+        "id": "damage"
+      },
+      {
+        "skillKey": "sivir_q",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "bonus_attack_speed_ratio"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "parameters",
+        "id": "buff_duration_ms"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "effects",
+        "id": "ricochet_attack_speed"
+      },
+      {
+        "skillKey": "sivir_w",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "shield_duration_ms"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "heal_total_ad_ratio"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "parameters",
+        "id": "heal_ap_ratio"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "formulas",
+        "id": "block_heal"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "effects",
+        "id": "spell_shield"
+      },
+      {
+        "skillKey": "sivir_e",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "move_speed_ratio"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "buff_duration_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "attack_refund_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "parameters",
+        "id": "recent_damage_ms"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "effects",
+        "id": "on_the_hunt"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "effects",
+        "id": "attack_basic_refund"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "sivir_r",
+        "kind": "triggerRules",
+        "id": "active_attack_refund"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "bonus_attack_speed_ratio"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "parameters",
+        "id": "buff_duration_ms"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "effects",
+        "id": "rapid_fire"
+      },
+      {
+        "skillKey": "tristana_q",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "slow_ratio"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "parameters",
+        "id": "slow_duration_ms"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "formulas",
+        "id": "damage"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "effects",
+        "id": "reset_jump"
+      },
+      {
+        "skillKey": "tristana_w",
+        "kind": "processes",
+        "id": "cast"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "crit_scaling"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "one"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "per_stack_amp"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "max_stacks"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "bomb_duration_ms"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "parameters",
+        "id": "bomb_stacks"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "formulas",
+        "id": "unstacked_damage"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "formulas",
+        "id": "bomb_damage"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "formulas",
+        "id": "max_damage"
+      },
+      {
+        "skillKey": "tristana_e",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "cooldown_ms"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "cast_time_ms"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "base_damage"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "ad_ratio"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "ap_ratio"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "stun_duration_ms"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "parameters",
+        "id": "knockback_distance"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "formulas",
+        "id": "damage"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "effects",
+        "id": "mana_cost"
+      },
+      {
+        "skillKey": "tristana_r",
+        "kind": "processes",
+        "id": "cast"
+      }
+    ],
+    "currentRead": "success"
+  },
+  "rawPlanSha256": "5e3789184cf4e4ddb25cc7050a87dd49a7a3dce5cff2ea3a8131c6c1b5882b46",
+  "planSha256": "6962b4d74e81030b7931f0fc8010eed025d2f5cf369711c53b60f0f9579377fb",
+  "rawSkillSummary": {
+    "twitch_p": {
+      "parameters": 6,
+      "formulas": 3,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 2,
+      "excluded": 0,
+      "reusedParameters": 0
+    },
+    "twitch_q": {
+      "parameters": 8,
+      "formulas": 0,
+      "effects": 3,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "twitch_w": {
+      "parameters": 6,
+      "formulas": 1,
+      "effects": 1,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "twitch_e": {
+      "parameters": 9,
+      "formulas": 4,
+      "effects": 1,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 2,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "twitch_r": {
+      "parameters": 5,
+      "formulas": 0,
+      "effects": 3,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "lucian_p": {
+      "parameters": 8,
+      "formulas": 3,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 4,
+      "excluded": 2,
+      "reusedParameters": 0
+    },
+    "lucian_q": {
+      "parameters": 4,
+      "formulas": 1,
+      "effects": 1,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 3,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "lucian_w": {
+      "parameters": 8,
+      "formulas": 1,
+      "effects": 2,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 3,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "lucian_e": {
+      "parameters": 4,
+      "formulas": 0,
+      "effects": 2,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "lucian_r": {
+      "parameters": 10,
+      "formulas": 3,
+      "effects": 1,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 3,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "sivir_p": {
+      "parameters": 2,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 0,
+      "reusedParameters": 0
+    },
+    "sivir_q": {
+      "parameters": 10,
+      "formulas": 2,
+      "effects": 1,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 3,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "sivir_w": {
+      "parameters": 4,
+      "formulas": 0,
+      "effects": 2,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "sivir_e": {
+      "parameters": 4,
+      "formulas": 1,
+      "effects": 1,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 2,
+      "excluded": 0,
+      "reusedParameters": 0
+    },
+    "sivir_r": {
+      "parameters": 7,
+      "formulas": 0,
+      "effects": 3,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 1,
+      "pending": 1,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "tristana_p": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 0,
+      "reusedParameters": 0
+    },
+    "tristana_q": {
+      "parameters": 4,
+      "formulas": 0,
+      "effects": 2,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 0,
+      "excluded": 0,
+      "reusedParameters": 0
+    },
+    "tristana_w": {
+      "parameters": 8,
+      "formulas": 1,
+      "effects": 2,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 4,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "tristana_e": {
+      "parameters": 11,
+      "formulas": 3,
+      "effects": 1,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 3,
+      "excluded": 1,
+      "reusedParameters": 0
+    },
+    "tristana_r": {
+      "parameters": 8,
+      "formulas": 1,
+      "effects": 1,
+      "processes": 1,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 3,
+      "excluded": 1,
+      "reusedParameters": 0
+    }
+  },
+  "skillSummary": {
+    "twitch_p": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 2,
+      "excluded": 0,
+      "reusedParameters": 6
+    },
+    "twitch_q": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 1,
+      "reusedParameters": 8
+    },
+    "twitch_w": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 1,
+      "reusedParameters": 6
+    },
+    "twitch_e": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 2,
+      "excluded": 1,
+      "reusedParameters": 9
+    },
+    "twitch_r": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 1,
+      "reusedParameters": 5
+    },
+    "lucian_p": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 4,
+      "excluded": 2,
+      "reusedParameters": 8
+    },
+    "lucian_q": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 3,
+      "excluded": 1,
+      "reusedParameters": 4
+    },
+    "lucian_w": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 3,
+      "excluded": 1,
+      "reusedParameters": 8
+    },
+    "lucian_e": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 1,
+      "reusedParameters": 4
+    },
+    "lucian_r": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 3,
+      "excluded": 1,
+      "reusedParameters": 10
+    },
+    "sivir_p": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 0,
+      "reusedParameters": 2
+    },
+    "sivir_q": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 3,
+      "excluded": 1,
+      "reusedParameters": 10
+    },
+    "sivir_w": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 1,
+      "reusedParameters": 4
+    },
+    "sivir_e": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 2,
+      "excluded": 0,
+      "reusedParameters": 4
+    },
+    "sivir_r": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 1,
+      "reusedParameters": 7
+    },
+    "tristana_p": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 1,
+      "excluded": 0,
+      "reusedParameters": 0
+    },
+    "tristana_q": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 0,
+      "excluded": 0,
+      "reusedParameters": 4
+    },
+    "tristana_w": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 4,
+      "excluded": 1,
+      "reusedParameters": 8
+    },
+    "tristana_e": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 3,
+      "excluded": 1,
+      "reusedParameters": 11
+    },
+    "tristana_r": {
+      "parameters": 0,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "pending": 3,
+      "excluded": 1,
+      "reusedParameters": 8
+    }
+  }
+}
