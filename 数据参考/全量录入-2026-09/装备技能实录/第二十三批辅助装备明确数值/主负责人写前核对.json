@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T11:18:00.436Z",
+  "candidateSha256": "56e7ac494c75ca777ee471d68ab5eb35a3e23eb7eb7daa02a4c4e7d7b24be76b",
+  "planSha256": "022317b6e83fe1a097fa4850006d93df89b1caa604ca819b35deb2a070173a9a",
+  "sourceSha256": "354aa384a2769bb21109512a43bdb7804ce27019718f49f5143e850c61bbe90c",
+  "beforeSha256": "c1b80e5dd8be9c221cc23fe40282eba4f1b8fa5a71290d8233a732f6cc4aaab8",
+  "scope": "六件装备16个明确数值；自身目标资格未确认，来源与系统缺口保留",
+  "requests": 34,
+  "parameterChecks": 16,
+  "reviewed": [
+    "六件装备实际关系为空，目标技能均404，原主体/属性/图片保护",
+    "3504魔法伤害由当前正文magicDamage证明；不使用源变量名推断",
+    "3222治疗100至250仅保留显示范围，不生成等级曲线",
+    "6620未生成缺失封顶的充能公式；内部MinimumHealToTrigger未被正文绑定不录入",
+    "6617仅录扩展正文无其他友军时的原目标比例，排除第三队友连锁",
+    "无公式、效果、过程、状态或触发；技能保存不代表自身适用资格或战斗验证"
+  ],
+  "businessWrites": 0
+}
