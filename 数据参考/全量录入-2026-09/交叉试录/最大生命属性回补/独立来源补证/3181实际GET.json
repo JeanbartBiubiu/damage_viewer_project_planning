@@ -1,0 +1,426 @@
+{
+  "reads": [
+    {
+      "at": "2026-09-09T07:13:55.592Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:10:00.753856Z",
+        "description": "保留对当前英雄的每第五次攻击附伤。基础攻击力沿同构建具名补证；第二生命属性节点仍外供。远程分支作用于整项计算，不把额外旧字段混入。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "破舰者·船长",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "item_3181_passive",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T05:10:00.753856Z"
+      }
+    },
+    {
+      "at": "2026-09-09T07:13:55.644Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/parameters",
+      "status": 200,
+      "actual": [
+        {
+          "createdAt": "2026-09-09T05:10:01.720672Z",
+          "description": "当前根SkipperADRatio明确数值。",
+          "fixedValue": 1.2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "船长基础攻击力系数",
+          "parameterKey": "base_ad_ratio",
+          "skillKey": "item_3181_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T05:10:01.720672Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T05:10:02.555327Z",
+          "description": "当前根MaxStackDamageHPRatio明确数值。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "船长第二属性系数",
+          "parameterKey": "mstat12_formula0_ratio",
+          "skillKey": "item_3181_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:10:02.555327Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T05:10:03.385416Z",
+          "description": "mStat12且省略mStatFormula默认0，当前不扩展为总生命；需要原节点实际输入。 不提供默认值。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "船长第二属性实际值",
+          "parameterKey": "actual_mstat12_formula0",
+          "skillKey": "item_3181_passive",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T05:10:03.385416Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T05:10:04.163853Z",
+          "description": "当前中文明确每第五次攻击。",
+          "fixedValue": 5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "触发所需攻击次数",
+          "parameterKey": "attacks_required",
+          "skillKey": "item_3181_passive",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T05:10:04.163853Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:10:05.002246Z",
+          "description": "当前MaxStackDamage.mRangedMultiplier明确0.7；只表示给定远程资格分支。",
+          "fixedValue": 0.7,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "远程分支整项伤害倍数",
+          "parameterKey": "ranged_damage_multiplier",
+          "skillKey": "item_3181_passive",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:10:05.002246Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-09T07:13:55.693Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/formulas",
+      "status": 200,
+      "actual": [
+        {
+          "createdAt": "2026-09-09T05:10:05.822611Z",
+          "description": "1.2基础攻击力+0.05原第二属性实际值；当前已确认近战条件分支。",
+          "formulaKey": "melee_bonus_damage",
+          "gameId": "lol",
+          "name": "近战第五次攻击额外伤害",
+          "skillKey": "item_3181_passive",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T05:10:05.822611Z"
+        },
+        {
+          "createdAt": "2026-09-09T05:10:06.630216Z",
+          "description": "整项近战计算×0.7；不得用RangedSkipperADRatio作为新的0.7基础攻击力系数。",
+          "formulaKey": "ranged_bonus_damage",
+          "gameId": "lol",
+          "name": "远程第五次攻击额外伤害",
+          "skillKey": "item_3181_passive",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:10:06.630216Z"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-09T07:13:55.759Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/effects",
+      "status": 200,
+      "actual": []
+    },
+    {
+      "at": "2026-09-09T07:13:55.849Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/processes",
+      "status": 200,
+      "actual": []
+    },
+    {
+      "at": "2026-09-09T07:13:55.903Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/internal-states",
+      "status": 200,
+      "actual": []
+    },
+    {
+      "at": "2026-09-09T07:13:55.966Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/trigger-rules",
+      "status": 200,
+      "actual": []
+    },
+    {
+      "at": "2026-09-09T07:13:56.020Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/parameters/base_ad_ratio",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:10:01.720672Z",
+        "description": "当前根SkipperADRatio明确数值。",
+        "fixedValue": 1.2,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "船长基础攻击力系数",
+        "parameterKey": "base_ad_ratio",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:10:01.720672Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "at": "2026-09-09T07:13:56.070Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/parameters/mstat12_formula0_ratio",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:10:02.555327Z",
+        "description": "当前根MaxStackDamageHPRatio明确数值。",
+        "fixedValue": 0.05,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "船长第二属性系数",
+        "parameterKey": "mstat12_formula0_ratio",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:10:02.555327Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "at": "2026-09-09T07:13:56.135Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/parameters/actual_mstat12_formula0",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:10:03.385416Z",
+        "description": "mStat12且省略mStatFormula默认0，当前不扩展为总生命；需要原节点实际输入。 不提供默认值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "船长第二属性实际值",
+        "parameterKey": "actual_mstat12_formula0",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T05:10:03.385416Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "at": "2026-09-09T07:13:56.182Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/parameters/attacks_required",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:10:04.163853Z",
+        "description": "当前中文明确每第五次攻击。",
+        "fixedValue": 5,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "触发所需攻击次数",
+        "parameterKey": "attacks_required",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T05:10:04.163853Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T07:13:56.224Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/parameters/ranged_damage_multiplier",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:10:05.002246Z",
+        "description": "当前MaxStackDamage.mRangedMultiplier明确0.7；只表示给定远程资格分支。",
+        "fixedValue": 0.7,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "远程分支整项伤害倍数",
+        "parameterKey": "ranged_damage_multiplier",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T05:10:05.002246Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "at": "2026-09-09T07:13:56.270Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/formulas/melee_bonus_damage",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:10:05.822611Z",
+        "description": "1.2基础攻击力+0.05原第二属性实际值；当前已确认近战条件分支。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_ad_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BASE",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mstat12_formula0_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_mstat12_formula0"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "melee_bonus_damage",
+        "gameId": "lol",
+        "name": "近战第五次攻击额外伤害",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T05:10:05.822611Z"
+      }
+    },
+    {
+      "at": "2026-09-09T07:13:56.309Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/formulas/ranged_bonus_damage",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T05:10:06.630216Z",
+        "description": "整项近战计算×0.7；不得用RangedSkipperADRatio作为新的0.7基础攻击力系数。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BASE",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "mstat12_formula0_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_mstat12_formula0"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "ranged_bonus_damage",
+        "gameId": "lol",
+        "name": "远程第五次攻击额外伤害",
+        "skillKey": "item_3181_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T05:10:06.630216Z"
+      }
+    },
+    {
+      "at": "2026-09-09T07:13:56.345Z",
+      "method": "GET",
+      "route": "/attributes/hp",
+      "status": 200,
+      "actual": {
+        "attributeKey": "hp",
+        "createdAt": "2026-08-22T15:27:36.051116Z",
+        "description": null,
+        "gameId": "lol",
+        "maxValue": null,
+        "minValue": 0,
+        "name": "生命值",
+        "sortOrder": 300,
+        "status": "ENABLED",
+        "updatedAt": "2026-08-22T15:27:36.051116Z",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "at": "2026-09-09T07:13:56.406Z",
+      "method": "GET",
+      "route": "/skills/item_3181_passive/representative-image",
+      "status": 200,
+      "actual": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3181",
+          "name": "item_3181"
+        }
+      }
+    },
+    {
+      "at": "2026-09-09T07:13:56.536Z",
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3181&skillKey=item_3181_passive",
+      "status": 200,
+      "actual": {
+        "items": [
+          {
+            "equipmentKey": "item_3181",
+            "equipmentName": "破舰者",
+            "gameId": "lol",
+            "skillKey": "item_3181_passive",
+            "skillName": "破舰者·船长",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    }
+  ],
+  "getCount": 17,
+  "businessWrites": 0
+}
