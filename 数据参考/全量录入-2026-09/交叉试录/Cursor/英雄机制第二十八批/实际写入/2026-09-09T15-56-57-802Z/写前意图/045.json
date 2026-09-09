@@ -1,0 +1,20 @@
+{
+  "i": 44,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_q/parameters",
+    "skillKey": "poppy_q",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "区域减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前根DataValues.SlowDuration为0.5秒，单位秒转毫秒；不扩为两次伤害间隔全程。",
+      "sortOrder": 90
+    }
+  }
+}

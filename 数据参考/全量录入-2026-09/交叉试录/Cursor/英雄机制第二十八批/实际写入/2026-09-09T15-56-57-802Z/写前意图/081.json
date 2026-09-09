@@ -1,0 +1,20 @@
+{
+  "i": 80,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_r/parameters",
+    "skillKey": "poppy_r",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "开始施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "当前根spellCastTime为0；只记录开始施法字段，不等同释放完成或命中时点。",
+      "sortOrder": 70
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "i": 68,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_e/parameters",
+    "skillKey": "poppy_e",
+    "kind": "parameters",
+    "stableKey": "stun_duration_ms",
+    "body": {
+      "parameterKey": "stun_duration_ms",
+      "name": "撞墙晕眩持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1600,
+        "2": 1700,
+        "3": 1800,
+        "4": 1900,
+        "5": 2000
+      },
+      "description": "当前根DataValues.StunDuration为1.6至2秒，单位秒转毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

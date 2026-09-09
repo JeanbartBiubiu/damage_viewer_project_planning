@@ -1,0 +1,860 @@
+{
+  "at": "2026-09-09T16:09:16.193Z",
+  "passed": true,
+  "browser": "Codex内置浏览器既有tab2，http://127.0.0.1:5173/#/skills，实际查询和打开参数/公式详情",
+  "representativePages": 3,
+  "observations": [
+    {
+      "skillKey": "maokai_e",
+      "ui": "命中英雄额外缩短被动冷却4000毫秒已单独保留；自主树苗伤害效果未新建，主体图可见。"
+    },
+    {
+      "skillKey": "poppy_q",
+      "ui": "同一敌人两次伤害、1000毫秒间隔；总公式完整乘次数，额外AD和目标最大生命均保留。"
+    },
+    {
+      "skillKey": "poppy_r",
+      "ui": "点按比例0.5乘完整基础伤害与额外AD项；击飞1000毫秒，最大蓄力窗口4000毫秒，主体图可见。"
+    }
+  ],
+  "GETs": 16,
+  "mathCases": 10,
+  "calls": [
+    {
+      "route": "/skills/maokai_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:21.521333Z",
+        "description": "茂凯投出一颗树苗去目标地区戒备。在草丛中更加有效。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "茂凯·树苗投掷",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "maokai_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:21.521333Z"
+      }
+    },
+    {
+      "route": "/skills/maokai_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_maokai_e",
+          "name": "maokai_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/maokai_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:57:33.353823Z",
+          "description": "当前树苗正文明确命中敌方英雄或史诗野怪时额外缩短吸元秘术4秒；本轮仅保留英雄相关明确数值，树苗命中事件与外供方式待接。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "命中英雄缩短茂凯被动冷却（毫秒）",
+          "parameterKey": "passive_cooldown_reduction_on_hero_hit_ms",
+          "skillKey": "maokai_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:57:33.353823Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/poppy_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:49.345858Z",
+        "description": "波比挥舞她的铁锤，造成伤害并创造一个区域，这个区域会减速敌人并在一段时间后爆炸。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "波比·圣锤猛击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "poppy_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:49.345858Z"
+      }
+    },
+    {
+      "route": "/skills/poppy_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_poppy_q",
+          "name": "poppy_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/poppy_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:57:51.062044Z",
+          "description": "当前根spellCastTime为0.3324999809秒，按已记录的0.3325秒就近归一为333毫秒；不把显示精度当通用舍入规则。",
+          "fixedValue": 333,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "poppy_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:57:51.062044Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:57:52.171451Z",
+          "description": "当前根DataValues.BaseDamageValue取技能等级1至5；两次正文均消费同一BaseDamage。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 55,
+            "3": 80,
+            "4": 105,
+            "5": 130
+          },
+          "name": "每次基础物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "poppy_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T15:57:52.171451Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:57:53.40063Z",
+          "description": "当前根BaseDamage计算树StatByCoefficient为0.75，mStat2/mStatFormula2指向来源额外攻击力。",
+          "fixedValue": 0.75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力倍率",
+          "parameterKey": "bonus_ad_ratio",
+          "skillKey": "poppy_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T15:57:53.40063Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:57:54.527322Z",
+          "description": "当前根DataValues.HealthDamagePercent为7%至9%，按比例0.07至0.09直接乘目标总生命；小兵野怪上限排除。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.07,
+            "2": 0.075,
+            "3": 0.08,
+            "4": 0.085,
+            "5": 0.09
+          },
+          "name": "目标最大生命伤害比例",
+          "parameterKey": "target_max_health_ratio",
+          "skillKey": "poppy_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T15:57:54.527322Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:57:55.688156Z",
+          "description": "当前正文明确第一次命中及延迟后再次对同一敌人造成同额伤害；仅用于同一敌人总量公式。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "同一敌人伤害次数",
+          "parameterKey": "hit_count_same_target",
+          "skillKey": "poppy_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T15:57:55.688156Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:57:56.954499Z",
+          "description": "当前根DataValues.DelayBetweenTwoHits为1秒，单位秒转毫秒。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "两次伤害间隔（毫秒）",
+          "parameterKey": "delay_between_hits_ms",
+          "skillKey": "poppy_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T15:57:56.954499Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:57:58.155809Z",
+          "description": "当前根MoveSpeedMod的基础值为0.20至0.32；这里按比例记录，应用持续和范围阶段未接线。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.2,
+            "2": 0.23,
+            "3": 0.26,
+            "4": 0.29,
+            "5": 0.32
+          },
+          "name": "基础减速比例",
+          "parameterKey": "base_slow_ratio",
+          "skillKey": "poppy_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T15:57:58.155809Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:57:59.199489Z",
+          "description": "当前根MoveSpeedMod第二段为0.00008×来源额外生命，mStat12/mStatFormula2；来源字段名称不替代属性口径。",
+          "fixedValue": 0.00008,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外生命减速系数",
+          "parameterKey": "slow_bonus_health_coefficient",
+          "skillKey": "poppy_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T15:57:59.199489Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:58:00.507568Z",
+          "description": "当前根DataValues.SlowDuration为0.5秒，单位秒转毫秒；不扩为两次伤害间隔全程。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "区域减速持续（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "poppy_q",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T15:58:00.507568Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:32.620346Z",
+          "description": "DDragon16.17.1 Poppy.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 8000,
+            "2": 7000,
+            "3": 6000,
+            "4": 5000,
+            "5": 4000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "poppy_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:32.620346Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:33.019246Z",
+          "description": "DDragon16.17.1 Poppy.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 35,
+            "2": 40,
+            "3": 45,
+            "4": 50,
+            "5": 55
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "poppy_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:33.019246Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/poppy_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:50.29577Z",
+        "description": "波比引导一次能够把敌人击飞到远方的锤击。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "波比·持卫的裁决",
+        "skillCategoryKeys": [],
+        "skillKey": "poppy_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:50.29577Z"
+      }
+    },
+    {
+      "route": "/skills/poppy_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_poppy_r",
+          "name": "poppy_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/poppy_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:58:34.588915Z",
+          "description": "当前根DataValues.BaseDamage取技能等级1至3。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 200,
+            "2": 300,
+            "3": 400
+          },
+          "name": "持卫的裁决完整基础物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "poppy_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:58:34.588915Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:58:35.710559Z",
+          "description": "当前根Damage第二段mCoefficient为0.9，mStat2/mStatFormula2指向来源额外攻击力。",
+          "fixedValue": 0.9,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力倍率",
+          "parameterKey": "bonus_ad_ratio",
+          "skillKey": "poppy_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T15:58:35.710559Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:58:36.89885Z",
+          "description": "当前正文消费ChannelMaxDuration为4秒，单位秒转毫秒。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最大蓄力持续（毫秒）",
+          "parameterKey": "channel_max_duration_ms",
+          "skillKey": "poppy_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T15:58:36.89885Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:58:38.183554Z",
+          "description": "当前正文消费SelfSlow为15%；保留百分数点。",
+          "fixedValue": 15,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "蓄力自身减速百分数点",
+          "parameterKey": "self_slow_percent_points",
+          "skillKey": "poppy_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T15:58:38.183554Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:58:39.399636Z",
+          "description": "当前正文消费HalfDamage，根HalfDamage为Damage乘SnapCastDamageRatio=0.5。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "未蓄力伤害比例",
+          "parameterKey": "snap_cast_damage_ratio",
+          "skillKey": "poppy_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T15:58:39.399636Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:58:40.573757Z",
+          "description": "当前正文消费KnockupDurationSnap为1秒，单位秒转毫秒。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "未蓄力击飞持续（毫秒）",
+          "parameterKey": "snap_knockup_duration_ms",
+          "skillKey": "poppy_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T15:58:40.573757Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:58:41.555893Z",
+          "description": "当前根spellCastTime为0；只记录开始施法字段，不等同释放完成或命中时点。",
+          "fixedValue": 0,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "开始施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "poppy_r",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T15:58:41.555893Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:35.053888Z",
+          "description": "DDragon16.17.1 Poppy.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 140000,
+            "2": 120000,
+            "3": 100000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "poppy_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:35.053888Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:35.440802Z",
+          "description": "DDragon16.17.1 Poppy.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "poppy_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:35.440802Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/poppy_q/formulas/physical_damage_per_hit",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:58:01.703328Z",
+        "description": "每一次正文伤害=基础+0.75×来源额外攻击力+目标最大生命比例×目标总生命。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "target_max_health_ratio"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "TARGET",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "physical_damage_per_hit",
+        "gameId": "lol",
+        "name": "圣锤猛击单次物理伤害",
+        "skillKey": "poppy_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:58:01.703328Z"
+      }
+    },
+    {
+      "route": "/skills/poppy_q/formulas/physical_damage_same_target_total",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:58:02.855948Z",
+        "description": "同一敌人两次命中总量=2×单次伤害；不表示其他目标分发或命中事件已接通。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "hit_count_same_target"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_ad_ratio"
+                        },
+                        {
+                          "attributeKey": "attack_damage",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "BONUS",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_max_health_ratio"
+                    },
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "TARGET",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "physical_damage_same_target_total",
+        "gameId": "lol",
+        "name": "圣锤猛击同一敌人两次总物理伤害",
+        "skillKey": "poppy_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:58:02.855948Z"
+      }
+    },
+    {
+      "route": "/skills/poppy_q/formulas/slow_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:58:04.353791Z",
+        "description": "MoveSpeedMod=基础减速比例+0.00008×来源额外生命；减速应用范围和时长独立记录。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_slow_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "slow_bonus_health_coefficient"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "slow_ratio",
+        "gameId": "lol",
+        "name": "圣锤猛击减速比例",
+        "skillKey": "poppy_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:58:04.353791Z"
+      }
+    },
+    {
+      "route": "/skills/poppy_r/formulas/full_physical_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:58:42.777802Z",
+        "description": "Damage=BaseDamage+0.9×来源额外攻击力；蓄力距离变化未接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "full_physical_damage",
+        "gameId": "lol",
+        "name": "持卫的裁决蓄力物理伤害",
+        "skillKey": "poppy_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:58:42.777802Z"
+      }
+    },
+    {
+      "route": "/skills/poppy_r/formulas/snap_physical_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:58:43.928827Z",
+        "description": "HalfDamage=Damage×0.5；点按控制和释放时序未接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "snap_cast_damage_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "snap_physical_damage",
+        "gameId": "lol",
+        "name": "持卫的裁决未蓄力物理伤害",
+        "skillKey": "poppy_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:58:43.928827Z"
+      }
+    },
+    {
+      "route": "/skills/maokai_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/maokai_e/formulas",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "cases": [
+    {
+      "skillKey": "poppy_q",
+      "formulaKey": "physical_damage_per_hit",
+      "level": 1,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 100,
+        "SOURCE/hp/BONUS": 1000,
+        "TARGET/hp/TOTAL": 2000
+      },
+      "actual": 245,
+      "expected": 245,
+      "passed": true
+    },
+    {
+      "skillKey": "poppy_q",
+      "formulaKey": "physical_damage_same_target_total",
+      "level": 1,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 100,
+        "SOURCE/hp/BONUS": 1000,
+        "TARGET/hp/TOTAL": 2000
+      },
+      "actual": 490,
+      "expected": 490,
+      "passed": true
+    },
+    {
+      "skillKey": "poppy_q",
+      "formulaKey": "slow_ratio",
+      "level": 1,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 100,
+        "SOURCE/hp/BONUS": 1000,
+        "TARGET/hp/TOTAL": 2000
+      },
+      "actual": 0.28,
+      "expected": 0.28,
+      "passed": true
+    },
+    {
+      "skillKey": "poppy_q",
+      "formulaKey": "physical_damage_per_hit",
+      "level": 5,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 200,
+        "SOURCE/hp/BONUS": 2500,
+        "TARGET/hp/TOTAL": 4000
+      },
+      "actual": 640,
+      "expected": 640,
+      "passed": true
+    },
+    {
+      "skillKey": "poppy_q",
+      "formulaKey": "physical_damage_same_target_total",
+      "level": 5,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 200,
+        "SOURCE/hp/BONUS": 2500,
+        "TARGET/hp/TOTAL": 4000
+      },
+      "actual": 1280,
+      "expected": 1280,
+      "passed": true
+    },
+    {
+      "skillKey": "poppy_q",
+      "formulaKey": "slow_ratio",
+      "level": 5,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 200,
+        "SOURCE/hp/BONUS": 2500,
+        "TARGET/hp/TOTAL": 4000
+      },
+      "actual": 0.52,
+      "expected": 0.52,
+      "passed": true
+    },
+    {
+      "skillKey": "poppy_r",
+      "formulaKey": "full_physical_damage",
+      "level": 1,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 100
+      },
+      "actual": 290,
+      "expected": 290,
+      "passed": true
+    },
+    {
+      "skillKey": "poppy_r",
+      "formulaKey": "snap_physical_damage",
+      "level": 1,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 100
+      },
+      "actual": 145,
+      "expected": 145,
+      "passed": true
+    },
+    {
+      "skillKey": "poppy_r",
+      "formulaKey": "full_physical_damage",
+      "level": 3,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 200
+      },
+      "actual": 580,
+      "expected": 580,
+      "passed": true
+    },
+    {
+      "skillKey": "poppy_r",
+      "formulaKey": "snap_physical_damage",
+      "level": 3,
+      "attrs": {
+        "SOURCE/attack_damage/BONUS": 200
+      },
+      "actual": 290,
+      "expected": 290,
+      "passed": true
+    }
+  ],
+  "apiWrites": 0,
+  "runtimeValidation": "未执行",
+  "scriptSha256": "39f631725c69f5ea5fc49ab000c4a4ea7acd3ed4d87acee449509b014af866b7"
+}

@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-09T15:56:57.741Z",
+  "decision": "独立来源、候选、写入器审查和只读预检通过，执行84新增；后续独立实际GET核对98详情及代表页面。",
+  "hashes": {
+    "candidate": "a07d0fa895cfdd6babaeb6c711d5e5b86dbd5a05530933d6d571baeb70aa6c6d",
+    "plan": "955d4428ec9f0a3b7c6ce571660fff2a156e3b51a98ef799fc4e632d6f932c47",
+    "writer": "1a3203690d299b74e57346dbc02fd7971cbbce586c2d4d66366ee7076f33d1ca",
+    "inputVersion": "3aa85899a88fdbe932dac837e4af765e36d3df3f9be0cb60a4fb6025a4cb06e4",
+    "binding": "ca0a59262844bee277255af85af7dfdb391caa7306f04746c3ea16a97b208298",
+    "protection": "dde9307d285b58959862140432bb113b298bb1405b0e41839bcdd0ddea2a9e5e"
+  },
+  "preflightGETs": 200,
+  "independentReview": "47075e34eb2cb1b216266106e032e80d35510c6311a8ca1e7faca0888fa39236",
+  "nonBlockingNotesAccepted": [
+    {
+      "key": "preexisting_lock",
+      "finding": "apply在预检try外使用wx抢锁；既有锁会直接失败且不覆盖锁，也不会生成本次执行结果。"
+    },
+    {
+      "key": "new_list_rows",
+      "finding": "写入器保护检查对新增列表行校验键和数量，新增详情逐字段深比较；独立回读器将再对60个列表做完整保护核验。"
+    }
+  ],
+  "apiWritesBefore": 0
+}

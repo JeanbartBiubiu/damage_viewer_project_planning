@@ -1,0 +1,42 @@
+{
+  "i": 81,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_r/formulas",
+    "skillKey": "poppy_r",
+    "kind": "formulas",
+    "stableKey": "full_physical_damage",
+    "body": {
+      "formulaKey": "full_physical_damage",
+      "name": "持卫的裁决蓄力物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Damage=BaseDamage+0.9×来源额外攻击力；蓄力距离变化未接线。",
+      "sortOrder": 10
+    }
+  }
+}

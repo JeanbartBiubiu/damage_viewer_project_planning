@@ -1,0 +1,26 @@
+{
+  "i": 7,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/maokai_q/parameters",
+    "skillKey": "maokai_q",
+    "kind": "parameters",
+    "stableKey": "target_max_health_ratio",
+    "body": {
+      "parameterKey": "target_max_health_ratio",
+      "name": "目标最大生命伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.02,
+        "2": 0.025,
+        "3": 0.03,
+        "4": 0.035,
+        "5": 0.04
+      },
+      "description": "当前正文消费BasePercentHealth*100；根值为2%至4%的比例，录入为0.02至0.04后直接乘目标总生命。",
+      "sortOrder": 40
+    }
+  }
+}

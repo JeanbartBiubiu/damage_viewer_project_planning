@@ -1,0 +1,42 @@
+{
+  "i": 64,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_w/formulas",
+    "skillKey": "poppy_w",
+    "kind": "formulas",
+    "stableKey": "interrupt_magic_damage",
+    "body": {
+      "formulaKey": "interrupt_magic_damage",
+      "name": "打断突进魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_interrupt_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "InterruptDamage=DamageValue+0.7×来源总法强；敌方突进资格和打断事件未接线。",
+      "sortOrder": 50
+    }
+  }
+}

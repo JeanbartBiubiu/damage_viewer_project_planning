@@ -1,0 +1,26 @@
+{
+  "i": 42,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/poppy_q/parameters",
+    "skillKey": "poppy_q",
+    "kind": "parameters",
+    "stableKey": "base_slow_ratio",
+    "body": {
+      "parameterKey": "base_slow_ratio",
+      "name": "基础减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.2,
+        "2": 0.23,
+        "3": 0.26,
+        "4": 0.29,
+        "5": 0.32
+      },
+      "description": "当前根MoveSpeedMod的基础值为0.20至0.32；这里按比例记录，应用持续和范围阶段未接线。",
+      "sortOrder": 70
+    }
+  }
+}

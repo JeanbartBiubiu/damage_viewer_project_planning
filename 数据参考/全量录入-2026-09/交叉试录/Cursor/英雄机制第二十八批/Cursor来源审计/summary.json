@@ -1,0 +1,692 @@
+{
+  "startedAt": "2026-09-09T15:07:40.446Z",
+  "requestedModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "requestedCwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-cursor-review-20260909",
+  "outDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-cursor-review-run-20260909",
+  "promptSource": "评审任务.md",
+  "promptMode": "DESIGN_REVIEW_ONLY",
+  "timeoutMs": 900000,
+  "maxOldSpaceSizeMb": 6144,
+  "v8HeapSizeLimitMiB": 6336,
+  "settingSources": [
+    "project"
+  ],
+  "allowedPaths": [
+    {
+      "input": ".",
+      "absolute": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-cursor-review-20260909",
+      "relative": ".",
+      "exists": true
+    }
+  ],
+  "allowedPathSpecs": [
+    "."
+  ],
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "startup": {
+    "maxAttempts": 1,
+    "baseDelayMs": 1000,
+    "attemptsUsed": 1,
+    "attempts": [
+      {
+        "attempt": 1,
+        "phase": "send",
+        "candidateAgentId": "agent-55b07b67-fa31-452d-b42e-73f58600b8f9",
+        "error": null,
+        "retryDecision": "success",
+        "delayMs": null
+      }
+    ]
+  },
+  "failurePhase": null,
+  "requestId": "6145c9ce-e0ce-4757-9f46-4d17420b35b6",
+  "preflight": {
+    "cwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-cursor-review-20260909",
+    "runtime": {
+      "nodeVersion": "24.19.0",
+      "nodeMajor": 24,
+      "nodeMinor": 19,
+      "nodeSupport": "ok",
+      "belowPackageEngine": false,
+      "bunVersion": null,
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "env": {
+      "cursorUseHttp1": null,
+      "apiKeyPresent": true,
+      "apiKeyLength": 69
+    },
+    "sdk": {
+      "resolved": true,
+      "path": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js",
+      "source": "shared-cache",
+      "actualVersion": "1.0.24",
+      "expectedVersion": "1.0.24",
+      "versionMatch": true,
+      "error": null
+    },
+    "cliProbe": {
+      "cursorPath": "C:\\Program Files\\cursor\\resources\\app\\bin\\cursor",
+      "cursorAgentPath": null,
+      "programmable": false,
+      "supportsOutputFormat": false,
+      "supportsModelSelection": false,
+      "strictModelFallbackAllowed": false,
+      "status": "blocked",
+      "note": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    },
+    "checks": [
+      {
+        "id": "runtime.node",
+        "status": "ok",
+        "message": "Node 24.19.0 meets @cursor/sdk engines (>=22.13)."
+      },
+      {
+        "id": "runtime.bun",
+        "status": "ok",
+        "message": "Node runtime"
+      },
+      {
+        "id": "env.cursor_use_http1",
+        "status": "ok",
+        "message": "unset"
+      },
+      {
+        "id": "auth.api_key",
+        "status": "ok",
+        "message": "present length=69"
+      },
+      {
+        "id": "sdk.resolve",
+        "status": "ok",
+        "message": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js (source=shared-cache; version=1.0.24; expected=1.0.24; match=true)"
+      },
+      {
+        "id": "cli.probe",
+        "status": "warn",
+        "message": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+      },
+      {
+        "id": "prompt.mode",
+        "status": "ok",
+        "message": "DESIGN_REVIEW_ONLY"
+      }
+    ],
+    "warnings": [
+      "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    ],
+    "blocking": []
+  },
+  "eventCountByType": {
+    "status": 2,
+    "thinking": 353,
+    "assistant": 714,
+    "tool_call": 74,
+    "usage": 1
+  },
+  "assistantText": "按只读复核流程，先读主负责人源值核对说明，再用来源绑定与当前文本核对五项实质风险。接下来用来源绑定核对五项风险，只抽对应技能字段，不扫整库。**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero28-source-v1**\n\n客户端 16.17 / 官方 16.17.1 绑定一致。五项均有当前正文或计算树证据，核对说明没有把未知等级算法、资格或过程写成不相关。\n\n**核对要点**\n\n1. **MaokaiQ**：`TotalDamage` 只有 `BaseDamage + APRatio`；正文是 `@TotalDamage@外加@BasePercentHealth*100@%最大生命值`。等级 1–5 的生命比例为 2/2.5/3/3.5/4%。不能只存基础树。\n\n2. **MaokaiE / R**：E 带 `Trait_Pet`/`Trait_Trap`，树苗伤害与过程按独立召唤排除；额外 4 秒 P 冷却只在正文、不在 E 的 DataValues，须作为自身跨技能收益保留，无树苗过程则待接。R 无宠物标签，荆棘墙是行进伤害载体，应保留；`RootDuration` 0.6 无正文消费，禁锢端点仍是 0.75–2.25。\n\n3. **PoppyQ**：正文两段都是 `@BaseDamage@` + `@HealthDamagePercent@%最大生命值`，间隔 1000ms，同一敌人可加总，不因 `Trait_AoE` 排除。减速为 `.2/.23/.26/.29/.32 + 0.00008×来源额外HP`（`mStat` 12、`mStatFormula` 2）；范围内减速与尾段 500ms 须分开，不能当成覆盖整段 1000ms。\n\n4. **PoppyW**：被动双抗树为 `mStat` 1 / 6，`mStatFormula` 省略；低于 `PassiveEmpoweredHealthPercent`（40%）时正文写明翻倍。取值基准和自增反馈未证，只能用应用前双抗，不能凭 `BonusArmor` 名称当成额外护甲。击飞 500ms 无当前正文消费，须与缚地/减速/打断伤害分开。\n\n5. **PoppyE / R**：`TackleDamage`、`HalfDamage` 虽为 `tooltipOnly`，当前正文仍消费。E 撞墙追加同一 `@TackleDamage@`（不是第二名敌人）；R 点按是完整 `Damage × 0.5`。这两式必须保留。\n\n未知完整等级求值、资格、行进/蓄力曲线、树苗外供事件仍为待接。接口已支持 `CURRENT`/`MISSING` 等，低血阈值不必再限制成旧的 BASE/BONUS/TOTAL。\n\n**阻塞：** 无。\n\n**非阻塞建议：** 后续候选不要用 LevelUp 里的 `WallDamage` 替换 E 正文两次消费的 `TackleDamage`；Q 的 `TotalPercentHealth` 只是比例展示，真正补伤是正文中的目标最大生命比例。",
+  "toolCalls": [
+    {
+      "callId": "call-f322c476-4a89-497a-a0d8-2b09e8f494d2-0\nfc_07417dd4-d150-991d-8f0c-0fa676e253dc_0",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f322c476-4a89-497a-a0d8-2b09e8f494d2-1\nfc_07417dd4-d150-991d-8f0c-0fa676e253dc_1",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-f322c476-4a89-497a-a0d8-2b09e8f494d2-1\nfc_07417dd4-d150-991d-8f0c-0fa676e253dc_1",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-f322c476-4a89-497a-a0d8-2b09e8f494d2-0\nfc_07417dd4-d150-991d-8f0c-0fa676e253dc_0",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-859810dd-4b53-4fbb-bfb0-73c546a36a82-2\nfc_d4891c8d-88ff-9003-aeec-d65b8edfca70_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-859810dd-4b53-4fbb-bfb0-73c546a36a82-3\nfc_d4891c8d-88ff-9003-aeec-d65b8edfca70_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-859810dd-4b53-4fbb-bfb0-73c546a36a82-2\nfc_d4891c8d-88ff-9003-aeec-d65b8edfca70_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-859810dd-4b53-4fbb-bfb0-73c546a36a82-3\nfc_d4891c8d-88ff-9003-aeec-d65b8edfca70_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-859810dd-4b53-4fbb-bfb0-73c546a36a82-4\nfc_d4891c8d-88ff-9003-aeec-d65b8edfca70_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-859810dd-4b53-4fbb-bfb0-73c546a36a82-5\nfc_d4891c8d-88ff-9003-aeec-d65b8edfca70_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-859810dd-4b53-4fbb-bfb0-73c546a36a82-4\nfc_d4891c8d-88ff-9003-aeec-d65b8edfca70_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-859810dd-4b53-4fbb-bfb0-73c546a36a82-5\nfc_d4891c8d-88ff-9003-aeec-d65b8edfca70_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d192a26b-aeb4-477e-a601-ccbc644fe8e6-6\nfc_e630a9bf-cc49-9e5f-b856-c619dd7e7578_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d192a26b-aeb4-477e-a601-ccbc644fe8e6-7\nfc_e630a9bf-cc49-9e5f-b856-c619dd7e7578_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d192a26b-aeb4-477e-a601-ccbc644fe8e6-6\nfc_e630a9bf-cc49-9e5f-b856-c619dd7e7578_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d192a26b-aeb4-477e-a601-ccbc644fe8e6-7\nfc_e630a9bf-cc49-9e5f-b856-c619dd7e7578_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-13a189b8-d82a-40c7-9765-ce6ccf8683e2-8\nfc_683722ce-633f-91d5-8298-78d821baeed3_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-13a189b8-d82a-40c7-9765-ce6ccf8683e2-9\nfc_683722ce-633f-91d5-8298-78d821baeed3_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-13a189b8-d82a-40c7-9765-ce6ccf8683e2-10\nfc_683722ce-633f-91d5-8298-78d821baeed3_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-13a189b8-d82a-40c7-9765-ce6ccf8683e2-8\nfc_683722ce-633f-91d5-8298-78d821baeed3_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-13a189b8-d82a-40c7-9765-ce6ccf8683e2-10\nfc_683722ce-633f-91d5-8298-78d821baeed3_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-13a189b8-d82a-40c7-9765-ce6ccf8683e2-9\nfc_683722ce-633f-91d5-8298-78d821baeed3_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-10576f74-b8f5-41cf-b03d-9f781ce1bd65-11\nfc_591cd7c3-4cde-973b-82b6-931b524f6dbb_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-10576f74-b8f5-41cf-b03d-9f781ce1bd65-12\nfc_591cd7c3-4cde-973b-82b6-931b524f6dbb_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-10576f74-b8f5-41cf-b03d-9f781ce1bd65-13\nfc_591cd7c3-4cde-973b-82b6-931b524f6dbb_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-10576f74-b8f5-41cf-b03d-9f781ce1bd65-14\nfc_591cd7c3-4cde-973b-82b6-931b524f6dbb_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-10576f74-b8f5-41cf-b03d-9f781ce1bd65-11\nfc_591cd7c3-4cde-973b-82b6-931b524f6dbb_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-10576f74-b8f5-41cf-b03d-9f781ce1bd65-14\nfc_591cd7c3-4cde-973b-82b6-931b524f6dbb_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-10576f74-b8f5-41cf-b03d-9f781ce1bd65-12\nfc_591cd7c3-4cde-973b-82b6-931b524f6dbb_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-10576f74-b8f5-41cf-b03d-9f781ce1bd65-13\nfc_591cd7c3-4cde-973b-82b6-931b524f6dbb_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e508defd-8429-4f9b-9e86-ff54230182f2-15\nfc_44f1f839-fd3d-99db-b382-dff7e3048a1a_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e508defd-8429-4f9b-9e86-ff54230182f2-16\nfc_44f1f839-fd3d-99db-b382-dff7e3048a1a_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e508defd-8429-4f9b-9e86-ff54230182f2-17\nfc_44f1f839-fd3d-99db-b382-dff7e3048a1a_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e508defd-8429-4f9b-9e86-ff54230182f2-18\nfc_44f1f839-fd3d-99db-b382-dff7e3048a1a_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e508defd-8429-4f9b-9e86-ff54230182f2-17\nfc_44f1f839-fd3d-99db-b382-dff7e3048a1a_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e508defd-8429-4f9b-9e86-ff54230182f2-16\nfc_44f1f839-fd3d-99db-b382-dff7e3048a1a_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e508defd-8429-4f9b-9e86-ff54230182f2-15\nfc_44f1f839-fd3d-99db-b382-dff7e3048a1a_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e508defd-8429-4f9b-9e86-ff54230182f2-18\nfc_44f1f839-fd3d-99db-b382-dff7e3048a1a_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5b8f6fc9-8255-4bbe-9ef0-afc3f874fcd4-19\nfc_082a7f82-e59d-9c8d-8ac2-dc20febea053_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5b8f6fc9-8255-4bbe-9ef0-afc3f874fcd4-20\nfc_082a7f82-e59d-9c8d-8ac2-dc20febea053_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5b8f6fc9-8255-4bbe-9ef0-afc3f874fcd4-19\nfc_082a7f82-e59d-9c8d-8ac2-dc20febea053_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5b8f6fc9-8255-4bbe-9ef0-afc3f874fcd4-20\nfc_082a7f82-e59d-9c8d-8ac2-dc20febea053_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5b8f6fc9-8255-4bbe-9ef0-afc3f874fcd4-21\nfc_082a7f82-e59d-9c8d-8ac2-dc20febea053_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5b8f6fc9-8255-4bbe-9ef0-afc3f874fcd4-22\nfc_082a7f82-e59d-9c8d-8ac2-dc20febea053_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-5b8f6fc9-8255-4bbe-9ef0-afc3f874fcd4-21\nfc_082a7f82-e59d-9c8d-8ac2-dc20febea053_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-5b8f6fc9-8255-4bbe-9ef0-afc3f874fcd4-22\nfc_082a7f82-e59d-9c8d-8ac2-dc20febea053_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6a884a43-0a15-4229-8a96-2dd05f0a4493-23\nfc_d49f19e9-ee6d-9c1a-aea3-ef3441029608_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6a884a43-0a15-4229-8a96-2dd05f0a4493-24\nfc_d49f19e9-ee6d-9c1a-aea3-ef3441029608_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6a884a43-0a15-4229-8a96-2dd05f0a4493-25\nfc_d49f19e9-ee6d-9c1a-aea3-ef3441029608_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6a884a43-0a15-4229-8a96-2dd05f0a4493-26\nfc_d49f19e9-ee6d-9c1a-aea3-ef3441029608_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-6a884a43-0a15-4229-8a96-2dd05f0a4493-26\nfc_d49f19e9-ee6d-9c1a-aea3-ef3441029608_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6a884a43-0a15-4229-8a96-2dd05f0a4493-23\nfc_d49f19e9-ee6d-9c1a-aea3-ef3441029608_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6a884a43-0a15-4229-8a96-2dd05f0a4493-24\nfc_d49f19e9-ee6d-9c1a-aea3-ef3441029608_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-6a884a43-0a15-4229-8a96-2dd05f0a4493-25\nfc_d49f19e9-ee6d-9c1a-aea3-ef3441029608_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-37279ebc-c8b2-40f5-a544-3f8660b6e7ee-27\nfc_13b52e8e-774a-9eea-9e93-c36a69144bc8_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-37279ebc-c8b2-40f5-a544-3f8660b6e7ee-28\nfc_13b52e8e-774a-9eea-9e93-c36a69144bc8_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-37279ebc-c8b2-40f5-a544-3f8660b6e7ee-29\nfc_13b52e8e-774a-9eea-9e93-c36a69144bc8_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-37279ebc-c8b2-40f5-a544-3f8660b6e7ee-27\nfc_13b52e8e-774a-9eea-9e93-c36a69144bc8_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-37279ebc-c8b2-40f5-a544-3f8660b6e7ee-28\nfc_13b52e8e-774a-9eea-9e93-c36a69144bc8_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-37279ebc-c8b2-40f5-a544-3f8660b6e7ee-29\nfc_13b52e8e-774a-9eea-9e93-c36a69144bc8_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-37279ebc-c8b2-40f5-a544-3f8660b6e7ee-30\nfc_13b52e8e-774a-9eea-9e93-c36a69144bc8_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-37279ebc-c8b2-40f5-a544-3f8660b6e7ee-30\nfc_13b52e8e-774a-9eea-9e93-c36a69144bc8_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-37279ebc-c8b2-40f5-a544-3f8660b6e7ee-31\nfc_13b52e8e-774a-9eea-9e93-c36a69144bc8_4",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-37279ebc-c8b2-40f5-a544-3f8660b6e7ee-32\nfc_13b52e8e-774a-9eea-9e93-c36a69144bc8_5",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-37279ebc-c8b2-40f5-a544-3f8660b6e7ee-32\nfc_13b52e8e-774a-9eea-9e93-c36a69144bc8_5",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-37279ebc-c8b2-40f5-a544-3f8660b6e7ee-31\nfc_13b52e8e-774a-9eea-9e93-c36a69144bc8_4",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-179d8055-d71b-4aea-9005-93b214510f13-33\nfc_89f76ada-12c5-964b-a267-8ae2cefa919d_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-179d8055-d71b-4aea-9005-93b214510f13-34\nfc_89f76ada-12c5-964b-a267-8ae2cefa919d_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-179d8055-d71b-4aea-9005-93b214510f13-35\nfc_89f76ada-12c5-964b-a267-8ae2cefa919d_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-179d8055-d71b-4aea-9005-93b214510f13-36\nfc_89f76ada-12c5-964b-a267-8ae2cefa919d_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-179d8055-d71b-4aea-9005-93b214510f13-34\nfc_89f76ada-12c5-964b-a267-8ae2cefa919d_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-179d8055-d71b-4aea-9005-93b214510f13-33\nfc_89f76ada-12c5-964b-a267-8ae2cefa919d_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-179d8055-d71b-4aea-9005-93b214510f13-35\nfc_89f76ada-12c5-964b-a267-8ae2cefa919d_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-179d8055-d71b-4aea-9005-93b214510f13-36\nfc_89f76ada-12c5-964b-a267-8ae2cefa919d_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    }
+  ],
+  "statuses": [
+    "RUNNING",
+    "FINISHED"
+  ],
+  "cliFallback": {
+    "allowed": false,
+    "modelDriftAccepted": false,
+    "status": "not_attempted"
+  },
+  "git": {
+    "statusWorktreeBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-cursor-review-run-20260909\\git-status-worktree-before.txt",
+    "statusBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-cursor-review-run-20260909\\git-status-before.txt",
+    "allowedPathsDirtyBefore": false,
+    "signaturesBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-cursor-review-run-20260909\\path-signatures-before.json",
+    "pathSignaturesBefore": {},
+    "statusEntriesBeforeCount": 0,
+    "beforeAuditAvailable": true,
+    "statusWorktreeAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-cursor-review-run-20260909\\git-status-worktree-after.txt",
+    "statusAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-cursor-review-run-20260909\\git-status-after.txt",
+    "allowedPathsDirtyAfter": false,
+    "signaturesAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-cursor-review-run-20260909\\path-signatures-after.json",
+    "pathSignaturesAfter": {},
+    "runDelta": [],
+    "changeClassification": {
+      "afterState": {
+        "inScope": [],
+        "outsideScope": []
+      },
+      "runDelta": {
+        "inScope": [],
+        "outsideScope": []
+      }
+    },
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopePaths": [],
+    "untrackedInScope": [],
+    "untrackedCapture": {
+      "mode": "metadata-only",
+      "files": [],
+      "skipped": []
+    },
+    "diffPatchScope": "allowed-paths",
+    "diffPatchFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero28-cursor-review-run-20260909\\diff.patch"
+  },
+  "runtimeUsed": "sdk",
+  "agentId": "agent-55b07b67-fa31-452d-b42e-73f58600b8f9",
+  "runId": "run-aac093c8-a28c-40ba-95d1-bd5ce5cc68ff",
+  "result": {
+    "id": "run-aac093c8-a28c-40ba-95d1-bd5ce5cc68ff",
+    "requestId": "6145c9ce-e0ce-4757-9f46-4d17420b35b6",
+    "status": "finished",
+    "result": "**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero28-source-v1**\n\n客户端 16.17 / 官方 16.17.1 绑定一致。五项均有当前正文或计算树证据，核对说明没有把未知等级算法、资格或过程写成不相关。\n\n**核对要点**\n\n1. **MaokaiQ**：`TotalDamage` 只有 `BaseDamage + APRatio`；正文是 `@TotalDamage@外加@BasePercentHealth*100@%最大生命值`。等级 1–5 的生命比例为 2/2.5/3/3.5/4%。不能只存基础树。\n\n2. **MaokaiE / R**：E 带 `Trait_Pet`/`Trait_Trap`，树苗伤害与过程按独立召唤排除；额外 4 秒 P 冷却只在正文、不在 E 的 DataValues，须作为自身跨技能收益保留，无树苗过程则待接。R 无宠物标签，荆棘墙是行进伤害载体，应保留；`RootDuration` 0.6 无正文消费，禁锢端点仍是 0.75–2.25。\n\n3. **PoppyQ**：正文两段都是 `@BaseDamage@` + `@HealthDamagePercent@%最大生命值`，间隔 1000ms，同一敌人可加总，不因 `Trait_AoE` 排除。减速为 `.2/.23/.26/.29/.32 + 0.00008×来源额外HP`（`mStat` 12、`mStatFormula` 2）；范围内减速与尾段 500ms 须分开，不能当成覆盖整段 1000ms。\n\n4. **PoppyW**：被动双抗树为 `mStat` 1 / 6，`mStatFormula` 省略；低于 `PassiveEmpoweredHealthPercent`（40%）时正文写明翻倍。取值基准和自增反馈未证，只能用应用前双抗，不能凭 `BonusArmor` 名称当成额外护甲。击飞 500ms 无当前正文消费，须与缚地/减速/打断伤害分开。\n\n5. **PoppyE / R**：`TackleDamage`、`HalfDamage` 虽为 `tooltipOnly`，当前正文仍消费。E 撞墙追加同一 `@TackleDamage@`（不是第二名敌人）；R 点按是完整 `Damage × 0.5`。这两式必须保留。\n\n未知完整等级求值、资格、行进/蓄力曲线、树苗外供事件仍为待接。接口已支持 `CURRENT`/`MISSING` 等，低血阈值不必再限制成旧的 BASE/BONUS/TOTAL。\n\n**阻塞：** 无。\n\n**非阻塞建议：** 后续候选不要用 LevelUp 里的 `WallDamage` 替换 E 正文两次消费的 `TackleDamage`；Q 的 `TotalPercentHealth` 只是比例展示，真正补伤是正文中的目标最大生命比例。",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "durationMs": 228982,
+    "usage": {
+      "inputTokens": 394886,
+      "outputTokens": 13265,
+      "cacheReadTokens": 283648,
+      "cacheWriteTokens": 0,
+      "totalTokens": 691799,
+      "reasoningTokens": 10456
+    }
+  },
+  "resultStatus": "finished",
+  "resultModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "durationMs": 228982,
+  "artifacts": [],
+  "disposal": {
+    "method": "asyncDispose"
+  },
+  "completedAt": "2026-09-09T15:11:41.694Z"
+}
