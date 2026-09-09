@@ -1,0 +1,77 @@
+{
+  "at": "2026-09-09T12:38:54.715Z",
+  "status": "四英雄二十技能的明确组成已保存与验收，未接线机制继续处理",
+  "skills": [
+    "vladimir_p",
+    "vladimir_q",
+    "vladimir_w",
+    "vladimir_e",
+    "vladimir_r",
+    "swain_p",
+    "swain_q",
+    "swain_w",
+    "swain_e",
+    "swain_r",
+    "rumble_p",
+    "rumble_q",
+    "rumble_w",
+    "rumble_e",
+    "rumble_r",
+    "aurelionsol_p",
+    "aurelionsol_q",
+    "aurelionsol_w",
+    "aurelionsol_e",
+    "aurelionsol_r"
+  ],
+  "counts": {
+    "parameters": 224,
+    "formulas": 47,
+    "effects": 14,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedParameters": 22,
+  "createdParameters": 202,
+  "businessWrites": 263,
+  "candidateFileSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "writePlanSha256": "7b1b6a62bafaefb8b0d78272300ec281beed0baa5397be902b7685a687254718",
+  "execution": {
+    "file": "写入准备/录入-2026-09-09T12-14-15-153Z/执行结果.json",
+    "GETs": 1177,
+    "successfulPOSTs": 263,
+    "rejectedPOSTs": 0,
+    "unknownPOSTs": 0,
+    "passed": true
+  },
+  "independentReadback": {
+    "file": "独立回读/2026-09-09T12-19-28-348Z/执行结果.json",
+    "mathFile": "独立回读/2026-09-09T12-19-28-348Z/实际读后数学核算.json",
+    "GETs": 457,
+    "details": 285,
+    "formulaCount": 47,
+    "formulaCases": 29,
+    "boundaries": 4,
+    "negativeControls": 2,
+    "passed": true
+  },
+  "browser": {
+    "file": "页面验收.json",
+    "representativePages": 3,
+    "GETs": 21,
+    "mathCases": 10,
+    "passed": true
+  },
+  "staticSourceMath": {
+    "file": "修订一独立源值与算例.json",
+    "checks": 500,
+    "passed": true
+  },
+  "pending": [
+    "等级曲线、命中/周期事件、危险温度与处决资格及时间分配继续待接。",
+    "弗拉基米尔Q强化回复公式实际为额外回复，说明正确但页面名称仍待统一明确。",
+    "兰博过热自身沉默、索尔E击杀兵野所带来的战前星尘属于范围内，未作为排除项丢弃。",
+    "索尔部分几何计算的ResultModifier未解释，保留缺口；Q法术伤害按当前正文判定为魔法，不能直接用源字段名字推为真实。"
+  ],
+  "runtimeValidation": "未执行"
+}

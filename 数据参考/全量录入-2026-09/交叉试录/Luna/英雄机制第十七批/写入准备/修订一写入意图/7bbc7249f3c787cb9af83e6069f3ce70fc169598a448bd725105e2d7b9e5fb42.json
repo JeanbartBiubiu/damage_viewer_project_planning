@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T12:16:05.911Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/swain_r/parameters/heal_per_second_base",
+  "id": "heal_per_second_base",
+  "method": "POST",
+  "body": {
+    "parameterKey": "heal_per_second_base",
+    "name": "恶魔升华每秒基础回复",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 15,
+      "2": 30,
+      "3": 45
+    },
+    "description": "客户端当前根绑定 DataValues.HealPerSecond 取索引1至3",
+    "sortOrder": 50
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T12:16:04.043Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/swain_r/parameters/damage_per_second_base",
+  "id": "damage_per_second_base",
+  "method": "POST",
+  "body": {
+    "parameterKey": "damage_per_second_base",
+    "name": "恶魔升华每秒基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 15,
+      "2": 25,
+      "3": 35
+    },
+    "description": "客户端当前根绑定 DataValues.DamagePerSecond 取索引1至3",
+    "sortOrder": 30
+  }
+}

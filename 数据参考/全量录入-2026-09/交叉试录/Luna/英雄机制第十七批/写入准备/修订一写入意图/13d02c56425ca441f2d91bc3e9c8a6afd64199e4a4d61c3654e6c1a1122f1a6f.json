@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T12:14:54.655Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/vladimir_w/parameters/enemy_slow_ratio",
+  "id": "enemy_slow_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "enemy_slow_ratio",
+    "name": "血池内敌方减速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.4,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.MoveSpeedMod 取索引1至5；单位负减速修正转为正比例；按来源单位换算为系统比例或毫秒",
+    "sortOrder": 60
+  }
+}

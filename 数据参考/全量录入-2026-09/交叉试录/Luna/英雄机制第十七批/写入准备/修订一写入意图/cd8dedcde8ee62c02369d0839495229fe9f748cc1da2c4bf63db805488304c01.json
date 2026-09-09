@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T12:16:36.004Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/rumble_p/formulas/overheat_attack_max_health_damage",
+  "id": "overheat_attack_max_health_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "overheat_attack_max_health_damage",
+    "name": "过热攻击最大生命值伤害组成",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "overheat_bonus_damage_ratio"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "target_max_health_for_overheat_attack"
+        }
+      ]
+    },
+    "description": "OverheatPercBonusDamage×目标最大生命值；这是正文4%最大生命值伤害的独立组成，目标输入缺失不默认0，不创建DAMAGE结果。",
+    "sortOrder": 20
+  }
+}

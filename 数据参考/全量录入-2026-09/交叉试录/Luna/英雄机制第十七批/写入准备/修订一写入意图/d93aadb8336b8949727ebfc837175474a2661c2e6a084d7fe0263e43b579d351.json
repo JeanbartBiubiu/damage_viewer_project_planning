@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-09T12:18:33.413Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/aurelionsol_e/formulas/current_execute_threshold_ratio",
+  "id": "current_execute_threshold_ratio",
+  "method": "POST",
+  "body": {
+    "formulaKey": "current_execute_threshold_ratio",
+    "name": "星芒凝汇当前处决生命阈值",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "execute_base_threshold_ratio"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "stardust_count"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "execute_growth_per_stardust_ratio"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "CurrentExecutionThreshold = 基础阈值 + 星尘数量×成长增量；正文直接在该值后追加百分号，基础5%与每层0.026个百分点统一换算为比例；不创建处决结果。",
+    "sortOrder": 20
+  }
+}

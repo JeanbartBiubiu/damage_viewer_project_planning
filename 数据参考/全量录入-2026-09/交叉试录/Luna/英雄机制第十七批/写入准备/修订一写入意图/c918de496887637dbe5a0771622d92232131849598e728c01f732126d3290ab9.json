@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T12:17:33.470Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/rumble_r/formulas/damage_per_second",
+  "id": "damage_per_second",
+  "method": "POST",
+  "body": {
+    "formulaKey": "damage_per_second",
+    "name": "恒温灼烧每秒魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "damage_per_second_base"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "DamagePerSecond = BaseDamagePerSecond + 0.35×法强；保存每秒量。",
+    "sortOrder": 10
+  }
+}

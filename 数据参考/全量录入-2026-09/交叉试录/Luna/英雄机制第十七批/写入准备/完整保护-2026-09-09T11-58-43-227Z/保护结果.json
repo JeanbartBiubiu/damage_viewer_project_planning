@@ -1,0 +1,4150 @@
+{
+  "at": "2026-09-09T11:58:54.890Z",
+  "runId": "2026-09-09T11-58-43-227Z",
+  "mode": "只读完整保护；不发送业务写入",
+  "source": "client16.17/official16.17.1",
+  "sourceBuild": "16.17.8104348+branch.releases-16-17.content.release",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "planFileSha256": "7b1b6a62bafaefb8b0d78272300ec281beed0baa5397be902b7685a687254718",
+  "freezeSha256": "baee05b688db36f42cfce7fd8e2376e5e93c64888b0ecebc96cfa9752fbec258",
+  "oldReadOnlySha256": "ba50c2f11595df9c64d95345b4af156f9e468656b3bcdb8634558048bad8b62c",
+  "candidateCounts": {
+    "total": 285,
+    "new": 263,
+    "reused": 22
+  },
+  "protection": {
+    "catalogs": {
+      "attributes": {
+        "route": "/attributes",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [
+            {
+              "attributeKey": "move_speed",
+              "createdAt": "2026-08-22T15:27:35.616234Z",
+              "description": "角色面板移动速度",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "移动速度",
+              "sortOrder": 100,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-23T07:43:37.216118Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "move_speed_percent",
+              "createdAt": "2026-09-06T14:37:34.305529Z",
+              "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "移动速度加成比例",
+              "sortOrder": 101,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:37:34.305529Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "armor_pen_flat",
+              "createdAt": "2026-08-22T15:27:35.850065Z",
+              "description": null,
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "固定护甲穿透",
+              "sortOrder": 200,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-22T15:27:35.850065Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "armor_pen_percent",
+              "createdAt": "2026-08-22T15:27:35.951829Z",
+              "description": null,
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "百分比护甲穿透",
+              "sortOrder": 210,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-22T15:27:35.951829Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "magic_pen_flat",
+              "createdAt": "2026-09-06T14:36:56.874035Z",
+              "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "固定法术穿透",
+              "sortOrder": 220,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:36:56.874035Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "magic_pen_percent",
+              "createdAt": "2026-09-06T14:38:47.365241Z",
+              "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "百分比法术穿透",
+              "sortOrder": 230,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:38:47.365241Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "hp",
+              "createdAt": "2026-08-22T15:27:36.051116Z",
+              "description": null,
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "生命值",
+              "sortOrder": 300,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-22T15:27:36.051116Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "hp_regen",
+              "createdAt": "2026-08-30T16:27:54.925024Z",
+              "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "每5秒生命回复",
+              "sortOrder": 305,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:54.925024Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "base_hp_regen_percent",
+              "createdAt": "2026-09-06T14:33:14.12308Z",
+              "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "基础生命回复加成比例",
+              "sortOrder": 306,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:33:14.12308Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "mana",
+              "createdAt": "2026-08-22T15:27:36.139767Z",
+              "description": null,
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "法力值",
+              "sortOrder": 310,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-22T15:27:36.139767Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "mana_regen",
+              "createdAt": "2026-08-30T16:27:55.032387Z",
+              "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "每5秒法力回复",
+              "sortOrder": 315,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.032387Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "base_mana_regen_percent",
+              "createdAt": "2026-09-06T14:33:07.568638Z",
+              "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "基础法力回复加成比例",
+              "sortOrder": 316,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:33:07.568638Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "energy",
+              "createdAt": "2026-08-22T15:27:36.229561Z",
+              "description": null,
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "能量值",
+              "sortOrder": 320,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-22T15:27:36.229561Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "armor",
+              "createdAt": "2026-08-30T16:27:55.143372Z",
+              "description": "角色面板护甲",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "护甲",
+              "sortOrder": 400,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.143372Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "magic_resistance",
+              "createdAt": "2026-08-30T16:27:55.24073Z",
+              "description": "角色面板魔法抗性",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "魔法抗性",
+              "sortOrder": 410,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.24073Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "tenacity_percent",
+              "createdAt": "2026-09-06T14:37:40.8914Z",
+              "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "韧性比例",
+              "sortOrder": 420,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:37:40.8914Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "slow_resist_percent",
+              "createdAt": "2026-09-08T14:32:32.234108Z",
+              "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "减速抗性比例",
+              "sortOrder": 421,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-08T14:32:32.234108Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "attack_damage",
+              "createdAt": "2026-08-30T16:26:29.341938Z",
+              "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "攻击力",
+              "sortOrder": 500,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:26:29.341938Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "ability_power",
+              "createdAt": "2026-08-30T16:26:39.898635Z",
+              "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "法术强度",
+              "sortOrder": 510,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:26:39.898635Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "attack_speed",
+              "createdAt": "2026-08-30T16:27:55.334742Z",
+              "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "攻击速度",
+              "sortOrder": 520,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.334742Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "bonus_attack_speed_percent",
+              "createdAt": "2026-08-30T16:27:55.439812Z",
+              "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "额外攻击速度比例",
+              "sortOrder": 521,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.439812Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "critical_strike_chance",
+              "createdAt": "2026-08-30T16:27:55.58546Z",
+              "description": "以 1 表示 100% 暴击几率",
+              "gameId": "lol",
+              "maxValue": 1,
+              "minValue": 0,
+              "name": "暴击几率",
+              "sortOrder": 530,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.58546Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "critical_strike_damage_bonus_percent",
+              "createdAt": "2026-09-06T14:37:27.711233Z",
+              "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "额外暴击伤害比例",
+              "sortOrder": 531,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:37:27.711233Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "attack_range",
+              "createdAt": "2026-08-30T16:27:55.678337Z",
+              "description": "角色普通攻击距离",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "攻击距离",
+              "sortOrder": 540,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.678337Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "ability_haste",
+              "createdAt": "2026-09-06T14:29:52.533949Z",
+              "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "技能急速",
+              "sortOrder": 550,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:29:52.533949Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "life_steal_percent",
+              "createdAt": "2026-09-06T14:36:43.823597Z",
+              "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "生命偷取比例",
+              "sortOrder": 560,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:36:43.823597Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "omnivamp_percent",
+              "createdAt": "2026-09-06T14:36:50.377635Z",
+              "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "全能吸血比例",
+              "sortOrder": 570,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:36:50.377635Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "heal_shield_power_percent",
+              "createdAt": "2026-09-06T14:38:40.772253Z",
+              "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "治疗和护盾强度比例",
+              "sortOrder": 580,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:38:40.772253Z",
+              "valueType": "DECIMAL"
+            }
+          ],
+          "total": 28
+        }
+      },
+      "modifier-zones": {
+        "route": "/modifier-zones",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [
+            {
+              "applicationStage": "ATTRIBUTE_PERCENT",
+              "calculationMode": "RATIO_ADD",
+              "createdAt": "2026-08-31T05:44:18.601181Z",
+              "description": null,
+              "domain": "ATTRIBUTE",
+              "gameId": "lol",
+              "modifierZoneKey": "attribute_percent_bonus",
+              "name": "属性百分比加成",
+              "sortOrder": 0,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-31T05:44:18.601181Z"
+            },
+            {
+              "applicationStage": "ATTRIBUTE_FLAT",
+              "calculationMode": "FLAT_ADD",
+              "createdAt": "2026-09-06T16:50:52.756989Z",
+              "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+              "domain": "ATTRIBUTE",
+              "gameId": "lol",
+              "modifierZoneKey": "attribute_flat_add",
+              "name": "属性固定加算",
+              "sortOrder": 10,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T16:50:52.756989Z"
+            },
+            {
+              "applicationStage": "ATTRIBUTE_PERCENT",
+              "calculationMode": "RATIO_ADD",
+              "createdAt": "2026-09-08T02:16:34.032171Z",
+              "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+              "domain": "ATTRIBUTE",
+              "gameId": "lol",
+              "modifierZoneKey": "item_3071_armor_reduction",
+              "name": "黑色切割者护甲削减乘区",
+              "sortOrder": 200,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-08T02:16:34.032171Z"
+            },
+            {
+              "applicationStage": "ATTRIBUTE_PERCENT",
+              "calculationMode": "RATIO_ADD",
+              "createdAt": "2026-09-08T02:16:39.681338Z",
+              "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+              "domain": "ATTRIBUTE",
+              "gameId": "lol",
+              "modifierZoneKey": "item_8010_magic_resistance_reduction",
+              "name": "放血者的诅咒魔抗削减乘区",
+              "sortOrder": 210,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-08T02:16:39.681338Z"
+            }
+          ],
+          "total": 4
+        }
+      },
+      "damage-types": {
+        "route": "/damage-types",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [
+            {
+              "createdAt": "2026-08-26T05:59:09.635701Z",
+              "damageTypeKey": "physics",
+              "description": null,
+              "gameId": "lol",
+              "name": "物理伤害",
+              "sortOrder": 0,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-26T05:59:09.635701Z"
+            },
+            {
+              "createdAt": "2026-08-26T05:58:49.612762Z",
+              "damageTypeKey": "real",
+              "description": null,
+              "gameId": "lol",
+              "name": "真实伤害",
+              "sortOrder": 0,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-26T05:58:49.612762Z"
+            },
+            {
+              "createdAt": "2026-08-26T05:59:15.870937Z",
+              "damageTypeKey": "magic",
+              "description": null,
+              "gameId": "lol",
+              "name": "魔法伤害",
+              "sortOrder": 0,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-26T05:59:15.870937Z"
+            }
+          ],
+          "total": 3
+        }
+      },
+      "statuses": {
+        "route": "/statuses",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [
+            {
+              "createdAt": "2026-08-28T14:55:06.53067Z",
+              "description": null,
+              "gameId": "lol",
+              "name": "眩晕",
+              "sortOrder": 0,
+              "status": "ENABLED",
+              "statusKey": "vertigo",
+              "updatedAt": "2026-08-28T14:55:06.53067Z"
+            }
+          ],
+          "total": 1
+        }
+      }
+    },
+    "characters": {
+      "vladimir": {
+        "route": "/characters/champion_vladimir",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "characterKey": "champion_vladimir",
+          "createdAt": "2026-09-06T18:05:38.414586Z",
+          "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+          "gameId": "lol",
+          "name": "弗拉基米尔",
+          "updatedAt": "2026-09-06T18:05:38.414586Z"
+        }
+      },
+      "swain": {
+        "route": "/characters/champion_swain",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "characterKey": "champion_swain",
+          "createdAt": "2026-09-06T17:46:36.973697Z",
+          "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+          "gameId": "lol",
+          "name": "斯维因",
+          "updatedAt": "2026-09-06T17:46:36.973697Z"
+        }
+      },
+      "rumble": {
+        "route": "/characters/champion_rumble",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "characterKey": "champion_rumble",
+          "createdAt": "2026-09-06T17:39:02.946195Z",
+          "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+          "gameId": "lol",
+          "name": "兰博",
+          "updatedAt": "2026-09-06T17:39:02.946195Z"
+        }
+      },
+      "aurelionsol": {
+        "route": "/characters/champion_aurelionsol",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "characterKey": "champion_aurelionsol",
+          "createdAt": "2026-09-06T17:05:27.952683Z",
+          "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+          "gameId": "lol",
+          "name": "奥瑞利安·索尔",
+          "updatedAt": "2026-09-06T17:05:27.952683Z"
+        }
+      }
+    },
+    "relations": {
+      "vladimir": {
+        "route": "/character-skill-relations?characterKey=champion_vladimir",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_vladimir",
+              "characterName": "弗拉基米尔",
+              "gameId": "lol",
+              "skillKey": "vladimir_p",
+              "skillName": "弗拉基米尔·血色契约",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_vladimir",
+              "characterName": "弗拉基米尔",
+              "gameId": "lol",
+              "skillKey": "vladimir_q",
+              "skillName": "弗拉基米尔·鲜血转换",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_vladimir",
+              "characterName": "弗拉基米尔",
+              "gameId": "lol",
+              "skillKey": "vladimir_w",
+              "skillName": "弗拉基米尔·血红之池",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_vladimir",
+              "characterName": "弗拉基米尔",
+              "gameId": "lol",
+              "skillKey": "vladimir_e",
+              "skillName": "弗拉基米尔·血之潮汐",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_vladimir",
+              "characterName": "弗拉基米尔",
+              "gameId": "lol",
+              "skillKey": "vladimir_r",
+              "skillName": "弗拉基米尔·血之瘟疫",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "swain": {
+        "route": "/character-skill-relations?characterKey=champion_swain",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_swain",
+              "characterName": "斯维因",
+              "gameId": "lol",
+              "skillKey": "swain_p",
+              "skillName": "斯维因·狂食鸦群",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_swain",
+              "characterName": "斯维因",
+              "gameId": "lol",
+              "skillKey": "swain_q",
+              "skillName": "斯维因·解脱之触",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_swain",
+              "characterName": "斯维因",
+              "gameId": "lol",
+              "skillKey": "swain_w",
+              "skillName": "斯维因·帝国视界",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_swain",
+              "characterName": "斯维因",
+              "gameId": "lol",
+              "skillKey": "swain_e",
+              "skillName": "斯维因·永不复行",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_swain",
+              "characterName": "斯维因",
+              "gameId": "lol",
+              "skillKey": "swain_r",
+              "skillName": "斯维因·恶魔升华",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "rumble": {
+        "route": "/character-skill-relations?characterKey=champion_rumble",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_rumble",
+              "characterName": "兰博",
+              "gameId": "lol",
+              "skillKey": "rumble_p",
+              "skillName": "兰博·机械重组",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_rumble",
+              "characterName": "兰博",
+              "gameId": "lol",
+              "skillKey": "rumble_q",
+              "skillName": "兰博·纵火盛宴",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_rumble",
+              "characterName": "兰博",
+              "gameId": "lol",
+              "skillKey": "rumble_w",
+              "skillName": "兰博·破碎护盾",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_rumble",
+              "characterName": "兰博",
+              "gameId": "lol",
+              "skillKey": "rumble_e",
+              "skillName": "兰博·电子鱼叉",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_rumble",
+              "characterName": "兰博",
+              "gameId": "lol",
+              "skillKey": "rumble_r",
+              "skillName": "兰博·恒温灼烧",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      },
+      "aurelionsol": {
+        "route": "/character-skill-relations?characterKey=champion_aurelionsol",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [
+            {
+              "characterKey": "champion_aurelionsol",
+              "characterName": "奥瑞利安·索尔",
+              "gameId": "lol",
+              "skillKey": "aurelionsol_p",
+              "skillName": "奥瑞利安·索尔·星海焕然",
+              "skillStatus": "ENABLED",
+              "sortOrder": 0
+            },
+            {
+              "characterKey": "champion_aurelionsol",
+              "characterName": "奥瑞利安·索尔",
+              "gameId": "lol",
+              "skillKey": "aurelionsol_q",
+              "skillName": "奥瑞利安·索尔·星河冲荡",
+              "skillStatus": "ENABLED",
+              "sortOrder": 1
+            },
+            {
+              "characterKey": "champion_aurelionsol",
+              "characterName": "奥瑞利安·索尔",
+              "gameId": "lol",
+              "skillKey": "aurelionsol_w",
+              "skillName": "奥瑞利安·索尔·星穹流丽",
+              "skillStatus": "ENABLED",
+              "sortOrder": 2
+            },
+            {
+              "characterKey": "champion_aurelionsol",
+              "characterName": "奥瑞利安·索尔",
+              "gameId": "lol",
+              "skillKey": "aurelionsol_e",
+              "skillName": "奥瑞利安·索尔·星芒凝汇",
+              "skillStatus": "ENABLED",
+              "sortOrder": 3
+            },
+            {
+              "characterKey": "champion_aurelionsol",
+              "characterName": "奥瑞利安·索尔",
+              "gameId": "lol",
+              "skillKey": "aurelionsol_r",
+              "skillName": "奥瑞利安·索尔·星天落瀑",
+              "skillStatus": "ENABLED",
+              "sortOrder": 4
+            }
+          ],
+          "total": 5
+        }
+      }
+    },
+    "subjects": {
+      "vladimir_p": {
+        "route": "/skills/vladimir_p",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:21:02.687835Z",
+          "description": "每30生命值加成给予弗拉基米尔1法术强度，每1法术强度给予弗拉基米尔1.6生命值（不会自我循环叠加）。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "弗拉基米尔·血色契约",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "vladimir_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:02.687835Z"
+        }
+      },
+      "vladimir_q": {
+        "route": "/skills/vladimir_q",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:21:02.924488Z",
+          "description": "弗拉基米尔从目标敌人身上偷取生命值。当弗拉基米尔的资源槽攒满后，鲜血转换将暂时获得增益，提升伤害和治疗效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "弗拉基米尔·鲜血转换",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "vladimir_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:02.924488Z"
+        }
+      },
+      "vladimir_w": {
+        "route": "/skills/vladimir_w",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:21:03.215932Z",
+          "description": "弗拉基米尔潜入血泊之中，变得不可被选取，持续2秒。血泊上的敌人被减速，同时弗拉基米尔会从他们身上吸取生命。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "弗拉基米尔·血红之池",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "vladimir_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:03.215932Z"
+        }
+      },
+      "vladimir_e": {
+        "route": "/skills/vladimir_e",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:21:03.484907Z",
+          "description": "弗拉基米尔消耗他的生命值来持续灌注一个蓄血库，蓄血库在释放时会对他身边的敌人造成伤害，但会被敌方单位所阻挡。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "弗拉基米尔·血之潮汐",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "vladimir_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:03.484907Z"
+        }
+      },
+      "vladimir_r": {
+        "route": "/skills/vladimir_r",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:21:03.738884Z",
+          "description": "弗拉基米尔令一片区域感染上剧毒瘟疫，增加受感染敌人所受的伤害。在几秒后，血之瘟疫会对被感染的敌人造成魔法伤害，并根据命中的敌方英雄数来治疗弗拉基米尔。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "弗拉基米尔·血之瘟疫",
+          "skillCategoryKeys": [],
+          "skillKey": "vladimir_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:03.738884Z"
+        }
+      },
+      "swain_p": {
+        "route": "/skills/swain_p",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:29.604851Z",
+          "description": "斯维因的鸦群会收集<i>魂屑</i>来治疗斯维因并永久提升他的最大生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "斯维因·狂食鸦群",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "swain_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:29.604851Z"
+        }
+      },
+      "swain_q": {
+        "route": "/skills/swain_q",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:29.924264Z",
+          "description": "斯维因释放多道恶魔之力，这种力量可以穿透命中的目标。被一道以上的恶魔之力所命中的敌人，会受到基于恶魔之力数量的更多伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "斯维因·解脱之触",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "swain_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:29.924264Z"
+        }
+      },
+      "swain_w": {
+        "route": "/skills/swain_w",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:30.184628Z",
+          "description": "斯维因睁开恶魔之眼来对敌人造成伤害和减速效果。在命中敌方英雄时会使该英雄显形，并为斯维因提供一片魂屑。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "斯维因·帝国视界",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "swain_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:30.184628Z"
+        }
+      },
+      "swain_e": {
+        "route": "/skills/swain_e",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:30.446795Z",
+          "description": "斯维因释放一道恶魔之手向前击出。手臂随后会返回至斯维因处，并禁锢它命中的敌人。斯维因之后可以选择将所有被禁锢的英雄们拉拽得更靠近他。这个技能在【恶魔升华】期间会有一个更短的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "斯维因·永不复行",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "swain_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:30.446795Z"
+        }
+      },
+      "swain_r": {
+        "route": "/skills/swain_r",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:30.70117Z",
+          "description": "斯维因变身为恶魔并从附近的敌方英雄、小兵和中立野怪身上汲取生命值。斯维因能施放【恶魔耀光】来用一道魂焰新星残害并减速附近的敌人们。这个形态可以在斯维因汲取敌方英雄时无限持续。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "斯维因·恶魔升华",
+          "skillCategoryKeys": [],
+          "skillKey": "swain_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:30.70117Z"
+        }
+      },
+      "rumble_p": {
+        "route": "/skills/rumble_p",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:06.432545Z",
+          "description": "兰博的技能都能使其获得热量。当兰博的热量达到50%时，他会处于危险温度状态，所有基础技能都会获得额外效果。当热量达到100%时，他会进入过热状态，获得额外的攻击速度并让他的普通攻击造成额外伤害，但也会让他在数秒内无法施放技能。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "兰博·机械重组",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "rumble_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:06.432545Z"
+        }
+      },
+      "rumble_q": {
+        "route": "/skills/rumble_q",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:06.708068Z",
+          "description": "兰博朝敌人放火，每秒对前方锥形范围内的敌人造成伤害，持续3秒。在危险温度时，兰博增加对其造成的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "兰博·纵火盛宴",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "rumble_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:06.708068Z"
+        }
+      },
+      "rumble_w": {
+        "route": "/skills/rumble_w",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:07.060476Z",
+          "description": "兰博制造一个护盾，保护自己免受伤害，并短时间内增加移动速度。在危险温度时，兰博增加护盾强度和速度加成。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "兰博·破碎护盾",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "rumble_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:07.060476Z"
+        }
+      },
+      "rumble_e": {
+        "route": "/skills/rumble_e",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:07.347182Z",
+          "description": "兰博发射一把鱼叉，对敌人造成魔法伤害、减速效果和魔法抗性击碎效果。兰博可同时持有2发鱼叉。在危险温度时，兰博增加其伤害和减速百分比。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "兰博·电子鱼叉",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "rumble_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:07.347182Z"
+        }
+      },
+      "rumble_r": {
+        "route": "/skills/rumble_r",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:07.637557Z",
+          "description": "兰博朝目标区域发射火箭，形成一堵火焰之墙，对范围内的敌人造成伤害并减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "兰博·恒温灼烧",
+          "skillCategoryKeys": [],
+          "skillKey": "rumble_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:07.637557Z"
+        }
+      },
+      "aurelionsol_p": {
+        "route": "/skills/aurelionsol_p",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:16:28.03274Z",
+          "description": "奥瑞利安·索尔的伤害型技能会将敌人们化为<font color='#3458eb'>星尘</font>，星尘可用来永久增强他的每个技能。 （来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "奥瑞利安·索尔·星海焕然",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "aurelionsol_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:28.03274Z"
+        }
+      },
+      "aurelionsol_q": {
+        "route": "/skills/aurelionsol_q",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:16:28.307952Z",
+          "description": "奥瑞利安·索尔引导他的龙息若干秒，伤害首个命中的敌人并对附近的敌人们造成削减过的溅射伤害。龙息在一个敌人身上每直接引导一秒就会造成额外伤害，这个伤害可通过已收集的【星尘】来提升。如果目标是一名英雄，那么这个技能还会收集【星尘】。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "奥瑞利安·索尔·星河冲荡",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "aurelionsol_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:28.307952Z"
+        }
+      },
+      "aurelionsol_w": {
+        "route": "/skills/aurelionsol_w",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:16:28.61679Z",
+          "description": "奥瑞利安 · 索尔沿着目标方向飞越地形。在这个状态下，他可以施放其它技能。飞行期间，星河冲荡没有冷却时间，也没有最长蓄力时间，并且造成的伤害会提升。<br><br>如果有敌方英雄因为奥瑞利安 · 索尔近期造成的伤害阵亡，星穹流丽的冷却时间会缩短。<br><br>星尘会提升星穹流丽的最大飞行距离。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "奥瑞利安·索尔·星穹流丽",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "aurelionsol_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:28.61679Z"
+        }
+      },
+      "aurelionsol_e": {
+        "route": "/skills/aurelionsol_e",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:16:28.913408Z",
+          "description": "奥瑞利安·索尔召唤一个黑洞，对敌人们造成伤害并缓慢地将他们拉拽向黑洞的中心。每有一名敌人在黑洞中阵亡，以及一名敌方英雄在黑洞中每被困住一秒，这个技能都会提供【星尘】。黑洞的中心会处决低于一定百分比最大生命值的敌人。【星尘】会提升【星芒凝汇】的区域以及处决阈值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "奥瑞利安·索尔·星芒凝汇",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:28.913408Z"
+        }
+      },
+      "aurelionsol_r": {
+        "route": "/skills/aurelionsol_r",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:16:29.269698Z",
+          "description": "星落：奥瑞利安 · 索尔召唤一颗星辰坠落地面。这次冲击造成魔法伤害并眩晕敌人，并且每命中一个敌方英雄还会提供星尘。收集足够的星尘后，奥瑞利安·索尔的下一次星落将会升级为天瀑。<br><br>天瀑：奥瑞利安 · 索尔从诸天拽下一颗巨大的星辰撞击地面，拥有提升过的冲击范围和提升过的伤害，并且会对敌人们造成击飞而非晕眩。随后会有一道冲击波从冲击范围的边缘散播出去，对命中的敌人们造成伤害和减速。星尘会提升【星落】和【天瀑】的冲击范围。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "奥瑞利安·索尔·星天落瀑",
+          "skillCategoryKeys": [],
+          "skillKey": "aurelionsol_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:16:29.269698Z"
+        }
+      }
+    },
+    "images": {
+      "vladimir_p": {
+        "route": "/skills/vladimir_p/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_vladimir_p",
+            "name": "vladimir_p"
+          }
+        }
+      },
+      "vladimir_q": {
+        "route": "/skills/vladimir_q/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_vladimir_q",
+            "name": "vladimir_q"
+          }
+        }
+      },
+      "vladimir_w": {
+        "route": "/skills/vladimir_w/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_vladimir_w",
+            "name": "vladimir_w"
+          }
+        }
+      },
+      "vladimir_e": {
+        "route": "/skills/vladimir_e/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_vladimir_e",
+            "name": "vladimir_e"
+          }
+        }
+      },
+      "vladimir_r": {
+        "route": "/skills/vladimir_r/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_vladimir_r",
+            "name": "vladimir_r"
+          }
+        }
+      },
+      "swain_p": {
+        "route": "/skills/swain_p/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_swain_p",
+            "name": "swain_p"
+          }
+        }
+      },
+      "swain_q": {
+        "route": "/skills/swain_q/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_swain_q",
+            "name": "swain_q"
+          }
+        }
+      },
+      "swain_w": {
+        "route": "/skills/swain_w/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_swain_w",
+            "name": "swain_w"
+          }
+        }
+      },
+      "swain_e": {
+        "route": "/skills/swain_e/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_swain_e",
+            "name": "swain_e"
+          }
+        }
+      },
+      "swain_r": {
+        "route": "/skills/swain_r/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_swain_r",
+            "name": "swain_r"
+          }
+        }
+      },
+      "rumble_p": {
+        "route": "/skills/rumble_p/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_rumble_p",
+            "name": "rumble_p"
+          }
+        }
+      },
+      "rumble_q": {
+        "route": "/skills/rumble_q/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_rumble_q",
+            "name": "rumble_q"
+          }
+        }
+      },
+      "rumble_w": {
+        "route": "/skills/rumble_w/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_rumble_w",
+            "name": "rumble_w"
+          }
+        }
+      },
+      "rumble_e": {
+        "route": "/skills/rumble_e/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_rumble_e",
+            "name": "rumble_e"
+          }
+        }
+      },
+      "rumble_r": {
+        "route": "/skills/rumble_r/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_rumble_r",
+            "name": "rumble_r"
+          }
+        }
+      },
+      "aurelionsol_p": {
+        "route": "/skills/aurelionsol_p/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_aurelionsol_p",
+            "name": "aurelionsol_p"
+          }
+        }
+      },
+      "aurelionsol_q": {
+        "route": "/skills/aurelionsol_q/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_aurelionsol_q",
+            "name": "aurelionsol_q"
+          }
+        }
+      },
+      "aurelionsol_w": {
+        "route": "/skills/aurelionsol_w/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_aurelionsol_w",
+            "name": "aurelionsol_w"
+          }
+        }
+      },
+      "aurelionsol_e": {
+        "route": "/skills/aurelionsol_e/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_aurelionsol_e",
+            "name": "aurelionsol_e"
+          }
+        }
+      },
+      "aurelionsol_r": {
+        "route": "/skills/aurelionsol_r/representative-image",
+        "method": "GET",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "image": {
+            "enabled": true,
+            "imageKey": "entry_16171_aurelionsol_r",
+            "name": "aurelionsol_r"
+          }
+        }
+      }
+    },
+    "lists": {
+      "vladimir_p/parameters": {
+        "skillKey": "vladimir_p",
+        "kind": "parameters",
+        "route": "/skills/vladimir_p/parameters",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_p/formulas": {
+        "skillKey": "vladimir_p",
+        "kind": "formulas",
+        "route": "/skills/vladimir_p/formulas",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_p/effects": {
+        "skillKey": "vladimir_p",
+        "kind": "effects",
+        "route": "/skills/vladimir_p/effects",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_p/processes": {
+        "skillKey": "vladimir_p",
+        "kind": "processes",
+        "route": "/skills/vladimir_p/processes",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_p/internalStates": {
+        "skillKey": "vladimir_p",
+        "kind": "internalStates",
+        "route": "/skills/vladimir_p/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_p/triggerRules": {
+        "skillKey": "vladimir_p",
+        "kind": "triggerRules",
+        "route": "/skills/vladimir_p/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_q/parameters": {
+        "skillKey": "vladimir_q",
+        "kind": "parameters",
+        "route": "/skills/vladimir_q/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-08T02:05:51.237507Z",
+            "description": "DDragon16.17.1 Vladimir.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 9000,
+              "2": 7900,
+              "3": 6800,
+              "4": 5700,
+              "5": 4600
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "vladimir_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:51.237507Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "vladimir_q/formulas": {
+        "skillKey": "vladimir_q",
+        "kind": "formulas",
+        "route": "/skills/vladimir_q/formulas",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_q/effects": {
+        "skillKey": "vladimir_q",
+        "kind": "effects",
+        "route": "/skills/vladimir_q/effects",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_q/processes": {
+        "skillKey": "vladimir_q",
+        "kind": "processes",
+        "route": "/skills/vladimir_q/processes",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_q/internalStates": {
+        "skillKey": "vladimir_q",
+        "kind": "internalStates",
+        "route": "/skills/vladimir_q/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_q/triggerRules": {
+        "skillKey": "vladimir_q",
+        "kind": "triggerRules",
+        "route": "/skills/vladimir_q/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_w/parameters": {
+        "skillKey": "vladimir_w",
+        "kind": "parameters",
+        "route": "/skills/vladimir_w/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-08T02:05:51.698761Z",
+            "description": "DDragon16.17.1 Vladimir.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 28000,
+              "2": 25000,
+              "3": 22000,
+              "4": 19000,
+              "5": 16000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "vladimir_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:51.698761Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "vladimir_w/formulas": {
+        "skillKey": "vladimir_w",
+        "kind": "formulas",
+        "route": "/skills/vladimir_w/formulas",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_w/effects": {
+        "skillKey": "vladimir_w",
+        "kind": "effects",
+        "route": "/skills/vladimir_w/effects",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_w/processes": {
+        "skillKey": "vladimir_w",
+        "kind": "processes",
+        "route": "/skills/vladimir_w/processes",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_w/internalStates": {
+        "skillKey": "vladimir_w",
+        "kind": "internalStates",
+        "route": "/skills/vladimir_w/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_w/triggerRules": {
+        "skillKey": "vladimir_w",
+        "kind": "triggerRules",
+        "route": "/skills/vladimir_w/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_e/parameters": {
+        "skillKey": "vladimir_e",
+        "kind": "parameters",
+        "route": "/skills/vladimir_e/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-08T02:05:52.228626Z",
+            "description": "DDragon16.17.1 Vladimir.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 13000,
+              "2": 11000,
+              "3": 9000,
+              "4": 7000,
+              "5": 5000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "vladimir_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:52.228626Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "vladimir_e/formulas": {
+        "skillKey": "vladimir_e",
+        "kind": "formulas",
+        "route": "/skills/vladimir_e/formulas",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_e/effects": {
+        "skillKey": "vladimir_e",
+        "kind": "effects",
+        "route": "/skills/vladimir_e/effects",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_e/processes": {
+        "skillKey": "vladimir_e",
+        "kind": "processes",
+        "route": "/skills/vladimir_e/processes",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_e/internalStates": {
+        "skillKey": "vladimir_e",
+        "kind": "internalStates",
+        "route": "/skills/vladimir_e/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_e/triggerRules": {
+        "skillKey": "vladimir_e",
+        "kind": "triggerRules",
+        "route": "/skills/vladimir_e/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_r/parameters": {
+        "skillKey": "vladimir_r",
+        "kind": "parameters",
+        "route": "/skills/vladimir_r/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-08T02:05:52.749406Z",
+            "description": "DDragon16.17.1 Vladimir.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 120000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "vladimir_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:52.749406Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "vladimir_r/formulas": {
+        "skillKey": "vladimir_r",
+        "kind": "formulas",
+        "route": "/skills/vladimir_r/formulas",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_r/effects": {
+        "skillKey": "vladimir_r",
+        "kind": "effects",
+        "route": "/skills/vladimir_r/effects",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_r/processes": {
+        "skillKey": "vladimir_r",
+        "kind": "processes",
+        "route": "/skills/vladimir_r/processes",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_r/internalStates": {
+        "skillKey": "vladimir_r",
+        "kind": "internalStates",
+        "route": "/skills/vladimir_r/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "vladimir_r/triggerRules": {
+        "skillKey": "vladimir_r",
+        "kind": "triggerRules",
+        "route": "/skills/vladimir_r/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "swain_p/parameters": {
+        "skillKey": "swain_p",
+        "kind": "parameters",
+        "route": "/skills/swain_p/parameters",
+        "status": 200,
+        "items": []
+      },
+      "swain_p/formulas": {
+        "skillKey": "swain_p",
+        "kind": "formulas",
+        "route": "/skills/swain_p/formulas",
+        "status": 200,
+        "items": []
+      },
+      "swain_p/effects": {
+        "skillKey": "swain_p",
+        "kind": "effects",
+        "route": "/skills/swain_p/effects",
+        "status": 200,
+        "items": []
+      },
+      "swain_p/processes": {
+        "skillKey": "swain_p",
+        "kind": "processes",
+        "route": "/skills/swain_p/processes",
+        "status": 200,
+        "items": []
+      },
+      "swain_p/internalStates": {
+        "skillKey": "swain_p",
+        "kind": "internalStates",
+        "route": "/skills/swain_p/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "swain_p/triggerRules": {
+        "skillKey": "swain_p",
+        "kind": "triggerRules",
+        "route": "/skills/swain_p/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "swain_q/parameters": {
+        "skillKey": "swain_q",
+        "kind": "parameters",
+        "route": "/skills/swain_q/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-08T01:03:40.065973Z",
+            "description": "DDragon16.17.1 Swain.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 7000,
+              "2": 6000,
+              "3": 5000,
+              "4": 4000,
+              "5": 3000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "swain_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:03:40.065973Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:03:40.530487Z",
+            "description": "DDragon16.17.1 Swain.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 40,
+              "2": 45,
+              "3": 50,
+              "4": 55,
+              "5": 60
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "swain_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:03:40.530487Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "swain_q/formulas": {
+        "skillKey": "swain_q",
+        "kind": "formulas",
+        "route": "/skills/swain_q/formulas",
+        "status": 200,
+        "items": []
+      },
+      "swain_q/effects": {
+        "skillKey": "swain_q",
+        "kind": "effects",
+        "route": "/skills/swain_q/effects",
+        "status": 200,
+        "items": []
+      },
+      "swain_q/processes": {
+        "skillKey": "swain_q",
+        "kind": "processes",
+        "route": "/skills/swain_q/processes",
+        "status": 200,
+        "items": []
+      },
+      "swain_q/internalStates": {
+        "skillKey": "swain_q",
+        "kind": "internalStates",
+        "route": "/skills/swain_q/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "swain_q/triggerRules": {
+        "skillKey": "swain_q",
+        "kind": "triggerRules",
+        "route": "/skills/swain_q/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "swain_w/parameters": {
+        "skillKey": "swain_w",
+        "kind": "parameters",
+        "route": "/skills/swain_w/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-08T01:03:40.975897Z",
+            "description": "DDragon16.17.1 Swain.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 22000,
+              "2": 21000,
+              "3": 20000,
+              "4": 19000,
+              "5": 18000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "swain_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:03:40.975897Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:03:41.4652Z",
+            "description": "DDragon16.17.1 Swain.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "swain_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:03:41.4652Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "swain_w/formulas": {
+        "skillKey": "swain_w",
+        "kind": "formulas",
+        "route": "/skills/swain_w/formulas",
+        "status": 200,
+        "items": []
+      },
+      "swain_w/effects": {
+        "skillKey": "swain_w",
+        "kind": "effects",
+        "route": "/skills/swain_w/effects",
+        "status": 200,
+        "items": []
+      },
+      "swain_w/processes": {
+        "skillKey": "swain_w",
+        "kind": "processes",
+        "route": "/skills/swain_w/processes",
+        "status": 200,
+        "items": []
+      },
+      "swain_w/internalStates": {
+        "skillKey": "swain_w",
+        "kind": "internalStates",
+        "route": "/skills/swain_w/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "swain_w/triggerRules": {
+        "skillKey": "swain_w",
+        "kind": "triggerRules",
+        "route": "/skills/swain_w/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "swain_e/parameters": {
+        "skillKey": "swain_e",
+        "kind": "parameters",
+        "route": "/skills/swain_e/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-08T01:03:42.011717Z",
+            "description": "DDragon16.17.1 Swain.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 12000,
+              "2": 11500,
+              "3": 11000,
+              "4": 10500,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "swain_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:03:42.011717Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:03:42.484308Z",
+            "description": "DDragon16.17.1 Swain.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 55,
+              "3": 60,
+              "4": 65,
+              "5": 70
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "swain_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:03:42.484308Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "swain_e/formulas": {
+        "skillKey": "swain_e",
+        "kind": "formulas",
+        "route": "/skills/swain_e/formulas",
+        "status": 200,
+        "items": []
+      },
+      "swain_e/effects": {
+        "skillKey": "swain_e",
+        "kind": "effects",
+        "route": "/skills/swain_e/effects",
+        "status": 200,
+        "items": []
+      },
+      "swain_e/processes": {
+        "skillKey": "swain_e",
+        "kind": "processes",
+        "route": "/skills/swain_e/processes",
+        "status": 200,
+        "items": []
+      },
+      "swain_e/internalStates": {
+        "skillKey": "swain_e",
+        "kind": "internalStates",
+        "route": "/skills/swain_e/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "swain_e/triggerRules": {
+        "skillKey": "swain_e",
+        "kind": "triggerRules",
+        "route": "/skills/swain_e/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "swain_r/parameters": {
+        "skillKey": "swain_r",
+        "kind": "parameters",
+        "route": "/skills/swain_r/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-08T01:03:42.91271Z",
+            "description": "DDragon16.17.1 Swain.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": 120000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "swain_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:03:42.91271Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:03:43.416514Z",
+            "description": "DDragon16.17.1 Swain.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "swain_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:03:43.416514Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "swain_r/formulas": {
+        "skillKey": "swain_r",
+        "kind": "formulas",
+        "route": "/skills/swain_r/formulas",
+        "status": 200,
+        "items": []
+      },
+      "swain_r/effects": {
+        "skillKey": "swain_r",
+        "kind": "effects",
+        "route": "/skills/swain_r/effects",
+        "status": 200,
+        "items": []
+      },
+      "swain_r/processes": {
+        "skillKey": "swain_r",
+        "kind": "processes",
+        "route": "/skills/swain_r/processes",
+        "status": 200,
+        "items": []
+      },
+      "swain_r/internalStates": {
+        "skillKey": "swain_r",
+        "kind": "internalStates",
+        "route": "/skills/swain_r/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "swain_r/triggerRules": {
+        "skillKey": "swain_r",
+        "kind": "triggerRules",
+        "route": "/skills/swain_r/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "rumble_p/parameters": {
+        "skillKey": "rumble_p",
+        "kind": "parameters",
+        "route": "/skills/rumble_p/parameters",
+        "status": 200,
+        "items": []
+      },
+      "rumble_p/formulas": {
+        "skillKey": "rumble_p",
+        "kind": "formulas",
+        "route": "/skills/rumble_p/formulas",
+        "status": 200,
+        "items": []
+      },
+      "rumble_p/effects": {
+        "skillKey": "rumble_p",
+        "kind": "effects",
+        "route": "/skills/rumble_p/effects",
+        "status": 200,
+        "items": []
+      },
+      "rumble_p/processes": {
+        "skillKey": "rumble_p",
+        "kind": "processes",
+        "route": "/skills/rumble_p/processes",
+        "status": 200,
+        "items": []
+      },
+      "rumble_p/internalStates": {
+        "skillKey": "rumble_p",
+        "kind": "internalStates",
+        "route": "/skills/rumble_p/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "rumble_p/triggerRules": {
+        "skillKey": "rumble_p",
+        "kind": "triggerRules",
+        "route": "/skills/rumble_p/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "rumble_q/parameters": {
+        "skillKey": "rumble_q",
+        "kind": "parameters",
+        "route": "/skills/rumble_q/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-07T17:39:00.274119Z",
+            "description": "DDragon16.17.1 Rumble.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 10000,
+              "2": 9000,
+              "3": 8000,
+              "4": 7000,
+              "5": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "rumble_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T17:39:00.274119Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "rumble_q/formulas": {
+        "skillKey": "rumble_q",
+        "kind": "formulas",
+        "route": "/skills/rumble_q/formulas",
+        "status": 200,
+        "items": []
+      },
+      "rumble_q/effects": {
+        "skillKey": "rumble_q",
+        "kind": "effects",
+        "route": "/skills/rumble_q/effects",
+        "status": 200,
+        "items": []
+      },
+      "rumble_q/processes": {
+        "skillKey": "rumble_q",
+        "kind": "processes",
+        "route": "/skills/rumble_q/processes",
+        "status": 200,
+        "items": []
+      },
+      "rumble_q/internalStates": {
+        "skillKey": "rumble_q",
+        "kind": "internalStates",
+        "route": "/skills/rumble_q/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "rumble_q/triggerRules": {
+        "skillKey": "rumble_q",
+        "kind": "triggerRules",
+        "route": "/skills/rumble_q/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "rumble_w/parameters": {
+        "skillKey": "rumble_w",
+        "kind": "parameters",
+        "route": "/skills/rumble_w/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-07T17:39:00.671969Z",
+            "description": "DDragon16.17.1 Rumble.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 6000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "rumble_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T17:39:00.671969Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "rumble_w/formulas": {
+        "skillKey": "rumble_w",
+        "kind": "formulas",
+        "route": "/skills/rumble_w/formulas",
+        "status": 200,
+        "items": []
+      },
+      "rumble_w/effects": {
+        "skillKey": "rumble_w",
+        "kind": "effects",
+        "route": "/skills/rumble_w/effects",
+        "status": 200,
+        "items": []
+      },
+      "rumble_w/processes": {
+        "skillKey": "rumble_w",
+        "kind": "processes",
+        "route": "/skills/rumble_w/processes",
+        "status": 200,
+        "items": []
+      },
+      "rumble_w/internalStates": {
+        "skillKey": "rumble_w",
+        "kind": "internalStates",
+        "route": "/skills/rumble_w/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "rumble_w/triggerRules": {
+        "skillKey": "rumble_w",
+        "kind": "triggerRules",
+        "route": "/skills/rumble_w/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "rumble_e/parameters": {
+        "skillKey": "rumble_e",
+        "kind": "parameters",
+        "route": "/skills/rumble_e/parameters",
+        "status": 200,
+        "items": []
+      },
+      "rumble_e/formulas": {
+        "skillKey": "rumble_e",
+        "kind": "formulas",
+        "route": "/skills/rumble_e/formulas",
+        "status": 200,
+        "items": []
+      },
+      "rumble_e/effects": {
+        "skillKey": "rumble_e",
+        "kind": "effects",
+        "route": "/skills/rumble_e/effects",
+        "status": 200,
+        "items": []
+      },
+      "rumble_e/processes": {
+        "skillKey": "rumble_e",
+        "kind": "processes",
+        "route": "/skills/rumble_e/processes",
+        "status": 200,
+        "items": []
+      },
+      "rumble_e/internalStates": {
+        "skillKey": "rumble_e",
+        "kind": "internalStates",
+        "route": "/skills/rumble_e/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "rumble_e/triggerRules": {
+        "skillKey": "rumble_e",
+        "kind": "triggerRules",
+        "route": "/skills/rumble_e/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "rumble_r/parameters": {
+        "skillKey": "rumble_r",
+        "kind": "parameters",
+        "route": "/skills/rumble_r/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-07T17:39:01.060047Z",
+            "description": "DDragon16.17.1 Rumble.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 130000,
+              "2": 105000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "rumble_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T17:39:01.060047Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "rumble_r/formulas": {
+        "skillKey": "rumble_r",
+        "kind": "formulas",
+        "route": "/skills/rumble_r/formulas",
+        "status": 200,
+        "items": []
+      },
+      "rumble_r/effects": {
+        "skillKey": "rumble_r",
+        "kind": "effects",
+        "route": "/skills/rumble_r/effects",
+        "status": 200,
+        "items": []
+      },
+      "rumble_r/processes": {
+        "skillKey": "rumble_r",
+        "kind": "processes",
+        "route": "/skills/rumble_r/processes",
+        "status": 200,
+        "items": []
+      },
+      "rumble_r/internalStates": {
+        "skillKey": "rumble_r",
+        "kind": "internalStates",
+        "route": "/skills/rumble_r/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "rumble_r/triggerRules": {
+        "skillKey": "rumble_r",
+        "kind": "triggerRules",
+        "route": "/skills/rumble_r/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_p/parameters": {
+        "skillKey": "aurelionsol_p",
+        "kind": "parameters",
+        "route": "/skills/aurelionsol_p/parameters",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_p/formulas": {
+        "skillKey": "aurelionsol_p",
+        "kind": "formulas",
+        "route": "/skills/aurelionsol_p/formulas",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_p/effects": {
+        "skillKey": "aurelionsol_p",
+        "kind": "effects",
+        "route": "/skills/aurelionsol_p/effects",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_p/processes": {
+        "skillKey": "aurelionsol_p",
+        "kind": "processes",
+        "route": "/skills/aurelionsol_p/processes",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_p/internalStates": {
+        "skillKey": "aurelionsol_p",
+        "kind": "internalStates",
+        "route": "/skills/aurelionsol_p/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_p/triggerRules": {
+        "skillKey": "aurelionsol_p",
+        "kind": "triggerRules",
+        "route": "/skills/aurelionsol_p/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_q/parameters": {
+        "skillKey": "aurelionsol_q",
+        "kind": "parameters",
+        "route": "/skills/aurelionsol_q/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-07T18:35:55.663573Z",
+            "description": "DDragon16.17.1 AurelionSol.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 3000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "aurelionsol_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:35:55.663573Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "aurelionsol_q/formulas": {
+        "skillKey": "aurelionsol_q",
+        "kind": "formulas",
+        "route": "/skills/aurelionsol_q/formulas",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_q/effects": {
+        "skillKey": "aurelionsol_q",
+        "kind": "effects",
+        "route": "/skills/aurelionsol_q/effects",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_q/processes": {
+        "skillKey": "aurelionsol_q",
+        "kind": "processes",
+        "route": "/skills/aurelionsol_q/processes",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_q/internalStates": {
+        "skillKey": "aurelionsol_q",
+        "kind": "internalStates",
+        "route": "/skills/aurelionsol_q/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_q/triggerRules": {
+        "skillKey": "aurelionsol_q",
+        "kind": "triggerRules",
+        "route": "/skills/aurelionsol_q/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_w/parameters": {
+        "skillKey": "aurelionsol_w",
+        "kind": "parameters",
+        "route": "/skills/aurelionsol_w/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-07T18:35:56.183935Z",
+            "description": "DDragon16.17.1 AurelionSol.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 22000,
+              "2": 20000,
+              "3": 18000,
+              "4": 16000,
+              "5": 14000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "aurelionsol_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:35:56.183935Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:35:56.725827Z",
+            "description": "DDragon16.17.1 AurelionSol.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 55,
+              "3": 60,
+              "4": 65,
+              "5": 70
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "aurelionsol_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:35:56.725827Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "aurelionsol_w/formulas": {
+        "skillKey": "aurelionsol_w",
+        "kind": "formulas",
+        "route": "/skills/aurelionsol_w/formulas",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_w/effects": {
+        "skillKey": "aurelionsol_w",
+        "kind": "effects",
+        "route": "/skills/aurelionsol_w/effects",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_w/processes": {
+        "skillKey": "aurelionsol_w",
+        "kind": "processes",
+        "route": "/skills/aurelionsol_w/processes",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_w/internalStates": {
+        "skillKey": "aurelionsol_w",
+        "kind": "internalStates",
+        "route": "/skills/aurelionsol_w/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_w/triggerRules": {
+        "skillKey": "aurelionsol_w",
+        "kind": "triggerRules",
+        "route": "/skills/aurelionsol_w/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_e/parameters": {
+        "skillKey": "aurelionsol_e",
+        "kind": "parameters",
+        "route": "/skills/aurelionsol_e/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-07T18:35:57.226581Z",
+            "description": "DDragon16.17.1 AurelionSol.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 12000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "aurelionsol_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:35:57.226581Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:35:57.730154Z",
+            "description": "DDragon16.17.1 AurelionSol.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 90,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "aurelionsol_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:35:57.730154Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "aurelionsol_e/formulas": {
+        "skillKey": "aurelionsol_e",
+        "kind": "formulas",
+        "route": "/skills/aurelionsol_e/formulas",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_e/effects": {
+        "skillKey": "aurelionsol_e",
+        "kind": "effects",
+        "route": "/skills/aurelionsol_e/effects",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_e/processes": {
+        "skillKey": "aurelionsol_e",
+        "kind": "processes",
+        "route": "/skills/aurelionsol_e/processes",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_e/internalStates": {
+        "skillKey": "aurelionsol_e",
+        "kind": "internalStates",
+        "route": "/skills/aurelionsol_e/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_e/triggerRules": {
+        "skillKey": "aurelionsol_e",
+        "kind": "triggerRules",
+        "route": "/skills/aurelionsol_e/trigger-rules",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_r/parameters": {
+        "skillKey": "aurelionsol_r",
+        "kind": "parameters",
+        "route": "/skills/aurelionsol_r/parameters",
+        "status": 200,
+        "items": [
+          {
+            "createdAt": "2026-09-07T18:35:58.250163Z",
+            "description": "DDragon16.17.1 AurelionSol.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 110000,
+              "3": 100000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "aurelionsol_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:35:58.250163Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:35:58.928319Z",
+            "description": "DDragon16.17.1 AurelionSol.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "aurelionsol_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:35:58.928319Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ]
+      },
+      "aurelionsol_r/formulas": {
+        "skillKey": "aurelionsol_r",
+        "kind": "formulas",
+        "route": "/skills/aurelionsol_r/formulas",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_r/effects": {
+        "skillKey": "aurelionsol_r",
+        "kind": "effects",
+        "route": "/skills/aurelionsol_r/effects",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_r/processes": {
+        "skillKey": "aurelionsol_r",
+        "kind": "processes",
+        "route": "/skills/aurelionsol_r/processes",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_r/internalStates": {
+        "skillKey": "aurelionsol_r",
+        "kind": "internalStates",
+        "route": "/skills/aurelionsol_r/internal-states",
+        "status": 200,
+        "items": []
+      },
+      "aurelionsol_r/triggerRules": {
+        "skillKey": "aurelionsol_r",
+        "kind": "triggerRules",
+        "route": "/skills/aurelionsol_r/trigger-rules",
+        "status": 200,
+        "items": []
+      }
+    },
+    "details": {
+      "vladimir_q/parameters/cooldown_ms": {
+        "skillKey": "vladimir_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/vladimir_q/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:05:51.237507Z",
+          "description": "DDragon16.17.1 Vladimir.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 7900,
+            "3": 6800,
+            "4": 5700,
+            "5": 4600
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vladimir_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:51.237507Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-08T02:05:51.237507Z",
+          "description": "DDragon16.17.1 Vladimir.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 7900,
+            "3": 6800,
+            "4": 5700,
+            "5": 4600
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vladimir_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:51.237507Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "vladimir_w/parameters/cooldown_ms": {
+        "skillKey": "vladimir_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/vladimir_w/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:05:51.698761Z",
+          "description": "DDragon16.17.1 Vladimir.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 28000,
+            "2": 25000,
+            "3": 22000,
+            "4": 19000,
+            "5": 16000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vladimir_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:51.698761Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-08T02:05:51.698761Z",
+          "description": "DDragon16.17.1 Vladimir.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 28000,
+            "2": 25000,
+            "3": 22000,
+            "4": 19000,
+            "5": 16000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vladimir_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:51.698761Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "vladimir_e/parameters/cooldown_ms": {
+        "skillKey": "vladimir_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/vladimir_e/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:05:52.228626Z",
+          "description": "DDragon16.17.1 Vladimir.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 13000,
+            "2": 11000,
+            "3": 9000,
+            "4": 7000,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vladimir_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:52.228626Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-08T02:05:52.228626Z",
+          "description": "DDragon16.17.1 Vladimir.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 13000,
+            "2": 11000,
+            "3": 9000,
+            "4": 7000,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vladimir_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:52.228626Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "vladimir_r/parameters/cooldown_ms": {
+        "skillKey": "vladimir_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/vladimir_r/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T02:05:52.749406Z",
+          "description": "DDragon16.17.1 Vladimir.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 120000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vladimir_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:52.749406Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-08T02:05:52.749406Z",
+          "description": "DDragon16.17.1 Vladimir.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 120000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vladimir_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:52.749406Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "swain_q/parameters/cooldown_ms": {
+        "skillKey": "swain_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/swain_q/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T01:03:40.065973Z",
+          "description": "DDragon16.17.1 Swain.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 7000,
+            "2": 6000,
+            "3": 5000,
+            "4": 4000,
+            "5": 3000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "swain_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:40.065973Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-08T01:03:40.065973Z",
+          "description": "DDragon16.17.1 Swain.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 7000,
+            "2": 6000,
+            "3": 5000,
+            "4": 4000,
+            "5": 3000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "swain_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:40.065973Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "swain_q/parameters/mana_cost": {
+        "skillKey": "swain_q",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "route": "/skills/swain_q/parameters/mana_cost",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T01:03:40.530487Z",
+          "description": "DDragon16.17.1 Swain.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 40,
+            "2": 45,
+            "3": 50,
+            "4": 55,
+            "5": 60
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "swain_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:40.530487Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-08T01:03:40.530487Z",
+          "description": "DDragon16.17.1 Swain.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 40,
+            "2": 45,
+            "3": 50,
+            "4": 55,
+            "5": 60
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "swain_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:40.530487Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "swain_w/parameters/cooldown_ms": {
+        "skillKey": "swain_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/swain_w/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T01:03:40.975897Z",
+          "description": "DDragon16.17.1 Swain.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 22000,
+            "2": 21000,
+            "3": 20000,
+            "4": 19000,
+            "5": 18000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "swain_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:40.975897Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-08T01:03:40.975897Z",
+          "description": "DDragon16.17.1 Swain.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 22000,
+            "2": 21000,
+            "3": 20000,
+            "4": 19000,
+            "5": 18000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "swain_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:40.975897Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "swain_w/parameters/mana_cost": {
+        "skillKey": "swain_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "route": "/skills/swain_w/parameters/mana_cost",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T01:03:41.4652Z",
+          "description": "DDragon16.17.1 Swain.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "swain_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:41.4652Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-08T01:03:41.4652Z",
+          "description": "DDragon16.17.1 Swain.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "swain_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:41.4652Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "swain_e/parameters/cooldown_ms": {
+        "skillKey": "swain_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/swain_e/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T01:03:42.011717Z",
+          "description": "DDragon16.17.1 Swain.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11500,
+            "3": 11000,
+            "4": 10500,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "swain_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:42.011717Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-08T01:03:42.011717Z",
+          "description": "DDragon16.17.1 Swain.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11500,
+            "3": 11000,
+            "4": 10500,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "swain_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:42.011717Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "swain_e/parameters/mana_cost": {
+        "skillKey": "swain_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "route": "/skills/swain_e/parameters/mana_cost",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T01:03:42.484308Z",
+          "description": "DDragon16.17.1 Swain.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "swain_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:42.484308Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-08T01:03:42.484308Z",
+          "description": "DDragon16.17.1 Swain.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "swain_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:42.484308Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "swain_r/parameters/cooldown_ms": {
+        "skillKey": "swain_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/swain_r/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T01:03:42.91271Z",
+          "description": "DDragon16.17.1 Swain.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": 120000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "swain_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:42.91271Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-08T01:03:42.91271Z",
+          "description": "DDragon16.17.1 Swain.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": 120000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "swain_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:42.91271Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "swain_r/parameters/mana_cost": {
+        "skillKey": "swain_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "route": "/skills/swain_r/parameters/mana_cost",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-08T01:03:43.416514Z",
+          "description": "DDragon16.17.1 Swain.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "swain_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:43.416514Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-08T01:03:43.416514Z",
+          "description": "DDragon16.17.1 Swain.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "swain_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:43.416514Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "rumble_q/parameters/cooldown_ms": {
+        "skillKey": "rumble_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/rumble_q/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:39:00.274119Z",
+          "description": "DDragon16.17.1 Rumble.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9000,
+            "3": 8000,
+            "4": 7000,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "rumble_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:39:00.274119Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-07T17:39:00.274119Z",
+          "description": "DDragon16.17.1 Rumble.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9000,
+            "3": 8000,
+            "4": 7000,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "rumble_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:39:00.274119Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "rumble_w/parameters/cooldown_ms": {
+        "skillKey": "rumble_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/rumble_w/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:39:00.671969Z",
+          "description": "DDragon16.17.1 Rumble.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "rumble_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:39:00.671969Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-07T17:39:00.671969Z",
+          "description": "DDragon16.17.1 Rumble.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "rumble_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:39:00.671969Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "rumble_r/parameters/cooldown_ms": {
+        "skillKey": "rumble_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/rumble_r/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T17:39:01.060047Z",
+          "description": "DDragon16.17.1 Rumble.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 130000,
+            "2": 105000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "rumble_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:39:01.060047Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-07T17:39:01.060047Z",
+          "description": "DDragon16.17.1 Rumble.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 130000,
+            "2": 105000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "rumble_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:39:01.060047Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "aurelionsol_q/parameters/cooldown_ms": {
+        "skillKey": "aurelionsol_q",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/aurelionsol_q/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:35:55.663573Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "aurelionsol_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:35:55.663573Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-07T18:35:55.663573Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "aurelionsol_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:35:55.663573Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "aurelionsol_w/parameters/cooldown_ms": {
+        "skillKey": "aurelionsol_w",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/aurelionsol_w/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:35:56.183935Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 22000,
+            "2": 20000,
+            "3": 18000,
+            "4": 16000,
+            "5": 14000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "aurelionsol_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:35:56.183935Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-07T18:35:56.183935Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 22000,
+            "2": 20000,
+            "3": 18000,
+            "4": 16000,
+            "5": 14000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "aurelionsol_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:35:56.183935Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "aurelionsol_w/parameters/mana_cost": {
+        "skillKey": "aurelionsol_w",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "route": "/skills/aurelionsol_w/parameters/mana_cost",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:35:56.725827Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "aurelionsol_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:35:56.725827Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-07T18:35:56.725827Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "aurelionsol_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:35:56.725827Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "aurelionsol_e/parameters/cooldown_ms": {
+        "skillKey": "aurelionsol_e",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/aurelionsol_e/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:35:57.226581Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:35:57.226581Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-07T18:35:57.226581Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:35:57.226581Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "aurelionsol_e/parameters/mana_cost": {
+        "skillKey": "aurelionsol_e",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "route": "/skills/aurelionsol_e/parameters/mana_cost",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:35:57.730154Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 90,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:35:57.730154Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-07T18:35:57.730154Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 90,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "aurelionsol_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:35:57.730154Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "aurelionsol_r/parameters/cooldown_ms": {
+        "skillKey": "aurelionsol_r",
+        "kind": "parameters",
+        "id": "cooldown_ms",
+        "route": "/skills/aurelionsol_r/parameters/cooldown_ms",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:35:58.250163Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 110000,
+            "3": 100000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "aurelionsol_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:35:58.250163Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-07T18:35:58.250163Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 110000,
+            "3": 100000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "aurelionsol_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:35:58.250163Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      },
+      "aurelionsol_r/parameters/mana_cost": {
+        "skillKey": "aurelionsol_r",
+        "kind": "parameters",
+        "id": "mana_cost",
+        "route": "/skills/aurelionsol_r/parameters/mana_cost",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-07T18:35:58.928319Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "aurelionsol_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:35:58.928319Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listItem": {
+          "createdAt": "2026-09-07T18:35:58.928319Z",
+          "description": "DDragon16.17.1 AurelionSol.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "aurelionsol_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:35:58.928319Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        "listSummaryDiff": null
+      }
+    }
+  },
+  "conflicts": {
+    "protection": [],
+    "lists": [],
+    "components": []
+  },
+  "catalogReferences": [
+    {
+      "at": "vladimir_q/formulas/base_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "vladimir_q/formulas/base_heal.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "vladimir_q/formulas/empowered_damage.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "vladimir_q/formulas/empowered_heal.expression.operands[1].operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "vladimir_w/formulas/pool_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "vladimir_w/formulas/pool_heal.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "vladimir_w/effects/health_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "vladimir_e/formulas/min_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "vladimir_e/formulas/max_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "vladimir_e/effects/max_health_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "vladimir_r/formulas/damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "vladimir_r/formulas/first_champion_heal.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "swain_q/formulas/initial_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "swain_q/formulas/extra_bolt_damage.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "swain_q/formulas/max_damage.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "swain_q/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "swain_w/formulas/damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "swain_w/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "swain_e/formulas/secondary_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "swain_e/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "swain_r/formulas/damage_per_second.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "swain_r/formulas/healing_per_second.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "swain_r/formulas/demonflare_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "swain_r/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "rumble_p/formulas/overheat_attack_flat_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "rumble_q/formulas/flat_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "rumble_q/formulas/empowered_damage.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "rumble_w/formulas/shield_amount.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "rumble_w/formulas/empowered_shield_amount.expression.operands[1].operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "rumble_w/effects/move_speed.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "move_speed_percent",
+      "enabled": true
+    },
+    {
+      "at": "rumble_w/effects/move_speed.results[0].detail.modifierZoneKey",
+      "key": "modifierZoneKey",
+      "value": "attribute_flat_add",
+      "enabled": true
+    },
+    {
+      "at": "rumble_w/effects/empowered_move_speed.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "move_speed_percent",
+      "enabled": true
+    },
+    {
+      "at": "rumble_w/effects/empowered_move_speed.results[0].detail.modifierZoneKey",
+      "key": "modifierZoneKey",
+      "value": "attribute_flat_add",
+      "enabled": true
+    },
+    {
+      "at": "rumble_e/formulas/damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "rumble_e/formulas/empowered_damage.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "rumble_r/formulas/damage_per_second.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "aurelionsol_q/formulas/damage_per_second.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "aurelionsol_q/formulas/burst_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "aurelionsol_q/effects/mana_per_second.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "aurelionsol_w/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "aurelionsol_e/formulas/damage_per_second.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "aurelionsol_e/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "aurelionsol_r/formulas/damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "aurelionsol_r/formulas/skies_descend_damage.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "aurelionsol_r/formulas/shockwave_damage.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "aurelionsol_r/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    }
+  ],
+  "requiredCatalogChecks": [
+    {
+      "catalog": "attributes",
+      "key": "mana",
+      "status": "ENABLED",
+      "passed": true
+    },
+    {
+      "catalog": "attributes",
+      "key": "move_speed_percent",
+      "status": "ENABLED",
+      "passed": true
+    },
+    {
+      "catalog": "modifier-zones",
+      "key": "attribute_flat_add",
+      "status": "ENABLED",
+      "passed": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "修订一候选散列冻结",
+      "passed": true,
+      "detail": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7"
+    },
+    {
+      "name": "修订一计划散列冻结",
+      "passed": true,
+      "detail": "7b1b6a62bafaefb8b0d78272300ec281beed0baa5397be902b7685a687254718"
+    },
+    {
+      "name": "修订一锁散列冻结",
+      "passed": true,
+      "detail": "baee05b688db36f42cfce7fd8e2376e5e93c64888b0ecebc96cfa9752fbec258"
+    },
+    {
+      "name": "旧只读证据散列冻结",
+      "passed": true,
+      "detail": "ba50c2f11595df9c64d95345b4af156f9e468656b3bcdb8634558048bad8b62c"
+    },
+    {
+      "name": "候选为20个固定技能位",
+      "passed": true,
+      "detail": [
+        "vladimir_p",
+        "vladimir_q",
+        "vladimir_w",
+        "vladimir_e",
+        "vladimir_r",
+        "swain_p",
+        "swain_q",
+        "swain_w",
+        "swain_e",
+        "swain_r",
+        "rumble_p",
+        "rumble_q",
+        "rumble_w",
+        "rumble_e",
+        "rumble_r",
+        "aurelionsol_p",
+        "aurelionsol_q",
+        "aurelionsol_w",
+        "aurelionsol_e",
+        "aurelionsol_r"
+      ]
+    },
+    {
+      "name": "冻结候选等待审查且零写入",
+      "passed": true,
+      "detail": {
+        "status": "修订一候选已冻结，等待主负责人审查；不是实录",
+        "candidateApiWrites": 0,
+        "freezeApi": {
+          "readOnlyRequests": 53,
+          "successfulReadOnlyRequests": 53,
+          "failures": 0,
+          "businessWrites": 0,
+          "apiCalls": 0
+        }
+      }
+    },
+    {
+      "name": "候选总组成数为285",
+      "passed": true,
+      "detail": 285
+    },
+    {
+      "name": "复用公共参数恰为22项",
+      "passed": true,
+      "detail": 22
+    },
+    {
+      "name": "计划恰含263条POST",
+      "passed": true,
+      "detail": {
+        "requestCount": 263,
+        "entries": 263
+      }
+    },
+    {
+      "name": "计划不含主体、目录或六类禁写",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "完整保护对象数量",
+      "passed": true,
+      "detail": {
+        "catalogs": 4,
+        "characters": 4,
+        "relations": 4,
+        "subjects": 20,
+        "images": 20,
+        "lists": 120,
+        "details": 22,
+        "publicParameterDetails": 22,
+        "expectedPublicParameterDetails": 22,
+        "expectedCandidateDetails": 285,
+        "expectedNewComponents": 263,
+        "currentExpectedExistingDetails": 22,
+        "requests": 194,
+        "statusCounts": {
+          "200": 194
+        },
+        "failures": 0,
+        "apiWrites": 0,
+        "businessWrites": 0,
+        "methodCounts": {
+          "GET": 194
+        },
+        "expectedRequestFormula": "4共享目录+4角色+4关系+20技能主体+20图片+120列表+当前列表全部详情",
+        "listItemDetailCount": 22
+      }
+    },
+    {
+      "name": "写前当前组成仅含22个复用公共参数",
+      "passed": true,
+      "detail": {
+        "details": 22,
+        "protectionConflicts": 0,
+        "listConflicts": 0,
+        "componentConflicts": 0
+      }
+    },
+    {
+      "name": "共享目录关键项已启用",
+      "passed": true,
+      "detail": [
+        {
+          "catalog": "attributes",
+          "key": "mana",
+          "status": "ENABLED",
+          "passed": true
+        },
+        {
+          "catalog": "attributes",
+          "key": "move_speed_percent",
+          "status": "ENABLED",
+          "passed": true
+        },
+        {
+          "catalog": "modifier-zones",
+          "key": "attribute_flat_add",
+          "status": "ENABLED",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "完整保护只使用GET",
+      "passed": true,
+      "detail": {
+        "GET": 194
+      }
+    }
+  ],
+  "failures": [],
+  "summary": {
+    "catalogs": 4,
+    "characters": 4,
+    "relations": 4,
+    "subjects": 20,
+    "images": 20,
+    "lists": 120,
+    "details": 22,
+    "publicParameterDetails": 22,
+    "expectedPublicParameterDetails": 22,
+    "expectedCandidateDetails": 285,
+    "expectedNewComponents": 263,
+    "currentExpectedExistingDetails": 22,
+    "requests": 194,
+    "statusCounts": {
+      "200": 194
+    },
+    "failures": 0,
+    "apiWrites": 0,
+    "businessWrites": 0,
+    "methodCounts": {
+      "GET": 194
+    },
+    "expectedRequestFormula": "4共享目录+4角色+4关系+20技能主体+20图片+120列表+当前列表全部详情",
+    "listItemDetailCount": 22
+  },
+  "apiWrites": 0,
+  "businessWrites": 0,
+  "status": "READY_FOR_WRITER_REVIEW"
+}

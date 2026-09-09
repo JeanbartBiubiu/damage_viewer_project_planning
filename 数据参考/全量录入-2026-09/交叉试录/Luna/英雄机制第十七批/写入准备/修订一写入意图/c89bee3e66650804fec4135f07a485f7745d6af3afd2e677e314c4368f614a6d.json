@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T12:14:31.086Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/vladimir_p/formulas/ability_power_from_bonus_health",
+  "id": "ability_power_from_bonus_health",
+  "method": "POST",
+  "body": {
+    "formulaKey": "ability_power_from_bonus_health",
+    "name": "额外生命值转法术强度",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "DIVIDE",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "source_bonus_health_before_passive"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "bonus_health_required_per_ability_power"
+        }
+      ]
+    },
+    "description": "按正文口径计算额外生命值提供的法术强度；输入只取被动前数值，禁止递归。",
+    "sortOrder": 10
+  }
+}

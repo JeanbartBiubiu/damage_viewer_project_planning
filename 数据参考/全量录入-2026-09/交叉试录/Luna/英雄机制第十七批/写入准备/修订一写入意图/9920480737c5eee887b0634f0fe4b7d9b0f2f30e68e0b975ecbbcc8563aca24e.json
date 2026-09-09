@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T12:14:51.753Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/vladimir_w/parameters/base_damage",
+  "id": "base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "血池持续总伤害基础值",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 80,
+      "2": 135,
+      "3": 190,
+      "4": 245,
+      "5": 300
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5；正文 TotalDamage 为血池持续期间总量，不表示每个节拍或每次命中量。",
+    "sortOrder": 30
+  }
+}

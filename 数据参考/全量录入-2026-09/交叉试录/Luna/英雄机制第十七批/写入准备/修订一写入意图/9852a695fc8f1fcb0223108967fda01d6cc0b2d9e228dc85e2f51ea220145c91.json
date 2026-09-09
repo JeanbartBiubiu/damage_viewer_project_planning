@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T12:18:04.401Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/aurelionsol_w/parameters/q_damage_bonus_ratio",
+  "id": "q_damage_bonus_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "q_damage_bonus_ratio",
+    "name": "W期间Q额外伤害比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.08,
+      "2": 0.09,
+      "3": 0.1,
+      "4": 0.11,
+      "5": 0.12
+    },
+    "description": "客户端当前根绑定 DataValues.TrueDamageBonus 取索引1至5",
+    "sortOrder": 40
+  }
+}

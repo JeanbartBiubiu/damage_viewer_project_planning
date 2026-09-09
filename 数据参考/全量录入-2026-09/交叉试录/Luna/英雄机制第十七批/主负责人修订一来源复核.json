@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-09T11:53:40.152Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "planSha256": "7b1b6a62bafaefb8b0d78272300ec281beed0baa5397be902b7685a687254718",
+  "sourceSha256": "da3d627ae08acf0af922daae667574be76ea0c5bc14d7d5fb0be7eae929e0b7a",
+  "textSha256": "98a35b23f9e5384e99fa4d2261710a145b2ae1923b5284bc150d53cfc8f71b73",
+  "approvedCandidate": true,
+  "businessWrites": 0,
+  "checks": [
+    "兰博W四个持续效果按已存接口durationValue.kind表达；普通与强化分支分别定义，未自动叠加。",
+    "弗拉基米尔W根计算树TotalHeal为VampPercent乘TotalDamage，按持续总量标注，不误当减伤后的实际伤害吸血，也不推断周期。R首英雄回复直接读取正文Damage占位量，不用额外英雄SecondaryHealingTooltip。",
+    "兰博P平伤和4%目标最大生命值两部分分开命名，未知等级基础值无默认外供；自我沉默和攻击事件保留系统待接。",
+    "兰博Q小兵专用分支已移出，当前公式明确为平伤组成；最大生命比例另存，未伪称完整总伤害。",
+    "索尔Q当前正文明确最大生命部分为魔法伤害，不沿用源字段TrueDamage字样；E当前5+0.026乘星尘按正文百分号换成0.05+0.00026乘星尘。",
+    "索尔E兵野死亡星尘属于战前进度保留，非英雄引力排除；含ResultModifier的几何树没有忽略修饰而冒造公式。",
+    "血池施法0.25秒与R施法0.3888999819755554秒来源单一；冲突的索尔E施法字段未进入可写参数。"
+  ],
+  "precisionNotes": [
+    "弗拉基米尔R候选说明的100%伤害指根Damage计算量，实际治疗资格和事件仍待接；不将它解释为实际减伤后伤害。",
+    "索尔P e_execute_threshold_ratio为基础阈值加增长，当前公式有效；描述引用EPassiveScalingExecute只标识增长树，阈值组合同时由ExecuteHealthThreshold树及E正文证明。",
+    "弗拉基米尔Q empowered_heal只表示强化额外回复量，来源正文明确额外；当前公式描述未加基础治疗，但页面名称可进一步明确为额外回复，列作统一命名改进，不把该公式当强化总治疗。"
+  ],
+  "boundary": "通过来源与静态候选复核；实际写前保护、业务保存及独立回读尚待本次执行。"
+}

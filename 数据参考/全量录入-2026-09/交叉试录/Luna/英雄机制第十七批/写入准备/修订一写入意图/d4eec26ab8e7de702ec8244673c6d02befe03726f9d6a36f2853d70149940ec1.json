@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T12:15:13.920Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/vladimir_e/parameters/source_max_health_for_charge",
+  "id": "source_max_health_for_charge",
+  "method": "POST",
+  "body": {
+    "parameterKey": "source_max_health_for_charge",
+    "name": "蓄力计算用来源最大生命值输入",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "Min/Max/ChargeHealth树的生命值节点缺少可安全复用的系统枚举；外供真实最大生命值，不默认0。",
+    "sortOrder": 120
+  }
+}

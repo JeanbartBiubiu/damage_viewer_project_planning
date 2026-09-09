@@ -1,0 +1,59 @@
+{
+  "at": "2026-09-09T12:14:48.686Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/vladimir_q/formulas/empowered_damage",
+  "id": "empowered_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "empowered_damage",
+    "name": "强化鲜血转换魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "one"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_damage_bonus_ratio"
+            }
+          ]
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "EmpoweredDamageTooltip = (1 + DamagePercentAmp)×基础伤害；强化资格待接线。",
+    "sortOrder": 30
+  }
+}

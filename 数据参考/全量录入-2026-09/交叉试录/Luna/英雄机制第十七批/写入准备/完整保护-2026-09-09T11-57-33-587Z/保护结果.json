@@ -1,0 +1,178 @@
+{
+  "at": "2026-09-09T11:57:45.451Z",
+  "runId": "2026-09-09T11-57-33-587Z",
+  "mode": "只读完整保护；不发送业务写入",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "planFileSha256": "7b1b6a62bafaefb8b0d78272300ec281beed0baa5397be902b7685a687254718",
+  "freezeSha256": "baee05b688db36f42cfce7fd8e2376e5e93c64888b0ecebc96cfa9752fbec258",
+  "apiWrites": 0,
+  "businessWrites": 0,
+  "summary": {
+    "requests": 194,
+    "methodCounts": {
+      "GET": 194
+    }
+  },
+  "error": {
+    "name": "Error",
+    "message": "EEXIST: file already exists, open 'C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十七批\\修订一写前完整保护.json'"
+  },
+  "checks": [
+    {
+      "name": "修订一候选散列冻结",
+      "passed": true,
+      "detail": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7"
+    },
+    {
+      "name": "修订一计划散列冻结",
+      "passed": true,
+      "detail": "7b1b6a62bafaefb8b0d78272300ec281beed0baa5397be902b7685a687254718"
+    },
+    {
+      "name": "修订一锁散列冻结",
+      "passed": true,
+      "detail": "baee05b688db36f42cfce7fd8e2376e5e93c64888b0ecebc96cfa9752fbec258"
+    },
+    {
+      "name": "旧只读证据散列冻结",
+      "passed": true,
+      "detail": "ba50c2f11595df9c64d95345b4af156f9e468656b3bcdb8634558048bad8b62c"
+    },
+    {
+      "name": "候选为20个固定技能位",
+      "passed": true,
+      "detail": [
+        "vladimir_p",
+        "vladimir_q",
+        "vladimir_w",
+        "vladimir_e",
+        "vladimir_r",
+        "swain_p",
+        "swain_q",
+        "swain_w",
+        "swain_e",
+        "swain_r",
+        "rumble_p",
+        "rumble_q",
+        "rumble_w",
+        "rumble_e",
+        "rumble_r",
+        "aurelionsol_p",
+        "aurelionsol_q",
+        "aurelionsol_w",
+        "aurelionsol_e",
+        "aurelionsol_r"
+      ]
+    },
+    {
+      "name": "冻结候选等待审查且零写入",
+      "passed": true,
+      "detail": {
+        "status": "修订一候选已冻结，等待主负责人审查；不是实录",
+        "candidateApiWrites": 0,
+        "freezeApi": {
+          "readOnlyRequests": 53,
+          "successfulReadOnlyRequests": 53,
+          "failures": 0,
+          "businessWrites": 0,
+          "apiCalls": 0
+        }
+      }
+    },
+    {
+      "name": "候选总组成数为285",
+      "passed": true,
+      "detail": 285
+    },
+    {
+      "name": "复用公共参数恰为22项",
+      "passed": true,
+      "detail": 22
+    },
+    {
+      "name": "计划恰含263条POST",
+      "passed": true,
+      "detail": {
+        "requestCount": 263,
+        "entries": 263
+      }
+    },
+    {
+      "name": "计划不含主体、目录或六类禁写",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "完整保护对象数量",
+      "passed": true,
+      "detail": {
+        "catalogs": 4,
+        "characters": 4,
+        "relations": 4,
+        "subjects": 20,
+        "images": 20,
+        "lists": 120,
+        "details": 22,
+        "publicParameterDetails": 22,
+        "expectedPublicParameterDetails": 22,
+        "expectedCandidateDetails": 285,
+        "expectedNewComponents": 263,
+        "currentExpectedExistingDetails": 22,
+        "requests": 194,
+        "statusCounts": {
+          "200": 194
+        },
+        "failures": 0,
+        "apiWrites": 0,
+        "businessWrites": 0,
+        "methodCounts": {
+          "GET": 194
+        },
+        "expectedRequestFormula": "4共享目录+4角色+4关系+20技能主体+20图片+120列表+当前列表全部详情",
+        "listItemDetailCount": 22
+      }
+    },
+    {
+      "name": "写前当前组成仅含22个复用公共参数",
+      "passed": true,
+      "detail": {
+        "details": 22,
+        "protectionConflicts": 0,
+        "listConflicts": 0,
+        "componentConflicts": 0
+      }
+    },
+    {
+      "name": "共享目录关键项已启用",
+      "passed": true,
+      "detail": [
+        {
+          "catalog": "attributes",
+          "key": "mana",
+          "status": "ENABLED",
+          "passed": true
+        },
+        {
+          "catalog": "attributes",
+          "key": "move_speed_percent",
+          "status": "ENABLED",
+          "passed": true
+        },
+        {
+          "catalog": "modifier-zones",
+          "key": "attribute_flat_add",
+          "status": "ENABLED",
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "完整保护只使用GET",
+      "passed": true,
+      "detail": {
+        "GET": 194
+      }
+    }
+  ],
+  "failures": []
+}

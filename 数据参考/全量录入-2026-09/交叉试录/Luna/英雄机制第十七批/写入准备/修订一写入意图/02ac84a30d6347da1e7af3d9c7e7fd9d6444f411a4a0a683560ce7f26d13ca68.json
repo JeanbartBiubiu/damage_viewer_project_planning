@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T12:17:58.162Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/aurelionsol_q/formulas/damage_per_second",
+  "id": "damage_per_second",
+  "method": "POST",
+  "body": {
+    "formulaKey": "damage_per_second",
+    "name": "星河冲荡每秒魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "damage_per_second_base"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_per_second_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "DamagePerSecond = RankDamagePerSecond + APPerSecond×法强；保存每秒量，不创建周期伤害。",
+    "sortOrder": 10
+  }
+}
