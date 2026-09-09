@@ -1,0 +1,29 @@
+{
+  "i": 19,
+  "intent": {
+    "sequence": 20,
+    "method": "POST",
+    "route": "/skills/corki_e/parameters",
+    "detailRoute": "/skills/corki_e/parameters/base_damage",
+    "skillKey": "corki_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 130,
+        "3": 180,
+        "4": 230,
+        "5": 280
+      },
+      "description": "客户端BaseDamage取技能等级1至5。",
+      "sortOrder": 10
+    }
+  }
+}

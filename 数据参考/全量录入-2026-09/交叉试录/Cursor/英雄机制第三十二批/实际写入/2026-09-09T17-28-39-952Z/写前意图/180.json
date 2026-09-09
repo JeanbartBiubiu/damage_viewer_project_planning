@@ -1,0 +1,23 @@
+{
+  "i": 179,
+  "intent": {
+    "sequence": 180,
+    "method": "POST",
+    "route": "/skills/zeri_e/parameters",
+    "detailRoute": "/skills/zeri_e/parameters/buff_duration_ms",
+    "skillKey": "zeri_e",
+    "kind": "parameters",
+    "stableKey": "buff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "buff_duration_ms",
+      "name": "灿丽花火增益持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前正文BuffDuration=5秒，转换为5000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

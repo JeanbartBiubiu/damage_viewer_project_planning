@@ -1,0 +1,45 @@
+{
+  "i": 164,
+  "intent": {
+    "sequence": 165,
+    "method": "POST",
+    "route": "/skills/zeri_q/formulas",
+    "detailRoute": "/skills/zeri_q/formulas/active_physical_damage",
+    "skillKey": "zeri_q",
+    "kind": "formulas",
+    "stableKey": "active_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "active_physical_damage",
+      "name": "电火迸射整次攻击物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_attack_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前ActiveDamageThatCanCrit=基础值+总攻击力比例；七颗子弹作为一次攻击，不能把完整公式重复乘7。",
+      "sortOrder": 10
+    }
+  }
+}

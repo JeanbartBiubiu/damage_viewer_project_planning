@@ -1,0 +1,23 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "method": "POST",
+    "route": "/skills/kaisa_e/parameters",
+    "detailRoute": "/skills/kaisa_e/parameters/evolution_bonus_attack_speed_threshold_ratio",
+    "skillKey": "kaisa_e",
+    "kind": "parameters",
+    "stableKey": "evolution_bonus_attack_speed_threshold_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "evolution_bonus_attack_speed_threshold_ratio",
+      "name": "E进化额外攻击速度阈值",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前P技能正文引用E的Effect6Amount=100%额外攻击速度；系统比例1代表100%。",
+      "sortOrder": 70
+    }
+  }
+}

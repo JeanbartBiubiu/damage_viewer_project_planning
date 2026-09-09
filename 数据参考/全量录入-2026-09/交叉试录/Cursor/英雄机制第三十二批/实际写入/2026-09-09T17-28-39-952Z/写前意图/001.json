@@ -1,0 +1,23 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "method": "POST",
+    "route": "/skills/corki_p/parameters",
+    "detailRoute": "/skills/corki_p/parameters/attack_conversion_ratio",
+    "skillKey": "corki_p",
+    "kind": "parameters",
+    "stableKey": "attack_conversion_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_conversion_ratio",
+      "name": "攻击额外真实伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "当前根DataValues.AttackConversion约0.2，正文按 @AttackConversion*100@% 显示；比例1代表100%。这是额外真实伤害比例，不是把完整普攻转换成真实伤害。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 111,
+    "method": "POST",
+    "route": "/skills/xayah_q/parameters",
+    "detailRoute": "/skills/xayah_q/parameters/attack_speed_cast_time_scalar",
+    "skillKey": "xayah_q",
+    "kind": "parameters",
+    "stableKey": "attack_speed_cast_time_scalar",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_cast_time_scalar",
+      "name": "攻击速度施法缩短系数",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.07000000029802322,
+        "2": 0.07000000029802322,
+        "3": 0.07000000029802322,
+        "4": 0.07000000029802322,
+        "5": 0.07000000029802322
+      },
+      "description": "当前数组等级1为0、后续为0.07；完整攻击速度动态式待接。",
+      "sortOrder": 60
+    }
+  }
+}

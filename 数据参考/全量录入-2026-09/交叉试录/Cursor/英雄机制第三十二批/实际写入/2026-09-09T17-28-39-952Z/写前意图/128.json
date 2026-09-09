@@ -1,0 +1,23 @@
+{
+  "i": 127,
+  "intent": {
+    "sequence": 128,
+    "method": "POST",
+    "route": "/skills/xayah_e/parameters",
+    "detailRoute": "/skills/xayah_e/parameters/feather_minimum_multiplier",
+    "skillKey": "xayah_e",
+    "kind": "parameters",
+    "stableKey": "feather_minimum_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "feather_minimum_multiplier",
+      "name": "羽毛伤害最低倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.1,
+      "levelValues": null,
+      "description": "当前扩展正文明确最低降至10%；这是逐根倍率下限，不是总根数上限。",
+      "sortOrder": 70
+    }
+  }
+}

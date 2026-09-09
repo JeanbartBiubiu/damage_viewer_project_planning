@@ -1,0 +1,23 @@
+{
+  "i": 143,
+  "intent": {
+    "sequence": 144,
+    "method": "POST",
+    "route": "/skills/zeri_p/parameters",
+    "detailRoute": "/skills/zeri_p/parameters/q_min_damage_level_base",
+    "skillKey": "zeri_p",
+    "kind": "parameters",
+    "stableKey": "q_min_damage_level_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "q_min_damage_level_base",
+      "name": "跨Q未充能基础伤害实际等级值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "P正文跨技能引用Q.MinDamage；Q树为10至25的角色等级插值，当前没有完整等级求值，实际值外供。",
+      "sortOrder": 10
+    }
+  }
+}

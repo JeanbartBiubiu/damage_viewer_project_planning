@@ -1,0 +1,33 @@
+{
+  "i": 205,
+  "intent": {
+    "sequence": 206,
+    "method": "POST",
+    "route": "/skills/zeri_r/formulas",
+    "detailRoute": "/skills/zeri_r/formulas/hypercharge_move_speed_ratio",
+    "skillKey": "zeri_r",
+    "kind": "formulas",
+    "stableKey": "hypercharge_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "hypercharge_move_speed_ratio",
+      "name": "超负荷层移动速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_per_stack_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "current_hypercharge_stack_count"
+          }
+        ]
+      },
+      "description": "当前正文每层提供1.5%移动速度；层数实际输入无默认，状态效果和刷新事件待接。",
+      "sortOrder": 20
+    }
+  }
+}

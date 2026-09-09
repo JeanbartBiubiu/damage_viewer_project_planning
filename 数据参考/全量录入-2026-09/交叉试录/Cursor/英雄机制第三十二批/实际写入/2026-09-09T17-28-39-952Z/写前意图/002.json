@@ -1,0 +1,23 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "method": "POST",
+    "route": "/skills/corki_p/parameters",
+    "detailRoute": "/skills/corki_p/parameters/actual_critical_damage_ratio",
+    "skillKey": "corki_p",
+    "kind": "parameters",
+    "stableKey": "actual_critical_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_critical_damage_ratio",
+      "name": "实际暴击伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前CriticalStrikeTOOLTIP以mStat9乘基础额外真实伤害；实际暴击倍率选择器和阶段没有窄证，运行时外供且不设默认。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 16,
+  "intent": {
+    "sequence": 17,
+    "method": "POST",
+    "route": "/skills/corki_w/parameters",
+    "detailRoute": "/skills/corki_w/parameters/dash_speed_move_speed_ratio",
+    "skillKey": "corki_w",
+    "kind": "parameters",
+    "stableKey": "dash_speed_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dash_speed_move_speed_ratio",
+      "name": "移动速度加成系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前DashSpeed树使用来源移动速度，系数为1。",
+      "sortOrder": 80
+    }
+  }
+}

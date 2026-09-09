@@ -1,0 +1,23 @@
+{
+  "i": 200,
+  "intent": {
+    "sequence": 201,
+    "method": "POST",
+    "route": "/skills/zeri_r/parameters",
+    "detailRoute": "/skills/zeri_r/parameters/hypercharge_stack_duration_ms",
+    "skillKey": "zeri_r",
+    "kind": "parameters",
+    "stableKey": "hypercharge_stack_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "hypercharge_stack_duration_ms",
+      "name": "超负荷层持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2500,
+      "levelValues": null,
+      "description": "当前正文MaxHyperchargeDuration=2.5秒，转换为2500毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

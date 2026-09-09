@@ -1,0 +1,23 @@
+{
+  "i": 130,
+  "intent": {
+    "sequence": 131,
+    "method": "POST",
+    "route": "/skills/xayah_e/parameters",
+    "detailRoute": "/skills/xayah_e/parameters/feather_return_delay_ms",
+    "skillKey": "xayah_e",
+    "kind": "parameters",
+    "stableKey": "feather_return_delay_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "feather_return_delay_ms",
+      "name": "羽毛回收来源延时（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前FeatherReturnDelay=0.25秒，转换为250毫秒。",
+      "sortOrder": 100
+    }
+  }
+}

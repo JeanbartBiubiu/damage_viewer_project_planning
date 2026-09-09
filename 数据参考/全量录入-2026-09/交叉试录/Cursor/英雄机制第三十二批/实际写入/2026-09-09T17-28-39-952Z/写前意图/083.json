@@ -1,0 +1,23 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "method": "POST",
+    "route": "/skills/kaisa_e/parameters",
+    "detailRoute": "/skills/kaisa_e/parameters/actual_bonus_attack_speed_ratio",
+    "skillKey": "kaisa_e",
+    "kind": "parameters",
+    "stableKey": "actual_bonus_attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_bonus_attack_speed_ratio",
+      "name": "实际额外攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前TotalMovespeed树mStat4/mStatFormula2的运行阶段尚未窄证；真实额外攻击速度无默认。",
+      "sortOrder": 40
+    }
+  }
+}

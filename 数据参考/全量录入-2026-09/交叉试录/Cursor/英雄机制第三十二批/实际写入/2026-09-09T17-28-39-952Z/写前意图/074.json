@@ -1,0 +1,23 @@
+{
+  "i": 73,
+  "intent": {
+    "sequence": 74,
+    "method": "POST",
+    "route": "/skills/kaisa_w/parameters",
+    "detailRoute": "/skills/kaisa_w/parameters/total_attack_damage_ratio",
+    "skillKey": "kaisa_w",
+    "kind": "parameters",
+    "stableKey": "total_attack_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "total_attack_damage_ratio",
+      "name": "总攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.3,
+      "levelValues": null,
+      "description": "当前TotalDamage树mStat2、系数1.3；按当前树取来源总攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

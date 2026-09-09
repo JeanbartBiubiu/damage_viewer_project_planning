@@ -1,0 +1,23 @@
+{
+  "i": 196,
+  "intent": {
+    "sequence": 197,
+    "method": "POST",
+    "route": "/skills/zeri_r/parameters",
+    "detailRoute": "/skills/zeri_r/parameters/initial_duration_ms",
+    "skillKey": "zeri_r",
+    "kind": "parameters",
+    "stableKey": "initial_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "initial_duration_ms",
+      "name": "初始超负荷持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前正文RDuration=5秒，转换为5000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

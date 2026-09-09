@@ -1,0 +1,23 @@
+{
+  "i": 129,
+  "intent": {
+    "sequence": 130,
+    "method": "POST",
+    "route": "/skills/xayah_e/parameters",
+    "detailRoute": "/skills/xayah_e/parameters/root_duration_ms",
+    "skillKey": "xayah_e",
+    "kind": "parameters",
+    "stableKey": "root_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "root_duration_ms",
+      "name": "禁锢持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1250,
+      "levelValues": null,
+      "description": "当前RootDuration=1.25秒，转换为1250毫秒。",
+      "sortOrder": 90
+    }
+  }
+}

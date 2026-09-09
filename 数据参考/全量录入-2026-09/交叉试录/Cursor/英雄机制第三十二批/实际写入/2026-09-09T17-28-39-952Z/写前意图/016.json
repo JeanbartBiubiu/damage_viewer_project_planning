@@ -1,0 +1,23 @@
+{
+  "i": 15,
+  "intent": {
+    "sequence": 16,
+    "method": "POST",
+    "route": "/skills/corki_w/parameters",
+    "detailRoute": "/skills/corki_w/parameters/dash_speed_base",
+    "skillKey": "corki_w",
+    "kind": "parameters",
+    "stableKey": "dash_speed_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dash_speed_base",
+      "name": "基础飞行速度",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 650,
+      "levelValues": null,
+      "description": "当前DashSpeed树基础值为650；属于位移来源参数。",
+      "sortOrder": 70
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "i": 142,
+  "intent": {
+    "sequence": 143,
+    "method": "POST",
+    "route": "/skills/xayah_r/formulas",
+    "detailRoute": "/skills/xayah_r/formulas/physical_damage",
+    "skillKey": "xayah_r",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "暴风羽刃唯一敌方物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_attack_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Damage=基础值+额外攻击力；不可选取期间进入前已影响效果的规则另待事件层。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 11,
+  "intent": {
+    "sequence": 12,
+    "method": "POST",
+    "route": "/skills/corki_w/parameters",
+    "detailRoute": "/skills/corki_w/parameters/bonus_attack_damage_ratio",
+    "skillKey": "corki_w",
+    "kind": "parameters",
+    "stableKey": "bonus_attack_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_attack_damage_ratio",
+      "name": "路径额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前MaximumDamage树ADRatio带mStat2/mStatFormula2，取来源额外攻击力，比例1代表100%。",
+      "sortOrder": 30
+    }
+  }
+}

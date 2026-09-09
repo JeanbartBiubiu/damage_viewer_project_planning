@@ -1,0 +1,29 @@
+{
+  "i": 156,
+  "intent": {
+    "sequence": 157,
+    "method": "POST",
+    "route": "/skills/zeri_q/parameters",
+    "detailRoute": "/skills/zeri_q/parameters/total_attack_damage_ratio",
+    "skillKey": "zeri_q",
+    "kind": "parameters",
+    "stableKey": "total_attack_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "total_attack_damage_ratio",
+      "name": "电火迸射总攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 1.0199999809265137,
+        "2": 1.0399999618530273,
+        "3": 1.059999942779541,
+        "4": 1.0800000429153442,
+        "5": 1.100000023841858
+      },
+      "description": "当前ActiveDamageThatCanCrit树ActiveADRatio取等级1至5，为1.02/1.04/1.06/1.08/1.1。",
+      "sortOrder": 20
+    }
+  }
+}

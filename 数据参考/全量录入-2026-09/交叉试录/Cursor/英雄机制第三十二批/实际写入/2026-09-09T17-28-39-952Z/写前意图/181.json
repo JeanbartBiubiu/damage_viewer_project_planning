@@ -1,0 +1,29 @@
+{
+  "i": 180,
+  "intent": {
+    "sequence": 181,
+    "method": "POST",
+    "route": "/skills/zeri_e/parameters",
+    "detailRoute": "/skills/zeri_e/parameters/penetration_damage_ratio",
+    "skillKey": "zeri_e",
+    "kind": "parameters",
+    "stableKey": "penetration_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "penetration_damage_ratio",
+      "name": "穿刺后续目标伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.800000011920929,
+        "2": 0.8500000238418579,
+        "3": 0.8999999761581421,
+        "4": 0.949999988079071,
+        "5": 1
+      },
+      "description": "当前正文PenDamagePercent从等级1取80/85/90/95/100%，保存0.8至1比例；额外目标分配事件排除。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 30,
+  "intent": {
+    "sequence": 31,
+    "method": "POST",
+    "route": "/skills/corki_r/parameters",
+    "detailRoute": "/skills/corki_r/parameters/big_missile_multiplier",
+    "skillKey": "corki_r",
+    "kind": "parameters",
+    "stableKey": "big_missile_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "big_missile_multiplier",
+      "name": "超级导弹倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前RBigMissileDamage是小导弹完整树乘2。",
+      "sortOrder": 30
+    }
+  }
+}

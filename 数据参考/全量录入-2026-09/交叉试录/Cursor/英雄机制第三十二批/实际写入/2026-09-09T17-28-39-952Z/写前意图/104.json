@@ -1,0 +1,23 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "method": "POST",
+    "route": "/skills/xayah_p/parameters",
+    "detailRoute": "/skills/xayah_p/parameters/empowered_attack_max_stacks",
+    "skillKey": "xayah_p",
+    "kind": "parameters",
+    "stableKey": "empowered_attack_max_stacks",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_attack_max_stacks",
+      "name": "强化攻击累计层数上限",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "当前PStackMax=5；不自动创建普攻状态。",
+      "sortOrder": 30
+    }
+  }
+}

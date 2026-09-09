@@ -1,0 +1,63 @@
+{
+  "i": 136,
+  "intent": {
+    "sequence": 137,
+    "method": "POST",
+    "route": "/skills/xayah_e/formulas",
+    "detailRoute": "/skills/xayah_e/formulas/feather_falloff_multiplier",
+    "skillKey": "xayah_e",
+    "kind": "formulas",
+    "stableKey": "feather_falloff_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "feather_falloff_multiplier",
+      "name": "同一敌人逐根伤害倍率",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MAX",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "feather_minimum_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "SUBTRACT",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "feather_falloff_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "SUBTRACT",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "feather_sequence_index"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "one_ratio"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "按序号k计算MAX(0.1,1-0.05×(k-1))；0.1是下限，19根触底不代表19根封顶。",
+      "sortOrder": 40
+    }
+  }
+}

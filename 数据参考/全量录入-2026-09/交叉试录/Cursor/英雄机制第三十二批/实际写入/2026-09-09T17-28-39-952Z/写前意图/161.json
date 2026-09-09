@@ -1,0 +1,23 @@
+{
+  "i": 160,
+  "intent": {
+    "sequence": 161,
+    "method": "POST",
+    "route": "/skills/zeri_q/parameters",
+    "detailRoute": "/skills/zeri_q/parameters/excess_attack_speed_to_ad_ratio",
+    "skillKey": "zeri_q",
+    "kind": "parameters",
+    "stableKey": "excess_attack_speed_to_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "excess_attack_speed_to_ad_ratio",
+      "name": "溢出攻击速度转攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.6000000238418579,
+      "levelValues": null,
+      "description": "当前正文和DataValues为60%，转为0.6比例；不自行定义溢出基数和应用阶段。",
+      "sortOrder": 60
+    }
+  }
+}

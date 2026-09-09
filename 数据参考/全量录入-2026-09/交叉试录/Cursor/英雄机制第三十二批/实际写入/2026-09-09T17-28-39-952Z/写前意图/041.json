@@ -1,0 +1,45 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 41,
+    "method": "POST",
+    "route": "/skills/corki_r/formulas",
+    "detailRoute": "/skills/corki_r/formulas/small_missile_damage",
+    "skillKey": "corki_r",
+    "kind": "formulas",
+    "stableKey": "small_missile_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "small_missile_damage",
+      "name": "小导弹单一敌方物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_attack_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前RSmallMissileDamage=基础值+0.85×来源额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

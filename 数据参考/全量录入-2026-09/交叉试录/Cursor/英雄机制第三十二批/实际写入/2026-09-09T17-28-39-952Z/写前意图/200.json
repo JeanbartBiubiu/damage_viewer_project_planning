@@ -1,0 +1,23 @@
+{
+  "i": 199,
+  "intent": {
+    "sequence": 200,
+    "method": "POST",
+    "route": "/skills/zeri_r/parameters",
+    "detailRoute": "/skills/zeri_r/parameters/base_move_speed_bonus_ratio",
+    "skillKey": "zeri_r",
+    "kind": "parameters",
+    "stableKey": "base_move_speed_bonus_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_move_speed_bonus_ratio",
+      "name": "命中英雄基础移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.15000000596046448,
+      "levelValues": null,
+      "description": "当前正文命中英雄后提供15%移动速度，转为0.15比例。",
+      "sortOrder": 70
+    }
+  }
+}

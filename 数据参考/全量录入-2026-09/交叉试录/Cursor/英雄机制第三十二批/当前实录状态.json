@@ -1,0 +1,138 @@
+{
+  "at": "2026-09-09T17:33:40.394Z",
+  "batch": "英雄机制第三十二批",
+  "skills": [
+    "corki_p",
+    "corki_q",
+    "corki_w",
+    "corki_e",
+    "corki_r",
+    "kaisa_p",
+    "kaisa_q",
+    "kaisa_w",
+    "kaisa_e",
+    "kaisa_r",
+    "xayah_p",
+    "xayah_q",
+    "xayah_w",
+    "xayah_e",
+    "xayah_r",
+    "zeri_p",
+    "zeri_q",
+    "zeri_w",
+    "zeri_e",
+    "zeri_r"
+  ],
+  "status": "明确组成已保存，并通过独立全字段回读、实际公式核算和代表页面验收；等级曲线、暴击阶段、施放时序与事件接线继续处理",
+  "counts": {
+    "parameters": 193,
+    "formulas": 41,
+    "effects": 1,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newCounts": {
+    "parameters": 164,
+    "formulas": 41,
+    "effects": 1
+  },
+  "reusedParameters": 29,
+  "currentTotalComponents": 235,
+  "businessWrites": 206,
+  "protected": {
+    "subjects": 20,
+    "compositionLists": 120,
+    "referenceGETs": 201,
+    "images": 20,
+    "characters": 4,
+    "relations": 4,
+    "dictionaries": 4
+  },
+  "candidateFileSha256": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
+  "writePlanSha256": "4250c6cf97965f7f83fa64f89089487f52ede37f83adcb2df15c0051a97e9c46",
+  "execution": {
+    "file": "实际写入/2026-09-09T17-28-39-952Z/执行结果.json",
+    "GETs": 1284,
+    "successfulPOSTs": 206,
+    "rejectedPOSTs": 0,
+    "unknownPOSTs": 0,
+    "passed": true
+  },
+  "independentReadback": {
+    "file": "独立验收/实际回读/2026-09-09T17-34-20-634Z/执行结果.json",
+    "GETs": 407,
+    "protectedPaths": 201,
+    "details": 235,
+    "reusedDetails": 29,
+    "plannedDetails": 206,
+    "passed": true
+  },
+  "strictMath": {
+    "file": "实际公式核算/2026-09-09T17-50-20-637Z/实际GET数学.json",
+    "sourceExpectedModule": "独立源值数学/source-expected.mjs",
+    "actualFormulas": 41,
+    "formulaCases": 82,
+    "missingInputChecks": 41,
+    "binaryNodeChecks": 150,
+    "runtimeInputChecks": 18,
+    "integerMillisecondsChecks": 43,
+    "ratioChecks": 61,
+    "boundaryChecks": 34,
+    "sourceSeriesChecks": 15,
+    "crossSkillChecks": 2,
+    "forbiddenComponentChecks": 20,
+    "additionalNetworkCalls": 206,
+    "passed": true
+  },
+  "browser": {
+    "file": "页面验收.json",
+    "representativePages": 4,
+    "GETs": 24,
+    "mathCases": 20,
+    "passed": true
+  },
+  "cursorAudit": {
+    "directory": "Cursor来源审计",
+    "verdict": "READY",
+    "events": 1368,
+    "tools": {
+      "glob": 1,
+      "grep": 15,
+      "read": 40
+    },
+    "readonlyAuditPassed": true,
+    "gitDelta": [],
+    "reviewSha256": "46e671a332ebe7a719818f5522f0e8757234c9be8297a5baf625a4f3abf5e1a4",
+    "eventsSha256": "24eb3162b9dc941d15db07ed6f551e478e736eda9c55c2dd06def93ae952cfab"
+  },
+  "hashes": {
+    "完整候选.json": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
+    "写前请求计划.json": "4250c6cf97965f7f83fa64f89089487f52ede37f83adcb2df15c0051a97e9c46",
+    "源值解析.json": "72474e8cad1f7b9eb929f18d2a243c25c56acd3507604de542ac8f7efedc18f9",
+    "来源哈希汇总.json": "74a322d6b4914c4ee54b5cba09bdffb89adf0917276512b220d0f85c79262b34",
+    "严格数学.json": "273762d3d9b3104dcce398ca2c2145aafc727ffd2d2507f7d659e604970eac37",
+    "实际写入/2026-09-09T17-28-39-952Z/执行结果.json": "d004faa8deded25dc02ce085804c10d95707c021f68c778053b2091662fea7d0",
+    "独立验收/实际回读/2026-09-09T17-34-20-634Z/执行结果.json": "a4b3532319b1aa4591161537bc701138611c9277039234fe45e3226e9b8ffd46",
+    "独立验收/实际回读/2026-09-09T17-34-20-634Z/独立全量回读.json": "168598b894fb9416097ae0befa076c1a44d703342024990c84dff7e289d44373",
+    "实际公式核算/2026-09-09T17-50-20-637Z/实际GET数学.json": "35603d1578ec7e97e4488f1b03fc743828b60781d06b8821b711870a710bb0bd",
+    "实际公式核算/实际GET数学.mjs": "bfae03e313d84aa31329924aa91f69e3755ebbfb67a8a39864d000f94596afd1",
+    "独立源值数学/source-expected.mjs": "b6e7f97242ca77dc11f9fa9b9af35892dc11987d1e0b7efe54f23d7704efce1e",
+    "页面验收.json": "a7eca9b0c496151172939d49afc9f00a370a040ce35f83f5b91d92c4326e54f2",
+    "Cursor来源审计/Cursor来源复核结论.md": "46e671a332ebe7a719818f5522f0e8757234c9be8297a5baf625a4f3abf5e1a4",
+    "Cursor来源审计/主负责人执行审计.json": "1dc814a894188cec62a3b251d3e4050a765d888e380f7c78b0632dd403de138d",
+    "Cursor来源审计/events.jsonl": "24eb3162b9dc941d15db07ed6f551e478e736eda9c55c2dd06def93ae952cfab"
+  },
+  "issues": [
+    "页面验收记录了原始浮点尾差（例如0.55000001）；实际数学使用有界容差，未把显示尾差当成来源改动。",
+    "旧候选阶段数学曾依赖候选固定值；最终数学改由独立源值模块从原始绑定读取期望，旧材料保留作为历史证据。",
+    "非法输入拒绝来自独立验收脚本的参数校验，不是战斗运行验证。",
+    "卡莎等级曲线、暴击阶段和攻速运行输入，霞羽毛命中顺序，泽丽超负荷事件与资源扣费等仍需运行层接线。"
+  ],
+  "pending": [
+    "未知等级曲线、实际暴击倍率/几率、攻击速度阶段、施放和命中时序不设默认。",
+    "跨技能触发、技能进化、弹体和羽毛过程、资源扣费与效果资格尚未接入战斗运行。",
+    "明确组成的管理页保存和静态数学通过不等于完整战斗机制或战斗运行通过。"
+  ],
+  "runtimeValidation": "未执行"
+}

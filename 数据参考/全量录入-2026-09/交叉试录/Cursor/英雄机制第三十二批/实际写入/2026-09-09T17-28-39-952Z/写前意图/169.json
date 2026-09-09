@@ -1,0 +1,23 @@
+{
+  "i": 168,
+  "intent": {
+    "sequence": 169,
+    "method": "POST",
+    "route": "/skills/zeri_w/parameters",
+    "detailRoute": "/skills/zeri_w/parameters/critical_effectiveness_ratio",
+    "skillKey": "zeri_w",
+    "kind": "parameters",
+    "stableKey": "critical_effectiveness_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_effectiveness_ratio",
+      "name": "过墙暴击效能比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前WallDamage树使用CriticalEffectiveness=0.5；只作用于实际暴击倍率增量。",
+      "sortOrder": 40
+    }
+  }
+}

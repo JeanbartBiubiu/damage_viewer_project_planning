@@ -1,0 +1,23 @@
+{
+  "i": 162,
+  "intent": {
+    "sequence": 163,
+    "method": "POST",
+    "route": "/skills/zeri_q/parameters",
+    "detailRoute": "/skills/zeri_q/parameters/charge_distance_multiplier",
+    "skillKey": "zeri_q",
+    "kind": "parameters",
+    "stableKey": "charge_distance_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charge_distance_multiplier",
+      "name": "移动充能距离系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.02500000037252903,
+      "levelValues": null,
+      "description": "当前DataValues.ChargeDistanceMultiplier约0.025；只保存来源系数。",
+      "sortOrder": 80
+    }
+  }
+}

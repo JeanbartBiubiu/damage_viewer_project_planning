@@ -1,0 +1,23 @@
+{
+  "i": 81,
+  "intent": {
+    "sequence": 82,
+    "method": "POST",
+    "route": "/skills/kaisa_e/parameters",
+    "detailRoute": "/skills/kaisa_e/parameters/move_speed_clamp_upper",
+    "skillKey": "kaisa_e",
+    "kind": "parameters",
+    "stableKey": "move_speed_clamp_upper",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_clamp_upper",
+      "name": "移动速度倍率上限",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前TotalMovespeed树Clamp上限为2，比例2代表200%。",
+      "sortOrder": 30
+    }
+  }
+}

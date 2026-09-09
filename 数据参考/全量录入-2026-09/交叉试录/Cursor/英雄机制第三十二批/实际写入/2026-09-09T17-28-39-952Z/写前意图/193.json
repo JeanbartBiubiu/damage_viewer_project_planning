@@ -1,0 +1,45 @@
+{
+  "i": 192,
+  "intent": {
+    "sequence": 193,
+    "method": "POST",
+    "route": "/skills/zeri_e/formulas",
+    "detailRoute": "/skills/zeri_e/formulas/dash_speed",
+    "skillKey": "zeri_e",
+    "kind": "formulas",
+    "stableKey": "dash_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "dash_speed",
+      "name": "灿丽花火冲刺速度",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "dash_speed_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "dash_speed_move_speed_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "move_speed",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前DashSpeed=600+来源移动速度；位移和穿刺目标事件待接。",
+      "sortOrder": 20
+    }
+  }
+}

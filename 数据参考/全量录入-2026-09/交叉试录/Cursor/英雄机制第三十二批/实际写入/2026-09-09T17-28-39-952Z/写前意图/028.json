@@ -1,0 +1,45 @@
+{
+  "i": 27,
+  "intent": {
+    "sequence": 28,
+    "method": "POST",
+    "route": "/skills/corki_e/formulas",
+    "detailRoute": "/skills/corki_e/formulas/physical_damage",
+    "skillKey": "corki_e",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "格林机枪单一敌方完整物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_attack_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=基础值+2.4×额外攻击力；正文的4秒和每秒4次不重复乘入。",
+      "sortOrder": 10
+    }
+  }
+}

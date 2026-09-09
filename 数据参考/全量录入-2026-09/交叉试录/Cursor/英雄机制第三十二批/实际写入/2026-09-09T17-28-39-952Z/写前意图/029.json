@@ -1,0 +1,27 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 29,
+    "method": "POST",
+    "route": "/skills/corki_r/parameters",
+    "detailRoute": "/skills/corki_r/parameters/base_damage",
+    "skillKey": "corki_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "小导弹基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 90,
+        "2": 170,
+        "3": 250
+      },
+      "description": "客户端RSmallMissileDamage树BaseDamage取技能等级1至3，为90/170/250。",
+      "sortOrder": 10
+    }
+  }
+}

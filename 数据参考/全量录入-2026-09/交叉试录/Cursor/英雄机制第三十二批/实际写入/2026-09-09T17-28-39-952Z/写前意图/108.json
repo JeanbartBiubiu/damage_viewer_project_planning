@@ -1,0 +1,23 @@
+{
+  "i": 107,
+  "intent": {
+    "sequence": 108,
+    "method": "POST",
+    "route": "/skills/xayah_q/parameters",
+    "detailRoute": "/skills/xayah_q/parameters/dagger_count",
+    "skillKey": "xayah_q",
+    "kind": "parameters",
+    "stableKey": "dagger_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dagger_count",
+      "name": "匕首数量",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前正文明确一次投出两把匕首；两把对同一首个目标均按完整单把伤害。",
+      "sortOrder": 30
+    }
+  }
+}

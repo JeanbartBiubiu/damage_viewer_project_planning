@@ -1,0 +1,23 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "method": "POST",
+    "route": "/skills/kaisa_q/parameters",
+    "detailRoute": "/skills/kaisa_q/parameters/normal_max_damage_multiplier",
+    "skillKey": "kaisa_q",
+    "kind": "parameters",
+    "stableKey": "normal_max_damage_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "normal_max_damage_multiplier",
+      "name": "普通最大总量倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2.25,
+      "levelValues": null,
+      "description": "当前MaxDamageTotal树=1+5×0.25，表示首发全量加5发后续25%。",
+      "sortOrder": 70
+    }
+  }
+}

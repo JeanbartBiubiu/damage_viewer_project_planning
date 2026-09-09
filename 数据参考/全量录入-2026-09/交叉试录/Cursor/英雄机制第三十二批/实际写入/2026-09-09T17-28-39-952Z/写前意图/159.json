@@ -1,0 +1,23 @@
+{
+  "i": 158,
+  "intent": {
+    "sequence": 159,
+    "method": "POST",
+    "route": "/skills/zeri_q/parameters",
+    "detailRoute": "/skills/zeri_q/parameters/min_cooldown_ms",
+    "skillKey": "zeri_q",
+    "kind": "parameters",
+    "stableKey": "min_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "min_cooldown_ms",
+      "name": "最小冷却时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前MinCooldown=0.5秒，转换为500毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

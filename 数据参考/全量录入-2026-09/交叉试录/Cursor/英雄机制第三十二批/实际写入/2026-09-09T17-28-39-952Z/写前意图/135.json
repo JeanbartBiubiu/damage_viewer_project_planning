@@ -1,0 +1,63 @@
+{
+  "i": 134,
+  "intent": {
+    "sequence": 135,
+    "method": "POST",
+    "route": "/skills/xayah_e/formulas",
+    "detailRoute": "/skills/xayah_e/formulas/critical_multiplier",
+    "skillKey": "xayah_e",
+    "kind": "formulas",
+    "stableKey": "critical_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "critical_multiplier",
+      "name": "羽毛暴击效能倍率",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "one_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "critical_effectiveness_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_critical_chance_ratio"
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "SUBTRACT",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_critical_damage_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one_ratio"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前树为1+0.5×实际暴击几率×（实际暴击倍率-1）；暴击输入无默认。",
+      "sortOrder": 20
+    }
+  }
+}

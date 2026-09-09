@@ -1,0 +1,55 @@
+{
+  "i": 54,
+  "intent": {
+    "sequence": 55,
+    "method": "POST",
+    "route": "/skills/kaisa_p/formulas",
+    "detailRoute": "/skills/kaisa_p/formulas/per_stack_plasma_damage",
+    "skillKey": "kaisa_p",
+    "kind": "formulas",
+    "stableKey": "per_stack_plasma_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "per_stack_plasma_damage",
+      "name": "每层电浆额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "per_stack_damage_by_character_level"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "per_stack_ability_power_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mode_damage_multiplier"
+          }
+        ]
+      },
+      "description": "当前PCurrentPerStackDamage=(等级每层基础值+0.03×法强)×模式乘数。",
+      "sortOrder": 20
+    }
+  }
+}
