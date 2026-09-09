@@ -1,0 +1,27 @@
+{
+  "i": 155,
+  "intent": {
+    "sequence": 156,
+    "method": "POST",
+    "route": "/skills/singed_r/parameters",
+    "detailRoute": "/skills/singed_r/parameters/stat_amount",
+    "skillKey": "singed_r",
+    "kind": "parameters",
+    "stableKey": "stat_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stat_amount",
+      "name": "强化属性点数",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 55,
+        "3": 85
+      },
+      "description": "当前StatAmount取索引1至3；正文同时用于法强、护甲、魔抗、移动速度、生命回复和法力回复，移动速度保存为点数而非比例。",
+      "sortOrder": 10
+    }
+  }
+}

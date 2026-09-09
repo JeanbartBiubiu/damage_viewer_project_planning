@@ -1,0 +1,29 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 24,
+    "method": "POST",
+    "route": "/skills/evelynn_e/parameters",
+    "detailRoute": "/skills/evelynn_e/parameters/base_damage",
+    "skillKey": "evelynn_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "普通鞭笞基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 90,
+        "3": 120,
+        "4": 150,
+        "5": 180
+      },
+      "description": "客户端BaseDamage取索引1至5；普通E分支。",
+      "sortOrder": 10
+    }
+  }
+}

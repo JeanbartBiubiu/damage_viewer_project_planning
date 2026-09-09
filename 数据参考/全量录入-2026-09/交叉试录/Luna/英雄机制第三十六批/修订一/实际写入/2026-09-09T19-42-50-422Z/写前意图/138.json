@@ -1,0 +1,23 @@
+{
+  "i": 137,
+  "intent": {
+    "sequence": 138,
+    "method": "POST",
+    "route": "/skills/singed_q/parameters",
+    "detailRoute": "/skills/singed_q/parameters/mana_per_second",
+    "skillKey": "singed_q",
+    "kind": "parameters",
+    "stableKey": "mana_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mana_per_second",
+      "name": "剧毒踪迹每秒法力消耗",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 13,
+      "levelValues": null,
+      "description": "当前根mana索引0为13，mLocKeys正文明确为每秒法力；仅保存每秒成本，不创建普通一次施放消耗效果。",
+      "sortOrder": 90
+    }
+  }
+}

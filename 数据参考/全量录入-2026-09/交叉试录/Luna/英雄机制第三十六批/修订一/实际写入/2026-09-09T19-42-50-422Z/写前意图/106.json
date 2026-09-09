@@ -1,0 +1,23 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 106,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_w/parameters",
+    "detailRoute": "/skills/fiddlesticks_w/parameters/actual_hero_pre_mitigation_damage",
+    "skillKey": "fiddlesticks_w",
+    "kind": "parameters",
+    "stableKey": "actual_hero_pre_mitigation_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_hero_pre_mitigation_damage",
+      "name": "当前合资格英雄折前伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "英雄治疗按当前合资格折前伤害计算；运行时必须提供实际折前值，不设默认。",
+      "sortOrder": 100
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "i": 73,
+  "intent": {
+    "sequence": 74,
+    "method": "POST",
+    "route": "/skills/lillia_w/formulas",
+    "detailRoute": "/skills/lillia_w/formulas/sweet_spot_magic_damage",
+    "skillKey": "lillia_w",
+    "kind": "formulas",
+    "stableKey": "sweet_spot_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "sweet_spot_magic_damage",
+      "name": "惊惶木中心魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "sweet_spot_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "FlatDamageSweetSpot = 3×普通完整值；中心命中替代普通结果。",
+      "sortOrder": 20
+    }
+  }
+}

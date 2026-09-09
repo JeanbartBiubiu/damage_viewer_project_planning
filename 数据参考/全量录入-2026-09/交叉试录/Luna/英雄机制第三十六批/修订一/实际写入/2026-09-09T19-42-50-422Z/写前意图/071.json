@@ -1,0 +1,23 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 71,
+    "method": "POST",
+    "route": "/skills/lillia_w/parameters",
+    "detailRoute": "/skills/lillia_w/parameters/minimum_radius",
+    "skillKey": "lillia_w",
+    "kind": "parameters",
+    "stableKey": "minimum_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "minimum_radius",
+      "name": "技能区域半径",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前MinimumRadius=250；只记录几何边界。",
+      "sortOrder": 60
+    }
+  }
+}

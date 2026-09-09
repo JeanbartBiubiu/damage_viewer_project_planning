@@ -1,0 +1,29 @@
+{
+  "i": 129,
+  "intent": {
+    "sequence": 130,
+    "method": "POST",
+    "route": "/skills/singed_q/parameters",
+    "detailRoute": "/skills/singed_q/parameters/damage_per_second_base",
+    "skillKey": "singed_q",
+    "kind": "parameters",
+    "stableKey": "damage_per_second_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_per_second_base",
+      "name": "剧毒踪迹每秒基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 30,
+        "3": 40,
+        "4": 50,
+        "5": 60
+      },
+      "description": "DamagePerSecond取BaseDamagePerSecond索引1至5。",
+      "sortOrder": 10
+    }
+  }
+}

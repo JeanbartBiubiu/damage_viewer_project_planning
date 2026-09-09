@@ -1,0 +1,23 @@
+{
+  "i": 128,
+  "intent": {
+    "sequence": 129,
+    "method": "POST",
+    "route": "/skills/singed_p/parameters",
+    "detailRoute": "/skills/singed_p/parameters/trigger_area",
+    "skillKey": "singed_p",
+    "kind": "parameters",
+    "stableKey": "trigger_area",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "trigger_area",
+      "name": "触发范围",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 225,
+      "levelValues": null,
+      "description": "当前TriggerArea=225；只记录范围边界。",
+      "sortOrder": 40
+    }
+  }
+}

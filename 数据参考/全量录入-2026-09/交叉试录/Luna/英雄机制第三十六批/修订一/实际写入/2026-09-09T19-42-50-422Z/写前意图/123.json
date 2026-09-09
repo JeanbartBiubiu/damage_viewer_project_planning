@@ -1,0 +1,45 @@
+{
+  "i": 122,
+  "intent": {
+    "sequence": 123,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_r/formulas",
+    "detailRoute": "/skills/fiddlesticks_r/formulas/damage_per_second",
+    "skillKey": "fiddlesticks_r",
+    "kind": "formulas",
+    "stableKey": "damage_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_per_second",
+      "name": "群鸦每秒魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_per_second_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "匿名{d0d3db7f} = 每秒基础伤害 + 0.5×来源总法强；当前R持续5秒。",
+      "sortOrder": 10
+    }
+  }
+}

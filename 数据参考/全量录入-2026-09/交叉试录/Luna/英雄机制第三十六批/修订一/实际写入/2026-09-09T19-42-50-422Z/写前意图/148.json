@@ -1,0 +1,29 @@
+{
+  "i": 147,
+  "intent": {
+    "sequence": 148,
+    "method": "POST",
+    "route": "/skills/singed_e/parameters",
+    "detailRoute": "/skills/singed_e/parameters/max_health_percent_points",
+    "skillKey": "singed_e",
+    "kind": "parameters",
+    "stableKey": "max_health_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_health_percent_points",
+      "name": "目标最大生命百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 6,
+        "2": 6.5,
+        "3": 7,
+        "4": 7.5,
+        "5": 8
+      },
+      "description": "当前正文消费MaxHPDamage，取索引1至5；百分数点由0.01转为比例。",
+      "sortOrder": 30
+    }
+  }
+}

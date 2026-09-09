@@ -1,0 +1,23 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_w/parameters",
+    "detailRoute": "/skills/fiddlesticks_w/parameters/cooldown_refund_ratio",
+    "skillKey": "fiddlesticks_w",
+    "kind": "parameters",
+    "stableKey": "cooldown_refund_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_refund_ratio",
+      "name": "完整引导冷却返还比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.6,
+      "levelValues": null,
+      "description": "当前正文明确未被打断结束引导时剩余冷却缩短60%；事件未接线。",
+      "sortOrder": 80
+    }
+  }
+}

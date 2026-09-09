@@ -1,0 +1,23 @@
+{
+  "i": 158,
+  "intent": {
+    "sequence": 159,
+    "method": "POST",
+    "route": "/skills/singed_r/parameters",
+    "detailRoute": "/skills/singed_r/parameters/grievous_duration_ms",
+    "skillKey": "singed_r",
+    "kind": "parameters",
+    "stableKey": "grievous_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "grievous_duration_ms",
+      "name": "重伤持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前GrievousDuration=1秒，转换为1000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

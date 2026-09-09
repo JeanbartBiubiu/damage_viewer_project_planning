@@ -1,0 +1,23 @@
+{
+  "i": 26,
+  "intent": {
+    "sequence": 27,
+    "method": "POST",
+    "route": "/skills/evelynn_e/parameters",
+    "detailRoute": "/skills/evelynn_e/parameters/empowered_percent_health_points",
+    "skillKey": "evelynn_e",
+    "kind": "parameters",
+    "stableKey": "empowered_percent_health_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_percent_health_points",
+      "name": "强化E目标最大生命百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4,
+      "levelValues": null,
+      "description": "强化PercentHealthEmpoweredTOOLTIP使用EmpoweredPercentHealth=4；百分数点由0.01根乘数转为比例。",
+      "sortOrder": 40
+    }
+  }
+}

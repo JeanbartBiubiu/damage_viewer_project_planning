@@ -1,0 +1,55 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "method": "POST",
+    "route": "/skills/lillia_p/formulas",
+    "detailRoute": "/skills/lillia_p/formulas/champion_heal_total",
+    "skillKey": "lillia_p",
+    "kind": "formulas",
+    "stableKey": "champion_heal_total",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "champion_heal_total",
+      "name": "对英雄六跳总治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "dot_ticks"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_champion_heal_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "champion_heal_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ChampionHealTT = DotTicks×每跳治疗；只表示六跳总量，不改变梦尘伤害比例。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 47,
+  "intent": {
+    "sequence": 48,
+    "method": "POST",
+    "route": "/skills/lillia_p/parameters",
+    "detailRoute": "/skills/lillia_p/parameters/actual_champion_heal_base",
+    "skillKey": "lillia_p",
+    "kind": "parameters",
+    "stableKey": "actual_champion_heal_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_champion_heal_base",
+      "name": "当前角色等级每跳英雄治疗基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "ChampionHeal树给出角色等级插值1至15且启用角色成长倍率；完整求值算法未证，运行时必须提供实际每跳基础值，不设默认。",
+      "sortOrder": 60
+    }
+  }
+}

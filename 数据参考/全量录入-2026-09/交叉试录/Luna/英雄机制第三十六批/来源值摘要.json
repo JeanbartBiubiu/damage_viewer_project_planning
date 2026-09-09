@@ -1,0 +1,4586 @@
+{
+  "generatedAt": "2026-09-09T19:13:25.975Z",
+  "batch": "英雄机制第三十六批",
+  "status": "独立冻结源值摘要；未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceBindingSha256": "9fe03948856d29d6c74d6f01c14a9be81d626dbf0f84d6e8991658ac7e606a13",
+  "sourceReview": {
+    "conclusionFile": ".agents/artifacts/hero36-cursor-review-run-20260910/Cursor来源复核结论.md",
+    "conclusionSha256": "044a8074bb7220c6ec294f689c9fc6217996e5bdae9fb9dfb33e209b873ab2e3",
+    "auditFile": ".agents/artifacts/hero36-cursor-review-run-20260910/主负责人执行审计.json",
+    "auditSha256": "0223dba9f0f0d3cecaaf549ac5f7cf8b689e1a3dfd3d9262e416d29096bfd4f5",
+    "verdict": "READY",
+    "runId": "run-c873f85c-1779-453b-81e3-c1011894e0d1",
+    "events": 1559,
+    "uniqueTools": 66,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "inputIntegrity": {
+    "参考资料/lol-16.17-zh_CN.stringtable.json.gz": {
+      "actual": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "expected": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "byteSize": 8350124
+    },
+    "参考资料/客户端原文/Evelynn.json.gz": {
+      "actual": "77c11163c374b01e587f9795e9fd65b897aef248d9e6db8188c16f76edc729db",
+      "expected": "77c11163c374b01e587f9795e9fd65b897aef248d9e6db8188c16f76edc729db",
+      "byteSize": 9951
+    },
+    "参考资料/官方中文/Evelynn.json": {
+      "actual": "5df210b2d7104b36d419c2bb7e6672af6026628601ab9108ac7196a7c8ee2a56",
+      "expected": "5df210b2d7104b36d419c2bb7e6672af6026628601ab9108ac7196a7c8ee2a56",
+      "byteSize": 15888
+    },
+    "参考资料/官方英文/Evelynn.json": {
+      "actual": "ba9acae889287d852708b0d046e5d39754ad4c792247627e8cc317965277108d",
+      "expected": "ba9acae889287d852708b0d046e5d39754ad4c792247627e8cc317965277108d",
+      "byteSize": 15324
+    },
+    "参考资料/客户端原文/Lillia.json.gz": {
+      "actual": "b345b7d187da17b8fb3892478054ccae0e999815e90415c0a837342b7a222ee5",
+      "expected": "b345b7d187da17b8fb3892478054ccae0e999815e90415c0a837342b7a222ee5",
+      "byteSize": 9386
+    },
+    "参考资料/官方中文/Lillia.json": {
+      "actual": "37d6dea41960ccdd25d738138ec6f06099fd119e56d22fd8aee7f614179e75fc",
+      "expected": "37d6dea41960ccdd25d738138ec6f06099fd119e56d22fd8aee7f614179e75fc",
+      "byteSize": 12394
+    },
+    "参考资料/官方英文/Lillia.json": {
+      "actual": "67d2bc27e92f8a3550b924f62d08105c0b0fbb1695020b3d61fdc110c077a491",
+      "expected": "67d2bc27e92f8a3550b924f62d08105c0b0fbb1695020b3d61fdc110c077a491",
+      "byteSize": 12034
+    },
+    "参考资料/客户端原文/Fiddlesticks.json.gz": {
+      "actual": "ddcb410df26f190f7dc97e329f726e173eab8930f97b2a0740097abebd3e34fe",
+      "expected": "ddcb410df26f190f7dc97e329f726e173eab8930f97b2a0740097abebd3e34fe",
+      "byteSize": 8643
+    },
+    "参考资料/官方中文/Fiddlesticks.json": {
+      "actual": "cba3b4ef6c2b508acd2fe31e4818b5208c6178e2db93472fe9fda9bcace5c5b6",
+      "expected": "cba3b4ef6c2b508acd2fe31e4818b5208c6178e2db93472fe9fda9bcace5c5b6",
+      "byteSize": 12888
+    },
+    "参考资料/官方英文/Fiddlesticks.json": {
+      "actual": "9450b63687528af668c561ae63ed650b079c877201bdf5df548045151aba7a78",
+      "expected": "9450b63687528af668c561ae63ed650b079c877201bdf5df548045151aba7a78",
+      "byteSize": 12602
+    },
+    "参考资料/客户端原文/Singed.json.gz": {
+      "actual": "78dda9b530c48ee62e941b1965eb54581f0a57e5fc69aae0cb4e530c5a3e1573",
+      "expected": "78dda9b530c48ee62e941b1965eb54581f0a57e5fc69aae0cb4e530c5a3e1573",
+      "byteSize": 7118
+    },
+    "参考资料/官方中文/Singed.json": {
+      "actual": "289cdc6c527b129e004a54621ee618e6915db424205ec52057796c55fb5978a7",
+      "expected": "289cdc6c527b129e004a54621ee618e6915db424205ec52057796c55fb5978a7",
+      "byteSize": 10252
+    },
+    "参考资料/官方英文/Singed.json": {
+      "actual": "7b3b29d5a86779703d7c3ab4c1b7cbdd58edac8290575ab17a7b0103bdcc339e",
+      "expected": "7b3b29d5a86779703d7c3ab4c1b7cbdd58edac8290575ab17a7b0103bdcc339e",
+      "byteSize": 9785
+    },
+    "参考资料/属性默认与边界.json": {
+      "actual": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "expected": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "byteSize": 4045
+    },
+    "参考资料/接口载荷样例.json": {
+      "actual": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "expected": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "byteSize": 18896
+    }
+  },
+  "selectedValues": {
+    "evelynn_p": {
+      "binding": "Characters/Evelynn/Spells/EvelynnPassiveAbility/EvelynnPassive",
+      "rawDataValues": [
+        {
+          "name": "TOOLTIP_ONLY_VARS",
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DemonShadeTimer",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "StealthDropTimer",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "HealingThresholdTOOLTIP": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 250,
+              "mInitialBonusPerLevel": 20,
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            },
+            {
+              "mCoefficient": 2.5,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "HealPerSecondTOOLTIP": {
+          "mSimpleTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mStartValue": 15,
+              "mEndValue": 150,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedData": {
+        "DemonShadeTimer": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            4
+          ],
+          "normalizedValues": [
+            4
+          ]
+        },
+        "StealthDropTimer": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            1.5
+          ],
+          "normalizedValues": [
+            1.5
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "demon_shade_delay_ms",
+        "stealth_drop_duration_ms",
+        "stealth_start_level",
+        "actual_healing_threshold_base",
+        "healing_threshold_ap_ratio",
+        "actual_heal_per_second"
+      ],
+      "candidateFormulaKeys": [
+        "healing_threshold"
+      ]
+    },
+    "evelynn_q": {
+      "binding": "Characters/Evelynn/Spells/EvelynnQAbility/EvelynnQ",
+      "rawDataValues": [
+        {
+          "name": "TOOLTIP_ONLY_VARS",
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MissileBaseDamage",
+          "values": [
+            25,
+            30,
+            35,
+            40,
+            45,
+            50,
+            55
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BonusDamageBase",
+          "values": [
+            5,
+            15,
+            25,
+            35,
+            45,
+            55,
+            65
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "CooldownRefund",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "HateSpikeBaseDamage",
+          "values": [
+            20,
+            25,
+            30,
+            35,
+            40,
+            45,
+            50
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BonusDamageAPRatio",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "HateSpikeAPRatio",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "QStackCount",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MonsterPercentRefund",
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "FakeCD",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "MissileDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "HateSpikeBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "HateSpikeAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalBonusDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BonusDamageBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "BonusDamageAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedData": {
+        "HateSpikeAPRatio": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.25
+          ],
+          "normalizedValues": [
+            0.25
+          ]
+        },
+        "BonusDamageAPRatio": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.25
+          ],
+          "normalizedValues": [
+            0.25
+          ]
+        },
+        "HateSpikeBaseDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            25,
+            30,
+            35,
+            40,
+            45
+          ],
+          "normalizedValues": [
+            25,
+            30,
+            35,
+            40,
+            45
+          ]
+        },
+        "BonusDamageBase": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            15,
+            25,
+            35,
+            45,
+            55
+          ],
+          "normalizedValues": [
+            15,
+            25,
+            35,
+            45,
+            55
+          ]
+        },
+        "QStackCount": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            3
+          ],
+          "normalizedValues": [
+            3
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "hate_spike_base_damage",
+        "hate_spike_ap_ratio",
+        "bonus_damage_base",
+        "bonus_damage_ap_ratio",
+        "max_recasts",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": [
+        "missile_magic_damage",
+        "marked_bonus_magic_damage"
+      ]
+    },
+    "evelynn_w": {
+      "binding": "Characters/Evelynn/Spells/EvelynnWAbility/EvelynnW",
+      "rawDataValues": [
+        {
+          "name": "TOOLTIP_ONLY_VARS",
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "CharmDuration",
+          "values": [
+            1,
+            1.25,
+            1.5,
+            1.75,
+            2,
+            2.25,
+            2.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MonsterCharm",
+          "values": [
+            2.75,
+            3,
+            3.25,
+            3.5,
+            3.75,
+            4,
+            4.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MRShred",
+          "values": [
+            0.32499998807907104,
+            0.3499999940395355,
+            0.375,
+            0.4000000059604645,
+            0.42500001192092896,
+            0.44999998807907104,
+            0.4749999940395355
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ShredDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MonsterDamage",
+          "values": [
+            200,
+            250,
+            300,
+            350,
+            400,
+            450,
+            500
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowAmount",
+          "values": [
+            0.44999998807907104,
+            0.44999998807907104,
+            0.44999998807907104,
+            0.44999998807907104,
+            0.44999998807907104,
+            0.44999998807907104,
+            0.44999998807907104
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MonsterExtraCharm",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowDuringCharm",
+          "values": [
+            -0.44999998807907104,
+            -0.44999998807907104,
+            -0.44999998807907104,
+            -0.44999998807907104,
+            -0.44999998807907104,
+            -0.44999998807907104,
+            -0.44999998807907104
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ActualCD",
+          "values": [
+            16,
+            15,
+            14,
+            13,
+            12,
+            11,
+            10
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BuffDuration",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "NonCharmSlowDuration",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "MonsterDamageTotalTOOLTIP": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MonsterDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.6000000238418579,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedData": {
+        "SlowAmount": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.44999998807907104
+          ],
+          "normalizedValues": [
+            0.45
+          ]
+        },
+        "SlowDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.75
+          ],
+          "normalizedValues": [
+            0.75
+          ]
+        },
+        "CharmDuration": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            1.25,
+            1.5,
+            1.75,
+            2,
+            2.25
+          ],
+          "normalizedValues": [
+            1.25,
+            1.5,
+            1.75,
+            2,
+            2.25
+          ]
+        },
+        "MRShred": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            0.3499999940395355,
+            0.375,
+            0.4000000059604645,
+            0.42500001192092896,
+            0.44999998807907104
+          ],
+          "normalizedValues": [
+            0.35,
+            0.375,
+            0.4,
+            0.425,
+            0.45
+          ]
+        },
+        "ShredDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            4
+          ],
+          "normalizedValues": [
+            4
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "mark_duration_ms",
+        "early_slow_ratio",
+        "early_slow_duration_ms",
+        "charm_duration_ms",
+        "mr_shred_ratio",
+        "mr_shred_duration_ms",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": []
+    },
+    "evelynn_e": {
+      "binding": "Characters/Evelynn/Spells/EvelynnEAbility/EvelynnE",
+      "rawDataValues": [
+        {
+          "name": "TOOLTIP_ONLY",
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            30,
+            60,
+            90,
+            120,
+            150,
+            180,
+            210
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "EmpoweredDamage",
+          "values": [
+            40,
+            80,
+            120,
+            160,
+            200,
+            240,
+            280
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BasePercentHealth",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "EmpoweredPercentHealth",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MonsterCap",
+          "values": [
+            450,
+            450,
+            450,
+            450,
+            450,
+            450,
+            450
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SpeedAmount",
+          "values": [
+            0.25,
+            0.30000001192092896,
+            0.3499999940395355,
+            0.4000000059604645,
+            0.44999998807907104,
+            0.5,
+            0.550000011920929
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SpeedDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MoveSpeed",
+          "values": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.3499999940395355,
+            0.4000000059604645,
+            0.44999998807907104,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MSDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MonsterDamageCamp",
+          "values": [
+            450,
+            450,
+            450,
+            450,
+            450,
+            450,
+            450
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "PercentHealthBaseTOOLTIP": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "BasePercentHealth",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.014999999664723873,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "PercentHealthEmpoweredTOOLTIP": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "EmpoweredPercentHealth",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.02500000037252903,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedData": {
+        "BaseDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            60,
+            90,
+            120,
+            150,
+            180
+          ],
+          "normalizedValues": [
+            60,
+            90,
+            120,
+            150,
+            180
+          ]
+        },
+        "EmpoweredDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            80,
+            120,
+            160,
+            200,
+            240
+          ],
+          "normalizedValues": [
+            80,
+            120,
+            160,
+            200,
+            240
+          ]
+        },
+        "BasePercentHealth": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            3
+          ],
+          "normalizedValues": [
+            3
+          ]
+        },
+        "EmpoweredPercentHealth": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            4
+          ],
+          "normalizedValues": [
+            4
+          ]
+        },
+        "SpeedAmount": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            0.30000001192092896,
+            0.3499999940395355,
+            0.4000000059604645,
+            0.44999998807907104,
+            0.5
+          ],
+          "normalizedValues": [
+            0.3,
+            0.35,
+            0.4,
+            0.45,
+            0.5
+          ]
+        },
+        "SpeedDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            2
+          ],
+          "normalizedValues": [
+            2
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "base_damage",
+        "empowered_damage",
+        "base_percent_health_points",
+        "empowered_percent_health_points",
+        "percent_points_to_ratio",
+        "base_percent_ap_ratio",
+        "empowered_percent_ap_ratio",
+        "speed_bonus_ratio",
+        "speed_duration_ms",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": [
+        "ordinary_magic_damage",
+        "empowered_magic_damage"
+      ]
+    },
+    "evelynn_r": {
+      "binding": "Characters/Evelynn/Spells/EvelynnRAbility/EvelynnR",
+      "rawDataValues": [
+        {
+          "name": "CritMultiplier",
+          "values": [
+            2.4000000953674316,
+            2.4000000953674316,
+            2.4000000953674316,
+            2.4000000953674316,
+            2.4000000953674316,
+            2.4000000953674316,
+            2.4000000953674316
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PassiveReset",
+          "values": [
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            0,
+            125,
+            250,
+            375,
+            500,
+            650,
+            775
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "CritBonus",
+          "values": [
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "CritTreshold",
+          "values": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.75,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "CritDamage": {
+          "mMultiplier": {
+            "mDataValue": "CritMultiplier",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "Damage",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedData": {
+        "CritMultiplier": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            2.4000000953674316
+          ],
+          "normalizedValues": [
+            2.4
+          ]
+        },
+        "BaseDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3
+          ],
+          "sourceValues": [
+            125,
+            250,
+            375
+          ],
+          "normalizedValues": [
+            125,
+            250,
+            375
+          ]
+        },
+        "CritTreshold": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.30000001192092896
+          ],
+          "normalizedValues": [
+            0.3
+          ]
+        },
+        "PassiveReset": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            1.25
+          ],
+          "normalizedValues": [
+            1.25
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "base_damage",
+        "ap_ratio",
+        "low_health_threshold",
+        "low_health_multiplier",
+        "passive_reset_ms",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": [
+        "normal_magic_damage",
+        "low_health_magic_damage"
+      ]
+    },
+    "lillia_p": {
+      "binding": "Characters/Lillia/Spells/LilliaPAbility/LilliaP",
+      "rawDataValues": [
+        {
+          "name": "Duration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DotDamagePercent",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DotTicks",
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MonsterHealingPercent",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ChampionHealingPercent",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "LargeMonsterHealMod",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SmallMonsterHealMod",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MultiHealMod",
+          "values": [
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "DotPercentTotal": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "DotDamagePercent",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.012500000186264515,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": -1,
+          "__type": "GameCalculation"
+        },
+        "MonsterDamageCap": {
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mStartValue": 70,
+              "mEndValue": 180,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "{b5d0316f}": {
+          "mFormulaParts": [
+            {
+              "mNumber": 6.5,
+              "__type": "NumberCalculationPart"
+            },
+            {
+              "mCoefficient": 0.02500000037252903,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "{395ffd44}": {
+          "mMultiplier": {
+            "mDataValue": "SmallMonsterHealMod",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "{b5d0316f}",
+          "__type": "GameCalculationModified"
+        },
+        "ChampionHeal": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 1,
+              "mEndValue": 15,
+              "mScaleByStatProgressionMultiplier": true,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mCoefficient": 0.05000000074505806,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ChampionHealTT": {
+          "mMultiplier": {
+            "mDataValue": "DotTicks",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "ChampionHeal",
+          "__type": "GameCalculationModified"
+        },
+        "MonsterHealTT": {
+          "mMultiplier": {
+            "mDataValue": "DotTicks",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "{b5d0316f}",
+          "__type": "GameCalculationModified"
+        },
+        "{7969ffc2}": {
+          "mMultiplier": {
+            "mPart1": {
+              "mDataValue": "DotTicks",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "mPart2": {
+              "mDataValue": "SmallMonsterHealMod",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "__type": "ProductOfSubPartsCalculationPart"
+          },
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "{b5d0316f}",
+          "__type": "GameCalculationModified"
+        },
+        "DotPercentTooltip": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "DotPercentTotal",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedData": {
+        "DotTicks": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            6
+          ],
+          "normalizedValues": [
+            6
+          ]
+        },
+        "Duration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            3
+          ],
+          "normalizedValues": [
+            3
+          ]
+        },
+        "DotDamagePercent": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            5
+          ],
+          "normalizedValues": [
+            5
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "dot_duration_ms",
+        "dot_damage_percent_points",
+        "percent_points_to_ratio",
+        "dot_ap_ratio",
+        "dot_ticks",
+        "actual_champion_heal_base",
+        "champion_heal_ap_ratio"
+      ],
+      "candidateFormulaKeys": [
+        "dot_total_magic_damage",
+        "champion_heal_per_tick",
+        "champion_heal_total"
+      ]
+    },
+    "lillia_q": {
+      "binding": "Characters/Lillia/Spells/LilliaQAbility/LilliaQ",
+      "rawDataValues": [
+        {
+          "name": "CAST_VARS",
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinimumRadius",
+          "values": [
+            225,
+            225,
+            225,
+            225,
+            225,
+            225,
+            225
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MaximumRadius",
+          "values": [
+            485,
+            485,
+            485,
+            485,
+            485,
+            485,
+            485
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "FlatDamageBase",
+          "values": [
+            25,
+            35,
+            45,
+            55,
+            65,
+            75,
+            85
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "FlatDamageTrue",
+          "values": [
+            25,
+            35,
+            45,
+            55,
+            65,
+            75,
+            85
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinionDamageMod",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PRANCE_VARS",
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PranceDuration",
+          "values": [
+            6.5,
+            6.5,
+            6.5,
+            6.5,
+            6.5,
+            6.5,
+            6.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PranceMaxStacks",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PranceFalloffTime",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PranceBonusPerStack",
+          "values": [
+            0.019999999552965164,
+            0.029999999329447746,
+            0.03999999910593033,
+            0.05000000074505806,
+            0.05999999865889549,
+            0.07000000029802322,
+            0.07999999821186066
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355,
+            0.3499999940395355
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "FlatDamageBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "PranceSpeed": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "PranceBonusPerStack",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.0003000000142492354,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "BonusTrueDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "FlatDamageTrue",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedData": {
+        "APRatio": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.3499999940395355
+          ],
+          "normalizedValues": [
+            0.35
+          ]
+        },
+        "FlatDamageBase": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            35,
+            45,
+            55,
+            65,
+            75
+          ],
+          "normalizedValues": [
+            35,
+            45,
+            55,
+            65,
+            75
+          ]
+        },
+        "FlatDamageTrue": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            35,
+            45,
+            55,
+            65,
+            75
+          ],
+          "normalizedValues": [
+            35,
+            45,
+            55,
+            65,
+            75
+          ]
+        },
+        "PranceBonusPerStack": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            0.029999999329447746,
+            0.03999999910593033,
+            0.05000000074505806,
+            0.05999999865889549,
+            0.07000000029802322
+          ],
+          "normalizedValues": [
+            0.03,
+            0.04,
+            0.05,
+            0.06,
+            0.07
+          ]
+        },
+        "PranceDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            6.5
+          ],
+          "normalizedValues": [
+            6.5
+          ]
+        },
+        "PranceMaxStacks": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            4
+          ],
+          "normalizedValues": [
+            4
+          ]
+        },
+        "PranceFalloffTime": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            1
+          ],
+          "normalizedValues": [
+            1
+          ]
+        },
+        "MinimumRadius": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            225
+          ],
+          "normalizedValues": [
+            225
+          ]
+        },
+        "MaximumRadius": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            485
+          ],
+          "normalizedValues": [
+            485
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "inner_damage_base",
+        "outer_true_damage_base",
+        "ap_ratio",
+        "prance_bonus_ratio_per_stack",
+        "prance_ap_ratio",
+        "prance_duration_ms",
+        "prance_max_stacks",
+        "prance_falloff_ms",
+        "inner_radius",
+        "outer_radius",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": [
+        "inner_magic_damage",
+        "outer_true_damage",
+        "move_speed_per_stack"
+      ]
+    },
+    "lillia_w": {
+      "binding": "Characters/Lillia/Spells/LilliaWAbility/LilliaW",
+      "rawDataValues": [
+        {
+          "name": "FlatDamageBase",
+          "values": [
+            60,
+            80,
+            100,
+            120,
+            140,
+            160,
+            180
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MaximumDistance",
+          "values": [
+            700,
+            700,
+            700,
+            700,
+            700,
+            700,
+            700
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MaxSpeed",
+          "values": [
+            500,
+            500,
+            500,
+            500,
+            500,
+            500,
+            500
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinimumDistance",
+          "values": [
+            500,
+            500,
+            500,
+            500,
+            500,
+            500,
+            500
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "LandingOffset",
+          "values": [
+            150,
+            150,
+            150,
+            150,
+            150,
+            150,
+            150
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MaximumCastTime",
+          "values": [
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75,
+            0.75
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinimumCastTime",
+          "values": [
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579,
+            0.6000000238418579
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinimumRadius",
+          "values": [
+            250,
+            250,
+            250,
+            250,
+            250,
+            250,
+            250
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SweetSpotRadius",
+          "values": [
+            65,
+            65,
+            65,
+            65,
+            65,
+            65,
+            65
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SweetSpotBonus",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "AnimRangeCutoff",
+          "values": [
+            300,
+            300,
+            300,
+            300,
+            300,
+            300,
+            300
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinionDamageMod",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "FlatDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "FlatDamageBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.3499999940395355,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "FlatDamageSweetSpot": {
+          "mMultiplier": {
+            "mDataValue": "SweetSpotBonus",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "FlatDamageBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.3499999940395355,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedData": {
+        "SweetSpotBonus": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            3
+          ],
+          "normalizedValues": [
+            3
+          ]
+        },
+        "FlatDamageBase": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            80,
+            100,
+            120,
+            140,
+            160
+          ],
+          "normalizedValues": [
+            80,
+            100,
+            120,
+            140,
+            160
+          ]
+        },
+        "MinimumCastTime": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.6000000238418579
+          ],
+          "normalizedValues": [
+            0.6
+          ]
+        },
+        "MaximumCastTime": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.75
+          ],
+          "normalizedValues": [
+            0.75
+          ]
+        },
+        "MinimumRadius": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            250
+          ],
+          "normalizedValues": [
+            250
+          ]
+        },
+        "SweetSpotRadius": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            65
+          ],
+          "normalizedValues": [
+            65
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "base_damage",
+        "ap_ratio",
+        "sweet_spot_multiplier",
+        "minimum_cast_time_ms",
+        "maximum_cast_time_ms",
+        "minimum_radius",
+        "sweet_spot_radius"
+      ],
+      "candidateFormulaKeys": [
+        "magic_damage",
+        "sweet_spot_magic_damage"
+      ]
+    },
+    "lillia_e": {
+      "binding": "Characters/Lillia/Spells/LilliaEAbility/LilliaE",
+      "rawDataValues": [
+        {
+          "name": "SlowAmount",
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BounceRange",
+          "values": [
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ImpactDamage",
+          "values": [
+            35,
+            60,
+            85,
+            110,
+            135,
+            160,
+            185
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ImpactRangeCheck",
+          "values": [
+            115,
+            115,
+            115,
+            115,
+            115,
+            115,
+            115
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "HitboxWidth",
+          "values": [
+            350,
+            350,
+            350,
+            350,
+            350,
+            350,
+            350
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "HitboxLength",
+          "values": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "AnimCutoffRange",
+          "values": [
+            350,
+            350,
+            350,
+            350,
+            350,
+            350,
+            350
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "ImpactDamageTotal": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "ImpactDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedData": {
+        "APRatio": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        },
+        "ImpactDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            60,
+            85,
+            110,
+            135,
+            160
+          ],
+          "normalizedValues": [
+            60,
+            85,
+            110,
+            135,
+            160
+          ]
+        },
+        "SlowAmount": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.4000000059604645
+          ],
+          "normalizedValues": [
+            0.4
+          ]
+        },
+        "SlowDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            3
+          ],
+          "normalizedValues": [
+            3
+          ]
+        },
+        "ImpactRangeCheck": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            115
+          ],
+          "normalizedValues": [
+            115
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "impact_damage_base",
+        "ap_ratio",
+        "slow_ratio",
+        "slow_duration_ms",
+        "impact_range_check",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": [
+        "impact_magic_damage"
+      ]
+    },
+    "lillia_r": {
+      "binding": "Characters/Lillia/Spells/LilliaRAbility/LilliaR",
+      "rawDataValues": [
+        {
+          "name": "DrowsyDuration",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SleepDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ImpactDamage",
+          "values": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BreakDamageBase",
+          "values": [
+            50,
+            100,
+            150,
+            200,
+            250,
+            300,
+            350
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "InitialSlow",
+          "values": [
+            -0.10000000149011612,
+            -0.10000000149011612,
+            -0.10000000149011612,
+            -0.10000000149011612,
+            -0.10000000149011612,
+            -0.10000000149011612,
+            -0.10000000149011612
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowIncrement",
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BreakDamageBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.4000000059604645,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedData": {
+        "DrowsyDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            1.5
+          ],
+          "normalizedValues": [
+            1.5
+          ]
+        },
+        "SleepDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            2
+          ],
+          "normalizedValues": [
+            2
+          ]
+        },
+        "BreakDamageBase": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3
+          ],
+          "sourceValues": [
+            100,
+            150,
+            200
+          ],
+          "normalizedValues": [
+            100,
+            150,
+            200
+          ]
+        },
+        "InitialSlow": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            -0.10000000149011612
+          ],
+          "normalizedValues": [
+            -0.1
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "drowsy_duration_ms",
+        "sleep_duration_ms",
+        "break_damage_base",
+        "ap_ratio",
+        "initial_slow_ratio",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": [
+        "break_magic_damage"
+      ]
+    },
+    "fiddlesticks_p": {
+      "binding": "Characters/Fiddlesticks/Spells/FiddleSticksPassiveAbility/FiddleSticksPassive",
+      "rawDataValues": [],
+      "calculations": {},
+      "selectedData": {},
+      "candidateParameterKeys": [
+        "self_stationary_duration_ms"
+      ],
+      "candidateFormulaKeys": []
+    },
+    "fiddlesticks_q": {
+      "binding": "Characters/Fiddlesticks/Spells/FiddleSticksQAbility/FiddleSticksQ",
+      "rawDataValues": [
+        {
+          "name": "MaxHealthDamage",
+          "values": [
+            0.03500000014901161,
+            0.03999999910593033,
+            0.04500000178813934,
+            0.05000000074505806,
+            0.054999999701976776,
+            0.05999999865889549,
+            0.06499999761581421
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "FearDuration",
+          "values": [
+            1,
+            1.2000000476837158,
+            1.399999976158142,
+            1.600000023841858,
+            1.7999999523162842,
+            2,
+            2.200000047683716
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinimumDamage",
+          "values": [
+            20,
+            40,
+            60,
+            80,
+            100,
+            120,
+            140
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalPercentHealthDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MaxHealthDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.0003000000142492354,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "TotalPercentHealthDamageFeared": {
+          "mMultiplier": {
+            "mNumber": 2,
+            "__type": "NumberCalculationPart"
+          },
+          "mModifiedGameCalculation": "TotalPercentHealthDamage",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedData": {
+        "MaxHealthDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            0.03999999910593033,
+            0.04500000178813934,
+            0.05000000074505806,
+            0.054999999701976776,
+            0.05999999865889549
+          ],
+          "normalizedValues": [
+            0.04,
+            0.045,
+            0.05,
+            0.055,
+            0.06
+          ]
+        },
+        "MinimumDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            40,
+            60,
+            80,
+            100,
+            120
+          ],
+          "normalizedValues": [
+            40,
+            60,
+            80,
+            100,
+            120
+          ]
+        },
+        "FearDuration": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            1.2000000476837158,
+            1.399999976158142,
+            1.600000023841858,
+            1.7999999523162842,
+            2
+          ],
+          "normalizedValues": [
+            1.2,
+            1.4,
+            1.6,
+            1.8,
+            2
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "current_health_ratio",
+        "current_health_ap_ratio",
+        "minimum_damage",
+        "fear_duration_ms",
+        "recent_fear_multiplier",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": [
+        "normal_magic_damage",
+        "feared_magic_damage"
+      ]
+    },
+    "fiddlesticks_w": {
+      "binding": "Characters/Fiddlesticks/Spells/FiddleSticksWAbility/FiddleSticksW",
+      "rawDataValues": [
+        {
+          "name": "DamagePerSecond",
+          "values": [
+            30,
+            60,
+            90,
+            120,
+            150,
+            180,
+            210
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "TicksPerSecond",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "VampPercentage",
+          "values": [
+            17.5,
+            25,
+            32.5,
+            40,
+            47.5,
+            55,
+            62.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DrainDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DrainLeashRange",
+          "values": [
+            725,
+            725,
+            725,
+            725,
+            725,
+            725,
+            725
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PercentMultiplier",
+          "values": [
+            0.0949999988079071,
+            0.11999999731779099,
+            0.14499999582767487,
+            0.17000000178813934,
+            0.19499999284744263,
+            0.2199999988079071,
+            0.24500000476837158
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PercentForTooltip",
+          "values": [
+            9.5,
+            12,
+            14.5,
+            17,
+            19.5,
+            22,
+            24.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MonsterDamageMod",
+          "values": [
+            1.350000023841858,
+            1.350000023841858,
+            1.350000023841858,
+            1.350000023841858,
+            1.350000023841858,
+            1.350000023841858,
+            1.350000023841858
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MonsterHealingMod",
+          "values": [
+            0.44999998807907104,
+            0.44999998807907104,
+            0.44999998807907104,
+            0.44999998807907104,
+            0.44999998807907104,
+            0.44999998807907104,
+            0.44999998807907104
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinionDamageMod",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinionHealingMod",
+          "values": [
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MonsterMaxDamage",
+          "values": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "DrainDamageCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "DamagePerSecond",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.44999998807907104,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedData": {
+        "DamagePerSecond": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            60,
+            90,
+            120,
+            150,
+            180
+          ],
+          "normalizedValues": [
+            60,
+            90,
+            120,
+            150,
+            180
+          ]
+        },
+        "TicksPerSecond": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            4
+          ],
+          "normalizedValues": [
+            4
+          ]
+        },
+        "DrainDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            2
+          ],
+          "normalizedValues": [
+            2
+          ]
+        },
+        "PercentForTooltip": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            12,
+            14.5,
+            17,
+            19.5,
+            22
+          ],
+          "normalizedValues": [
+            12,
+            14.5,
+            17,
+            19.5,
+            22
+          ]
+        },
+        "VampPercentage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            25,
+            32.5,
+            40,
+            47.5,
+            55
+          ],
+          "normalizedValues": [
+            25,
+            32.5,
+            40,
+            47.5,
+            55
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "damage_per_second_base",
+        "ap_ratio",
+        "ticks_per_second",
+        "drain_duration_ms",
+        "end_missing_health_percent_points",
+        "champion_heal_percent_points",
+        "percent_points_to_ratio",
+        "cooldown_refund_ratio",
+        "actual_target_missing_health",
+        "actual_hero_pre_mitigation_damage",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": [
+        "damage_per_second",
+        "end_missing_health_damage",
+        "champion_heal_amount"
+      ]
+    },
+    "fiddlesticks_e": {
+      "binding": "Characters/Fiddlesticks/Spells/FiddleSticksEAbility/FiddleSticksE",
+      "rawDataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            35,
+            70,
+            105,
+            140,
+            175,
+            210,
+            245
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowAmount",
+          "values": [
+            -0.25,
+            -0.30000001192092896,
+            -0.3499999940395355,
+            -0.4000000059604645,
+            -0.44999998807907104,
+            -0.5,
+            -0.550000011920929
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "EmpoweredSlowAmount",
+          "values": [
+            -0.44999998807907104,
+            -0.5,
+            -0.550000011920929,
+            -0.6000000238418579,
+            -0.6499999761581421,
+            -0.699999988079071,
+            -0.75
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "CastRange",
+          "values": [
+            850,
+            850,
+            850,
+            850,
+            850,
+            850,
+            850
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SilenceDuration",
+          "values": [
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "Damage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.5,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedData": {
+        "BaseDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            70,
+            105,
+            140,
+            175,
+            210
+          ],
+          "normalizedValues": [
+            70,
+            105,
+            140,
+            175,
+            210
+          ]
+        },
+        "SlowAmount": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            -0.30000001192092896,
+            -0.3499999940395355,
+            -0.4000000059604645,
+            -0.44999998807907104,
+            -0.5
+          ],
+          "normalizedValues": [
+            -0.3,
+            -0.35,
+            -0.4,
+            -0.45,
+            -0.5
+          ]
+        },
+        "SilenceDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            1.25
+          ],
+          "normalizedValues": [
+            1.25
+          ]
+        },
+        "CastRange": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            850
+          ],
+          "normalizedValues": [
+            850
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "base_damage",
+        "ap_ratio",
+        "slow_ratio",
+        "silence_duration_ms",
+        "cast_range",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": [
+        "magic_damage"
+      ]
+    },
+    "fiddlesticks_r": {
+      "binding": "Characters/Fiddlesticks/Spells/FiddleSticksRAbility/FiddleSticksR",
+      "rawDataValues": [
+        {
+          "name": "DamagePerSecond",
+          "values": [
+            50,
+            150,
+            250,
+            350,
+            450,
+            550,
+            650
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "Duration",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ChannelTime",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "DamageDone": {
+          "mMultiplier": {
+            "mNumber": 0.25,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "DamagePerSecond",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalDamage": {
+          "mMultiplier": {
+            "mDataValue": "Duration",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "{d0d3db7f}",
+          "__type": "GameCalculationModified"
+        },
+        "APRatioFullDuration": {
+          "mMultiplier": {
+            "mDataValue": "Duration",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "APRatioTick": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "{d0d3db7f}": {
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mDataValue": "DamagePerSecond",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedData": {
+        "APRatio": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        },
+        "DamagePerSecond": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3
+          ],
+          "sourceValues": [
+            150,
+            250,
+            350
+          ],
+          "normalizedValues": [
+            150,
+            250,
+            350
+          ]
+        },
+        "Duration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            5
+          ],
+          "normalizedValues": [
+            5
+          ]
+        },
+        "ChannelTime": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            1.5
+          ],
+          "normalizedValues": [
+            1.5
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "damage_per_second_base",
+        "ap_ratio",
+        "full_duration_seconds",
+        "full_duration_ms",
+        "channel_time_ms",
+        "single_damage_multiplier",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": [
+        "damage_per_second",
+        "damage_done_single_tick",
+        "total_magic_damage"
+      ]
+    },
+    "singed_p": {
+      "binding": "Characters/Singed/Spells/SingedPAbility/SingedP",
+      "rawDataValues": [
+        {
+          "name": "MSPercent",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MSDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PerTargetCD",
+          "values": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "TriggerArea",
+          "values": [
+            225,
+            225,
+            225,
+            225,
+            225,
+            225,
+            225
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {},
+      "selectedData": {
+        "MSPercent": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.25
+          ],
+          "normalizedValues": [
+            0.25
+          ]
+        },
+        "MSDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            2
+          ],
+          "normalizedValues": [
+            2
+          ]
+        },
+        "PerTargetCD": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            8
+          ],
+          "normalizedValues": [
+            8
+          ]
+        },
+        "TriggerArea": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            225
+          ],
+          "normalizedValues": [
+            225
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "ms_bonus_ratio",
+        "ms_duration_ms",
+        "per_target_cooldown_ms",
+        "trigger_area",
+        "cast_time_seconds"
+      ],
+      "candidateFormulaKeys": []
+    },
+    "singed_q": {
+      "binding": "Characters/Singed/Spells/PoisonTrailAbility/PoisonTrail",
+      "rawDataValues": [
+        {
+          "name": "BaseDamagePerSecond",
+          "values": [
+            10,
+            20,
+            30,
+            40,
+            50,
+            60,
+            70
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "APRatioPerSecond",
+          "values": [
+            0.42500001192092896,
+            0.42500001192092896,
+            0.42500001192092896,
+            0.42500001192092896,
+            0.42500001192092896,
+            0.42500001192092896,
+            0.42500001192092896
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ToggleCooldown",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "CloudDuration",
+          "values": [
+            3.25,
+            3.25,
+            3.25,
+            3.25,
+            3.25,
+            3.25,
+            3.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PoisonDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "TicksPerSecond",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MaxLingerTicks",
+          "values": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DamagePerTick",
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "DamagePerSecond": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamagePerSecond",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatioPerSecond",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ApproximateTotalDamageTooltip": {
+          "mMultiplier": {
+            "mNumber": 4.75,
+            "__type": "NumberCalculationPart"
+          },
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "DamagePerSecond",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedData": {
+        "APRatioPerSecond": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.42500001192092896
+          ],
+          "normalizedValues": [
+            0.425
+          ]
+        },
+        "BaseDamagePerSecond": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            20,
+            30,
+            40,
+            50,
+            60
+          ],
+          "normalizedValues": [
+            20,
+            30,
+            40,
+            50,
+            60
+          ]
+        },
+        "ToggleCooldown": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            1
+          ],
+          "normalizedValues": [
+            1
+          ]
+        },
+        "CloudDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            3.25
+          ],
+          "normalizedValues": [
+            3.25
+          ]
+        },
+        "PoisonDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            2
+          ],
+          "normalizedValues": [
+            2
+          ]
+        },
+        "TicksPerSecond": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            4
+          ],
+          "normalizedValues": [
+            4
+          ]
+        },
+        "MaxLingerTicks": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            8
+          ],
+          "normalizedValues": [
+            8
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "damage_per_second_base",
+        "ap_ratio",
+        "toggle_cooldown_ms",
+        "cloud_duration_ms",
+        "poison_duration_ms",
+        "ticks_per_second",
+        "max_linger_ticks",
+        "approximate_total_multiplier",
+        "cast_time_seconds"
+      ],
+      "candidateFormulaKeys": [
+        "damage_per_second",
+        "approximate_total_damage"
+      ]
+    },
+    "singed_w": {
+      "binding": "Characters/Singed/Spells/MegaAdhesiveAbility/MegaAdhesive",
+      "rawDataValues": [
+        {
+          "name": "SlowPercent",
+          "values": [
+            45,
+            50,
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "WDuration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "WRadius",
+          "values": [
+            265,
+            265,
+            265,
+            265,
+            265,
+            265,
+            265
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DelayExecute",
+          "values": [
+            0.375,
+            0.375,
+            0.375,
+            0.375,
+            0.375,
+            0.375,
+            0.375
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "Radius",
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {},
+      "selectedData": {
+        "SlowPercent": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "normalizedValues": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ]
+        },
+        "WDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            3
+          ],
+          "normalizedValues": [
+            3
+          ]
+        },
+        "WRadius": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            265
+          ],
+          "normalizedValues": [
+            265
+          ]
+        },
+        "DelayExecute": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.375
+          ],
+          "normalizedValues": [
+            0.375
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "slow_percent_points",
+        "duration_ms",
+        "radius",
+        "execute_delay_ms",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": []
+    },
+    "singed_e": {
+      "binding": "Characters/Singed/Spells/FlingAbility/Fling",
+      "rawDataValues": [
+        {
+          "name": "BaseDamageValue",
+          "values": [
+            50,
+            50,
+            60,
+            70,
+            80,
+            90,
+            100
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "RootDuration",
+          "values": [
+            0.75,
+            1,
+            1.25,
+            1.5,
+            1.75,
+            2,
+            2.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MaxHPDamage",
+          "values": [
+            6,
+            6,
+            6.5,
+            7,
+            7.5,
+            8,
+            8.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "FlingDistance",
+          "values": [
+            420,
+            420,
+            420,
+            420,
+            420,
+            420,
+            420
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "NonChampionDamageCap",
+          "values": [
+            300,
+            300,
+            300,
+            300,
+            300,
+            300,
+            300
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "BaseDamage": {
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamageValue",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.550000011920929,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedData": {
+        "BaseDamageValue": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            50,
+            60,
+            70,
+            80,
+            90
+          ],
+          "normalizedValues": [
+            50,
+            60,
+            70,
+            80,
+            90
+          ]
+        },
+        "MaxHPDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            6,
+            6.5,
+            7,
+            7.5,
+            8
+          ],
+          "normalizedValues": [
+            6,
+            6.5,
+            7,
+            7.5,
+            8
+          ]
+        },
+        "RootDuration": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            1,
+            1.25,
+            1.5,
+            1.75,
+            2
+          ],
+          "normalizedValues": [
+            1,
+            1.25,
+            1.5,
+            1.75,
+            2
+          ]
+        },
+        "FlingDistance": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            420
+          ],
+          "normalizedValues": [
+            420
+          ]
+        },
+        "NonChampionDamageCap": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            300
+          ],
+          "normalizedValues": [
+            300
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "base_damage_value",
+        "ap_ratio",
+        "max_health_percent_points",
+        "percent_points_to_ratio",
+        "root_duration_ms",
+        "fling_distance",
+        "nonchampion_damage_cap",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": [
+        "base_magic_damage",
+        "max_health_magic_component",
+        "total_magic_damage"
+      ]
+    },
+    "singed_r": {
+      "binding": "Characters/Singed/Spells/InsanityPotionAbility/InsanityPotion",
+      "rawDataValues": [
+        {
+          "name": "StatAmount",
+          "values": [
+            -5,
+            25,
+            55,
+            85,
+            115,
+            145,
+            175
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "Duration",
+          "values": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "GrievousAmount",
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "GrievousDuration",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {},
+      "selectedData": {
+        "StatAmount": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3
+          ],
+          "sourceValues": [
+            25,
+            55,
+            85
+          ],
+          "normalizedValues": [
+            25,
+            55,
+            85
+          ]
+        },
+        "Duration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            25
+          ],
+          "normalizedValues": [
+            25
+          ]
+        },
+        "GrievousAmount": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            0.4000000059604645
+          ],
+          "normalizedValues": [
+            0.4
+          ]
+        },
+        "GrievousDuration": {
+          "sourceDataIndices": [
+            1
+          ],
+          "sourceValues": [
+            1
+          ],
+          "normalizedValues": [
+            1
+          ]
+        }
+      },
+      "candidateParameterKeys": [
+        "stat_amount",
+        "duration_ms",
+        "grievous_ratio",
+        "grievous_duration_ms",
+        "cast_time_ms"
+      ],
+      "candidateFormulaKeys": []
+    }
+  },
+  "publicVerification": [
+    {
+      "skillKey": "evelynn_q",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "expectedOfficial": [
+        4000,
+        4000,
+        4000,
+        4000,
+        4000
+      ],
+      "detailSha256": "132a75531e516b101ad3eff697bbe28efee99ef5abc7fbcfe40de0808c1b8959"
+    },
+    {
+      "skillKey": "evelynn_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 45,
+        "3": 50,
+        "4": 55,
+        "5": 60
+      },
+      "expectedOfficial": [
+        40,
+        45,
+        50,
+        55,
+        60
+      ],
+      "detailSha256": "09e1c372a0cb4cc1c3826fd166e27cb87a85f5fdc0f5dc34d19d8e660094e67a"
+    },
+    {
+      "skillKey": "evelynn_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15000,
+        "2": 14000,
+        "3": 13000,
+        "4": 12000,
+        "5": 11000
+      },
+      "expectedOfficial": [
+        15000,
+        14000,
+        13000,
+        12000,
+        11000
+      ],
+      "detailSha256": "da8de64a23cb77b598b243e276fbe5af4ac7cc3b4411c2233df7c4a9e958ea3d"
+    },
+    {
+      "skillKey": "evelynn_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "expectedOfficial": [
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "detailSha256": "d49032dd120ad50b930893a780b57962e10008263f0f677825681404aecfa2b7"
+    },
+    {
+      "skillKey": "evelynn_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 8000,
+      "levelValues": null,
+      "expectedOfficial": [
+        8000,
+        8000,
+        8000,
+        8000,
+        8000
+      ],
+      "detailSha256": "a47b872fcbbc9add8a2211abc5d912a99a9b0be8b938da0884943a9b8f0adc32"
+    },
+    {
+      "skillKey": "evelynn_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 45,
+        "3": 50,
+        "4": 55,
+        "5": 60
+      },
+      "expectedOfficial": [
+        40,
+        45,
+        50,
+        55,
+        60
+      ],
+      "detailSha256": "e3b59d533c76084f8552784f8bb6f047ccad99b8e0e2c799818eac74d3be2c3a"
+    },
+    {
+      "skillKey": "evelynn_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 120000,
+        "2": 100000,
+        "3": 80000
+      },
+      "expectedOfficial": [
+        120000,
+        100000,
+        80000
+      ],
+      "detailSha256": "911fe7695cd6cbfbba481cc1060547a24c56012a79973ccf67aae97352859cb0"
+    },
+    {
+      "skillKey": "evelynn_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100,
+      "levelValues": null,
+      "expectedOfficial": [
+        100,
+        100,
+        100
+      ],
+      "detailSha256": "79aec3b53ac0311e13925c247ebbecc1f7fed2f8ddc68628fd7674b51ad082d2"
+    },
+    {
+      "skillKey": "lillia_q",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 6000,
+        "2": 5500,
+        "3": 5000,
+        "4": 4500,
+        "5": 4000
+      },
+      "expectedOfficial": [
+        6000,
+        5500,
+        5000,
+        4500,
+        4000
+      ],
+      "detailSha256": "7de3b83ed0d9dcc008595bd71e241748a31a4745730a8ad4f8c808ae5b94fc73"
+    },
+    {
+      "skillKey": "lillia_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 65,
+      "levelValues": null,
+      "expectedOfficial": [
+        65,
+        65,
+        65,
+        65,
+        65
+      ],
+      "detailSha256": "f319b075bd17ad640adf469dd0c54a04363931e061a12d77decaffca1fd5c7b6"
+    },
+    {
+      "skillKey": "lillia_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 14000,
+        "2": 13000,
+        "3": 12000,
+        "4": 11000,
+        "5": 10000
+      },
+      "expectedOfficial": [
+        14000,
+        13000,
+        12000,
+        11000,
+        10000
+      ],
+      "detailSha256": "490b6465f029b1be069b6c4c60d852f32154ccc2699b376cee43ce36fd4518a7"
+    },
+    {
+      "skillKey": "lillia_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 50,
+      "levelValues": null,
+      "expectedOfficial": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "detailSha256": "61283491bfb3b28f7a169f6194e0882407288c0d200f37bd122dd9eef463144a"
+    },
+    {
+      "skillKey": "lillia_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 12000,
+      "levelValues": null,
+      "expectedOfficial": [
+        12000,
+        12000,
+        12000,
+        12000,
+        12000
+      ],
+      "detailSha256": "763a7ad1f1767eaec74e97d288b1e0e6f314d87676fa4a1e3e2ff8f4d0ec30a3"
+    },
+    {
+      "skillKey": "lillia_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 70,
+      "levelValues": null,
+      "expectedOfficial": [
+        70,
+        70,
+        70,
+        70,
+        70
+      ],
+      "detailSha256": "144b950cdb5e0a04d6fe1535a415db54b81051bc3b0bfa4c943e0f466f220a1d"
+    },
+    {
+      "skillKey": "lillia_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150000,
+        "2": 130000,
+        "3": 110000
+      },
+      "expectedOfficial": [
+        150000,
+        130000,
+        110000
+      ],
+      "detailSha256": "a92d662757606a0a2db9bf045aa9f16dd411dc95ec2702531096a11e9784f7b2"
+    },
+    {
+      "skillKey": "lillia_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 50,
+      "levelValues": null,
+      "expectedOfficial": [
+        50,
+        50,
+        50
+      ],
+      "detailSha256": "ea459784f3a48ed99d060b320e5299ce6c845dabe104e6d96921f5ac64f87bf8"
+    },
+    {
+      "skillKey": "fiddlesticks_q",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15000,
+        "2": 14500,
+        "3": 14000,
+        "4": 13500,
+        "5": 13000
+      },
+      "expectedOfficial": [
+        15000,
+        14500,
+        14000,
+        13500,
+        13000
+      ],
+      "detailSha256": "3682d2d5f29f534f454664921ba75cb010ff9e4ad11743e0e8c61d65eac6ab82"
+    },
+    {
+      "skillKey": "fiddlesticks_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 65,
+      "levelValues": null,
+      "expectedOfficial": [
+        65,
+        65,
+        65,
+        65,
+        65
+      ],
+      "detailSha256": "36794c97068c80950e55973dc4f87eb9458459833937f2c55188d2f197b228a8"
+    },
+    {
+      "skillKey": "fiddlesticks_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10000,
+        "2": 9500,
+        "3": 9000,
+        "4": 8500,
+        "5": 8000
+      },
+      "expectedOfficial": [
+        10000,
+        9500,
+        9000,
+        8500,
+        8000
+      ],
+      "detailSha256": "be2afc7ad67caa85524f46d938aa5e576b61ba350b21c8d1d185493585495c60"
+    },
+    {
+      "skillKey": "fiddlesticks_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "expectedOfficial": [
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "detailSha256": "50e66597a9e04b859fe3f31896f81739d899d416e1a77951f065c3f6d6c4ead8"
+    },
+    {
+      "skillKey": "fiddlesticks_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10000,
+        "2": 9000,
+        "3": 8000,
+        "4": 7000,
+        "5": 6000
+      },
+      "expectedOfficial": [
+        10000,
+        9000,
+        8000,
+        7000,
+        6000
+      ],
+      "detailSha256": "c4464e603c00cdbb359b37855337e583658434565b5d9278cd5289dfa6775f03"
+    },
+    {
+      "skillKey": "fiddlesticks_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 45,
+        "3": 50,
+        "4": 55,
+        "5": 60
+      },
+      "expectedOfficial": [
+        40,
+        45,
+        50,
+        55,
+        60
+      ],
+      "detailSha256": "9b9cb08c524b20999d3c775df04e1449423716ddb2103ea6ccba2f7039ce3c8c"
+    },
+    {
+      "skillKey": "fiddlesticks_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 140000,
+        "2": 110000,
+        "3": 80000
+      },
+      "expectedOfficial": [
+        140000,
+        110000,
+        80000
+      ],
+      "detailSha256": "1216213918eed0f0949e6645d0a410416b6f596afb6d99bfc2ef73bf66898489"
+    },
+    {
+      "skillKey": "fiddlesticks_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100,
+      "levelValues": null,
+      "expectedOfficial": [
+        100,
+        100,
+        100
+      ],
+      "detailSha256": "b3f5e9fae5c0b26147ea0dc394fdff9e0cd9e157ff181b6be5b29e091c70f483"
+    },
+    {
+      "skillKey": "singed_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 17000,
+        "2": 16000,
+        "3": 15000,
+        "4": 14000,
+        "5": 13000
+      },
+      "expectedOfficial": [
+        17000,
+        16000,
+        15000,
+        14000,
+        13000
+      ],
+      "detailSha256": "508e53432a8400bd550698e5f4cc19a260ac31f04ba4577c34b1a8c4814b0f9f"
+    },
+    {
+      "skillKey": "singed_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "expectedOfficial": [
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "detailSha256": "a707e0eac32736cbe203f5a7b2854f850df76692009ae69202c8122eef0123be"
+    },
+    {
+      "skillKey": "singed_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10000,
+        "2": 9500,
+        "3": 9000,
+        "4": 8500,
+        "5": 8000
+      },
+      "expectedOfficial": [
+        10000,
+        9500,
+        9000,
+        8500,
+        8000
+      ],
+      "detailSha256": "a0be109cc50067196fe178fb5846b8a92f848d9333d909a9c9e317a4e9f3344f"
+    },
+    {
+      "skillKey": "singed_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "expectedOfficial": [
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "detailSha256": "2256ca9ce73e535fd3c611009f87c922ba7975f9dc6d312002fe1672ee901960"
+    },
+    {
+      "skillKey": "singed_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100000,
+      "levelValues": null,
+      "expectedOfficial": [
+        100000,
+        100000,
+        100000
+      ],
+      "detailSha256": "bc5fc9d3edd1bf98bbcc5f202462848ba9527490a3e61edc24e35488c7d91669"
+    },
+    {
+      "skillKey": "singed_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100,
+      "levelValues": null,
+      "expectedOfficial": [
+        100,
+        100,
+        100
+      ],
+      "detailSha256": "5a66f37e5853f04ec2618edac58653c342ec24c36e1b58f10a2e9f68208d53d8"
+    }
+  ],
+  "noApiCalls": true
+}

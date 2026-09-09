@@ -1,0 +1,43 @@
+{
+  "i": 108,
+  "intent": {
+    "sequence": 109,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_w/formulas",
+    "detailRoute": "/skills/fiddlesticks_w/formulas/end_missing_health_damage",
+    "skillKey": "fiddlesticks_w",
+    "kind": "formulas",
+    "stableKey": "end_missing_health_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "end_missing_health_damage",
+      "name": "五骨丰登结尾已损生命魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_points_to_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "end_missing_health_percent_points"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_target_missing_health"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "结尾额外伤害 = 0.01×PercentForTooltip百分数点×结尾阶段实际已损生命；不能用施法前生命或默认值替代。",
+      "sortOrder": 20
+    }
+  }
+}

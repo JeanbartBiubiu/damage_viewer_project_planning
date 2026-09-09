@@ -1,0 +1,67 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 50,
+    "method": "POST",
+    "route": "/skills/lillia_p/formulas",
+    "detailRoute": "/skills/lillia_p/formulas/dot_total_magic_damage",
+    "skillKey": "lillia_p",
+    "kind": "formulas",
+    "stableKey": "dot_total_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "dot_total_magic_damage",
+      "name": "梦尘总魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_points_to_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "dot_damage_percent_points"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "dot_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "DotPercentTooltip = 0.01×(5 + 0.0125×来源总法强)×目标最大生命；3秒内6跳但总比例不逐跳重复。",
+      "sortOrder": 10
+    }
+  }
+}

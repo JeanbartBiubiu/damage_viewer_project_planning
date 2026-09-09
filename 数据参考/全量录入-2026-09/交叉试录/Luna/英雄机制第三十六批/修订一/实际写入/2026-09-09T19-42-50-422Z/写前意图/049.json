@@ -1,0 +1,23 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "method": "POST",
+    "route": "/skills/lillia_p/parameters",
+    "detailRoute": "/skills/lillia_p/parameters/champion_heal_ap_ratio",
+    "skillKey": "lillia_p",
+    "kind": "parameters",
+    "stableKey": "champion_heal_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "champion_heal_ap_ratio",
+      "name": "英雄治疗法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.05,
+      "levelValues": null,
+      "description": "ChampionHeal树StatByCoefficient=0.05；读取来源总法强。",
+      "sortOrder": 70
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "i": 80,
+  "intent": {
+    "sequence": 81,
+    "method": "POST",
+    "route": "/skills/lillia_e/formulas",
+    "detailRoute": "/skills/lillia_e/formulas/impact_magic_damage",
+    "skillKey": "lillia_e",
+    "kind": "formulas",
+    "stableKey": "impact_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "impact_magic_damage",
+      "name": "流涡种命中魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "impact_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ImpactDamageTotal = 基础伤害 + 0.5×来源总法强；种子是伤害载体。",
+      "sortOrder": 10
+    }
+  }
+}

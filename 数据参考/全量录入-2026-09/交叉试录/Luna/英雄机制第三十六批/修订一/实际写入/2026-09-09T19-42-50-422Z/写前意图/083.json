@@ -1,0 +1,23 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "method": "POST",
+    "route": "/skills/lillia_r/parameters",
+    "detailRoute": "/skills/lillia_r/parameters/sleep_duration_ms",
+    "skillKey": "lillia_r",
+    "kind": "parameters",
+    "stableKey": "sleep_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "sleep_duration_ms",
+      "name": "昏睡持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前SleepDuration=2秒，转换为2000毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

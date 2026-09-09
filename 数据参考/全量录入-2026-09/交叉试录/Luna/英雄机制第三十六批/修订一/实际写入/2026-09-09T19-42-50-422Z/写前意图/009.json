@@ -1,0 +1,23 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "method": "POST",
+    "route": "/skills/evelynn_q/parameters",
+    "detailRoute": "/skills/evelynn_q/parameters/hate_spike_ap_ratio",
+    "skillKey": "evelynn_q",
+    "kind": "parameters",
+    "stableKey": "hate_spike_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "hate_spike_ap_ratio",
+      "name": "尖刺法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "MissileDamage树StatByNamedDataValue系数0.25；读取来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "method": "POST",
+    "route": "/skills/lillia_w/parameters",
+    "detailRoute": "/skills/lillia_w/parameters/base_damage",
+    "skillKey": "lillia_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "惊惶木基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 100,
+        "3": 120,
+        "4": 140,
+        "5": 160
+      },
+      "description": "FlatDamageBase取索引1至5；索引0的60不是技能等级1。",
+      "sortOrder": 10
+    }
+  }
+}

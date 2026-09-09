@@ -1,0 +1,23 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "method": "POST",
+    "route": "/skills/evelynn_p/parameters",
+    "detailRoute": "/skills/evelynn_p/parameters/healing_threshold_ap_ratio",
+    "skillKey": "evelynn_p",
+    "kind": "parameters",
+    "stableKey": "healing_threshold_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "healing_threshold_ap_ratio",
+      "name": "治疗阈值法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2.5,
+      "levelValues": null,
+      "description": "HealingThresholdTOOLTIP树的StatByCoefficient系数2.5；公式读取来源总法强。",
+      "sortOrder": 50
+    }
+  }
+}

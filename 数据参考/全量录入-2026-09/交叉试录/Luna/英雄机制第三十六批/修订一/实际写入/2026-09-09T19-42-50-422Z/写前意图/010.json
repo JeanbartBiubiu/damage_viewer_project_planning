@@ -1,0 +1,29 @@
+{
+  "i": 9,
+  "intent": {
+    "sequence": 10,
+    "method": "POST",
+    "route": "/skills/evelynn_q/parameters",
+    "detailRoute": "/skills/evelynn_q/parameters/bonus_damage_base",
+    "skillKey": "evelynn_q",
+    "kind": "parameters",
+    "stableKey": "bonus_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_damage_base",
+      "name": "标记增伤基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15,
+        "2": 25,
+        "3": 35,
+        "4": 45,
+        "5": 55
+      },
+      "description": "TotalBonusDamage消费BonusDamageBase，技能等级取索引1至5。",
+      "sortOrder": 30
+    }
+  }
+}

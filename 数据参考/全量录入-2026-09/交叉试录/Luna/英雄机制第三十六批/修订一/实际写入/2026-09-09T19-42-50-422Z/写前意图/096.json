@@ -1,0 +1,77 @@
+{
+  "i": 95,
+  "intent": {
+    "sequence": 96,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_q/formulas",
+    "detailRoute": "/skills/fiddlesticks_q/formulas/feared_magic_damage",
+    "skillKey": "fiddlesticks_q",
+    "kind": "formulas",
+    "stableKey": "feared_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "feared_magic_damage",
+      "name": "恐惧近期目标双倍魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "recent_fear_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MAX",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "minimum_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "TARGET",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "CURRENT"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "current_health_ratio"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "current_health_ap_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "ability_power",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "近期已被费德提克恐惧的目标使用普通完整值×2，最小伤害也翻倍；近期窗口不在此猜。",
+      "sortOrder": 20
+    }
+  }
+}

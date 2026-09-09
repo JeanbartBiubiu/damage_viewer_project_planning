@@ -1,0 +1,27 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "method": "POST",
+    "route": "/skills/evelynn_r/parameters",
+    "detailRoute": "/skills/evelynn_r/parameters/base_damage",
+    "skillKey": "evelynn_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "最终抚慰基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 125,
+        "2": 250,
+        "3": 375
+      },
+      "description": "客户端BaseDamage取索引1至3；当前Damage树基础项。",
+      "sortOrder": 10
+    }
+  }
+}

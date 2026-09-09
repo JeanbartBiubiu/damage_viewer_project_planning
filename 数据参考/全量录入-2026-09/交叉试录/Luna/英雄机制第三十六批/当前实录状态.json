@@ -1,0 +1,104 @@
+{
+  "at": "2026-09-09T19:57:02.247Z",
+  "batch": "英雄机制第三十六批",
+  "status": "本轮范围内来源明确组成已保存并独立回读、数值和代表页面验收；未知事件与阶段单列",
+  "skills": [
+    "evelynn_p",
+    "evelynn_q",
+    "evelynn_w",
+    "evelynn_e",
+    "evelynn_r",
+    "lillia_p",
+    "lillia_q",
+    "lillia_w",
+    "lillia_e",
+    "lillia_r",
+    "fiddlesticks_p",
+    "fiddlesticks_q",
+    "fiddlesticks_w",
+    "fiddlesticks_e",
+    "fiddlesticks_r",
+    "singed_p",
+    "singed_q",
+    "singed_w",
+    "singed_e",
+    "singed_r"
+  ],
+  "heroes": [
+    "Evelynn",
+    "Lillia",
+    "Fiddlesticks",
+    "Singed"
+  ],
+  "newCounts": {
+    "parameters": 129,
+    "formulas": 31,
+    "effects": 0
+  },
+  "counts": {
+    "parameters": 159,
+    "formulas": 31,
+    "effects": 0
+  },
+  "created": 160,
+  "businessWrites": 160,
+  "reusedParameters": 30,
+  "currentTotalComponents": 190,
+  "candidateFile": "修订一/完整候选.json",
+  "candidateFileSha256": "9d278c07710b96dc7d29a91df2160ea34954daccb8cf576a0e72492295cf0313",
+  "writePlan": "修订一/写前请求计划.json",
+  "writePlanSha256": "2241e69a53f9538a4135515251f063aa5df4a03120e33163f56648d5471ec91b",
+  "save": {
+    "GETs": 1104,
+    "POSTs": 160,
+    "confirmed": 160,
+    "file": "修订一/实际写入/2026-09-09T19-42-50-422Z/执行结果.json"
+  },
+  "independentReadback": {
+    "GETs": 392,
+    "protectedPaths": 202,
+    "details": 190,
+    "reused": 30,
+    "new": 160,
+    "reader": "Luna Max独立只读脚本",
+    "file": "独立回读证据/实际回读/2026-09-09T19-49-46-310Z/独立全量GET.json"
+  },
+  "strictMath": {
+    "GETs": 0,
+    "reusedIndependentSnapshot": true,
+    "formulas": 31,
+    "cases": 62,
+    "missing": 40,
+    "parameterConstraintChecks": 159,
+    "integerParameters": 112,
+    "millisecondsParameters": 56,
+    "bounds": 5,
+    "file": "实际数学证据/实际数学核算/2026-09-09T19-50-11-134Z/实际公式数学.json",
+    "passed": true,
+    "explanation": "同一独立GET快照用于实际数学；159是全部参数的整数/毫秒适用性检查数，不表示全部为整数。"
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "修订一/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 1559,
+    "uniqueTools": 66,
+    "inputs": 23,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "保存前删除9项：相互冲突或无证的施法时间、仅兵野伤害上限；补入伊芙琳Q标记次数、W满标2500毫秒、辛吉德Q每秒法力13",
+    "修订前数学实际侧也读取原始来源，修订后改用候选参数；保存后独立快照再次验算"
+  ],
+  "experienceIssues": [],
+  "pending": [
+    "已知数值已录；未知等级曲线、真实属性阶段、资格和事件过程接线单独记录，未虚构默认值"
+  ],
+  "runtimeValidation": "未执行"
+}

@@ -1,0 +1,23 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "method": "POST",
+    "route": "/skills/fiddlesticks_r/parameters",
+    "detailRoute": "/skills/fiddlesticks_r/parameters/single_damage_multiplier",
+    "skillKey": "fiddlesticks_r",
+    "kind": "parameters",
+    "stableKey": "single_damage_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "single_damage_multiplier",
+      "name": "单次伤害根倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "DamageDone树根mMultiplier=0.25；只表示当前单次伤害系数，不推定完整时序。",
+      "sortOrder": 60
+    }
+  }
+}

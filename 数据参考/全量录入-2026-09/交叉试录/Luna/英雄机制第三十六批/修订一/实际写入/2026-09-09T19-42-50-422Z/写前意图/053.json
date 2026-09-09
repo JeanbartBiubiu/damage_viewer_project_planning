@@ -1,0 +1,29 @@
+{
+  "i": 52,
+  "intent": {
+    "sequence": 53,
+    "method": "POST",
+    "route": "/skills/lillia_q/parameters",
+    "detailRoute": "/skills/lillia_q/parameters/inner_damage_base",
+    "skillKey": "lillia_q",
+    "kind": "parameters",
+    "stableKey": "inner_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "inner_damage_base",
+      "name": "内圈魔法伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 35,
+        "2": 45,
+        "3": 55,
+        "4": 65,
+        "5": 75
+      },
+      "description": "TotalDamage取FlatDamageBase索引1至5。",
+      "sortOrder": 10
+    }
+  }
+}

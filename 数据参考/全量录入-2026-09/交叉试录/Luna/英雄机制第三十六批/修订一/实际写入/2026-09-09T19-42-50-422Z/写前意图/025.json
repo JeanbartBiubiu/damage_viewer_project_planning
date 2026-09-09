@@ -1,0 +1,29 @@
+{
+  "i": 24,
+  "intent": {
+    "sequence": 25,
+    "method": "POST",
+    "route": "/skills/evelynn_e/parameters",
+    "detailRoute": "/skills/evelynn_e/parameters/empowered_damage",
+    "skillKey": "evelynn_e",
+    "kind": "parameters",
+    "stableKey": "empowered_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_damage",
+      "name": "强化鞭笞基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "description": "客户端EmpoweredDamage取索引1至5；强化E分支与普通E互斥。",
+      "sortOrder": 20
+    }
+  }
+}

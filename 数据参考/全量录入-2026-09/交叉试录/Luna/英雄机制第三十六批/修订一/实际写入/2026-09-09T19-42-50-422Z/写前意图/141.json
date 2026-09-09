@@ -1,0 +1,29 @@
+{
+  "i": 140,
+  "intent": {
+    "sequence": 141,
+    "method": "POST",
+    "route": "/skills/singed_w/parameters",
+    "detailRoute": "/skills/singed_w/parameters/slow_percent_points",
+    "skillKey": "singed_w",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "强力粘胶减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 55,
+        "3": 60,
+        "4": 65,
+        "5": 70
+      },
+      "description": "当前SlowPercent取索引1至5且正文直接显示百分数，不乘0.01；保存50至70百分数点。",
+      "sortOrder": 10
+    }
+  }
+}
