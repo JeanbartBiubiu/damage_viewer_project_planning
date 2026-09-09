@@ -1,0 +1,43 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 50,
+    "method": "POST",
+    "route": "/skills/yone_p/formulas",
+    "detailRoute": "/skills/yone_p/formulas/crit_chance_after_self_modifier_ratio",
+    "skillKey": "yone_p",
+    "kind": "formulas",
+    "stableKey": "crit_chance_after_self_modifier_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "crit_chance_after_self_modifier_ratio",
+      "name": "自身提升后暴击几率",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "crit_chance_before_self_modifier_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crit_chance_before_self_modifier_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crit_chance_multiplier"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "先读取其它暴击修正后的实际暴击几率，再增加同值100%；不重复乘已经含自身提升的最终值。",
+      "sortOrder": 30
+    }
+  }
+}

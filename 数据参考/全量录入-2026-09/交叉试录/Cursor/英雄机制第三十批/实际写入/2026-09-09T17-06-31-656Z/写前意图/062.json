@@ -1,0 +1,29 @@
+{
+  "i": 61,
+  "intent": {
+    "sequence": 62,
+    "method": "POST",
+    "route": "/skills/yone_w/parameters",
+    "detailRoute": "/skills/yone_w/parameters/target_max_health_ratio",
+    "skillKey": "yone_w",
+    "kind": "parameters",
+    "stableKey": "target_max_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "target_max_health_ratio",
+      "name": "目标最大生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.08,
+        "2": 0.09,
+        "3": 0.1,
+        "4": 0.11,
+        "5": 0.12
+      },
+      "description": "客户端MaxHealthDamage索引1至5为8%/9%/10%/11%/12%；当前中文正文显示各类型均为基数和目标最大生命值比例的一半。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "method": "POST",
+    "route": "/skills/yasuo_p/parameters",
+    "detailRoute": "/skills/yasuo_p/parameters/crit_chance_multiplier",
+    "skillKey": "yasuo_p",
+    "kind": "parameters",
+    "stableKey": "crit_chance_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_chance_multiplier",
+      "name": "暴击几率提升比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文显示CritChanceMultiplier*100%，即在其它暴击几率修正后把应用前实际暴击几率再增加100%；比例1代表100%。",
+      "sortOrder": 10
+    }
+  }
+}

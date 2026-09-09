@@ -1,0 +1,23 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "method": "POST",
+    "route": "/skills/yasuo_p/parameters",
+    "detailRoute": "/skills/yasuo_p/parameters/crit_chance_before_self_modifier_ratio",
+    "skillKey": "yasuo_p",
+    "kind": "parameters",
+    "stableKey": "crit_chance_before_self_modifier_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_chance_before_self_modifier_ratio",
+      "name": "自身提升前实际暴击几率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "正文扩展说明自身暴击提升在其它暴击几率修正之后计算；具体实际选择器阶段由运行输入提供，不设默认。",
+      "sortOrder": 40
+    }
+  }
+}

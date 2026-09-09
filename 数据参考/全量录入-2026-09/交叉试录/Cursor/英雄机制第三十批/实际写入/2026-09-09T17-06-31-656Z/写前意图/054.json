@@ -1,0 +1,23 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "method": "POST",
+    "route": "/skills/yone_q/parameters",
+    "detailRoute": "/skills/yone_q/parameters/actual_critical_damage_ratio",
+    "skillKey": "yone_q",
+    "kind": "parameters",
+    "stableKey": "actual_critical_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_critical_damage_ratio",
+      "name": "实际暴击伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "TotalDamageCrit树的mStat9选择器和阶段未形成窄证；无默认输入。",
+      "sortOrder": 30
+    }
+  }
+}

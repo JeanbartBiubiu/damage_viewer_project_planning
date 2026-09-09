@@ -1,0 +1,23 @@
+{
+  "i": 43,
+  "intent": {
+    "sequence": 44,
+    "method": "POST",
+    "route": "/skills/yone_p/parameters",
+    "detailRoute": "/skills/yone_p/parameters/crit_to_bonus_ad_per_ratio",
+    "skillKey": "yone_p",
+    "kind": "parameters",
+    "stableKey": "crit_to_bonus_ad_per_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_to_bonus_ad_per_ratio",
+      "name": "超额暴击转额外攻击力系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 50,
+      "levelValues": null,
+      "description": "客户端YoneCritToAD=50，正文按每1%超出部分乘0.01。",
+      "sortOrder": 50
+    }
+  }
+}

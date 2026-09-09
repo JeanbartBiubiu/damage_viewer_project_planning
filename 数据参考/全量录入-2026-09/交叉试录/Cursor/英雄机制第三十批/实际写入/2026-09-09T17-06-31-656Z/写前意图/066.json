@@ -1,0 +1,23 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "method": "POST",
+    "route": "/skills/yone_w/parameters",
+    "detailRoute": "/skills/yone_w/parameters/first_champion_shield_increase_ratio",
+    "skillKey": "yone_w",
+    "kind": "parameters",
+    "stableKey": "first_champion_shield_increase_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "first_champion_shield_increase_ratio",
+      "name": "首个敌方英雄护盾提升比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "客户端FirstChampShieldMultiplier=1，官方扩展正文显示首个敌方英雄使护盾提升100%；比例1代表100%。",
+      "sortOrder": 60
+    }
+  }
+}

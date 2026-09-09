@@ -1,0 +1,33 @@
+{
+  "at": "2026-09-09T17:06:31.219Z",
+  "decision": "可按冻结计划保存86项新增，保留8项既有冷却。逐项确认不存在、POST后GET，并继续独立实际回读核算和代表页面验收。",
+  "hashes": {
+    "完整候选.json": "2efb89e7a4698b77b12a438922b1f9c5353460eb711e299039ab613c3cea7e12",
+    "写前请求计划.json": "bc33491aefd00be327802161eae24e749ee225d6857951d9ce91164a32b0baf1",
+    "受保护写入器.mjs": "5d16dab087a98213703decbe7c5175fe9fd63e0015f588706ad44a805a5acce3"
+  },
+  "newCounts": {
+    "parameters": 64,
+    "formulas": 20,
+    "effects": 2
+  },
+  "created": 86,
+  "reused": 8,
+  "currentComponents": 94,
+  "preflight": {
+    "get": 190,
+    "protectedRequests": 96,
+    "existingDetails": 8,
+    "missing": 86
+  },
+  "evidence": [
+    "Cursor实际来源评审READY且只读调用审计通过",
+    "主负责人候选核对及静态40例数学检查通过",
+    "当前保护快照和来源文件哈希一致，保存器冻结且每项先确认不存在"
+  ],
+  "limits": [
+    "候选中的部分越界检查仅静态布尔条件，未作为运行时拒绝证据",
+    "触发事件、未知等级曲线与动态时长仍有明确待补项，未执行战斗运行时验收"
+  ],
+  "apiWritesBeforeRun": 0
+}

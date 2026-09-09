@@ -1,0 +1,23 @@
+{
+  "i": 44,
+  "intent": {
+    "sequence": 45,
+    "method": "POST",
+    "route": "/skills/yone_p/parameters",
+    "detailRoute": "/skills/yone_p/parameters/crit_chance_before_self_modifier_ratio",
+    "skillKey": "yone_p",
+    "kind": "parameters",
+    "stableKey": "crit_chance_before_self_modifier_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crit_chance_before_self_modifier_ratio",
+      "name": "自身提升前实际暴击几率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "正文扩展说明自身暴击提升在其它修正之后计算；实际阶段无默认输入。",
+      "sortOrder": 60
+    }
+  }
+}

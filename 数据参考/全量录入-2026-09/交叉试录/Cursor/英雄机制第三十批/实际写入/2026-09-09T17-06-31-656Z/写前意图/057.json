@@ -1,0 +1,23 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "method": "POST",
+    "route": "/skills/yone_q/parameters",
+    "detailRoute": "/skills/yone_q/parameters/knockup_duration_ms",
+    "skillKey": "yone_q",
+    "kind": "parameters",
+    "stableKey": "knockup_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockup_duration_ms",
+      "name": "击飞持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 750,
+      "levelValues": null,
+      "description": "客户端Q3KnockupDuration=0.75秒，转换为750毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

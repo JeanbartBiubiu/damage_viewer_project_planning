@@ -1,0 +1,23 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "method": "POST",
+    "route": "/skills/yone_r/parameters",
+    "detailRoute": "/skills/yone_r/parameters/damage_split_ratio",
+    "skillKey": "yone_r",
+    "kind": "parameters",
+    "stableKey": "damage_split_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_split_ratio",
+      "name": "物理魔法分拆比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "客户端TooltipDamage为完整Damage×0.5，当前正文同时显示物理与魔法各半。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 77,
+  "intent": {
+    "sequence": 78,
+    "method": "POST",
+    "route": "/skills/yone_e/parameters",
+    "detailRoute": "/skills/yone_e/parameters/return_damage_stored",
+    "skillKey": "yone_e",
+    "kind": "parameters",
+    "stableKey": "return_damage_stored",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "return_damage_stored",
+      "name": "灵体期间对英雄实际造成的攻击与技能伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "同版官方英文Yone.spells[2].tooltip明确只统计灵体期间对英雄造成的攻击与技能伤害；伤害存储阶段和附带效果资格无默认。",
+      "sortOrder": 50
+    }
+  }
+}

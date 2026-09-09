@@ -1,0 +1,29 @@
+{
+  "i": 11,
+  "intent": {
+    "sequence": 12,
+    "method": "POST",
+    "route": "/skills/yasuo_q/parameters",
+    "detailRoute": "/skills/yasuo_q/parameters/base_damage",
+    "skillKey": "yasuo_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 45,
+        "3": 70,
+        "4": 95,
+        "5": 120
+      },
+      "description": "客户端BaseDamage等级1至5为20/45/70/95/120；正文Damage树消费该基础值。",
+      "sortOrder": 10
+    }
+  }
+}

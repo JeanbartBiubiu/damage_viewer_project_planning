@@ -1,0 +1,23 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 37,
+    "method": "POST",
+    "route": "/skills/yasuo_r/parameters",
+    "detailRoute": "/skills/yasuo_r/parameters/armor_penetration_duration_ms",
+    "skillKey": "yasuo_r",
+    "kind": "parameters",
+    "stableKey": "armor_penetration_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "armor_penetration_duration_ms",
+      "name": "额外护甲穿透持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 15000,
+      "levelValues": null,
+      "description": "客户端RBuffDuration=15秒，转换为15000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

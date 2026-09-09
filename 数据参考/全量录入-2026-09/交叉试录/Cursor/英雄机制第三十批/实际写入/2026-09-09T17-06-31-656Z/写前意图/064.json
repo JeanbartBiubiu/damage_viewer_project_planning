@@ -1,0 +1,23 @@
+{
+  "i": 63,
+  "intent": {
+    "sequence": 64,
+    "method": "POST",
+    "route": "/skills/yone_w/parameters",
+    "detailRoute": "/skills/yone_w/parameters/shield_level_base_value",
+    "skillKey": "yone_w",
+    "kind": "parameters",
+    "stableKey": "shield_level_base_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_level_base_value",
+      "name": "实际等级护盾基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "客户端WShield的ByCharLevelInterpolation为40至90，未给可证18级中间表；使用实际等级基础值，无默认。",
+      "sortOrder": 40
+    }
+  }
+}

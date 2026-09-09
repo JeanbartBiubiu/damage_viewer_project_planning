@@ -1,0 +1,23 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 63,
+    "method": "POST",
+    "route": "/skills/yone_w/parameters",
+    "detailRoute": "/skills/yone_w/parameters/damage_split_ratio",
+    "skillKey": "yone_w",
+    "kind": "parameters",
+    "stableKey": "damage_split_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_split_ratio",
+      "name": "伤害分拆比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前正文和官方英文均明确物理、魔法各为同一个完整基数的一半；比例1代表100%。",
+      "sortOrder": 30
+    }
+  }
+}

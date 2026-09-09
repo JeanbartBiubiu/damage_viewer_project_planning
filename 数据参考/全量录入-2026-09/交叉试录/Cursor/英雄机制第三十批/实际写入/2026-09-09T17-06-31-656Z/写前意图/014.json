@@ -1,0 +1,23 @@
+{
+  "i": 13,
+  "intent": {
+    "sequence": 14,
+    "method": "POST",
+    "route": "/skills/yasuo_q/parameters",
+    "detailRoute": "/skills/yasuo_q/parameters/actual_critical_damage_ratio",
+    "skillKey": "yasuo_q",
+    "kind": "parameters",
+    "stableKey": "actual_critical_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_critical_damage_ratio",
+      "name": "实际暴击伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "暴击计算树的mStat9选择器和应用阶段未形成窄证；暴击倍率无默认，直接由实际输入提供。",
+      "sortOrder": 30
+    }
+  }
+}

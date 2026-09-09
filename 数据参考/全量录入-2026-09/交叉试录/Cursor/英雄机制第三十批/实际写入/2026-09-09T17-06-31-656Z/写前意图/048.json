@@ -1,0 +1,35 @@
+{
+  "i": 47,
+  "intent": {
+    "sequence": 48,
+    "method": "POST",
+    "route": "/skills/yone_p/formulas",
+    "detailRoute": "/skills/yone_p/formulas/second_attack_physical_damage",
+    "skillKey": "yone_p",
+    "kind": "formulas",
+    "stableKey": "second_attack_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "second_attack_physical_damage",
+      "name": "第二次攻击物理伤害分量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "attack_damage",
+            "attributeValueKind": "TOTAL"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "physical_damage_split_ratio"
+          }
+        ]
+      },
+      "description": "每第二次攻击只把同一个实际攻击基数拆分为物理分量，不再叠加一笔完整物理攻击；攻击特效是否纳入待接。",
+      "sortOrder": 10
+    }
+  }
+}

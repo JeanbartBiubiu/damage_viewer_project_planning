@@ -1,0 +1,23 @@
+{
+  "i": 20,
+  "intent": {
+    "sequence": 21,
+    "method": "POST",
+    "route": "/skills/yasuo_w/parameters",
+    "detailRoute": "/skills/yasuo_w/parameters/wall_duration_ms",
+    "skillKey": "yasuo_w",
+    "kind": "parameters",
+    "stableKey": "wall_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wall_duration_ms",
+      "name": "风墙持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "同版官方英文当前技能文字明确阻挡敌方飞行道具4秒，转换为4000毫秒；不是普通护盾或全伤害免疫。",
+      "sortOrder": 10
+    }
+  }
+}

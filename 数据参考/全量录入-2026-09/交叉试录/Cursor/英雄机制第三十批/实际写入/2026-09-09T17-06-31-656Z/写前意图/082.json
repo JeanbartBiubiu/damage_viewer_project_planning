@@ -1,0 +1,23 @@
+{
+  "i": 81,
+  "intent": {
+    "sequence": 82,
+    "method": "POST",
+    "route": "/skills/yone_r/parameters",
+    "detailRoute": "/skills/yone_r/parameters/bonus_attack_damage_ratio",
+    "skillKey": "yone_r",
+    "kind": "parameters",
+    "stableKey": "bonus_attack_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_attack_damage_ratio",
+      "name": "额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.8,
+      "levelValues": null,
+      "description": "客户端ADRatio约0.8，完整Damage树使用来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}
