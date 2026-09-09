@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T04:56:30.193Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_r/formulas/max_damage",
+  "id": "max_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "max_damage",
+    "name": "格温R三段最大魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "nine_needles"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "MaxDamage=9×TotalDamage，表达式内联单针树。",
+    "sortOrder": 40
+  }
+}

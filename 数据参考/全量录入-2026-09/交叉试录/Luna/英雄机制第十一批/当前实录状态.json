@@ -1,0 +1,44 @@
+{
+  "at": "2026-09-09T05:26:54.927Z",
+  "heroes": [
+    "Irelia",
+    "Fiora",
+    "Camille",
+    "Gwen"
+  ],
+  "skills": 20,
+  "components": {
+    "parameters": 175,
+    "formulas": 44,
+    "effects": 16,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "created": 206,
+  "reused": 29,
+  "correctivePuts": 7,
+  "effectiveEvidence": [
+    "最终实录结果.json",
+    "等级曲线修正/最终修正请求.json",
+    "等级曲线修正/实际修正结果.json",
+    "等级曲线修正/实际7GET实时回读.json",
+    "页面验收.json"
+  ],
+  "initialCandidateSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "correctionRequestSha256": "922f213e781fea8ab8cec893f8cec096382cfaca2cd2e7518958a8e7df636599",
+  "correctionSummary": {
+    "success": true,
+    "updates": 7,
+    "gets": 424,
+    "fullProtectionGets": 403,
+    "parametersToRuntime": 6,
+    "formulasCorrected": 1,
+    "otherComponentsProtected": 228,
+    "mathCases": 3,
+    "missingInputRejected": true
+  },
+  "independentLiveGets": 7,
+  "representativePages": 2,
+  "status": "明确参数、公式和独立效果已保存，页面与真实独立GET通过；未知曲线和事件接线仍待补，不能计为完整战斗机制。"
+}

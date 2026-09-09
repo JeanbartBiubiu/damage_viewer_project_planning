@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T04:54:47.608Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/fiora_r/parameters/move_speed_ratio",
+  "id": "move_speed_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "move_speed_ratio",
+    "name": "目标附近移动速度比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.3,
+      "2": 0.4,
+      "3": 0.5
+    },
+    "description": "客户端当前根绑定 DataValues.PercentMS 取索引1至3。",
+    "sortOrder": 50
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T04:54:26.526Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/fiora_w/parameters/base_damage",
+  "id": "base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "劳伦特心眼刀基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 110,
+      "2": 150,
+      "3": 190,
+      "4": 230,
+      "5": 270
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+    "sortOrder": 30
+  }
+}

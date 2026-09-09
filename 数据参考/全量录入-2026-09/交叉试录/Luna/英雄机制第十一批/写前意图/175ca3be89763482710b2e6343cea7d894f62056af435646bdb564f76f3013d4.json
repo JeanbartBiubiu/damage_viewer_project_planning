@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T04:53:31.955Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/irelia_p/formulas/on_hit_bonus_magic_damage",
+  "id": "on_hit_bonus_magic_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "on_hit_bonus_magic_damage",
+    "name": "满层攻击附加魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "on_hit_base_damage"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "on_hit_level_component"
+            }
+          ]
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "on_hit_bonus_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BONUS"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "保留已知基础项、等级项和0.2额外攻击力项；匿名等级项由运行输入提供。",
+    "sortOrder": 10
+  }
+}

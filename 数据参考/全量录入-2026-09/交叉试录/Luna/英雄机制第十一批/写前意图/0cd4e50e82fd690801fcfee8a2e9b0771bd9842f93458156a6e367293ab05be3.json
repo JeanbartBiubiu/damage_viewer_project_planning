@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T04:55:19.314Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_w/parameters/outer_max_hp_damage_ratio",
+  "id": "outer_max_hp_damage_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "outer_max_hp_damage_ratio",
+    "name": "外沿目标最大生命伤害比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.07,
+      "2": 0.075,
+      "3": 0.08,
+      "4": 0.085,
+      "5": 0.09
+    },
+    "description": "客户端当前根绑定 DataValues.OuterConeMaxHPDamage 取索引1至5。",
+    "sortOrder": 90
+  }
+}

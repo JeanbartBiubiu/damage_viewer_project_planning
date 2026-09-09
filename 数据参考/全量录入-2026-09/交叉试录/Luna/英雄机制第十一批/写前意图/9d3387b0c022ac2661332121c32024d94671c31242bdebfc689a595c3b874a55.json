@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:55:25.056Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_w/formulas/base_damage_total",
+  "id": "base_damage_total",
+  "method": "POST",
+  "body": {
+    "formulaKey": "base_damage_total",
+    "name": "战术横扫基础物理伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BONUS"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "BaseDamageTotal=BaseDamage+BADRatio×额外攻击力。",
+    "sortOrder": 20
+  }
+}

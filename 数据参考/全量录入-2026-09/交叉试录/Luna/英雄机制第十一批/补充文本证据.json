@@ -1,0 +1,553 @@
+{
+  "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+  "sha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "note": "仅保留当前角色根绑定主技能mLocKeys引用文本；动态键缺失时保留缺失事实，不借旧技能或其他英雄文案。",
+  "skills": {
+    "irelia_p": {
+      "binding": "Characters/Irelia/Spells/IreliaPassiveAbility/IreliaPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_IreliaPassive_Name",
+          "key": "spell_ireliapassive_name",
+          "text": "艾欧尼亚热诚"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_IreliaPassive_Summary",
+          "key": "spell_ireliapassive_summary",
+          "text": "当艾瑞莉娅用技能命中敌人时，她会获得可叠加的攻击速度加成。这个效果在满层时还会为艾瑞莉娅提供攻击附伤。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_IreliaPassive_Tooltip",
+          "key": "spell_ireliapassive_tooltip",
+          "text": "艾瑞莉娅在用一个技能命中一名敌人时，会获得一层持续@BuffDuration@秒的效果(最大@MaxStacks@层)。每层效果为她提供<attackSpeed>@SingleStackAS@%攻击速度</attackSpeed>，并在满层时她的攻击会造成额外的<magicDamage>@OnHitBonus@魔法伤害</magicDamage>。<br><br>攻击一个英雄、建筑或大型野怪，会刷新效果的持续时间。艾瑞莉娅每命中一个英雄都会获得一层效果，或在至少命中一个非英雄的敌人时获得一层效果。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_IreliaPassive_TooltipExtendedBelowLine",
+          "key": "spell_ireliapassive_tooltipextendedbelowline",
+          "text": "艾瑞莉娅在用一个技能命中一名敌人时，会获得一层持续@BuffDuration@秒的效果(最大@MaxStacks@层)。每层效果为她提供<attackSpeed>@SingleStackAS@%攻击速度</attackSpeed>，并在满层时她的攻击会造成额外的<magicDamage>@OnHitBonus@魔法伤害</magicDamage>。<br><br>攻击一个英雄、建筑或大型野怪，会刷新效果的持续时间。艾瑞莉娅每命中一个英雄都会获得一层效果，或在至少命中一个非英雄的敌人时获得一层效果。<br><br><rules>对建筑物造成@OnHitStructureMod*100@%伤害。</rules>"
+        }
+      }
+    },
+    "irelia_q": {
+      "binding": "Characters/Irelia/Spells/IreliaQAbility/IreliaQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_IreliaQ_Name",
+          "key": "spell_ireliaq_name",
+          "text": "利刃冲击"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_IreliaQ_Summary",
+          "key": "spell_ireliaq_summary",
+          "text": "艾瑞莉娅向前突进以打击她的目标，并治疗自身。如果目标被标记或死于利刃冲击，那么它的冷却时间会刷新。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_IreliaQ_Tooltip",
+          "key": "spell_ireliaq_tooltip",
+          "text": "艾瑞莉娅冲向一名敌人，造成<physicalDamage>@ChampionDamage@物理伤害</physicalDamage>并回复自身 <healing>@HealAmount@生命值</healing>。如果敌人阵亡或者<keywordMajor>重心不稳</keywordMajor>，那么会刷新冷却时间。<br><br>对小兵造成@MinionDamage@伤害。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_IreliaQ_TooltipExtendedBelowLine",
+          "key": "spell_ireliaq_tooltipextendedbelowline",
+          "text": "<rules>这个技能会施加攻击特效。</rules>"
+        }
+      }
+    },
+    "irelia_w": {
+      "binding": "Characters/Irelia/Spells/IreliaWAbility/IreliaW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_IreliaW_Name",
+          "key": "spell_ireliaw_name",
+          "text": "距破之舞"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_IreliaW_Summary",
+          "key": "spell_ireliaw_summary",
+          "text": "艾瑞莉娅开始蓄力以进行一次打击，蓄力越久则打击造成的伤害越多。在蓄力期间她所受的物理伤害降低。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_IreliaW_Tooltip",
+          "key": "spell_ireliaw_tooltip",
+          "text": "<charge>开始蓄力：</charge>艾瑞莉娅进入防御姿态，至多持续@MaxDuration@秒，变得无法行动但使所受的物理伤害降低@FinalPhysicalDR@%、所受的魔法伤害降低@FinalMagicDR@%。<br><br><release>释放：</release>艾瑞莉娅放出她的刀锋，造成<physicalDamage>@MinDamageCalc@物理伤害</physicalDamage>，基于蓄力时间至多提升至<physicalDamage>@MaxDamageCalc@</physicalDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_IreliaW_TooltipExtendedBelowLine",
+          "key": "spell_ireliaw_tooltipextendedbelowline",
+          "text": "<rules><release>释放</release>将在<charge>蓄力</charge>结束时自动发生并且无法被打断。在蓄力@ChargeTimeForMax@秒后达到最大伤害提升。</rules>"
+        }
+      }
+    },
+    "irelia_e": {
+      "binding": "Characters/Irelia/Spells/IreliaEAbility/IreliaE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_IreliaE_Name",
+          "key": "spell_ireliae_name",
+          "text": "比翼双刃"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_IreliaE_Summary",
+          "key": "spell_ireliae_summary",
+          "text": "艾瑞莉娅放出两柄相互聚拢的利刃。利刃之间被击中的敌人会受到伤害、晕眩效果并被标记。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_IreliaE_Tooltip",
+          "key": "spell_ireliae_tooltip",
+          "text": "艾瑞莉娅扔出一把刀锋至地上，并且至多可在@BuffDuration@秒里<recast>再次施放</recast>。<br><br><recast>再次施放：</recast>艾瑞莉娅扔出第二把刀锋，随后两把刀锋会朝着彼此飞行，对沿途的敌人造成@StunDuration@秒<status>晕眩</status>和<magicDamage>@TotalDamage@魔法伤害</magicDamage>。英雄和大型野怪会进入<keywordMajor>重心不稳</keywordMajor>状态，持续@MarkDuration@秒。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_IreliaE_TooltipExtendedBelowLine",
+          "key": "spell_ireliae_tooltipextendedbelowline",
+          "text": "<rules>在@BuffDuration@秒后，艾瑞莉娅将在她自己的位置上<recast>再次施放</recast>这个技能。</rules>"
+        }
+      }
+    },
+    "irelia_r": {
+      "binding": "Characters/Irelia/Spells/IreliaRAbility/IreliaR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_IreliaR_Name",
+          "key": "spell_ireliar_name",
+          "text": "先锋之刃"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_IreliaR_Summary",
+          "key": "spell_ireliar_summary",
+          "text": "艾瑞莉娅发射庞大数量的利刃，它们会在命中一名敌方英雄时向外爆开。被利刃命中的敌人会受到伤害并被标记。然后利刃会形成一道刃墙，在敌人穿过时造成伤害、和减速效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_IreliaR_Tooltip",
+          "key": "spell_ireliar_tooltip",
+          "text": "艾瑞莉娅发射出一阵刀锋弹幕，造成<magicDamage>@MissileDamage@魔法伤害</magicDamage>并对英雄和大型野怪施加持续@MarkDuration@秒的<keywordMajor>重心不稳</keywordMajor>。刀锋弹幕会在命中第一个英雄后绽放成一个持续@ZoneDuration@秒的牢笼。牢笼造成<magicDamage>@ZoneDamage@魔法伤害</magicDamage>和持续@CCDuration@秒的@SlowAmount@%<status>减速</status>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_IreliaR_TooltipExtendedBelowLine",
+          "key": "spell_ireliar_tooltipextendedbelowline",
+          "text": "<rules>当刀锋弹幕绽开时，附近的敌人也会被命中。</rules><br>"
+        }
+      }
+    },
+    "fiora_p": {
+      "binding": "Characters/Fiora/Spells/FioraPassiveAbility/FioraPassive",
+      "keys": {
+        "keyTooltip": {
+          "sourceKey": "Spell_FioraPassive_Tooltip",
+          "key": "spell_fiorapassive_tooltip",
+          "text": "菲奥娜识别出敌方英雄身上的<keywordMajor>破绽</keywordMajor>。用一次攻击或技能命中这个<keywordMajor>破绽</keywordMajor>会造成额外的<trueDamage>@PassiveDamageTotal@最大生命值的真实伤害</trueDamage>，并为菲奥娜提供在@MovementSpeedDuration@秒里持续衰减的<speed>@spell.FioraR:PercentMS*100@%移动速度</speed>，并回复<healing>@PassiveHealAmount@生命值</healing>。<br><br>菲奥娜会在15秒后或是击中一个<keywordMajor>破绽</keywordMajor>后找出一个新破绽。"
+        },
+        "keyName": {
+          "sourceKey": "Spell_FioraPassive_Name",
+          "key": "spell_fiorapassive_name",
+          "text": "决斗之舞"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_FioraPassive_Summary",
+          "key": "spell_fiorapassive_summary",
+          "text": "菲奥娜已在这名英雄身上发现了一处<keywordMajor>破绽</keywordMajor>。如果她命中了这处<keywordMajor>破绽</keywordMajor>，她就会<healing>回复生命值</healing>并获得<speed>移动速度</speed>。"
+        }
+      }
+    },
+    "fiora_q": {
+      "binding": "Characters/Fiora/Spells/FioraQAbility/FioraQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_FioraQ_Name",
+          "key": "spell_fioraq_name",
+          "text": "破空斩"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_FioraQ_Summary",
+          "key": "spell_fioraq_summary",
+          "text": "菲奥娜向一个方向冲刺，并刺击一个附近的敌人，造成物理伤害并施加攻击特效。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_FioraQ_Tooltip",
+          "key": "spell_fioraq_tooltip",
+          "text": "菲奥娜向一个方向进行突刺并刺击相距最近的敌人、守卫或建筑物，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。这次打击会优先攻击<keywordMajor>破绽</keywordMajor>和将被此打击击杀的单位。<br><br>如果菲奥娜命中了一个敌人，那么这个技能的冷却时间就会缩短@CDRefundPercent*100@%。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_FioraQ_TooltipExtendedBelowLine",
+          "key": "spell_fioraq_tooltipextendedbelowline",
+          "text": "<rules>这次打击会施加攻击特效。</rules>"
+        }
+      }
+    },
+    "fiora_w": {
+      "binding": "Characters/Fiora/Spells/FioraWAbility/FioraW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_FioraW_Name",
+          "key": "spell_fioraw_name",
+          "text": "劳伦特心眼刀"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_FioraW_Summary",
+          "key": "spell_fioraw_summary",
+          "text": "菲奥娜在短时间内对所有即将到来的伤害和限制效果进行招架，然后朝着一个方向进行刺击。这个刺击会减速命中的第一个敌方英雄，如果菲奥娜用这个技能格挡掉一个禁锢类效果，那么刺击会造成晕眩效果而非减速效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_FioraW_Tooltip",
+          "key": "spell_fioraw_tooltip",
+          "text": "菲奥娜招架即将到来的所有伤害、限制效果和有害效果，持续@ParryDuration@秒，然后刺击。刺击会对命中的第一个敌方英雄造成<magicDamage>@StabDamage@魔法伤害</magicDamage>，并<status>减速</status>目标的@MSSlowPercent*-100@%<speed>移动速度</speed><attackSpeed>和@AttackSlowPercent*-100@%攻击速度</attackSpeed>，持续@CCDuration@秒。如果菲奥娜招架掉一个<status>定身</status>效果，那么被刺击的敌人会被<status>晕眩</status>而非<status>减速</status>。"
+        }
+      }
+    },
+    "fiora_e": {
+      "binding": "Characters/Fiora/Spells/FioraEAbility/FioraE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_FioraE_Name",
+          "key": "spell_fiorae_name",
+          "text": "夺命连刺"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_FioraE_Summary",
+          "key": "spell_fiorae_summary",
+          "text": "菲奥娜的下两次攻击将获得攻击速度加成。第一次攻击会使目标减速，而第二次攻击必定会产生暴击。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_FioraE_Tooltip",
+          "key": "spell_fiorae_tooltip",
+          "text": "菲奥娜的下两次攻击获得<attackSpeed>@ASPercent*100@%攻击速度</attackSpeed>。第一次攻击造成持续@SlowDuration@秒的@SlowPercent*-100@%<status>减速</status>。第二次攻击必定会产生暴击，造成<physicalDamage>@AttackTwopercentTAD*100@%伤害</physicalDamage>。"
+        }
+      }
+    },
+    "fiora_r": {
+      "binding": "Characters/Fiora/Spells/FioraRAbility/FioraR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_FioraR_Name",
+          "key": "spell_fiorar_name",
+          "text": "无双挑战"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_FioraR_Summary",
+          "key": "spell_fiorar_summary",
+          "text": "菲奥娜显示出一个敌方英雄身上的所有四处破绽，并在目标附近时获得移动速度加成。如果菲奥娜命中了所有四处破绽，或者目标在死前至少被命中了一处破绽，那么菲奥娜和范围内的友军就会在接下来的几秒里持续获得治疗效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_FioraR_Tooltip",
+          "key": "spell_fiorar_tooltip",
+          "text": "<spellPassive>被动：</spellPassive><spellName>{{Spell_FioraPassive_Name}}</spellName><speed>移动速度</speed>加成提升至@PercentMS*100@%。<br><br><spellActive>主动</spellActive>：菲奥娜标出一名英雄身上的全部四处<keywordMajor>破绽</keywordMajor>，最多可造成<trueDamage>@spell.FioraPassive:RDamageTotal@最大生命值的真实伤害</trueDamage>并在目标附近时获得<spellName>{{Spell_FioraPassive_Name}}</spellName>的<speed>移动速度加成</speed>。<br><br>如果菲奥娜在@MarkDuration@秒内命中了全部四处<keywordMajor>破绽</keywordMajor>，或者在目标死前至少命中一处，那么菲奥娜就会为周围的友方英雄每秒回复<healing>@HealPerSecondCalc@生命值</healing>，持续@HealDuration@秒。"
+        }
+      }
+    },
+    "camille_p": {
+      "binding": "Characters/Camille/Spells/CamillePassiveAbility/CamillePassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_CamillePassive_Name",
+          "key": "spell_camillepassive_name",
+          "text": "适应性防御"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_CamillePassive_Tooltip",
+          "key": "spell_camillepassive_tooltip",
+          "text": "卡蜜尔对敌方英雄发起的攻击会基于该英雄的伤害类型(<physicalDamage>物理</physicalDamage>或<magicDamage>魔法</magicDamage>)提供专门吸收该类型伤害的<shield>@ShieldAmount@护盾</shield>，持续@ShieldDuration@秒。这个效果有@PassiveCooldown@秒的冷却时间。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_CamillePassive_Summary",
+          "key": "spell_camillepassive_summary",
+          "text": "对敌方英雄发起的普攻会基于该英雄的伤害类型（物理或魔法）提供一层专门吸收该类型伤害的护盾，护盾的生命值相当于卡蜜尔的一部分最大生命值，持续一小段时间。"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_CamillePassive_cooldown",
+          "key": "spell_camillepassive_cooldown",
+          "text": "@PassiveCooldown@秒%i:cooldown%"
+        }
+      }
+    },
+    "camille_q": {
+      "binding": "Characters/Camille/Spells/CamilleQAbility/CamilleQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_CamilleQ_Name",
+          "key": "spell_camilleq_name",
+          "text": "精准礼仪"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_CamilleQ_Summary",
+          "key": "spell_camilleq_summary",
+          "text": "卡蜜尔的下一次普通攻击会斩击敌人，造成额外物理伤害，并为自身提供短暂的爆发性移动速度加成。这个技能可以在释放后的短时间内再次施放，并且如果两次释放之间存在一定的间隔，那么第二段攻击会造成显著的额外伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_CamilleQ_Tooltip",
+          "key": "spell_camilleq_tooltip",
+          "text": "卡蜜尔的下次攻击造成额外的<physicalDamage>@BonusDamage@物理伤害</physicalDamage>并为她提供<speed>@MSBonus*100@%移动速度</speed>，持续@MSDuration@秒。这个技能可以在接下来的@QTotalRecastTime@秒里无消耗地<recast>再次施放</recast>。<br><br>如果<recast>再次施放</recast>的攻击与第一段攻击相距至少@QRampUpTime@秒，那么额外伤害会提升至<physicalDamage>@EmpoweredBonusDamage@</physicalDamage>，并且该次攻击的@DamageConversionPercentage@伤害转化为<trueDamage>真实伤害</trueDamage>。<br><br><rules>{{ buff_desc_SpellEffects }}</rules>"
+        }
+      }
+    },
+    "camille_w": {
+      "binding": "Characters/Camille/Spells/CamilleWAbility/CamilleW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_CamilleW_Name",
+          "key": "spell_camillew_name",
+          "text": "战术横扫"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_CamilleW_Summary",
+          "key": "spell_camillew_summary",
+          "text": "卡蜜尔在短暂延迟后引爆一个锥形范围，并造成伤害。外沿的敌人会被减速并且受到额外伤害，同时还会治疗卡蜜尔。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_CamilleW_Tooltip",
+          "key": "spell_camillew_tooltip",
+          "text": "卡蜜尔蓄力然后切割，造成<physicalDamage>@BaseDamageTotal@物理伤害</physicalDamage>。<br><br>被外沿命中的敌人会被<status>减速</status>@SlowPercentage@%，减速效果会在@SlowDuration@秒里持续衰减，并会受到额外的<physicalDamage>@OuterEdgeTooltip@最大生命值的物理伤害</physicalDamage>。卡蜜尔会回复<healing>对敌方英雄们的@OuterConeHealingRatio@%实际额外伤害值的生命值</healing>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_CamilleW_TooltipExtendedBelowLine",
+          "key": "spell_camillew_tooltipextendedbelowline",
+          "text": "<rules>这个技能对非史诗级野怪造成的伤害减少@MonsterDamageReduction@%。<br>对野怪的最大生命值伤害的上限为@MonsterHealthDamageCap@。</rules>"
+        }
+      }
+    },
+    "camille_e": {
+      "binding": "Characters/Camille/Spells/CamilleEAbility/CamilleE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_CamilleE_Name",
+          "key": "spell_camillee_name",
+          "text": "钩索"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_CamilleE_Summary",
+          "key": "spell_camillee_summary",
+          "text": "卡蜜尔将她自己拉向一个墙体，然后跳下并在落地时击飞敌方英雄。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_CamilleE_Tooltip",
+          "key": "spell_camillee_tooltip",
+          "text": "卡蜜尔发射一个可附着在地形上的钩索，并将卡蜜尔拉到钩索处，并使此技能可以在1秒内<recast>再次施放</recast>。<br><br><recast>再次施放：</recast>卡蜜尔从墙体上进行冲刺，与命中的第一个敌方英雄进行碰撞。在着陆时，她获得持续 @ASDuration@秒的<attackSpeed>@ASBuff*100@%攻击速度</attackSpeed>，对附近的敌人们造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，并对附近的敌方英雄们造成@KnockupDuration@秒<status>晕眩</status>。朝着敌方英雄冲刺时，冲刺距离翻倍。"
+        }
+      }
+    },
+    "camille_r": {
+      "binding": "Characters/Camille/Spells/CamilleRAbility/CamilleR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_CamilleR_Name",
+          "key": "spell_camiller_name",
+          "text": "海克斯最后通牒"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_CamilleR_Summary",
+          "key": "spell_camiller_summary",
+          "text": "卡蜜尔冲向目标英雄，并将该英雄锚定在区域中。她对目标英雄发起的普攻还会造成额外的魔法伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_CamilleR_Tooltip",
+          "key": "spell_camiller_tooltip",
+          "text": "卡蜜尔暂时变得无法被选取，并且跳向一个敌方英雄，打断引导状态并将该英雄锁定在一个区域内，并且该英雄怎样都无法逃出这个区域，持续@RDuration@秒。其它敌人会被<status>震开</status>。她的攻击会对目标敌人造成额外的<magicDamage>@RPercentCurrentHPDamage@%当前生命值的魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_CamilleR_TooltipExtendedBelowLine",
+          "key": "spell_camiller_tooltipextendedbelowline",
+          "text": "<rules>这个技能会在卡蜜尔离开该区域后结束。</rules>"
+        }
+      }
+    },
+    "gwen_p": {
+      "binding": "Characters/Gwen/Spells/GwenPAbility/GwenP",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GwenP_Name",
+          "key": "spell_gwenp_name",
+          "text": "千穿百孔"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GwenP_Tooltip",
+          "key": "spell_gwenp_tooltip",
+          "text": "格温的攻击附带额外的<magicDamage>@PercentHealth1000Cuts@最大生命值的魔法伤害</magicDamage>。格温自身获得治疗效果，数额相当于这个技能对英雄造成的<healing>@HealingPercent@伤害值</healing>，至多至<healing>@healcap@</healing>。<br>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GwenP_Summary",
+          "key": "spell_gwenp_summary",
+          "text": "格温的攻击会造成基于目标生命值的额外魔法伤害。她自身会获得治疗效果，数额相当于这个效果对英雄造成的一部分伤害值。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_GwenP_TooltipExtended",
+          "key": "spell_gwenp_tooltipextended",
+          "text": "{{ spell_gwenP_tooltip }}<br><rules>对野怪的最大伤害：@MonsterDamageCap@。对低于@ExecuteThreshold*100@%生命值的小兵造成@ExecuteDamage@额外伤害。</rules><br>"
+        }
+      }
+    },
+    "gwen_q": {
+      "binding": "Characters/Gwen/Spells/GwenQAbility/GwenQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GwenQ_Name",
+          "key": "spell_gwenq_name",
+          "text": "快刀剪乱"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GwenQ_Tooltip",
+          "key": "spell_gwenq_tooltip",
+          "text": "<spellPassive>被动</spellPassive>：格温的每次攻击在命中敌人时会获得1层充能， (最大4层，持续@BuffDuration@秒)。<br><br><spellActive>主动</spellActive>：消耗全部充能。格温进行(1+充能层数)次剪切，每次剪切造成<magicDamage>@MiniSwipeDamage@魔法伤害</magicDamage>，然后进行最终剪切来造成<magicDamage>@FinalSwipeDamage@魔法伤害</magicDamage>。<br><br>对每次剪切的中心区域的敌人们造成的伤害将有@TrueDamageConversion*100@%转化为<trueDamage>真实伤害</trueDamage>，并对其施加<spellName>千穿百孔</spellName>。<br><rules><br>对小兵造成@MinionMod*100@%伤害。<br>低于@ExecuteThreshold*100@%生命值的小兵们会受到@ExecuteBonus@%额外伤害而非削减过的伤害。</rules>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_GwenQ_TooltipExtendedBelowLine",
+          "key": "spell_gwenq_tooltipextendedbelowline",
+          "text": "<rules>最大伤害：@MaxDamage@，外加@spell.GwenP:PassiveMaxQTooltip@百分比生命值(来自<spellName>千穿百孔</spellName>)</rules>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GwenQ_Summary",
+          "key": "spell_gwenq_summary",
+          "text": "格温在一个锥形区域剪切她的剪刀至多6次，来造成魔法伤害。格温的每次剪切会对中心区域的敌人造成真实伤害并对它们施加她的被动技能。"
+        }
+      }
+    },
+    "gwen_w": {
+      "binding": "Characters/Gwen/Spells/GwenWAbility/GwenW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GwenW_Name",
+          "key": "spell_gwenw_name",
+          "text": "丝缕缠流"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GwenW_Tooltip",
+          "key": "spell_gwenw_tooltip",
+          "text": "格温召唤圣霭结界，使她对结界之外的所有敌人(防御塔除外)来说处于无法被选取状态，持续@ZoneDuration@秒或直到她离开结界为止。在结界中，格温获得@TotalResists@<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。<br><br>格温可以<recast>再次施放</recast>这个技能，来将结界召唤到她所在的位置，但只有1次机会。格温在第一次尝试离开结界时会自动进行<recast>再次施放</recast>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_GwenW_TooltipExtendedBelowLine",
+          "key": "spell_gwenw_tooltipextendedbelowline",
+          "text": ""
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GwenW_Summary",
+          "key": "spell_gwenw_summary",
+          "text": "格温召唤圣霭来保护她免受圣霭外敌人的进攻。她只会被进入圣霭内的敌人们选为目标。"
+        }
+      }
+    },
+    "gwen_e": {
+      "binding": "Characters/Gwen/Spells/GwenEAbility/GwenE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GwenE_Name",
+          "key": "spell_gwene_name",
+          "text": "断续疾走"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GwenE_Tooltip",
+          "key": "spell_gwene_tooltip",
+          "text": "格温冲刺并强化她的攻击@BuffDuration@秒。<br><br>强化攻击获得<attackSpeed>@BonusAttackSpeed@攻击速度</attackSpeed>，<magicDamage>@OnHitDamage@附加魔法伤害</magicDamage>%i:OnHit% <OnHit>攻击特效</OnHit>，@BonusAttackRange@攻击距离，并且首次攻击在命中一名敌人时会返还此技能@CDRefund*100@%冷却时间。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_GwenE_TooltipExtendedBelowLine",
+          "key": "spell_gwene_tooltipextendedbelowline",
+          "text": ""
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GwenE_Summary",
+          "key": "spell_gwene_summary",
+          "text": "格温冲刺一小段距离然后获得攻击速度、攻击距离和魔法伤害<OnHit>攻击特效</OnHit>，持续若干秒。如果她在此期间命中了一个敌人，那么这个技能的冷却时间会获得部分返还。"
+        }
+      }
+    },
+    "gwen_r": {
+      "binding": "Characters/Gwen/Spells/GwenRAbility/GwenR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_GwenR_Name",
+          "key": "spell_gwenr_name",
+          "text": "引针簇射"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_GwenR_Tooltip",
+          "key": "spell_gwenr_tooltip",
+          "text": "<spellActive>第一段施放：</spellActive>掷出一根针来对命中的所有敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，以及持续@DebuffDuration@秒的@InitialSlow*-100@%<status>减速</status>，并施加<spellName>千穿百孔</spellName>。格温可以在6秒内<recast>再次施放</recast>这个技能至多2次(每次施放之间的冷却时间为@LockoutTime@秒)。<br><br><recast>第二段施放：</recast>发射3根针来造成<magicDamage>@TotalDamage3@魔法伤害</magicDamage><br><recast>第三段施放：</recast>发射5根针来造成<magicDamage>@TotalDamage5@魔法伤害</magicDamage>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_GwenR_TooltipExtendedBelowLine",
+          "key": "spell_gwenr_tooltipextendedbelowline",
+          "text": "<rules>命中相同单位的后续针的<status>减速</status>效果仅有@SubsequentSlow*-100@%。<br>最大伤害：@MaxDamage@，外加来自<spellName>千穿百孔</spellName>的@spell.GwenP:PassiveMaxRTooltip@最大生命值伤害。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_GwenR_Summary",
+          "key": "spell_gwenr_summary",
+          "text": "格温掷出一根针来对命中的敌人们造成减速、魔法伤害，并对命中的英雄们施加【千穿百孔】。<br><br>这个技能至多可进行2段再次施放，每一段再次施放都会投掷更多的针，并造成更多伤害。 "
+        }
+      }
+    }
+  },
+  "entries": {
+    "spell_ireliapassive_name": "艾欧尼亚热诚",
+    "spell_ireliapassive_summary": "当艾瑞莉娅用技能命中敌人时，她会获得可叠加的攻击速度加成。这个效果在满层时还会为艾瑞莉娅提供攻击附伤。",
+    "spell_ireliapassive_tooltip": "艾瑞莉娅在用一个技能命中一名敌人时，会获得一层持续@BuffDuration@秒的效果(最大@MaxStacks@层)。每层效果为她提供<attackSpeed>@SingleStackAS@%攻击速度</attackSpeed>，并在满层时她的攻击会造成额外的<magicDamage>@OnHitBonus@魔法伤害</magicDamage>。<br><br>攻击一个英雄、建筑或大型野怪，会刷新效果的持续时间。艾瑞莉娅每命中一个英雄都会获得一层效果，或在至少命中一个非英雄的敌人时获得一层效果。",
+    "spell_ireliapassive_tooltipextendedbelowline": "艾瑞莉娅在用一个技能命中一名敌人时，会获得一层持续@BuffDuration@秒的效果(最大@MaxStacks@层)。每层效果为她提供<attackSpeed>@SingleStackAS@%攻击速度</attackSpeed>，并在满层时她的攻击会造成额外的<magicDamage>@OnHitBonus@魔法伤害</magicDamage>。<br><br>攻击一个英雄、建筑或大型野怪，会刷新效果的持续时间。艾瑞莉娅每命中一个英雄都会获得一层效果，或在至少命中一个非英雄的敌人时获得一层效果。<br><br><rules>对建筑物造成@OnHitStructureMod*100@%伤害。</rules>",
+    "spell_ireliaq_name": "利刃冲击",
+    "spell_ireliaq_summary": "艾瑞莉娅向前突进以打击她的目标，并治疗自身。如果目标被标记或死于利刃冲击，那么它的冷却时间会刷新。",
+    "spell_ireliaq_tooltip": "艾瑞莉娅冲向一名敌人，造成<physicalDamage>@ChampionDamage@物理伤害</physicalDamage>并回复自身 <healing>@HealAmount@生命值</healing>。如果敌人阵亡或者<keywordMajor>重心不稳</keywordMajor>，那么会刷新冷却时间。<br><br>对小兵造成@MinionDamage@伤害。",
+    "spell_ireliaq_tooltipextendedbelowline": "<rules>这个技能会施加攻击特效。</rules>",
+    "spell_ireliaw_name": "距破之舞",
+    "spell_ireliaw_summary": "艾瑞莉娅开始蓄力以进行一次打击，蓄力越久则打击造成的伤害越多。在蓄力期间她所受的物理伤害降低。",
+    "spell_ireliaw_tooltip": "<charge>开始蓄力：</charge>艾瑞莉娅进入防御姿态，至多持续@MaxDuration@秒，变得无法行动但使所受的物理伤害降低@FinalPhysicalDR@%、所受的魔法伤害降低@FinalMagicDR@%。<br><br><release>释放：</release>艾瑞莉娅放出她的刀锋，造成<physicalDamage>@MinDamageCalc@物理伤害</physicalDamage>，基于蓄力时间至多提升至<physicalDamage>@MaxDamageCalc@</physicalDamage>。",
+    "spell_ireliaw_tooltipextendedbelowline": "<rules><release>释放</release>将在<charge>蓄力</charge>结束时自动发生并且无法被打断。在蓄力@ChargeTimeForMax@秒后达到最大伤害提升。</rules>",
+    "spell_ireliae_name": "比翼双刃",
+    "spell_ireliae_summary": "艾瑞莉娅放出两柄相互聚拢的利刃。利刃之间被击中的敌人会受到伤害、晕眩效果并被标记。",
+    "spell_ireliae_tooltip": "艾瑞莉娅扔出一把刀锋至地上，并且至多可在@BuffDuration@秒里<recast>再次施放</recast>。<br><br><recast>再次施放：</recast>艾瑞莉娅扔出第二把刀锋，随后两把刀锋会朝着彼此飞行，对沿途的敌人造成@StunDuration@秒<status>晕眩</status>和<magicDamage>@TotalDamage@魔法伤害</magicDamage>。英雄和大型野怪会进入<keywordMajor>重心不稳</keywordMajor>状态，持续@MarkDuration@秒。",
+    "spell_ireliae_tooltipextendedbelowline": "<rules>在@BuffDuration@秒后，艾瑞莉娅将在她自己的位置上<recast>再次施放</recast>这个技能。</rules>",
+    "spell_ireliar_name": "先锋之刃",
+    "spell_ireliar_summary": "艾瑞莉娅发射庞大数量的利刃，它们会在命中一名敌方英雄时向外爆开。被利刃命中的敌人会受到伤害并被标记。然后利刃会形成一道刃墙，在敌人穿过时造成伤害、和减速效果。",
+    "spell_ireliar_tooltip": "艾瑞莉娅发射出一阵刀锋弹幕，造成<magicDamage>@MissileDamage@魔法伤害</magicDamage>并对英雄和大型野怪施加持续@MarkDuration@秒的<keywordMajor>重心不稳</keywordMajor>。刀锋弹幕会在命中第一个英雄后绽放成一个持续@ZoneDuration@秒的牢笼。牢笼造成<magicDamage>@ZoneDamage@魔法伤害</magicDamage>和持续@CCDuration@秒的@SlowAmount@%<status>减速</status>。",
+    "spell_ireliar_tooltipextendedbelowline": "<rules>当刀锋弹幕绽开时，附近的敌人也会被命中。</rules><br>",
+    "spell_fiorapassive_tooltip": "菲奥娜识别出敌方英雄身上的<keywordMajor>破绽</keywordMajor>。用一次攻击或技能命中这个<keywordMajor>破绽</keywordMajor>会造成额外的<trueDamage>@PassiveDamageTotal@最大生命值的真实伤害</trueDamage>，并为菲奥娜提供在@MovementSpeedDuration@秒里持续衰减的<speed>@spell.FioraR:PercentMS*100@%移动速度</speed>，并回复<healing>@PassiveHealAmount@生命值</healing>。<br><br>菲奥娜会在15秒后或是击中一个<keywordMajor>破绽</keywordMajor>后找出一个新破绽。",
+    "spell_fiorapassive_name": "决斗之舞",
+    "spell_fiorapassive_summary": "菲奥娜已在这名英雄身上发现了一处<keywordMajor>破绽</keywordMajor>。如果她命中了这处<keywordMajor>破绽</keywordMajor>，她就会<healing>回复生命值</healing>并获得<speed>移动速度</speed>。",
+    "spell_fioraq_name": "破空斩",
+    "spell_fioraq_summary": "菲奥娜向一个方向冲刺，并刺击一个附近的敌人，造成物理伤害并施加攻击特效。",
+    "spell_fioraq_tooltip": "菲奥娜向一个方向进行突刺并刺击相距最近的敌人、守卫或建筑物，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。这次打击会优先攻击<keywordMajor>破绽</keywordMajor>和将被此打击击杀的单位。<br><br>如果菲奥娜命中了一个敌人，那么这个技能的冷却时间就会缩短@CDRefundPercent*100@%。",
+    "spell_fioraq_tooltipextendedbelowline": "<rules>这次打击会施加攻击特效。</rules>",
+    "spell_fioraw_name": "劳伦特心眼刀",
+    "spell_fioraw_summary": "菲奥娜在短时间内对所有即将到来的伤害和限制效果进行招架，然后朝着一个方向进行刺击。这个刺击会减速命中的第一个敌方英雄，如果菲奥娜用这个技能格挡掉一个禁锢类效果，那么刺击会造成晕眩效果而非减速效果。",
+    "spell_fioraw_tooltip": "菲奥娜招架即将到来的所有伤害、限制效果和有害效果，持续@ParryDuration@秒，然后刺击。刺击会对命中的第一个敌方英雄造成<magicDamage>@StabDamage@魔法伤害</magicDamage>，并<status>减速</status>目标的@MSSlowPercent*-100@%<speed>移动速度</speed><attackSpeed>和@AttackSlowPercent*-100@%攻击速度</attackSpeed>，持续@CCDuration@秒。如果菲奥娜招架掉一个<status>定身</status>效果，那么被刺击的敌人会被<status>晕眩</status>而非<status>减速</status>。",
+    "spell_fiorae_name": "夺命连刺",
+    "spell_fiorae_summary": "菲奥娜的下两次攻击将获得攻击速度加成。第一次攻击会使目标减速，而第二次攻击必定会产生暴击。",
+    "spell_fiorae_tooltip": "菲奥娜的下两次攻击获得<attackSpeed>@ASPercent*100@%攻击速度</attackSpeed>。第一次攻击造成持续@SlowDuration@秒的@SlowPercent*-100@%<status>减速</status>。第二次攻击必定会产生暴击，造成<physicalDamage>@AttackTwopercentTAD*100@%伤害</physicalDamage>。",
+    "spell_fiorar_name": "无双挑战",
+    "spell_fiorar_summary": "菲奥娜显示出一个敌方英雄身上的所有四处破绽，并在目标附近时获得移动速度加成。如果菲奥娜命中了所有四处破绽，或者目标在死前至少被命中了一处破绽，那么菲奥娜和范围内的友军就会在接下来的几秒里持续获得治疗效果。",
+    "spell_fiorar_tooltip": "<spellPassive>被动：</spellPassive><spellName>{{Spell_FioraPassive_Name}}</spellName><speed>移动速度</speed>加成提升至@PercentMS*100@%。<br><br><spellActive>主动</spellActive>：菲奥娜标出一名英雄身上的全部四处<keywordMajor>破绽</keywordMajor>，最多可造成<trueDamage>@spell.FioraPassive:RDamageTotal@最大生命值的真实伤害</trueDamage>并在目标附近时获得<spellName>{{Spell_FioraPassive_Name}}</spellName>的<speed>移动速度加成</speed>。<br><br>如果菲奥娜在@MarkDuration@秒内命中了全部四处<keywordMajor>破绽</keywordMajor>，或者在目标死前至少命中一处，那么菲奥娜就会为周围的友方英雄每秒回复<healing>@HealPerSecondCalc@生命值</healing>，持续@HealDuration@秒。",
+    "spell_camillepassive_name": "适应性防御",
+    "spell_camillepassive_tooltip": "卡蜜尔对敌方英雄发起的攻击会基于该英雄的伤害类型(<physicalDamage>物理</physicalDamage>或<magicDamage>魔法</magicDamage>)提供专门吸收该类型伤害的<shield>@ShieldAmount@护盾</shield>，持续@ShieldDuration@秒。这个效果有@PassiveCooldown@秒的冷却时间。",
+    "spell_camillepassive_summary": "对敌方英雄发起的普攻会基于该英雄的伤害类型（物理或魔法）提供一层专门吸收该类型伤害的护盾，护盾的生命值相当于卡蜜尔的一部分最大生命值，持续一小段时间。",
+    "spell_camillepassive_cooldown": "@PassiveCooldown@秒%i:cooldown%",
+    "spell_camilleq_name": "精准礼仪",
+    "spell_camilleq_summary": "卡蜜尔的下一次普通攻击会斩击敌人，造成额外物理伤害，并为自身提供短暂的爆发性移动速度加成。这个技能可以在释放后的短时间内再次施放，并且如果两次释放之间存在一定的间隔，那么第二段攻击会造成显著的额外伤害。",
+    "spell_camilleq_tooltip": "卡蜜尔的下次攻击造成额外的<physicalDamage>@BonusDamage@物理伤害</physicalDamage>并为她提供<speed>@MSBonus*100@%移动速度</speed>，持续@MSDuration@秒。这个技能可以在接下来的@QTotalRecastTime@秒里无消耗地<recast>再次施放</recast>。<br><br>如果<recast>再次施放</recast>的攻击与第一段攻击相距至少@QRampUpTime@秒，那么额外伤害会提升至<physicalDamage>@EmpoweredBonusDamage@</physicalDamage>，并且该次攻击的@DamageConversionPercentage@伤害转化为<trueDamage>真实伤害</trueDamage>。<br><br><rules>{{ buff_desc_SpellEffects }}</rules>",
+    "spell_camillew_name": "战术横扫",
+    "spell_camillew_summary": "卡蜜尔在短暂延迟后引爆一个锥形范围，并造成伤害。外沿的敌人会被减速并且受到额外伤害，同时还会治疗卡蜜尔。",
+    "spell_camillew_tooltip": "卡蜜尔蓄力然后切割，造成<physicalDamage>@BaseDamageTotal@物理伤害</physicalDamage>。<br><br>被外沿命中的敌人会被<status>减速</status>@SlowPercentage@%，减速效果会在@SlowDuration@秒里持续衰减，并会受到额外的<physicalDamage>@OuterEdgeTooltip@最大生命值的物理伤害</physicalDamage>。卡蜜尔会回复<healing>对敌方英雄们的@OuterConeHealingRatio@%实际额外伤害值的生命值</healing>。",
+    "spell_camillew_tooltipextendedbelowline": "<rules>这个技能对非史诗级野怪造成的伤害减少@MonsterDamageReduction@%。<br>对野怪的最大生命值伤害的上限为@MonsterHealthDamageCap@。</rules>",
+    "spell_camillee_name": "钩索",
+    "spell_camillee_summary": "卡蜜尔将她自己拉向一个墙体，然后跳下并在落地时击飞敌方英雄。",
+    "spell_camillee_tooltip": "卡蜜尔发射一个可附着在地形上的钩索，并将卡蜜尔拉到钩索处，并使此技能可以在1秒内<recast>再次施放</recast>。<br><br><recast>再次施放：</recast>卡蜜尔从墙体上进行冲刺，与命中的第一个敌方英雄进行碰撞。在着陆时，她获得持续 @ASDuration@秒的<attackSpeed>@ASBuff*100@%攻击速度</attackSpeed>，对附近的敌人们造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，并对附近的敌方英雄们造成@KnockupDuration@秒<status>晕眩</status>。朝着敌方英雄冲刺时，冲刺距离翻倍。",
+    "spell_camiller_name": "海克斯最后通牒",
+    "spell_camiller_summary": "卡蜜尔冲向目标英雄，并将该英雄锚定在区域中。她对目标英雄发起的普攻还会造成额外的魔法伤害。",
+    "spell_camiller_tooltip": "卡蜜尔暂时变得无法被选取，并且跳向一个敌方英雄，打断引导状态并将该英雄锁定在一个区域内，并且该英雄怎样都无法逃出这个区域，持续@RDuration@秒。其它敌人会被<status>震开</status>。她的攻击会对目标敌人造成额外的<magicDamage>@RPercentCurrentHPDamage@%当前生命值的魔法伤害</magicDamage>。",
+    "spell_camiller_tooltipextendedbelowline": "<rules>这个技能会在卡蜜尔离开该区域后结束。</rules>",
+    "spell_gwenp_name": "千穿百孔",
+    "spell_gwenp_tooltip": "格温的攻击附带额外的<magicDamage>@PercentHealth1000Cuts@最大生命值的魔法伤害</magicDamage>。格温自身获得治疗效果，数额相当于这个技能对英雄造成的<healing>@HealingPercent@伤害值</healing>，至多至<healing>@healcap@</healing>。<br>",
+    "spell_gwenp_summary": "格温的攻击会造成基于目标生命值的额外魔法伤害。她自身会获得治疗效果，数额相当于这个效果对英雄造成的一部分伤害值。",
+    "spell_gwenp_tooltipextended": "{{ spell_gwenP_tooltip }}<br><rules>对野怪的最大伤害：@MonsterDamageCap@。对低于@ExecuteThreshold*100@%生命值的小兵造成@ExecuteDamage@额外伤害。</rules><br>",
+    "spell_gwenq_name": "快刀剪乱",
+    "spell_gwenq_tooltip": "<spellPassive>被动</spellPassive>：格温的每次攻击在命中敌人时会获得1层充能， (最大4层，持续@BuffDuration@秒)。<br><br><spellActive>主动</spellActive>：消耗全部充能。格温进行(1+充能层数)次剪切，每次剪切造成<magicDamage>@MiniSwipeDamage@魔法伤害</magicDamage>，然后进行最终剪切来造成<magicDamage>@FinalSwipeDamage@魔法伤害</magicDamage>。<br><br>对每次剪切的中心区域的敌人们造成的伤害将有@TrueDamageConversion*100@%转化为<trueDamage>真实伤害</trueDamage>，并对其施加<spellName>千穿百孔</spellName>。<br><rules><br>对小兵造成@MinionMod*100@%伤害。<br>低于@ExecuteThreshold*100@%生命值的小兵们会受到@ExecuteBonus@%额外伤害而非削减过的伤害。</rules>",
+    "spell_gwenq_tooltipextendedbelowline": "<rules>最大伤害：@MaxDamage@，外加@spell.GwenP:PassiveMaxQTooltip@百分比生命值(来自<spellName>千穿百孔</spellName>)</rules>。",
+    "spell_gwenq_summary": "格温在一个锥形区域剪切她的剪刀至多6次，来造成魔法伤害。格温的每次剪切会对中心区域的敌人造成真实伤害并对它们施加她的被动技能。",
+    "spell_gwenw_name": "丝缕缠流",
+    "spell_gwenw_tooltip": "格温召唤圣霭结界，使她对结界之外的所有敌人(防御塔除外)来说处于无法被选取状态，持续@ZoneDuration@秒或直到她离开结界为止。在结界中，格温获得@TotalResists@<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。<br><br>格温可以<recast>再次施放</recast>这个技能，来将结界召唤到她所在的位置，但只有1次机会。格温在第一次尝试离开结界时会自动进行<recast>再次施放</recast>。",
+    "spell_gwenw_tooltipextendedbelowline": "",
+    "spell_gwenw_summary": "格温召唤圣霭来保护她免受圣霭外敌人的进攻。她只会被进入圣霭内的敌人们选为目标。",
+    "spell_gwene_name": "断续疾走",
+    "spell_gwene_tooltip": "格温冲刺并强化她的攻击@BuffDuration@秒。<br><br>强化攻击获得<attackSpeed>@BonusAttackSpeed@攻击速度</attackSpeed>，<magicDamage>@OnHitDamage@附加魔法伤害</magicDamage>%i:OnHit% <OnHit>攻击特效</OnHit>，@BonusAttackRange@攻击距离，并且首次攻击在命中一名敌人时会返还此技能@CDRefund*100@%冷却时间。",
+    "spell_gwene_tooltipextendedbelowline": "",
+    "spell_gwene_summary": "格温冲刺一小段距离然后获得攻击速度、攻击距离和魔法伤害<OnHit>攻击特效</OnHit>，持续若干秒。如果她在此期间命中了一个敌人，那么这个技能的冷却时间会获得部分返还。",
+    "spell_gwenr_name": "引针簇射",
+    "spell_gwenr_tooltip": "<spellActive>第一段施放：</spellActive>掷出一根针来对命中的所有敌人造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，以及持续@DebuffDuration@秒的@InitialSlow*-100@%<status>减速</status>，并施加<spellName>千穿百孔</spellName>。格温可以在6秒内<recast>再次施放</recast>这个技能至多2次(每次施放之间的冷却时间为@LockoutTime@秒)。<br><br><recast>第二段施放：</recast>发射3根针来造成<magicDamage>@TotalDamage3@魔法伤害</magicDamage><br><recast>第三段施放：</recast>发射5根针来造成<magicDamage>@TotalDamage5@魔法伤害</magicDamage>",
+    "spell_gwenr_tooltipextendedbelowline": "<rules>命中相同单位的后续针的<status>减速</status>效果仅有@SubsequentSlow*-100@%。<br>最大伤害：@MaxDamage@，外加来自<spellName>千穿百孔</spellName>的@spell.GwenP:PassiveMaxRTooltip@最大生命值伤害。</rules>",
+    "spell_gwenr_summary": "格温掷出一根针来对命中的敌人们造成减速、魔法伤害，并对命中的英雄们施加【千穿百孔】。<br><br>这个技能至多可进行2段再次施放，每一段再次施放都会投掷更多的针，并造成更多伤害。 "
+  }
+}

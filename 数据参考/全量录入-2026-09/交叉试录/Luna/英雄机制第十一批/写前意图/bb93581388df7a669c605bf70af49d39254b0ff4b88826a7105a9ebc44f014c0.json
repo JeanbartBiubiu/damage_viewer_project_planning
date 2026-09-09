@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:55:50.006Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_p/formulas/heal_cap",
+  "id": "heal_cap",
+  "method": "POST",
+  "body": {
+    "formulaKey": "heal_cap",
+    "name": "被动治疗上限",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "heal_cap_level"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "heal_cap_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "HealCap=等级插值+0.07×法强；上下限裁剪和实际治疗时点由运行时处理。",
+    "sortOrder": 40
+  }
+}

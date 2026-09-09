@@ -1,0 +1,29 @@
+{
+  "at": "2026-09-09T04:54:43.011Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/fiora_e/formulas/first_attack_damage",
+  "id": "first_attack_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "first_attack_damage",
+    "name": "夺命连刺第一次攻击总攻击力伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "first_attack_total_ad_ratio"
+        },
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "SOURCE",
+          "attributeKey": "attack_damage",
+          "attributeValueKind": "TOTAL"
+        }
+      ]
+    },
+    "description": "AttackOnePercentTAD×总攻击力；第一次攻击的实际普攻本体与攻击特效由外部事件提供。",
+    "sortOrder": 10
+  }
+}

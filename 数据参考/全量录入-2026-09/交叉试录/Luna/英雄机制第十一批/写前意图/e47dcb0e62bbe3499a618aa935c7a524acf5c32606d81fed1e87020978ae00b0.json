@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T04:55:51.051Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_p/formulas/passive_heal_amount",
+  "id": "passive_heal_amount",
+  "method": "POST",
+  "body": {
+    "formulaKey": "passive_heal_amount",
+    "name": "千穿百孔对英雄自我治疗",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "healing_ratio"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "actual_passive_hero_damage"
+        }
+      ]
+    },
+    "description": "被动自我治疗=HealingPercent×对英雄实际额外伤害；HealCap作为独立上限参数。",
+    "sortOrder": 50
+  }
+}

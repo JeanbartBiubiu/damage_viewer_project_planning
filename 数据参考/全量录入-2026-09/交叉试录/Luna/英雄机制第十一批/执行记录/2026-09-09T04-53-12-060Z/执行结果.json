@@ -1,0 +1,98 @@
+{
+  "startedAt": "2026-09-09T04:53:12.062Z",
+  "runId": "2026-09-09T04-53-12-060Z",
+  "mode": "仅创建最终候选精确缺项",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "candidateObjectSha256": "32550e330bafe6d0783f38bcbbf62656aed3ac70d2b5bd9a2d53cd9d92e583a1",
+  "originalSnapshotSha256": "f83c40fcc83982720d3cecf173378eaf1a955a41f790076943470df47fede7bc",
+  "expected": {
+    "subjects": 20,
+    "images": 20,
+    "characterRelations": 4,
+    "catalogs": 4,
+    "total": 235,
+    "existing": 29,
+    "new": 206,
+    "newByKind": {
+      "parameters": 146,
+      "formulas": 44,
+      "effects": 16,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    }
+  },
+  "candidateCounts": {
+    "parameters": 175,
+    "formulas": 44,
+    "effects": 16,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "apiWrites": 206,
+  "calls": {
+    "total": 1218,
+    "methods": {
+      "GET": 1012,
+      "POST": 206
+    },
+    "statuses": {
+      "200": 806,
+      "201": 206,
+      "404": 206
+    }
+  },
+  "success": true,
+  "errors": [],
+  "preflight": {
+    "protectionConflicts": [],
+    "catalogReferenceCount": 63,
+    "componentCounts": {
+      "lists": 120,
+      "details": 29,
+      "existing": 29,
+      "missing": 206
+    },
+    "missingByKind": {
+      "parameters": 146,
+      "formulas": 44,
+      "effects": 16,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "conflicts": 0,
+    "pass": true
+  },
+  "apply": {
+    "confirmed": 206,
+    "postCount": 206,
+    "failedSkills": [],
+    "events": 412,
+    "pass": true
+  },
+  "final": {
+    "counts": {
+      "totalDetails": 235,
+      "successfulDetails": 235,
+      "expectedTotal": 235,
+      "missing": 0,
+      "conflicts": 0,
+      "byKind": {
+        "parameters": 175,
+        "formulas": 44,
+        "effects": 16,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "protectionDrift": 0
+    },
+    "protectionDrift": [],
+    "pass": true
+  },
+  "finishedAt": "2026-09-09T04:56:54.658Z",
+  "writeEvents": 412
+}

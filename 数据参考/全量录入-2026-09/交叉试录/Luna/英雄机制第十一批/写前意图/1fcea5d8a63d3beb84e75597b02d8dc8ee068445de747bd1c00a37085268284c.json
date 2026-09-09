@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T04:56:01.541Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_w/parameters/cooldown_ms",
+  "id": "cooldown_ms",
+  "method": "POST",
+  "body": {
+    "parameterKey": "cooldown_ms",
+    "name": "基础冷却时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 22000,
+      "2": 21000,
+      "3": 20000,
+      "4": 19000,
+      "5": 18000
+    },
+    "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+    "sortOrder": 10
+  }
+}

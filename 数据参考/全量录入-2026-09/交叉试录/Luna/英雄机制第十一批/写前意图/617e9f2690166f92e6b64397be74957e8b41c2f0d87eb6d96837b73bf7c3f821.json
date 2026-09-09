@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T04:53:41.614Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/irelia_w/parameters/max_damage_base",
+  "id": "max_damage_base",
+  "method": "POST",
+  "body": {
+    "parameterKey": "max_damage_base",
+    "name": "最大蓄力物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 30,
+      "2": 60,
+      "3": 90,
+      "4": 120,
+      "5": 150
+    },
+    "description": "客户端当前根绑定 DataValues.MaxDamage 取索引1至5。",
+    "sortOrder": 70
+  }
+}

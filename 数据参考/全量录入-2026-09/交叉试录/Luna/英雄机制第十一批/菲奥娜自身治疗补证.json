@@ -1,0 +1,158 @@
+{
+  "at": "2026-09-09T04:31:21.183Z",
+  "sourceHashes": [
+    {
+      "id": "Irelia",
+      "clientSha256": "3690c80214c9b7a467df867e7cb38b875171cecb91256d339371dc80e5583d76",
+      "clientCompressedSha256": "f135c64b1d57b225edc38977c52525aa974f57e1cae0ed63e2e1d48e73fc7b28",
+      "officialSha256": "609b71e3e675c1a18b10c76310fc3f46253f5a003c5538d8e0fbdb1a5ad053a2"
+    },
+    {
+      "id": "Fiora",
+      "clientSha256": "1a5623425ab022eed88ce3da18995e627a33e90cf810f0bac50a0f563e16fa51",
+      "clientCompressedSha256": "ac0bc9a74bbf8ba76e3b3198269f34d9b8b7c89255bd2b85f0e2147ab914336a",
+      "officialSha256": "212601130bfe3723ffeb58f8818e5c5466395c41f9c32e76c30761f67f509688"
+    },
+    {
+      "id": "Camille",
+      "clientSha256": "3f6bfb9db980faa31c3733101cdaebf0b066cae2bb9b5c4f3b3b6bdb5219dea9",
+      "clientCompressedSha256": "1fa9dbd1b9338d283f0d5e655eb437181c9b3bff35a687dc69bc0e66cf48250b",
+      "officialSha256": "b9650ff2bbf0add8107854832bfa5c7df16f6ad4c88b6c5fd5720e120ecacdda"
+    },
+    {
+      "id": "Gwen",
+      "clientSha256": "f19c4a5ea57ac5d5ec3d2ee3f9e6d0af26e9bfdb00581efccc545298cedc6cc5",
+      "clientCompressedSha256": "c2714fc4a1993e211be8cc3728c631a0e2cda41af052371d59c8658440fe58a5",
+      "officialSha256": "7f61d0d5adaced63622da690fd699e9f9d28906b2cdf50845c878551fb89b4ee"
+    }
+  ],
+  "evidence": {
+    "englishDescription": "Fiora reveals all four Vitals on an enemy champion and gains Move Speed while near them. If Fiora hits all four Vitals or if the target dies after she has hit at least one, Fiora and her allies in the area are healed over the next few seconds.",
+    "englishTooltip": "<spellPassive>Passive:</spellPassive> <spellName>Duelist's Dance</spellName> <speed>Move Speed</speed> bonus is increased to {{ percentms*100 }}%.<br /><br /><spellActive>Active:</spellActive> Fiora reveals all four <keywordMajor>Vitals</keywordMajor> on a champion for a max of <trueDamage>{{ spell.fiorapassive:rdamagetotal }} max Health true damage</trueDamage> and gains <spellName>Duelist's Dance's</spellName> <speed>Move Speed</speed> bonus while near the target.<br /><br />If Fiora strikes all four <keywordMajor>Vitals</keywordMajor> within {{ markduration }} seconds or if the target dies after she has hit at least one, Fiora restores <healing>{{ healpersecondcalc }} Health per second</healing> to surrounding allied champions for {{ healduration }} seconds.{{ spellmodifierdescriptionappend }}",
+    "chineseTooltip": "<spellPassive>被动：</spellPassive><spellName>{{Spell_FioraPassive_Name}}</spellName><speed>移动速度</speed>加成提升至@PercentMS*100@%。<br><br><spellActive>主动</spellActive>：菲奥娜标出一名英雄身上的全部四处<keywordMajor>破绽</keywordMajor>，最多可造成<trueDamage>@spell.FioraPassive:RDamageTotal@最大生命值的真实伤害</trueDamage>并在目标附近时获得<spellName>{{Spell_FioraPassive_Name}}</spellName>的<speed>移动速度加成</speed>。<br><br>如果菲奥娜在@MarkDuration@秒内命中了全部四处<keywordMajor>破绽</keywordMajor>，或者在目标死前至少命中一处，那么菲奥娜就会为周围的友方英雄每秒回复<healing>@HealPerSecondCalc@生命值</healing>，持续@HealDuration@秒。",
+    "clientCalculation": {
+      "mFormulaParts": [
+        {
+          "mDataValue": "HealPerSecond",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mStat": 2,
+          "mStatFormula": 2,
+          "mCoefficient": 0.6000000238418579,
+          "__type": "StatByCoefficientCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "clientEffectTags": [
+      32,
+      64
+    ],
+    "excludedProofs": [
+      {
+        "source": "DataValues.HealDuration",
+        "raw": {
+          "name": "HealDuration",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "__type": "SpellDataValue"
+        },
+        "excluded": true,
+        "semantic": "友方持续治疗持续时间；第三方友军支路排除。"
+      },
+      {
+        "source": "DataValues.HealPerSecond",
+        "raw": {
+          "name": "HealPerSecond",
+          "values": [
+            50,
+            75,
+            100,
+            125,
+            150,
+            175,
+            200
+          ],
+          "__type": "SpellDataValue"
+        },
+        "excluded": true,
+        "semantic": "友方持续治疗每秒基础值；第三方友军支路排除。"
+      },
+      {
+        "source": "DataValues.HealRingRadius",
+        "raw": {
+          "name": "HealRingRadius",
+          "values": [
+            550,
+            550,
+            550,
+            550,
+            550,
+            550,
+            550
+          ],
+          "__type": "SpellDataValue"
+        },
+        "excluded": true,
+        "semantic": "友方治疗范围字段；第三方友军支路排除。"
+      },
+      {
+        "source": "DataValues.MinHealDuration",
+        "raw": {
+          "name": "MinHealDuration",
+          "__type": "SpellDataValue"
+        },
+        "excluded": true,
+        "semantic": "客户端缺值且属于友方持续治疗支路；不补默认值。"
+      },
+      {
+        "source": "DataValues.HealDurationExtension",
+        "raw": {
+          "name": "HealDurationExtension",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        },
+        "excluded": true,
+        "semantic": "友方治疗延长字段；第三方友军支路排除。"
+      },
+      {
+        "source": "mSpellCalculations.HealPerSecondCalc",
+        "raw": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "HealPerSecond",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.6000000238418579,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "excluded": true,
+        "semantic": "只服务周围友方英雄每秒治疗；第三方友军效果按本批范围排除，缺失/时序不转瞬发自疗。"
+      }
+    ]
+  },
+  "decision": "同版本官方英文description明确Fiora and her allies，保留自身治疗；主中文治疗描述不是排除自身的证据。仅保留每秒量与绑定时长，条件和首跳未接。",
+  "businessWrites": 0
+}

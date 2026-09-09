@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T04:55:36.436Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_r/parameters/current_hp_damage_percent",
+  "id": "current_hp_damage_percent",
+  "method": "POST",
+  "body": {
+    "parameterKey": "current_hp_damage_percent",
+    "name": "对目标当前生命值额外魔法伤害（百分比点）",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 4,
+      "2": 6,
+      "3": 8
+    },
+    "description": "客户端当前根绑定 DataValues.RPercentCurrentHPDamage 取索引1至3。",
+    "sortOrder": 30
+  }
+}

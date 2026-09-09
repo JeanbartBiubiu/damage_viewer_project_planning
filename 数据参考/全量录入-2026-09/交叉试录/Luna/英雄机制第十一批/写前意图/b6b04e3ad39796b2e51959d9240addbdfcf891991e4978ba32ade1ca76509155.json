@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T04:56:05.065Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_w/parameters/base_resists",
+  "id": "base_resists",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_resists",
+    "name": "结界内基础额外双抗",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 22,
+      "2": 24,
+      "3": 26,
+      "4": 28,
+      "5": 30
+    },
+    "description": "客户端当前根绑定 DataValues.BaseResists 取索引1至5。",
+    "sortOrder": 60
+  }
+}
