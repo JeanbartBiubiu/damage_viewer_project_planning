@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:39:09.319Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_q/parameters",
+  "detailRoute": "/skills/sion_q/parameters/minimum_base_damage",
+  "skillKey": "sion_q",
+  "kind": "parameters",
+  "stableKey": "minimum_base_damage",
+  "body": {
+    "parameterKey": "minimum_base_damage",
+    "name": "残虐猛击最低基础物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 30,
+      "2": 45,
+      "3": 60,
+      "4": 75,
+      "5": 90
+    },
+    "description": "当前根绑定 DataValues.LowDamage 取索引1至5",
+    "sortOrder": 60
+  }
+}

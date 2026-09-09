@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:37:24.585Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_e/parameters",
+  "detailRoute": "/skills/nunu_e/parameters/base_damage",
+  "skillKey": "nunu_e",
+  "kind": "parameters",
+  "stableKey": "base_damage",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "雪球飞射单团基础魔法伤害",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 15,
+      "2": 22.5,
+      "3": 30,
+      "4": 37.5,
+      "5": 45
+    },
+    "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+    "sortOrder": 40
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "at": "2026-09-09T14:39:41.210Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_w/effects",
+  "detailRoute": "/skills/sion_w/effects/shield",
+  "skillKey": "sion_w",
+  "kind": "effects",
+  "stableKey": "shield",
+  "body": {
+    "effectKey": "shield",
+    "name": "灵魂熔炉自身护盾",
+    "description": "当前正文明确主动获得持续6秒护盾。；仅表示独立护盾组成，施放资格和实际吸收尚未接线。",
+    "sortOrder": 20,
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "shield_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "results": [
+      {
+        "resultKey": "shield",
+        "name": "灵魂熔炉自身护盾",
+        "resultType": "NORMAL_SHIELD",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "valueReadMode": "APPLICATION_SNAPSHOT",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": "REPLACE",
+          "periodicExecutionMode": null
+        },
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "total_shield"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "absorbedDamageTypeKey": null,
+          "decayMode": "NONE"
+        }
+      }
+    ]
+  }
+}

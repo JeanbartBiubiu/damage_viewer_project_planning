@@ -1,0 +1,4009 @@
+{
+  "at": "2026-09-09T14:30:00.568Z",
+  "runId": "2026-09-09T14-29-50-923Z",
+  "mode": "当前独立全量GET",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "candidateVersionSha256": "ddd962534722ead73fd1457c256829cfe13b13ceac840ff8c4fcfcd72d05737c",
+  "requestPlanSha256": "50f5a261f451928db01980ce2bb9fd5d6c0b3f720cc4ecd985e90d0d534bd3f0",
+  "freezeSha256": "c546ca9467c926420a8c3263c2ac7e7ea8694fe055324d36bce8db38dcf809dd",
+  "sourceVersion": "client16.17/official16.17.1",
+  "apiWrites": 0,
+  "businessWrites": 0,
+  "staticChecks": [
+    {
+      "name": "候选散列冻结",
+      "passed": true,
+      "detail": {
+        "actual": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+        "expected": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b"
+      }
+    },
+    {
+      "name": "候选版本散列冻结",
+      "passed": true,
+      "detail": {
+        "actual": "ddd962534722ead73fd1457c256829cfe13b13ceac840ff8c4fcfcd72d05737c",
+        "expected": "ddd962534722ead73fd1457c256829cfe13b13ceac840ff8c4fcfcd72d05737c"
+      }
+    },
+    {
+      "name": "请求计划散列冻结",
+      "passed": true,
+      "detail": {
+        "actual": "50f5a261f451928db01980ce2bb9fd5d6c0b3f720cc4ecd985e90d0d534bd3f0",
+        "expected": "50f5a261f451928db01980ce2bb9fd5d6c0b3f720cc4ecd985e90d0d534bd3f0"
+      }
+    },
+    {
+      "name": "写前现值散列冻结",
+      "passed": true,
+      "detail": {
+        "actual": "5f6925724ac3e0c9f72324410b2f37600c21a57ae7fb3d525426d9a43bac4a9e",
+        "expected": "5f6925724ac3e0c9f72324410b2f37600c21a57ae7fb3d525426d9a43bac4a9e"
+      }
+    },
+    {
+      "name": "源数值展开散列冻结",
+      "passed": true,
+      "detail": {
+        "actual": "33ad9e35b3635599a2388e20cb53620e6ba40576a6adf16b4390051f64896c07",
+        "expected": "33ad9e35b3635599a2388e20cb53620e6ba40576a6adf16b4390051f64896c07"
+      }
+    },
+    {
+      "name": "候选版本内部候选散列一致",
+      "passed": true,
+      "detail": {
+        "declared": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+        "actual": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b"
+      }
+    },
+    {
+      "name": "候选组成286项",
+      "passed": true,
+      "detail": 286
+    },
+    {
+      "name": "请求计划257项",
+      "passed": true,
+      "detail": {
+        "actual": 257,
+        "declared": 257
+      }
+    },
+    {
+      "name": "冻结现有详情29项",
+      "passed": true,
+      "detail": 29
+    }
+  ],
+  "staticFailures": [],
+  "expected": {
+    "catalogs": 4,
+    "subjects": 20,
+    "componentLists": 120,
+    "frozenDetails": 29,
+    "candidateDetails": 286,
+    "candidateNewDetails": 257,
+    "formulas": 38,
+    "groups": 76
+  },
+  "actual": {
+    "calls": 173,
+    "methods": {
+      "GET": 173
+    },
+    "statuses": {
+      "200": 173
+    },
+    "lists": 120,
+    "details": 29,
+    "frozenPresent": 29,
+    "candidatePresent": 29,
+    "candidateNewPresent": 0,
+    "protectionConflicts": 0,
+    "catalogReferences": 65,
+    "catalogConflicts": 0,
+    "componentConflicts": 0
+  },
+  "protection": {
+    "catalogs": {
+      "attributes": {
+        "sequence": 1,
+        "method": "GET",
+        "route": "/attributes",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [
+            {
+              "attributeKey": "move_speed",
+              "createdAt": "2026-08-22T15:27:35.616234Z",
+              "description": "角色面板移动速度",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "移动速度",
+              "sortOrder": 100,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-23T07:43:37.216118Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "move_speed_percent",
+              "createdAt": "2026-09-06T14:37:34.305529Z",
+              "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "移动速度加成比例",
+              "sortOrder": 101,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:37:34.305529Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "armor_pen_flat",
+              "createdAt": "2026-08-22T15:27:35.850065Z",
+              "description": null,
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "固定护甲穿透",
+              "sortOrder": 200,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-22T15:27:35.850065Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "armor_pen_percent",
+              "createdAt": "2026-08-22T15:27:35.951829Z",
+              "description": null,
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "百分比护甲穿透",
+              "sortOrder": 210,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-22T15:27:35.951829Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "magic_pen_flat",
+              "createdAt": "2026-09-06T14:36:56.874035Z",
+              "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "固定法术穿透",
+              "sortOrder": 220,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:36:56.874035Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "magic_pen_percent",
+              "createdAt": "2026-09-06T14:38:47.365241Z",
+              "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "百分比法术穿透",
+              "sortOrder": 230,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:38:47.365241Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "hp",
+              "createdAt": "2026-08-22T15:27:36.051116Z",
+              "description": null,
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "生命值",
+              "sortOrder": 300,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-22T15:27:36.051116Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "hp_regen",
+              "createdAt": "2026-08-30T16:27:54.925024Z",
+              "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "每5秒生命回复",
+              "sortOrder": 305,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:54.925024Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "base_hp_regen_percent",
+              "createdAt": "2026-09-06T14:33:14.12308Z",
+              "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "基础生命回复加成比例",
+              "sortOrder": 306,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:33:14.12308Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "mana",
+              "createdAt": "2026-08-22T15:27:36.139767Z",
+              "description": null,
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "法力值",
+              "sortOrder": 310,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-22T15:27:36.139767Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "mana_regen",
+              "createdAt": "2026-08-30T16:27:55.032387Z",
+              "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "每5秒法力回复",
+              "sortOrder": 315,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.032387Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "base_mana_regen_percent",
+              "createdAt": "2026-09-06T14:33:07.568638Z",
+              "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "基础法力回复加成比例",
+              "sortOrder": 316,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:33:07.568638Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "energy",
+              "createdAt": "2026-08-22T15:27:36.229561Z",
+              "description": null,
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "能量值",
+              "sortOrder": 320,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-22T15:27:36.229561Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "armor",
+              "createdAt": "2026-08-30T16:27:55.143372Z",
+              "description": "角色面板护甲",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "护甲",
+              "sortOrder": 400,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.143372Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "magic_resistance",
+              "createdAt": "2026-08-30T16:27:55.24073Z",
+              "description": "角色面板魔法抗性",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "魔法抗性",
+              "sortOrder": 410,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.24073Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "tenacity_percent",
+              "createdAt": "2026-09-06T14:37:40.8914Z",
+              "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "韧性比例",
+              "sortOrder": 420,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:37:40.8914Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "slow_resist_percent",
+              "createdAt": "2026-09-08T14:32:32.234108Z",
+              "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "减速抗性比例",
+              "sortOrder": 421,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-08T14:32:32.234108Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "attack_damage",
+              "createdAt": "2026-08-30T16:26:29.341938Z",
+              "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "攻击力",
+              "sortOrder": 500,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:26:29.341938Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "ability_power",
+              "createdAt": "2026-08-30T16:26:39.898635Z",
+              "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "法术强度",
+              "sortOrder": 510,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:26:39.898635Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "attack_speed",
+              "createdAt": "2026-08-30T16:27:55.334742Z",
+              "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "攻击速度",
+              "sortOrder": 520,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.334742Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "bonus_attack_speed_percent",
+              "createdAt": "2026-08-30T16:27:55.439812Z",
+              "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "额外攻击速度比例",
+              "sortOrder": 521,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.439812Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "critical_strike_chance",
+              "createdAt": "2026-08-30T16:27:55.58546Z",
+              "description": "以 1 表示 100% 暴击几率",
+              "gameId": "lol",
+              "maxValue": 1,
+              "minValue": 0,
+              "name": "暴击几率",
+              "sortOrder": 530,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.58546Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "critical_strike_damage_bonus_percent",
+              "createdAt": "2026-09-06T14:37:27.711233Z",
+              "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "额外暴击伤害比例",
+              "sortOrder": 531,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:37:27.711233Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "attack_range",
+              "createdAt": "2026-08-30T16:27:55.678337Z",
+              "description": "角色普通攻击距离",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": 0,
+              "name": "攻击距离",
+              "sortOrder": 540,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-30T16:27:55.678337Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "ability_haste",
+              "createdAt": "2026-09-06T14:29:52.533949Z",
+              "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "技能急速",
+              "sortOrder": 550,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:29:52.533949Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "life_steal_percent",
+              "createdAt": "2026-09-06T14:36:43.823597Z",
+              "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "生命偷取比例",
+              "sortOrder": 560,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:36:43.823597Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "omnivamp_percent",
+              "createdAt": "2026-09-06T14:36:50.377635Z",
+              "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "全能吸血比例",
+              "sortOrder": 570,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:36:50.377635Z",
+              "valueType": "DECIMAL"
+            },
+            {
+              "attributeKey": "heal_shield_power_percent",
+              "createdAt": "2026-09-06T14:38:40.772253Z",
+              "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+              "gameId": "lol",
+              "maxValue": null,
+              "minValue": null,
+              "name": "治疗和护盾强度比例",
+              "sortOrder": 580,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T14:38:40.772253Z",
+              "valueType": "DECIMAL"
+            }
+          ],
+          "total": 28
+        }
+      },
+      "modifier-zones": {
+        "sequence": 2,
+        "method": "GET",
+        "route": "/modifier-zones",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [
+            {
+              "applicationStage": "ATTRIBUTE_PERCENT",
+              "calculationMode": "RATIO_ADD",
+              "createdAt": "2026-08-31T05:44:18.601181Z",
+              "description": null,
+              "domain": "ATTRIBUTE",
+              "gameId": "lol",
+              "modifierZoneKey": "attribute_percent_bonus",
+              "name": "属性百分比加成",
+              "sortOrder": 0,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-31T05:44:18.601181Z"
+            },
+            {
+              "applicationStage": "ATTRIBUTE_FLAT",
+              "calculationMode": "FLAT_ADD",
+              "createdAt": "2026-09-06T16:50:52.756989Z",
+              "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+              "domain": "ATTRIBUTE",
+              "gameId": "lol",
+              "modifierZoneKey": "attribute_flat_add",
+              "name": "属性固定加算",
+              "sortOrder": 10,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-06T16:50:52.756989Z"
+            },
+            {
+              "applicationStage": "ATTRIBUTE_PERCENT",
+              "calculationMode": "RATIO_ADD",
+              "createdAt": "2026-09-08T02:16:34.032171Z",
+              "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+              "domain": "ATTRIBUTE",
+              "gameId": "lol",
+              "modifierZoneKey": "item_3071_armor_reduction",
+              "name": "黑色切割者护甲削减乘区",
+              "sortOrder": 200,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-08T02:16:34.032171Z"
+            },
+            {
+              "applicationStage": "ATTRIBUTE_PERCENT",
+              "calculationMode": "RATIO_ADD",
+              "createdAt": "2026-09-08T02:16:39.681338Z",
+              "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+              "domain": "ATTRIBUTE",
+              "gameId": "lol",
+              "modifierZoneKey": "item_8010_magic_resistance_reduction",
+              "name": "放血者的诅咒魔抗削减乘区",
+              "sortOrder": 210,
+              "status": "ENABLED",
+              "updatedAt": "2026-09-08T02:16:39.681338Z"
+            }
+          ],
+          "total": 4
+        }
+      },
+      "damage-types": {
+        "sequence": 3,
+        "method": "GET",
+        "route": "/damage-types",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [
+            {
+              "createdAt": "2026-08-26T05:59:09.635701Z",
+              "damageTypeKey": "physics",
+              "description": null,
+              "gameId": "lol",
+              "name": "物理伤害",
+              "sortOrder": 0,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-26T05:59:09.635701Z"
+            },
+            {
+              "createdAt": "2026-08-26T05:58:49.612762Z",
+              "damageTypeKey": "real",
+              "description": null,
+              "gameId": "lol",
+              "name": "真实伤害",
+              "sortOrder": 0,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-26T05:58:49.612762Z"
+            },
+            {
+              "createdAt": "2026-08-26T05:59:15.870937Z",
+              "damageTypeKey": "magic",
+              "description": null,
+              "gameId": "lol",
+              "name": "魔法伤害",
+              "sortOrder": 0,
+              "status": "ENABLED",
+              "updatedAt": "2026-08-26T05:59:15.870937Z"
+            }
+          ],
+          "total": 3
+        }
+      },
+      "statuses": {
+        "sequence": 4,
+        "method": "GET",
+        "route": "/statuses",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "items": [
+            {
+              "createdAt": "2026-08-28T14:55:06.53067Z",
+              "description": null,
+              "gameId": "lol",
+              "name": "眩晕",
+              "sortOrder": 0,
+              "status": "ENABLED",
+              "statusKey": "vertigo",
+              "updatedAt": "2026-08-28T14:55:06.53067Z"
+            }
+          ],
+          "total": 1
+        }
+      }
+    },
+    "subjects": {
+      "nunu_p": {
+        "sequence": 5,
+        "method": "GET",
+        "route": "/skills/nunu_p",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:19:42.204708Z",
+          "description": "努努提升威朗普和一名附近友军的攻击速度和移动速度，并使威朗普的普攻可以伤害目标周围的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "努努和威朗普·弗雷尔卓德的召唤",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "nunu_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:42.204708Z"
+        }
+      },
+      "nunu_q": {
+        "sequence": 6,
+        "method": "GET",
+        "route": "/skills/nunu_q",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:19:42.564414Z",
+          "description": "威朗普撕咬一个小兵、野怪或敌方英雄，造成巨大伤害并回复自己的生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "努努和威朗普·吞噬",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "nunu_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:42.564414Z"
+        }
+      },
+      "nunu_w": {
+        "sequence": 7,
+        "method": "GET",
+        "route": "/skills/nunu_w",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:19:42.838639Z",
+          "description": "威朗普滚起一个雪球，它的尺寸和速度将随着滚动时间而增长。雪球会伤害并击飞敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "努努和威朗普·史上最大雪球！",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "nunu_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:42.838639Z"
+        }
+      },
+      "nunu_e": {
+        "sequence": 8,
+        "method": "GET",
+        "route": "/skills/nunu_e",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:19:43.104946Z",
+          "description": "努努掷出多个雪球以伤害敌人。当他完成后，威朗普就会禁锢被雪球命中过的任何英雄或大型野怪。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "努努和威朗普·雪球飞射",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "nunu_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:43.104946Z"
+        }
+      },
+      "nunu_r": {
+        "sequence": 9,
+        "method": "GET",
+        "route": "/skills/nunu_r",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:19:43.385992Z",
+          "description": "努努和威朗普在一个区域内创造一阵强大的暴风雪，来减速敌人并在结束时造成巨额伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "努努和威朗普·绝对零度",
+          "skillCategoryKeys": [],
+          "skillKey": "nunu_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:43.385992Z"
+        }
+      },
+      "sejuani_p": {
+        "sequence": 10,
+        "method": "GET",
+        "route": "/skills/sejuani_p",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:10.626488Z",
+          "description": "在脱离战斗后，瑟庄妮会获得冰霜护甲，冰川护甲可提供护甲、魔法抗性和免疫减速。当瑟庄妮受到伤害后，冰霜护甲会存留一小段时间。瑟庄妮可以伤害一名被晕眩的敌人来击碎它，从而造成巨量魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "瑟庄妮·北地之怒",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "sejuani_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:10.626488Z"
+        }
+      },
+      "sejuani_q": {
+        "sequence": 11,
+        "method": "GET",
+        "route": "/skills/sejuani_q",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:10.940229Z",
+          "description": "瑟庄妮向前冲锋，将敌人击飞至空中。冲锋会在命中一名敌方英雄后停止。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "瑟庄妮·极寒突袭",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "sejuani_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:10.940229Z"
+        }
+      },
+      "sejuani_w": {
+        "sequence": 12,
+        "method": "GET",
+        "route": "/skills/sejuani_w",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:11.21Z",
+          "description": "瑟庄妮两次挥舞她的链枷，造成伤害、减速敌人并施加霜冻层数。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "瑟庄妮·凛冬之怒",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "sejuani_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:11.21Z"
+        }
+      },
+      "sejuani_e": {
+        "sequence": 13,
+        "method": "GET",
+        "route": "/skills/sejuani_e",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:11.470662Z",
+          "description": "瑟庄妮冻结并晕眩一名叠满了霜冻层数的敌方英雄。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "瑟庄妮·永冻领域",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "sejuani_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:11.470662Z"
+        }
+      },
+      "sejuani_r": {
+        "sequence": 14,
+        "method": "GET",
+        "route": "/skills/sejuani_r",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:11.724832Z",
+          "description": "瑟庄妮投出她的套索来冻结并击晕命中的第一名敌方英雄，并创造一次冰风暴来减速其它敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "瑟庄妮·极冰寒狱",
+          "skillCategoryKeys": [],
+          "skillKey": "sejuani_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:11.724832Z"
+        }
+      },
+      "sion_p": {
+        "sequence": 15,
+        "method": "GET",
+        "route": "/skills/sion_p",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:21.517268Z",
+          "description": "在被击杀后，赛恩会回光返照一段时间并且生命值会快速衰减。在此期间，他的攻击会变得超快，获得生命偷取，并且每次攻击会额外造成基于目标最大生命值的额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "赛恩·死亡荣耀",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "sion_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:21.517268Z"
+        }
+      },
+      "sion_q": {
+        "sequence": 16,
+        "method": "GET",
+        "route": "/skills/sion_q",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:21.825141Z",
+          "description": "赛恩开始蓄力，并在释放时对他前方的一个区域进行一次强劲的猛击，对区域内的敌人造成伤害。如果他蓄力时间足够久，那么被命中的敌人还会受到击飞和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "赛恩·残虐猛击",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "sion_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:21.825141Z"
+        }
+      },
+      "sion_w": {
+        "sequence": 17,
+        "method": "GET",
+        "route": "/skills/sion_w",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:22.09192Z",
+          "description": "赛恩为自己套上护盾，并能在3秒后再次激活这个技能来对身边的敌人造成魔法伤害。在赛恩击杀敌人时，他会被动获得最大生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "赛恩·灵魂熔炉",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "sion_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:22.09192Z"
+        }
+      },
+      "sion_e": {
+        "sequence": 18,
+        "method": "GET",
+        "route": "/skills/sion_e",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:22.380428Z",
+          "description": "赛恩发射一个短程冲击波，来对命中的第一个敌人造成伤害、减速效果和破甲效果。如果冲击波命中的是小兵或者野怪，那么目标敌方单位还会被击退，对沿途的所有敌方单位造成伤害、减速和护甲击碎效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "赛恩·杀手怒吼",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "sion_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:22.380428Z"
+        }
+      },
+      "sion_r": {
+        "sequence": 19,
+        "method": "GET",
+        "route": "/skills/sion_r",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:20:22.632797Z",
+          "description": "赛恩朝着一个方向冲锋，持续提升移动速度。他可以朝着鼠标悬停处进行微小的转向。当他与一名敌人产生碰撞时，他会基于敌人们与碰撞点之间的距离造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "赛恩·蛮横冲撞",
+          "skillCategoryKeys": [],
+          "skillKey": "sion_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:22.632797Z"
+        }
+      },
+      "volibear_p": {
+        "sequence": 20,
+        "method": "GET",
+        "route": "/skills/volibear_p",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:21:04.006745Z",
+          "description": "沃利贝尔的攻击和技能会提供攻击速度，并且最终使他的攻击对附近的敌人们造成额外魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "沃利贝尔·狂雷渐起",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "volibear_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:04.006745Z"
+        }
+      },
+      "volibear_q": {
+        "sequence": 21,
+        "method": "GET",
+        "route": "/skills/volibear_q",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:21:04.283429Z",
+          "description": "沃利贝尔在朝着敌人时会获得移动速度，并且会对他攻击的第一个敌人造成<status>晕眩</status>和伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "沃利贝尔·擂首一击",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "volibear_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:04.283429Z"
+        }
+      },
+      "volibear_w": {
+        "sequence": 22,
+        "method": "GET",
+        "route": "/skills/volibear_w",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:21:04.581585Z",
+          "description": "沃利贝尔伤害一名敌人，施加攻击特效并将其标记。对相同目标再次施放这个技能，会造成额外伤害并治疗沃利贝尔。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "沃利贝尔·暴怒撕咬",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "volibear_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:04.581585Z"
+        }
+      },
+      "volibear_e": {
+        "sequence": 23,
+        "method": "GET",
+        "route": "/skills/volibear_e",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:21:04.826646Z",
+          "description": "沃利贝尔在目标区域召唤一道闪电箭，对其中的敌人造成魔法伤害和减速效果，并且如果沃利贝尔在闪电落点区域内，他还会获得一层护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "沃利贝尔·霹天雳地",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "volibear_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:04.826646Z"
+        }
+      },
+      "volibear_r": {
+        "sequence": 24,
+        "method": "GET",
+        "route": "/skills/volibear_r",
+        "status": 200,
+        "ok": true,
+        "data": {
+          "createdAt": "2026-09-06T18:21:05.049648Z",
+          "description": "沃利贝尔跃向一个目标区域，对他身下的敌人们造成伤害和减速效果，同时获得额外生命值。在他着陆时，附近的敌方防御塔也会暂时失效。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "沃利贝尔·天声震落",
+          "skillCategoryKeys": [],
+          "skillKey": "volibear_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:21:05.049648Z"
+        }
+      }
+    }
+  },
+  "lists": [
+    {
+      "skillKey": "nunu_p",
+      "kind": "parameters",
+      "route": "/skills/nunu_p/parameters",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_p",
+      "kind": "formulas",
+      "route": "/skills/nunu_p/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_p",
+      "kind": "effects",
+      "route": "/skills/nunu_p/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_p",
+      "kind": "processes",
+      "route": "/skills/nunu_p/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_p",
+      "kind": "internalStates",
+      "route": "/skills/nunu_p/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_p",
+      "kind": "triggerRules",
+      "route": "/skills/nunu_p/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_q",
+      "kind": "parameters",
+      "route": "/skills/nunu_q/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-08T01:02:53.84024Z",
+          "description": "DDragon16.17.1 Nunu.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。两来源均为60法力；资源文案省略空格和属性占位名仍是明确单次法力，不是持续扣费。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 13000,
+            "2": 12000,
+            "3": 11000,
+            "4": 10000,
+            "5": 9000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nunu_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:53.84024Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:54.490444Z",
+          "description": "DDragon16.17.1 Nunu.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。两来源均为60法力；资源文案省略空格和属性占位名仍是明确单次法力，不是持续扣费。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nunu_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:02:54.490444Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "nunu_q",
+      "kind": "formulas",
+      "route": "/skills/nunu_q/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_q",
+      "kind": "effects",
+      "route": "/skills/nunu_q/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_q",
+      "kind": "processes",
+      "route": "/skills/nunu_q/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_q",
+      "kind": "internalStates",
+      "route": "/skills/nunu_q/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_q",
+      "kind": "triggerRules",
+      "route": "/skills/nunu_q/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_w",
+      "kind": "parameters",
+      "route": "/skills/nunu_w/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-08T01:02:55.17866Z",
+          "description": "DDragon16.17.1 Nunu.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": 14000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nunu_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:55.17866Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:55.759364Z",
+          "description": "DDragon16.17.1 Nunu.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nunu_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:02:55.759364Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "nunu_w",
+      "kind": "formulas",
+      "route": "/skills/nunu_w/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_w",
+      "kind": "effects",
+      "route": "/skills/nunu_w/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_w",
+      "kind": "processes",
+      "route": "/skills/nunu_w/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_w",
+      "kind": "internalStates",
+      "route": "/skills/nunu_w/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_w",
+      "kind": "triggerRules",
+      "route": "/skills/nunu_w/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_e",
+      "kind": "parameters",
+      "route": "/skills/nunu_e/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-08T01:02:56.427744Z",
+          "description": "DDragon16.17.1 Nunu.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 13000,
+            "3": 12000,
+            "4": 11000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nunu_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:56.427744Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:57.101854Z",
+          "description": "DDragon16.17.1 Nunu.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nunu_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:02:57.101854Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "nunu_e",
+      "kind": "formulas",
+      "route": "/skills/nunu_e/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_e",
+      "kind": "effects",
+      "route": "/skills/nunu_e/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_e",
+      "kind": "processes",
+      "route": "/skills/nunu_e/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_e",
+      "kind": "internalStates",
+      "route": "/skills/nunu_e/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_e",
+      "kind": "triggerRules",
+      "route": "/skills/nunu_e/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_r",
+      "kind": "parameters",
+      "route": "/skills/nunu_r/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-08T01:02:57.766993Z",
+          "description": "DDragon16.17.1 Nunu.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 110000,
+            "2": 100000,
+            "3": 90000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nunu_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:57.766993Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:58.545069Z",
+          "description": "DDragon16.17.1 Nunu.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nunu_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:02:58.545069Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "nunu_r",
+      "kind": "formulas",
+      "route": "/skills/nunu_r/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_r",
+      "kind": "effects",
+      "route": "/skills/nunu_r/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_r",
+      "kind": "processes",
+      "route": "/skills/nunu_r/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_r",
+      "kind": "internalStates",
+      "route": "/skills/nunu_r/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "nunu_r",
+      "kind": "triggerRules",
+      "route": "/skills/nunu_r/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_p",
+      "kind": "parameters",
+      "route": "/skills/sejuani_p/parameters",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_p",
+      "kind": "formulas",
+      "route": "/skills/sejuani_p/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_p",
+      "kind": "effects",
+      "route": "/skills/sejuani_p/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_p",
+      "kind": "processes",
+      "route": "/skills/sejuani_p/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_p",
+      "kind": "internalStates",
+      "route": "/skills/sejuani_p/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_p",
+      "kind": "triggerRules",
+      "route": "/skills/sejuani_p/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_q",
+      "kind": "parameters",
+      "route": "/skills/sejuani_q/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-07T18:00:45.342166Z",
+          "description": "DDragon16.17.1 Sejuani.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 18000,
+            "2": 16500,
+            "3": 15000,
+            "4": 13500,
+            "5": 12000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "sejuani_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:45.342166Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:45.756882Z",
+          "description": "DDragon16.17.1 Sejuani.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "sejuani_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:45.756882Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "sejuani_q",
+      "kind": "formulas",
+      "route": "/skills/sejuani_q/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_q",
+      "kind": "effects",
+      "route": "/skills/sejuani_q/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_q",
+      "kind": "processes",
+      "route": "/skills/sejuani_q/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_q",
+      "kind": "internalStates",
+      "route": "/skills/sejuani_q/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_q",
+      "kind": "triggerRules",
+      "route": "/skills/sejuani_q/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_w",
+      "kind": "parameters",
+      "route": "/skills/sejuani_w/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-07T18:00:46.272631Z",
+          "description": "DDragon16.17.1 Sejuani.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 8000,
+            "3": 7000,
+            "4": 6000,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "sejuani_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:46.272631Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:46.691211Z",
+          "description": "DDragon16.17.1 Sejuani.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "sejuani_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:46.691211Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "sejuani_w",
+      "kind": "formulas",
+      "route": "/skills/sejuani_w/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_w",
+      "kind": "effects",
+      "route": "/skills/sejuani_w/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_w",
+      "kind": "processes",
+      "route": "/skills/sejuani_w/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_w",
+      "kind": "internalStates",
+      "route": "/skills/sejuani_w/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_w",
+      "kind": "triggerRules",
+      "route": "/skills/sejuani_w/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_e",
+      "kind": "parameters",
+      "route": "/skills/sejuani_e/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-07T18:00:47.175614Z",
+          "description": "DDragon16.17.1 Sejuani.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "sejuani_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:47.175614Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:47.552665Z",
+          "description": "DDragon16.17.1 Sejuani.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "sejuani_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:47.552665Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "sejuani_e",
+      "kind": "formulas",
+      "route": "/skills/sejuani_e/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_e",
+      "kind": "effects",
+      "route": "/skills/sejuani_e/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_e",
+      "kind": "processes",
+      "route": "/skills/sejuani_e/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_e",
+      "kind": "internalStates",
+      "route": "/skills/sejuani_e/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_e",
+      "kind": "triggerRules",
+      "route": "/skills/sejuani_e/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_r",
+      "kind": "parameters",
+      "route": "/skills/sejuani_r/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-07T18:00:47.956599Z",
+          "description": "DDragon16.17.1 Sejuani.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 105000,
+            "3": 90000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "sejuani_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:47.956599Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:48.366849Z",
+          "description": "DDragon16.17.1 Sejuani.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "sejuani_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:48.366849Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "sejuani_r",
+      "kind": "formulas",
+      "route": "/skills/sejuani_r/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_r",
+      "kind": "effects",
+      "route": "/skills/sejuani_r/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_r",
+      "kind": "processes",
+      "route": "/skills/sejuani_r/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_r",
+      "kind": "internalStates",
+      "route": "/skills/sejuani_r/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sejuani_r",
+      "kind": "triggerRules",
+      "route": "/skills/sejuani_r/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_p",
+      "kind": "parameters",
+      "route": "/skills/sion_p/parameters",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_p",
+      "kind": "formulas",
+      "route": "/skills/sion_p/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_p",
+      "kind": "effects",
+      "route": "/skills/sion_p/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_p",
+      "kind": "processes",
+      "route": "/skills/sion_p/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_p",
+      "kind": "internalStates",
+      "route": "/skills/sion_p/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_p",
+      "kind": "triggerRules",
+      "route": "/skills/sion_p/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_q",
+      "kind": "parameters",
+      "route": "/skills/sion_q/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-07T17:39:04.46107Z",
+          "description": "DDragon16.17.1 Sion.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9000,
+            "3": 8000,
+            "4": 7000,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "sion_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:39:04.46107Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:39:04.835958Z",
+          "description": "DDragon16.17.1 Sion.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 45,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "sion_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:39:04.835958Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "sion_q",
+      "kind": "formulas",
+      "route": "/skills/sion_q/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_q",
+      "kind": "effects",
+      "route": "/skills/sion_q/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_q",
+      "kind": "processes",
+      "route": "/skills/sion_q/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_q",
+      "kind": "internalStates",
+      "route": "/skills/sion_q/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_q",
+      "kind": "triggerRules",
+      "route": "/skills/sion_q/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_w",
+      "kind": "parameters",
+      "route": "/skills/sion_w/parameters",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_w",
+      "kind": "formulas",
+      "route": "/skills/sion_w/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_w",
+      "kind": "effects",
+      "route": "/skills/sion_w/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_w",
+      "kind": "processes",
+      "route": "/skills/sion_w/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_w",
+      "kind": "internalStates",
+      "route": "/skills/sion_w/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_w",
+      "kind": "triggerRules",
+      "route": "/skills/sion_w/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_e",
+      "kind": "parameters",
+      "route": "/skills/sion_e/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-07T17:39:05.241693Z",
+          "description": "DDragon16.17.1 Sion.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11000,
+            "3": 10000,
+            "4": 9000,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "sion_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:39:05.241693Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:39:05.581428Z",
+          "description": "DDragon16.17.1 Sion.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 35,
+            "2": 40,
+            "3": 45,
+            "4": 50,
+            "5": 55
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "sion_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:39:05.581428Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "sion_e",
+      "kind": "formulas",
+      "route": "/skills/sion_e/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_e",
+      "kind": "effects",
+      "route": "/skills/sion_e/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_e",
+      "kind": "processes",
+      "route": "/skills/sion_e/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_e",
+      "kind": "internalStates",
+      "route": "/skills/sion_e/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_e",
+      "kind": "triggerRules",
+      "route": "/skills/sion_e/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_r",
+      "kind": "parameters",
+      "route": "/skills/sion_r/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-07T17:39:06.026181Z",
+          "description": "DDragon16.17.1 Sion.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "sion_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:39:06.026181Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "sion_r",
+      "kind": "formulas",
+      "route": "/skills/sion_r/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_r",
+      "kind": "effects",
+      "route": "/skills/sion_r/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_r",
+      "kind": "processes",
+      "route": "/skills/sion_r/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_r",
+      "kind": "internalStates",
+      "route": "/skills/sion_r/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "sion_r",
+      "kind": "triggerRules",
+      "route": "/skills/sion_r/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_p",
+      "kind": "parameters",
+      "route": "/skills/volibear_p/parameters",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_p",
+      "kind": "formulas",
+      "route": "/skills/volibear_p/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_p",
+      "kind": "effects",
+      "route": "/skills/volibear_p/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_p",
+      "kind": "processes",
+      "route": "/skills/volibear_p/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_p",
+      "kind": "internalStates",
+      "route": "/skills/volibear_p/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_p",
+      "kind": "triggerRules",
+      "route": "/skills/volibear_p/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_q",
+      "kind": "parameters",
+      "route": "/skills/volibear_q/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-08T02:05:53.265138Z",
+          "description": "DDragon16.17.1 Volibear.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11500,
+            "3": 11000,
+            "4": 10500,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "volibear_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:53.265138Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:53.770332Z",
+          "description": "DDragon16.17.1 Volibear.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "volibear_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:53.770332Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "volibear_q",
+      "kind": "formulas",
+      "route": "/skills/volibear_q/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_q",
+      "kind": "effects",
+      "route": "/skills/volibear_q/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_q",
+      "kind": "processes",
+      "route": "/skills/volibear_q/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_q",
+      "kind": "internalStates",
+      "route": "/skills/volibear_q/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_q",
+      "kind": "triggerRules",
+      "route": "/skills/volibear_q/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_w",
+      "kind": "parameters",
+      "route": "/skills/volibear_w/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-08T02:05:54.26414Z",
+          "description": "DDragon16.17.1 Volibear.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "volibear_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:54.26414Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:54.797372Z",
+          "description": "DDragon16.17.1 Volibear.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20,
+            "2": 25,
+            "3": 30,
+            "4": 35,
+            "5": 40
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "volibear_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:54.797372Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "volibear_w",
+      "kind": "formulas",
+      "route": "/skills/volibear_w/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_w",
+      "kind": "effects",
+      "route": "/skills/volibear_w/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_w",
+      "kind": "processes",
+      "route": "/skills/volibear_w/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_w",
+      "kind": "internalStates",
+      "route": "/skills/volibear_w/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_w",
+      "kind": "triggerRules",
+      "route": "/skills/volibear_w/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_e",
+      "kind": "parameters",
+      "route": "/skills/volibear_e/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-08T02:05:55.395674Z",
+          "description": "DDragon16.17.1 Volibear.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 16000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "volibear_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:55.395674Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:55.889179Z",
+          "description": "DDragon16.17.1 Volibear.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "volibear_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:55.889179Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "volibear_e",
+      "kind": "formulas",
+      "route": "/skills/volibear_e/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_e",
+      "kind": "effects",
+      "route": "/skills/volibear_e/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_e",
+      "kind": "processes",
+      "route": "/skills/volibear_e/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_e",
+      "kind": "internalStates",
+      "route": "/skills/volibear_e/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_e",
+      "kind": "triggerRules",
+      "route": "/skills/volibear_e/trigger-rules",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_r",
+      "kind": "parameters",
+      "route": "/skills/volibear_r/parameters",
+      "status": 200,
+      "items": [
+        {
+          "createdAt": "2026-09-08T02:05:56.444704Z",
+          "description": "DDragon16.17.1 Volibear.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 160000,
+            "2": 135000,
+            "3": 110000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "volibear_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:56.444704Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:56.852424Z",
+          "description": "DDragon16.17.1 Volibear.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "volibear_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:56.852424Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "skillKey": "volibear_r",
+      "kind": "formulas",
+      "route": "/skills/volibear_r/formulas",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_r",
+      "kind": "effects",
+      "route": "/skills/volibear_r/effects",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_r",
+      "kind": "processes",
+      "route": "/skills/volibear_r/processes",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_r",
+      "kind": "internalStates",
+      "route": "/skills/volibear_r/internal-states",
+      "status": 200,
+      "items": []
+    },
+    {
+      "skillKey": "volibear_r",
+      "kind": "triggerRules",
+      "route": "/skills/volibear_r/trigger-rules",
+      "status": 200,
+      "items": []
+    }
+  ],
+  "details": [
+    {
+      "skillKey": "nunu_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/nunu_q/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T01:02:53.84024Z",
+        "description": "DDragon16.17.1 Nunu.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。两来源均为60法力；资源文案省略空格和属性占位名仍是明确单次法力，不是持续扣费。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12000,
+          "3": 11000,
+          "4": 10000,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nunu_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:53.84024Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T01:02:53.84024Z",
+        "description": "DDragon16.17.1 Nunu.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。两来源均为60法力；资源文案省略空格和属性占位名仍是明确单次法力，不是持续扣费。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 13000,
+          "2": 12000,
+          "3": 11000,
+          "4": 10000,
+          "5": 9000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nunu_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:53.84024Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "nunu_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/nunu_q/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T01:02:54.490444Z",
+        "description": "DDragon16.17.1 Nunu.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。两来源均为60法力；资源文案省略空格和属性占位名仍是明确单次法力，不是持续扣费。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nunu_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:54.490444Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T01:02:54.490444Z",
+        "description": "DDragon16.17.1 Nunu.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。两来源均为60法力；资源文案省略空格和属性占位名仍是明确单次法力，不是持续扣费。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nunu_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:54.490444Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "nunu_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/nunu_w/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T01:02:55.17866Z",
+        "description": "DDragon16.17.1 Nunu.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": 14000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nunu_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:55.17866Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T01:02:55.17866Z",
+        "description": "DDragon16.17.1 Nunu.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": 14000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nunu_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:55.17866Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "nunu_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/nunu_w/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T01:02:55.759364Z",
+        "description": "DDragon16.17.1 Nunu.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nunu_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:55.759364Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T01:02:55.759364Z",
+        "description": "DDragon16.17.1 Nunu.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nunu_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:55.759364Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "nunu_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/nunu_e/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T01:02:56.427744Z",
+        "description": "DDragon16.17.1 Nunu.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nunu_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:56.427744Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T01:02:56.427744Z",
+        "description": "DDragon16.17.1 Nunu.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nunu_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:56.427744Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "nunu_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/nunu_e/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T01:02:57.101854Z",
+        "description": "DDragon16.17.1 Nunu.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nunu_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:57.101854Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T01:02:57.101854Z",
+        "description": "DDragon16.17.1 Nunu.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nunu_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:57.101854Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "nunu_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/nunu_r/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T01:02:57.766993Z",
+        "description": "DDragon16.17.1 Nunu.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 110000,
+          "2": 100000,
+          "3": 90000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nunu_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:57.766993Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T01:02:57.766993Z",
+        "description": "DDragon16.17.1 Nunu.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 110000,
+          "2": 100000,
+          "3": 90000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nunu_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:57.766993Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "nunu_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/nunu_r/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T01:02:58.545069Z",
+        "description": "DDragon16.17.1 Nunu.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nunu_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:58.545069Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T01:02:58.545069Z",
+        "description": "DDragon16.17.1 Nunu.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nunu_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:02:58.545069Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sejuani_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/sejuani_q/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T18:00:45.342166Z",
+        "description": "DDragon16.17.1 Sejuani.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 18000,
+          "2": 16500,
+          "3": 15000,
+          "4": 13500,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sejuani_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:45.342166Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T18:00:45.342166Z",
+        "description": "DDragon16.17.1 Sejuani.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 18000,
+          "2": 16500,
+          "3": 15000,
+          "4": 13500,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sejuani_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:45.342166Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sejuani_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/sejuani_q/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T18:00:45.756882Z",
+        "description": "DDragon16.17.1 Sejuani.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sejuani_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:45.756882Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T18:00:45.756882Z",
+        "description": "DDragon16.17.1 Sejuani.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sejuani_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:45.756882Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sejuani_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/sejuani_w/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T18:00:46.272631Z",
+        "description": "DDragon16.17.1 Sejuani.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8000,
+          "3": 7000,
+          "4": 6000,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sejuani_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:46.272631Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T18:00:46.272631Z",
+        "description": "DDragon16.17.1 Sejuani.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8000,
+          "3": 7000,
+          "4": 6000,
+          "5": 5000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sejuani_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:46.272631Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sejuani_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/sejuani_w/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T18:00:46.691211Z",
+        "description": "DDragon16.17.1 Sejuani.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sejuani_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:46.691211Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T18:00:46.691211Z",
+        "description": "DDragon16.17.1 Sejuani.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sejuani_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:46.691211Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sejuani_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/sejuani_e/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T18:00:47.175614Z",
+        "description": "DDragon16.17.1 Sejuani.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sejuani_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:47.175614Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T18:00:47.175614Z",
+        "description": "DDragon16.17.1 Sejuani.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 1500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sejuani_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:47.175614Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sejuani_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/sejuani_e/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T18:00:47.552665Z",
+        "description": "DDragon16.17.1 Sejuani.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sejuani_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:47.552665Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T18:00:47.552665Z",
+        "description": "DDragon16.17.1 Sejuani.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sejuani_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:47.552665Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sejuani_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/sejuani_r/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T18:00:47.956599Z",
+        "description": "DDragon16.17.1 Sejuani.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 105000,
+          "3": 90000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sejuani_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:47.956599Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T18:00:47.956599Z",
+        "description": "DDragon16.17.1 Sejuani.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 105000,
+          "3": 90000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sejuani_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:47.956599Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sejuani_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/sejuani_r/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T18:00:48.366849Z",
+        "description": "DDragon16.17.1 Sejuani.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sejuani_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:48.366849Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T18:00:48.366849Z",
+        "description": "DDragon16.17.1 Sejuani.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sejuani_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:48.366849Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sion_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/sion_q/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T17:39:04.46107Z",
+        "description": "DDragon16.17.1 Sion.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9000,
+          "3": 8000,
+          "4": 7000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sion_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:39:04.46107Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T17:39:04.46107Z",
+        "description": "DDragon16.17.1 Sion.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9000,
+          "3": 8000,
+          "4": 7000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sion_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:39:04.46107Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sion_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/sion_q/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T17:39:04.835958Z",
+        "description": "DDragon16.17.1 Sion.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 45,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sion_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:39:04.835958Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T17:39:04.835958Z",
+        "description": "DDragon16.17.1 Sion.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 45,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sion_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:39:04.835958Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sion_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/sion_e/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T17:39:05.241693Z",
+        "description": "DDragon16.17.1 Sion.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sion_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:39:05.241693Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T17:39:05.241693Z",
+        "description": "DDragon16.17.1 Sion.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "sion_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:39:05.241693Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sion_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/sion_e/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T17:39:05.581428Z",
+        "description": "DDragon16.17.1 Sion.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 35,
+          "2": 40,
+          "3": 45,
+          "4": 50,
+          "5": 55
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sion_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:39:05.581428Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T17:39:05.581428Z",
+        "description": "DDragon16.17.1 Sion.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 35,
+          "2": 40,
+          "3": 45,
+          "4": 50,
+          "5": 55
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sion_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:39:05.581428Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "sion_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/sion_r/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-07T17:39:06.026181Z",
+        "description": "DDragon16.17.1 Sion.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sion_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:39:06.026181Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-07T17:39:06.026181Z",
+        "description": "DDragon16.17.1 Sion.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "sion_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:39:06.026181Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "volibear_q",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/volibear_q/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T02:05:53.265138Z",
+        "description": "DDragon16.17.1 Volibear.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "volibear_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:53.265138Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T02:05:53.265138Z",
+        "description": "DDragon16.17.1 Volibear.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "volibear_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:53.265138Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "volibear_q",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/volibear_q/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T02:05:53.770332Z",
+        "description": "DDragon16.17.1 Volibear.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "volibear_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:53.770332Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T02:05:53.770332Z",
+        "description": "DDragon16.17.1 Volibear.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "volibear_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:53.770332Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "volibear_w",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/volibear_w/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T02:05:54.26414Z",
+        "description": "DDragon16.17.1 Volibear.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "volibear_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:54.26414Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T02:05:54.26414Z",
+        "description": "DDragon16.17.1 Volibear.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "volibear_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:54.26414Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "volibear_w",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/volibear_w/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T02:05:54.797372Z",
+        "description": "DDragon16.17.1 Volibear.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20,
+          "2": 25,
+          "3": 30,
+          "4": 35,
+          "5": 40
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "volibear_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:54.797372Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T02:05:54.797372Z",
+        "description": "DDragon16.17.1 Volibear.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20,
+          "2": 25,
+          "3": 30,
+          "4": 35,
+          "5": 40
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "volibear_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:54.797372Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "volibear_e",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/volibear_e/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T02:05:55.395674Z",
+        "description": "DDragon16.17.1 Volibear.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 16000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "volibear_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:55.395674Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T02:05:55.395674Z",
+        "description": "DDragon16.17.1 Volibear.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 16000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "volibear_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:55.395674Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "volibear_e",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/volibear_e/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T02:05:55.889179Z",
+        "description": "DDragon16.17.1 Volibear.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "volibear_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:55.889179Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T02:05:55.889179Z",
+        "description": "DDragon16.17.1 Volibear.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "volibear_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:55.889179Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "volibear_r",
+      "kind": "parameters",
+      "id": "cooldown_ms",
+      "route": "/skills/volibear_r/parameters/cooldown_ms",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T02:05:56.444704Z",
+        "description": "DDragon16.17.1 Volibear.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 160000,
+          "2": 135000,
+          "3": 110000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "volibear_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:56.444704Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T02:05:56.444704Z",
+        "description": "DDragon16.17.1 Volibear.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 160000,
+          "2": 135000,
+          "3": 110000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "volibear_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:56.444704Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    },
+    {
+      "skillKey": "volibear_r",
+      "kind": "parameters",
+      "id": "mana_cost",
+      "route": "/skills/volibear_r/parameters/mana_cost",
+      "status": 200,
+      "listItem": {
+        "createdAt": "2026-09-08T02:05:56.852424Z",
+        "description": "DDragon16.17.1 Volibear.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "volibear_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:56.852424Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "data": {
+        "createdAt": "2026-09-08T02:05:56.852424Z",
+        "description": "DDragon16.17.1 Volibear.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "volibear_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:56.852424Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "listSummaryDiff": null
+    }
+  ],
+  "catalogReferences": [
+    {
+      "at": "nunu_q/formulas/monster_healing.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "nunu_q/formulas/monster_healing.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "nunu_q/formulas/champion_damage.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "nunu_q/formulas/champion_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "nunu_q/formulas/champion_healing.expression.operands[1].operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "nunu_q/formulas/champion_healing.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "nunu_q/formulas/low_health_champion_healing.expression.operands[1].operands[1].operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "nunu_q/formulas/low_health_champion_healing.expression.operands[1].operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "nunu_q/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "nunu_w/formulas/maximum_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "nunu_w/formulas/minimum_distance_damage.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "nunu_w/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "nunu_e/formulas/snowball_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "nunu_e/formulas/root_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "nunu_e/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "nunu_r/formulas/shield_amount.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "nunu_r/formulas/shield_amount.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "nunu_r/formulas/maximum_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "nunu_r/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_p/formulas/frost_mr_amount.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "magic_resistance",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_q/formulas/total_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_q/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_w/formulas/first_hit_damage.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_w/formulas/first_hit_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_w/formulas/second_hit_damage.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_w/formulas/second_hit_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_w/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_e/formulas/total_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_e/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_r/formulas/minor_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_r/formulas/empowered_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "sejuani_r/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "sion_q/formulas/minimum_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "attack_damage",
+      "enabled": true
+    },
+    {
+      "at": "sion_q/formulas/maximum_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "attack_damage",
+      "enabled": true
+    },
+    {
+      "at": "sion_q/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "sion_w/formulas/total_shield.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "sion_w/formulas/total_shield.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "sion_w/formulas/total_damage.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "sion_w/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "sion_e/formulas/total_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "sion_e/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "sion_r/formulas/minimum_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "attack_damage",
+      "enabled": true
+    },
+    {
+      "at": "sion_r/formulas/maximum_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "attack_damage",
+      "enabled": true
+    },
+    {
+      "at": "sion_r/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "volibear_p/formulas/chain_lightning_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "volibear_p/formulas/attack_speed_per_stack.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "volibear_p/formulas/attack_speed_total.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "volibear_q/formulas/calculated_damage.expression.operands[0].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "attack_damage",
+      "enabled": true
+    },
+    {
+      "at": "volibear_q/formulas/calculated_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "attack_damage",
+      "enabled": true
+    },
+    {
+      "at": "volibear_q/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "volibear_w/formulas/total_damage.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "attack_damage",
+      "enabled": true
+    },
+    {
+      "at": "volibear_w/formulas/total_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "volibear_w/formulas/empowered_damage.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "attack_damage",
+      "enabled": true
+    },
+    {
+      "at": "volibear_w/formulas/empowered_damage.expression.operands[1].operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "attack_damage",
+      "enabled": true
+    },
+    {
+      "at": "volibear_w/formulas/empowered_damage.expression.operands[1].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "volibear_w/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "volibear_e/formulas/total_damage.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "volibear_e/formulas/shield_value.expression.operands[0].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "hp",
+      "enabled": true
+    },
+    {
+      "at": "volibear_e/formulas/shield_value.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "volibear_e/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "volibear_r/formulas/sweet_spot_damage.expression.operands[0].operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "ability_power",
+      "enabled": true
+    },
+    {
+      "at": "volibear_r/formulas/sweet_spot_damage.expression.operands[1].operands[1].attributeKey",
+      "key": "attributeKey",
+      "value": "attack_damage",
+      "enabled": true
+    },
+    {
+      "at": "volibear_r/effects/mana_cost.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "mana",
+      "enabled": true
+    },
+    {
+      "at": "volibear_r/effects/attack_range.results[0].detail.attributeKey",
+      "key": "attributeKey",
+      "value": "attack_range",
+      "enabled": true
+    },
+    {
+      "at": "volibear_r/effects/attack_range.results[0].detail.modifierZoneKey",
+      "key": "modifierZoneKey",
+      "value": "attribute_flat_add",
+      "enabled": true
+    }
+  ],
+  "protectionConflicts": [],
+  "catalogConflicts": [],
+  "componentConflicts": [],
+  "math": {
+    "mode": "当前未写入，数学核算延期",
+    "formulaCount": 0,
+    "groups": 0,
+    "casesPerFormula": 2,
+    "missingInputChecks": 0,
+    "runtimeInputCount": 0,
+    "formulas": [],
+    "sourceTreeChecks": [],
+    "boundaryChecks": [],
+    "failedChecks": [],
+    "passed": false,
+    "deferred": {
+      "reason": "当前实际GET没有候选公式详情；为避免复用候选表达式，本次不代算。授权写入后使用同一器加--after-apply读取实际公式再核算。",
+      "candidateFormulaCount": 38,
+      "actualFormulaCount": 0
+    }
+  },
+  "failures": [],
+  "finishedAt": "2026-09-09T14:30:00.568Z",
+  "status": "CURRENT_READBACK"
+}

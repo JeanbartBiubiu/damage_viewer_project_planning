@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-09T14:41:03.255Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_r/parameters",
+  "detailRoute": "/skills/volibear_r/parameters/sweet_spot_base_damage",
+  "skillKey": "volibear_r",
+  "kind": "parameters",
+  "stableKey": "sweet_spot_base_damage",
+  "body": {
+    "parameterKey": "sweet_spot_base_damage",
+    "name": "天声震落压中敌人基础物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 300,
+      "2": 500,
+      "3": 700
+    },
+    "description": "当前根绑定 DataValues.SweetSpotDamage 取索引1至3",
+    "sortOrder": 40
+  }
+}

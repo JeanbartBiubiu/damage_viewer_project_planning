@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-09T14:37:54.640Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_r/formulas",
+  "detailRoute": "/skills/nunu_r/formulas/shield_amount",
+  "skillKey": "nunu_r",
+  "kind": "formulas",
+  "stableKey": "shield_amount",
+  "body": {
+    "formulaKey": "shield_amount",
+    "name": "绝对零度引导护盾数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_shield_amount"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_bonus_hp_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalShieldAmount = BaseShieldAmount + ShieldBonusHealthPercent×来源额外生命值 + 1.5×来源法术强度；护盾分段衰减不在此公式内。",
+    "sortOrder": 10
+  }
+}

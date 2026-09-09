@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:39:10.306Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_q/parameters",
+  "detailRoute": "/skills/sion_q/parameters/maximum_base_damage",
+  "skillKey": "sion_q",
+  "kind": "parameters",
+  "stableKey": "maximum_base_damage",
+  "body": {
+    "parameterKey": "maximum_base_damage",
+    "name": "残虐猛击最高基础物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 90,
+      "2": 155,
+      "3": 220,
+      "4": 285,
+      "5": 350
+    },
+    "description": "当前根绑定 DataValues.HighDamage 取索引1至5",
+    "sortOrder": 70
+  }
+}

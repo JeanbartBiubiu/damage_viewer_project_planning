@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T14:36:36.373Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_q/parameters",
+  "detailRoute": "/skills/nunu_q/parameters/low_health_champion_multiplier",
+  "skillKey": "nunu_q",
+  "kind": "parameters",
+  "stableKey": "low_health_champion_multiplier",
+  "body": {
+    "parameterKey": "low_health_champion_multiplier",
+    "name": "低生命资格成立时的英雄回复倍率",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 1.5,
+    "levelValues": null,
+    "description": "当前正文明确低于阈值时回复增加50%；倍率为1+LowHealthHealingScalar，即1.5，仅在低生命资格成立时使用。",
+    "sortOrder": 80
+  }
+}

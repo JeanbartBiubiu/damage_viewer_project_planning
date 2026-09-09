@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:40:37.035Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_w/parameters",
+  "detailRoute": "/skills/volibear_w/parameters/base_heal",
+  "skillKey": "volibear_w",
+  "kind": "parameters",
+  "stableKey": "base_heal",
+  "body": {
+    "parameterKey": "base_heal",
+    "name": "暴怒撕咬第二次施放基础回复量",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 20,
+      "2": 35,
+      "3": 50,
+      "4": 65,
+      "5": 80
+    },
+    "description": "当前根绑定 DataValues.BaseHeal 取索引1至5",
+    "sortOrder": 90
+  }
+}

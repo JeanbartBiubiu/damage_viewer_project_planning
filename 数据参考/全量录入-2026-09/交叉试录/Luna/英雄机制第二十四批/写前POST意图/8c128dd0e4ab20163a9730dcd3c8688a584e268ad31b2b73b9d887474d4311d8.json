@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:36:49.234Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_w/parameters",
+  "detailRoute": "/skills/nunu_w/parameters/base_damage",
+  "skillKey": "nunu_w",
+  "kind": "parameters",
+  "stableKey": "base_damage",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "史上最大雪球基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 180,
+      "2": 225,
+      "3": 270,
+      "4": 315,
+      "5": 360
+    },
+    "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+    "sortOrder": 40
+  }
+}

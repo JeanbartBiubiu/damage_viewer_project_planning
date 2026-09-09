@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-09T14:38:47.507Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sejuani_r/parameters",
+  "detailRoute": "/skills/sejuani_r/parameters/empowered_base_damage",
+  "skillKey": "sejuani_r",
+  "kind": "parameters",
+  "stableKey": "empowered_base_damage",
+  "body": {
+    "parameterKey": "empowered_base_damage",
+    "name": "极冰寒狱强化基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 200,
+      "2": 300,
+      "3": 400
+    },
+    "description": "当前根绑定 DataValues.EmpoweredBaseDamage 取索引1至3",
+    "sortOrder": 50
+  }
+}

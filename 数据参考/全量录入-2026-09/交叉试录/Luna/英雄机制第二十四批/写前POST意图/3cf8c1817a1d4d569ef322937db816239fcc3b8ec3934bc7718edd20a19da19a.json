@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:38:24.067Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sejuani_w/parameters",
+  "detailRoute": "/skills/sejuani_w/parameters/first_hit_base_damage",
+  "skillKey": "sejuani_w",
+  "kind": "parameters",
+  "stableKey": "first_hit_base_damage",
+  "body": {
+    "parameterKey": "first_hit_base_damage",
+    "name": "凛冬之怒第一段基础物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 5,
+      "2": 15,
+      "3": 25,
+      "4": 35,
+      "5": 45
+    },
+    "description": "当前根绑定 DataValues.BaseDamageOne 取索引1至5",
+    "sortOrder": 60
+  }
+}

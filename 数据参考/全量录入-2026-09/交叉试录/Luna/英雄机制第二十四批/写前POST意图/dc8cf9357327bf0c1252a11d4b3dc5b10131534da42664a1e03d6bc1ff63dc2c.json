@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-09T14:38:10.444Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sejuani_p/formulas",
+  "detailRoute": "/skills/sejuani_p/formulas/armor_break_damage",
+  "skillKey": "sejuani_p",
+  "kind": "formulas",
+  "stableKey": "armor_break_damage",
+  "body": {
+    "formulaKey": "armor_break_damage",
+    "name": "北地之怒破甲后魔法伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "stunned_target_max_hp_damage_ratio"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "target_max_health"
+        }
+      ]
+    },
+    "description": "PercentHPDamage×目标最大生命值；击碎资格和实际伤害结果尚未接线。",
+    "sortOrder": 30
+  }
+}

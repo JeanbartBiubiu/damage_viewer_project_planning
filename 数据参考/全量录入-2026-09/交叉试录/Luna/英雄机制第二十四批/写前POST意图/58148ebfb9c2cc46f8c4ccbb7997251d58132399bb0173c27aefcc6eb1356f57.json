@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-09T14:37:50.197Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_r/parameters",
+  "detailRoute": "/skills/nunu_r/parameters/base_shield_amount",
+  "skillKey": "nunu_r",
+  "kind": "parameters",
+  "stableKey": "base_shield_amount",
+  "body": {
+    "parameterKey": "base_shield_amount",
+    "name": "绝对零度基础护盾值",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 65,
+      "2": 75,
+      "3": 85
+    },
+    "description": "当前根绑定 DataValues.BaseShieldAmount 取索引1至3",
+    "sortOrder": 100
+  }
+}

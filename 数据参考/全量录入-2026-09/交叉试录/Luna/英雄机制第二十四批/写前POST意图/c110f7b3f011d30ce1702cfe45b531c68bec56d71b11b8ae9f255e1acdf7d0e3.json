@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T14:39:12.254Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_q/parameters",
+  "detailRoute": "/skills/sion_q/parameters/slow_ratio",
+  "skillKey": "sion_q",
+  "kind": "parameters",
+  "stableKey": "slow_ratio",
+  "body": {
+    "parameterKey": "slow_ratio",
+    "name": "残虐猛击减速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.8,
+    "levelValues": null,
+    "description": "当前根SlowAmount为负移动速度修正；正文只写暂时减速，取正幅度并保留来源说明。",
+    "sortOrder": 90
+  }
+}
