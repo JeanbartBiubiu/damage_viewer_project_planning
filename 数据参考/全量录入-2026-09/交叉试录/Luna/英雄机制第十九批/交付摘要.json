@@ -1,0 +1,46 @@
+{
+  "status": "候选准备完成，等待主负责人审查；不是实录",
+  "batch": "英雄机制第十九批",
+  "heroes": ["放逐之刃", "暗裔剑魔", "傲之追猎者", "虚空掠夺者"],
+  "skills": 20,
+  "source": "client16.17/official16.17.1",
+  "candidate": {
+    "file": "完整候选.json",
+    "sha256": "cb3dbab26bc3fc5949d1fbc193ac28da71887f0e743c1ead4885a24fc7739824",
+    "planSha256": "457e45032eea0324da2d907c976fc3443e7f21b848bf67eae7e923653e463f02",
+    "parameters": 157,
+    "reusedPublicParameters": 16,
+    "newParameters": 141,
+    "formulas": 25,
+    "effects": 8,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "newComponentIntents": 174
+  },
+  "readOnly": {
+    "snapshot": "写前现值.json",
+    "snapshotSha256": "1954947a6d0afe3d3b41138ad60a11285223814a9ea1843e736518ba74130cd8",
+    "requests": 160,
+    "all200": true,
+    "duplicateKeys": 0,
+    "existingNonPublicComponents": 0,
+    "apiWrites": 0
+  },
+  "independentMath": {
+    "file": "独立源值与算例.json",
+    "sha256": "3743365e786f2110c15481ee59637a8fd31b472e65d91a16f065cea2b5570105",
+    "checks": 50,
+    "passed": 50,
+    "failed": 0
+  },
+  "keyGaps": [
+    "锐雯疾风斩目标已损生命值曲线和三段再施放时窗",
+    "亚托克斯赐死剑气角色等级求值、暗影冲决mStat=12归属和大灭移动速度衰减",
+    "雷恩加尔强化Q/W/E角色等级基础值、骨齿项链层数和击杀卡兹克额外攻击力、残暴值事件、攻击次数与伪装/控制状态",
+    "卡兹克孤立判定、战前进化选择、W自身范围回复、三尖刺显形和击杀助攻重置"
+  ],
+  "businessWrites": 0,
+  "pageAcceptance": false,
+  "battleValidation": false
+}

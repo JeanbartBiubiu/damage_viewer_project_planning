@@ -1,0 +1,1499 @@
+{
+  "at": "2026-09-09T12:33:10.577Z",
+  "runId": "2026-09-09T12-33-10-576Z",
+  "mode": "冻结计划补缺；本次仅在每项写后GET确认后继续",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateFile": "修订一候选.json",
+  "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "candidatePlanSha256": "aa89ecca3c72b8d4bb02a1a87180e7ac6050b5cbf267a484808e0353fd783e64",
+  "candidateVersionFileSha256": "36cafdc0c8fc09f410cdc2c2d835c31d8cf4262df2d01303554a77b7b0a9fc57",
+  "writePlanFileSha256": "aa8c3aa9dd8f22b0f0606b92aaf8048e8bc8df9e88ba7590d1671a8295e85ce1",
+  "freezeSha256": "8c79339da015b246e56871674327c967c0cc1db0c0bdd38e833f34ca8e8fcb97",
+  "expected": {
+    "catalogs": 4,
+    "subjects": 20,
+    "characters": 4,
+    "relations": 4,
+    "images": 20,
+    "lists": 120,
+    "protectedDetails": 16,
+    "candidateComponents": 191,
+    "newComponents": 175,
+    "preflightGetRequests": 188
+  },
+  "candidateCounts": {
+    "parameters": 157,
+    "formulas": 26,
+    "effects": 8,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedPublicParameters": 16,
+  "apiWrites": 175,
+  "calls": {
+    "total": 713,
+    "methods": {
+      "GET": 538,
+      "POST": 175
+    },
+    "statuses": {
+      "200": 363,
+      "201": 175,
+      "404": 175
+    }
+  },
+  "staticChecks": [
+    {
+      "name": "锁文件散列冻结",
+      "passed": true,
+      "detail": "8c79339da015b246e56871674327c967c0cc1db0c0bdd38e833f34ca8e8fcb97"
+    },
+    {
+      "name": "cb3原候选仍保留",
+      "passed": true,
+      "detail": "cb3dbab26bc3fc5949d1fbc193ac28da71887f0e743c1ead4885a24fc7739824"
+    },
+    {
+      "name": "修订一候选文件冻结",
+      "passed": true,
+      "detail": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c"
+    },
+    {
+      "name": "修订一版本文件冻结",
+      "passed": true,
+      "detail": "36cafdc0c8fc09f410cdc2c2d835c31d8cf4262df2d01303554a77b7b0a9fc57"
+    },
+    {
+      "name": "修订一计划文件冻结",
+      "passed": true,
+      "detail": "aa8c3aa9dd8f22b0f0606b92aaf8048e8bc8df9e88ba7590d1671a8295e85ce1"
+    },
+    {
+      "name": "修订一数学文件冻结",
+      "passed": true,
+      "detail": "63a23e737a1bf08cc127ab7f5a885bdb122d891633156332578dee3f854f7376"
+    },
+    {
+      "name": "修订一保护文件冻结",
+      "passed": true,
+      "detail": {
+        "protection": "ae5a5428d695ec424ef1fb1c232fa0e8f7893bc30279fa20d5e7af345fa10563",
+        "summary": "6cb4ed16037995baea34c535665d68a1b39dc117e681850816e2ae5d5fed967b"
+      }
+    },
+    {
+      "name": "原始160GET快照冻结",
+      "passed": true,
+      "detail": "1954947a6d0afe3d3b41138ad60a11285223814a9ea1843e736518ba74130cd8"
+    },
+    {
+      "name": "锁内核心散列一致",
+      "passed": true,
+      "detail": {
+        "candidate": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+        "plan": "aa89ecca3c72b8d4bb02a1a87180e7ac6050b5cbf267a484808e0353fd783e64",
+        "writePlan": "aa8c3aa9dd8f22b0f0606b92aaf8048e8bc8df9e88ba7590d1671a8295e85ce1",
+        "math": "63a23e737a1bf08cc127ab7f5a885bdb122d891633156332578dee3f854f7376",
+        "protection": "ae5a5428d695ec424ef1fb1c232fa0e8f7893bc30279fa20d5e7af345fa10563"
+      }
+    },
+    {
+      "name": "锁内冻结原字节未漂移",
+      "passed": true,
+      "detail": 11
+    },
+    {
+      "name": "锁定文件未漂移 修订一生成候选.mjs",
+      "passed": true,
+      "detail": "6e751aa1cf2c5fd638c7a512fcec3a0a94bbb3dae4b61f5ea437b586f118c323"
+    },
+    {
+      "name": "锁定文件未漂移 修订一独立来源与算例.mjs",
+      "passed": true,
+      "detail": "899236ffb0628fcd091051fce8efcd15c695a3cb983e1ff52bbcc7d2cafa3502"
+    },
+    {
+      "name": "锁定文件未漂移 修订一写前保护.mjs",
+      "passed": true,
+      "detail": "4025db7ae55991adf0fcb929cc5e7d8a4cf275da65f1f26e796b9d66d8e15ef1"
+    },
+    {
+      "name": "锁定文件未漂移 修订一生成写前计划.mjs",
+      "passed": true,
+      "detail": "13e95baa5db6b32f13cb6a0a9c6f18704dcaa11c7befee8341e07c711b501116"
+    },
+    {
+      "name": "锁定文件未漂移 修订一候选.json",
+      "passed": true,
+      "detail": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c"
+    },
+    {
+      "name": "锁定文件未漂移 修订一候选版本.json",
+      "passed": true,
+      "detail": "36cafdc0c8fc09f410cdc2c2d835c31d8cf4262df2d01303554a77b7b0a9fc57"
+    },
+    {
+      "name": "锁定文件未漂移 修订一写前保护.json",
+      "passed": true,
+      "detail": "ae5a5428d695ec424ef1fb1c232fa0e8f7893bc30279fa20d5e7af345fa10563"
+    },
+    {
+      "name": "锁定文件未漂移 修订一写前保护摘要.json",
+      "passed": true,
+      "detail": "6cb4ed16037995baea34c535665d68a1b39dc117e681850816e2ae5d5fed967b"
+    },
+    {
+      "name": "锁定文件未漂移 修订一写前计划.json",
+      "passed": true,
+      "detail": "aa8c3aa9dd8f22b0f0606b92aaf8048e8bc8df9e88ba7590d1671a8295e85ce1"
+    },
+    {
+      "name": "锁定文件未漂移 修订一独立源值与算例.json",
+      "passed": true,
+      "detail": "63a23e737a1bf08cc127ab7f5a885bdb122d891633156332578dee3f854f7376"
+    },
+    {
+      "name": "锁定文件未漂移 修订一独立源值与算例.txt",
+      "passed": true,
+      "detail": "6d2ab7b7752932f389aaddb55034ccc36043f48dd739361fecd8d5c252079dc3"
+    },
+    {
+      "name": "锁定文件未漂移 完整候选.json",
+      "passed": true,
+      "detail": "cb3dbab26bc3fc5949d1fbc193ac28da71887f0e743c1ead4885a24fc7739824"
+    },
+    {
+      "name": "锁定文件未漂移 候选版本.json",
+      "passed": true,
+      "detail": "1e255bdeec6885ba4638a23221670ba013e62d9ae48b730a6d6b008e0a443d46"
+    },
+    {
+      "name": "锁定文件未漂移 独立源值与算例.json",
+      "passed": true,
+      "detail": "3743365e786f2110c15481ee59637a8fd31b472e65d91a16f065cea2b5570105"
+    },
+    {
+      "name": "锁定文件未漂移 写前现值.json",
+      "passed": true,
+      "detail": "1954947a6d0afe3d3b41138ad60a11285223814a9ea1843e736518ba74130cd8"
+    },
+    {
+      "name": "锁定文件未漂移 根绑定与数值证据.json",
+      "passed": true,
+      "detail": "30779f022bcf82a87191627db649a59d8f7c771c0f0e330d31194025ce8d8a30"
+    },
+    {
+      "name": "锁定文件未漂移 补充文本证据.json",
+      "passed": true,
+      "detail": "4dfc340298b6408aa3ea3b2f90465c8ffda30d3dfb48685bd7451a06765a827b"
+    },
+    {
+      "name": "锁定文件未漂移 来源冻结/来源与哈希汇总.json",
+      "passed": true,
+      "detail": "f16f184de98dce45197907b50626f96dbb6c0f3b8e8d6d3302aaa681f9f9b5fc"
+    },
+    {
+      "name": "锁定文件未漂移 来源冻结/主技能数值展开.json",
+      "passed": true,
+      "detail": "6f0e82df49c3c2f2de8839f7a8dd8f04f4c2023da7e5ba55ffc711b77ae15c88"
+    },
+    {
+      "name": "锁定文件未漂移 来源冻结/主技能原始展开.json",
+      "passed": true,
+      "detail": "bb2bc46778681c5a82cf2e5e42e3587c1b8df4a143818c5e77f181f11e7646b5"
+    },
+    {
+      "name": "锁定文件未漂移 当前候选状态.json",
+      "passed": true,
+      "detail": "e770acbdc39f1ebad80253079e0bc7eef74fb93ba4117e730db43ff2bcc90229"
+    },
+    {
+      "name": "数学独立核算55项全通过",
+      "passed": true,
+      "detail": {
+        "checkCount": 55,
+        "failedChecks": 0,
+        "runtimeInputCount": 27
+      }
+    },
+    {
+      "name": "修订一计划175新增16复用",
+      "passed": true,
+      "detail": {
+        "requestCount": 175,
+        "reused": 16,
+        "businessWrites": 0,
+        "apiCalls": 0
+      }
+    },
+    {
+      "name": "保护证据188次GET全200",
+      "passed": true,
+      "detail": {
+        "at": "2026-09-09T12:06:20.570Z",
+        "mode": "修订一写前保护；全部请求为GET；完整保存20主体、120列表、已有公共详情及角色、关系、图片、共享目录；不写业务接口",
+        "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+        "sourceVersion": "client16.17/official16.17.1",
+        "requestCount": 188,
+        "expectedRequestCount": 188,
+        "statusCounts": {
+          "200": 188
+        },
+        "subjectCount": 20,
+        "sixKindLists": 120,
+        "compositionCount": 16,
+        "detailCount": 16,
+        "countsByKind": {
+          "parameters": 16,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "existingNonPublicCount": 0,
+        "baselineConflictCount": 0,
+        "duplicateCount": 0,
+        "errorCount": 0,
+        "apiWrites": 0,
+        "snapshotSha256": "ae5a5428d695ec424ef1fb1c232fa0e8f7893bc30279fa20d5e7af345fa10563",
+        "noWrites": true
+      }
+    },
+    {
+      "name": "保护证据16公共详情且无非公共组成",
+      "passed": true,
+      "detail": {
+        "detailCount": 16,
+        "existingNonPublicCount": 0
+      }
+    },
+    {
+      "name": "候选20技能槽顺序冻结",
+      "passed": true,
+      "detail": [
+        "riven_p",
+        "riven_q",
+        "riven_w",
+        "riven_e",
+        "riven_r",
+        "aatrox_p",
+        "aatrox_q",
+        "aatrox_w",
+        "aatrox_e",
+        "aatrox_r",
+        "rengar_p",
+        "rengar_q",
+        "rengar_w",
+        "rengar_e",
+        "rengar_r",
+        "khazix_p",
+        "khazix_q",
+        "khazix_w",
+        "khazix_e",
+        "khazix_r"
+      ]
+    },
+    {
+      "name": "候选六类计数冻结",
+      "passed": true,
+      "detail": {
+        "parameters": 157,
+        "formulas": 26,
+        "effects": 8,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "锁内计数和新增意图冻结",
+      "passed": true,
+      "detail": {
+        "counts": {
+          "parameters": 157,
+          "formulas": 26,
+          "effects": 8,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "totalNewRequests": 175,
+        "reusedPublicParameters": 16
+      }
+    },
+    {
+      "name": "实际类型和结构字典无未知值",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "写入树不含MOMENT_EVALUATION",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "写入树不含actual_missing_health",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "写入树不含damage_tick_interval_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "写入树不含single_target_eligibility_lower_bound",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "写入树不含armor_shred_percent",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "写入树不含即时伤害或治疗",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Aatrox E比例含根0.01换算",
+      "passed": true,
+      "detail": {
+        "valueMode": "FIXED",
+        "fixedValue": 0.00011
+      }
+    },
+    {
+      "name": "Aatrox E完整公式使用SOURCE.hp.BONUS",
+      "passed": true,
+      "detail": [
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "SOURCE",
+          "attributeKey": "hp",
+          "attributeValueKind": "BONUS"
+        }
+      ]
+    },
+    {
+      "name": "Aatrox P实际命中伤害拒绝默认",
+      "passed": true,
+      "detail": {
+        "parameterKey": "passive_actual_damage",
+        "name": "赐死剑气本次实际命中伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "正文明确回复PHealingRatio×100%的实际伤害值；由本次命中结算提供，不采用最大生命值折前量，不设默认。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "name": "Rengar R护甲削减固定点数",
+      "passed": true,
+      "detail": {
+        "parameterKey": "armor_shred_points",
+        "name": "跃击目标固定护甲削减点数",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 15,
+          "2": 20,
+          "3": 25
+        },
+        "description": "当前根绑定 DataValues.ArmorShred 取索引1至3",
+        "sortOrder": 80
+      }
+    },
+    {
+      "name": "Rengar纯视野字段未写入",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "攻击力属性映射 riven_w/total_damage",
+      "passed": true,
+      "detail": [
+        "BONUS"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 riven_e/total_shield",
+      "passed": true,
+      "detail": [
+        "BONUS"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 riven_r/wind_slash_min_damage",
+      "passed": true,
+      "detail": [
+        "BONUS"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 riven_r/wind_slash_max_damage",
+      "passed": true,
+      "detail": [
+        "BONUS"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 rengar_e/total_damage",
+      "passed": true,
+      "detail": [
+        "BONUS"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 rengar_e/total_empowered_damage",
+      "passed": true,
+      "detail": [
+        "BONUS"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 khazix_p/passive_damage",
+      "passed": true,
+      "detail": [
+        "BONUS"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 khazix_q/base_damage",
+      "passed": true,
+      "detail": [
+        "BONUS"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 khazix_w/base_damage",
+      "passed": true,
+      "detail": [
+        "BONUS"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 khazix_e/total_damage",
+      "passed": true,
+      "detail": [
+        "BONUS"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 riven_q/first_slash_damage",
+      "passed": true,
+      "detail": [
+        "TOTAL"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 riven_r/bonus_attack_damage",
+      "passed": true,
+      "detail": [
+        "TOTAL"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 aatrox_q/q_damage",
+      "passed": true,
+      "detail": [
+        "TOTAL"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 aatrox_w/w_damage",
+      "passed": true,
+      "detail": [
+        "TOTAL"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 rengar_q/q_total_damage",
+      "passed": true,
+      "detail": [
+        "TOTAL",
+        "TOTAL"
+      ]
+    },
+    {
+      "name": "攻击力属性映射 rengar_q/empowered_q_total_damage",
+      "passed": true,
+      "detail": [
+        "TOTAL",
+        "TOTAL"
+      ]
+    },
+    {
+      "name": "候选组成键唯一",
+      "passed": true,
+      "detail": {
+        "entries": 191,
+        "unique": 191
+      }
+    },
+    {
+      "name": "写前计划175项全为允许POST",
+      "passed": true,
+      "detail": {
+        "requests": 175,
+        "methods": [
+          "POST"
+        ],
+        "kinds": [
+          "parameters",
+          "formulas",
+          "effects"
+        ]
+      }
+    },
+    {
+      "name": "计划对象冻结 riven_p/parameters/charge_max",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_p/parameters/charge_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_p/parameters/passive_damage_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_p/formulas/passive_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_q/parameters/base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_q/parameters/ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_q/parameters/recast_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_q/parameters/third_recast_knockup_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_q/formulas/first_slash_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_w/parameters/base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_w/parameters/stun_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_w/formulas/total_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_e/parameters/shield_base",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_e/parameters/shield_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_e/parameters/shield_ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_e/formulas/total_shield",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_e/effects/shield",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/parameters/wind_slash_min_base",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/parameters/wind_slash_max_base",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/parameters/blade_empower_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/parameters/bonus_ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/parameters/attack_range_bonus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/parameters/wind_slash_recast_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/parameters/wind_slash_min_ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/parameters/wind_slash_max_ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/formulas/bonus_attack_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/formulas/wind_slash_min_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/formulas/wind_slash_max_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/effects/attack_damage_bonus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 riven_r/effects/attack_range_bonus",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_p/parameters/passive_damage_max_health_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_p/parameters/target_max_health",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_p/parameters/passive_healing_damage_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_p/parameters/passive_actual_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_p/parameters/passive_cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_p/parameters/champion_hit_cooldown_reduction_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_p/parameters/q_edge_cooldown_reduction_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_p/formulas/passive_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_p/formulas/passive_healing",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_q/parameters/base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_q/parameters/total_ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_q/parameters/edge_knockup_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_q/parameters/recast_damage_bonus_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_q/parameters/edge_damage_multiplier",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_q/formulas/q_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_q/formulas/q_edge_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_w/parameters/base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_w/parameters/total_ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_w/parameters/slow_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_w/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_w/formulas/w_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_e/parameters/base_healing_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_e/parameters/bonus_healing_ratio_per_bonus_health",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_e/formulas/total_healing_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_r/parameters/form_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_r/parameters/movement_speed_bonus_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_r/parameters/attack_damage_amp_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_r/parameters/healing_amp_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_r/parameters/takedown_extension_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 aatrox_r/effects/attack_damage_amp",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_p/parameters/max_ferocity",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_p/parameters/out_of_combat_reset_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_p/parameters/empowered_move_speed_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_p/parameters/leap_ferocity_gain",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_p/parameters/empowered_move_speed_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_p/parameters/non_ultimate_ferocity_gain",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_p/parameters/ferocity_at_cast",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_p/parameters/bonetooth_necklace_attack_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_p/parameters/khazix_takedown_attack_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/ammo_recharge_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/ammo_max",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/ferocity_gain",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/ferocity_at_cast",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/base_ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/empowered_ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/empowered_attack_speed_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/attack_speed_bonus_percent_points",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/attack_speed_buff_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/empowered_q_level_base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/parameters/empowered_attack_speed_percent_points",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/formulas/q_total_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_q/formulas/empowered_q_total_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/parameters/ammo_recharge_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/parameters/ammo_max",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/parameters/ferocity_gain",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/parameters/ferocity_at_cast",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/parameters/base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/parameters/ap_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/parameters/empowered_ap_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/parameters/recent_damage_heal_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/parameters/healing_window_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/parameters/empowered_w_level_base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/parameters/recent_damage_taken",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/formulas/total_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/formulas/total_damage_empowered",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_w/formulas/recent_damage_heal",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_e/parameters/ammo_recharge_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_e/parameters/ammo_max",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_e/parameters/ferocity_gain",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_e/parameters/ferocity_at_cast",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_e/parameters/base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_e/parameters/bonus_ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_e/parameters/slow_percent_points",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_e/parameters/crowd_control_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_e/parameters/empowered_e_level_base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_e/formulas/total_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_e/formulas/total_empowered_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_r/parameters/stealth_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_r/parameters/enemy_detection_range",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_r/parameters/self_reveal_range",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_r/parameters/movement_speed_percent_points",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_r/parameters/fade_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_r/parameters/armor_shred_points",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_r/parameters/armor_shred_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 rengar_r/parameters/leap_range",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_p/parameters/unseen_by_enemy",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_p/parameters/isolated_target_eligible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_p/parameters/slow_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_p/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_p/parameters/isolation_range",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_p/parameters/bonus_ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_p/parameters/passive_level_base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_p/formulas/passive_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_q/parameters/base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_q/parameters/bonus_ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_q/parameters/evolved_isolated_cooldown_refund_percent_points",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_q/parameters/isolated_target_eligible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_q/parameters/evolution_selected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_q/parameters/isolated_damage_multiplier",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_q/formulas/base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_q/formulas/isolated_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_q/effects/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/parameters/base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/parameters/base_heal",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/parameters/heal_ap_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/parameters/slow_percent_points",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/parameters/isolated_slow_percent_points",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/parameters/isolated_slow_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/parameters/self_inside_burst_radius",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/parameters/isolated_target_eligible",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/parameters/evolution_selected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/formulas/base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/formulas/heal_amount",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_w/effects/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_e/parameters/base_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_e/parameters/ad_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_e/parameters/evolved_leap_range",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_e/parameters/evolved_leap_bonus_range",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_e/parameters/evolution_selected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_e/formulas/total_damage",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_e/effects/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_r/parameters/stealth_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_r/parameters/recast_window_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_r/parameters/movement_speed_bonus_ratio",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_r/parameters/evolutions_available",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_r/parameters/evolved_stealth_duration_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_r/parameters/recast_cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_r/parameters/normal_cast_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_r/parameters/evolved_cast_count",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_r/parameters/evolution_selected",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象冻结 khazix_r/effects/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划复用公共参数16项唯一",
+      "passed": true,
+      "detail": [
+        "riven_q/parameters/cooldown_ms",
+        "riven_w/parameters/cooldown_ms",
+        "riven_e/parameters/cooldown_ms",
+        "riven_r/parameters/cooldown_ms",
+        "aatrox_q/parameters/cooldown_ms",
+        "aatrox_w/parameters/cooldown_ms",
+        "aatrox_e/parameters/cooldown_ms",
+        "aatrox_r/parameters/cooldown_ms",
+        "rengar_r/parameters/cooldown_ms",
+        "khazix_q/parameters/cooldown_ms",
+        "khazix_q/parameters/mana_cost",
+        "khazix_w/parameters/cooldown_ms",
+        "khazix_w/parameters/mana_cost",
+        "khazix_e/parameters/cooldown_ms",
+        "khazix_e/parameters/mana_cost",
+        "khazix_r/parameters/mana_cost"
+      ]
+    }
+  ],
+  "staticFailures": [],
+  "preflight": {
+    "pass": true,
+    "getRequests": 188,
+    "expectedGetRequests": 188,
+    "statusCounts": {
+      "200": 188
+    },
+    "protectionConflicts": [],
+    "existingNonPublic": 0,
+    "current": {
+      "counts": {
+        "parameters": 16,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "details": 16
+    },
+    "missing": 175,
+    "missingByKind": {
+      "parameters": 141,
+      "formulas": 26,
+      "effects": 8,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "apiWrites": 0
+  },
+  "apply": {
+    "startedAt": "2026-09-09T12:33:22.339Z",
+    "confirmed": 175,
+    "postCount": 175,
+    "skippedExisting": 0,
+    "stopped": false,
+    "stopReason": null,
+    "finishedAt": "2026-09-09T12:36:26.855Z"
+  },
+  "errors": [],
+  "success": true,
+  "writeEvents": 351,
+  "nextStep": "写入器已完成逐项写后GET；必须另行运行修订一独立全量回读.mjs进行全量363次GET和独立数学核算。",
+  "finishedAt": "2026-09-09T12:36:26.856Z"
+}

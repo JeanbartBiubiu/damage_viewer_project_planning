@@ -1,0 +1,479 @@
+{
+  "generatedAt": "2026-09-09T10:51:18.313Z",
+  "sourceIndex": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\技能来源索引.json",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整客户端对象、计算树、数据值和官方16.17.1正文均保留。本批不以同名旧技能替代根绑定。",
+  "heroes": [
+    {
+      "id": "Riven",
+      "chineseName": "放逐之刃",
+      "officialResourceType": "无",
+      "rootPath": "Characters/Riven/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Riven.json.gz",
+        "sha256": "9086aba7fcafaafc6563b3a7ee5c5997d9d48198c7fd55fd0294457e7b244166",
+        "compressedSha256": "9887a4267c3328aac0d237d67ff20991b78ffeaf955b2f05fff2c7a365605a3b",
+        "byteSize": 51598,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/riven/riven.bin.json",
+        "fetchedAt": "2026-09-06T14:26:35.129Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Riven.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Riven.json",
+        "fetchedAt": "2026-09-06T14:12:52.561Z",
+        "byteSize": 14489,
+        "sha256": "d376561f803515c9d703b3da1f2eb1133569b2b111b1c063708ad7213fb26d6f"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "riven_p",
+          "binding": "Characters/Riven/Spells/RivenPassiveAbility/RivenPassive",
+          "name": "符文之刃",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null
+        },
+        {
+          "slot": "Q",
+          "skillKey": "riven_q",
+          "binding": "Characters/Riven/Spells/RivenTriCleaveAbility/RivenTriCleave",
+          "name": "折翼之舞",
+          "maxrank": 5,
+          "officialCooldown": [
+            13,
+            13,
+            13,
+            13,
+            13
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "无消耗"
+        },
+        {
+          "slot": "W",
+          "skillKey": "riven_w",
+          "binding": "Characters/Riven/Spells/RivenMartyrAbility/RivenMartyr",
+          "name": "震魂怒吼",
+          "maxrank": 5,
+          "officialCooldown": [
+            11,
+            10,
+            9,
+            8,
+            7
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "无消耗"
+        },
+        {
+          "slot": "E",
+          "skillKey": "riven_e",
+          "binding": "Characters/Riven/Spells/RivenFeintAbility/RivenFeint",
+          "name": "勇往直前",
+          "maxrank": 5,
+          "officialCooldown": [
+            10,
+            9,
+            8,
+            7,
+            6
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "无消耗"
+        },
+        {
+          "slot": "R",
+          "skillKey": "riven_r",
+          "binding": "Characters/Riven/Spells/RivenFengShuiEngineAbility/RivenFengShuiEngine",
+          "name": "放逐之锋",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            90,
+            60
+          ],
+          "officialCost": [
+            0,
+            0,
+            0
+          ],
+          "officialResource": "无消耗"
+        }
+      ]
+    },
+    {
+      "id": "Aatrox",
+      "chineseName": "暗裔剑魔",
+      "officialResourceType": "鲜血魔井",
+      "rootPath": "Characters/Aatrox/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Aatrox.json.gz",
+        "sha256": "0dc8e69b6728db5e4d49188c4cc54e0c80500038f71b03eb3fca04182ce25ee2",
+        "compressedSha256": "e49be625520604793640c74463a7c446214f481246ab799e98f59534954bf4b6",
+        "byteSize": 57409,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/aatrox/aatrox.bin.json",
+        "fetchedAt": "2026-09-06T14:26:11.496Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Aatrox.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Aatrox.json",
+        "fetchedAt": "2026-09-06T14:12:43.892Z",
+        "byteSize": 12160,
+        "sha256": "d5d1a0d9ca8bf46300e6364aabc10b2bb8148a36d2df34b30023e0ed0626fbbf"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "aatrox_p",
+          "binding": "Characters/Aatrox/Spells/AatroxPassiveAbility/AatroxPassive",
+          "name": "赐死剑气",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null
+        },
+        {
+          "slot": "Q",
+          "skillKey": "aatrox_q",
+          "binding": "Characters/Aatrox/Spells/AatroxQAbility/AatroxQ",
+          "name": "暗裔利刃",
+          "maxrank": 5,
+          "officialCooldown": [
+            14,
+            12,
+            10,
+            8,
+            6
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "无消耗"
+        },
+        {
+          "slot": "W",
+          "skillKey": "aatrox_w",
+          "binding": "Characters/Aatrox/Spells/AatroxWAbility/AatroxW",
+          "name": "恶火束链",
+          "maxrank": 5,
+          "officialCooldown": [
+            20,
+            18,
+            16,
+            14,
+            12
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "无消耗"
+        },
+        {
+          "slot": "E",
+          "skillKey": "aatrox_e",
+          "binding": "Characters/Aatrox/Spells/AatroxEAbility/AatroxE",
+          "name": "暗影冲决",
+          "maxrank": 5,
+          "officialCooldown": [
+            9,
+            8,
+            7,
+            6,
+            5
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "无消耗"
+        },
+        {
+          "slot": "R",
+          "skillKey": "aatrox_r",
+          "binding": "Characters/Aatrox/Spells/AatroxRAbility/AatroxR",
+          "name": "大灭",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            100,
+            80
+          ],
+          "officialCost": [
+            0,
+            0,
+            0
+          ],
+          "officialResource": "无消耗"
+        }
+      ]
+    },
+    {
+      "id": "Rengar",
+      "chineseName": "傲之追猎者",
+      "officialResourceType": "残暴",
+      "rootPath": "Characters/Rengar/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Rengar.json.gz",
+        "sha256": "3753f99ebe03c3b8101abe73ffdfb85d2f7eab3dd8926d4d01f2983333979a0a",
+        "compressedSha256": "0a9b6dbf489d34bd6572a05bc5aa5547502c841560ecdfcec2288869b33d7b9e",
+        "byteSize": 80069,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/rengar/rengar.bin.json",
+        "fetchedAt": "2026-09-06T14:26:35.202Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Rengar.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Rengar.json",
+        "fetchedAt": "2026-09-06T14:12:52.223Z",
+        "byteSize": 14518,
+        "sha256": "7d02438c643ff741f003c5e7a9ff010715a07b09570c2f4ed7cf6dfd2dbd49d2"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "rengar_p",
+          "binding": "Characters/Rengar/Spells/RengarPassiveAbility/RengarPassive",
+          "name": "无形掠食者",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null
+        },
+        {
+          "slot": "Q",
+          "skillKey": "rengar_q",
+          "binding": "Characters/Rengar/Spells/RengarQAbility/RengarQ",
+          "name": "残忍无情",
+          "maxrank": 5,
+          "officialCooldown": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "产生1点残暴值"
+        },
+        {
+          "slot": "W",
+          "skillKey": "rengar_w",
+          "binding": "Characters/Rengar/Spells/RengarWAbility/RengarW",
+          "name": "战争咆哮",
+          "maxrank": 5,
+          "officialCooldown": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "产生1点残暴值"
+        },
+        {
+          "slot": "E",
+          "skillKey": "rengar_e",
+          "binding": "Characters/Rengar/Spells/RengarEAbility/RengarE",
+          "name": "套索打击",
+          "maxrank": 5,
+          "officialCooldown": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "officialCost": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "officialResource": "产生1点残暴值"
+        },
+        {
+          "slot": "R",
+          "skillKey": "rengar_r",
+          "binding": "Characters/Rengar/Spells/RengarRAbility/RengarR",
+          "name": "狩猎律动",
+          "maxrank": 3,
+          "officialCooldown": [
+            100,
+            90,
+            80
+          ],
+          "officialCost": [
+            0,
+            0,
+            0
+          ],
+          "officialResource": "无消耗"
+        }
+      ]
+    },
+    {
+      "id": "Khazix",
+      "chineseName": "虚空掠夺者",
+      "officialResourceType": "法力",
+      "rootPath": "Characters/Khazix/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Khazix.json.gz",
+        "sha256": "eb0260dc4ade1ee4782ee67caecb7c529929d34607ba9cdfe99fe917dada9205",
+        "compressedSha256": "27099cd3d8ff81fd890844a076eca5a035fc7fdc5154ab07a69afc911f0487bb",
+        "byteSize": 66963,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/khazix/khazix.bin.json",
+        "fetchedAt": "2026-09-06T14:26:24.066Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Khazix.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Khazix.json",
+        "fetchedAt": "2026-09-06T14:12:48.813Z",
+        "byteSize": 15300,
+        "sha256": "9c69f8bf69df86ba09431dc7878932c7fc4144b1cb493fb691edda69418acc90"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "khazix_p",
+          "binding": "Characters/Khazix/Spells/KhazixPassiveAbility/KhazixPassive",
+          "name": "无形威胁",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null
+        },
+        {
+          "slot": "Q",
+          "skillKey": "khazix_q",
+          "binding": "Characters/Khazix/Spells/KhazixQAbility/KhazixQ",
+          "name": "品尝恐惧",
+          "maxrank": 5,
+          "officialCooldown": [
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "officialCost": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "W",
+          "skillKey": "khazix_w",
+          "binding": "Characters/Khazix/Spells/KhazixWAbility/KhazixW",
+          "name": "虚空突刺",
+          "maxrank": 5,
+          "officialCooldown": [
+            9,
+            9,
+            9,
+            9,
+            9
+          ],
+          "officialCost": [
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "E",
+          "skillKey": "khazix_e",
+          "binding": "Characters/Khazix/Spells/KhazixEAbility/KhazixE",
+          "name": "跃击",
+          "maxrank": 5,
+          "officialCooldown": [
+            20,
+            18,
+            16,
+            14,
+            12
+          ],
+          "officialCost": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        {
+          "slot": "R",
+          "skillKey": "khazix_r",
+          "binding": "Characters/Khazix/Spells/KhazixRAbility/KhazixR",
+          "name": "虚空来袭",
+          "maxrank": 3,
+          "officialCooldown": [
+            100,
+            85,
+            70
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      ]
+    }
+  ]
+}

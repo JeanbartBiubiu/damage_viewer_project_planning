@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T12:36:09.514Z",
+  "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "method": "POST",
+  "route": "/skills/khazix_e/effects",
+  "detailRoute": "/skills/khazix_e/effects/mana_cost",
+  "skillKey": "khazix_e",
+  "kind": "effects",
+  "id": "mana_cost",
+  "body": {
+    "effectKey": "mana_cost",
+    "name": "施放法力消耗",
+    "description": "仅记录官方基础法力消耗；实际扣除资格、扣除时点与资源不足处理尚未接线。",
+    "sortOrder": 10,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "consume_mana",
+        "name": "消耗法力",
+        "resultType": "RESOURCE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "mana",
+          "operation": "CONSUME"
+        }
+      }
+    ]
+  }
+}

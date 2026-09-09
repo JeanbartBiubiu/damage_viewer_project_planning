@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T12:34:15.774Z",
+  "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "method": "POST",
+  "route": "/skills/aatrox_w/formulas",
+  "detailRoute": "/skills/aatrox_w/formulas/w_damage",
+  "skillKey": "aatrox_w",
+  "kind": "formulas",
+  "id": "w_damage",
+  "body": {
+    "formulaKey": "w_damage",
+    "name": "恶火束链物理伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "total_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "WDamage = WBaseDamage + WTotalADRatio×来源总攻击力。",
+    "sortOrder": 10
+  }
+}

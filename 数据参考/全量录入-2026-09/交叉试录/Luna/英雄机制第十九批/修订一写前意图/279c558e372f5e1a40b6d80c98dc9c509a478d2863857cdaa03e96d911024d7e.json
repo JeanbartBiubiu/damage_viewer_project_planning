@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-09T12:34:23.617Z",
+  "candidateSha256": "bb0306ca12eadabdad3d05aacb606b347bd393ffc7aa17205da345e3da08e97c",
+  "method": "POST",
+  "route": "/skills/aatrox_r/parameters",
+  "detailRoute": "/skills/aatrox_r/parameters/healing_amp_ratio",
+  "skillKey": "aatrox_r",
+  "kind": "parameters",
+  "id": "healing_amp_ratio",
+  "body": {
+    "parameterKey": "healing_amp_ratio",
+    "name": "大灭自我治疗效果提升比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.5,
+      "2": 0.75,
+      "3": 1
+    },
+    "description": "当前根绑定 DataValues.RHealingAmp 取索引1至3",
+    "sortOrder": 50
+  }
+}

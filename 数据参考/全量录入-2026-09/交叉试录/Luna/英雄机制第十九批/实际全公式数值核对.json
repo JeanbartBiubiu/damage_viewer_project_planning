@@ -1,0 +1,2263 @@
+{
+  "generatedAt": "2026-09-09T13:00:07.315Z",
+  "mode": "只读本地写后独立全量快照；不访问接口、不写业务数据",
+  "source": "client16.17/official16.17.1",
+  "snapshotPath": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十九批\\修订一独立回读\\2026-09-09T12-36-35-368Z\\独立全量回读.json",
+  "snapshotSha256": "292923bbe1b8b4ef487e5f0adcf7ccb439c216c99a7098bbfae57d1b1668780d",
+  "sourceEvidencePath": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十九批\\根绑定与数值证据.json",
+  "sourceEvidenceSha256": "30779f022bcf82a87191627db649a59d8f7c771c0f0e330d31194025ce8d8a30",
+  "textEvidencePath": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十九批\\补充文本证据.json",
+  "textEvidenceSha256": "4dfc340298b6408aa3ea3b2f90465c8ffda30d3dfb48685bd7451a06765a827b",
+  "formulaCount": 26,
+  "expectedFormulaCount": 26,
+  "groupsPerFormula": 2,
+  "formulasWithDistinctGroups": 26,
+  "missingInputChecks": 32,
+  "runtimeInputsWithoutDefaults": [],
+  "runtimeInputCount": 27,
+  "results": [
+    {
+      "skillKey": "riven_p",
+      "formulaKey": "passive_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_damage_ratio"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "sourceProof": {
+        "stat": 2,
+        "start": 0.30000001192092896,
+        "end": 0.44999998807907104,
+        "sourceTextLength": 247
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "passive_damage_ratio": 0.3
+            },
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 200
+            }
+          },
+          "actual": 60,
+          "expected": 60,
+          "delta": 0
+        },
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "passive_damage_ratio": 0.45
+            },
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 250
+            }
+          },
+          "actual": 112.5,
+          "expected": 112.5,
+          "delta": 0
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "PARAMETER",
+            "key": "passive_damage_ratio"
+          },
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "PARAMETER",
+              "key": "passive_damage_ratio"
+            },
+            "rejected": true,
+            "error": "Error: 缺少运行输入 riven_p/passive_damage_ratio"
+          },
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:TOTAL"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "riven_q",
+      "formulaKey": "first_slash_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "calculationType": "GameCalculation",
+        "baseDataValue": "BaseDamage",
+        "ratioDataValue": "ADRatio",
+        "stat": 2,
+        "statFormula": 2
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 3,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 200
+            }
+          },
+          "actual": 245,
+          "expected": 244.9999976158142,
+          "delta": 0.000002384185791015625
+        },
+        {
+          "context": {
+            "level": 3,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 250
+            }
+          },
+          "actual": 280,
+          "expected": 279.99999701976776,
+          "delta": 0.0000029802322387695312
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:TOTAL"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "riven_w",
+      "formulaKey": "total_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "BONUS",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "stat": 2,
+        "statFormula": 2,
+        "coefficient": 1,
+        "baseDataValue": "BaseDamage"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 100
+            }
+          },
+          "actual": 285,
+          "expected": 285,
+          "delta": 0
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 200
+            }
+          },
+          "actual": 385,
+          "expected": 385,
+          "delta": 0
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:BONUS"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "riven_e",
+      "formulaKey": "total_shield",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shield_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "stat": 2,
+        "statFormula": 2,
+        "coefficient": 1.100000023841858,
+        "baseDataValue": "ShieldAmount"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 100
+            }
+          },
+          "actual": 280,
+          "expected": 280,
+          "delta": 0
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 200
+            }
+          },
+          "actual": 390,
+          "expected": 390,
+          "delta": 0
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:BONUS"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "riven_r",
+      "formulaKey": "bonus_attack_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_ad_ratio"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "TOTAL",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "sourceProof": {
+        "stat": 2,
+        "dataValue": "PercentBonusAD",
+        "sourceRank3": 0.20000000298023224
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 3,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 200
+            }
+          },
+          "actual": 40,
+          "expected": 40.00000059604645,
+          "delta": -5.960464477539062e-7
+        },
+        {
+          "context": {
+            "level": 3,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 250
+            }
+          },
+          "actual": 50,
+          "expected": 50.00000074505806,
+          "delta": -7.450580596923828e-7
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:TOTAL"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "riven_r",
+      "formulaKey": "wind_slash_min_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "wind_slash_min_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "wind_slash_min_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "stat": 2,
+        "statFormula": 2,
+        "coefficient": 0.550000011920929,
+        "baseDataValue": "MinBase"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 3,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 100
+            }
+          },
+          "actual": 255,
+          "expected": 255,
+          "delta": 0
+        },
+        {
+          "context": {
+            "level": 3,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 200
+            }
+          },
+          "actual": 310,
+          "expected": 310,
+          "delta": 0
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:BONUS"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "riven_r",
+      "formulaKey": "wind_slash_max_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "wind_slash_max_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "wind_slash_max_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "stat": 2,
+        "statFormula": 2,
+        "coefficient": 1.649999976158142,
+        "baseDataValue": "MaxBase"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 3,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 100
+            }
+          },
+          "actual": 765,
+          "expected": 765,
+          "delta": 0
+        },
+        {
+          "context": {
+            "level": 3,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 200
+            }
+          },
+          "actual": 930,
+          "expected": 930,
+          "delta": 0
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:BONUS"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "aatrox_p",
+      "formulaKey": "passive_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "target_max_health"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_damage_max_health_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "sourceProof": {
+        "start": 0.03999999910593033,
+        "end": 0.10000000149011612,
+        "displayAsPercent": true
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "target_max_health": 1000,
+              "passive_damage_max_health_ratio": 0.04
+            },
+            "attributes": {}
+          },
+          "actual": 40,
+          "expected": 40,
+          "delta": 0
+        },
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "target_max_health": 2000,
+              "passive_damage_max_health_ratio": 0.1
+            },
+            "attributes": {}
+          },
+          "actual": 200,
+          "expected": 200,
+          "delta": 0
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "PARAMETER",
+            "key": "target_max_health"
+          },
+          {
+            "type": "PARAMETER",
+            "key": "passive_damage_max_health_ratio"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "PARAMETER",
+              "key": "target_max_health"
+            },
+            "rejected": true,
+            "error": "Error: 缺少运行输入 aatrox_p/target_max_health"
+          },
+          {
+            "input": {
+              "type": "PARAMETER",
+              "key": "passive_damage_max_health_ratio"
+            },
+            "rejected": true,
+            "error": "Error: 缺少运行输入 aatrox_p/passive_damage_max_health_ratio"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "aatrox_p",
+      "formulaKey": "passive_healing",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_actual_damage"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_healing_damage_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "sourceProof": {
+        "dataValue": "PHealingRatio",
+        "rawRatio": 1,
+        "healingInput": "实际命中伤害运行输入"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "passive_actual_damage": 100
+            },
+            "attributes": {}
+          },
+          "actual": 100,
+          "expected": 100,
+          "delta": 0
+        },
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "passive_actual_damage": 200
+            },
+            "attributes": {}
+          },
+          "actual": 200,
+          "expected": 200,
+          "delta": 0
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "PARAMETER",
+            "key": "passive_actual_damage"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "PARAMETER",
+              "key": "passive_actual_damage"
+            },
+            "rejected": true,
+            "error": "Error: 缺少运行输入 aatrox_p/passive_actual_damage"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "aatrox_q",
+      "formulaKey": "q_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "stat": 2,
+        "dataValue": "QTotalADRatio",
+        "baseDataValue": "QBaseDamage"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 200
+            }
+          },
+          "actual": 250,
+          "expected": 249.99999523162842,
+          "delta": 0.00000476837158203125
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 250
+            }
+          },
+          "actual": 295,
+          "expected": 294.9999940395355,
+          "delta": 0.0000059604644775390625
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:TOTAL"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "aatrox_q",
+      "formulaKey": "q_edge_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "edge_damage_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "total_ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "sourceProof": {
+        "multiplierParts": [
+          1,
+          "QSweetSpotBonus"
+        ],
+        "modifiedCalculation": "QDamage",
+        "sweetSpotBonus": 0.75
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 200
+            }
+          },
+          "actual": 437.5,
+          "expected": 437.49999165534973,
+          "delta": 0.000008344650268554688
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 250
+            }
+          },
+          "actual": 516.25,
+          "expected": 516.2499895691872,
+          "delta": 0.00001043081283569336
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:TOTAL"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "aatrox_w",
+      "formulaKey": "w_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "total_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "stat": 2,
+        "dataValue": "WTotalADRatio",
+        "baseDataValue": "WBaseDamage"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 200
+            }
+          },
+          "actual": 150,
+          "expected": 150.0000011920929,
+          "delta": -0.0000011920928955078125
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 250
+            }
+          },
+          "actual": 170,
+          "expected": 170.00000149011612,
+          "delta": -0.0000014901161193847656
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:TOTAL"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "aatrox_e",
+      "formulaKey": "total_healing_ratio",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_healing_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_healing_ratio_per_bonus_health"
+              },
+              {
+                "attributeKey": "hp",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "stat": 12,
+        "statFormula": 2,
+        "dataValue": "EVampHPRatio",
+        "multiplier": 0.009999999776482582,
+        "basePercent": 16,
+        "ratioRaw": 0.010999999940395355,
+        "sourceTextLength": 207
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 1,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:hp:BONUS": 1000
+            }
+          },
+          "actual": 0.27,
+          "expected": 0.269999996945262,
+          "delta": 3.054738018093417e-9
+        },
+        {
+          "context": {
+            "level": 1,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:hp:BONUS": 2000
+            }
+          },
+          "actual": 0.38,
+          "expected": 0.37999999389052397,
+          "delta": 6.109476036186834e-9
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:hp:BONUS"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:hp:BONUS"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:hp:BONUS"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "rengar_q",
+      "formulaKey": "q_total_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "coefficient": 1,
+        "ratioDataValue": "BaseADRatio",
+        "baseDataValue": "BaseDamage"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 200
+            }
+          },
+          "actual": 370,
+          "expected": 370.0000001490116,
+          "delta": -1.4901161193847656e-7
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 250
+            }
+          },
+          "actual": 422.5,
+          "expected": 422.5000001862645,
+          "delta": -1.862645149230957e-7
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:TOTAL"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "rengar_q",
+      "formulaKey": "empowered_q_total_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "empowered_q_level_base_damage"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "ADD"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "empowered_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "level1Value": 35,
+        "initialBonusPerLevel": 15,
+        "breakpoints": [
+          {
+            "mLevel": 9,
+            "mBonusPerLevelAtAndAfter": 10,
+            "__type": "Breakpoint"
+          }
+        ],
+        "ratioDataValue": "EmpoweredADRatio",
+        "note": "等级曲线完整算法不在本核对中插值；基础值按无默认运行输入提供"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "empowered_q_level_base_damage": 35
+            },
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 200
+            }
+          },
+          "actual": 275,
+          "expected": 275.00000059604645,
+          "delta": -5.960464477539062e-7
+        },
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "empowered_q_level_base_damage": 105
+            },
+            "attributes": {
+              "SOURCE:attack_damage:TOTAL": 250
+            }
+          },
+          "actual": 405,
+          "expected": 405.00000074505806,
+          "delta": -7.450580596923828e-7
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "PARAMETER",
+            "key": "empowered_q_level_base_damage"
+          },
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "PARAMETER",
+              "key": "empowered_q_level_base_damage"
+            },
+            "rejected": true,
+            "error": "Error: 缺少运行输入 rengar_q/empowered_q_level_base_damage"
+          },
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:TOTAL"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:TOTAL"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "rengar_w",
+      "formulaKey": "total_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "dataValue": "APRatio",
+        "baseDataValue": "BaseDamage"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:ability_power:TOTAL": 100
+            }
+          },
+          "actual": 250,
+          "expected": 250.0000011920929,
+          "delta": -0.0000011920928955078125
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:ability_power:TOTAL": 200
+            }
+          },
+          "actual": 330,
+          "expected": 330.0000023841858,
+          "delta": -0.000002384185791015625
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:ability_power:TOTAL"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:ability_power:TOTAL"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:ability_power:TOTAL"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "rengar_w",
+      "formulaKey": "total_damage_empowered",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "empowered_w_level_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "empowered_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "sourceLevelValuesHead": [
+          0,
+          50,
+          60,
+          70
+        ],
+        "ratioDataValue": "EmpoweredAPRatio",
+        "note": "等级基础值按无默认运行输入提供"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "empowered_w_level_base_damage": 100
+            },
+            "attributes": {
+              "SOURCE:ability_power:TOTAL": 100
+            }
+          },
+          "actual": 180,
+          "expected": 180.0000011920929,
+          "delta": -0.0000011920928955078125
+        },
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "empowered_w_level_base_damage": 200
+            },
+            "attributes": {
+              "SOURCE:ability_power:TOTAL": 200
+            }
+          },
+          "actual": 360,
+          "expected": 360.0000023841858,
+          "delta": -0.000002384185791015625
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "PARAMETER",
+            "key": "empowered_w_level_base_damage"
+          },
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:ability_power:TOTAL"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "PARAMETER",
+              "key": "empowered_w_level_base_damage"
+            },
+            "rejected": true,
+            "error": "Error: 缺少运行输入 rengar_w/empowered_w_level_base_damage"
+          },
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:ability_power:TOTAL"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:ability_power:TOTAL"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "rengar_w",
+      "formulaKey": "recent_damage_heal",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "recent_damage_taken"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "recent_damage_heal_ratio"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "sourceProof": {
+        "dataValue": "DamagePercentageHealed",
+        "rawPercentPoints": 50,
+        "ratio": 0.5
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "recent_damage_taken": 100
+            },
+            "attributes": {}
+          },
+          "actual": 50,
+          "expected": 50,
+          "delta": 0
+        },
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "recent_damage_taken": 200
+            },
+            "attributes": {}
+          },
+          "actual": 100,
+          "expected": 100,
+          "delta": 0
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "PARAMETER",
+            "key": "recent_damage_taken"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "PARAMETER",
+              "key": "recent_damage_taken"
+            },
+            "rejected": true,
+            "error": "Error: 缺少运行输入 rengar_w/recent_damage_taken"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "rengar_e",
+      "formulaKey": "total_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "stat": 2,
+        "statFormula": 2,
+        "dataValue": "BonusADRatio",
+        "baseDataValue": "BaseDamage"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 100
+            }
+          },
+          "actual": 315,
+          "expected": 315.0000011920929,
+          "delta": -0.0000011920928955078125
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 200
+            }
+          },
+          "actual": 395,
+          "expected": 395.0000023841858,
+          "delta": -0.000002384185791015625
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:BONUS"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "rengar_e",
+      "formulaKey": "total_empowered_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "empowered_e_level_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "level1Value": 50,
+        "initialBonusPerLevel": 15,
+        "ratioDataValue": "BonusADRatio",
+        "stat": 2,
+        "statFormula": 2,
+        "note": "等级基础值按无默认运行输入提供"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "empowered_e_level_base_damage": 50
+            },
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 100
+            }
+          },
+          "actual": 130,
+          "expected": 130.0000011920929,
+          "delta": -0.0000011920928955078125
+        },
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "empowered_e_level_base_damage": 150
+            },
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 200
+            }
+          },
+          "actual": 310,
+          "expected": 310.0000023841858,
+          "delta": -0.000002384185791015625
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "PARAMETER",
+            "key": "empowered_e_level_base_damage"
+          },
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "PARAMETER",
+              "key": "empowered_e_level_base_damage"
+            },
+            "rejected": true,
+            "error": "Error: 缺少运行输入 rengar_e/empowered_e_level_base_damage"
+          },
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:BONUS"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "khazix_p",
+      "formulaKey": "passive_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_level_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "levelValuesHead": [
+          10,
+          17,
+          24,
+          31
+        ],
+        "ratioDataValue": "BonusADRatio",
+        "stat": 2,
+        "statFormula": 2,
+        "note": "等级基础值按无默认运行输入提供"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "passive_level_base_damage": 10
+            },
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 100
+            }
+          },
+          "actual": 60,
+          "expected": 60,
+          "delta": 0
+        },
+        {
+          "context": {
+            "level": 1,
+            "parameters": {
+              "passive_level_base_damage": 80
+            },
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 200
+            }
+          },
+          "actual": 180,
+          "expected": 180,
+          "delta": 0
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "PARAMETER",
+            "key": "passive_level_base_damage"
+          },
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "PARAMETER",
+              "key": "passive_level_base_damage"
+            },
+            "rejected": true,
+            "error": "Error: 缺少运行输入 khazix_p/passive_level_base_damage"
+          },
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:BONUS"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "khazix_q",
+      "formulaKey": "base_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "effectIndex": 1,
+        "ratioDataValue": "BonusADRatio",
+        "stat": 2,
+        "statFormula": 2
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 100
+            }
+          },
+          "actual": 285,
+          "expected": 284.9999952316284,
+          "delta": 0.00000476837158203125
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 200
+            }
+          },
+          "actual": 390,
+          "expected": 389.99999046325684,
+          "delta": 0.0000095367431640625
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:BONUS"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "khazix_q",
+      "formulaKey": "isolated_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "isolated_damage_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "attributeKey": "attack_damage",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "BONUS",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        ],
+        "operation": "MULTIPLY"
+      },
+      "sourceProof": {
+        "multiplier": 2.0999999046325684,
+        "modifiedGameCalculation": "BaseDamage",
+        "note": "孤立资格仍是无默认运行输入"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 100
+            }
+          },
+          "actual": 598.5,
+          "expected": 598.4999628067021,
+          "delta": 0.0000371932978850964
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 200
+            }
+          },
+          "actual": 819,
+          "expected": 818.9999427795419,
+          "delta": 0.0000572204580748803
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:BONUS"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "khazix_w",
+      "formulaKey": "base_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "attributeOwner": "SOURCE",
+            "attributeValueKind": "BONUS",
+            "nodeType": "ATTRIBUTE"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "effectIndex": 1,
+        "stat": 2,
+        "statFormula": 2,
+        "coefficient": 1
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 100
+            }
+          },
+          "actual": 295,
+          "expected": 295,
+          "delta": 0
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 200
+            }
+          },
+          "actual": 395,
+          "expected": 395,
+          "delta": 0
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:BONUS"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "khazix_w",
+      "formulaKey": "heal_amount",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_heal"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_ap_ratio"
+              },
+              {
+                "attributeKey": "ability_power",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "TOTAL",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "dataValue": "HealAPRatio",
+        "baseDataValue": "BaseHeal"
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:ability_power:TOTAL": 100
+            }
+          },
+          "actual": 185,
+          "expected": 185,
+          "delta": 0
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:ability_power:TOTAL": 200
+            }
+          },
+          "actual": 235,
+          "expected": 235,
+          "delta": 0
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:ability_power:TOTAL"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:ability_power:TOTAL"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:ability_power:TOTAL"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    },
+    {
+      "skillKey": "khazix_e",
+      "formulaKey": "total_damage",
+      "actualExpression": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ad_ratio"
+              },
+              {
+                "attributeKey": "attack_damage",
+                "attributeOwner": "SOURCE",
+                "attributeValueKind": "BONUS",
+                "nodeType": "ATTRIBUTE"
+              }
+            ],
+            "operation": "MULTIPLY"
+          }
+        ],
+        "operation": "ADD"
+      },
+      "sourceProof": {
+        "effectIndex": 1,
+        "stat": 2,
+        "statFormula": 2,
+        "coefficient": 0.4000000059604645
+      },
+      "groups": [
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 100
+            }
+          },
+          "actual": 245,
+          "expected": 245.00000059604645,
+          "delta": -5.960464477539062e-7
+        },
+        {
+          "context": {
+            "level": 5,
+            "parameters": {},
+            "attributes": {
+              "SOURCE:attack_damage:BONUS": 200
+            }
+          },
+          "actual": 285,
+          "expected": 285.0000011920929,
+          "delta": -0.0000011920928955078125
+        }
+      ],
+      "distinctInputs": true,
+      "missingInputChecks": {
+        "inputs": [
+          {
+            "type": "ATTRIBUTE",
+            "key": "SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "checks": [
+          {
+            "input": {
+              "type": "ATTRIBUTE",
+              "key": "SOURCE:attack_damage:BONUS"
+            },
+            "rejected": true,
+            "error": "Error: 缺少属性输入 SOURCE:attack_damage:BONUS"
+          }
+        ],
+        "allRejected": true
+      },
+      "ok": true
+    }
+  ],
+  "failedChecks": [],
+  "summary": {
+    "formulas": 26,
+    "groups": 52,
+    "distinctGroups": 26,
+    "failedFormulas": 0,
+    "allMissingInputsRejected": true,
+    "noRuntimeInputDefaults": true,
+    "passed": true
+  }
+}
