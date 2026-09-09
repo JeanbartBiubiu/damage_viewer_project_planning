@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T07:29:47.819Z",
+  "generatedAt": "2026-09-09T08:46:39.489Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -1671,7 +1671,16 @@
       "evidence": "API实录/符文效果第五批/实际录入结果.json",
       "browserEvidence": "API实录/符文效果第五批/页面验收.json",
       "finalSha256": "1b03784e003fa63675b4665eac66f772b93f770dffd8c0b128888a3043384f44",
-      "runtimeValidation": "未执行"
+      "runtimeValidation": "未执行",
+      "followup": {
+        "at": "2026-09-09T08:46:39.488Z",
+        "change": "征服者适应之力及致命节奏两攻速公式已加入最大层数，原174创建数、参数/公式数量及原候选保持为历史",
+        "currentEvidence": {
+          "worktree": "C:/project/damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/符文层数封顶修正/当前修正状态.json",
+          "commit": "8b8d4a4f"
+        }
+      }
     },
     "heroThirteenthBatch": {
       "heroes": [
@@ -1949,6 +1958,34 @@
         "worktree": "C:/project/damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/最大生命属性回补/页面验收.json",
         "commit": "6b8c2eb4"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "runeStackCapCorrection": {
+      "skills": [
+        "rune_8010_passive",
+        "rune_8008_passive"
+      ],
+      "updated": 3,
+      "newObjects": 0,
+      "deleted": 0,
+      "executionGets": 118,
+      "independentGets": 56,
+      "liveMathGets": 10,
+      "liveMathCases": 19,
+      "staticQualificationCases": 6,
+      "representativePages": 2,
+      "pageGets": 10,
+      "status": "三公式已应用明确上限，独立66GET与两页面通过；缺值不默认，未知比例与满层资格不扩展",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/符文层数封顶修正/当前修正状态.json",
+        "commit": "8b8d4a4f"
+      },
+      "browserEvidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/符文层数封顶修正/页面验收.json",
+        "commit": "8b8d4a4f"
       },
       "runtimeValidation": "未执行"
     }
