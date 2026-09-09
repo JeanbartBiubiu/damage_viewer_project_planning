@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T10:47:23.225Z",
+  "generatedAt": "2026-09-09T10:57:29.255Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -2236,6 +2236,62 @@
       "runtimeValidation": "未执行",
       "evidence": "装备技能实录/第二十二批永远前进/当前实录状态.json",
       "browserEvidence": "装备技能实录/第二十二批永远前进/页面验收.json"
+    },
+    "heroSixteenthBatch": {
+      "skills": [
+        "malzahar_p",
+        "malzahar_q",
+        "malzahar_w",
+        "malzahar_e",
+        "malzahar_r",
+        "anivia_p",
+        "anivia_q",
+        "anivia_w",
+        "anivia_e",
+        "anivia_r",
+        "lissandra_p",
+        "lissandra_q",
+        "lissandra_w",
+        "lissandra_e",
+        "lissandra_r",
+        "karthus_p",
+        "karthus_q",
+        "karthus_w",
+        "karthus_e",
+        "karthus_r"
+      ],
+      "parameters": 115,
+      "formulas": 21,
+      "effects": 17,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "total": 153,
+      "reusedParameters": 22,
+      "created": 131,
+      "independentGets": 325,
+      "independentFormulaChecks": 21,
+      "independentSourceCases": 22,
+      "independentManualCases": 19,
+      "independentNegativeControls": 6,
+      "independentChecks": 297,
+      "representativePages": 4,
+      "pageGets": 17,
+      "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+      "planSha256": "6c2e687d3aaa74401d07fe200fa1c4bfe022f183a51f2d20d3492ba41d90b022",
+      "status": "131项新增、22公共参数复用；325次独立GET与297检查、4代表页面通过。死亡后施法、低血治疗提升和其他未接资格继续处理。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十六批/当前实录状态-验收后.json",
+        "sha256": "16d8282c6bd15a170de0394940771ecdcab67e33ccbc29fd3b829a516feb9dc4",
+        "commit": "d1a2da9a"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十六批/页面验收.json",
+        "commit": "d1a2da9a"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行"
