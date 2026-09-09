@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T13:45:33.274Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/nautilus_w/formulas",
+  "detailRoute": "/skills/nautilus_w/formulas/bonus_magic_damage_total",
+  "skillKey": "nautilus_w",
+  "kind": "formulas",
+  "stableKey": "bonus_magic_damage_total",
+  "body": {
+    "formulaKey": "bonus_magic_damage_total",
+    "name": "护盾期间额外魔法伤害总量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "dot_damage_base"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "dot_damage_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "DotDamageCalc=DotDamageBase+0.4×来源总法术强度；正文共2秒总量，不表示单节拍。",
+    "sortOrder": 20
+  }
+}

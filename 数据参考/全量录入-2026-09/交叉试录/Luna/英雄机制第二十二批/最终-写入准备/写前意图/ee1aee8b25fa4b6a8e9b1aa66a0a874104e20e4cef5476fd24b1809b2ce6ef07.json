@@ -1,0 +1,67 @@
+{
+  "at": "2026-09-09T13:45:34.382Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/nautilus_w/effects",
+  "detailRoute": "/skills/nautilus_w/effects/shield",
+  "skillKey": "nautilus_w",
+  "kind": "effects",
+  "stableKey": "shield",
+  "body": {
+    "effectKey": "shield",
+    "name": "泰坦之怒自身护盾",
+    "description": "当前根绑定正文明确自身获得持续6秒护盾；只记录成熟NORMAL_SHIELD组成，攻击额外伤害事件另待接。",
+    "sortOrder": 10,
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "shield_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "results": [
+      {
+        "resultKey": "shield",
+        "name": "泰坦之怒自身护盾",
+        "resultType": "NORMAL_SHIELD",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "valueReadMode": "APPLICATION_SNAPSHOT",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": "REPLACE",
+          "periodicExecutionMode": null
+        },
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "FORMULA",
+            "formulaKey": "shield_value"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "absorbedDamageTypeKey": null,
+          "decayMode": "NONE"
+        }
+      }
+    ]
+  }
+}

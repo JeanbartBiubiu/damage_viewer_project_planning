@@ -1,0 +1,559 @@
+{
+  "generatedAt": "2026-09-09T13:10:02.744Z",
+  "sourceFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero22-candidate\\候选源值核对.json",
+  "sourceVersion": "客户端16.17/官方16.17.1，构建16.17.8104348+branch.releases-16-17.content.release",
+  "skillsCovered": 10,
+  "independentFromCandidateFormula": true,
+  "independentApiReadback": false,
+  "businessWrites": 0,
+  "checks": [
+    {
+      "name": "Leona被动显式角色等级原值",
+      "passed": true,
+      "detail": {
+        "first18": [
+          25,
+          32,
+          39,
+          46,
+          53,
+          60,
+          67,
+          74,
+          81,
+          88,
+          95,
+          102,
+          109,
+          116,
+          123,
+          130,
+          137,
+          144
+        ],
+        "fullCount": 31
+      }
+    },
+    {
+      "name": "Nautilus被动显式角色等级原值",
+      "passed": true,
+      "detail": {
+        "first18": [
+          8,
+          14,
+          20,
+          26,
+          32,
+          38,
+          44,
+          50,
+          56,
+          62,
+          68,
+          74,
+          80,
+          86,
+          92,
+          98,
+          104,
+          110
+        ],
+        "fullCount": 31
+      }
+    },
+    {
+      "name": "leona_q.BaseDamage逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          10,
+          35,
+          60,
+          85,
+          110
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "leona_w.ExplosionBaseDamage逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          55,
+          85,
+          115,
+          145,
+          175
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "leona_w.ArmorBaseBonus逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          20,
+          27.5,
+          35,
+          42.5,
+          50
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "leona_w.MRBaseBonus逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          20,
+          27.5,
+          35,
+          42.5,
+          50
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "leona_e.BaseDamage逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          50,
+          90,
+          130,
+          170,
+          210
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "leona_r.ExplosionBaseDamage逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          150,
+          225,
+          300
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "nautilus_q.BaseDamage逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          85,
+          130,
+          175,
+          220,
+          265
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "nautilus_w.ShieldBase逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          50,
+          60,
+          70,
+          80,
+          90
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "nautilus_w.DotDamageBase逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          30,
+          40,
+          50,
+          60,
+          70
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "nautilus_e.DamageBase逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          55,
+          90,
+          125,
+          160,
+          195
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "nautilus_r.PrimaryDamage逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          150,
+          275,
+          400
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "nautilus_r.SecondaryDamage逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          125,
+          175,
+          225
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "nautilus_r.StunDuration逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          1,
+          1.5,
+          2
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "nautilus_e.SlowPercent逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          0.3,
+          0.35,
+          0.4,
+          0.45,
+          0.5
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "leona_w.FlatDamageReductionMax逐级索引",
+      "passed": true,
+      "detail": {
+        "result": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "extraction": "slice(1,max+1).map(v => round(v))"
+      }
+    },
+    {
+      "name": "百分数与比例逐级原值",
+      "passed": true,
+      "detail": "比例保持0至1，显示百分号只在正文层换算。"
+    },
+    {
+      "name": "leona_q_rank3_ap600",
+      "passed": true,
+      "detail": {
+        "actual": 240,
+        "expected": 240
+      }
+    },
+    {
+      "name": "leona_w_rank5_ap400_armor80_mr60",
+      "passed": true,
+      "detail": {
+        "actual": {
+          "explosion": 335,
+          "armor": 66,
+          "magicResistance": 62
+        },
+        "expected": {
+          "explosion": 335,
+          "armor": 66,
+          "magicResistance": 62
+        }
+      }
+    },
+    {
+      "name": "leona_e_rank5_ap300",
+      "passed": true,
+      "detail": {
+        "actual": 330,
+        "expected": 330
+      }
+    },
+    {
+      "name": "leona_r_rank3_ap500",
+      "passed": true,
+      "detail": {
+        "actual": 700,
+        "expected": 700
+      }
+    },
+    {
+      "name": "nautilus_p_level18_ad200",
+      "passed": true,
+      "detail": {
+        "actual": 310,
+        "expected": 310
+      }
+    },
+    {
+      "name": "nautilus_q_rank5_ap400",
+      "passed": true,
+      "detail": {
+        "actual": 625,
+        "expected": 625
+      }
+    },
+    {
+      "name": "nautilus_w_rank5_hp3000_ap300",
+      "passed": true,
+      "detail": {
+        "actual": {
+          "shield": 450,
+          "bonusDamageTotal": 190
+        },
+        "expected": {
+          "shield": 450,
+          "bonusDamageTotal": 190
+        }
+      }
+    },
+    {
+      "name": "nautilus_e_rank5_ap200",
+      "passed": true,
+      "detail": {
+        "actual": {
+          "firstWave": 295,
+          "laterWave": 147.5,
+          "waveCount": 3
+        },
+        "expected": {
+          "firstWave": 295,
+          "laterWave": 147.5,
+          "waveCount": 3
+        }
+      }
+    },
+    {
+      "name": "nautilus_r_rank3_ap400",
+      "passed": false,
+      "detail": {
+        "actual": {
+          "primary": 720,
+          "secondary": 385,
+          "stunMs": 2000
+        },
+        "expected": {
+          "primary": 720,
+          "secondary": 385,
+          "stunMs": 1500
+        }
+      }
+    },
+    {
+      "name": "nautilus_w_total_hp_vs_bonus_hp",
+      "passed": true,
+      "detail": {
+        "id": "nautilus_w_total_hp_vs_bonus_hp",
+        "correct": 450,
+        "wrong": 210,
+        "passed": true
+      }
+    },
+    {
+      "name": "leona_w_mr_bonus_vs_total",
+      "passed": true,
+      "detail": {
+        "id": "leona_w_mr_bonus_vs_total",
+        "correct": 62,
+        "wrong": 78,
+        "passed": true
+      }
+    },
+    {
+      "name": "nautilus_r_primary_secondary_not_summed",
+      "passed": true,
+      "detail": {
+        "id": "nautilus_r_primary_secondary_not_summed",
+        "primary": 720,
+        "secondary": 385,
+        "summed": 1105,
+        "passed": true
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "leona_q_rank3_ap600",
+      "inputs": {
+        "rank": 3,
+        "abilityPower": 600
+      },
+      "actual": 240,
+      "expected": 240,
+      "passed": true
+    },
+    {
+      "id": "leona_w_rank5_ap400_armor80_mr60",
+      "inputs": {
+        "rank": 5,
+        "abilityPower": 400,
+        "bonusArmorInput": 80,
+        "bonusMagicResistance": 60
+      },
+      "actual": {
+        "explosion": 335,
+        "armor": 66,
+        "magicResistance": 62
+      },
+      "expected": {
+        "explosion": 335,
+        "armor": 66,
+        "magicResistance": 62
+      },
+      "passed": true
+    },
+    {
+      "id": "leona_e_rank5_ap300",
+      "inputs": {
+        "rank": 5,
+        "abilityPower": 300
+      },
+      "actual": 330,
+      "expected": 330,
+      "passed": true
+    },
+    {
+      "id": "leona_r_rank3_ap500",
+      "inputs": {
+        "rank": 3,
+        "abilityPower": 500
+      },
+      "actual": 700,
+      "expected": 700,
+      "passed": true
+    },
+    {
+      "id": "nautilus_p_level18_ad200",
+      "inputs": {
+        "characterLevel": 18,
+        "attackDamage": 200
+      },
+      "actual": 310,
+      "expected": 310,
+      "passed": true
+    },
+    {
+      "id": "nautilus_q_rank5_ap400",
+      "inputs": {
+        "rank": 5,
+        "abilityPower": 400
+      },
+      "actual": 625,
+      "expected": 625,
+      "passed": true
+    },
+    {
+      "id": "nautilus_w_rank5_hp3000_ap300",
+      "inputs": {
+        "rank": 5,
+        "totalHp": 3000,
+        "abilityPower": 300
+      },
+      "actual": {
+        "shield": 450,
+        "bonusDamageTotal": 190
+      },
+      "expected": {
+        "shield": 450,
+        "bonusDamageTotal": 190
+      },
+      "passed": true
+    },
+    {
+      "id": "nautilus_e_rank5_ap200",
+      "inputs": {
+        "rank": 5,
+        "abilityPower": 200
+      },
+      "actual": {
+        "firstWave": 295,
+        "laterWave": 147.5,
+        "waveCount": 3
+      },
+      "expected": {
+        "firstWave": 295,
+        "laterWave": 147.5,
+        "waveCount": 3
+      },
+      "passed": true
+    },
+    {
+      "id": "nautilus_r_rank3_ap400",
+      "inputs": {
+        "rank": 3,
+        "abilityPower": 400,
+        "stunMs": 2000
+      },
+      "actual": {
+        "primary": 720,
+        "secondary": 385,
+        "stunMs": 2000
+      },
+      "expected": {
+        "primary": 720,
+        "secondary": 385,
+        "stunMs": 1500
+      },
+      "passed": false
+    }
+  ],
+  "negativeControls": [
+    {
+      "id": "nautilus_w_total_hp_vs_bonus_hp",
+      "correct": 450,
+      "wrong": 210,
+      "passed": true
+    },
+    {
+      "id": "leona_w_mr_bonus_vs_total",
+      "correct": 62,
+      "wrong": 78,
+      "passed": true
+    },
+    {
+      "id": "nautilus_r_primary_secondary_not_summed",
+      "primary": 720,
+      "secondary": 385,
+      "summed": 1105,
+      "passed": true
+    }
+  ],
+  "summary": {
+    "checks": 30,
+    "examples": 9,
+    "negativeControls": 3,
+    "failures": 1,
+    "passed": false
+  }
+}

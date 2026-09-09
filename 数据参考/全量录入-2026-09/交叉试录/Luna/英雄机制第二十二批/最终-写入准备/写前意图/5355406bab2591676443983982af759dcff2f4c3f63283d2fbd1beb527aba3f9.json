@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T13:45:13.682Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/nautilus_p/parameters",
+  "detailRoute": "/skills/nautilus_p/parameters/root_duration_ms",
+  "skillKey": "nautilus_p",
+  "kind": "parameters",
+  "stableKey": "root_duration_ms",
+  "body": {
+    "parameterKey": "root_duration_ms",
+    "name": "禁锢持续（毫秒）运行时输入",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "RootDuration为ByCharLevelBreakpoints：角色等级1为0.75秒，等级6/11/16/21/26各增加0.25秒；不展开未知等级曲线，输入缺失无默认值。",
+    "sortOrder": 40
+  }
+}

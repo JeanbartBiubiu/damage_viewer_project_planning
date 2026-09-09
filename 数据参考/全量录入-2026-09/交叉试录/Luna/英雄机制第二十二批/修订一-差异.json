@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-09-09T13:18:37.052Z",
+  "baseCandidateSha256": "99dea55611f94341b9b67dcf1951007cb167c76c9adec15118ce2d2693e2a1c4",
+  "revisedCandidateSha256": "e70babf3438399d5d40e5e848b9a5819bbdeca5dd70f216fbe498ca91403459b",
+  "exactChanges": [
+    "Leona P因当前正文明确其他友方英雄，整槽日光机制移出本轮1v1写入组成，仅保留排除证据。",
+    "Nautilus R沿途其它敌人为额外目标，移除secondary_damage、secondary_ap_ratio和secondary_magic_damage，保留主要目标分支。",
+    "Leona W新增无默认incoming_damage_for_reduction输入，减免量为MIN(FlatDamageReduction,0.5×输入)。",
+    "Nautilus W新增自身NORMAL_SHIELD效果，持续值引用shield_duration_ms参数。",
+    "Leona/Nautilus八个主动槽各新增一次mana_cost RESOURCE_CHANGE效果。"
+  ],
+  "removedWrites": {
+    "leona_p_parameters": [
+      "mark_duration_ms",
+      "bonus_magic_damage_by_character_level"
+    ],
+    "nautilus_r_parameters": [
+      "secondary_damage",
+      "secondary_ap_ratio"
+    ],
+    "nautilus_r_formulas": [
+      "secondary_magic_damage"
+    ]
+  },
+  "addedWrites": {
+    "leona_w_parameters": [
+      "incoming_damage_for_reduction"
+    ],
+    "leona_w_formulas": [
+      "damage_reduction_amount"
+    ],
+    "nautilus_w_effects": [
+      "shield"
+    ],
+    "mana_cost_effects": [
+      "leona_q",
+      "leona_w",
+      "leona_e",
+      "leona_r",
+      "nautilus_q",
+      "nautilus_w",
+      "nautilus_e",
+      "nautilus_r"
+    ]
+  },
+  "countsBefore": {
+    "parameters": 57,
+    "formulas": 14,
+    "effects": 0,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "countsAfter": {
+    "parameters": 54,
+    "formulas": 14,
+    "effects": 9,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "requestCountBefore": 71,
+  "requestCountAfter": 77,
+  "businessWrites": 0
+}

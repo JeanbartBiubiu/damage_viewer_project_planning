@@ -1,0 +1,40 @@
+{
+  "at": "2026-09-09T13:44:52.108Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/leona_w/formulas",
+  "detailRoute": "/skills/leona_w/formulas/damage_reduction_amount",
+  "skillKey": "leona_w",
+  "kind": "formulas",
+  "stableKey": "damage_reduction_amount",
+  "body": {
+    "formulaKey": "damage_reduction_amount",
+    "name": "日蚀固定减免量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MIN",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "flat_damage_reduction"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "flat_damage_reduction_floor_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "incoming_damage_for_reduction"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "最终固定减免量=MIN(FlatDamageReduction,0.5×本次步骤进入伤害输入)；50%保底来自当前扩展正文，不创建伤害结果。",
+    "sortOrder": 40
+  }
+}

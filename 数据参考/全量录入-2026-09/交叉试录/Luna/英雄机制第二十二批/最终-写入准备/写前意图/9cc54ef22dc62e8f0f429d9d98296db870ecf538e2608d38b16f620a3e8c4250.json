@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T13:45:26.466Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/nautilus_w/parameters",
+  "detailRoute": "/skills/nautilus_w/parameters/shield_health_ratio",
+  "skillKey": "nautilus_w",
+  "kind": "parameters",
+  "stableKey": "shield_health_ratio",
+  "body": {
+    "parameterKey": "shield_health_ratio",
+    "name": "护盾生命值倍率",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.08,
+      "2": 0.09,
+      "3": 0.1,
+      "4": 0.11,
+      "5": 0.12
+    },
+    "description": "当前根DataValues.ShieldHealthRatio取索引1至5；mStat12按同版根证据取来源生命值总值。",
+    "sortOrder": 30
+  }
+}

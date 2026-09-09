@@ -1,0 +1,2822 @@
+{
+  "at": "2026-09-09T13:44:21.067Z",
+  "scope": "仅扫描冻结根内spellCastTime与mCastTime不一致的槽，并读取同键cast_time_ms；不推定单字段就是真实时序",
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "heroes": 171,
+  "sourceConflictCount": 117,
+  "GETs": 117,
+  "fixedConflicts": [],
+  "conflicts": [
+    {
+      "hero": "Aatrox",
+      "skillKey": "aatrox_w",
+      "binding": "Characters/Aatrox/Spells/AatroxWAbility/AatroxW",
+      "clientSha256": "0dc8e69b6728db5e4d49188c4cc54e0c80500038f71b03eb3fca04182ce25ee2",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Aatrox",
+      "skillKey": "aatrox_r",
+      "binding": "Characters/Aatrox/Spells/AatroxRAbility/AatroxR",
+      "clientSha256": "0dc8e69b6728db5e4d49188c4cc54e0c80500038f71b03eb3fca04182ce25ee2",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Akali",
+      "skillKey": "akali_q",
+      "binding": "Characters/Akali/Spells/AkaliQAbility/AkaliQ",
+      "clientSha256": "5ff9d5df7dad31b4778f72d4e3cc3fc65ce224a791ad7bacc8f5ca983a96bb05",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Akali",
+      "skillKey": "akali_w",
+      "binding": "Characters/Akali/Spells/AkaliWAbility/AkaliW",
+      "clientSha256": "5ff9d5df7dad31b4778f72d4e3cc3fc65ce224a791ad7bacc8f5ca983a96bb05",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Akali",
+      "skillKey": "akali_e",
+      "binding": "Characters/Akali/Spells/AkaliEAbility/AkaliE",
+      "clientSha256": "5ff9d5df7dad31b4778f72d4e3cc3fc65ce224a791ad7bacc8f5ca983a96bb05",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Akali",
+      "skillKey": "akali_r",
+      "binding": "Characters/Akali/Spells/AkaliRAbility/AkaliR",
+      "clientSha256": "5ff9d5df7dad31b4778f72d4e3cc3fc65ce224a791ad7bacc8f5ca983a96bb05",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Akshan",
+      "skillKey": "akshan_q",
+      "binding": "Characters/Akshan/Spells/AkshanQAbility/AkshanQ",
+      "clientSha256": "52abb620d076b5ba05a8a87aa43363fb89477c47284cd7c193cf317e9374a0b7",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Akshan",
+      "skillKey": "akshan_w",
+      "binding": "Characters/Akshan/Spells/AkshanWAbility/AkshanW",
+      "clientSha256": "52abb620d076b5ba05a8a87aa43363fb89477c47284cd7c193cf317e9374a0b7",
+      "spellCastTime": 0,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "AurelionSol",
+      "skillKey": "aurelionsol_e",
+      "binding": "Characters/AurelionSol/Spells/AurelionSolEAbility/AurelionSolE",
+      "clientSha256": "8d59b9548b7b0e7f863ed2c78781b6710c7f97c55cbe2ebcb2a78bc6791bcce7",
+      "spellCastTime": 0,
+      "mCastTime": 0.20000000298023224,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Aurora",
+      "skillKey": "aurora_e",
+      "binding": "Characters/Aurora/Spells/AuroraEAbility/AuroraE",
+      "clientSha256": "0a373525b84415b77b5a8669a6d7ec6dd7eb175664868128619aaf844d7b94f6",
+      "spellCastTime": 0,
+      "mCastTime": 0.3499999940395355,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Braum",
+      "skillKey": "braum_q",
+      "binding": "Characters/Braum/Spells/BraumQAbility/BraumQ",
+      "clientSha256": "1c65a6fc45f7a39c6fc7af5bf47da31e63d046c56b673f1b09881e87092b1dcd",
+      "spellCastTime": 0.3888999819755554,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Braum",
+      "skillKey": "braum_r",
+      "binding": "Characters/Braum/Spells/BraumRWrapperAbility/BraumRWrapper",
+      "clientSha256": "1c65a6fc45f7a39c6fc7af5bf47da31e63d046c56b673f1b09881e87092b1dcd",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Briar",
+      "skillKey": "briar_q",
+      "binding": "Characters/Briar/Spells/BriarQAbility/BriarQ",
+      "clientSha256": "2bcfa33a6cde199743d706d92fca79d883e77465aa2aa76a0c20de92b00da392",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Briar",
+      "skillKey": "briar_r",
+      "binding": "Characters/Briar/Spells/BriarRAbility/BriarR",
+      "clientSha256": "2bcfa33a6cde199743d706d92fca79d883e77465aa2aa76a0c20de92b00da392",
+      "spellCastTime": 0.25,
+      "mCastTime": 1,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Darius",
+      "skillKey": "darius_q",
+      "binding": "Characters/Darius/Spells/DariusCleaveAbility/DariusCleave",
+      "clientSha256": "5f3a77780a51fbef22203f792bf7e5b6528af2cd0eb897ca76bd198af813aa39",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.23440000414848328,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Darius",
+      "skillKey": "darius_w",
+      "binding": "Characters/Darius/Spells/DariusNoxianTacticsONHAbility/DariusNoxianTacticsONH",
+      "clientSha256": "5f3a77780a51fbef22203f792bf7e5b6528af2cd0eb897ca76bd198af813aa39",
+      "spellCastTime": 0.5217499732971191,
+      "mCastTime": 0.3666999936103821,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Darius",
+      "skillKey": "darius_r",
+      "binding": "Characters/Darius/Spells/DariusExecuteAbility/DariusExecute",
+      "clientSha256": "5f3a77780a51fbef22203f792bf7e5b6528af2cd0eb897ca76bd198af813aa39",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.3666999936103821,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Draven",
+      "skillKey": "draven_w",
+      "binding": "Characters/Draven/Spells/DravenFuryAbility/DravenFury",
+      "clientSha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.2418999969959259,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Draven",
+      "skillKey": "draven_r",
+      "binding": "Characters/Draven/Spells/DravenRCastAbility/DravenRCast",
+      "clientSha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+      "spellCastTime": 1,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Elise",
+      "skillKey": "elise_q",
+      "binding": "Characters/Elise/Spells/EliseHumanQAbility/EliseHumanQ",
+      "clientSha256": "7bd298bb907300cb77655bcc3ca326226a1f376e840e006a330a619a0ff3b7fb",
+      "spellCastTime": 0.125,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Evelynn",
+      "skillKey": "evelynn_w",
+      "binding": "Characters/Evelynn/Spells/EvelynnWAbility/EvelynnW",
+      "clientSha256": "b2e89cfe42ee8a4af1a9aed3273d3e177bef18828bbdb1d4896e7b7539537214",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.15000000596046448,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Evelynn",
+      "skillKey": "evelynn_r",
+      "binding": "Characters/Evelynn/Spells/EvelynnRAbility/EvelynnR",
+      "clientSha256": "b2e89cfe42ee8a4af1a9aed3273d3e177bef18828bbdb1d4896e7b7539537214",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.3499999940395355,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Fiddlesticks",
+      "skillKey": "fiddlesticks_e",
+      "binding": "Characters/Fiddlesticks/Spells/FiddleSticksEAbility/FiddleSticksE",
+      "clientSha256": "2eba1b7af5ba194b26ed3c8a2048929dd08de1c19c2825d4878a97a73df6664e",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.4000000059604645,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Fiora",
+      "skillKey": "fiora_w",
+      "binding": "Characters/Fiora/Spells/FioraWAbility/FioraW",
+      "clientSha256": "1a5623425ab022eed88ce3da18995e627a33e90cf810f0bac50a0f563e16fa51",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.009999999776482582,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Gragas",
+      "skillKey": "gragas_w",
+      "binding": "Characters/Gragas/Spells/GragasWAbility/GragasW",
+      "clientSha256": "77dbdc69e266d50decc9d117692070f8513593ae44b1de4c3e6b726b2eab1c28",
+      "spellCastTime": 0.4393500089645386,
+      "mCastTime": 0.0010000000474974513,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Gwen",
+      "skillKey": "gwen_q",
+      "binding": "Characters/Gwen/Spells/GwenQAbility/GwenQ",
+      "clientSha256": "f19c4a5ea57ac5d5ec3d2ee3f9e6d0af26e9bfdb00581efccc545298cedc6cc5",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Gwen",
+      "skillKey": "gwen_r",
+      "binding": "Characters/Gwen/Spells/GwenRAbility/GwenR",
+      "clientSha256": "f19c4a5ea57ac5d5ec3d2ee3f9e6d0af26e9bfdb00581efccc545298cedc6cc5",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Hecarim",
+      "skillKey": "hecarim_r",
+      "binding": "Characters/Hecarim/Spells/HecarimUltAbility/HecarimUlt",
+      "clientSha256": "da6aaa9b6b8a1bb0c3adf35f288efee65aa4968563e34477e80343f565ec0965",
+      "spellCastTime": 0.75,
+      "mCastTime": 0.009999999776482582,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Hwei",
+      "skillKey": "hwei_r",
+      "binding": "Characters/Hwei/Spells/HweiRAbility/HweiR",
+      "clientSha256": "52ed1664415d3e690f74ef75557251f7f4a984ed5461d38561d21a7f65ef1ebb",
+      "spellCastTime": 0.375,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Illaoi",
+      "skillKey": "illaoi_q",
+      "binding": "Characters/Illaoi/Spells/IllaoiQAbility/IllaoiQ",
+      "clientSha256": "5857ec6b4261135ad82c721a193124e03d399ce18bc229491e4fde05065e4d0c",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.75,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Illaoi",
+      "skillKey": "illaoi_r",
+      "binding": "Characters/Illaoi/Spells/IllaoiRAbility/IllaoiR",
+      "clientSha256": "5857ec6b4261135ad82c721a193124e03d399ce18bc229491e4fde05065e4d0c",
+      "spellCastTime": 0.375,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Ivern",
+      "skillKey": "ivern_r",
+      "binding": "Characters/Ivern/Spells/IvernRAbility/IvernR",
+      "clientSha256": "40e544c50fe387702ee3cbc82e41bf2296be3996640cf077b517a2ec7724d03e",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Janna",
+      "skillKey": "janna_w",
+      "binding": "Characters/Janna/Spells/SowTheWindAbility/SowTheWind",
+      "clientSha256": "8ae0ddf7ef5c4918ded0a72a9309c318b30ea927e3a1b3568e3232217d9a1ff8",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.24500000476837158,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Janna",
+      "skillKey": "janna_r",
+      "binding": "Characters/Janna/Spells/ReapTheWhirlwindAbility/ReapTheWhirlwind",
+      "clientSha256": "8ae0ddf7ef5c4918ded0a72a9309c318b30ea927e3a1b3568e3232217d9a1ff8",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.0010000000474974513,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Jax",
+      "skillKey": "jax_r",
+      "binding": "Characters/Jax/Spells/JaxRAbility/JaxR",
+      "clientSha256": "7138416cb24deaa5e07b884963da9a980edcfeaeb0ea3ccd3e2352bd15929e07",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Jhin",
+      "skillKey": "jhin_w",
+      "binding": "Characters/Jhin/Spells/JhinWAbility/JhinW",
+      "clientSha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.75,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Jhin",
+      "skillKey": "jhin_r",
+      "binding": "Characters/Jhin/Spells/JhinRAbility/JhinR",
+      "clientSha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+      "spellCastTime": 0.25,
+      "mCastTime": 1,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Jinx",
+      "skillKey": "jinx_q",
+      "binding": "Characters/Jinx/Spells/JinxQAbility/JinxQ",
+      "clientSha256": "418b979131b28130d8ae588ea8bc5490338394acb294c9efd233ae69bad533ca",
+      "spellCastTime": 0.48500001430511475,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Jinx",
+      "skillKey": "jinx_e",
+      "binding": "Characters/Jinx/Spells/JinxEAbility/JinxE",
+      "clientSha256": "418b979131b28130d8ae588ea8bc5490338394acb294c9efd233ae69bad533ca",
+      "spellCastTime": 0.375,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Jinx",
+      "skillKey": "jinx_r",
+      "binding": "Characters/Jinx/Spells/JinxRAbility/JinxR",
+      "clientSha256": "418b979131b28130d8ae588ea8bc5490338394acb294c9efd233ae69bad533ca",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.6000000238418579,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Kaisa",
+      "skillKey": "kaisa_w",
+      "binding": "Characters/Kaisa/Spells/KaisaWAbility/KaisaW",
+      "clientSha256": "ffe63aea302f2df392e6043c488994a50dd1afd0bf17cbfcb8303fad9694346e",
+      "spellCastTime": 0,
+      "mCastTime": 0.4000000059604645,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Kaisa",
+      "skillKey": "kaisa_e",
+      "binding": "Characters/Kaisa/Spells/KaisaEAbility/KaisaE",
+      "clientSha256": "ffe63aea302f2df392e6043c488994a50dd1afd0bf17cbfcb8303fad9694346e",
+      "spellCastTime": 0,
+      "mCastTime": 1.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Kalista",
+      "skillKey": "kalista_w",
+      "binding": "Characters/Kalista/Spells/KalistaWAbility/KalistaW",
+      "clientSha256": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Karthus",
+      "skillKey": "karthus_q",
+      "binding": "Characters/Karthus/Spells/KarthusLayWasteA1Ability/KarthusLayWasteA1",
+      "clientSha256": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Kayle",
+      "skillKey": "kayle_q",
+      "binding": "Characters/Kayle/Spells/KayleQAbility/KayleQ",
+      "clientSha256": "3ca1991217dead4f03664a31d787c945e1f0e33c775db46e2eff27f4597bc084",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Kayle",
+      "skillKey": "kayle_w",
+      "binding": "Characters/Kayle/Spells/KayleWAbility/KayleW",
+      "clientSha256": "3ca1991217dead4f03664a31d787c945e1f0e33c775db46e2eff27f4597bc084",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Kayle",
+      "skillKey": "kayle_r",
+      "binding": "Characters/Kayle/Spells/KayleRAbility/KayleR",
+      "clientSha256": "3ca1991217dead4f03664a31d787c945e1f0e33c775db46e2eff27f4597bc084",
+      "spellCastTime": 0,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Kindred",
+      "skillKey": "kindred_q",
+      "binding": "Characters/Kindred/Spells/KindredQAbility/KindredQ",
+      "clientSha256": "90711a1671c0d9e919c696854813c4b121183c98d6c0101e513c75b3b4b188d5",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.009999999776482582,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Leona",
+      "skillKey": "leona_q",
+      "binding": "Characters/Leona/Spells/LeonaShieldOfDaybreakAbility/LeonaShieldOfDaybreak",
+      "clientSha256": "593a213daf3e452d4cc01998441afb3869814da88649439a741f3921125f4f5d",
+      "spellCastTime": 0.5217499732971191,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Lillia",
+      "skillKey": "lillia_q",
+      "binding": "Characters/Lillia/Spells/LilliaQAbility/LilliaQ",
+      "clientSha256": "887f9dde2fd0d81d099b7f2d8c631fc70de27cc6f94d23d5068716ea388ac6a7",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Lillia",
+      "skillKey": "lillia_r",
+      "binding": "Characters/Lillia/Spells/LilliaRAbility/LilliaR",
+      "clientSha256": "887f9dde2fd0d81d099b7f2d8c631fc70de27cc6f94d23d5068716ea388ac6a7",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.4000000059604645,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Locke",
+      "skillKey": "locke_e",
+      "binding": "Characters/Locke/Spells/LockeEAbility/LockeE",
+      "clientSha256": "efc4bede0db5f8d9d217d29deeae6f57acfce0689f6927e12d6e4f9cf9eb5c5e",
+      "spellCastTime": 0,
+      "mCastTime": 0.17499999701976776,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Lucian",
+      "skillKey": "lucian_q",
+      "binding": "Characters/Lucian/Spells/LucianQAbility/LucianQ",
+      "clientSha256": "95b833cdd71340870e4aaa72ff4a96c7da39ae8ee5e554c8770872c6b4263122",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.3499999940395355,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Malphite",
+      "skillKey": "malphite_e",
+      "binding": "Characters/Malphite/Spells/LandslideAbility/Landslide",
+      "clientSha256": "70dd954ff0fce089bd0d71148dbfaef72d1731c66768afe5aca2d3f4dabeb985",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.2418999969959259,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Mel",
+      "skillKey": "mel_q",
+      "binding": "Characters/Mel/Spells/MelQAbility/MelQ",
+      "clientSha256": "f859bc38d7fab0c72214ab5515d1016550ab2a025bc5e22d7ba3e161aff619e5",
+      "spellCastTime": 0,
+      "mCastTime": 0.3499999940395355,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Milio",
+      "skillKey": "milio_q",
+      "binding": "Characters/Milio/Spells/MilioQAbility/MilioQ",
+      "clientSha256": "09af3411a20e2fcbc1080d845d325eb236094cda3cf2ba008cadbf1bf577583a",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Milio",
+      "skillKey": "milio_w",
+      "binding": "Characters/Milio/Spells/MilioWAbility/MilioW",
+      "clientSha256": "09af3411a20e2fcbc1080d845d325eb236094cda3cf2ba008cadbf1bf577583a",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Milio",
+      "skillKey": "milio_e",
+      "binding": "Characters/Milio/Spells/MilioEAbility/MilioE",
+      "clientSha256": "09af3411a20e2fcbc1080d845d325eb236094cda3cf2ba008cadbf1bf577583a",
+      "spellCastTime": 0.17500001192092896,
+      "mCastTime": 0.009999999776482582,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "MissFortune",
+      "skillKey": "missfortune_q",
+      "binding": "Characters/MissFortune/Spells/MissFortuneRicochetShotAbility/MissFortuneRicochetShot",
+      "clientSha256": "7cd92c7cc466550494444a19fc2024c6fa81e2224f3e1be4de042d23572e79bd",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "MissFortune",
+      "skillKey": "missfortune_e",
+      "binding": "Characters/MissFortune/Spells/MissFortuneScattershotAbility/MissFortuneScattershot",
+      "clientSha256": "7cd92c7cc466550494444a19fc2024c6fa81e2224f3e1be4de042d23572e79bd",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "MissFortune",
+      "skillKey": "missfortune_r",
+      "binding": "Characters/MissFortune/Spells/MissFortuneBulletTimeAbility/MissFortuneBulletTime",
+      "clientSha256": "7cd92c7cc466550494444a19fc2024c6fa81e2224f3e1be4de042d23572e79bd",
+      "spellCastTime": 0.3888999819755554,
+      "mCastTime": 0.0010000000474974513,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "MonkeyKing",
+      "skillKey": "monkeyking_q",
+      "binding": "Characters/MonkeyKing/Spells/MonkeyKingDoubleAttackAbility/MonkeyKingDoubleAttack",
+      "clientSha256": "8fc3be42e2b4ef9d5ac9efc915543de6342ca8c8cae5034ffaeea60617035fe6",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Mordekaiser",
+      "skillKey": "mordekaiser_q",
+      "binding": "Characters/Mordekaiser/Spells/MordekaiserQAbility/MordekaiserQ",
+      "clientSha256": "f4c39f44fa35b7e54c302331bd787af4a5265264a722ff5a1f9a606125bffe7b",
+      "spellCastTime": 0,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Morgana",
+      "skillKey": "morgana_q",
+      "binding": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ",
+      "clientSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Morgana",
+      "skillKey": "morgana_w",
+      "binding": "Characters/Morgana/Spells/MorganaWAbility/MorganaW",
+      "clientSha256": "0ab917fcc21d1a8ee6e5a6ff2184b1f3795245b56ddc0fb769b96590341b0913",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Nautilus",
+      "skillKey": "nautilus_r",
+      "binding": "Characters/Nautilus/Spells/NautilusGrandLineAbility/NautilusGrandLine",
+      "clientSha256": "e60756435fe0a107ae6d4dbabd50f0fb18f6964dd298e35dcda55066d40ab7e9",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.46000000834465027,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Nilah",
+      "skillKey": "nilah_w",
+      "binding": "Characters/Nilah/Spells/NilahWAbility/NilahW",
+      "clientSha256": "78dc4b62cec5ba9910d1515040351ddc9555bd761f46d28b184e02b8b59ad79f",
+      "spellCastTime": 0,
+      "mCastTime": 0.013000000268220901,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Nunu",
+      "skillKey": "nunu_q",
+      "binding": "Characters/Nunu/Spells/NunuQAbility/NunuQ",
+      "clientSha256": "4d0c49f0e253b2af1081f5a555fc6668a847b415a590e31a6e9a7637bd912a33",
+      "spellCastTime": 0.4000000059604645,
+      "mCastTime": 0.30000001192092896,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Nunu",
+      "skillKey": "nunu_r",
+      "binding": "Characters/Nunu/Spells/NunuRAbility/NunuR",
+      "clientSha256": "4d0c49f0e253b2af1081f5a555fc6668a847b415a590e31a6e9a7637bd912a33",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.009999999776482582,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Orianna",
+      "skillKey": "orianna_r",
+      "binding": "Characters/Orianna/Spells/OrianaDetonateCommandAbility/OrianaDetonateCommand",
+      "clientSha256": "148aad816744e50a10da2d4d242df3a75dcb6fa19a900d864b4ddeae065f9a67",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Ornn",
+      "skillKey": "ornn_q",
+      "binding": "Characters/Ornn/Spells/OrnnQAbility/OrnnQ",
+      "clientSha256": "097946350ee35764a1146f7d4f6e5b769f9e811e5d6ab0686d31d7db285179c9",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.30000001192092896,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Ornn",
+      "skillKey": "ornn_e",
+      "binding": "Characters/Ornn/Spells/OrnnEAbility/OrnnE",
+      "clientSha256": "097946350ee35764a1146f7d4f6e5b769f9e811e5d6ab0686d31d7db285179c9",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.3499999940395355,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Ornn",
+      "skillKey": "ornn_r",
+      "binding": "Characters/Ornn/Spells/OrnnRAbility/OrnnR",
+      "clientSha256": "097946350ee35764a1146f7d4f6e5b769f9e811e5d6ab0686d31d7db285179c9",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Pantheon",
+      "skillKey": "pantheon_r",
+      "binding": "Characters/Pantheon/Spells/PantheonRAbility/PantheonR",
+      "clientSha256": "ed4d9b0875d42ac28452ca6f6f0eb9171b1338253ec12318cef784646a87abc7",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.10000000149011612,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "RekSai",
+      "skillKey": "reksai_r",
+      "binding": "Characters/RekSai/Spells/RekSaiRAbility/RekSaiR",
+      "clientSha256": "d7260e8c12142cb96c6084ce8d820f021d82efafd6fd0aeebddef5fdf7fb4c81",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.3499999940395355,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Rell",
+      "skillKey": "rell_q",
+      "binding": "Characters/Rell/Spells/RellQAbility/RellQ",
+      "clientSha256": "32425aa522abe82821459a514e4aeb3a659fe543ac07dd4af807ef531c4dcdb4",
+      "spellCastTime": 0.3499999940395355,
+      "mCastTime": 0.4000000059604645,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Rell",
+      "skillKey": "rell_r",
+      "binding": "Characters/Rell/Spells/RellRAbility/RellR",
+      "clientSha256": "32425aa522abe82821459a514e4aeb3a659fe543ac07dd4af807ef531c4dcdb4",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Renata",
+      "skillKey": "renata_q",
+      "binding": "Characters/Renata/Spells/RenataQAbility/RenataQ",
+      "clientSha256": "4c7325b85739959178e48b996e30a02b50c085fed4ffbd24256e7d84362e2809",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Renata",
+      "skillKey": "renata_e",
+      "binding": "Characters/Renata/Spells/RenataEAbility/RenataE",
+      "clientSha256": "4c7325b85739959178e48b996e30a02b50c085fed4ffbd24256e7d84362e2809",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Ryze",
+      "skillKey": "ryze_q",
+      "binding": "Characters/Ryze/Spells/RyzeQWrapperAbility/RyzeQWrapper",
+      "clientSha256": "5b8b69e8a440e0c573c4c3e83095515e0e737c0bc68784ba04584634b30c9543",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Samira",
+      "skillKey": "samira_w",
+      "binding": "Characters/Samira/Spells/SamiraWAbility/SamiraW",
+      "clientSha256": "93b0198ff271363d4ecf30799e3f7dc414d0f4e9a939c32571fea59b8e0084a5",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.009999999776482582,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Senna",
+      "skillKey": "senna_w",
+      "binding": "Characters/Senna/Spells/SennaWAbility/SennaW",
+      "clientSha256": "312a3e983b2940592ac8c396f36f54777c41a07bf162b3e4adbddee57ade6de9",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Senna",
+      "skillKey": "senna_e",
+      "binding": "Characters/Senna/Spells/SennaEAbility/SennaE",
+      "clientSha256": "312a3e983b2940592ac8c396f36f54777c41a07bf162b3e4adbddee57ade6de9",
+      "spellCastTime": 0,
+      "mCastTime": 1,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Seraphine",
+      "skillKey": "seraphine_r",
+      "binding": "Characters/Seraphine/Spells/SeraphineRAbility/SeraphineR",
+      "clientSha256": "fcd2cedf4755636c8ea966d06f12f53ff4e82d5b70fff203d9e31e8de5f2edf9",
+      "spellCastTime": 0,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Sett",
+      "skillKey": "sett_w",
+      "binding": "Characters/Sett/Spells/SettWAbility/SettW",
+      "clientSha256": "13dbe8579df57977485fd282aec6b03673d39579b9325148079050aafd9960f6",
+      "spellCastTime": 0,
+      "mCastTime": 0.75,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Sett",
+      "skillKey": "sett_r",
+      "binding": "Characters/Sett/Spells/SettRAbility/SettR",
+      "clientSha256": "13dbe8579df57977485fd282aec6b03673d39579b9325148079050aafd9960f6",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Shyvana",
+      "skillKey": "shyvana_r",
+      "binding": "Characters/Shyvana/Spells/ShyvanaRAbility/ShyvanaR",
+      "clientSha256": "d75a9ff5a5966d18dd4a3775e18cb9702f66088a043f17a52857e3ba6af81ea1",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Smolder",
+      "skillKey": "smolder_q",
+      "binding": "Characters/Smolder/Spells/SmolderQAbility/SmolderQ",
+      "clientSha256": "4a619c38c0a9163ff9c41da612add447eec4a7310e3fe277c1e5c932b7276b59",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Smolder",
+      "skillKey": "smolder_w",
+      "binding": "Characters/Smolder/Spells/SmolderWAbility/SmolderW",
+      "clientSha256": "4a619c38c0a9163ff9c41da612add447eec4a7310e3fe277c1e5c932b7276b59",
+      "spellCastTime": 0,
+      "mCastTime": 0.3499999940395355,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Thresh",
+      "skillKey": "thresh_q",
+      "binding": "Characters/Thresh/Spells/ThreshQAbility/ThreshQ",
+      "clientSha256": "4ea5a4797225a07dfa2cf0d399514ccf7a7c585db1732200aeb54323fe2f7a88",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Thresh",
+      "skillKey": "thresh_r",
+      "binding": "Characters/Thresh/Spells/ThreshRPentaAbility/ThreshRPenta",
+      "clientSha256": "4ea5a4797225a07dfa2cf0d399514ccf7a7c585db1732200aeb54323fe2f7a88",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.44999998807907104,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Udyr",
+      "skillKey": "udyr_r",
+      "binding": "Characters/Udyr/Spells/UdyrRAbility/UdyrR",
+      "clientSha256": "20171219ba691869f2f1ce3779bfb22977455383a9cc113076dae946e24af9c7",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.10000000149011612,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Urgot",
+      "skillKey": "urgot_e",
+      "binding": "Characters/Urgot/Spells/UrgotEAbility/UrgotE",
+      "clientSha256": "981963dcd28a752e1647bd9879bc8a665b4a98b5a12f0a61842a5ffeaaca4731",
+      "spellCastTime": 0,
+      "mCastTime": 0.44999998807907104,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Urgot",
+      "skillKey": "urgot_r",
+      "binding": "Characters/Urgot/Spells/UrgotRAbility/UrgotR",
+      "clientSha256": "981963dcd28a752e1647bd9879bc8a665b4a98b5a12f0a61842a5ffeaaca4731",
+      "spellCastTime": 0,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Varus",
+      "skillKey": "varus_e",
+      "binding": "Characters/Varus/Spells/VarusEAbility/VarusE",
+      "clientSha256": "a8974d2f907d29235a63d94f8628b8b2892037f203a91b71816bc824356d9eb7",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.2418999969959259,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Varus",
+      "skillKey": "varus_r",
+      "binding": "Characters/Varus/Spells/VarusRAbility/VarusR",
+      "clientSha256": "a8974d2f907d29235a63d94f8628b8b2892037f203a91b71816bc824356d9eb7",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.2418999969959259,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Velkoz",
+      "skillKey": "velkoz_q",
+      "binding": "Characters/Velkoz/Spells/VelkozQAbility/VelkozQ",
+      "clientSha256": "11ccf3992fc0bcf3aecd25171500c55fe6c89e50c6ad8e2af652dea61d431151",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.25099998712539673,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Velkoz",
+      "skillKey": "velkoz_r",
+      "binding": "Characters/Velkoz/Spells/VelkozRAbility/VelkozR",
+      "clientSha256": "11ccf3992fc0bcf3aecd25171500c55fe6c89e50c6ad8e2af652dea61d431151",
+      "spellCastTime": 0.125,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Viktor",
+      "skillKey": "viktor_w",
+      "binding": "Characters/Viktor/Spells/ViktorWAbility/ViktorW",
+      "clientSha256": "aceba5e8ba4a0a9570984efe1132504c485ab40ec42da921539c003189a192ab",
+      "spellCastTime": 0.3888999819755554,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Warwick",
+      "skillKey": "warwick_w",
+      "binding": "Characters/Warwick/Spells/WarwickWAbility/WarwickW",
+      "clientSha256": "edb356788c83b041f25b04d5b59e8d119e6d65852c58d97915dfe70d5b977391",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Warwick",
+      "skillKey": "warwick_r",
+      "binding": "Characters/Warwick/Spells/WarwickRAbility/WarwickR",
+      "clientSha256": "edb356788c83b041f25b04d5b59e8d119e6d65852c58d97915dfe70d5b977391",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.10000000149011612,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Xerath",
+      "skillKey": "xerath_q",
+      "binding": "Characters/Xerath/Spells/XerathArcanopulseChargeUpAbility/XerathArcanopulseChargeUp",
+      "clientSha256": "b2c5377ff3cd718b5b8db6b9c1c44e7862e89a6843e5b08a9347da18527a4b62",
+      "spellCastTime": 0.125,
+      "mCastTime": 0.004999999888241291,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "XinZhao",
+      "skillKey": "xinzhao_w",
+      "binding": "Characters/XinZhao/Spells/XinZhaoWAbility/XinZhaoW",
+      "clientSha256": "9c9f041a01f62dbea5f0e7f26b59b0fc63ed6b08ccdf26f5687b313d1703051f",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.6000000238418579,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Yasuo",
+      "skillKey": "yasuo_w",
+      "binding": "Characters/Yasuo/Spells/YasuoWAbility/YasuoW",
+      "clientSha256": "416432b0550ce038d32f2b593e8155aff7fafd834ee8048a1b64acd5c8d81f40",
+      "spellCastTime": 0,
+      "mCastTime": 0.013000000268220901,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Yone",
+      "skillKey": "yone_r",
+      "binding": "Characters/Yone/Spells/YoneRAbility/YoneR",
+      "clientSha256": "0a6aba675da88bd2dd7fdb8dd82ac3fe77bf345235f7203e0259a6c3a191fac6",
+      "spellCastTime": 0.125,
+      "mCastTime": 0.75,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Zaahen",
+      "skillKey": "zaahen_w",
+      "binding": "Characters/Zaahen/Spells/ZaahenWAbility/ZaahenW",
+      "clientSha256": "fc47c010e81d014f0778781b658f5e156e614a04dc5a182909e89d56b70391a8",
+      "spellCastTime": 0.25,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Zaahen",
+      "skillKey": "zaahen_r",
+      "binding": "Characters/Zaahen/Spells/ZaahenRAbility/ZaahenR",
+      "clientSha256": "fc47c010e81d014f0778781b658f5e156e614a04dc5a182909e89d56b70391a8",
+      "spellCastTime": 0,
+      "mCastTime": 0.5,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Zac",
+      "skillKey": "zac_q",
+      "binding": "Characters/Zac/Spells/ZacQAbility/ZacQ",
+      "clientSha256": "c36252f51ec7c6b18fd82dda2955fc6a1c7a33b9eeff8882c478c6eb6c99a41e",
+      "spellCastTime": 0,
+      "mCastTime": 0.33000001311302185,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Zac",
+      "skillKey": "zac_r",
+      "binding": "Characters/Zac/Spells/ZacRAbility/ZacR",
+      "clientSha256": "c36252f51ec7c6b18fd82dda2955fc6a1c7a33b9eeff8882c478c6eb6c99a41e",
+      "spellCastTime": 0,
+      "mCastTime": 0.30000001192092896,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Zeri",
+      "skillKey": "zeri_w",
+      "binding": "Characters/Zeri/Spells/ZeriWAbility/ZeriW",
+      "clientSha256": "30bb219046600f4d8159e8083e5e32e62f45b91d4e4397ef890454f3ba439142",
+      "spellCastTime": 0,
+      "mCastTime": 0.550000011920929,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Zeri",
+      "skillKey": "zeri_r",
+      "binding": "Characters/Zeri/Spells/ZeriRAbility/ZeriR",
+      "clientSha256": "30bb219046600f4d8159e8083e5e32e62f45b91d4e4397ef890454f3ba439142",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Ziggs",
+      "skillKey": "ziggs_q",
+      "binding": "Characters/Ziggs/Spells/ZiggsQAbility/ZiggsQ",
+      "clientSha256": "1e3f7f932bd6b471f6c6bb2281fb5d2a4ea18102f3cd9c892018ddc8b4184ce4",
+      "spellCastTime": 0.375,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Ziggs",
+      "skillKey": "ziggs_e",
+      "binding": "Characters/Ziggs/Spells/ZiggsEAbility/ZiggsE",
+      "clientSha256": "1e3f7f932bd6b471f6c6bb2281fb5d2a4ea18102f3cd9c892018ddc8b4184ce4",
+      "spellCastTime": 0.375,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Zilean",
+      "skillKey": "zilean_q",
+      "binding": "Characters/Zilean/Spells/ZileanQAbility/ZileanQ",
+      "clientSha256": "0dfdf9dbf76982b26fcd6ee4264af886a17a9ca6713141316816506ce88daa39",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Zoe",
+      "skillKey": "zoe_e",
+      "binding": "Characters/Zoe/Spells/ZoeEAbility/ZoeE",
+      "clientSha256": "c71430f0e15a65513a79f3849ccc208b48a6a7f643c4964e4938933c2aeda4f4",
+      "spellCastTime": 0,
+      "mCastTime": 0.30000001192092896,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Zoe",
+      "skillKey": "zoe_r",
+      "binding": "Characters/Zoe/Spells/ZoeRAbility/ZoeR",
+      "clientSha256": "c71430f0e15a65513a79f3849ccc208b48a6a7f643c4964e4938933c2aeda4f4",
+      "spellCastTime": 0,
+      "mCastTime": 0.25,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    },
+    {
+      "hero": "Zyra",
+      "skillKey": "zyra_w",
+      "binding": "Characters/Zyra/Spells/ZyraWAbility/ZyraW",
+      "clientSha256": "848a42397a39473b298d9a162fdb6cacbc6618d1990fc070e7f0f383f1ff98bc",
+      "spellCastTime": 0,
+      "mCastTime": 0.24320000410079956,
+      "currentStatus": 404,
+      "currentParameter": null,
+      "fixedConflict": false
+    }
+  ],
+  "reads": [
+    {
+      "route": "/skills/aatrox_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/aatrox_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/akali_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/akali_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/akali_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/akali_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/akshan_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/akshan_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/aurelionsol_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/aurora_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/braum_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/braum_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/briar_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/briar_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/darius_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/darius_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/darius_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/draven_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/draven_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/elise_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/evelynn_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/evelynn_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/fiddlesticks_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/fiora_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/gragas_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/gwen_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/gwen_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/hecarim_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/hwei_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/illaoi_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/illaoi_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/ivern_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/janna_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/janna_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/jax_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/jhin_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/jhin_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/jinx_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/jinx_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/jinx_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/kaisa_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/kaisa_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/kalista_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/karthus_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/kayle_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/kayle_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/kayle_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/kindred_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/leona_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/lillia_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/lillia_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/locke_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/lucian_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/malphite_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/mel_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/milio_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/milio_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/milio_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/missfortune_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/missfortune_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/missfortune_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/monkeyking_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/mordekaiser_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/morgana_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/morgana_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/nautilus_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/nilah_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/nunu_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/nunu_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/orianna_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/ornn_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/ornn_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/ornn_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/pantheon_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/reksai_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/rell_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/rell_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/renata_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/renata_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/ryze_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/samira_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/senna_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/senna_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/seraphine_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/sett_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/sett_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/shyvana_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/smolder_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/smolder_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/thresh_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/thresh_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/udyr_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/urgot_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/urgot_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/varus_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/varus_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/velkoz_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/velkoz_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/viktor_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/warwick_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/warwick_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/xerath_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/xinzhao_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/yasuo_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/yone_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/zaahen_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/zaahen_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/zac_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/zac_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/zeri_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/zeri_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/ziggs_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/ziggs_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/zilean_q/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/zoe_e/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/zoe_r/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "route": "/skills/zyra_w/parameters/cast_time_ms",
+      "status": 404,
+      "body": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    }
+  ],
+  "apiWrites": 0
+}

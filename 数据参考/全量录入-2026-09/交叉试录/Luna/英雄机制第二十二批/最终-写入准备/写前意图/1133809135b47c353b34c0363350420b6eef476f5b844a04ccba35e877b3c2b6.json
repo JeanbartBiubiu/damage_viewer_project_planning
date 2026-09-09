@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T13:44:36.203Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/leona_w/parameters",
+  "detailRoute": "/skills/leona_w/parameters/flat_damage_reduction",
+  "skillKey": "leona_w",
+  "kind": "parameters",
+  "stableKey": "flat_damage_reduction",
+  "body": {
+    "parameterKey": "flat_damage_reduction",
+    "name": "即将受到伤害的固定减免",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 8,
+      "2": 12,
+      "3": 16,
+      "4": 20,
+      "5": 24
+    },
+    "description": "当前根DataValues.FlatDamageReduction取索引1至5；保留点数。",
+    "sortOrder": 20
+  }
+}

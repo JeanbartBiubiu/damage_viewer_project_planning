@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T13:44:38.427Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/leona_w/parameters",
+  "detailRoute": "/skills/leona_w/parameters/explosion_base_damage",
+  "skillKey": "leona_w",
+  "kind": "parameters",
+  "stableKey": "explosion_base_damage",
+  "body": {
+    "parameterKey": "explosion_base_damage",
+    "name": "日蚀爆炸基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 55,
+      "2": 85,
+      "3": 115,
+      "4": 145,
+      "5": 175
+    },
+    "description": "当前根DataValues.ExplosionBaseDamage取索引1至5。",
+    "sortOrder": 40
+  }
+}

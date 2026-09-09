@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T13:45:43.393Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/nautilus_e/parameters",
+  "detailRoute": "/skills/nautilus_e/parameters/damage_radius",
+  "skillKey": "nautilus_e",
+  "kind": "parameters",
+  "stableKey": "damage_radius",
+  "body": {
+    "parameterKey": "damage_radius",
+    "name": "单次波纹命中半径",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 125,
+    "levelValues": null,
+    "description": "当前根DataValues.DamageRadius=125；作为实际命中范围参数，不创建展示面积公式。",
+    "sortOrder": 70
+  }
+}

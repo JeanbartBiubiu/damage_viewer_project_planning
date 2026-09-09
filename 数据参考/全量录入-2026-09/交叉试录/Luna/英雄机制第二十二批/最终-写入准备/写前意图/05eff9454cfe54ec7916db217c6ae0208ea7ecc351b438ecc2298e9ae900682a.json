@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T13:45:17.310Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/nautilus_q/parameters",
+  "detailRoute": "/skills/nautilus_q/parameters/base_damage",
+  "skillKey": "nautilus_q",
+  "kind": "parameters",
+  "stableKey": "base_damage",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "疏通航道基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 85,
+      "2": 130,
+      "3": 175,
+      "4": 220,
+      "5": 265
+    },
+    "description": "当前根DataValues.BaseDamage取索引1至5。",
+    "sortOrder": 20
+  }
+}

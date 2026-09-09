@@ -1,0 +1,25 @@
+{
+  "generatedAt": "2026-09-09T13:37:53.188Z",
+  "status": "仅记录根绑定字段冲突与树来源修正，未执行API写入",
+  "sourceVersion": "客户端16.17/官方16.17.1，构建16.17.8104348+branch.releases-16-17.content.release",
+  "previousRevisionCandidateSha256": "e70babf3438399d5d40e5e848b9a5819bbdeca5dd70f216fbe498ca91403459b",
+  "fields": {
+    "leona_q_cast_time_ms": {
+      "spellCastTimeSeconds": 0.5217499732971191,
+      "mCastTimeSeconds": 0.25,
+      "disposition": "RUNTIME_INPUT无默认，暂不选择字段"
+    },
+    "nautilus_r_cast_time_ms": {
+      "spellCastTimeSeconds": 0.25,
+      "mCastTimeSeconds": 0.46000000834465027,
+      "disposition": "RUNTIME_INPUT无默认，暂不选择字段"
+    }
+  },
+  "sourceTreeCorrection": {
+    "skillKey": "leona_w",
+    "calculationKey": "BonusMRTooltip",
+    "actualDataValue": "ArmorBaseBonus",
+    "parameterDataValueCrossCheck": "MRBaseBonus数组本版数值相同但不作为树引用"
+  },
+  "businessWrites": 0
+}
