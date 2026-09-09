@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T12:40:25.780Z",
+  "generatedAt": "2026-09-09T12:53:34.156Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -2520,6 +2520,54 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十七批/页面验收.json",
         "commit": "53a46abe742fffe2d8f10b0005997957481322fd"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroTwentyFirstBatch": {
+      "skills": [
+        "ekko_p",
+        "ekko_q",
+        "ekko_w",
+        "ekko_e",
+        "ekko_r",
+        "fizz_p",
+        "fizz_q",
+        "fizz_w",
+        "fizz_e",
+        "fizz_r"
+      ],
+      "parameters": 105,
+      "formulas": 21,
+      "effects": 8,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "reusedParameters": 15,
+      "created": 119,
+      "independentGets": 237,
+      "independentFormulaChecks": 21,
+      "independentSourceCases": 42,
+      "independentBoundaries": 11,
+      "independentNegativeControls": 25,
+      "independentChecks": 78,
+      "representativePages": 3,
+      "pageGets": 15,
+      "pageMathCases": 10,
+      "candidateSha256": "60e3eb6424e8040163ac4224120ecde569915b699fcf21b4e846909d393be899",
+      "planSha256": "425d870edf2d5e40eb2e794f39185696a9eeb9975d683b407ce551f512d5bc25",
+      "executor": "Cursor实际运行中断，主负责人检查原件后接手修订、录入与验收",
+      "cursorRunId": "run-e11c92c8-b78a-48a0-bdaa-ac28103f9e71",
+      "status": "119项新增、15公共参数复用；237独立GET与78数学检查、3代表页面通过。历史输入采样、命中与距离分支继续处理。",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十一批/当前实录状态.json",
+        "sha256": "e3fba88d3904eec43c8bbde1fb771e7e48507aa4ca6c3e79f2f1df37fbe3205a",
+        "commit": "c53906cb7e6f6f9a987afedd98cb9bac185751d6"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十一批/页面验收.json",
+        "commit": "c53906cb7e6f6f9a987afedd98cb9bac185751d6"
       },
       "runtimeValidation": "未执行"
     }
