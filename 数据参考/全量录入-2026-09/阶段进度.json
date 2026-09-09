@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T20:46:41.853Z",
+  "generatedAt": "2026-09-09T21:15:11.441Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -3683,6 +3683,90 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十八批/页面验收.json",
         "commit": "64f0db647f7340916c5bf355e3071ab35d3e0948"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroThirtyNinthBatch": {
+      "skills": [
+        "urgot_p",
+        "urgot_q",
+        "urgot_w",
+        "urgot_e",
+        "urgot_r",
+        "samira_p",
+        "samira_q",
+        "samira_w",
+        "samira_e",
+        "samira_r",
+        "nilah_p",
+        "nilah_q",
+        "nilah_w",
+        "nilah_e",
+        "nilah_r",
+        "smolder_p",
+        "smolder_q",
+        "smolder_w",
+        "smolder_e",
+        "smolder_r"
+      ],
+      "heroes": [
+        "Urgot",
+        "Samira",
+        "Nilah",
+        "Smolder"
+      ],
+      "parameters": 207,
+      "formulas": 38,
+      "effects": 0,
+      "newCounts": {
+        "parameters": 177,
+        "formulas": 38,
+        "effects": 0
+      },
+      "created": 215,
+      "businessWrites": 216,
+      "reusedParameters": 30,
+      "currentTotalComponents": 245,
+      "saveGETs": 1324,
+      "independentGets": 447,
+      "protectedPaths": 202,
+      "detailChecks": 245,
+      "additionalMathGets": 0,
+      "mathUsesIndependentReadback": true,
+      "independentFormulaChecks": 38,
+      "independentSourceCases": 76,
+      "independentMissingRejects": 63,
+      "independentSourceSeriesChecks": 183,
+      "integerParameters": 120,
+      "millisecondParameters": 49,
+      "independentBoundaryChecks": 13,
+      "descriptionCorrection": {
+        "GETs": 3,
+        "PUTAttempts": 2,
+        "rejected": 1,
+        "confirmed": 1,
+        "onlyDescriptionChanged": true,
+        "formula": "nilah_r/self_healing_amount",
+        "file": "最终验收/候选过程/修订一/页面发现说明纠正/仅移除不可变标识重试/执行结果.json",
+        "independentSnapshotRelation": "447GET后仅此一条描述改变，数值和表达式不变；最终真实详情见纠正回读。"
+      },
+      "representativePages": 4,
+      "pageGets": 0,
+      "pageMathCases": 0,
+      "candidateSha256": "b79197a5ca3d1762bdbc5955871d4c17e6923274e318913cf8843481254122c8",
+      "planSha256": "a0e64ff436968bad1fd401054b7fb6090638c378dde0da9659f52f58ba1b44b7",
+      "executor": "Cursor来源复核、Luna Max候选与独立回读数学、主负责人审查保存及页面纠错验收",
+      "status": "本轮来源明确组成已保存并独立回读、数学和代表页面验收；公式说明遗留已现场纠正；事件与阶段单列",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十九批/当前实录状态.json",
+        "sha256": "b9d6e9bafd23b6c59bfac4f460010f2cf9031f4279a1149c2cb7f0bc73da209b",
+        "commit": "799d1fae11f83ee0e5a10744c7f83fc24422bcc4"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十九批/最终验收/候选过程/修订一/页面验收.json",
+        "commit": "799d1fae11f83ee0e5a10744c7f83fc24422bcc4"
       },
       "runtimeValidation": "未执行"
     }
