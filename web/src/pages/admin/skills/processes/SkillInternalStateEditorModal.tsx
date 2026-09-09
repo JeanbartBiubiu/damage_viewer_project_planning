@@ -1,4 +1,4 @@
-import { numericValuesIn } from '../numericValueForm';
+import { usesNumericValueKind } from '../numericValueForm';
 import { useNumericParameters } from '../useNumericParameters';
 import { NumericValueField } from '../NumericValueField';
 import {
@@ -129,7 +129,7 @@ export function SkillInternalStateEditorModal({
   const readOnly = mode === 'view';
   const existing = draft.originalStateType !== null;
   const closeBlocked = saving || (mode === 'edit' && loadingDetail);
-  const needsFormulas = numericValuesIn(draft).some((value) => value.kind === 'FORMULA');
+  const needsFormulas = usesNumericValueKind(draft, 'FORMULA');
 
   const reportDirty = useCallback((next: SkillInternalStateDraft, currentBaseline: SkillInternalStateDraft) => {
     onDirtyChange(JSON.stringify(next) !== JSON.stringify(currentBaseline));
