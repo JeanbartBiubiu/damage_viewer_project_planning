@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T12:37:08.527Z",
+  "method": "POST",
+  "skillKey": "ekko_r",
+  "kind": "parameters",
+  "stableKey": "flat_heal",
+  "route": "/skills/ekko_r/parameters",
+  "readRoute": "/skills/ekko_r/parameters/flat_heal",
+  "body": {
+    "parameterKey": "flat_heal",
+    "name": "基础治疗固定值",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 100,
+      "2": 150,
+      "3": 200
+    },
+    "description": "客户端当前根绑定 DataValues.FlatHeal 取索引1至3。这是 TotalBaseHeal 基础项，不是已放大后的实际治疗。",
+    "sortOrder": 50
+  }
+}

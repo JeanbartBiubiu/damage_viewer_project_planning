@@ -1,0 +1,41 @@
+{
+  "at": "2026-09-09T12:36:36.054Z",
+  "method": "POST",
+  "skillKey": "ekko_q",
+  "kind": "formulas",
+  "stableKey": "recall_damage",
+  "route": "/skills/ekko_q/formulas",
+  "readRoute": "/skills/ekko_q/formulas/recall_damage",
+  "body": {
+    "formulaKey": "recall_damage",
+    "name": "返程魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "return_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "return_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "RecallDamage = ReturnDamage + 0.6×来源总法强。tooltipOnly。不是往返合计。",
+    "sortOrder": 20
+  }
+}

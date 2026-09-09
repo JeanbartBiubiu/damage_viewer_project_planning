@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:36:21.288Z",
+  "method": "POST",
+  "skillKey": "ekko_p",
+  "kind": "parameters",
+  "stableKey": "bonus_move_speed_ratio",
+  "route": "/skills/ekko_p/parameters",
+  "readRoute": "/skills/ekko_p/parameters/bonus_move_speed_ratio",
+  "body": {
+    "parameterKey": "bonus_move_speed_ratio",
+    "name": "对英雄爆发移动速度比例（实际值外供）",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "BonusMS 为角色等级断点，mDisplayAsPercent。mLevel1Value=0.5，6/11/16级各 mAdditionalBonusAtThisLevel=0.1。求值循环未证，不猜线性，不默认0。单位：1=100%。",
+    "sortOrder": 60
+  }
+}

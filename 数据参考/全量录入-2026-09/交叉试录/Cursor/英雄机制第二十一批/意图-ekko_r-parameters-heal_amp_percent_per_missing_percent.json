@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:10.525Z",
+  "method": "POST",
+  "skillKey": "ekko_r",
+  "kind": "parameters",
+  "stableKey": "heal_amp_percent_per_missing_percent",
+  "route": "/skills/ekko_r/parameters",
+  "readRoute": "/skills/ekko_r/parameters/heal_amp_percent_per_missing_percent",
+  "body": {
+    "parameterKey": "heal_amp_percent_per_missing_percent",
+    "name": "每损失生命百分数点提升治疗百分数点",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 3,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.PercentHealAmpPerPercentMissingHealth 取索引1至3。正文写每损失1%生命提升该值%。不把它与 BotData 里乘20的机器人占位合成完整治疗函数。",
+    "sortOrder": 70
+  }
+}

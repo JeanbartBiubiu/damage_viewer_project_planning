@@ -1,0 +1,1051 @@
+{
+  "at": "2026-09-09T12:52:17.010Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "representativePages": 3,
+  "observations": [
+    {
+      "skillKey": "fizz_p",
+      "observed": "代表图片、固定4、法强系数0.01、上限0.5和实际伤害输入可见。普通基数与受50%约束的公式分列；打开最终式可见取小值与伤害输入。"
+    },
+    {
+      "skillKey": "ekko_w",
+      "observed": "15点一般伤害下限、无默认目标已损失生命输入与低于生命阈值目标的额外魔法伤害公式可见，未把兵野150上限加入英雄公式。"
+    },
+    {
+      "skillKey": "ekko_r",
+      "observed": "过去四秒损失生命百分数点为计算时输入，基础治疗与按历史损失放大后的公式分列，名称明确历史含义。"
+    }
+  ],
+  "GETs": 15,
+  "requests": [
+    {
+      "route": "/skills/fizz_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:19.697981Z",
+        "description": "菲兹在移动时可以穿过单位并且从所有来源处受到的伤害都会减少一个固定的数额。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "菲兹·伶俐斗士",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "fizz_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:19.697981Z"
+      }
+    },
+    {
+      "route": "/skills/fizz_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_fizz_p",
+          "name": "fizz_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/fizz_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:37:20.797413Z",
+          "description": "客户端当前根绑定 DataValues.DamageReduction 取索引1至1。单位：伤害点数，不是减伤后实伤。",
+          "fixedValue": 4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "固定伤害减免",
+          "parameterKey": "damage_reduction_flat",
+          "skillKey": "fizz_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:37:20.797413Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:21.832997Z",
+          "description": "DamageReductionCalc 的 StatByNamedDataValue 绑定 APRatio，原始 0.009999999776482582，归一为0.01。省略 mStat/mStatFormula，窄口径来源总法强。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "伤害减免法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "fizz_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:37:21.832997Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:22.903393Z",
+          "description": "客户端当前根绑定 DataValues.DamageReductionMax 取索引1至1。当前扩展行写占比不能超过该值×100%。上限未进入 DamageReductionCalc 树，不把 MIN(当次伤害×0.5) 写成完整函数。单位：1=100%。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减免占比上限比例",
+          "parameterKey": "damage_reduction_max_ratio",
+          "skillKey": "fizz_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:37:22.903393Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:23.935999Z",
+          "description": "该次伤害在应用本被动前的实际输入，无默认；抗性、护盾与本次减免的先后顺序仍待接，不能由本公式猜测。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "进入本次减免步骤的伤害量",
+          "parameterKey": "damage_before_this_reduction",
+          "skillKey": "fizz_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:37:23.935999Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/fizz_p/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:37:25.039059Z",
+          "description": "DamageReductionCalc = DamageReduction + APRatio×来源总法强。这是固定减免点数，不是减伤后实际受到伤害，也不含占比上限。",
+          "formulaKey": "damage_reduction",
+          "gameId": "lol",
+          "name": "固定伤害减免基数",
+          "skillKey": "fizz_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:37:25.039059Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:26.100323Z",
+          "description": "当前根扩展正文限定减免占比不超过DamageReductionMax=0.5，最终式取固定基数与该次伤害50%的较小值。只计算已给定步骤输入的减免量，不创建伤害或减伤结果。",
+          "formulaKey": "capped_damage_reduction",
+          "gameId": "lol",
+          "name": "受50%上限约束的伤害减免",
+          "skillKey": "fizz_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:37:26.100323Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ekko_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:13.152042Z",
+        "description": "艾克的普攻对低生命值的敌人造成额外魔法伤害。他可以施放【时光交错】来分离这条时间线，制造一个不稳定的异常时间点，这个时间点会在数秒后对范围内的敌人造成减速效果。如果艾克进入了这个异常时间点，那么他会获得护盾并让范围内的敌人因悬浮在时间中而陷入晕眩状态。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾克·时光交错",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ekko_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:13.152042Z"
+      }
+    },
+    {
+      "route": "/skills/ekko_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ekko_w",
+          "name": "ekko_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/ekko_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:36:37.838283Z",
+          "description": "当前根 spellCastTime=0.25，无冲突的 mCastTime。仅保存根字段。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "ekko_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:36:37.838283Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:38.82635Z",
+          "description": "客户端当前根绑定 DataValues.BelowHealthThreshold 原始 0.30000001192092896，归一为0.3。正文 @BelowHealthThreshold*100@%。单位：1=100%。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外伤害生命阈值比例",
+          "parameterKey": "below_health_threshold_ratio",
+          "skillKey": "ekko_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:36:38.82635Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:39.859338Z",
+          "description": "客户端当前根绑定 DataValues.BaseOnHitDamage 取索引1至5。进入 MissingHealthPercent 后再乘 0.01。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已损失生命伤害基础点数",
+          "parameterKey": "on_hit_base",
+          "skillKey": "ekko_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:36:39.859338Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:40.835624Z",
+          "description": "MissingHealthPercent 第二项 StatByCoefficient mCoefficient 原始 0.029999999329447746，归一为0.03。省略选择器，窄口径来源总法强。",
+          "fixedValue": 0.03,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已损失生命伤害法强倍率",
+          "parameterKey": "on_hit_ap_ratio",
+          "skillKey": "ekko_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T12:36:40.835624Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:41.884428Z",
+          "description": "MissingHealthPercent.mMultiplier NumberCalculationPart 原始 0.009999999776482582，归一为0.01。mDisplayAsPercent。该公式是已损失生命比例，不是实际造成伤害。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "已损失生命比例换算",
+          "parameterKey": "missing_health_ratio_multiplier",
+          "skillKey": "ekko_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T12:36:41.884428Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:42.86044Z",
+          "description": "客户端当前根绑定 DataValues.ShieldBase 取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100,
+            "2": 120,
+            "3": 140,
+            "4": 160,
+            "5": 180
+          },
+          "name": "自身护盾基础值",
+          "parameterKey": "shield_base",
+          "skillKey": "ekko_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T12:36:42.86044Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:43.942399Z",
+          "description": "TotalShield 第二项 StatByCoefficient mCoefficient=1.5。省略选择器，窄口径来源总法强。",
+          "fixedValue": 1.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾法强倍率",
+          "parameterKey": "shield_ap_ratio",
+          "skillKey": "ekko_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T12:36:43.942399Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:44.967256Z",
+          "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5，正文直接显示 @SlowPercent@%，已是百分数点，不乘0.01。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "球体减速百分数点",
+          "parameterKey": "slow_percent_points",
+          "skillKey": "ekko_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T12:36:44.967256Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:21.983347Z",
+          "description": "DDragon16.17.1 Ekko.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 22000,
+            "2": 20000,
+            "3": 18000,
+            "4": 16000,
+            "5": 14000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ekko_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:21.983347Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:22.455124Z",
+          "description": "DDragon16.17.1 Ekko.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 35,
+            "3": 40,
+            "4": 45,
+            "5": 50
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ekko_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:22.455124Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:45.937904Z",
+          "description": "客户端当前根绑定 DataValues.SlowZoneDuration 取索引1至5，原值1.5秒转毫秒。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减速球体持续（毫秒）",
+          "parameterKey": "slow_zone_duration_ms",
+          "skillKey": "ekko_w",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T12:36:45.937904Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:47.027398Z",
+          "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5，原值2.25秒转毫秒。",
+          "fixedValue": 2250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "引爆晕眩持续（毫秒）",
+          "parameterKey": "stun_duration_ms",
+          "skillKey": "ekko_w",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T12:36:47.027398Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:48.066984Z",
+          "description": "客户端当前根绑定 DataValues.DelayBeforeDetonation 取索引1至5，原值3秒转毫秒。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "引爆前延迟（毫秒）",
+          "parameterKey": "detonation_delay_ms",
+          "skillKey": "ekko_w",
+          "sortOrder": 140,
+          "updatedAt": "2026-09-09T12:36:48.066984Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:49.071501Z",
+          "description": "客户端当前根绑定 DataValues.AoERadius 取索引1至5。1v1 下唯一敌人可处于该范围。",
+          "fixedValue": 375,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "球体半径",
+          "parameterKey": "aoe_radius",
+          "skillKey": "ekko_w",
+          "sortOrder": 150,
+          "updatedAt": "2026-09-09T12:36:49.071501Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:50.074065Z",
+          "description": "当前根扩展正文第一句明确额外攻击伤害最少OnHitMinMinionDamage=15；后半句才把150最大值限制到小兵野怪，不能因字段名含Minion把一般下限排除。",
+          "fixedValue": 15,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "低生命值攻击额外伤害下限",
+          "parameterKey": "on_hit_minimum_damage",
+          "skillKey": "ekko_w",
+          "sortOrder": 160,
+          "updatedAt": "2026-09-09T12:36:50.074065Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:50.994197Z",
+          "description": "当前根正文明确以目标已损失生命值计算。仅用于目标低于30%生命且攻击资格已满足的数值，无默认，不映射未知mStat15或自动命中。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "目标实际已损失生命值",
+          "parameterKey": "target_missing_health_for_on_hit",
+          "skillKey": "ekko_w",
+          "sortOrder": 170,
+          "updatedAt": "2026-09-09T12:36:50.994197Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ekko_w/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:36:51.948698Z",
+          "description": "MissingHealthPercent = 0.01×(BaseOnHitDamage + 0.03×来源总法强)。这是已损失生命比例，不是实际造成伤害；目标已损失生命仍待外供。",
+          "formulaKey": "missing_health_damage_ratio",
+          "gameId": "lol",
+          "name": "已损失生命魔法伤害比例",
+          "skillKey": "ekko_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:36:51.948698Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:53.193785Z",
+          "description": "TotalShield = ShieldBase + 1.5×来源总法强。护盾持续未出现在 DataValues，不创建可运行护盾效果。",
+          "formulaKey": "total_shield",
+          "gameId": "lol",
+          "name": "自身护盾值",
+          "skillKey": "ekko_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:36:53.193785Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:36:54.177423Z",
+          "description": "当前根正文及扩展正文：已满足低于30%生命资格时，取15与(3+0.03×法强)%乘已损失生命值的较大值。兵野150上限不进入英雄分支；资格、普攻事件与结果待接。",
+          "formulaKey": "eligible_on_hit_damage",
+          "gameId": "lol",
+          "name": "低于生命阈值目标的攻击额外魔法伤害",
+          "skillKey": "ekko_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:36:54.177423Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ekko_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:13.671018Z",
+        "description": "艾克打破他的时间线，变得不可被选取并回溯到一个更加有利的时间点上。他会回到几秒前的位置，并治疗这几秒内所受的伤势。在完成传送后，传送终点区域附近的敌人都会受到巨量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "艾克·时空断裂",
+        "skillCategoryKeys": [],
+        "skillKey": "ekko_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:13.671018Z"
+      }
+    },
+    {
+      "route": "/skills/ekko_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ekko_r",
+          "name": "ekko_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/ekko_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:37:04.916852Z",
+          "description": "当前根仅有 mCastTime=0.25，无 spellCastTime。仅保存根字段。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "ekko_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:37:04.916852Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:06.06972Z",
+          "description": "客户端当前根绑定 DataValues.Damage 取索引1至3。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 200,
+            "2": 350,
+            "3": 500
+          },
+          "name": "到达基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "ekko_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:37:06.06972Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:07.167959Z",
+          "description": "TotalDamage 第二项 StatByCoefficient mCoefficient=1.75。省略选择器，窄口径来源总法强。",
+          "fixedValue": 1.75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "到达伤害法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "ekko_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T12:37:07.167959Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:08.236311Z",
+          "description": "客户端当前根绑定 DataValues.FlatHeal 取索引1至3。这是 TotalBaseHeal 基础项，不是已放大后的实际治疗。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100,
+            "2": 150,
+            "3": 200
+          },
+          "name": "基础治疗固定值",
+          "parameterKey": "flat_heal",
+          "skillKey": "ekko_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T12:37:08.236311Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:09.24331Z",
+          "description": "TotalBaseHeal 第二项 StatByCoefficient mCoefficient 原始 0.6000000238418579，归一为0.6。省略选择器，窄口径来源总法强。",
+          "fixedValue": 0.6,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础治疗法强倍率",
+          "parameterKey": "heal_ap_ratio",
+          "skillKey": "ekko_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T12:37:09.24331Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:10.222156Z",
+          "description": "客户端当前根绑定 DataValues.PercentHealAmpPerPercentMissingHealth 取索引1至3。正文写每损失1%生命提升该值%。不把它与 BotData 里乘20的机器人占位合成完整治疗函数。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每损失生命百分数点提升治疗百分数点",
+          "parameterKey": "heal_amp_percent_per_missing_percent",
+          "skillKey": "ekko_r",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T12:37:10.222156Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:11.217378Z",
+          "description": "当前根正文写「4秒前」和「最近4秒」，不是 DataValues。只记录时间窗长度。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "回溯时间窗（毫秒）",
+          "parameterKey": "rewind_window_ms",
+          "skillKey": "ekko_r",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T12:37:11.217378Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:12.27384Z",
+          "description": "历史位置和实际过去受伤量不能伪造。无默认。不把该输入填进可运行治疗结果。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最近时间窗已损失生命百分数点（实际值外供）",
+          "parameterKey": "past_missing_health_percent_points",
+          "skillKey": "ekko_r",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T12:37:12.27384Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:23.854334Z",
+          "description": "DDragon16.17.1 Ekko.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 110000,
+            "2": 80000,
+            "3": 50000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ekko_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:23.854334Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:24.345163Z",
+          "description": "DDragon16.17.1 Ekko.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ekko_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:24.345163Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:13.299823Z",
+          "description": "客户端当前根绑定 DataValues.AoERadius 取索引1至3。1v1 下唯一敌人可承受该范围伤害。",
+          "fixedValue": 375,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "到达范围半径",
+          "parameterKey": "aoe_radius",
+          "skillKey": "ekko_r",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T12:37:13.299823Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:14.337001Z",
+          "description": "百分比提升表达式的基础倍率1。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础治疗倍率",
+          "parameterKey": "heal_multiplier_one",
+          "skillKey": "ekko_r",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T12:37:14.337001Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:15.33969Z",
+          "description": "当前根正文每损失1%生命提升3%治疗，百分数点乘0.01换算为比例。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "百分数点换算比例",
+          "parameterKey": "percentage_point_ratio",
+          "skillKey": "ekko_r",
+          "sortOrder": 140,
+          "updatedAt": "2026-09-09T12:37:15.33969Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ekko_r/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T12:37:16.393907Z",
+          "description": "TotalDamage = Damage + 1.75×来源总法强。到达事件未接线。",
+          "formulaKey": "damage",
+          "gameId": "lol",
+          "name": "到达范围魔法伤害",
+          "skillKey": "ekko_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T12:37:16.393907Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:17.53075Z",
+          "description": "TotalBaseHeal = FlatHeal + 0.6×来源总法强。这是基础治疗，不是按过去受伤放大后的实际治疗，也不创建直接治疗结果。",
+          "formulaKey": "total_base_heal",
+          "gameId": "lol",
+          "name": "基础治疗量",
+          "skillKey": "ekko_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T12:37:17.53075Z"
+        },
+        {
+          "createdAt": "2026-09-09T12:37:18.535651Z",
+          "description": "当前根正文明确最近4秒每损失1%生命值使基础治疗提升3%。历史损失百分数点为无默认外供实值，完整数学为基础治疗×(1+0.03×历史损失百分数点)；不由当前位置或当前缺血值代替历史输入，不推断回溯事件或实际治疗结果。",
+          "formulaKey": "history_amplified_heal",
+          "gameId": "lol",
+          "name": "按过去四秒损失生命比例提升的治疗量",
+          "skillKey": "ekko_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T12:37:18.535651Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/fizz_p/formulas/capped_damage_reduction",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:37:26.100323Z",
+        "description": "当前根扩展正文限定减免占比不超过DamageReductionMax=0.5，最终式取固定基数与该次伤害50%的较小值。只计算已给定步骤输入的减免量，不创建伤害或减伤结果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_reduction_flat"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_reduction_max_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_before_this_reduction"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "MIN"
+        },
+        "formulaKey": "capped_damage_reduction",
+        "gameId": "lol",
+        "name": "受50%上限约束的伤害减免",
+        "skillKey": "fizz_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T12:37:26.100323Z"
+      }
+    },
+    {
+      "route": "/skills/ekko_w/formulas/eligible_on_hit_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:36:54.177423Z",
+        "description": "当前根正文及扩展正文：已满足低于30%生命资格时，取15与(3+0.03×法强)%乘已损失生命值的较大值。兵野150上限不进入英雄分支；资格、普攻事件与结果待接。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "on_hit_minimum_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "missing_health_ratio_multiplier"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "on_hit_base"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "on_hit_ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "target_missing_health_for_on_hit"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "MAX"
+        },
+        "formulaKey": "eligible_on_hit_damage",
+        "gameId": "lol",
+        "name": "低于生命阈值目标的攻击额外魔法伤害",
+        "skillKey": "ekko_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T12:36:54.177423Z"
+      }
+    },
+    {
+      "route": "/skills/ekko_r/formulas/history_amplified_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T12:37:18.535651Z",
+        "description": "当前根正文明确最近4秒每损失1%生命值使基础治疗提升3%。历史损失百分数点为无默认外供实值，完整数学为基础治疗×(1+0.03×历史损失百分数点)；不由当前位置或当前缺血值代替历史输入，不推断回溯事件或实际治疗结果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "heal_ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_multiplier_one"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percentage_point_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "heal_amp_percent_per_missing_percent"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "past_missing_health_percent_points"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "history_amplified_heal",
+        "gameId": "lol",
+        "name": "按过去四秒损失生命比例提升的治疗量",
+        "skillKey": "ekko_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T12:37:18.535651Z"
+      }
+    }
+  ],
+  "mathCases": 10,
+  "cases": [
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "capped_damage_reduction",
+      "input": {
+        "rank": 1,
+        "AP": 100,
+        "damage_before_this_reduction": 0
+      },
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "capped_damage_reduction",
+      "input": {
+        "rank": 1,
+        "AP": 100,
+        "damage_before_this_reduction": 8
+      },
+      "actual": 4,
+      "expected": 4,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "capped_damage_reduction",
+      "input": {
+        "rank": 1,
+        "AP": 100,
+        "damage_before_this_reduction": 10
+      },
+      "actual": 5,
+      "expected": 5,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "capped_damage_reduction",
+      "input": {
+        "rank": 1,
+        "AP": 100,
+        "damage_before_this_reduction": 100
+      },
+      "actual": 5,
+      "expected": 5,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "eligible_on_hit_damage",
+      "input": {
+        "rank": 1,
+        "AP": 100,
+        "target_missing_health_for_on_hit": 0
+      },
+      "actual": 15,
+      "expected": 15,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "eligible_on_hit_damage",
+      "input": {
+        "rank": 1,
+        "AP": 100,
+        "target_missing_health_for_on_hit": 250
+      },
+      "actual": 15,
+      "expected": 15,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "eligible_on_hit_damage",
+      "input": {
+        "rank": 1,
+        "AP": 100,
+        "target_missing_health_for_on_hit": 300
+      },
+      "actual": 18,
+      "expected": 18,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "history_amplified_heal",
+      "input": {
+        "rank": 1,
+        "AP": 100,
+        "past_missing_health_percent_points": 0
+      },
+      "actual": 160,
+      "expected": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "history_amplified_heal",
+      "input": {
+        "rank": 1,
+        "AP": 100,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 304,
+      "expected": 304,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "history_amplified_heal",
+      "input": {
+        "rank": 1,
+        "AP": 100,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 640,
+      "expected": 640,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "apiWrites": 0,
+  "runtimeValidation": "未执行"
+}

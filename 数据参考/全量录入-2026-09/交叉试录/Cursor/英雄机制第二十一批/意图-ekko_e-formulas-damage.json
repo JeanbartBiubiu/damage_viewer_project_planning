@@ -1,0 +1,41 @@
+{
+  "at": "2026-09-09T12:37:02.980Z",
+  "method": "POST",
+  "skillKey": "ekko_e",
+  "kind": "formulas",
+  "stableKey": "damage",
+  "route": "/skills/ekko_e/formulas",
+  "readRoute": "/skills/ekko_e/formulas/damage",
+  "body": {
+    "formulaKey": "damage",
+    "name": "相位俯冲额外魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalDamage = BaseDamage + 0.4×来源总法强。tooltipOnly。不把传送到目标旁写成可运行位移。",
+    "sortOrder": 10
+  }
+}

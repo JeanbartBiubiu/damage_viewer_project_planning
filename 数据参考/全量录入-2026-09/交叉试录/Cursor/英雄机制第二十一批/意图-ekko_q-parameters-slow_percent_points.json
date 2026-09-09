@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-09T12:36:31.927Z",
+  "method": "POST",
+  "skillKey": "ekko_q",
+  "kind": "parameters",
+  "stableKey": "slow_percent_points",
+  "route": "/skills/ekko_q/parameters",
+  "readRoute": "/skills/ekko_q/parameters/slow_percent_points",
+  "body": {
+    "parameterKey": "slow_percent_points",
+    "name": "时间扭曲力场减速百分数点",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 40,
+      "2": 45,
+      "3": 50,
+      "4": 55,
+      "5": 60
+    },
+    "description": "客户端当前根绑定 DataValues.SlowPercent 索引1至5原始为负移速修正；当前正文 @SlowPercent*-100@%，转为正的40至60百分数点。不把负哨兵当持续时间。",
+    "sortOrder": 70
+  }
+}

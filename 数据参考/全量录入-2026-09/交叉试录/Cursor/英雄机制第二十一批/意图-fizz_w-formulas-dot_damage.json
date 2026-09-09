@@ -1,0 +1,41 @@
+{
+  "at": "2026-09-09T12:37:48.031Z",
+  "method": "POST",
+  "skillKey": "fizz_w",
+  "kind": "formulas",
+  "stableKey": "dot_damage",
+  "route": "/skills/fizz_w/formulas",
+  "readRoute": "/skills/fizz_w/formulas/dot_damage",
+  "body": {
+    "formulaKey": "dot_damage",
+    "name": "流血期间总魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "dot_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "dot_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "DoTDamage = DoTBaseDamage + DoTRatio×来源总法强。正文为持续时间内共造成的总量，不是每秒或每次跳数。",
+    "sortOrder": 10
+  }
+}

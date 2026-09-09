@@ -1,0 +1,41 @@
+{
+  "at": "2026-09-09T12:36:35.045Z",
+  "method": "POST",
+  "skillKey": "ekko_q",
+  "kind": "formulas",
+  "stableKey": "initial_damage",
+  "route": "/skills/ekko_q/formulas",
+  "readRoute": "/skills/ekko_q/formulas/initial_damage",
+  "body": {
+    "formulaKey": "initial_damage",
+    "name": "往程魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "outgoing_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "outgoing_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "InitialDamage = OutgoingDamage + 0.3×来源总法强。tooltipOnly。同目标可再吃返程，不在此相加。",
+    "sortOrder": 10
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "at": "2026-09-09T12:36:54.484Z",
+  "method": "POST",
+  "skillKey": "ekko_w",
+  "kind": "formulas",
+  "stableKey": "eligible_on_hit_damage",
+  "route": "/skills/ekko_w/formulas",
+  "readRoute": "/skills/ekko_w/formulas/eligible_on_hit_damage",
+  "body": {
+    "formulaKey": "eligible_on_hit_damage",
+    "name": "低于生命阈值目标的攻击额外魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MAX",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "on_hit_minimum_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missing_health_ratio_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "on_hit_base"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "on_hit_ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "target_missing_health_for_on_hit"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "当前根正文及扩展正文：已满足低于30%生命资格时，取15与(3+0.03×法强)%乘已损失生命值的较大值。兵野150上限不进入英雄分支；资格、普攻事件与结果待接。",
+    "sortOrder": 30
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:36:51.298Z",
+  "method": "POST",
+  "skillKey": "ekko_w",
+  "kind": "parameters",
+  "stableKey": "target_missing_health_for_on_hit",
+  "route": "/skills/ekko_w/parameters",
+  "readRoute": "/skills/ekko_w/parameters/target_missing_health_for_on_hit",
+  "body": {
+    "parameterKey": "target_missing_health_for_on_hit",
+    "name": "目标实际已损失生命值",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "当前根正文明确以目标已损失生命值计算。仅用于目标低于30%生命且攻击资格已满足的数值，无默认，不映射未知mStat15或自动命中。",
+    "sortOrder": 170
+  }
+}

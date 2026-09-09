@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:36:16.265Z",
+  "method": "POST",
+  "skillKey": "ekko_p",
+  "kind": "parameters",
+  "stableKey": "modes_multiplier",
+  "route": "/skills/ekko_p/parameters",
+  "readRoute": "/skills/ekko_p/parameters/modes_multiplier",
+  "body": {
+    "parameterKey": "modes_multiplier",
+    "name": "召唤师峡谷模式倍率",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 1,
+    "levelValues": null,
+    "description": "ThreeHitDamage.mMultiplier 绑定 DataValues.ModesMultiplier 索引1至1，召唤师峡谷为1。樱桃模式覆盖1.1不进入本1v1候选。",
+    "sortOrder": 30
+  }
+}

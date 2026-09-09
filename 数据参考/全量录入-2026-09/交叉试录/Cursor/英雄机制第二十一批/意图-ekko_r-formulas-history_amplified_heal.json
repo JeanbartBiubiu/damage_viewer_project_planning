@@ -1,0 +1,81 @@
+{
+  "at": "2026-09-09T12:37:18.829Z",
+  "method": "POST",
+  "skillKey": "ekko_r",
+  "kind": "formulas",
+  "stableKey": "history_amplified_heal",
+  "route": "/skills/ekko_r/formulas",
+  "readRoute": "/skills/ekko_r/formulas/history_amplified_heal",
+  "body": {
+    "formulaKey": "history_amplified_heal",
+    "name": "按过去四秒损失生命比例提升的治疗量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "flat_heal"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "heal_multiplier_one"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percentage_point_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "heal_amp_percent_per_missing_percent"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "past_missing_health_percent_points"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "当前根正文明确最近4秒每损失1%生命值使基础治疗提升3%。历史损失百分数点为无默认外供实值，完整数学为基础治疗×(1+0.03×历史损失百分数点)；不由当前位置或当前缺血值代替历史输入，不推断回溯事件或实际治疗结果。",
+    "sortOrder": 30
+  }
+}

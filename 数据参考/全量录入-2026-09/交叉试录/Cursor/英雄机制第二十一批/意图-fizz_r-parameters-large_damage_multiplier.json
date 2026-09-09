@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:38:07.707Z",
+  "method": "POST",
+  "skillKey": "fizz_r",
+  "kind": "parameters",
+  "stableKey": "large_damage_multiplier",
+  "route": "/skills/fizz_r/parameters",
+  "readRoute": "/skills/fizz_r/parameters/large_damage_multiplier",
+  "body": {
+    "parameterKey": "large_damage_multiplier",
+    "name": "大鲨鱼伤害倍率",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 1.5,
+    "levelValues": null,
+    "description": "BigSharkDamage 为 GameCalculationModified，mModifiedGameCalculation=SmallSharkDamage，mMultiplier 绑定 LargeDamageMulti=1.5。不能无条件默认最大。",
+    "sortOrder": 60
+  }
+}

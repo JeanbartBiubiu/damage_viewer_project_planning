@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-09T12:37:46.108Z",
+  "method": "POST",
+  "skillKey": "fizz_w",
+  "kind": "parameters",
+  "stableKey": "on_kill_mana_refund",
+  "route": "/skills/fizz_w/parameters",
+  "readRoute": "/skills/fizz_w/parameters/on_kill_mana_refund",
+  "body": {
+    "parameterKey": "on_kill_mana_refund",
+    "name": "击杀返还法力",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 30,
+      "2": 40,
+      "3": 50,
+      "4": 60,
+      "5": 70
+    },
+    "description": "客户端当前根绑定 DataValues.OnKillManaRefund 取索引1至5。击杀事件未接线，只保存数值。",
+    "sortOrder": 150
+  }
+}

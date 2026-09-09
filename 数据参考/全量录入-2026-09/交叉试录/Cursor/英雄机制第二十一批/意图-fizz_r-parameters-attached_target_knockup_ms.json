@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:38:14.841Z",
+  "method": "POST",
+  "skillKey": "fizz_r",
+  "kind": "parameters",
+  "stableKey": "attached_target_knockup_ms",
+  "route": "/skills/fizz_r/parameters",
+  "readRoute": "/skills/fizz_r/parameters/attached_target_knockup_ms",
+  "body": {
+    "parameterKey": "attached_target_knockup_ms",
+    "name": "吸附目标击飞持续（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 1000,
+    "levelValues": null,
+    "description": "当前根Spell_FizzR_Tooltip明确携鱼目标击飞1秒；只记录唯一目标控制持续，事件待接。",
+    "sortOrder": 150
+  }
+}

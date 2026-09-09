@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:15.643Z",
+  "method": "POST",
+  "skillKey": "ekko_r",
+  "kind": "parameters",
+  "stableKey": "percentage_point_ratio",
+  "route": "/skills/ekko_r/parameters",
+  "readRoute": "/skills/ekko_r/parameters/percentage_point_ratio",
+  "body": {
+    "parameterKey": "percentage_point_ratio",
+    "name": "百分数点换算比例",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.01,
+    "levelValues": null,
+    "description": "当前根正文每损失1%生命提升3%治疗，百分数点乘0.01换算为比例。",
+    "sortOrder": 140
+  }
+}
