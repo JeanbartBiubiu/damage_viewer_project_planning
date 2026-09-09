@@ -1,0 +1,1498 @@
+{
+  "at": "2026-09-09T07:13:55.506Z",
+  "sources": [
+    {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17.cdtb.bin.json.gz",
+      "compressedSha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "rawSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\lol-16.17-zh_CN.stringtable.json.gz",
+      "compressedSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "rawSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文客户端数值补证\\perks-16.17.cdtb.bin.json.gz",
+      "compressedSha256": "141a289f8b83c543c108930675088ec1e5bd0f482799d2677a436f0ff9e65fac",
+      "rawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1"
+    }
+  ],
+  "sourceUrls": [
+    "https://raw.communitydragon.org/16.17/game/items.cdtb.bin.json",
+    "https://raw.communitydragon.org/16.17/game/zh_cn/data/menu/en_us/lol.stringtable.json",
+    "https://raw.communitydragon.org/16.17/game/perks.cdtb.bin.json"
+  ],
+  "constructorEvidence": {
+    "localFiles": [
+      {
+        "file": "同构建类型与默认.json",
+        "sha256": "b655135a440e892435ff500e2dc8034eba247f7323c532cb47ee2001137c831e"
+      },
+      {
+        "file": "meta-dump-16.17.8104348.json",
+        "sha256": "063932bad2bc800a44b0cb3929f6de31fbfcacd89d2f1add75b9c67cc7c7e167"
+      },
+      {
+        "file": "meta-crates_dumper_src_meta_dump.rs",
+        "sha256": "9fd3f39dc3b4032784956ce2b83e952704fb372f12d0ab579d87c90e3ceaef22"
+      },
+      {
+        "file": "meta-crates_dumper_src_meta.rs",
+        "sha256": "6ad9b9ac68170d20f7091850b581eeff44567918c39cae3b8fdb5fcfe94f1d38"
+      },
+      {
+        "file": "基础攻击力具名补证.json",
+        "sha256": "ac40d33aba90f99e4faebe3ab4a8ff8a0a8ca542b6a8e58d651479d3720e7d6f"
+      }
+    ],
+    "version": "16.17.8104348",
+    "sourceCommit": "3284cf031cfcdfdd49cf371765522ed576b6f3fb",
+    "codeReferences": [
+      "meta_dump.rs:281-299 递归读取具体实例及继承字段",
+      "meta_dump.rs:452-484 创建实例后读取属性",
+      "meta.rs:1151-1155 实际调用构造函数"
+    ],
+    "classes": [
+      {
+        "name": "StatByNamedDataValueCalculationPart",
+        "classHash": "0x5f5c70a4",
+        "constructor": "0x561a30",
+        "base": "0xb5f69929",
+        "defaults": {
+          "0x4cec2c8a": 0,
+          "0x7d3150ec": 0,
+          "0x8a544bcf": 13,
+          "0x94fb4b0c": 0,
+          "0xa8cb9c14": false,
+          "0xabc2d461": false,
+          "0xb386dcf1": "0x0"
+        }
+      },
+      {
+        "name": "StatByCoefficientCalculationPart",
+        "classHash": "0x5815b0a9",
+        "constructor": "0x5618f0",
+        "base": "0xb5f69929",
+        "defaults": {
+          "0x295c2889": 0,
+          "0x4cec2c8a": 0,
+          "0x7d3150ec": 0,
+          "0x8a544bcf": 13,
+          "0x94fb4b0c": 0,
+          "0xa8cb9c14": false,
+          "0xabc2d461": false
+        }
+      },
+      {
+        "name": "StatBySubPartCalculationPart",
+        "classHash": "0xcd156c7f",
+        "constructor": "0x561990",
+        "base": "0xb5f69929",
+        "defaults": {
+          "0x1cd83c4b": null,
+          "0x4cec2c8a": 0,
+          "0x7d3150ec": 0,
+          "0x8a544bcf": 13,
+          "0x94fb4b0c": 0,
+          "0xa8cb9c14": false,
+          "0xabc2d461": false
+        }
+      }
+    ]
+  },
+  "primary": [
+    {
+      "id": 2010,
+      "path": "Items/2010",
+      "rootSha256": "1680240180217f7343cfedad7e1fe404ed27be30aad382842f440fa8ea38a891",
+      "item": {
+        "spellName": "Item2010",
+        "mDisplayName": "Item_2010_Name",
+        "itemID": 2010,
+        "maxStack": 10,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "Items/ItemGroups/TotalBiscuit"
+        ],
+        "price": 50,
+        "consumed": true,
+        "clickable": true,
+        "mCanBeSold": true,
+        "epicness": 1,
+        "mEffectAmount": [
+          10
+        ],
+        "mDataValues": [
+          {
+            "mName": "PotionDurationTOOLTIP",
+            "mValue": 5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BonusMaxHealthTOOLTIP",
+            "mValue": 30,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "FlatHealTOOLTIP",
+            "mValue": 20,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxHPMultiplierTOOLTIP",
+            "mValue": 0.014999999664723873,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxHealIncreaseTOOLTIP",
+            "mValue": 100,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MinHPThresholdTOOLTIP",
+            "mValue": 0.30000001192092896,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "mItemCalculations": {
+          "TotalHealCalcTOOLTIP": {
+            "mFormulaParts": [
+              {
+                "mStat": 12,
+                "mDataValue": "{d3850e11}",
+                "__type": "StatByNamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "{4fe025a7}",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "sellBackModifier": 0.10000000149011612,
+        "mItemDataAvailability": {
+          "mForceLoad": true,
+          "mHidefromAll": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          1
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "2010",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_2010_Name",
+              "keyActive": "Item_2010_Active",
+              "keyActiveExternal": "Item_2010_ActiveExternal",
+              "keyActiveExtended": "Item_2010_ActiveExtended"
+            },
+            "mLists": {
+              "Stats": {
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_2010_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_2010_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_2010_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/2010_class_t1_totalbiscuitofeverlastingwill.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/2010_Class_T1_TotalBiscuitofEverlastingWill.png",
+          "epicness": 0,
+          "__type": "ItemDataClient"
+        },
+        "__type": "ItemData"
+      },
+      "calcName": "TotalHealCalcTOOLTIP",
+      "calculation": {
+        "mFormulaParts": [
+          {
+            "mStat": 12,
+            "mDataValue": "{d3850e11}",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          {
+            "mDataValue": "{4fe025a7}",
+            "__type": "NamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "nodePath": "/mItemCalculations/TotalHealCalcTOOLTIP/mFormulaParts/0",
+      "node": {
+        "mStat": 12,
+        "mDataValue": "{d3850e11}",
+        "__type": "StatByNamedDataValueCalculationPart"
+      },
+      "namedValue": {
+        "mName": "MaxHPMultiplierTOOLTIP",
+        "mValue": 0.014999999664723873,
+        "__type": "ItemDataValue"
+      },
+      "bindings": {
+        "keyName": {
+          "sourceKey": "Item_2010_Name",
+          "text": "永续意志夹心饼干"
+        },
+        "keyActive": {
+          "sourceKey": "Item_2010_Active",
+          "text": "{{ Item_Active_Consume }}食用饼干，以在@PotionDurationTOOLTIP@秒里持续回复共<healing>@TotalHealCalcTOOLTIP@生命值</healing>，基于你的已损失生命值至多提升至@MaxHealIncreaseTOOLTIP@%。消耗或出售一块饼干，都会永久提供<healing>@BonusMaxHealthTOOLTIP@最大生命值</healing>。 "
+        },
+        "keyActiveExternal": {
+          "sourceKey": "Item_2010_ActiveExternal",
+          "text": "{{ Item_Active_Consume }}食用饼干，以在@PotionDurationTOOLTIP@秒里持续回复<healing>生命值</healing>，基于你的已损失生命值获得提升。消耗或出售一块饼干，都会永久提供<healing>@BonusMaxHealthTOOLTIP@最大生命值</healing>。 "
+        },
+        "keyActiveExtended": {
+          "sourceKey": "Item_2010_ActiveExtended",
+          "text": "{{ Item_Active_Consume }}食用饼干，以在@PotionDurationTOOLTIP@秒里持续回复共<healing>@TotalHealCalcTOOLTIP@生命值</healing>，基于你的已损失生命值获得提升，至多至@MaxHealIncreaseTOOLTIP@%。消耗或出售一块饼干，都会永久提供<healing>@BonusMaxHealthTOOLTIP@最大生命值</healing>。<br><br><rules>最大治疗效果会在@MinHPThresholdTOOLTIP*100@%生命值时达成。</rules>"
+        }
+      }
+    },
+    {
+      "id": 3084,
+      "path": "Items/3084",
+      "rootSha256": "5a27c42dde4c1d2276d72af6b0c50d8390c252579a1baa9c569668646b040559",
+      "item": {
+        "mDisplayName": "Item_3084_Name",
+        "itemID": 3084,
+        "maxStack": 1,
+        "mItemGroups": [
+          "Items/ItemGroups/Default",
+          "{9f92a236}"
+        ],
+        "price": 400,
+        "mItemCalloutSpectator": true,
+        "ShowCooldownVfxToAllies": false,
+        "ShowCooldownInPings": false,
+        "mCanBeSold": true,
+        "epicness": 5,
+        "recipeItemLinks": [
+          "Items/1011",
+          "Items/3801",
+          "Items/1011"
+        ],
+        "mDataValues": [
+          {
+            "mName": "PerTargetCooldown",
+            "mValue": 30,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "BaseDamage",
+            "mValue": 70,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "HPRatio",
+            "mValue": 0.05999999865889549,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DamageToMaxHealthRatio",
+            "mValue": 0.10000000149011612,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "DistanceToChampion",
+            "mValue": 700,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "NumTicksToTrigger",
+            "mValue": 6,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "RangeTrackingBuffDuration",
+            "mValue": 5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "TrackerTickRate",
+            "mValue": 0.5,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "MaxHPRatio",
+            "mValue": 0.05999999865889549,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "HealthSizeThreshold",
+            "mValue": 1000,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "SizeAmount",
+            "mValue": 0.029999999329447746,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "SizeCap",
+            "mValue": 0.30000001192092896,
+            "__type": "ItemDataValue"
+          },
+          {
+            "mName": "Cooldown",
+            "mValue": 30,
+            "__type": "ItemDataValue"
+          }
+        ],
+        "DataValuesModeOverride": {
+          "ARAM": {
+            "DataValues": [
+              {
+                "mName": "DamageToMaxHealthRatio",
+                "mValue": 0.05000000074505806,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "URF": {
+            "DataValues": [
+              {
+                "mName": "DamageToMaxHealthRatio",
+                "mValue": 0.05000000074505806,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          },
+          "{a110bc47}": {
+            "DataValues": [
+              {
+                "mName": "DamageToMaxHealthRatio",
+                "mValue": 0.05000000074505806,
+                "__type": "ItemDataValue"
+              }
+            ],
+            "__type": "ItemDataValues"
+          }
+        },
+        "mItemCalculations": {
+          "DamageProcCalc": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mStat": 12,
+                "mDataValue": "HPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "ProcHealthGain": {
+            "mMultiplier": {
+              "mDataValue": "DamageToMaxHealthRatio",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "mModifiedGameCalculation": "DamageProcCalc",
+            "__type": "GameCalculationModified"
+          },
+          "TotalDemolishTime": {
+            "mMultiplier": {
+              "mDataValue": "NumTicksToTrigger",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "mSimpleTooltipCalculationDisplay": 5,
+            "mExpandedTooltipCalculationDisplay": 5,
+            "mFormulaParts": [
+              {
+                "mDataValue": "TrackerTickRate",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "DamageCalc": {
+            "mFormulaParts": [
+              {
+                "mStat": 12,
+                "mDataValue": "MaxHPRatio",
+                "__type": "StatByNamedDataValueCalculationPart"
+              },
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mFlatHPPoolMod": 900,
+        "mPercentBaseHPRegenMod": 1,
+        "mCategories": [
+          "Health",
+          "HealthRegen"
+        ],
+        "mItemDataAvailability": {
+          "mInStore": true,
+          "__type": "ItemDataAvailability"
+        },
+        "mItemAttributes": [
+          8
+        ],
+        "mItemDataClient": {
+          "mTooltipData": {
+            "mObjectName": "3084",
+            "mFormat": "{32559c50}",
+            "mLocKeys": {
+              "keyName": "Item_3084_Name",
+              "keyBrief": "Item_3084_Brief",
+              "keyTooltip": "Item_3084_Tooltip",
+              "keyColloquialism": "Item_3084_Colloquialism",
+              "keyTooltipExtended": "Item_3084_TooltipExtended",
+              "keyTooltipInventory": "Item_3084_TooltipInventory",
+              "keyTooltipExternal": "Item_3084_TooltipExternal"
+            },
+            "mLists": {
+              "Stats": {
+                "Elements": [
+                  {
+                    "type": "Health",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "BaseHealthRegen",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceItem"
+          },
+          "mDescription": "GeneratedTip_Item_3084_Description",
+          "mDynamicTooltip": "GeneratedTip_Item_3084_TooltipInventory",
+          "mShopTooltip": "GeneratedTip_Item_3084_TooltipShop",
+          "inventoryIcon": "assets/items/icons2d/3084_tank_t4_heartsteel.dds",
+          "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3084_Tank_T4_Heartsteel.png",
+          "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3084_Tank_T4_Heartsteel.png",
+          "epicness": 5,
+          "effectRadius": 700,
+          "__type": "ItemDataClient"
+        },
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{295b1f89}": "Items/3084/Particles/3084_Goliath_Impact",
+            "{50636c30}": "Items/3084/Particles/3084_Goliath_Proc_Initial_Stack",
+            "{e64afe24}": "Items/3084/Particles/3084_Goliath_SixStack",
+            "{2066e69c}": "Items/3084/Particles/3084_Goliath_FiveStack",
+            "{6b9f81a8}": "Items/3084/Particles/3084_Goliath_FourStack",
+            "{c46afeac}": "Items/3084/Particles/3084_Goliath_ThreeStack",
+            "{24dfc596}": "Items/3084/Particles/3084_Goliath_TwoStack",
+            "{eacbadc8}": "Items/3084/Particles/3084_Goliath_OneStack",
+            "{0305785e}": "Items/3084/Particles/3084_Goliath_Impact",
+            "{a42fb9ab}": "Items/3084/Particles/3084_Petals_Child",
+            "{a387a368}": "Items/3084/Particles/3084_Goliath_Impact_Chest"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "ItemData"
+      },
+      "calcName": "DamageCalc",
+      "calculation": {
+        "mFormulaParts": [
+          {
+            "mStat": 12,
+            "mDataValue": "MaxHPRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          {
+            "mDataValue": "BaseDamage",
+            "__type": "NamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      },
+      "nodePath": "/mItemCalculations/DamageCalc/mFormulaParts/0",
+      "node": {
+        "mStat": 12,
+        "mDataValue": "MaxHPRatio",
+        "__type": "StatByNamedDataValueCalculationPart"
+      },
+      "namedValue": {
+        "mName": "MaxHPRatio",
+        "mValue": 0.05999999865889549,
+        "__type": "ItemDataValue"
+      },
+      "bindings": {
+        "keyName": {
+          "sourceKey": "Item_3084_Name",
+          "text": "心之钢"
+        },
+        "keyBrief": {
+          "sourceKey": "Item_3084_Brief",
+          "text": "成长生命值"
+        },
+        "keyTooltip": {
+          "sourceKey": "Item_3084_Tooltip",
+          "text": "<passive>庞然吞食</passive> 每个目标{{ Item_Cooldown }}<br>如果一个敌方英雄在附近度过了@TotalDemolishTime@秒，那么你的下一次对其打出的攻击会造成<physicalDamage>@BaseDamage@外加@MaxHPRatio*100@%</physicalDamage>你的最大生命值的<physicalDamage>额外物理伤害</physicalDamage>，并提供相当于<scaleHealth>@DamageToMaxHealthRatio*100@%该伤害值</scaleHealth>的<scaleHealth>最大生命值</scaleHealth>。<br><br><passive>歌利亚巨人</passive><br>每有<scaleHealth>@HealthSizeThreshold@最大生命值</scaleHealth>，获得@SizeAmount*100@%体型提升，至多至@SizeCap*100@%。 "
+        },
+        "keyColloquialism": {
+          "sourceKey": "Item_3084_Colloquialism",
+          "text": "Quest;Steal;Boy Band;BoyBand;任务;男团;renwu;nantuan;xinzhigang;"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Item_3084_TooltipExtended",
+          "text": "{{Item_3084_Tooltip}}"
+        },
+        "keyTooltipInventory": {
+          "sourceKey": "Item_3084_TooltipInventory",
+          "text": "<passive>庞然吞食</passive> 每个目标{{ Item_Cooldown }}<br>如果一个敌方英雄在附近度过了@TotalDemolishTime@秒，那么你的下一次对其打出的攻击会造成<physicalDamage>@f4@额外物理伤害</physicalDamage>，并提供<scaleHealth>@f5@最大生命值</scaleHealth>。<br><br><passive>歌利亚巨人</passive><br>每有<scaleHealth>@HealthSizeThreshold@最大生命值</scaleHealth>，获得@SizeAmount*100@%体型提升，至多至@SizeCap*100@%。 "
+        },
+        "keyTooltipExternal": {
+          "sourceKey": "Item_3084_TooltipExternal",
+          "text": "<passive>庞然吞食</passive> 每个目标{{ Item_Cooldown }}<br>如果一个敌方英雄在附近度过了若干秒，那么你的下一次对其打出的攻击会造成<physicalDamage>@BaseDamage@外加你的@MaxHPRatio*100@%</physicalDamage>最大生命值的<physicalDamage>额外物理伤害</physicalDamage>，并为你提供相当于<scaleHealth>@DamageToMaxHealthRatio*100@%</scaleHealth>该伤害的<scaleHealth>最大生命值</scaleHealth>。<br><br><passive>歌利亚巨人</passive><br>每有<scaleHealth>@HealthSizeThreshold@最大生命值</scaleHealth>，获得@SizeAmount*100@%体型提升，至多至@SizeCap*100@%。 "
+        }
+      }
+    }
+  ],
+  "extraModeWitness": {
+    "id": 773005,
+    "path": "Items/773005",
+    "rootSha256": "3d464b4fb4d8bd87f9a3a71da07dd8a30e27901a60053bec4eb07f5753937023",
+    "item": {
+      "spellName": "AtmasImpalerDummySpell",
+      "mDisplayName": "Item_773005_Name",
+      "itemID": 773005,
+      "maxStack": 1,
+      "mItemGroups": [
+        "Items/ItemGroups/Default"
+      ],
+      "mItemAdviceAttributes": [
+        "{165d7c1f}",
+        "{e625a35a}"
+      ],
+      "price": 780,
+      "mCanBeSold": true,
+      "epicness": 5,
+      "recipeItemLinks": [
+        "Items/771031",
+        "Items/773093"
+      ],
+      "mDataValues": [
+        {
+          "mName": "HPToADPercentage",
+          "mValue": 0.014999999664723873,
+          "__type": "ItemDataValue"
+        }
+      ],
+      "mItemCalculations": {
+        "BonusAD": {
+          "mFormulaParts": [
+            {
+              "mStat": 12,
+              "mDataValue": "{ba352cb1}",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "mFlatArmorMod": 45,
+      "mFlatCritChanceMod": 0.15000000596046448,
+      "mCategories": [
+        "Armor",
+        "Damage",
+        "CriticalStrike"
+      ],
+      "mItemDataAvailability": {
+        "mInStore": true,
+        "__type": "ItemDataAvailability"
+      },
+      "mItemAttributes": [
+        1,
+        8
+      ],
+      "mItemDataClient": {
+        "mTooltipData": {
+          "mObjectName": "773005",
+          "mFormat": "{32559c50}",
+          "EnableExtendedTooltip": false,
+          "mLocKeys": {
+            "keyName": "Item_773005_Name",
+            "keyTooltip": "Item_773005_Tooltip",
+            "keyInventoryOnlyText": "Item_773005_TooltipInventory",
+            "keyBrief": "Item_3084_Brief",
+            "keyColloquialism": "Item_773005_Colloquialism"
+          },
+          "mLists": {
+            "Stats": {
+              "Elements": [
+                {
+                  "type": "Armor",
+                  "__type": "TooltipInstanceListElement"
+                },
+                {
+                  "type": "CritChance",
+                  "__type": "TooltipInstanceListElement"
+                }
+              ],
+              "__type": "TooltipInstanceList"
+            }
+          },
+          "__type": "TooltipInstanceItem"
+        },
+        "mDescription": "GeneratedTip_Item_773005_Description",
+        "mDynamicTooltip": "GeneratedTip_Item_773005_TooltipInventory",
+        "mShopTooltip": "GeneratedTip_Item_773005_TooltipShop",
+        "inventoryIcon": "assets/items/icons2d/3005_atmas_impaler.tex",
+        "epicness": 5,
+        "__type": "ItemDataClient"
+      },
+      "__type": "ItemData"
+    },
+    "calcName": "BonusAD",
+    "calculation": {
+      "mFormulaParts": [
+        {
+          "mStat": 12,
+          "mDataValue": "{ba352cb1}",
+          "__type": "StatByNamedDataValueCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "nodePath": "/mItemCalculations/BonusAD/mFormulaParts/0",
+    "node": {
+      "mStat": 12,
+      "mDataValue": "{ba352cb1}",
+      "__type": "StatByNamedDataValueCalculationPart"
+    },
+    "namedValue": {
+      "mName": "HPToADPercentage",
+      "mValue": 0.014999999664723873,
+      "__type": "ItemDataValue"
+    },
+    "bindings": {
+      "keyName": {
+        "sourceKey": "Item_773005_Name",
+        "text": "阿塔玛之戟"
+      },
+      "keyTooltip": {
+        "sourceKey": "Item_773005_Tooltip",
+        "text": "<jadeUnique>冲击：</jadeUnique>获得相当于<physicalDamage>@HPToADPercentage*100@%</physicalDamage><scaleHealth>最大生命值</scaleHealth>的额外<physicalDamage>攻击力</physicalDamage>。"
+      },
+      "keyInventoryOnlyText": {
+        "sourceKey": "Item_773005_TooltipInventory",
+        "text": "额外攻击力：<physicalDamage>@BonusAD@</physicalDamage>"
+      },
+      "keyBrief": {
+        "sourceKey": "Item_3084_Brief",
+        "text": "成长生命值"
+      },
+      "keyColloquialism": {
+        "sourceKey": "Item_773005_Colloquialism",
+        "text": ";生命成长;成长生命;Atma's Reckoning;atamadeqingsuan;qingsuan;qs"
+      }
+    }
+  },
+  "ownerCounter": {
+    "id": 773109,
+    "path": "Items/773109",
+    "rootSha256": "7ad17633417d91f87ca89742bb8ae5f2b6f0973cce0c47f54187703c40f67ce9",
+    "item": {
+      "mDisplayName": "Item_773109_Name",
+      "itemID": 773109,
+      "maxStack": 1,
+      "mItemGroups": [
+        "Items/ItemGroups/Default"
+      ],
+      "price": 1325,
+      "mCanBeSold": true,
+      "epicness": 5,
+      "recipeItemLinks": [
+        "Items/773106",
+        "Items/771037",
+        "Items/771043"
+      ],
+      "mDataValues": [
+        {
+          "mName": "MaxHealthDamage",
+          "mValue": 0.03999999910593033,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "MonsterDamageCap",
+          "mValue": 120,
+          "__type": "ItemDataValue"
+        }
+      ],
+      "mItemCalculations": {
+        "OnHitDamageCalc": {
+          "mFormulaParts": [
+            {
+              "{a8cb9c14}": true,
+              "mStat": 12,
+              "mDataValue": "MaxHealthDamage",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "{fe87f21e}": [
+        {
+          "{6166b756}": "OnHitDamageCalc",
+          "{39ab689d}": "MonsterDamageCap",
+          "__type": "{fe87f21e}"
+        }
+      ],
+      "mFlatArmorMod": 25,
+      "mFlatPhysicalDamageMod": 40,
+      "mPercentAttackSpeedMod": 0.4000000059604645,
+      "mCategories": [
+        "Armor",
+        "Damage",
+        "AttackSpeed",
+        "OnHit"
+      ],
+      "mItemDataAvailability": {
+        "mInStore": true,
+        "__type": "ItemDataAvailability"
+      },
+      "mItemAttributes": [
+        1,
+        2
+      ],
+      "mItemDataClient": {
+        "mTooltipData": {
+          "mObjectName": "773109",
+          "mFormat": "{32559c50}",
+          "EnableExtendedTooltip": false,
+          "mLocKeys": {
+            "keyName": "Item_773109_Name",
+            "keyTooltip": "Item_773109_Tooltip",
+            "keyColloquialism": "Item_773109_Colloquialism"
+          },
+          "mLists": {
+            "Stats": {
+              "Elements": [
+                {
+                  "type": "AttackDamage",
+                  "__type": "TooltipInstanceListElement"
+                },
+                {
+                  "type": "AttackSpeed",
+                  "__type": "TooltipInstanceListElement"
+                },
+                {
+                  "type": "Armor",
+                  "__type": "TooltipInstanceListElement"
+                }
+              ],
+              "__type": "TooltipInstanceList"
+            }
+          },
+          "__type": "TooltipInstanceItem"
+        },
+        "mDescription": "GeneratedTip_Item_773109_Description",
+        "mDynamicTooltip": "GeneratedTip_Item_773109_TooltipInventory",
+        "mShopTooltip": "GeneratedTip_Item_773109_TooltipShop",
+        "inventoryIcon": "assets/items/icons2d/3126_madreds_bloodrazor.tex",
+        "__type": "ItemDataClient"
+      },
+      "__type": "ItemData"
+    },
+    "calcName": "OnHitDamageCalc",
+    "calculation": {
+      "mFormulaParts": [
+        {
+          "{a8cb9c14}": true,
+          "mStat": 12,
+          "mDataValue": "MaxHealthDamage",
+          "__type": "StatByNamedDataValueCalculationPart"
+        }
+      ],
+      "__type": "GameCalculation"
+    },
+    "nodePath": "/mItemCalculations/OnHitDamageCalc/mFormulaParts/0",
+    "node": {
+      "{a8cb9c14}": true,
+      "mStat": 12,
+      "mDataValue": "MaxHealthDamage",
+      "__type": "StatByNamedDataValueCalculationPart"
+    },
+    "namedValue": {
+      "mName": "MaxHealthDamage",
+      "mValue": 0.03999999910593033,
+      "__type": "ItemDataValue"
+    },
+    "bindings": {
+      "keyName": {
+        "sourceKey": "Item_773109_Name",
+        "text": "麦瑞德裂血手套"
+      },
+      "keyTooltip": {
+        "sourceKey": "Item_773109_Tooltip",
+        "text": "<jadeUnique>见红</jadeUnique>：攻击会在命中时对目标造成其<healing>@MaxHealthDamage*100@%最大生命值</healing>的<magicDamage>额外魔法伤害</magicDamage>。<br><br><rules>对野怪最多造成@MonsterDamageCap@额外伤害。</rules>"
+      },
+      "keyColloquialism": {
+        "sourceKey": "Item_773109_Colloquialism",
+        "text": ";madreds;@%@ health;@%@health;@%@hp;麦瑞德;百分比生命值;绿爪;Madred's Bloodrazor;mairuideliexueshoutao;mrdlxst;lxst"
+      }
+    }
+  },
+  "bonusCounter": {
+    "path": "Perks/Styles/Resolve/Aftershock",
+    "rootSha256": "b740424a9170e82972029bd6f85b438146d66a9cfc7fd6d668bbb757f15eb392",
+    "object": {
+      "mPerkId": 8439,
+      "mPerkName": "Aftershock",
+      "mDisplayNameLocalizationKey": "perk_displayname_VeteranAftershock",
+      "mTooltipNameLocalizationKey": "perk_tooltip_VeteranAftershock",
+      "mShortDescLocalizationKey": "perk_short_desc_VeteranAftershock",
+      "mLongDescLocalizationKey": "perk_long_desc_VeteranAftershock",
+      "mEndOfGameStatDescriptions": [
+        "perk_eog_stat_desc_Aftershock1",
+        "perk_eog_stat_desc_Aftershock2"
+      ],
+      "mDisplayStatLocalizationKey": "perk_display_stat_total",
+      "mIconTextureName": "assets/perks/styles/resolve/veteranaftershock/veteranaftershock.tex",
+      "mScript": {
+        "mSpellScriptName": "ASSETS/Perks/Styles/Resolve/VeteranAftershock/VeteranAftershock.lua",
+        "mSpellScriptData": {
+          "mEffectAmount": {
+            "DamageRadius": 350,
+            "Cooldown": 20,
+            "StartingBaseDamage": 25,
+            "MaxBaseDamage": 120,
+            "DelayBeforeBurst": 2.5,
+            "HealthRatio": 0.07999999821186066,
+            "FlatResists": 45,
+            "BonusResistMin": 80,
+            "BonusResistMax": 150,
+            "PercentBonusResist": 0.75
+          },
+          "mEffectAmountGameMode": {
+            "URF": {
+              "mEffectAmountPerMode": {
+                "Cooldown": 15
+              },
+              "__type": "PerkEffectAmountPerMode"
+            }
+          },
+          "mCalculations": {
+            "MaxResistCalc": {
+              "mSimpleTooltipCalculationDisplay": 4,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 80,
+                  "mEndValue": 150,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ArmorBuff": {
+              "mSimpleTooltipCalculationDisplay": 2,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "FlatResists",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 1,
+                  "mStatFormula": 2,
+                  "mDataValue": "PercentBonusResist",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MagicResistBuff": {
+              "mSimpleTooltipCalculationDisplay": 2,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "FlatResists",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 6,
+                  "mStatFormula": 2,
+                  "mDataValue": "PercentBonusResist",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "DamageCalc": {
+              "mSimpleTooltipCalculationDisplay": 4,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 25,
+                  "mEndValue": 120,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mStatFormula": 2,
+                  "mDataValue": "HealthRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "__type": "PerkScriptData"
+        },
+        "__type": "PerkScript"
+      },
+      "mBuffs": [
+        {
+          "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/VeteranAftershock/VeteranAftershockDelay.lua",
+          "mBuffSpellObject": {
+            "mBuff": {
+              "mDescription": "buff_desc_VegeanceDelay",
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "__type": "PerkBuff"
+        },
+        {
+          "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/VeteranAftershock/VeteranAftershockCooldownBuff.lua",
+          "mBuffSpellObject": {
+            "mBuff": {
+              "mDescription": "buff_desc_VegeanceCD",
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "__type": "PerkBuff"
+        },
+        {
+          "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/VeteranAftershock/VeteranAftershockSlowDebuff.lua",
+          "mBuffSpellObject": {
+            "mBuff": {
+              "mDescription": "buff_desc_Aftershock_Debuff",
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "__type": "PerkBuff"
+        }
+      ],
+      "mVFXResourceResolver": {
+        "resourceMap": {
+          "Perks_Aftershock_AOE": "Perks/Styles/Resolve/Aftershock/Particles/Perks_Aftershock_AOE",
+          "Perks_Aftershock_Tar": "Perks/Styles/Resolve/Aftershock/Particles/Perks_Aftershock_Tar",
+          "Perks_Aftershock_Buff": "Perks/Styles/Resolve/Aftershock/Particles/Perks_Aftershock_Buff"
+        },
+        "__type": "ResourceResolver"
+      },
+      "mMajorChangePatchVersion": "9.9",
+      "__type": "Perk"
+    },
+    "bindings": {
+      "mLongDescLocalizationKey": {
+        "key": "perk_long_desc_VeteranAftershock",
+        "text": "在定身住一名敌方英雄后，使你的护甲和魔法抗性提升，数额为@FlatResists@+你@PercentBonusResist*100@%的额外双抗，持续@DelayBeforeBurst.1@秒。随后会爆炸，对附近的敌人造成魔法伤害。<br><br>伤害值：@StartingBaseDamage@ - @MaxBaseDamage@ (+你@HealthRatio*100@%的额外生命值)<br>冷却时间：@Cooldown@秒<br><br>来自余震的双抗加成封顶值：@BonusResistMin@-@BonusResistMax@(基于等级)<br>"
+      },
+      "mTooltipNameLocalizationKey": {
+        "key": "perk_tooltip_VeteranAftershock",
+        "text": "定身住一名敌方英雄后，获得<scaleArmor>@ArmorBuff@护甲</scaleArmor>与<scaleMR>@MagicResistBuff@魔抗</scaleMR>，持续@DelayBeforeBurst.1@秒。随后爆炸，对附近敌人造成<magicDamage>@DamageCalc@魔法伤害</magicDamage>。<br>冷却时间：@Cooldown@秒<br><rules><i>双抗收益的上限为@MaxResistCalc@</i></rules><br><br>已造成伤害的总和：<magicDamage>@f1@</magicDamage><br>已缓和的伤害总和：<scaleHealth>@f9@</scaleHealth>"
+      }
+    },
+    "nodes": [
+      {
+        "path": "/DamageCalc/mFormulaParts/1",
+        "node": {
+          "mStat": 12,
+          "mStatFormula": 2,
+          "mDataValue": "HealthRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        }
+      }
+    ]
+  },
+  "targetHull": {
+    "id": 3181,
+    "path": "Items/3181",
+    "rootSha256": "4a7b82da4531877fdab5306998047e756ceadb03bc1d6e4cb814d886f00055e9",
+    "item": {
+      "mDisplayName": "Item_3181_Name",
+      "itemID": 3181,
+      "maxStack": 1,
+      "mItemGroups": [
+        "Items/ItemGroups/Default",
+        "{212a0d1a}",
+        "Items/ItemGroups/DisabledOnFIRSTBLOODMode"
+      ],
+      "price": 175,
+      "mItemCalloutSpectator": true,
+      "mCanBeSold": true,
+      "epicness": 5,
+      "recipeItemLinks": [
+        "Items/2021",
+        "Items/3066",
+        "Items/1037"
+      ],
+      "mDataValues": [
+        {
+          "mName": "SkipperADRatio",
+          "mValue": 1.2000000476837158,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "SkipperADRatioVSStructures",
+          "mValue": 3,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "MaxStackDamageHPRatio",
+          "mValue": 0.05000000074505806,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "MaxStackDamageVSStructuresHPRatio",
+          "mValue": 0.10000000149011612,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "SkipperStackDuration",
+          "mValue": 10,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "RangedSkipperADRatio",
+          "mValue": 0.699999988079071,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "RangedSkipperADRatioVSStructures",
+          "mValue": 2,
+          "__type": "ItemDataValue"
+        }
+      ],
+      "mItemCalculations": {
+        "MaxStackDamage": {
+          "mFormulaParts": [
+            {
+              "mStat": 2,
+              "mStatFormula": 1,
+              "mDataValue": "SkipperADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mDataValue": "MaxStackDamageHPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mRangedMultiplier": {
+            "mNumber": 0.699999988079071,
+            "__type": "NumberCalculationPart"
+          },
+          "__type": "{e9a3c91d}"
+        },
+        "MaxStackDamageVSStructures": {
+          "mFormulaParts": [
+            {
+              "mStat": 2,
+              "mStatFormula": 1,
+              "mDataValue": "SkipperADRatioVSStructures",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mDataValue": "MaxStackDamageVSStructuresHPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mRangedMultiplier": {
+            "mNumber": 0.699999988079071,
+            "__type": "NumberCalculationPart"
+          },
+          "__type": "{e9a3c91d}"
+        },
+        "BonusMinionResists": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 70,
+              "mBreakpoints": [
+                {
+                  "mLevel": 9,
+                  "mBonusPerLevelAtAndAfter": 6,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "mRangedMultiplier": {
+            "mNumber": 0.5,
+            "__type": "NumberCalculationPart"
+          },
+          "__type": "{e9a3c91d}"
+        }
+      },
+      "StringCalculations": {
+        "ProcDamageMeleeRangedSplit": {
+          "MeleeResult": "@MaxStackDamage@",
+          "RangedResult": "@RangedMaxStackDamage@",
+          "DefaultResult": "@MaxStackDamage@",
+          "__type": "{4750ceb6}"
+        },
+        "StructureDamageMeleeRangedSplit": {
+          "MeleeResult": "@MaxStackDamageVSStructures@",
+          "RangedResult": "@RangedMaxStackDamageVSStructures@",
+          "DefaultResult": "@MaxStackDamageVSStructures@",
+          "__type": "{4750ceb6}"
+        },
+        "MinionResistMeleeRangedSplit": {
+          "MeleeResult": "@MeleeBonusMinionResists@",
+          "RangedResult": "@RangedBonusMinionResists@",
+          "DefaultResult": "@MeleeBonusMinionResists@",
+          "__type": "{4750ceb6}"
+        }
+      },
+      "mFlatHPPoolMod": 500,
+      "mPercentMovementSpeedMod": 0.03999999910593033,
+      "mFlatPhysicalDamageMod": 40,
+      "mCategories": [
+        "Health",
+        "Damage",
+        "NonbootsMovement"
+      ],
+      "mItemDataAvailability": {
+        "mInStore": true,
+        "__type": "ItemDataAvailability"
+      },
+      "mItemAttributes": [
+        1
+      ],
+      "mItemDataClient": {
+        "mTooltipData": {
+          "mObjectName": "3181",
+          "mFormat": "{32559c50}",
+          "mLocKeys": {
+            "keyName": "Item_3181_Name",
+            "keyBrief": "Item_3181_Brief",
+            "keyTooltip": "Item_3181_Tooltip",
+            "keyColloquialism": "Item_3181_Colloquialism",
+            "keyInventoryOnlyText": "Item_3181_InventoryOnlyText",
+            "keyTooltipExternal": "Item_3181_TooltipExternal"
+          },
+          "mLists": {
+            "Stats": {
+              "Elements": [
+                {
+                  "type": "AttackDamage",
+                  "__type": "TooltipInstanceListElement"
+                },
+                {
+                  "type": "Health",
+                  "__type": "TooltipInstanceListElement"
+                },
+                {
+                  "type": "MoveSpeedPercent",
+                  "__type": "TooltipInstanceListElement"
+                }
+              ],
+              "__type": "TooltipInstanceList"
+            }
+          },
+          "__type": "TooltipInstanceItem"
+        },
+        "mDescription": "GeneratedTip_Item_3181_Description",
+        "mDynamicTooltip": "GeneratedTip_Item_3181_TooltipInventory",
+        "mShopTooltip": "GeneratedTip_Item_3181_TooltipShop",
+        "inventoryIcon": "assets/items/icons2d/3181_hullbreaker.dds",
+        "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/3181_Hullbreaker.png",
+        "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/3181_Hullbreaker.png",
+        "epicness": 5,
+        "__type": "ItemDataClient"
+      },
+      "mVFXResourceResolver": {
+        "resourceMap": {
+          "{35501eff}": "Items/3181/Particles/3181_MinionParticle",
+          "{5a4f553f}": "Items/3181/Particles/3181_SelfParticle",
+          "{a8e5554d}": "Items/3181/Particles/3181_MinionBuff_LineParticle",
+          "{7e5efd95}": "Items/3181/Particles/3181_TowerHit",
+          "{2913e780}": "Items/3181/Particles/3181_Hit_Tar",
+          "{67ef5445}": "Items/3181/Particles/3181_Buff_Active"
+        },
+        "__type": "ResourceResolver"
+      },
+      "__type": "ItemData"
+    },
+    "calcName": "MaxStackDamage",
+    "calculation": {
+      "mFormulaParts": [
+        {
+          "mStat": 2,
+          "mStatFormula": 1,
+          "mDataValue": "SkipperADRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        {
+          "mStat": 12,
+          "mDataValue": "MaxStackDamageHPRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        }
+      ],
+      "mRangedMultiplier": {
+        "mNumber": 0.699999988079071,
+        "__type": "NumberCalculationPart"
+      },
+      "__type": "{e9a3c91d}"
+    },
+    "nodePath": "/mItemCalculations/MaxStackDamage/mFormulaParts/1",
+    "node": {
+      "mStat": 12,
+      "mDataValue": "MaxStackDamageHPRatio",
+      "__type": "StatByNamedDataValueCalculationPart"
+    },
+    "namedValue": {
+      "mName": "MaxStackDamageHPRatio",
+      "mValue": 0.05000000074505806,
+      "__type": "ItemDataValue"
+    },
+    "bindings": {
+      "keyName": {
+        "sourceKey": "Item_3181_Name",
+        "text": "破舰者"
+      },
+      "keyBrief": {
+        "sourceKey": "Item_3181_Brief",
+        "text": "建筑物克星"
+      },
+      "keyTooltip": {
+        "sourceKey": "Item_3181_Tooltip",
+        "text": "<passive>船长</passive><br>对英雄和史诗级野怪的每第五次攻击造成<physicalDamage>@MaxStackDamage@额外物理伤害</physicalDamage>，对建筑物提升至<physicalDamage>@MaxStackDamageVSStructures@</physicalDamage>。<br><br><passive>登舰小组</passive><br>附近的友军攻城兵和超级士兵获得@BonusMinionResists@ <scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。"
+      },
+      "keyColloquialism": {
+        "sourceKey": "Item_3181_Colloquialism",
+        "text": ";hull;pirate;yarrr;ahoy;haidao;chuanzhang;pojianzhe;hd;cz;pjz;Hullbreaker"
+      },
+      "keyInventoryOnlyText": {
+        "sourceKey": "Item_3181_InventoryOnlyText",
+        "text": "对英雄的伤害：<attention>@f1@</attention><br>对建筑物的伤害：<attention>@f2@</attention><br>"
+      },
+      "keyTooltipExternal": {
+        "sourceKey": "Item_3181_TooltipExternal",
+        "text": "<passive>船长</passive><br>对英雄和史诗级野怪的每第五次攻击造成<physicalDamage>额外物理伤害</physicalDamage>，对建筑物造成更多伤害。<br><br><passive>登舰小组</passive><br>附近的友军攻城兵和超级士兵获得<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。"
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "装备压缩SHA",
+      "passed": true
+    },
+    {
+      "name": "中文压缩SHA",
+      "passed": true
+    },
+    {
+      "name": "符文原始SHA",
+      "passed": true
+    },
+    {
+      "name": "构造来源版本",
+      "passed": true
+    },
+    {
+      "name": "原始meta内嵌补丁版本",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart原始类完整同值",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart继承类",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart构造默认0x7d3150ec",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart构造默认0xabc2d461",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart构造默认0x94fb4b0c",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart构造默认0x8a544bcf",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart构造默认0xa8cb9c14",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart原始类完整同值",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart继承类",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart构造默认0x7d3150ec",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart构造默认0xabc2d461",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart构造默认0x94fb4b0c",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart构造默认0x8a544bcf",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart构造默认0xa8cb9c14",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart原始类完整同值",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart继承类",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart构造默认0x7d3150ec",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart构造默认0xabc2d461",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart构造默认0x94fb4b0c",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart构造默认0x8a544bcf",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart构造默认0xa8cb9c14",
+      "passed": true
+    },
+    {
+      "name": "命名引用唯一 {d3850e11}",
+      "passed": true
+    },
+    {
+      "name": "命名引用唯一 MaxHPRatio",
+      "passed": true
+    },
+    {
+      "name": "命名引用唯一 {ba352cb1}",
+      "passed": true
+    },
+    {
+      "name": "命名引用唯一 MaxHealthDamage",
+      "passed": true
+    },
+    {
+      "name": "命名引用唯一 MaxStackDamageHPRatio",
+      "passed": true
+    },
+    {
+      "name": "新增主证具名比例",
+      "passed": true
+    },
+    {
+      "name": "当前正文同时绑定基数和比例并明确你的最大生命",
+      "passed": true
+    },
+    {
+      "name": "当前同根计算基数绑定",
+      "passed": true
+    },
+    {
+      "name": "模式交叉具名比例散列",
+      "passed": true
+    },
+    {
+      "name": "模式交叉文本明确最大生命转攻击力",
+      "passed": true
+    },
+    {
+      "name": "所有者反例真实开关",
+      "passed": true
+    },
+    {
+      "name": "所有者反例正文明确目标其最大生命",
+      "passed": true
+    },
+    {
+      "name": "严格窄条件 2010",
+      "passed": true
+    },
+    {
+      "name": "严格窄条件 3084",
+      "passed": true
+    },
+    {
+      "name": "严格窄条件 773005",
+      "passed": true
+    },
+    {
+      "name": "严格窄条件 3181",
+      "passed": true
+    },
+    {
+      "name": "目标所有者反例必须排除",
+      "passed": true
+    },
+    {
+      "name": "显式0与构造0同窄条件",
+      "passed": true
+    },
+    {
+      "name": "反例拒绝 12/2额外生命",
+      "passed": true
+    },
+    {
+      "name": "反例拒绝 新属性链",
+      "passed": true
+    },
+    {
+      "name": "反例拒绝 其他输出类型",
+      "passed": true
+    },
+    {
+      "name": "反例拒绝 其他旧statType",
+      "passed": true
+    },
+    {
+      "name": "反例拒绝 固定系数未独立扩展",
+      "passed": true
+    },
+    {
+      "name": "12/2当前额外生命反例存在",
+      "passed": true
+    },
+    {
+      "name": "余震当前正文明确额外生命",
+      "passed": true
+    },
+    {
+      "name": "现存12/2不能落入总生命窄映射",
+      "passed": true
+    }
+  ],
+  "boundary": "仅具名数据值旧属性节点。构造默认已证；SOURCE.hp.TOTAL是本版具名树与当前正文的窄静态推断，非客户端求值函数逆向。不可忽略匿名布尔字段，也不扩mStat29、CURRENT、Coef/SubPart整体映射。模式装备只旁证不录入。"
+}

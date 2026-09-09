@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T07:27:19.833Z",
+  "status": "PASS",
+  "planSha256": "685ec3c446fbb5d5c80098ac335e9fa4279f1ac62960c6fbb785ee07d8035106",
+  "actualGET": 17,
+  "expected200": 16,
+  "expectedDeleted404": 1,
+  "parameters": 4,
+  "formulas": 2,
+  "unchangedEmptyActionCollections": 4,
+  "mathCases": 4,
+  "wrongHPKindCases": 12,
+  "missingTotalHPRejected": true,
+  "sourceImageAndRelationUnchanged": true,
+  "onlyAuthorizedFieldsChanged": true,
+  "businessWrites": 0,
+  "actualReadFile": "实际17路由-20260909072718793.json",
+  "actualReadSha256": "5b9404276a7e7a54cd50f9554183cb906c0326f4c75e7a9663c58f6ade345023",
+  "originalEvidenceSha256": {
+    "可审查请求.json": "685ec3c446fbb5d5c80098ac335e9fa4279f1ac62960c6fbb785ee07d8035106",
+    "写前现值.json": "77edb2701a2596e1b8cb2ecad3fd01bf3933483279f5470a33d23f6e3e232800",
+    "实际回补结果.json": "9415e6a69e124b6fd80d93be225118a4bcd75f5d181cb1e9af5cd628a429289b",
+    "实际流水.jsonl": "1d30d97c65af7ad0dc8562c378870a96414d16e47f76f74d89fda0fbaa18a5c7"
+  },
+  "boundary": "当前17次GET与静态独立数学；没有业务写、浏览器或战斗执行。原已失败报告与流水保持；未重放5请求。"
+}

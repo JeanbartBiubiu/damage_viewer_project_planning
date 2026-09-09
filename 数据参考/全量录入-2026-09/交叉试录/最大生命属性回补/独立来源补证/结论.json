@@ -1,0 +1,465 @@
+{
+  "at": "2026-09-09T07:13:56.540Z",
+  "status": "NARROW_READY",
+  "allowedType": "StatByNamedDataValueCalculationPart",
+  "predicates": {
+    "mStat": 12,
+    "mStatFormula": "显式0或省略且构造默认0",
+    "UseNewStats": false,
+    "OutputType": 0,
+    "statType": 13,
+    "{a8cb9c14}": false
+  },
+  "mapping": {
+    "attributeOwner": "SOURCE",
+    "attributeKey": "hp",
+    "attributeValueKind": "TOTAL"
+  },
+  "otherBoundary": "不得套用于外围明确更换属性所有者的计算；不得对CURRENT、BONUS、mStat29、资源类或其他节点类型进行批量映射。Coef/SubPart只确认构造字段相同，本轮未独立证明其最大生命属性语义。",
+  "evidenceLevel": "同版原始当前具名树/正文及构造默认的静态交叉推断；未运行客户端二进制或取得属性分派函数。",
+  "sourceFiles": [
+    {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\items-16.17.cdtb.bin.json.gz",
+      "compressedSha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7",
+      "rawSha256": "b59ec9320d05acefa344ea8a5ef615cf7f32959078475cafff63833462dc358f"
+    },
+    {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备效果补证\\客户端原始资料\\lol-16.17-zh_CN.stringtable.json.gz",
+      "compressedSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "rawSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文客户端数值补证\\perks-16.17.cdtb.bin.json.gz",
+      "compressedSha256": "141a289f8b83c543c108930675088ec1e5bd0f482799d2677a436f0ff9e65fac",
+      "rawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1"
+    }
+  ],
+  "proofSha256": "49c64e3bd14ad481aeeca6b1c3cab9615023e3c9c4d1636f8b822d3e3751f5c2",
+  "planSha256": "685ec3c446fbb5d5c80098ac335e9fa4279f1ac62960c6fbb785ee07d8035106",
+  "getCount": 17,
+  "businessWrites": 0,
+  "checks": [
+    {
+      "name": "装备压缩SHA",
+      "passed": true
+    },
+    {
+      "name": "中文压缩SHA",
+      "passed": true
+    },
+    {
+      "name": "符文原始SHA",
+      "passed": true
+    },
+    {
+      "name": "构造来源版本",
+      "passed": true
+    },
+    {
+      "name": "原始meta内嵌补丁版本",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart原始类完整同值",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart继承类",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart构造默认0x7d3150ec",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart构造默认0xabc2d461",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart构造默认0x94fb4b0c",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart构造默认0x8a544bcf",
+      "passed": true
+    },
+    {
+      "name": "StatByNamedDataValueCalculationPart构造默认0xa8cb9c14",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart原始类完整同值",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart继承类",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart构造默认0x7d3150ec",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart构造默认0xabc2d461",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart构造默认0x94fb4b0c",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart构造默认0x8a544bcf",
+      "passed": true
+    },
+    {
+      "name": "StatByCoefficientCalculationPart构造默认0xa8cb9c14",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart原始类完整同值",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart继承类",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart构造默认0x7d3150ec",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart构造默认0xabc2d461",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart构造默认0x94fb4b0c",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart构造默认0x8a544bcf",
+      "passed": true
+    },
+    {
+      "name": "StatBySubPartCalculationPart构造默认0xa8cb9c14",
+      "passed": true
+    },
+    {
+      "name": "命名引用唯一 {d3850e11}",
+      "passed": true
+    },
+    {
+      "name": "命名引用唯一 MaxHPRatio",
+      "passed": true
+    },
+    {
+      "name": "命名引用唯一 {ba352cb1}",
+      "passed": true
+    },
+    {
+      "name": "命名引用唯一 MaxHealthDamage",
+      "passed": true
+    },
+    {
+      "name": "命名引用唯一 MaxStackDamageHPRatio",
+      "passed": true
+    },
+    {
+      "name": "新增主证具名比例",
+      "passed": true
+    },
+    {
+      "name": "当前正文同时绑定基数和比例并明确你的最大生命",
+      "passed": true
+    },
+    {
+      "name": "当前同根计算基数绑定",
+      "passed": true
+    },
+    {
+      "name": "模式交叉具名比例散列",
+      "passed": true
+    },
+    {
+      "name": "模式交叉文本明确最大生命转攻击力",
+      "passed": true
+    },
+    {
+      "name": "所有者反例真实开关",
+      "passed": true
+    },
+    {
+      "name": "所有者反例正文明确目标其最大生命",
+      "passed": true
+    },
+    {
+      "name": "严格窄条件 2010",
+      "passed": true
+    },
+    {
+      "name": "严格窄条件 3084",
+      "passed": true
+    },
+    {
+      "name": "严格窄条件 773005",
+      "passed": true
+    },
+    {
+      "name": "严格窄条件 3181",
+      "passed": true
+    },
+    {
+      "name": "目标所有者反例必须排除",
+      "passed": true
+    },
+    {
+      "name": "显式0与构造0同窄条件",
+      "passed": true
+    },
+    {
+      "name": "反例拒绝 12/2额外生命",
+      "passed": true
+    },
+    {
+      "name": "反例拒绝 新属性链",
+      "passed": true
+    },
+    {
+      "name": "反例拒绝 其他输出类型",
+      "passed": true
+    },
+    {
+      "name": "反例拒绝 其他旧statType",
+      "passed": true
+    },
+    {
+      "name": "反例拒绝 固定系数未独立扩展",
+      "passed": true
+    },
+    {
+      "name": "12/2当前额外生命反例存在",
+      "passed": true
+    },
+    {
+      "name": "余震当前正文明确额外生命",
+      "passed": true
+    },
+    {
+      "name": "现存12/2不能落入总生命窄映射",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/parameters",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/formulas",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/effects",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/processes",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/internal-states",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/trigger-rules",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/parameters/base_ad_ratio",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/parameters/mstat12_formula0_ratio",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/parameters/actual_mstat12_formula0",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/parameters/attacks_required",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/parameters/ranged_damage_multiplier",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/formulas/melee_bonus_damage",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/formulas/ranged_bonus_damage",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /attributes/hp",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /skills/item_3181_passive/representative-image",
+      "passed": true
+    },
+    {
+      "name": "实际GET200 /equipment-skill-relations?equipmentKey=item_3181&skillKey=item_3181_passive",
+      "passed": true
+    },
+    {
+      "name": "当前参数数",
+      "passed": true
+    },
+    {
+      "name": "当前公式数",
+      "passed": true
+    },
+    {
+      "name": "当前effects为空",
+      "passed": true
+    },
+    {
+      "name": "当前processes为空",
+      "passed": true
+    },
+    {
+      "name": "当前internal-states为空",
+      "passed": true
+    },
+    {
+      "name": "当前trigger-rules为空",
+      "passed": true
+    },
+    {
+      "name": "当前主体仍原批同值",
+      "passed": true
+    },
+    {
+      "name": "当前参数仍原批同值 base_ad_ratio",
+      "passed": true
+    },
+    {
+      "name": "当前参数仍原批同值 mstat12_formula0_ratio",
+      "passed": true
+    },
+    {
+      "name": "当前参数仍原批同值 actual_mstat12_formula0",
+      "passed": true
+    },
+    {
+      "name": "当前参数仍原批同值 attacks_required",
+      "passed": true
+    },
+    {
+      "name": "当前参数仍原批同值 ranged_damage_multiplier",
+      "passed": true
+    },
+    {
+      "name": "当前公式仍原批同值 melee_bonus_damage",
+      "passed": true
+    },
+    {
+      "name": "当前公式仍原批同值 ranged_bonus_damage",
+      "passed": true
+    },
+    {
+      "name": "当前临时输入无默认",
+      "passed": true
+    },
+    {
+      "name": "两条公式各一处临时引用",
+      "passed": true
+    },
+    {
+      "name": "只有当前生命必须缺最大生命报错",
+      "passed": true
+    }
+  ],
+  "math": [
+    {
+      "sample": {
+        "baseAD": 100,
+        "hp": 2000,
+        "bonusHP": 800,
+        "currentHP": 500,
+        "targetHP": 3000,
+        "melee": 220,
+        "ranged": 154
+      },
+      "formulaKey": "melee_bonus_damage",
+      "beforeValue": 220,
+      "afterValue": 220,
+      "expected": 220,
+      "hypotheticalWrongBonus": 160,
+      "hypotheticalWrongCurrent": 145,
+      "hypotheticalWrongTarget": 270,
+      "passed": true
+    },
+    {
+      "sample": {
+        "baseAD": 100,
+        "hp": 2000,
+        "bonusHP": 800,
+        "currentHP": 500,
+        "targetHP": 3000,
+        "melee": 220,
+        "ranged": 154
+      },
+      "formulaKey": "ranged_bonus_damage",
+      "beforeValue": 154,
+      "afterValue": 154,
+      "expected": 154,
+      "hypotheticalWrongBonus": 112,
+      "hypotheticalWrongCurrent": 101.5,
+      "hypotheticalWrongTarget": 189,
+      "passed": true
+    },
+    {
+      "sample": {
+        "baseAD": 80,
+        "hp": 1234.5,
+        "bonusHP": 334.5,
+        "currentHP": 200,
+        "targetHP": 2500,
+        "melee": 157.725,
+        "ranged": 110.4075
+      },
+      "formulaKey": "melee_bonus_damage",
+      "beforeValue": 157.725,
+      "afterValue": 157.725,
+      "expected": 157.725,
+      "hypotheticalWrongBonus": 112.725,
+      "hypotheticalWrongCurrent": 106,
+      "hypotheticalWrongTarget": 221,
+      "passed": true
+    },
+    {
+      "sample": {
+        "baseAD": 80,
+        "hp": 1234.5,
+        "bonusHP": 334.5,
+        "currentHP": 200,
+        "targetHP": 2500,
+        "melee": 157.725,
+        "ranged": 110.4075
+      },
+      "formulaKey": "ranged_bonus_damage",
+      "beforeValue": 110.40749999999998,
+      "afterValue": 110.40749999999998,
+      "expected": 110.4075,
+      "hypotheticalWrongBonus": 78.90749999999998,
+      "hypotheticalWrongCurrent": 74.19999999999999,
+      "hypotheticalWrongTarget": 154.7,
+      "passed": true
+    }
+  ]
+}
