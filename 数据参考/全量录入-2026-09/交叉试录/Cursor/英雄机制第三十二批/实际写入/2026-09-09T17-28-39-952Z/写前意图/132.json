@@ -1,0 +1,23 @@
+{
+  "i": 131,
+  "intent": {
+    "sequence": 132,
+    "method": "POST",
+    "route": "/skills/xayah_e/parameters",
+    "detailRoute": "/skills/xayah_e/parameters/feather_sequence_index",
+    "skillKey": "xayah_e",
+    "kind": "parameters",
+    "stableKey": "feather_sequence_index",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "feather_sequence_index",
+      "name": "同一敌人羽毛序号",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "逐根计算的1起序号，由实际命中顺序提供；不默认满羽毛、不设置19根上限。",
+      "sortOrder": 110
+    }
+  }
+}

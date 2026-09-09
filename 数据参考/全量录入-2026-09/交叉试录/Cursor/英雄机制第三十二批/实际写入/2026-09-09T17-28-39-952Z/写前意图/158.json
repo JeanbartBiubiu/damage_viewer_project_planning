@@ -1,0 +1,23 @@
+{
+  "i": 157,
+  "intent": {
+    "sequence": 158,
+    "method": "POST",
+    "route": "/skills/zeri_q/parameters",
+    "detailRoute": "/skills/zeri_q/parameters/missile_count",
+    "skillKey": "zeri_q",
+    "kind": "parameters",
+    "stableKey": "missile_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missile_count",
+      "name": "子弹数量",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 7,
+      "levelValues": null,
+      "description": "当前正文明确一次发射7颗；整次攻击公式只计算一次，不能把整式逐颗再乘7。",
+      "sortOrder": 30
+    }
+  }
+}

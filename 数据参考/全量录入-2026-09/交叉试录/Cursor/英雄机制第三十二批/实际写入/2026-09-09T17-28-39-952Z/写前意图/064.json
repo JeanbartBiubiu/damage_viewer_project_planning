@@ -1,0 +1,23 @@
+{
+  "i": 63,
+  "intent": {
+    "sequence": 64,
+    "method": "POST",
+    "route": "/skills/kaisa_q/parameters",
+    "detailRoute": "/skills/kaisa_q/parameters/subsequent_missile_ratio",
+    "skillKey": "kaisa_q",
+    "kind": "parameters",
+    "stableKey": "subsequent_missile_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "subsequent_missile_ratio",
+      "name": "后续弹体伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前正文和ExtraHitReduction=25%；后续每发是完整单发的25%，不是保留75%。",
+      "sortOrder": 60
+    }
+  }
+}

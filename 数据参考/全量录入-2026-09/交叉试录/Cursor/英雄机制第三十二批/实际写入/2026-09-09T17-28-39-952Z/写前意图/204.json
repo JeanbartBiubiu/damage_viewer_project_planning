@@ -1,0 +1,23 @@
+{
+  "i": 203,
+  "intent": {
+    "sequence": 204,
+    "method": "POST",
+    "route": "/skills/zeri_r/parameters",
+    "detailRoute": "/skills/zeri_r/parameters/current_hypercharge_stack_count",
+    "skillKey": "zeri_r",
+    "kind": "parameters",
+    "stableKey": "current_hypercharge_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_hypercharge_stack_count",
+      "name": "当前超负荷层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "层数由真实英雄命中事件提供；原始MaxStacks=100000只是实现界限，不作为实际推荐上限或默认值。",
+      "sortOrder": 110
+    }
+  }
+}

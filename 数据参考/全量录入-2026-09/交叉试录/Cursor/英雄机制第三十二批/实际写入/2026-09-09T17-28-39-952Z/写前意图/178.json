@@ -1,0 +1,67 @@
+{
+  "i": 177,
+  "intent": {
+    "sequence": 178,
+    "method": "POST",
+    "route": "/skills/zeri_w/formulas",
+    "detailRoute": "/skills/zeri_w/formulas/normal_physical_damage",
+    "skillKey": "zeri_w",
+    "kind": "formulas",
+    "stableKey": "normal_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "normal_physical_damage",
+      "name": "强穿激光普通物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "total_attack_damage_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=基础值+1.2×总攻击力+0.5×法强。",
+      "sortOrder": 10
+    }
+  }
+}

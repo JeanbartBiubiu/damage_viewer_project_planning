@@ -1,0 +1,23 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "method": "POST",
+    "route": "/skills/corki_r/parameters",
+    "detailRoute": "/skills/corki_r/parameters/attack_refund_mstat8_value",
+    "skillKey": "corki_r",
+    "kind": "parameters",
+    "stableKey": "attack_refund_mstat8_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_refund_mstat8_value",
+      "name": "回充公式mStat8实际值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前AttackRefund使用mStat8，属性编号和应用阶段未窄证；真实值由运行输入提供，不默认为0。",
+      "sortOrder": 100
+    }
+  }
+}

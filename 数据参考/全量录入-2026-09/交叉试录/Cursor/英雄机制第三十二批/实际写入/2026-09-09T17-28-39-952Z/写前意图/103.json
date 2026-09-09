@@ -1,0 +1,23 @@
+{
+  "i": 102,
+  "intent": {
+    "sequence": 103,
+    "method": "POST",
+    "route": "/skills/xayah_p/parameters",
+    "detailRoute": "/skills/xayah_p/parameters/empowered_attack_count_per_cast",
+    "skillKey": "xayah_p",
+    "kind": "parameters",
+    "stableKey": "empowered_attack_count_per_cast",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_attack_count_per_cast",
+      "name": "每次施法强化攻击次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前PStacksPerCast=3；次数为整数。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "method": "POST",
+    "route": "/skills/xayah_e/parameters",
+    "detailRoute": "/skills/xayah_e/parameters/base_damage",
+    "skillKey": "xayah_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "每根羽毛基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 65,
+        "3": 80,
+        "4": 95,
+        "5": 110
+      },
+      "description": "客户端FeatherDamage树BaseDamage取等级1至5，为50/65/80/95/110。",
+      "sortOrder": 10
+    }
+  }
+}

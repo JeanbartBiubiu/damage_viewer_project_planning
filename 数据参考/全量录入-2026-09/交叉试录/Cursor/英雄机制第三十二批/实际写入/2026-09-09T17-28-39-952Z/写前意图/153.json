@@ -1,0 +1,45 @@
+{
+  "i": 152,
+  "intent": {
+    "sequence": 153,
+    "method": "POST",
+    "route": "/skills/zeri_p/formulas",
+    "detailRoute": "/skills/zeri_p/formulas/execute_threshold",
+    "skillKey": "zeri_p",
+    "kind": "formulas",
+    "stableKey": "execute_threshold",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "execute_threshold",
+      "name": "泽丽处决生命阈值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "q_passive_execute_threshold_level_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "q_passive_execute_threshold_ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前P正文跨Q引用PassiveExecuteThreshold；这是低于阈值的资格判断，不创建自动处决结果。",
+      "sortOrder": 20
+    }
+  }
+}

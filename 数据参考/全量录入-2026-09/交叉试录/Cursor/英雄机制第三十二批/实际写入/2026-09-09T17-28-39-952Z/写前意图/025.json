@@ -1,0 +1,23 @@
+{
+  "i": 24,
+  "intent": {
+    "sequence": 25,
+    "method": "POST",
+    "route": "/skills/corki_e/parameters",
+    "detailRoute": "/skills/corki_e/parameters/shred_stack_cap",
+    "skillKey": "corki_e",
+    "kind": "parameters",
+    "stableKey": "shred_stack_cap",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shred_stack_cap",
+      "name": "削减层数上限",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4,
+      "levelValues": null,
+      "description": "当前DataValues.ShredCap=4；层数作用与刷新事件待接。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 145,
+  "intent": {
+    "sequence": 146,
+    "method": "POST",
+    "route": "/skills/zeri_p/parameters",
+    "detailRoute": "/skills/zeri_p/parameters/q_passive_execute_threshold_level_base",
+    "skillKey": "zeri_p",
+    "kind": "parameters",
+    "stableKey": "q_passive_execute_threshold_level_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "q_passive_execute_threshold_level_base",
+      "name": "跨Q处决阈值基础实际等级值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "P正文跨技能引用Q.PassiveExecuteThreshold；Q树为70至160的角色等级插值，实际值外供，不猜曲线。",
+      "sortOrder": 30
+    }
+  }
+}

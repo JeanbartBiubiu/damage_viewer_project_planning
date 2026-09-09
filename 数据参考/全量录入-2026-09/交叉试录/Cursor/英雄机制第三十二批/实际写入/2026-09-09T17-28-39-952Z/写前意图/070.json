@@ -1,0 +1,77 @@
+{
+  "i": 69,
+  "intent": {
+    "sequence": 70,
+    "method": "POST",
+    "route": "/skills/kaisa_q/formulas",
+    "detailRoute": "/skills/kaisa_q/formulas/subsequent_missile_damage",
+    "skillKey": "kaisa_q",
+    "kind": "formulas",
+    "stableKey": "subsequent_missile_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "subsequent_missile_damage",
+      "name": "后续弹体单发物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_attack_damage_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "subsequent_missile_ratio"
+          }
+        ]
+      },
+      "description": "当前每发额外弹体按25%完整单发计算；同一英雄命中数和分配由事件层提供。",
+      "sortOrder": 20
+    }
+  }
+}

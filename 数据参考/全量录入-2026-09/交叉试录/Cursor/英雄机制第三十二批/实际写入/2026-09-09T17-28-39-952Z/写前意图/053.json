@@ -1,0 +1,23 @@
+{
+  "i": 52,
+  "intent": {
+    "sequence": 53,
+    "method": "POST",
+    "route": "/skills/kaisa_p/parameters",
+    "detailRoute": "/skills/kaisa_p/parameters/current_stack_count",
+    "skillKey": "kaisa_p",
+    "kind": "parameters",
+    "stableKey": "current_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_stack_count",
+      "name": "当前电浆层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前攻击时实际电浆层数由事件顺序提供；范围为0至4，不能默认满层。",
+      "sortOrder": 100
+    }
+  }
+}

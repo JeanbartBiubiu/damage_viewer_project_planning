@@ -1,0 +1,23 @@
+{
+  "i": 33,
+  "intent": {
+    "sequence": 34,
+    "method": "POST",
+    "route": "/skills/corki_r/parameters",
+    "detailRoute": "/skills/corki_r/parameters/max_ammo",
+    "skillKey": "corki_r",
+    "kind": "parameters",
+    "stableKey": "max_ammo",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_ammo",
+      "name": "最大弹药数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4,
+      "levelValues": null,
+      "description": "当前根mMaxAmmo和正文消费均为4；不采用主体旧摘要7。",
+      "sortOrder": 60
+    }
+  }
+}

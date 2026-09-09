@@ -1,0 +1,23 @@
+{
+  "i": 173,
+  "intent": {
+    "sequence": 174,
+    "method": "POST",
+    "route": "/skills/zeri_w/parameters",
+    "detailRoute": "/skills/zeri_w/parameters/min_cast_time_ms",
+    "skillKey": "zeri_w",
+    "kind": "parameters",
+    "stableKey": "min_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "min_cast_time_ms",
+      "name": "动态施法最低时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 300,
+      "levelValues": null,
+      "description": "当前MinCastTime约0.3秒，转换为300毫秒。",
+      "sortOrder": 90
+    }
+  }
+}

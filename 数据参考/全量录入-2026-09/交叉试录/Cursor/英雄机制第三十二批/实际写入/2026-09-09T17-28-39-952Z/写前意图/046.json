@@ -1,0 +1,23 @@
+{
+  "i": 45,
+  "intent": {
+    "sequence": 46,
+    "method": "POST",
+    "route": "/skills/kaisa_p/parameters",
+    "detailRoute": "/skills/kaisa_p/parameters/per_stack_damage_by_character_level",
+    "skillKey": "kaisa_p",
+    "kind": "parameters",
+    "stableKey": "per_stack_damage_by_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "per_stack_damage_by_character_level",
+      "name": "每层基础电浆伤害实际值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前PCurrentPerStackDamage是1至8的角色等级插值；实际等级值外供，不猜中间曲线。",
+      "sortOrder": 30
+    }
+  }
+}

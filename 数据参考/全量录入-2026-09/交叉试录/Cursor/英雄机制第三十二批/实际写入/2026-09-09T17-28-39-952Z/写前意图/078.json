@@ -1,0 +1,23 @@
+{
+  "i": 77,
+  "intent": {
+    "sequence": 78,
+    "method": "POST",
+    "route": "/skills/kaisa_w/parameters",
+    "detailRoute": "/skills/kaisa_w/parameters/evolved_cooldown_reduction_ratio",
+    "skillKey": "kaisa_w",
+    "kind": "parameters",
+    "stableKey": "evolved_cooldown_reduction_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "evolved_cooldown_reduction_ratio",
+      "name": "进化命中英雄冷却缩短比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.75,
+      "levelValues": null,
+      "description": "当前正文进化W命中英雄使冷却缩短75%，保存为0.75比例；比例1代表100%。",
+      "sortOrder": 60
+    }
+  }
+}

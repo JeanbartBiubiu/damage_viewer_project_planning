@@ -1,0 +1,23 @@
+{
+  "i": 91,
+  "intent": {
+    "sequence": 92,
+    "method": "POST",
+    "route": "/skills/kaisa_e/parameters",
+    "detailRoute": "/skills/kaisa_e/parameters/actual_attack_speed_stat",
+    "skillKey": "kaisa_e",
+    "kind": "parameters",
+    "stableKey": "actual_attack_speed_stat",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_attack_speed_stat",
+      "name": "施法时长实际攻击速度值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前TotalCastTime使用mStat4但未证具体属性单位；真实值外供，不与TotalMovespeed的mStatFormula2强行共用。",
+      "sortOrder": 130
+    }
+  }
+}

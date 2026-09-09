@@ -1,0 +1,29 @@
+{
+  "i": 9,
+  "intent": {
+    "sequence": 10,
+    "method": "POST",
+    "route": "/skills/corki_w/parameters",
+    "detailRoute": "/skills/corki_w/parameters/maximum_damage_base",
+    "skillKey": "corki_w",
+    "kind": "parameters",
+    "stableKey": "maximum_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "maximum_damage_base",
+      "name": "路径完整最大基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 225,
+        "3": 300,
+        "4": 375,
+        "5": 450
+      },
+      "description": "客户端MaximumDamage树BaseDamage取技能等级1至5；当前正文说明是路径整个驻留期间至多总量，不是每跳伤害。",
+      "sortOrder": 10
+    }
+  }
+}

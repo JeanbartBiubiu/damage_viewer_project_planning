@@ -1,0 +1,23 @@
+{
+  "i": 148,
+  "intent": {
+    "sequence": 149,
+    "method": "POST",
+    "route": "/skills/zeri_p/parameters",
+    "detailRoute": "/skills/zeri_p/parameters/q_passive_max_damage_ability_power_ratio",
+    "skillKey": "zeri_p",
+    "kind": "parameters",
+    "stableKey": "q_passive_max_damage_ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "q_passive_max_damage_ability_power_ratio",
+      "name": "跨Q满充能法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.1,
+      "levelValues": null,
+      "description": "当前Q.PassiveMaxDamage树StatByCoefficient约1.1。",
+      "sortOrder": 60
+    }
+  }
+}

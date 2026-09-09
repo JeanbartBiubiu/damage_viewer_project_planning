@@ -1,0 +1,23 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "method": "POST",
+    "route": "/skills/xayah_r/parameters",
+    "detailRoute": "/skills/xayah_r/parameters/untargetable_duration_ms",
+    "skillKey": "xayah_r",
+    "kind": "parameters",
+    "stableKey": "untargetable_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "untargetable_duration_ms",
+      "name": "不可被选取持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "当前绑定正文明确持续1.5秒，转换为1500毫秒；原RUntargetable=1.25秒冲突仅作来源记录。",
+      "sortOrder": 40
+    }
+  }
+}

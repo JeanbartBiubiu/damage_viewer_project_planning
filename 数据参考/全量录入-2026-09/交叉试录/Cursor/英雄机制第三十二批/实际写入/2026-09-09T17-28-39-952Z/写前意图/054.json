@@ -1,0 +1,55 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "method": "POST",
+    "route": "/skills/kaisa_p/formulas",
+    "detailRoute": "/skills/kaisa_p/formulas/base_plasma_damage",
+    "skillKey": "kaisa_p",
+    "kind": "formulas",
+    "stableKey": "base_plasma_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "base_plasma_damage",
+      "name": "基础电浆额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage_by_character_level"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_ability_power_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "mode_damage_multiplier"
+          }
+        ]
+      },
+      "description": "当前PBaseDamage=(等级基础值+0.12×法强)×模式乘数。",
+      "sortOrder": 10
+    }
+  }
+}

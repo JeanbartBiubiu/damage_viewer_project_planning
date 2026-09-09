@@ -1,0 +1,45 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "method": "POST",
+    "route": "/skills/corki_p/formulas",
+    "detailRoute": "/skills/corki_p/formulas/critical_extra_true_damage",
+    "skillKey": "corki_p",
+    "kind": "formulas",
+    "stableKey": "critical_extra_true_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "critical_extra_true_damage",
+      "name": "暴击额外真实伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_conversion_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_critical_damage_ratio"
+          }
+        ]
+      },
+      "description": "当前CriticalStrikeTOOLTIP只把实际暴击伤害倍率作用于额外真实伤害树；不把完整物理普攻重复纳入。",
+      "sortOrder": 20
+    }
+  }
+}

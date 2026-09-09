@@ -1,0 +1,23 @@
+{
+  "i": 194,
+  "intent": {
+    "sequence": 195,
+    "method": "POST",
+    "route": "/skills/zeri_r/parameters",
+    "detailRoute": "/skills/zeri_r/parameters/ability_power_ratio",
+    "skillKey": "zeri_r",
+    "kind": "parameters",
+    "stableKey": "ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ability_power_ratio",
+      "name": "法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.1,
+      "levelValues": null,
+      "description": "当前TotalActiveDamage树mCoefficient约1.1，取来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

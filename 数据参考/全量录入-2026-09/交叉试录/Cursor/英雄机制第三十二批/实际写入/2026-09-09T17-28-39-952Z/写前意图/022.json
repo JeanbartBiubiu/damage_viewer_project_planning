@@ -1,0 +1,23 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "method": "POST",
+    "route": "/skills/corki_e/parameters",
+    "detailRoute": "/skills/corki_e/parameters/spray_duration_ms",
+    "skillKey": "corki_e",
+    "kind": "parameters",
+    "stableKey": "spray_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spray_duration_ms",
+      "name": "扫射持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前正文显示4秒持续总伤害，转换为4000毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

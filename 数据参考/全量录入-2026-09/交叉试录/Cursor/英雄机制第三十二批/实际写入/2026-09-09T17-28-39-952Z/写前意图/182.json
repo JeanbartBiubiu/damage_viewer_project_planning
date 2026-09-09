@@ -1,0 +1,23 @@
+{
+  "i": 181,
+  "intent": {
+    "sequence": 182,
+    "method": "POST",
+    "route": "/skills/zeri_e/parameters",
+    "detailRoute": "/skills/zeri_e/parameters/cooldown_reduction_per_hit_ms",
+    "skillKey": "zeri_e",
+    "kind": "parameters",
+    "stableKey": "cooldown_reduction_per_hit_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_reduction_per_hit_ms",
+      "name": "普通命中英雄冷却缩短（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前正文每次攻击或技能命中英雄缩短0.5秒，转换为500毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

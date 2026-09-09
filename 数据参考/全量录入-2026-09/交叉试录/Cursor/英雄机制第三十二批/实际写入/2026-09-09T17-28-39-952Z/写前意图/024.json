@@ -1,0 +1,29 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 24,
+    "method": "POST",
+    "route": "/skills/corki_e/parameters",
+    "detailRoute": "/skills/corki_e/parameters/shred_max_amount",
+    "skillKey": "corki_e",
+    "kind": "parameters",
+    "stableKey": "shred_max_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shred_max_amount",
+      "name": "最大护甲和魔抗削减量",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 12,
+        "2": 14,
+        "3": 16,
+        "4": 18,
+        "5": 20
+      },
+      "description": "原始ShredMax为负的-12/-14/-16/-18/-20，当前正文通过乘-1显示正的削减量；这里保存正点数。",
+      "sortOrder": 50
+    }
+  }
+}

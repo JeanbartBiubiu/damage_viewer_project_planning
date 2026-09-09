@@ -1,0 +1,95 @@
+{
+  "i": 191,
+  "intent": {
+    "sequence": 192,
+    "method": "POST",
+    "route": "/skills/zeri_e/formulas",
+    "detailRoute": "/skills/zeri_e/formulas/bonus_magic_damage",
+    "skillKey": "zeri_e",
+    "kind": "formulas",
+    "stableKey": "bonus_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "bonus_magic_damage",
+      "name": "灿丽花火首个目标额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ability_power_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "critical_scaling_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_critical_chance_ratio"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "SUBTRACT",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_critical_damage_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "one_ratio"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前BonusDamageTotal=(基础值+0.2×法强)×[1+暴击效能×暴击几率×(暴击倍率-1)]。",
+      "sortOrder": 10
+    }
+  }
+}

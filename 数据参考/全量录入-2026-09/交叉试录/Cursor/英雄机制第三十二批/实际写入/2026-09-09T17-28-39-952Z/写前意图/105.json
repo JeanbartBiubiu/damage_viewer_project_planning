@@ -1,0 +1,23 @@
+{
+  "i": 104,
+  "intent": {
+    "sequence": 105,
+    "method": "POST",
+    "route": "/skills/xayah_p/parameters",
+    "detailRoute": "/skills/xayah_p/parameters/empowered_attack_window_ms",
+    "skillKey": "xayah_p",
+    "kind": "parameters",
+    "stableKey": "empowered_attack_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_attack_window_ms",
+      "name": "强化攻击窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 8000,
+      "levelValues": null,
+      "description": "当前PEmpoweredDuration=8秒，转换为8000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

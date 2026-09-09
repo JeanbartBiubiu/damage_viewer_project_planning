@@ -1,0 +1,23 @@
+{
+  "i": 13,
+  "intent": {
+    "sequence": 14,
+    "method": "POST",
+    "route": "/skills/corki_w/parameters",
+    "detailRoute": "/skills/corki_w/parameters/ticks_per_second",
+    "skillKey": "corki_w",
+    "kind": "parameters",
+    "stableKey": "ticks_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ticks_per_second",
+      "name": "每秒过程次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前DataValues.TicksPerSecond=2；仅保留来源过程参数，不将完整最大量拆成每跳。",
+      "sortOrder": 50
+    }
+  }
+}

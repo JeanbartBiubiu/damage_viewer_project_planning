@@ -1,0 +1,23 @@
+{
+  "i": 149,
+  "intent": {
+    "sequence": 150,
+    "method": "POST",
+    "route": "/skills/zeri_p/parameters",
+    "detailRoute": "/skills/zeri_p/parameters/q_passive_max_charge_hp_ratio",
+    "skillKey": "zeri_p",
+    "kind": "parameters",
+    "stableKey": "q_passive_max_charge_hp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "q_passive_max_charge_hp_ratio",
+      "name": "跨Q满充能最大生命比例实际值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "P正文跨技能引用Q.PassiveMaxChargePercentHealth；Q树为1%至11%的角色等级插值，实际比例无默认。",
+      "sortOrder": 70
+    }
+  }
+}

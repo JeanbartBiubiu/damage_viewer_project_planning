@@ -1,0 +1,23 @@
+{
+  "i": 117,
+  "intent": {
+    "sequence": 118,
+    "method": "POST",
+    "route": "/skills/xayah_w/parameters",
+    "detailRoute": "/skills/xayah_w/parameters/secondary_feather_damage_ratio",
+    "skillKey": "xayah_w",
+    "kind": "parameters",
+    "stableKey": "secondary_feather_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "secondary_feather_damage_ratio",
+      "name": "次级羽刃伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前正文消费BonusDamagePercent=25%，转为0.25比例；实际攻击基准和特效资格待接。",
+      "sortOrder": 30
+    }
+  }
+}

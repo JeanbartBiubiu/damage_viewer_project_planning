@@ -1,0 +1,23 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "method": "POST",
+    "route": "/skills/corki_r/parameters",
+    "detailRoute": "/skills/corki_r/parameters/bonus_attack_damage_ratio",
+    "skillKey": "corki_r",
+    "kind": "parameters",
+    "stableKey": "bonus_attack_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_attack_damage_ratio",
+      "name": "额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.8500000238418579,
+      "levelValues": null,
+      "description": "当前RSmallMissileDamage树ADRatio带mStat2/mStatFormula2，取来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

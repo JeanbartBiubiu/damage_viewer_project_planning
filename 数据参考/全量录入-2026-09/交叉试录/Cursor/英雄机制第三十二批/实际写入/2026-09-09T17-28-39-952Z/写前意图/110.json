@@ -1,0 +1,29 @@
+{
+  "i": 109,
+  "intent": {
+    "sequence": 110,
+    "method": "POST",
+    "route": "/skills/xayah_q/parameters",
+    "detailRoute": "/skills/xayah_q/parameters/min_cast_time_ms",
+    "skillKey": "xayah_q",
+    "kind": "parameters",
+    "stableKey": "min_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "min_cast_time_ms",
+      "name": "最低施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 100,
+        "3": 100,
+        "4": 100,
+        "5": 100
+      },
+      "description": "当前MinCastTime技能等级1为0、等级2至5为0.1秒；保留原数组，不猜攻击速度求值。",
+      "sortOrder": 50
+    }
+  }
+}

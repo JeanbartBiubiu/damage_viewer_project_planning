@@ -1,0 +1,23 @@
+{
+  "i": 139,
+  "intent": {
+    "sequence": 140,
+    "method": "POST",
+    "route": "/skills/xayah_r/parameters",
+    "detailRoute": "/skills/xayah_r/parameters/bonus_attack_damage_ratio",
+    "skillKey": "xayah_r",
+    "kind": "parameters",
+    "stableKey": "bonus_attack_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_attack_damage_ratio",
+      "name": "额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前Damage树mStat2/mStatFormula2系数为1，取来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

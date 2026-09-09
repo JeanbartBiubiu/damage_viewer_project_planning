@@ -1,0 +1,23 @@
+{
+  "i": 89,
+  "intent": {
+    "sequence": 90,
+    "method": "POST",
+    "route": "/skills/kaisa_e/parameters",
+    "detailRoute": "/skills/kaisa_e/parameters/cast_time_min_ms",
+    "skillKey": "kaisa_e",
+    "kind": "parameters",
+    "stableKey": "cast_time_min_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_min_ms",
+      "name": "超载时长下限（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 600,
+      "levelValues": null,
+      "description": "当前TotalCastTime树下限为0.6秒，转换为600毫秒。",
+      "sortOrder": 110
+    }
+  }
+}

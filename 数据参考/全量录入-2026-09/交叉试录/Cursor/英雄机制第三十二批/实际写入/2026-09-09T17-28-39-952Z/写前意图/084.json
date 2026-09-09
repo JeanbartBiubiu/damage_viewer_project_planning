@@ -1,0 +1,23 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 84,
+    "method": "POST",
+    "route": "/skills/kaisa_e/parameters",
+    "detailRoute": "/skills/kaisa_e/parameters/attack_speed_duration_ms",
+    "skillKey": "kaisa_e",
+    "kind": "parameters",
+    "stableKey": "attack_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_duration_ms",
+      "name": "超载攻击速度持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前mEffectAmount[1]=4秒，转换为4000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

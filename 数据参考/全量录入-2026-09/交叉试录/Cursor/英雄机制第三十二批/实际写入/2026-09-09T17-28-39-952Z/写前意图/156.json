@@ -1,0 +1,29 @@
+{
+  "i": 155,
+  "intent": {
+    "sequence": 156,
+    "method": "POST",
+    "route": "/skills/zeri_q/parameters",
+    "detailRoute": "/skills/zeri_q/parameters/base_damage",
+    "skillKey": "zeri_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "电火迸射基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 22,
+        "2": 26,
+        "3": 30,
+        "4": 34,
+        "5": 38
+      },
+      "description": "当前ActiveDamageThatCanCrit树BaseDamage取等级1至5，为22/26/30/34/38；原数组索引0的18不作为技能等级1。",
+      "sortOrder": 10
+    }
+  }
+}

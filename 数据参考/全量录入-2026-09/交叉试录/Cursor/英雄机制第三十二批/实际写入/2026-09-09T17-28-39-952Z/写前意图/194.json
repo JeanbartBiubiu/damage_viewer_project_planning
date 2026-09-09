@@ -1,0 +1,27 @@
+{
+  "i": 193,
+  "intent": {
+    "sequence": 194,
+    "method": "POST",
+    "route": "/skills/zeri_r/parameters",
+    "detailRoute": "/skills/zeri_r/parameters/active_damage_base",
+    "skillKey": "zeri_r",
+    "kind": "parameters",
+    "stableKey": "active_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_damage_base",
+      "name": "超限爆闪基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "description": "当前TotalActiveDamage树ActiveDamage取等级1至3，为150/250/350。",
+      "sortOrder": 10
+    }
+  }
+}

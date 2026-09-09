@@ -1,0 +1,23 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "method": "POST",
+    "route": "/skills/kaisa_q/parameters",
+    "detailRoute": "/skills/kaisa_q/parameters/evolved_max_damage_multiplier",
+    "skillKey": "kaisa_q",
+    "kind": "parameters",
+    "stableKey": "evolved_max_damage_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "evolved_max_damage_multiplier",
+      "name": "进化最大总量倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 3.75,
+      "levelValues": null,
+      "description": "当前匿名进化树=1+11×0.25，表示首发全量加11发后续25%。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 88,
+  "intent": {
+    "sequence": 89,
+    "method": "POST",
+    "route": "/skills/kaisa_e/parameters",
+    "detailRoute": "/skills/kaisa_e/parameters/cast_time_base_ms",
+    "skillKey": "kaisa_e",
+    "kind": "parameters",
+    "stableKey": "cast_time_base_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_base_ms",
+      "name": "超载基础时长（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1200,
+      "levelValues": null,
+      "description": "当前TotalCastTime树mEffectIndex=3对应1.2秒，转换为1200毫秒；这里不使用mPrecision进行舍入。",
+      "sortOrder": 100
+    }
+  }
+}

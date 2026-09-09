@@ -1,0 +1,23 @@
+{
+  "i": 150,
+  "intent": {
+    "sequence": 151,
+    "method": "POST",
+    "route": "/skills/zeri_p/parameters",
+    "detailRoute": "/skills/zeri_p/parameters/one_ratio",
+    "skillKey": "zeri_p",
+    "kind": "parameters",
+    "stableKey": "one_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "one_ratio",
+      "name": "单位倍率常数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "为跨技能被动的二元公式提供显式单位比例；不改变来源数值。",
+      "sortOrder": 80
+    }
+  }
+}

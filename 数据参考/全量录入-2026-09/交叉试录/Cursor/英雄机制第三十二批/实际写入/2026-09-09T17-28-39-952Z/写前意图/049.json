@@ -1,0 +1,23 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "method": "POST",
+    "route": "/skills/kaisa_p/parameters",
+    "detailRoute": "/skills/kaisa_p/parameters/plasma_duration_ms",
+    "skillKey": "kaisa_p",
+    "kind": "parameters",
+    "stableKey": "plasma_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "plasma_duration_ms",
+      "name": "电浆持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前正文和DataValues.PDuration=4秒，转换为4000毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

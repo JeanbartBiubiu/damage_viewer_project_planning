@@ -1,0 +1,55 @@
+{
+  "i": 114,
+  "intent": {
+    "sequence": 115,
+    "method": "POST",
+    "route": "/skills/xayah_q/formulas",
+    "detailRoute": "/skills/xayah_q/formulas/two_dagger_damage",
+    "skillKey": "xayah_q",
+    "kind": "formulas",
+    "stableKey": "two_dagger_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "two_dagger_damage",
+      "name": "双刃两把匕首对首个目标物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_attack_damage_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "dagger_count"
+          }
+        ]
+      },
+      "description": "当前唯一首个目标可同时受到两把匕首的完整单把伤害；后续目标50%支路不替代第二把。",
+      "sortOrder": 20
+    }
+  }
+}

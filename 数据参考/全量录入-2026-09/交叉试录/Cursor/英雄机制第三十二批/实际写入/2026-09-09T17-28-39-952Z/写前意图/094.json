@@ -1,0 +1,53 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 94,
+    "method": "POST",
+    "route": "/skills/kaisa_e/formulas",
+    "detailRoute": "/skills/kaisa_e/formulas/total_cast_time_ms",
+    "skillKey": "kaisa_e",
+    "kind": "formulas",
+    "stableKey": "total_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_cast_time_ms",
+      "name": "极限超载实际持续时长（毫秒）",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MAX",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "cast_time_min_ms"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "SUBTRACT",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "cast_time_base_ms"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "cast_time_attack_speed_coefficient_ms"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_attack_speed_stat"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalCastTime=MAX(600,1200-400×mStat4)毫秒；与移动速度树的mStatFormula2不混用。",
+      "sortOrder": 20
+    }
+  }
+}

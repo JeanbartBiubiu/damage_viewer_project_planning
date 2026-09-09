@@ -1,0 +1,45 @@
+{
+  "i": 153,
+  "intent": {
+    "sequence": 154,
+    "method": "POST",
+    "route": "/skills/zeri_p/formulas",
+    "detailRoute": "/skills/zeri_p/formulas/passive_max_damage",
+    "skillKey": "zeri_p",
+    "kind": "formulas",
+    "stableKey": "passive_max_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "passive_max_damage",
+      "name": "泽丽满充能基础魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "q_passive_max_damage_level_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "q_passive_max_damage_ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前P正文跨Q引用PassiveMaxDamage；基础等级值由实际等级输入。",
+      "sortOrder": 30
+    }
+  }
+}

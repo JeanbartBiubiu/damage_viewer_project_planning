@@ -1,0 +1,35 @@
+{
+  "at": "2026-09-09T17:28:39.499Z",
+  "decision": "可按冻结计划新增206项，复用29公共参数；逐项POST后GET、末尾全保护回读，再独立实际回读核算和代表页面验收。",
+  "hashes": {
+    "完整候选.json": "57f2ca0fcc9b7f29fb8c9df4c93f3d4fe1b474254839a285f08f7f6a1a4e886d",
+    "写前请求计划.json": "4250c6cf97965f7f83fa64f89089487f52ede37f83adcb2df15c0051a97e9c46",
+    "受保护写入器.mjs": "45d5bb3dd99800e768bb2519d50e9ba462fa1168976822c7225d2d2ae88f985e"
+  },
+  "newCounts": {
+    "parameters": 164,
+    "formulas": 41,
+    "effects": 1
+  },
+  "created": 206,
+  "reused": 29,
+  "currentComponents": 235,
+  "preflight": {
+    "GETs": 436,
+    "protectedRequests": 201,
+    "existingDetails": 29,
+    "missing": 206
+  },
+  "checks": [
+    "Cursor同版来源READY及所有工具只读审计",
+    "候选41公式82场景、41缺值、24边界、15源数组零失败",
+    "主负责人核对库奇W完整上限不乘5、卡莎E两个攻速输入不混用、霞E逐根整数序号及最低10%而非19根上限、泽丽W不含暴击几率而E含该项",
+    "卡莎E与霞E费用冲突不建立自动消耗；卡莎R自身普通护盾2000毫秒",
+    "七颗泽丽Q为完整攻击一次，不能整式乘7；库奇R大弹整式翻倍与4弹药分别记录"
+  ],
+  "limits": [
+    "等级曲线、动态施放、额外属性实际阶段与攻击资格仍有待接线记录，不编造默认值",
+    "未进行战斗运行验证"
+  ],
+  "apiWritesBeforeRun": 0
+}

@@ -1,0 +1,23 @@
+{
+  "i": 185,
+  "intent": {
+    "sequence": 186,
+    "method": "POST",
+    "route": "/skills/zeri_e/parameters",
+    "detailRoute": "/skills/zeri_e/parameters/critical_scaling_ratio",
+    "skillKey": "zeri_e",
+    "kind": "parameters",
+    "stableKey": "critical_scaling_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_scaling_ratio",
+      "name": "额外伤害暴击效能比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前树CritScalingMod=1；额外伤害按暴击几率×(暴击倍率-1)提升。",
+      "sortOrder": 70
+    }
+  }
+}

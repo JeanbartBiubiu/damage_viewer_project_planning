@@ -1,0 +1,67 @@
+{
+  "i": 204,
+  "intent": {
+    "sequence": 205,
+    "method": "POST",
+    "route": "/skills/zeri_r/formulas",
+    "detailRoute": "/skills/zeri_r/formulas/active_magic_damage",
+    "skillKey": "zeri_r",
+    "kind": "formulas",
+    "stableKey": "active_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "active_magic_damage",
+      "name": "超限爆闪唯一敌方魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "active_damage_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_attack_damage_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalActiveDamage=基础值+1.1×法强+0.6×额外攻击力；扩散额外目标不进入本轮。",
+      "sortOrder": 10
+    }
+  }
+}

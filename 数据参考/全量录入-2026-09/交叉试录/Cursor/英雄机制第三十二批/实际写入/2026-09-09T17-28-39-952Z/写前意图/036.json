@@ -1,0 +1,23 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "method": "POST",
+    "route": "/skills/corki_r/parameters",
+    "detailRoute": "/skills/corki_r/parameters/attack_refund_base_seconds",
+    "skillKey": "corki_r",
+    "kind": "parameters",
+    "stableKey": "attack_refund_base_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_refund_base_seconds",
+      "name": "命中普攻基础回充缩短（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前AttackRefund的mMultiplier来自CDReductionOnHit=2秒；不将它误作固定最终值。",
+      "sortOrder": 80
+    }
+  }
+}

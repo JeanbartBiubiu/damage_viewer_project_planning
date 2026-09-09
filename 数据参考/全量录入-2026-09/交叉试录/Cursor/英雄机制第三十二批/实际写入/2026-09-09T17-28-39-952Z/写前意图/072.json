@@ -1,0 +1,77 @@
+{
+  "i": 71,
+  "intent": {
+    "sequence": 72,
+    "method": "POST",
+    "route": "/skills/kaisa_q/formulas",
+    "detailRoute": "/skills/kaisa_q/formulas/evolved_max_damage",
+    "skillKey": "kaisa_q",
+    "kind": "formulas",
+    "stableKey": "evolved_max_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "evolved_max_damage",
+      "name": "进化十二发最大物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_attack_damage_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ability_power_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "evolved_max_damage_multiplier"
+          }
+        ]
+      },
+      "description": "当前匿名进化树给出3.75倍整式；进化条件仍待事件接线。",
+      "sortOrder": 40
+    }
+  }
+}

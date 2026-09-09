@@ -1,0 +1,145 @@
+{
+  "i": 137,
+  "intent": {
+    "sequence": 138,
+    "method": "POST",
+    "route": "/skills/xayah_e/formulas",
+    "detailRoute": "/skills/xayah_e/formulas/feather_damage",
+    "skillKey": "xayah_e",
+    "kind": "formulas",
+    "stableKey": "feather_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "feather_damage",
+      "name": "同一敌人单根最终物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "base_damage"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_attack_damage_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "critical_effectiveness_ratio"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "actual_critical_chance_ratio"
+                          }
+                        ]
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "SUBTRACT",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "actual_critical_damage_ratio"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "one_ratio"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MAX",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "feather_minimum_multiplier"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "SUBTRACT",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "one_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "feather_falloff_ratio"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "SUBTRACT",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "feather_sequence_index"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "one_ratio"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前正文的完整单根伤害乘暴击效能和同敌人逐根衰减；实际根数聚合由事件层处理。",
+      "sortOrder": 50
+    }
+  }
+}

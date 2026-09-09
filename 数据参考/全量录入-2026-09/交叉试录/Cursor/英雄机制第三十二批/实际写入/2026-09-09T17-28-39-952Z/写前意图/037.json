@@ -1,0 +1,23 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 37,
+    "method": "POST",
+    "route": "/skills/corki_r/parameters",
+    "detailRoute": "/skills/corki_r/parameters/attack_refund_mstat8_coefficient",
+    "skillKey": "corki_r",
+    "kind": "parameters",
+    "stableKey": "attack_refund_mstat8_coefficient",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_refund_mstat8_coefficient",
+      "name": "回充公式mStat8系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前AttackRefund树为2×(1+2×mStat8)；2是树中mCoefficient，不是显示精度。",
+      "sortOrder": 90
+    }
+  }
+}

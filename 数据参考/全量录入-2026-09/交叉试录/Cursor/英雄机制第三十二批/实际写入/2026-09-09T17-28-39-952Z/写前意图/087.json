@@ -1,0 +1,23 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 87,
+    "method": "POST",
+    "route": "/skills/kaisa_e/parameters",
+    "detailRoute": "/skills/kaisa_e/parameters/cooldown_reduction_per_attack_ms",
+    "skillKey": "kaisa_e",
+    "kind": "parameters",
+    "stableKey": "cooldown_reduction_per_attack_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_reduction_per_attack_ms",
+      "name": "每次攻击冷却缩短（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前mEffectAmount[3]=0.5秒，转换为500毫秒。",
+      "sortOrder": 80
+    }
+  }
+}

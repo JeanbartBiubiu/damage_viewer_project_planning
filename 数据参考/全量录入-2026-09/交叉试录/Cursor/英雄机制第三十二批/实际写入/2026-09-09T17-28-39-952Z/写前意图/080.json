@@ -1,0 +1,29 @@
+{
+  "i": 79,
+  "intent": {
+    "sequence": 80,
+    "method": "POST",
+    "route": "/skills/kaisa_e/parameters",
+    "detailRoute": "/skills/kaisa_e/parameters/move_speed_base_ratio",
+    "skillKey": "kaisa_e",
+    "kind": "parameters",
+    "stableKey": "move_speed_base_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_base_ratio",
+      "name": "基础移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.550000011920929,
+        "2": 0.6000000238418579,
+        "3": 0.6499999761581421,
+        "4": 0.699999988079071,
+        "5": 0.75
+      },
+      "description": "当前mEffectAmount[0]等级1至5为55/60/65/70/75%，转为0.55至0.75比例。",
+      "sortOrder": 10
+    }
+  }
+}

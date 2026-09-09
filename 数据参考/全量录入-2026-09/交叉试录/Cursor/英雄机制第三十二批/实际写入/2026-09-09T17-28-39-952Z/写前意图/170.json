@@ -1,0 +1,23 @@
+{
+  "i": 169,
+  "intent": {
+    "sequence": 170,
+    "method": "POST",
+    "route": "/skills/zeri_w/parameters",
+    "detailRoute": "/skills/zeri_w/parameters/actual_critical_damage_ratio",
+    "skillKey": "zeri_w",
+    "kind": "parameters",
+    "stableKey": "actual_critical_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_critical_damage_ratio",
+      "name": "实际暴击伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前WallDamage树mStat9阶段无窄证，不能默认暴击倍率。",
+      "sortOrder": 50
+    }
+  }
+}

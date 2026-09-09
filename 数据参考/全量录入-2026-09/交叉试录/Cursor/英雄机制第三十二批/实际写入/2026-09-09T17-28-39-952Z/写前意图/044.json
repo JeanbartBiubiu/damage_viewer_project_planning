@@ -1,0 +1,23 @@
+{
+  "i": 43,
+  "intent": {
+    "sequence": 44,
+    "method": "POST",
+    "route": "/skills/kaisa_p/parameters",
+    "detailRoute": "/skills/kaisa_p/parameters/base_damage_by_character_level",
+    "skillKey": "kaisa_p",
+    "kind": "parameters",
+    "stableKey": "base_damage_by_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage_by_character_level",
+      "name": "等级基础电浆伤害实际值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前PBaseDamage是4至30的角色等级插值，输入包没有完整求值函数；以实际等级值外供，不猜中间曲线。",
+      "sortOrder": 10
+    }
+  }
+}

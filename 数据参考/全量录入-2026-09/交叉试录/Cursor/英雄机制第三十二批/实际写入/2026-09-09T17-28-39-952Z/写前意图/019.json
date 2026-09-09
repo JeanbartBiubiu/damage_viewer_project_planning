@@ -1,0 +1,45 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "method": "POST",
+    "route": "/skills/corki_w/formulas",
+    "detailRoute": "/skills/corki_w/formulas/dash_speed",
+    "skillKey": "corki_w",
+    "kind": "formulas",
+    "stableKey": "dash_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "dash_speed",
+      "name": "飞行速度",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "dash_speed_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "dash_speed_move_speed_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "move_speed",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前DashSpeed=650+来源移动速度；位移过程本身仍待事件层接线。",
+      "sortOrder": 20
+    }
+  }
+}
