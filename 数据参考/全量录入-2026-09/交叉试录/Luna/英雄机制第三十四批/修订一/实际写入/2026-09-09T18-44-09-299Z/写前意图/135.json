@@ -1,0 +1,23 @@
+{
+  "i": 134,
+  "intent": {
+    "sequence": 138,
+    "method": "POST",
+    "route": "/skills/zilean_q/parameters",
+    "detailRoute": "/skills/zilean_q/parameters/fuse_duration_ms",
+    "skillKey": "zilean_q",
+    "kind": "parameters",
+    "stableKey": "fuse_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "fuse_duration_ms",
+      "name": "炸弹引爆时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "客户端FuseDuration取索引1的3秒，转换为3000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

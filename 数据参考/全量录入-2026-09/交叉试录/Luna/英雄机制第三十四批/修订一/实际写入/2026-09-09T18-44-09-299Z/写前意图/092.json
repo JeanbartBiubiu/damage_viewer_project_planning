@@ -1,0 +1,23 @@
+{
+  "i": 91,
+  "intent": {
+    "sequence": 95,
+    "method": "POST",
+    "route": "/skills/vex_p/parameters",
+    "detailRoute": "/skills/vex_p/parameters/gloom_duration_ms",
+    "skillKey": "vex_p",
+    "kind": "parameters",
+    "stableKey": "gloom_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "gloom_duration_ms",
+      "name": "暮气持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6000,
+      "levelValues": null,
+      "description": "客户端GloomDuration取索引1的6秒，转换为6000毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

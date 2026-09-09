@@ -1,0 +1,23 @@
+{
+  "i": 94,
+  "intent": {
+    "sequence": 98,
+    "method": "POST",
+    "route": "/skills/vex_p/parameters",
+    "detailRoute": "/skills/vex_p/parameters/gloom_champion_cooldown_refund_ratio",
+    "skillKey": "vex_p",
+    "kind": "parameters",
+    "stableKey": "gloom_champion_cooldown_refund_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "gloom_champion_cooldown_refund_ratio",
+      "name": "英雄目标命中后终焉冷却返还比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前正文消费GloomCDChamp=0.25；只保留英雄条件参数。",
+      "sortOrder": 60
+    }
+  }
+}

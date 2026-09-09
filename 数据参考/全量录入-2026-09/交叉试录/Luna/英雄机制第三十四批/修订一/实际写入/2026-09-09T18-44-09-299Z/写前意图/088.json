@@ -1,0 +1,45 @@
+{
+  "i": 87,
+  "intent": {
+    "sequence": 91,
+    "method": "POST",
+    "route": "/skills/leblanc_r/formulas",
+    "detailRoute": "/skills/leblanc_r/formulas/replicated_e_initial_damage",
+    "skillKey": "leblanc_r",
+    "kind": "formulas",
+    "stableKey": "replicated_e_initial_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "replicated_e_initial_damage",
+      "name": "故技重施复制E首段魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "re1_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "rq1_re1_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "RE1Damage = RE1Base + 0.4×来源总法强。",
+      "sortOrder": 40
+    }
+  }
+}

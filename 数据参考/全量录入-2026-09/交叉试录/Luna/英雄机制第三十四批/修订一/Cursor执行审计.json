@@ -1,0 +1,163 @@
+{
+  "at": "2026-09-09T18:03:07.605Z",
+  "status": "完成，所有工具均为read/glob/grep，冻结来源与隔离Git零变化",
+  "readonlyAuditPassed": true,
+  "agentId": "agent-5c959549-c321-4528-95e5-520f364356c0",
+  "runId": "run-d1bd992c-5fd1-4e76-8d5c-fb674ae32dd6",
+  "requestId": "54ef14de-7afe-4929-8a86-8074673707ca",
+  "resultStatus": "finished",
+  "events": 924,
+  "uniqueTools": 64,
+  "toolNames": {
+    "glob": 4,
+    "read": 41,
+    "grep": 19
+  },
+  "inputsChecked": 25,
+  "inputs": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "98b11ee90bc7b80716658ad3f1417654bc4678f893a2ade9d6b8f81947a9c704",
+      "actualSha256": "98b11ee90bc7b80716658ad3f1417654bc4678f893a2ade9d6b8f81947a9c704"
+    },
+    {
+      "path": "README.md",
+      "sha256": "2d50aff08aa6bb0c1f3ba46c89aceef6d3c858e3ceec71365cab65d18ec3debc",
+      "actualSha256": "2d50aff08aa6bb0c1f3ba46c89aceef6d3c858e3ceec71365cab65d18ec3debc"
+    },
+    {
+      "path": "主负责人源值核对说明.md",
+      "sha256": "a61a1a0a31960c35efda17ca44ec605acd222febaa6fc50bd0fb6e022fefab12",
+      "actualSha256": "a61a1a0a31960c35efda17ca44ec605acd222febaa6fc50bd0fb6e022fefab12"
+    },
+    {
+      "path": "产物/准备日志.json",
+      "sha256": "4ab3a0d03a2cf84dc9babc3ddabc5ea2e8ecd8bc55a293ca6486540a11e06f14",
+      "actualSha256": "4ab3a0d03a2cf84dc9babc3ddabc5ea2e8ecd8bc55a293ca6486540a11e06f14"
+    },
+    {
+      "path": "参考资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "actualSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "path": "参考资料/公共参数复用清单.json",
+      "sha256": "5cb20adf5f4b3e5b14dc061671f502a163f385d7448b334a0654a78a91387b76",
+      "actualSha256": "5cb20adf5f4b3e5b14dc061671f502a163f385d7448b334a0654a78a91387b76"
+    },
+    {
+      "path": "参考资料/官方中文/Katarina.json",
+      "sha256": "2278baf5fe3501dd1b5b6f035ee96d8bdb0dc43393aeef34dd52c5ea40da7415",
+      "actualSha256": "2278baf5fe3501dd1b5b6f035ee96d8bdb0dc43393aeef34dd52c5ea40da7415"
+    },
+    {
+      "path": "参考资料/官方中文/Leblanc.json",
+      "sha256": "c38cbc98ff3211fd6d7b52c26036b7668e6d6bd0b2bd97b3c65569a4e783aeb4",
+      "actualSha256": "c38cbc98ff3211fd6d7b52c26036b7668e6d6bd0b2bd97b3c65569a4e783aeb4"
+    },
+    {
+      "path": "参考资料/官方中文/Vex.json",
+      "sha256": "5e4c0eccbd8ce0947883690b57a6a208cbc3cfddb8943d53fa3878ca7a3d1a1c",
+      "actualSha256": "5e4c0eccbd8ce0947883690b57a6a208cbc3cfddb8943d53fa3878ca7a3d1a1c"
+    },
+    {
+      "path": "参考资料/官方中文/Zilean.json",
+      "sha256": "358afc4390e66600ad8d7f1ed35cdaed8456a1e2f25c85fe0962ded936c285b6",
+      "actualSha256": "358afc4390e66600ad8d7f1ed35cdaed8456a1e2f25c85fe0962ded936c285b6"
+    },
+    {
+      "path": "参考资料/官方英文/Katarina.json",
+      "sha256": "93dd12e52bf0482cdd305a305feac59d5d4ea685881c3c2b7f29944b9b7cdc38",
+      "actualSha256": "93dd12e52bf0482cdd305a305feac59d5d4ea685881c3c2b7f29944b9b7cdc38"
+    },
+    {
+      "path": "参考资料/官方英文/Leblanc.json",
+      "sha256": "dbb191eefa71623a57a812b5476bfc44eaf24cc7697d4bf7c428beb03f1b77e0",
+      "actualSha256": "dbb191eefa71623a57a812b5476bfc44eaf24cc7697d4bf7c428beb03f1b77e0"
+    },
+    {
+      "path": "参考资料/官方英文/Vex.json",
+      "sha256": "a0632afaa6281ad0615fd3eda6c0df3a8d260b23baccb6ed1746bcb4afbf4a8c",
+      "actualSha256": "a0632afaa6281ad0615fd3eda6c0df3a8d260b23baccb6ed1746bcb4afbf4a8c"
+    },
+    {
+      "path": "参考资料/官方英文/Zilean.json",
+      "sha256": "f184a68d16e71f3bed451a1a325a5588303459c873bbc030f21408dd10133332",
+      "actualSha256": "f184a68d16e71f3bed451a1a325a5588303459c873bbc030f21408dd10133332"
+    },
+    {
+      "path": "参考资料/客户端原文/Katarina.json.gz",
+      "sha256": "b3c1eb6d1c679ed63bb42955497d634fc6fac256f4c2b1b109479dfea9dbfce8",
+      "actualSha256": "b3c1eb6d1c679ed63bb42955497d634fc6fac256f4c2b1b109479dfea9dbfce8"
+    },
+    {
+      "path": "参考资料/客户端原文/Leblanc.json.gz",
+      "sha256": "f2d01a3a75628c69b07e404a66a3ed0b06639d22fb3d8cc5b3312eb2e2dca4a1",
+      "actualSha256": "f2d01a3a75628c69b07e404a66a3ed0b06639d22fb3d8cc5b3312eb2e2dca4a1"
+    },
+    {
+      "path": "参考资料/客户端原文/Vex.json.gz",
+      "sha256": "d200bc9a07b60d391886cbdbee5bfa66317efbf60a46ff5efffbb31860140f2b",
+      "actualSha256": "d200bc9a07b60d391886cbdbee5bfa66317efbf60a46ff5efffbb31860140f2b"
+    },
+    {
+      "path": "参考资料/客户端原文/Zilean.json.gz",
+      "sha256": "33de2eb35de066e983e53ea06d1aede5cc1a920699cbbf7f1b14236f785c5e2d",
+      "actualSha256": "33de2eb35de066e983e53ea06d1aede5cc1a920699cbbf7f1b14236f785c5e2d"
+    },
+    {
+      "path": "参考资料/属性默认与边界.json",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "actualSha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6"
+    },
+    {
+      "path": "参考资料/当前20槽保护快照.json",
+      "sha256": "fc009ca7dc2f05946bda455455bc7e64d18977091f23789003a54621533e47fc",
+      "actualSha256": "fc009ca7dc2f05946bda455455bc7e64d18977091f23789003a54621533e47fc"
+    },
+    {
+      "path": "参考资料/接口载荷样例.json",
+      "sha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "actualSha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02"
+    },
+    {
+      "path": "来源关键语义补充.md",
+      "sha256": "dfc574ff3ec9bcae8c0e7dc24e636a96afb7fa679ac021850a3d0de0e84c4cc3",
+      "actualSha256": "dfc574ff3ec9bcae8c0e7dc24e636a96afb7fa679ac021850a3d0de0e84c4cc3"
+    },
+    {
+      "path": "来源绑定与当前文本.json",
+      "sha256": "441f748d92b040a84c0b43018864236216aabb49dd2cdc2435c3ed38560e2b10",
+      "actualSha256": "441f748d92b040a84c0b43018864236216aabb49dd2cdc2435c3ed38560e2b10"
+    },
+    {
+      "path": "评审任务.md",
+      "sha256": "ecd11ea7b08698a0af15c088e47cbe13e81c6f23811cf14dba4edb2b5c1bba55",
+      "actualSha256": "ecd11ea7b08698a0af15c088e47cbe13e81c6f23811cf14dba4edb2b5c1bba55"
+    },
+    {
+      "path": "输入版本.json",
+      "sha256": "27232532097d11624261f958b121140b03e447f960d15b118396ad9b74c5b291",
+      "actualSha256": "27232532097d11624261f958b121140b03e447f960d15b118396ad9b74c5b291"
+    }
+  ],
+  "gitDelta": [],
+  "apiWrites": 0,
+  "reviewedPlanRev": "hero34-source-v1",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "reviewSha256": "343d701b1fabb8457b36c92c4a538e09c8859de26e2c1c1a000f37069ffa8a6e",
+  "eventsSha256": "27758ce63af883a3ba97264abf522708a1639f596aa92caaff4ec9237ac9f35c",
+  "summarySha256": "776d425e6b644d74decbad55954fe89eb68e369dbdde7e27d08a3773dda97fe0"
+}

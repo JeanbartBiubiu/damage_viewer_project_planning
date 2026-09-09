@@ -1,0 +1,23 @@
+{
+  "i": 47,
+  "intent": {
+    "sequence": 51,
+    "method": "POST",
+    "route": "/skills/leblanc_q/parameters",
+    "detailRoute": "/skills/leblanc_q/parameters/mark_duration_ms",
+    "skillKey": "leblanc_q",
+    "kind": "parameters",
+    "stableKey": "mark_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_duration_ms",
+      "name": "魔印持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3500,
+      "levelValues": null,
+      "description": "客户端MarkDuration取索引1的3.5秒，转换为3500毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

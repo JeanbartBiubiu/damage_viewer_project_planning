@@ -1,0 +1,23 @@
+{
+  "i": 143,
+  "intent": {
+    "sequence": 148,
+    "method": "POST",
+    "route": "/skills/zilean_r/parameters",
+    "detailRoute": "/skills/zilean_r/parameters/protection_duration_ms",
+    "skillKey": "zilean_r",
+    "kind": "parameters",
+    "stableKey": "protection_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "protection_duration_ms",
+      "name": "保护符文持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "客户端RDuration取索引1的5秒，转换为5000毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

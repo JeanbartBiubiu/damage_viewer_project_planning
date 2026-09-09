@@ -1,0 +1,29 @@
+{
+  "i": 139,
+  "intent": {
+    "sequence": 144,
+    "method": "POST",
+    "route": "/skills/zilean_e/parameters",
+    "detailRoute": "/skills/zilean_e/parameters/speed_percent_points",
+    "skillKey": "zilean_e",
+    "kind": "parameters",
+    "stableKey": "speed_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "speed_percent_points",
+      "name": "移动速度百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 55,
+        "3": 70,
+        "4": 85,
+        "5": 99
+      },
+      "description": "客户端SpeedAmount取技能等级索引1至5；索引0的25不是等级1。",
+      "sortOrder": 20
+    }
+  }
+}

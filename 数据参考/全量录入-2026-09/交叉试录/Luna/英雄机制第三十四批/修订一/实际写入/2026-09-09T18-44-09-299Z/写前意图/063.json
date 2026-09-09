@@ -1,0 +1,29 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 66,
+    "method": "POST",
+    "route": "/skills/leblanc_e/parameters",
+    "detailRoute": "/skills/leblanc_e/parameters/initial_base_damage",
+    "skillKey": "leblanc_e",
+    "kind": "parameters",
+    "stableKey": "initial_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "initial_base_damage",
+      "name": "首段基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 70,
+        "3": 90,
+        "4": 110,
+        "5": 130
+      },
+      "description": "客户端BaseInitialDamage取索引1至5；索引0的30不是等级1。",
+      "sortOrder": 10
+    }
+  }
+}

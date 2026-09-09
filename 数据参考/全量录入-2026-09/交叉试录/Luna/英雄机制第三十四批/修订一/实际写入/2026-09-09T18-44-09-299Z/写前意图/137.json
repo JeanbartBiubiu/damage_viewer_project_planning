@@ -1,0 +1,23 @@
+{
+  "i": 136,
+  "intent": {
+    "sequence": 141,
+    "method": "POST",
+    "route": "/skills/zilean_w/parameters",
+    "detailRoute": "/skills/zilean_w/parameters/cooldown_reduction_ms",
+    "skillKey": "zilean_w",
+    "kind": "parameters",
+    "stableKey": "cooldown_reduction_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_reduction_ms",
+      "name": "其它基础技能冷却缩短（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 10000,
+      "levelValues": null,
+      "description": "客户端CooldownReduction取索引1的10秒，转换为10000毫秒；当前正文限定其它基础技能。",
+      "sortOrder": 10
+    }
+  }
+}

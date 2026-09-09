@@ -1,0 +1,23 @@
+{
+  "i": 22,
+  "intent": {
+    "sequence": 25,
+    "method": "POST",
+    "route": "/skills/katarina_e/parameters",
+    "detailRoute": "/skills/katarina_e/parameters/actual_cooldown_multiplier",
+    "skillKey": "katarina_e",
+    "kind": "parameters",
+    "stableKey": "actual_cooldown_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_cooldown_multiplier",
+      "name": "实际冷却倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "外层CooldownMultiplierCalculationPart的实际冷却系数；来源未证完整选择器，不设置默认。",
+      "sortOrder": 70
+    }
+  }
+}

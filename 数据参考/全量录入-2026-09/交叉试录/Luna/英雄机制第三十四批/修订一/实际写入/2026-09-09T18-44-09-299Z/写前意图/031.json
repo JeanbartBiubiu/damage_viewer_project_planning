@@ -1,0 +1,27 @@
+{
+  "i": 30,
+  "intent": {
+    "sequence": 33,
+    "method": "POST",
+    "route": "/skills/katarina_r/parameters",
+    "detailRoute": "/skills/katarina_r/parameters/grievous_duration_ms",
+    "skillKey": "katarina_r",
+    "kind": "parameters",
+    "stableKey": "grievous_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "grievous_duration_ms",
+      "name": "重伤持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 3000,
+        "2": 3000,
+        "3": 3000
+      },
+      "description": "客户端GrievousDuration取索引1至3，秒转毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

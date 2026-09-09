@@ -1,0 +1,23 @@
+{
+  "i": 57,
+  "intent": {
+    "sequence": 61,
+    "method": "POST",
+    "route": "/skills/leblanc_w/parameters",
+    "detailRoute": "/skills/leblanc_w/parameters/snapback_delay_ms",
+    "skillKey": "leblanc_w",
+    "kind": "parameters",
+    "stableKey": "snapback_delay_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "snapback_delay_ms",
+      "name": "返回延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 200,
+      "levelValues": null,
+      "description": "客户端SnapbackDelay取索引1的0.2秒，转换为200毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

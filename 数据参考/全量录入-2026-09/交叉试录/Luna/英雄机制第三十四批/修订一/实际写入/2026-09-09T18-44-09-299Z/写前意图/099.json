@@ -1,0 +1,23 @@
+{
+  "i": 98,
+  "intent": {
+    "sequence": 102,
+    "method": "POST",
+    "route": "/skills/vex_q/parameters",
+    "detailRoute": "/skills/vex_q/parameters/cast_time_ms",
+    "skillKey": "vex_q",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 150,
+      "levelValues": null,
+      "description": "当前根spellCastTime约0.15秒，按来源精度转换为150毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

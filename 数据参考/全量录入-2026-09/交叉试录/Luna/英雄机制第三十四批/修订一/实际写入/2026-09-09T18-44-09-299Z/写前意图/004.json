@@ -1,0 +1,23 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "method": "POST",
+    "route": "/skills/katarina_p/parameters",
+    "detailRoute": "/skills/katarina_p/parameters/dagger_duration_ms",
+    "skillKey": "katarina_p",
+    "kind": "parameters",
+    "stableKey": "dagger_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dagger_duration_ms",
+      "name": "匕首存在时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "客户端DaggerDuration为4秒，转换为4000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

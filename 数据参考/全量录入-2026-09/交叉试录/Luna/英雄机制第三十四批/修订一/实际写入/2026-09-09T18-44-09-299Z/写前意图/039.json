@@ -1,0 +1,45 @@
+{
+  "i": 38,
+  "intent": {
+    "sequence": 41,
+    "method": "POST",
+    "route": "/skills/katarina_r/formulas",
+    "detailRoute": "/skills/katarina_r/formulas/magic_damage_per_tick",
+    "skillKey": "katarina_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage_per_tick",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage_per_tick",
+      "name": "死亡莲华每次魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "magic_base_damage_per_tick"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "magic_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DamageCalc = DamagePerTick + RAPRatio×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 113,
+  "intent": {
+    "sequence": 117,
+    "method": "POST",
+    "route": "/skills/vex_e/parameters",
+    "detailRoute": "/skills/vex_e/parameters/slow_ratio",
+    "skillKey": "vex_e",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.3,
+        "2": 0.35,
+        "3": 0.4,
+        "4": 0.45,
+        "5": 0.5
+      },
+      "description": "客户端SlowAmount取索引1至5的比例值；当前正文按SlowAmount×100显示百分数。",
+      "sortOrder": 30
+    }
+  }
+}

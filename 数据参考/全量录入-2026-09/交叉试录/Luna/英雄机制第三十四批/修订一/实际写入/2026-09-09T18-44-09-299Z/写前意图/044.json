@@ -1,0 +1,23 @@
+{
+  "i": 43,
+  "intent": {
+    "sequence": 46,
+    "method": "POST",
+    "route": "/skills/leblanc_p/parameters",
+    "detailRoute": "/skills/leblanc_p/parameters/health_threshold_percent_points",
+    "skillKey": "leblanc_p",
+    "kind": "parameters",
+    "stableKey": "health_threshold_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "health_threshold_percent_points",
+      "name": "触发最大生命百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 40,
+      "levelValues": null,
+      "description": "当前绑定正文明确低于最大生命值40%触发。",
+      "sortOrder": 20
+    }
+  }
+}

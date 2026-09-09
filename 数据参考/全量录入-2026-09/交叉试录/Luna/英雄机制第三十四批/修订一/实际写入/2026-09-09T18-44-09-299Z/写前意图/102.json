@@ -1,0 +1,23 @@
+{
+  "i": 101,
+  "intent": {
+    "sequence": 105,
+    "method": "POST",
+    "route": "/skills/vex_w/parameters",
+    "detailRoute": "/skills/vex_w/parameters/shield_ap_ratio",
+    "skillKey": "vex_w",
+    "kind": "parameters",
+    "stableKey": "shield_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_ap_ratio",
+      "name": "护盾法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.75,
+      "levelValues": null,
+      "description": "ShieldCalc树的StatByCoefficient=0.75×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "i": 76,
+  "intent": {
+    "sequence": 80,
+    "method": "POST",
+    "route": "/skills/leblanc_r/parameters",
+    "detailRoute": "/skills/leblanc_r/parameters/re2_base_damage",
+    "skillKey": "leblanc_r",
+    "kind": "parameters",
+    "stableKey": "re2_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "re2_base_damage",
+      "name": "RE2Base基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 140,
+        "2": 300,
+        "3": 460
+      },
+      "description": "客户端RE2Base取R技能等级索引1至3；不借用普通Q/W/E基础值。",
+      "sortOrder": 50
+    }
+  }
+}

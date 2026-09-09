@@ -1,0 +1,29 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "method": "POST",
+    "route": "/skills/katarina_q/parameters",
+    "detailRoute": "/skills/katarina_q/parameters/base_damage",
+    "skillKey": "katarina_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 115,
+        "3": 150,
+        "4": 185,
+        "5": 220
+      },
+      "description": "客户端BaseDamage取索引1至5；索引0的45不是技能等级1。",
+      "sortOrder": 10
+    }
+  }
+}

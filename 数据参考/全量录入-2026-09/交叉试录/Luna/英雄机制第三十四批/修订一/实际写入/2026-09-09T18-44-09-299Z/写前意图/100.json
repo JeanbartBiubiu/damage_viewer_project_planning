@@ -1,0 +1,45 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 103,
+    "method": "POST",
+    "route": "/skills/vex_q/formulas",
+    "detailRoute": "/skills/vex_q/formulas/magic_damage",
+    "skillKey": "vex_q",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "寒心波云魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "QDamageCalc = BaseDamage + APRatio×来源总法强；命中后消费暮气由事件接线。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 96,
+    "method": "POST",
+    "route": "/skills/vex_p/parameters",
+    "detailRoute": "/skills/vex_p/parameters/actual_gloom_character_level_base_damage",
+    "skillKey": "vex_p",
+    "kind": "parameters",
+    "stableKey": "actual_gloom_character_level_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_gloom_character_level_base_damage",
+      "name": "当前角色等级暮气基础伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "GloomProcCalc只有40至150角色等级插值端点，未证中间函数；无默认实际输入。",
+      "sortOrder": 40
+    }
+  }
+}

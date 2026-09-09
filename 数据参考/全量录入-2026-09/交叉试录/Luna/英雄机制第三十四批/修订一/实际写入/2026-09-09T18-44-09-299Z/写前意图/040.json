@@ -1,0 +1,65 @@
+{
+  "i": 39,
+  "intent": {
+    "sequence": 42,
+    "method": "POST",
+    "route": "/skills/katarina_r/formulas",
+    "detailRoute": "/skills/katarina_r/formulas/total_magic_damage",
+    "skillKey": "katarina_r",
+    "kind": "formulas",
+    "stableKey": "total_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_magic_damage",
+      "name": "死亡莲华同一目标总魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ticks_per_second"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "duration_seconds"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "magic_base_damage_per_tick"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "magic_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamageCalc = TicksPerSecond×Duration×DamageCalc；同一目标持续多次，唯一敌人不再乘目标数。",
+      "sortOrder": 20
+    }
+  }
+}

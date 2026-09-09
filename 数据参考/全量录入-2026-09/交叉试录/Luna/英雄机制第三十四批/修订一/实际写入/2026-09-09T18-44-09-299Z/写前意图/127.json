@@ -1,0 +1,23 @@
+{
+  "i": 126,
+  "intent": {
+    "sequence": 130,
+    "method": "POST",
+    "route": "/skills/vex_r/parameters",
+    "detailRoute": "/skills/vex_r/parameters/takedown_window_ms",
+    "skillKey": "vex_r",
+    "kind": "parameters",
+    "stableKey": "takedown_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "takedown_window_ms",
+      "name": "击杀判定窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 8000,
+      "levelValues": null,
+      "description": "客户端TakedownWindow取索引1的8秒，转换为8000毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

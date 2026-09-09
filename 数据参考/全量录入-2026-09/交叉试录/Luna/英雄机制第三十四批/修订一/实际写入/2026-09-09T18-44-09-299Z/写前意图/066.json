@@ -1,0 +1,23 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 69,
+    "method": "POST",
+    "route": "/skills/leblanc_e/parameters",
+    "detailRoute": "/skills/leblanc_e/parameters/delayed_ap_ratio",
+    "skillKey": "leblanc_e",
+    "kind": "parameters",
+    "stableKey": "delayed_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "delayed_ap_ratio",
+      "name": "延迟段法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.85,
+      "levelValues": null,
+      "description": "DelayedDamage树消费DelayedAPRatio×来源总法强。",
+      "sortOrder": 40
+    }
+  }
+}

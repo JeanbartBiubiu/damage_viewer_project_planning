@@ -1,0 +1,4860 @@
+{
+  "generatedAt": "2026-09-09T18:32:29.339Z",
+  "status": "主负责人修正后写入意图，未调用业务接口",
+  "batch": "英雄机制第三十四批",
+  "revision": "hero34-source-v2",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
+  "sourceBindingSha256": "441f748d92b040a84c0b43018864236216aabb49dd2cdc2435c3ed38560e2b10",
+  "sourceRangeSha256": "efc80feebee296c43efe768261bf86ab40e329630d8d173d900fb2daeac2787e",
+  "protectionSnapshotSha256": "fc009ca7dc2f05946bda455455bc7e64d18977091f23789003a54621533e47fc",
+  "publicReuseSha256": "5cb20adf5f4b3e5b14dc061671f502a163f385d7448b334a0654a78a91387b76",
+  "requestCount": 147,
+  "counts": {
+    "skills": 20,
+    "parameters": 119,
+    "formulas": 27,
+    "effects": 1,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedPublicParameters": [
+    {
+      "skillKey": "katarina_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "katarina_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "katarina_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "katarina_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "leblanc_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "leblanc_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "leblanc_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "leblanc_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "leblanc_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "leblanc_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "vex_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "vex_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "vex_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "vex_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "vex_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "vex_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "vex_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "vex_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "zilean_q",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "zilean_q",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "zilean_w",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "zilean_w",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "zilean_e",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "zilean_e",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "zilean_r",
+      "parameterKey": "cooldown_ms",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    },
+    {
+      "skillKey": "zilean_r",
+      "parameterKey": "mana_cost",
+      "source": "输入包/参考资料/公共参数复用清单.json",
+      "post": false
+    }
+  ],
+  "publicVerification": [
+    {
+      "skillKey": "katarina_q",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 11000,
+        "2": 10000,
+        "3": 9000,
+        "4": 8000,
+        "5": 7000
+      },
+      "expectedOfficial": [
+        11000,
+        10000,
+        9000,
+        8000,
+        7000
+      ],
+      "detailSha256": "ba194fc62ba71d9bd57c52020ae60ab5316038225d115fff94cc150fcccf7796"
+    },
+    {
+      "skillKey": "katarina_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15000,
+        "2": 14000,
+        "3": 13000,
+        "4": 12000,
+        "5": 11000
+      },
+      "expectedOfficial": [
+        15000,
+        14000,
+        13000,
+        12000,
+        11000
+      ],
+      "detailSha256": "99be0cd80fb7190177349f3969d57bb5c194a96fd18ed54573372d291d1e2753"
+    },
+    {
+      "skillKey": "katarina_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 12000,
+        "2": 11000,
+        "3": 10000,
+        "4": 9000,
+        "5": 8000
+      },
+      "expectedOfficial": [
+        12000,
+        11000,
+        10000,
+        9000,
+        8000
+      ],
+      "detailSha256": "8bed24663086dbd3e7c72076b19b74a1217586b08c8845aae342ece81a488ee9"
+    },
+    {
+      "skillKey": "katarina_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 75000,
+        "2": 60000,
+        "3": 45000
+      },
+      "expectedOfficial": [
+        75000,
+        60000,
+        45000
+      ],
+      "detailSha256": "7a57d77d929d75432efa2e17423232e521832dbf02db48ef50d171395cc7c347"
+    },
+    {
+      "skillKey": "leblanc_q",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 6000,
+      "levelValues": null,
+      "expectedOfficial": [
+        6000,
+        6000,
+        6000,
+        6000,
+        6000
+      ],
+      "detailSha256": "fe8b6f6eaf4e430009b63fecb7cafd661ac8bcc64cc59772ff17aec059cf9392"
+    },
+    {
+      "skillKey": "leblanc_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 50,
+      "levelValues": null,
+      "expectedOfficial": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "detailSha256": "23c0e1c1d7d21461c99dc5e0d23f35272a14fae92933a6b76b81f890109a7435"
+    },
+    {
+      "skillKey": "leblanc_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15000,
+        "2": 13750,
+        "3": 12500,
+        "4": 11250,
+        "5": 10000
+      },
+      "expectedOfficial": [
+        15000,
+        13750,
+        12500,
+        11250,
+        10000
+      ],
+      "detailSha256": "4cbe5a5bb73494c6e2c68e7bb91f16d37c696991bf37152cb1d6b789fa20ebb4"
+    },
+    {
+      "skillKey": "leblanc_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "expectedOfficial": [
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "detailSha256": "d13ea607fd7577129c5f27683553e1ebdfce87390c90d66fac6f52208b84a115"
+    },
+    {
+      "skillKey": "leblanc_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 14000,
+        "2": 13250,
+        "3": 12500,
+        "4": 11750,
+        "5": 11000
+      },
+      "expectedOfficial": [
+        14000,
+        13250,
+        12500,
+        11750,
+        11000
+      ],
+      "detailSha256": "4ee37c71083921068caf6c3c995cbf925e2fd4954e7f83b7c7db73b085a09482"
+    },
+    {
+      "skillKey": "leblanc_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 50,
+      "levelValues": null,
+      "expectedOfficial": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "detailSha256": "7f68d88bdd1917f44e7904aa5e3408867d3700cd1b2bac0177ec30c32227cfee"
+    },
+    {
+      "skillKey": "vex_q",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 8000,
+        "2": 7000,
+        "3": 6000,
+        "4": 5000,
+        "5": 4000
+      },
+      "expectedOfficial": [
+        8000,
+        7000,
+        6000,
+        5000,
+        4000
+      ],
+      "detailSha256": "f80bf786cd6160951f89fad93204f5b3b863d130249b8827fcc23d8203316de2"
+    },
+    {
+      "skillKey": "vex_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45,
+        "2": 50,
+        "3": 55,
+        "4": 60,
+        "5": 65
+      },
+      "expectedOfficial": [
+        45,
+        50,
+        55,
+        60,
+        65
+      ],
+      "detailSha256": "8de666e5ed9bc806e145b6fec72bf6be2670479f4747bc29e6e70bbbaaf6db42"
+    },
+    {
+      "skillKey": "vex_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 16000,
+        "2": 15000,
+        "3": 14000,
+        "4": 13000,
+        "5": 12000
+      },
+      "expectedOfficial": [
+        16000,
+        15000,
+        14000,
+        13000,
+        12000
+      ],
+      "detailSha256": "c4e394a5b7b750b0222df701aa11f7249c55eae53a5a71fd95d9c6b1dec4011f"
+    },
+    {
+      "skillKey": "vex_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 75,
+      "levelValues": null,
+      "expectedOfficial": [
+        75,
+        75,
+        75,
+        75,
+        75
+      ],
+      "detailSha256": "eac9ab1f5d13d61421bc18f318833348ea1bb5663b1c740586d6a050ed37e23b"
+    },
+    {
+      "skillKey": "vex_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 12000,
+      "levelValues": null,
+      "expectedOfficial": [
+        12000,
+        12000,
+        12000,
+        12000,
+        12000
+      ],
+      "detailSha256": "3b7a5b9ec4c70c7556d03620b5397abd1e177ec7aaca2a1684f548004758398e"
+    },
+    {
+      "skillKey": "vex_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 80,
+        "3": 90,
+        "4": 100,
+        "5": 110
+      },
+      "expectedOfficial": [
+        70,
+        80,
+        90,
+        100,
+        110
+      ],
+      "detailSha256": "43214712c2df7e266e161e0484c2407d28065c611c38d0992af029c145346d2f"
+    },
+    {
+      "skillKey": "vex_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 140000,
+        "2": 120000,
+        "3": 100000
+      },
+      "expectedOfficial": [
+        140000,
+        120000,
+        100000
+      ],
+      "detailSha256": "60b86c3e1a75aadb4b29e7b0f17aabcff808a06bea5f067b50a0b21c14f86b77"
+    },
+    {
+      "skillKey": "vex_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 100,
+      "levelValues": null,
+      "expectedOfficial": [
+        100,
+        100,
+        100
+      ],
+      "detailSha256": "df0fba69dd5f406c86e115460780abb6a97be9eb7d92a2239bb156babb2525c2"
+    },
+    {
+      "skillKey": "zilean_q",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10000,
+        "2": 9500,
+        "3": 9000,
+        "4": 8500,
+        "5": 8000
+      },
+      "expectedOfficial": [
+        10000,
+        9500,
+        9000,
+        8500,
+        8000
+      ],
+      "detailSha256": "d9b04bba351d97b2b4e4c24590efd58dd98181d0463e38b89f1fd4a753583465"
+    },
+    {
+      "skillKey": "zilean_q",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 65,
+        "3": 70,
+        "4": 75,
+        "5": 80
+      },
+      "expectedOfficial": [
+        60,
+        65,
+        70,
+        75,
+        80
+      ],
+      "detailSha256": "16f27c171defa1d702b5985ef70e6009227919c9d3dc8497e22abce031419319"
+    },
+    {
+      "skillKey": "zilean_w",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 14000,
+        "2": 12000,
+        "3": 10000,
+        "4": 8000,
+        "5": 6000
+      },
+      "expectedOfficial": [
+        14000,
+        12000,
+        10000,
+        8000,
+        6000
+      ],
+      "detailSha256": "befcb6861583768d3fabe2d4770246a0d552d9ad4524bcc8e3eb4eeaae10b92e"
+    },
+    {
+      "skillKey": "zilean_w",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 35,
+      "levelValues": null,
+      "expectedOfficial": [
+        35,
+        35,
+        35,
+        35,
+        35
+      ],
+      "detailSha256": "6e8304044c89d9218788736b4bf8fdb0accafe3d90550dd91e8519f2f97c62f0"
+    },
+    {
+      "skillKey": "zilean_e",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 15000,
+      "levelValues": null,
+      "expectedOfficial": [
+        15000,
+        15000,
+        15000,
+        15000,
+        15000
+      ],
+      "detailSha256": "e51643d063cabba5172a27e91aa43d01a5583d7a8589228b10c9bc58cd8175c7"
+    },
+    {
+      "skillKey": "zilean_e",
+      "parameterKey": "mana_cost",
+      "valueMode": "FIXED",
+      "valueType": "INTEGER",
+      "fixedValue": 50,
+      "levelValues": null,
+      "expectedOfficial": [
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "detailSha256": "04d6f2959bfcc9537ad90e933487a21ef5b88c2773861dd53c0cc17cd3bdb064"
+    },
+    {
+      "skillKey": "zilean_r",
+      "parameterKey": "cooldown_ms",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 120000,
+        "2": 90000,
+        "3": 60000
+      },
+      "expectedOfficial": [
+        120000,
+        90000,
+        60000
+      ],
+      "detailSha256": "6267cfaf62c6eafb9b9558c43a75269361a87836efff4ebb0b774fc10d7d693a"
+    },
+    {
+      "skillKey": "zilean_r",
+      "parameterKey": "mana_cost",
+      "valueMode": "SKILL_LEVEL",
+      "valueType": "INTEGER",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 125,
+        "2": 150,
+        "3": 175
+      },
+      "expectedOfficial": [
+        125,
+        150,
+        175
+      ],
+      "detailSha256": "fe875c9a02116142a1461d69bfc07dba0e4dcfcd7984483c772570d211ce6c8a"
+    }
+  ],
+  "protectedRoutes": [
+    "/attributes",
+    "/skill-categories",
+    "/modifier-zones",
+    "/damage-types",
+    "/characters/champion_katarina",
+    "/character-skill-relations?characterKey=champion_katarina",
+    "/characters/champion_leblanc",
+    "/character-skill-relations?characterKey=champion_leblanc",
+    "/characters/champion_vex",
+    "/character-skill-relations?characterKey=champion_vex",
+    "/characters/champion_zilean",
+    "/character-skill-relations?characterKey=champion_zilean",
+    "/skills/katarina_p",
+    "/skills/katarina_p/representative-image",
+    "/skills/katarina_p/parameters",
+    "/skills/katarina_p/formulas",
+    "/skills/katarina_p/effects",
+    "/skills/katarina_p/processes",
+    "/skills/katarina_p/internal-states",
+    "/skills/katarina_p/trigger-rules",
+    "/skills/katarina_q",
+    "/skills/katarina_q/representative-image",
+    "/skills/katarina_q/parameters",
+    "/skills/katarina_q/formulas",
+    "/skills/katarina_q/effects",
+    "/skills/katarina_q/processes",
+    "/skills/katarina_q/internal-states",
+    "/skills/katarina_q/trigger-rules",
+    "/skills/katarina_w",
+    "/skills/katarina_w/representative-image",
+    "/skills/katarina_w/parameters",
+    "/skills/katarina_w/formulas",
+    "/skills/katarina_w/effects",
+    "/skills/katarina_w/processes",
+    "/skills/katarina_w/internal-states",
+    "/skills/katarina_w/trigger-rules",
+    "/skills/katarina_e",
+    "/skills/katarina_e/representative-image",
+    "/skills/katarina_e/parameters",
+    "/skills/katarina_e/formulas",
+    "/skills/katarina_e/effects",
+    "/skills/katarina_e/processes",
+    "/skills/katarina_e/internal-states",
+    "/skills/katarina_e/trigger-rules",
+    "/skills/katarina_r",
+    "/skills/katarina_r/representative-image",
+    "/skills/katarina_r/parameters",
+    "/skills/katarina_r/formulas",
+    "/skills/katarina_r/effects",
+    "/skills/katarina_r/processes",
+    "/skills/katarina_r/internal-states",
+    "/skills/katarina_r/trigger-rules",
+    "/skills/leblanc_p",
+    "/skills/leblanc_p/representative-image",
+    "/skills/leblanc_p/parameters",
+    "/skills/leblanc_p/formulas",
+    "/skills/leblanc_p/effects",
+    "/skills/leblanc_p/processes",
+    "/skills/leblanc_p/internal-states",
+    "/skills/leblanc_p/trigger-rules",
+    "/skills/leblanc_q",
+    "/skills/leblanc_q/representative-image",
+    "/skills/leblanc_q/parameters",
+    "/skills/leblanc_q/formulas",
+    "/skills/leblanc_q/effects",
+    "/skills/leblanc_q/processes",
+    "/skills/leblanc_q/internal-states",
+    "/skills/leblanc_q/trigger-rules",
+    "/skills/leblanc_w",
+    "/skills/leblanc_w/representative-image",
+    "/skills/leblanc_w/parameters",
+    "/skills/leblanc_w/formulas",
+    "/skills/leblanc_w/effects",
+    "/skills/leblanc_w/processes",
+    "/skills/leblanc_w/internal-states",
+    "/skills/leblanc_w/trigger-rules",
+    "/skills/leblanc_e",
+    "/skills/leblanc_e/representative-image",
+    "/skills/leblanc_e/parameters",
+    "/skills/leblanc_e/formulas",
+    "/skills/leblanc_e/effects",
+    "/skills/leblanc_e/processes",
+    "/skills/leblanc_e/internal-states",
+    "/skills/leblanc_e/trigger-rules",
+    "/skills/leblanc_r",
+    "/skills/leblanc_r/representative-image",
+    "/skills/leblanc_r/parameters",
+    "/skills/leblanc_r/formulas",
+    "/skills/leblanc_r/effects",
+    "/skills/leblanc_r/processes",
+    "/skills/leblanc_r/internal-states",
+    "/skills/leblanc_r/trigger-rules",
+    "/skills/vex_p",
+    "/skills/vex_p/representative-image",
+    "/skills/vex_p/parameters",
+    "/skills/vex_p/formulas",
+    "/skills/vex_p/effects",
+    "/skills/vex_p/processes",
+    "/skills/vex_p/internal-states",
+    "/skills/vex_p/trigger-rules",
+    "/skills/vex_q",
+    "/skills/vex_q/representative-image",
+    "/skills/vex_q/parameters",
+    "/skills/vex_q/formulas",
+    "/skills/vex_q/effects",
+    "/skills/vex_q/processes",
+    "/skills/vex_q/internal-states",
+    "/skills/vex_q/trigger-rules",
+    "/skills/vex_w",
+    "/skills/vex_w/representative-image",
+    "/skills/vex_w/parameters",
+    "/skills/vex_w/formulas",
+    "/skills/vex_w/effects",
+    "/skills/vex_w/processes",
+    "/skills/vex_w/internal-states",
+    "/skills/vex_w/trigger-rules",
+    "/skills/vex_e",
+    "/skills/vex_e/representative-image",
+    "/skills/vex_e/parameters",
+    "/skills/vex_e/formulas",
+    "/skills/vex_e/effects",
+    "/skills/vex_e/processes",
+    "/skills/vex_e/internal-states",
+    "/skills/vex_e/trigger-rules",
+    "/skills/vex_r",
+    "/skills/vex_r/representative-image",
+    "/skills/vex_r/parameters",
+    "/skills/vex_r/formulas",
+    "/skills/vex_r/effects",
+    "/skills/vex_r/processes",
+    "/skills/vex_r/internal-states",
+    "/skills/vex_r/trigger-rules",
+    "/skills/zilean_p",
+    "/skills/zilean_p/representative-image",
+    "/skills/zilean_p/parameters",
+    "/skills/zilean_p/formulas",
+    "/skills/zilean_p/effects",
+    "/skills/zilean_p/processes",
+    "/skills/zilean_p/internal-states",
+    "/skills/zilean_p/trigger-rules",
+    "/skills/zilean_q",
+    "/skills/zilean_q/representative-image",
+    "/skills/zilean_q/parameters",
+    "/skills/zilean_q/formulas",
+    "/skills/zilean_q/effects",
+    "/skills/zilean_q/processes",
+    "/skills/zilean_q/internal-states",
+    "/skills/zilean_q/trigger-rules",
+    "/skills/zilean_w",
+    "/skills/zilean_w/representative-image",
+    "/skills/zilean_w/parameters",
+    "/skills/zilean_w/formulas",
+    "/skills/zilean_w/effects",
+    "/skills/zilean_w/processes",
+    "/skills/zilean_w/internal-states",
+    "/skills/zilean_w/trigger-rules",
+    "/skills/zilean_e",
+    "/skills/zilean_e/representative-image",
+    "/skills/zilean_e/parameters",
+    "/skills/zilean_e/formulas",
+    "/skills/zilean_e/effects",
+    "/skills/zilean_e/processes",
+    "/skills/zilean_e/internal-states",
+    "/skills/zilean_e/trigger-rules",
+    "/skills/zilean_r",
+    "/skills/zilean_r/representative-image",
+    "/skills/zilean_r/parameters",
+    "/skills/zilean_r/formulas",
+    "/skills/zilean_r/effects",
+    "/skills/zilean_r/processes",
+    "/skills/zilean_r/internal-states",
+    "/skills/zilean_r/trigger-rules"
+  ],
+  "protectedSummary": {
+    "inputGETs": 198,
+    "protectedSubjects": 20,
+    "protectedCompositionLists": 120,
+    "protectedRepresentativeImages": 20,
+    "protectedCharacters": [
+      "champion_katarina",
+      "champion_leblanc",
+      "champion_vex",
+      "champion_zilean"
+    ],
+    "protectedCharacterRelations": [
+      "champion_katarina",
+      "champion_leblanc",
+      "champion_vex",
+      "champion_zilean"
+    ],
+    "protectedCatalogs": [
+      "/attributes",
+      "/skill-categories",
+      "/modifier-zones",
+      "/damage-types"
+    ],
+    "publicParameterDetails": 26,
+    "nonPublicExisting": []
+  },
+  "requests": [
+    {
+      "sequence": 1,
+      "method": "POST",
+      "route": "/skills/katarina_p/parameters",
+      "detailRoute": "/skills/katarina_p/parameters/reset_window_ms",
+      "skillKey": "katarina_p",
+      "kind": "parameters",
+      "stableKey": "reset_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "reset_window_ms",
+        "name": "击杀判定窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端ResetWindow为3秒，转换为3000毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 2,
+      "method": "POST",
+      "route": "/skills/katarina_p/parameters",
+      "detailRoute": "/skills/katarina_p/parameters/reset_cooldown_reduction_ms",
+      "skillKey": "katarina_p",
+      "kind": "parameters",
+      "stableKey": "reset_cooldown_reduction_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "reset_cooldown_reduction_ms",
+        "name": "击杀后技能冷却减少（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15000,
+        "levelValues": null,
+        "description": "客户端ResetCDR为15秒，转换为15000毫秒；实际击杀事件未接线。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 3,
+      "method": "POST",
+      "route": "/skills/katarina_p/parameters",
+      "detailRoute": "/skills/katarina_p/parameters/dagger_radius",
+      "skillKey": "katarina_p",
+      "kind": "parameters",
+      "stableKey": "dagger_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dagger_radius",
+        "name": "匕首斩击范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 340,
+        "levelValues": null,
+        "description": "客户端DaggerRadius为340；仅保存当前正文载体范围。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 4,
+      "method": "POST",
+      "route": "/skills/katarina_p/parameters",
+      "detailRoute": "/skills/katarina_p/parameters/dagger_duration_ms",
+      "skillKey": "katarina_p",
+      "kind": "parameters",
+      "stableKey": "dagger_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dagger_duration_ms",
+        "name": "匕首存在时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端DaggerDuration为4秒，转换为4000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 5,
+      "method": "POST",
+      "route": "/skills/katarina_p/parameters",
+      "detailRoute": "/skills/katarina_p/parameters/bonus_ad_ratio",
+      "skillKey": "katarina_p",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "匕首额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "TotalDamage树的mStat=2、mStatFormula=2窄口径；按来源额外攻击力读取。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 6,
+      "method": "POST",
+      "route": "/skills/katarina_p/parameters",
+      "detailRoute": "/skills/katarina_p/parameters/character_level_base_damage",
+      "skillKey": "katarina_p",
+      "kind": "parameters",
+      "stableKey": "character_level_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "character_level_base_damage",
+        "name": "角色等级下匕首基础魔法伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 68.184616,
+          "2": 72.138458,
+          "3": 76.861542,
+          "4": 82.353844,
+          "5": 88.615387,
+          "6": 95.646156,
+          "7": 103.446152,
+          "8": 112.015381,
+          "9": 121.353844,
+          "10": 131.461533,
+          "11": 142.338455,
+          "12": 153.984619,
+          "13": 166.399994,
+          "14": 179.58461,
+          "15": 193.538467,
+          "16": 208.261536,
+          "17": 223.753845,
+          "18": 240.015381
+        },
+        "description": "当前TotalDamage的ByCharLevelFormulaCalculationPart直接取角色等级1至18值；不把曲线改成技能等级。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 7,
+      "method": "POST",
+      "route": "/skills/katarina_p/parameters",
+      "detailRoute": "/skills/katarina_p/parameters/ap_ratio_by_character_level",
+      "skillKey": "katarina_p",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_by_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio_by_character_level",
+        "name": "角色等级法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.7,
+          "2": 0.7,
+          "3": 0.7,
+          "4": 0.7,
+          "5": 0.7,
+          "6": 0.8,
+          "7": 0.8,
+          "8": 0.8,
+          "9": 0.8,
+          "10": 0.8,
+          "11": 0.9,
+          "12": 0.9,
+          "13": 0.9,
+          "14": 0.9,
+          "15": 0.9,
+          "16": 1,
+          "17": 1,
+          "18": 1
+        },
+        "description": "TotalDamage树断点：起点0.7，角色等级6/11/16各增加0.1。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 8,
+      "method": "POST",
+      "route": "/skills/katarina_p/formulas",
+      "detailRoute": "/skills/katarina_p/formulas/dagger_magic_damage",
+      "skillKey": "katarina_p",
+      "kind": "formulas",
+      "stableKey": "dagger_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "dagger_magic_damage",
+        "name": "贪婪匕首魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "character_level_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio_by_character_level"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = 角色等级基础值 + 0.6×来源额外攻击力 + 角色等级法强比例×来源总法强；保留匕首唯一敌人伤害载体。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 9,
+      "method": "POST",
+      "route": "/skills/katarina_q/parameters",
+      "detailRoute": "/skills/katarina_q/parameters/base_damage",
+      "skillKey": "katarina_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 115,
+          "3": 150,
+          "4": 185,
+          "5": 220
+        },
+        "description": "客户端BaseDamage取索引1至5；索引0的45不是技能等级1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 10,
+      "method": "POST",
+      "route": "/skills/katarina_q/parameters",
+      "detailRoute": "/skills/katarina_q/parameters/bounce_offset",
+      "skillKey": "katarina_q",
+      "kind": "parameters",
+      "stableKey": "bounce_offset",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bounce_offset",
+        "name": "弹射偏移距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "客户端BounceOffset取索引1；仅保留弹射几何参数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 13,
+      "method": "POST",
+      "route": "/skills/katarina_q/parameters",
+      "detailRoute": "/skills/katarina_q/parameters/ap_ratio",
+      "skillKey": "katarina_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "TotalDamage树的QAPRatio项读取来源总法强。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 14,
+      "method": "POST",
+      "route": "/skills/katarina_q/parameters",
+      "detailRoute": "/skills/katarina_q/parameters/cast_time_ms",
+      "skillKey": "katarina_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 15,
+      "method": "POST",
+      "route": "/skills/katarina_q/formulas",
+      "detailRoute": "/skills/katarina_q/formulas/magic_damage",
+      "skillKey": "katarina_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "弹射之刃魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + QAPRatio×来源总法强；只表示唯一敌人单次载体。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 16,
+      "method": "POST",
+      "route": "/skills/katarina_w/parameters",
+      "detailRoute": "/skills/katarina_w/parameters/movement_speed_duration_ms",
+      "skillKey": "katarina_w",
+      "kind": "parameters",
+      "stableKey": "movement_speed_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "movement_speed_duration_ms",
+        "name": "移动速度增益持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1250,
+        "levelValues": null,
+        "description": "客户端MovespeedDuration取索引1的1.25秒，转换为1250毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 17,
+      "method": "POST",
+      "route": "/skills/katarina_w/parameters",
+      "detailRoute": "/skills/katarina_w/parameters/movement_speed_percent_points",
+      "skillKey": "katarina_w",
+      "kind": "parameters",
+      "stableKey": "movement_speed_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "movement_speed_percent_points",
+        "name": "移动速度增益百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 60,
+          "3": 70,
+          "4": 80,
+          "5": 90
+        },
+        "description": "客户端MovespeedAmount取技能等级索引1至5；索引0的40不是等级1。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 18,
+      "method": "POST",
+      "route": "/skills/katarina_w/parameters",
+      "detailRoute": "/skills/katarina_w/parameters/cast_time_ms",
+      "skillKey": "katarina_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 19,
+      "method": "POST",
+      "route": "/skills/katarina_e/parameters",
+      "detailRoute": "/skills/katarina_e/parameters/base_damage",
+      "skillKey": "katarina_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 30,
+          "3": 40,
+          "4": 50,
+          "5": 60
+        },
+        "description": "客户端BaseDamage取索引1至5；索引0的10不是等级1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 20,
+      "method": "POST",
+      "route": "/skills/katarina_e/parameters",
+      "detailRoute": "/skills/katarina_e/parameters/data_cooldown_seconds",
+      "skillKey": "katarina_e",
+      "kind": "parameters",
+      "stableKey": "data_cooldown_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "data_cooldown_seconds",
+        "name": "匕首冷却缩减基准（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 12,
+          "2": 11,
+          "3": 10,
+          "4": 9,
+          "5": 8
+        },
+        "description": "DaggerCooldownReduction树引用DataCooldown索引1至5，保留来源秒单位。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 21,
+      "method": "POST",
+      "route": "/skills/katarina_e/parameters",
+      "detailRoute": "/skills/katarina_e/parameters/total_ad_ratio",
+      "skillKey": "katarina_e",
+      "kind": "parameters",
+      "stableKey": "total_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "total_ad_ratio",
+        "name": "总攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前TotalDamage树mStat=2且mStatFormula省略，按已核定默认0使用来源总攻击力；EADRatio为0.4。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 22,
+      "method": "POST",
+      "route": "/skills/katarina_e/parameters",
+      "detailRoute": "/skills/katarina_e/parameters/ap_ratio",
+      "skillKey": "katarina_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "TotalDamage树的EAPRatio=0.25，读取来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 23,
+      "method": "POST",
+      "route": "/skills/katarina_e/parameters",
+      "detailRoute": "/skills/katarina_e/parameters/cast_time_ms",
+      "skillKey": "katarina_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0，保留0毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 24,
+      "method": "POST",
+      "route": "/skills/katarina_e/parameters",
+      "detailRoute": "/skills/katarina_e/parameters/dagger_cooldown_ratio_by_character_level",
+      "skillKey": "katarina_e",
+      "kind": "parameters",
+      "stableKey": "dagger_cooldown_ratio_by_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dagger_cooldown_ratio_by_character_level",
+        "name": "角色等级匕首冷却缩减比例",
+        "valueType": "DECIMAL",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.78,
+          "2": 0.78,
+          "3": 0.78,
+          "4": 0.78,
+          "5": 0.78,
+          "6": 0.84,
+          "7": 0.84,
+          "8": 0.84,
+          "9": 0.84,
+          "10": 0.84,
+          "11": 0.9,
+          "12": 0.9,
+          "13": 0.9,
+          "14": 0.9,
+          "15": 0.9,
+          "16": 0.96,
+          "17": 0.96,
+          "18": 0.96
+        },
+        "description": "匿名子树角色等级1至18：起点0.78，6/11/16各加0.06；等级21的0.04在本批范围外。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 25,
+      "method": "POST",
+      "route": "/skills/katarina_e/parameters",
+      "detailRoute": "/skills/katarina_e/parameters/actual_cooldown_multiplier",
+      "skillKey": "katarina_e",
+      "kind": "parameters",
+      "stableKey": "actual_cooldown_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_cooldown_multiplier",
+        "name": "实际冷却倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "外层CooldownMultiplierCalculationPart的实际冷却系数；来源未证完整选择器，不设置默认。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 26,
+      "method": "POST",
+      "route": "/skills/katarina_e/parameters",
+      "detailRoute": "/skills/katarina_e/parameters/milliseconds_per_second",
+      "skillKey": "katarina_e",
+      "kind": "parameters",
+      "stableKey": "milliseconds_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "milliseconds_per_second",
+        "name": "每秒毫秒换算系数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "将DataCooldown秒数换算为接口公式的毫秒结果；单位换算常数，不是游戏平衡输入。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 27,
+      "method": "POST",
+      "route": "/skills/katarina_e/formulas",
+      "detailRoute": "/skills/katarina_e/formulas/magic_damage",
+      "skillKey": "katarina_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "瞬步魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "total_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + EAPRatio×来源总法强 + EADRatio×来源总攻击力；目标为敌人或范围内最近敌人的资格待接。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 28,
+      "method": "POST",
+      "route": "/skills/katarina_e/formulas",
+      "detailRoute": "/skills/katarina_e/formulas/dagger_cooldown_reduction_ms",
+      "skillKey": "katarina_e",
+      "kind": "formulas",
+      "stableKey": "dagger_cooldown_reduction_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "dagger_cooldown_reduction_ms",
+        "name": "拾取匕首缩短冷却（毫秒）",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "dagger_cooldown_ratio_by_character_level"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_cooldown_multiplier"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "data_cooldown_seconds"
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "milliseconds_per_second"
+            }
+          ]
+        },
+        "description": "DaggerCooldownReduction = 角色等级比例×实际冷却倍率×DataCooldown秒×1000；保留匿名修改树及单位换算，不猜倍率。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 29,
+      "method": "POST",
+      "route": "/skills/katarina_r/parameters",
+      "detailRoute": "/skills/katarina_r/parameters/magic_base_damage_per_tick",
+      "skillKey": "katarina_r",
+      "kind": "parameters",
+      "stableKey": "magic_base_damage_per_tick",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "magic_base_damage_per_tick",
+        "name": "每次魔法伤害基础值",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 25,
+          "2": 37.5,
+          "3": 50
+        },
+        "description": "客户端DamagePerTick取R技能等级索引1至3；索引0为12.5占位。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 30,
+      "method": "POST",
+      "route": "/skills/katarina_r/parameters",
+      "detailRoute": "/skills/katarina_r/parameters/magic_ap_ratio",
+      "skillKey": "katarina_r",
+      "kind": "parameters",
+      "stableKey": "magic_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "magic_ap_ratio",
+        "name": "每次魔法伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.19,
+        "levelValues": null,
+        "description": "DamageCalc树的RAPRatio=0.19，读取来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 31,
+      "method": "POST",
+      "route": "/skills/katarina_r/parameters",
+      "detailRoute": "/skills/katarina_r/parameters/ticks_per_second",
+      "skillKey": "katarina_r",
+      "kind": "parameters",
+      "stableKey": "ticks_per_second",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ticks_per_second",
+        "name": "每秒伤害次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "客户端TicksPerSecond取索引1；仅用于当前总量树。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 32,
+      "method": "POST",
+      "route": "/skills/katarina_r/parameters",
+      "detailRoute": "/skills/katarina_r/parameters/duration_seconds",
+      "skillKey": "katarina_r",
+      "kind": "parameters",
+      "stableKey": "duration_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "duration_seconds",
+        "name": "持续时间（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2.5,
+        "levelValues": null,
+        "description": "客户端Duration取索引1的2.5秒；总量公式保留来源单位。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 33,
+      "method": "POST",
+      "route": "/skills/katarina_r/parameters",
+      "detailRoute": "/skills/katarina_r/parameters/grievous_duration_ms",
+      "skillKey": "katarina_r",
+      "kind": "parameters",
+      "stableKey": "grievous_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "grievous_duration_ms",
+        "name": "重伤持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 3000,
+          "2": 3000,
+          "3": 3000
+        },
+        "description": "客户端GrievousDuration取索引1至3，秒转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 34,
+      "method": "POST",
+      "route": "/skills/katarina_r/parameters",
+      "detailRoute": "/skills/katarina_r/parameters/grievous_amount_ratio",
+      "skillKey": "katarina_r",
+      "kind": "parameters",
+      "stableKey": "grievous_amount_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "grievous_amount_ratio",
+        "name": "重伤效果比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.4,
+          "2": 0.4,
+          "3": 0.4
+        },
+        "description": "客户端GrievousAmount取索引1至3；正文按比例×100显示百分数。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 35,
+      "method": "POST",
+      "route": "/skills/katarina_r/parameters",
+      "detailRoute": "/skills/katarina_r/parameters/on_hit_ratio",
+      "skillKey": "katarina_r",
+      "kind": "parameters",
+      "stableKey": "on_hit_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "on_hit_ratio",
+        "name": "攻击特效和附伤比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.25,
+          "2": 0.3,
+          "3": 0.35
+        },
+        "description": "客户端OnHitRatio取R等级索引1至3的比例值；正文按百分数显示。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 36,
+      "method": "POST",
+      "route": "/skills/katarina_r/parameters",
+      "detailRoute": "/skills/katarina_r/parameters/bonus_ad_ratio",
+      "skillKey": "katarina_r",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "物理伤害额外攻击力比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.16,
+        "levelValues": null,
+        "description": "ADDamageCalc内部0.16项，按来源额外攻击力读取。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 37,
+      "method": "POST",
+      "route": "/skills/katarina_r/parameters",
+      "detailRoute": "/skills/katarina_r/parameters/attack_speed_coefficient",
+      "skillKey": "katarina_r",
+      "kind": "parameters",
+      "stableKey": "attack_speed_coefficient",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_speed_coefficient",
+        "name": "物理伤害攻速比例系数",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 3.125,
+        "levelValues": null,
+        "description": "ADDamageCalc内部3.125项；攻速输入仍保持原比例单位。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 38,
+      "method": "POST",
+      "route": "/skills/katarina_r/parameters",
+      "detailRoute": "/skills/katarina_r/parameters/one_ratio",
+      "skillKey": "katarina_r",
+      "kind": "parameters",
+      "stableKey": "one_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "one_ratio",
+        "name": "完整量基准",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "来源树中的完整量基准；不是额外游戏输入。",
+        "sortOrder": 999
+      }
+    },
+    {
+      "sequence": 39,
+      "method": "POST",
+      "route": "/skills/katarina_r/parameters",
+      "detailRoute": "/skills/katarina_r/parameters/actual_attack_speed_ratio",
+      "skillKey": "katarina_r",
+      "kind": "parameters",
+      "stableKey": "actual_attack_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_attack_speed_ratio",
+        "name": "实际攻击速度比例",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "ADDamageCalc的mStat=4、mStatFormula=2选择器未在本批窄证，使用无默认实际输入。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 40,
+      "method": "POST",
+      "route": "/skills/katarina_r/parameters",
+      "detailRoute": "/skills/katarina_r/parameters/cast_time_ms",
+      "skillKey": "katarina_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 41,
+      "method": "POST",
+      "route": "/skills/katarina_r/formulas",
+      "detailRoute": "/skills/katarina_r/formulas/magic_damage_per_tick",
+      "skillKey": "katarina_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage_per_tick",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage_per_tick",
+        "name": "死亡莲华每次魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "magic_base_damage_per_tick"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "magic_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "DamageCalc = DamagePerTick + RAPRatio×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 42,
+      "method": "POST",
+      "route": "/skills/katarina_r/formulas",
+      "detailRoute": "/skills/katarina_r/formulas/total_magic_damage",
+      "skillKey": "katarina_r",
+      "kind": "formulas",
+      "stableKey": "total_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_magic_damage",
+        "name": "死亡莲华同一目标总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ticks_per_second"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "duration_seconds"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "magic_base_damage_per_tick"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "magic_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamageCalc = TicksPerSecond×Duration×DamageCalc；同一目标持续多次，唯一敌人不再乘目标数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 43,
+      "method": "POST",
+      "route": "/skills/katarina_r/formulas",
+      "detailRoute": "/skills/katarina_r/formulas/physical_damage_per_tick",
+      "skillKey": "katarina_r",
+      "kind": "formulas",
+      "stableKey": "physical_damage_per_tick",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "physical_damage_per_tick",
+        "name": "死亡莲华每次物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "attack_speed_coefficient"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_attack_speed_ratio"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ADDamageCalc = 0.16×来源额外攻击力×(1+3.125×实际攻速比例)；mStat=4阶段无默认。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 44,
+      "method": "POST",
+      "route": "/skills/katarina_r/formulas",
+      "detailRoute": "/skills/katarina_r/formulas/total_physical_damage",
+      "skillKey": "katarina_r",
+      "kind": "formulas",
+      "stableKey": "total_physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "total_physical_damage",
+        "name": "死亡莲华同一目标总物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ticks_per_second"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "duration_seconds"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "attack_speed_coefficient"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_attack_speed_ratio"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalADDamageCalc = TicksPerSecond×Duration×ADDamageCalc；当前目标上限、攻击时点与攻速输入待接。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 45,
+      "method": "POST",
+      "route": "/skills/leblanc_p/parameters",
+      "detailRoute": "/skills/leblanc_p/parameters/passive_cooldown_ms",
+      "skillKey": "leblanc_p",
+      "kind": "parameters",
+      "stableKey": "passive_cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_cooldown_ms",
+        "name": "被动冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 60000,
+        "levelValues": null,
+        "description": "客户端Cooldown取索引1的60秒，转换为60000毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 46,
+      "method": "POST",
+      "route": "/skills/leblanc_p/parameters",
+      "detailRoute": "/skills/leblanc_p/parameters/health_threshold_percent_points",
+      "skillKey": "leblanc_p",
+      "kind": "parameters",
+      "stableKey": "health_threshold_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_threshold_percent_points",
+        "name": "触发最大生命百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "description": "当前绑定正文明确低于最大生命值40%触发。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 47,
+      "method": "POST",
+      "route": "/skills/leblanc_p/parameters",
+      "detailRoute": "/skills/leblanc_p/parameters/invisibility_duration_ms",
+      "skillKey": "leblanc_p",
+      "kind": "parameters",
+      "stableKey": "invisibility_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "invisibility_duration_ms",
+        "name": "隐形持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前绑定正文明确隐形1秒，转换为1000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 49,
+      "method": "POST",
+      "route": "/skills/leblanc_q/parameters",
+      "detailRoute": "/skills/leblanc_q/parameters/base_damage",
+      "skillKey": "leblanc_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "初始基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 65,
+          "2": 90,
+          "3": 115,
+          "4": 140,
+          "5": 165
+        },
+        "description": "客户端BaseDamage取索引1至5；索引0的40不是等级1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 50,
+      "method": "POST",
+      "route": "/skills/leblanc_q/parameters",
+      "detailRoute": "/skills/leblanc_q/parameters/mark_base_damage",
+      "skillKey": "leblanc_q",
+      "kind": "parameters",
+      "stableKey": "mark_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mark_base_damage",
+        "name": "魔印引爆基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 65,
+          "2": 90,
+          "3": 115,
+          "4": 140,
+          "5": 165
+        },
+        "description": "客户端BaseMarkDamage取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 51,
+      "method": "POST",
+      "route": "/skills/leblanc_q/parameters",
+      "detailRoute": "/skills/leblanc_q/parameters/mark_duration_ms",
+      "skillKey": "leblanc_q",
+      "kind": "parameters",
+      "stableKey": "mark_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mark_duration_ms",
+        "name": "魔印持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3500,
+        "levelValues": null,
+        "description": "客户端MarkDuration取索引1的3.5秒，转换为3500毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 52,
+      "method": "POST",
+      "route": "/skills/leblanc_q/parameters",
+      "detailRoute": "/skills/leblanc_q/parameters/cooldown_refund_ratio",
+      "skillKey": "leblanc_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_refund_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_refund_ratio",
+        "name": "击杀后剩余冷却返还比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "客户端CooldownRefund=0.3；只保留击杀条件参数。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 53,
+      "method": "POST",
+      "route": "/skills/leblanc_q/parameters",
+      "detailRoute": "/skills/leblanc_q/parameters/mana_refund_ratio",
+      "skillKey": "leblanc_q",
+      "kind": "parameters",
+      "stableKey": "mana_refund_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mana_refund_ratio",
+        "name": "击杀后法力返还比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "客户端ManaRefund=1；只保留击杀条件参数。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 54,
+      "method": "POST",
+      "route": "/skills/leblanc_q/parameters",
+      "detailRoute": "/skills/leblanc_q/parameters/ap_ratio",
+      "skillKey": "leblanc_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "Damage和MarkDamage树均消费APRatio×来源总法强。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 55,
+      "method": "POST",
+      "route": "/skills/leblanc_q/parameters",
+      "detailRoute": "/skills/leblanc_q/parameters/cast_time_ms",
+      "skillKey": "leblanc_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 56,
+      "method": "POST",
+      "route": "/skills/leblanc_q/formulas",
+      "detailRoute": "/skills/leblanc_q/formulas/initial_magic_damage",
+      "skillKey": "leblanc_q",
+      "kind": "formulas",
+      "stableKey": "initial_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "initial_magic_damage",
+        "name": "恶意魔印初始魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Damage = BaseDamage + APRatio×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 57,
+      "method": "POST",
+      "route": "/skills/leblanc_q/formulas",
+      "detailRoute": "/skills/leblanc_q/formulas/mark_magic_damage",
+      "skillKey": "leblanc_q",
+      "kind": "formulas",
+      "stableKey": "mark_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "mark_magic_damage",
+        "name": "恶意魔印引爆魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "mark_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MarkDamage = BaseMarkDamage + APRatio×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 58,
+      "method": "POST",
+      "route": "/skills/leblanc_w/parameters",
+      "detailRoute": "/skills/leblanc_w/parameters/ap_ratio",
+      "skillKey": "leblanc_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.9,
+        "levelValues": null,
+        "description": "TotalDamage树消费WAPRatio=0.9×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 59,
+      "method": "POST",
+      "route": "/skills/leblanc_w/parameters",
+      "detailRoute": "/skills/leblanc_w/parameters/base_damage",
+      "skillKey": "leblanc_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 75,
+          "2": 115,
+          "3": 155,
+          "4": 195,
+          "5": 235
+        },
+        "description": "客户端BaseDamage取索引1至5；索引0的35不是等级1。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 60,
+      "method": "POST",
+      "route": "/skills/leblanc_w/parameters",
+      "detailRoute": "/skills/leblanc_w/parameters/snapback_window_ms",
+      "skillKey": "leblanc_w",
+      "kind": "parameters",
+      "stableKey": "snapback_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "snapback_window_ms",
+        "name": "返回初始位置窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端SnapbackTimeAllowed取索引1的4秒，转换为4000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 61,
+      "method": "POST",
+      "route": "/skills/leblanc_w/parameters",
+      "detailRoute": "/skills/leblanc_w/parameters/snapback_delay_ms",
+      "skillKey": "leblanc_w",
+      "kind": "parameters",
+      "stableKey": "snapback_delay_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "snapback_delay_ms",
+        "name": "返回延迟（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 200,
+        "levelValues": null,
+        "description": "客户端SnapbackDelay取索引1的0.2秒，转换为200毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 62,
+      "method": "POST",
+      "route": "/skills/leblanc_w/parameters",
+      "detailRoute": "/skills/leblanc_w/parameters/snapback_queue_window_ms",
+      "skillKey": "leblanc_w",
+      "kind": "parameters",
+      "stableKey": "snapback_queue_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "snapback_queue_window_ms",
+        "name": "返回排队窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 200,
+        "levelValues": null,
+        "description": "客户端SnapbackQueueWindow取索引1的0.2秒，转换为200毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 63,
+      "method": "POST",
+      "route": "/skills/leblanc_w/parameters",
+      "detailRoute": "/skills/leblanc_w/parameters/spell_max_range",
+      "skillKey": "leblanc_w",
+      "kind": "parameters",
+      "stableKey": "spell_max_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "spell_max_range",
+        "name": "技能最大射程",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 600,
+        "levelValues": null,
+        "description": "客户端SpellMaxRange取索引1的600。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 64,
+      "method": "POST",
+      "route": "/skills/leblanc_w/parameters",
+      "detailRoute": "/skills/leblanc_w/parameters/cast_time_ms",
+      "skillKey": "leblanc_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 65,
+      "method": "POST",
+      "route": "/skills/leblanc_w/formulas",
+      "detailRoute": "/skills/leblanc_w/formulas/magic_damage",
+      "skillKey": "leblanc_w",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "魔影迷踪魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BaseDamage + WAPRatio×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 66,
+      "method": "POST",
+      "route": "/skills/leblanc_e/parameters",
+      "detailRoute": "/skills/leblanc_e/parameters/initial_base_damage",
+      "skillKey": "leblanc_e",
+      "kind": "parameters",
+      "stableKey": "initial_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "initial_base_damage",
+        "name": "首段基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 70,
+          "3": 90,
+          "4": 110,
+          "5": 130
+        },
+        "description": "客户端BaseInitialDamage取索引1至5；索引0的30不是等级1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 67,
+      "method": "POST",
+      "route": "/skills/leblanc_e/parameters",
+      "detailRoute": "/skills/leblanc_e/parameters/delayed_base_damage",
+      "skillKey": "leblanc_e",
+      "kind": "parameters",
+      "stableKey": "delayed_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "delayed_base_damage",
+        "name": "延迟基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "description": "客户端BaseDelayedDamage取索引1至5；索引0的40不是等级1。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 68,
+      "method": "POST",
+      "route": "/skills/leblanc_e/parameters",
+      "detailRoute": "/skills/leblanc_e/parameters/initial_ap_ratio",
+      "skillKey": "leblanc_e",
+      "kind": "parameters",
+      "stableKey": "initial_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "initial_ap_ratio",
+        "name": "首段法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "InitialDamage树消费InitialAPRatio×来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 69,
+      "method": "POST",
+      "route": "/skills/leblanc_e/parameters",
+      "detailRoute": "/skills/leblanc_e/parameters/delayed_ap_ratio",
+      "skillKey": "leblanc_e",
+      "kind": "parameters",
+      "stableKey": "delayed_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "delayed_ap_ratio",
+        "name": "延迟段法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.85,
+        "levelValues": null,
+        "description": "DelayedDamage树消费DelayedAPRatio×来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 70,
+      "method": "POST",
+      "route": "/skills/leblanc_e/parameters",
+      "detailRoute": "/skills/leblanc_e/parameters/tether_duration_ms",
+      "skillKey": "leblanc_e",
+      "kind": "parameters",
+      "stableKey": "tether_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tether_duration_ms",
+        "name": "束缚持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端TetherDuration取索引1的1.5秒，转换为1500毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 71,
+      "method": "POST",
+      "route": "/skills/leblanc_e/parameters",
+      "detailRoute": "/skills/leblanc_e/parameters/root_duration_ms",
+      "skillKey": "leblanc_e",
+      "kind": "parameters",
+      "stableKey": "root_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "root_duration_ms",
+        "name": "禁锢持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端RootDuration取索引1的1.5秒，转换为1500毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 72,
+      "method": "POST",
+      "route": "/skills/leblanc_e/parameters",
+      "detailRoute": "/skills/leblanc_e/parameters/tether_distance",
+      "skillKey": "leblanc_e",
+      "kind": "parameters",
+      "stableKey": "tether_distance",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tether_distance",
+        "name": "锁链距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 865,
+        "levelValues": null,
+        "description": "客户端TetherDistance取索引1的865。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 73,
+      "method": "POST",
+      "route": "/skills/leblanc_e/parameters",
+      "detailRoute": "/skills/leblanc_e/parameters/cast_time_ms",
+      "skillKey": "leblanc_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 74,
+      "method": "POST",
+      "route": "/skills/leblanc_e/formulas",
+      "detailRoute": "/skills/leblanc_e/formulas/initial_magic_damage",
+      "skillKey": "leblanc_e",
+      "kind": "formulas",
+      "stableKey": "initial_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "initial_magic_damage",
+        "name": "幻影锁链首段魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "initial_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "initial_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "InitialDamage = BaseInitialDamage + InitialAPRatio×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 75,
+      "method": "POST",
+      "route": "/skills/leblanc_e/formulas",
+      "detailRoute": "/skills/leblanc_e/formulas/delayed_magic_damage",
+      "skillKey": "leblanc_e",
+      "kind": "formulas",
+      "stableKey": "delayed_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "delayed_magic_damage",
+        "name": "幻影锁链延迟魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "delayed_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "delayed_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "DelayedDamage = BaseDelayedDamage + DelayedAPRatio×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 76,
+      "method": "POST",
+      "route": "/skills/leblanc_r/parameters",
+      "detailRoute": "/skills/leblanc_r/parameters/rq1_base_damage",
+      "skillKey": "leblanc_r",
+      "kind": "parameters",
+      "stableKey": "rq1_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rq1_base_damage",
+        "name": "RQ1Base基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 150,
+          "3": 230
+        },
+        "description": "客户端RQ1Base取R技能等级索引1至3；不借用普通Q/W/E基础值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 77,
+      "method": "POST",
+      "route": "/skills/leblanc_r/parameters",
+      "detailRoute": "/skills/leblanc_r/parameters/rq2_base_damage",
+      "skillKey": "leblanc_r",
+      "kind": "parameters",
+      "stableKey": "rq2_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rq2_base_damage",
+        "name": "RQ2Base基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 140,
+          "2": 300,
+          "3": 460
+        },
+        "description": "客户端RQ2Base取R技能等级索引1至3；不借用普通Q/W/E基础值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 78,
+      "method": "POST",
+      "route": "/skills/leblanc_r/parameters",
+      "detailRoute": "/skills/leblanc_r/parameters/rw_base_damage",
+      "skillKey": "leblanc_r",
+      "kind": "parameters",
+      "stableKey": "rw_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_base_damage",
+        "name": "RWBase基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 315,
+          "3": 480
+        },
+        "description": "客户端RWBase取R技能等级索引1至3；不借用普通Q/W/E基础值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 79,
+      "method": "POST",
+      "route": "/skills/leblanc_r/parameters",
+      "detailRoute": "/skills/leblanc_r/parameters/re1_base_damage",
+      "skillKey": "leblanc_r",
+      "kind": "parameters",
+      "stableKey": "re1_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "re1_base_damage",
+        "name": "RE1Base基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 150,
+          "3": 230
+        },
+        "description": "客户端RE1Base取R技能等级索引1至3；不借用普通Q/W/E基础值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 80,
+      "method": "POST",
+      "route": "/skills/leblanc_r/parameters",
+      "detailRoute": "/skills/leblanc_r/parameters/re2_base_damage",
+      "skillKey": "leblanc_r",
+      "kind": "parameters",
+      "stableKey": "re2_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "re2_base_damage",
+        "name": "RE2Base基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 140,
+          "2": 300,
+          "3": 460
+        },
+        "description": "客户端RE2Base取R技能等级索引1至3；不借用普通Q/W/E基础值。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 81,
+      "method": "POST",
+      "route": "/skills/leblanc_r/parameters",
+      "detailRoute": "/skills/leblanc_r/parameters/mark_duration_ms",
+      "skillKey": "leblanc_r",
+      "kind": "parameters",
+      "stableKey": "mark_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mark_duration_ms",
+        "name": "复制Q魔印持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3500,
+        "levelValues": null,
+        "description": "客户端RQMarkDuration取索引1的3.5秒，转换为3500毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 82,
+      "method": "POST",
+      "route": "/skills/leblanc_r/parameters",
+      "detailRoute": "/skills/leblanc_r/parameters/rq1_re1_ap_ratio",
+      "skillKey": "leblanc_r",
+      "kind": "parameters",
+      "stableKey": "rq1_re1_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rq1_re1_ap_ratio",
+        "name": "复制Q/E首段法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "RQ1Damage和RE1Damage共享RQ1RE1BaseAPRatio=0.4。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 83,
+      "method": "POST",
+      "route": "/skills/leblanc_r/parameters",
+      "detailRoute": "/skills/leblanc_r/parameters/rq2_ap_ratio",
+      "skillKey": "leblanc_r",
+      "kind": "parameters",
+      "stableKey": "rq2_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rq2_ap_ratio",
+        "name": "复制Q二段法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "RQ2Damage树的StatByCoefficient=0.8。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 84,
+      "method": "POST",
+      "route": "/skills/leblanc_r/parameters",
+      "detailRoute": "/skills/leblanc_r/parameters/rw_ap_ratio",
+      "skillKey": "leblanc_r",
+      "kind": "parameters",
+      "stableKey": "rw_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "rw_ap_ratio",
+        "name": "复制W法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.9,
+        "levelValues": null,
+        "description": "RWDamage树的StatByCoefficient=0.9。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "sequence": 85,
+      "method": "POST",
+      "route": "/skills/leblanc_r/parameters",
+      "detailRoute": "/skills/leblanc_r/parameters/re2_ap_ratio",
+      "skillKey": "leblanc_r",
+      "kind": "parameters",
+      "stableKey": "re2_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "re2_ap_ratio",
+        "name": "复制E二段法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.85,
+        "levelValues": null,
+        "description": "RE2Damage树的StatByCoefficient=0.85。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "sequence": 86,
+      "method": "POST",
+      "route": "/skills/leblanc_r/parameters",
+      "detailRoute": "/skills/leblanc_r/parameters/cooldown_ms",
+      "skillKey": "leblanc_r",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "故技重施基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 45000,
+          "2": 35000,
+          "3": 25000
+        },
+        "description": "当前R没有保护中的公共参数；官方16.17.1冷却数组等级1至3转换为毫秒。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "sequence": 87,
+      "method": "POST",
+      "route": "/skills/leblanc_r/parameters",
+      "detailRoute": "/skills/leblanc_r/parameters/cast_time_ms",
+      "skillKey": "leblanc_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 425,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.425秒，转换为425毫秒。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "sequence": 88,
+      "method": "POST",
+      "route": "/skills/leblanc_r/formulas",
+      "detailRoute": "/skills/leblanc_r/formulas/replicated_q_initial_damage",
+      "skillKey": "leblanc_r",
+      "kind": "formulas",
+      "stableKey": "replicated_q_initial_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "replicated_q_initial_damage",
+        "name": "故技重施复制Q首段魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "rq1_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "rq1_re1_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "RQ1Damage = RQ1Base + 0.4×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 89,
+      "method": "POST",
+      "route": "/skills/leblanc_r/formulas",
+      "detailRoute": "/skills/leblanc_r/formulas/replicated_q_mark_damage",
+      "skillKey": "leblanc_r",
+      "kind": "formulas",
+      "stableKey": "replicated_q_mark_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "replicated_q_mark_damage",
+        "name": "故技重施复制Q引爆魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "rq2_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "rq2_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "RQ2Damage = RQ2Base + 0.8×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 90,
+      "method": "POST",
+      "route": "/skills/leblanc_r/formulas",
+      "detailRoute": "/skills/leblanc_r/formulas/replicated_w_damage",
+      "skillKey": "leblanc_r",
+      "kind": "formulas",
+      "stableKey": "replicated_w_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "replicated_w_damage",
+        "name": "故技重施复制W魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "rw_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "rw_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "RWDamage = RWBase + 0.9×来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 91,
+      "method": "POST",
+      "route": "/skills/leblanc_r/formulas",
+      "detailRoute": "/skills/leblanc_r/formulas/replicated_e_initial_damage",
+      "skillKey": "leblanc_r",
+      "kind": "formulas",
+      "stableKey": "replicated_e_initial_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "replicated_e_initial_damage",
+        "name": "故技重施复制E首段魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "re1_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "rq1_re1_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "RE1Damage = RE1Base + 0.4×来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 92,
+      "method": "POST",
+      "route": "/skills/leblanc_r/formulas",
+      "detailRoute": "/skills/leblanc_r/formulas/replicated_e_delayed_damage",
+      "skillKey": "leblanc_r",
+      "kind": "formulas",
+      "stableKey": "replicated_e_delayed_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "replicated_e_delayed_damage",
+        "name": "故技重施复制E延迟魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "re2_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "re2_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "RE2Damage = RE2Base + 0.85×来源总法强。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 93,
+      "method": "POST",
+      "route": "/skills/vex_p/parameters",
+      "detailRoute": "/skills/vex_p/parameters/doom_cooldown_seconds_by_character_level",
+      "skillKey": "vex_p",
+      "kind": "parameters",
+      "stableKey": "doom_cooldown_seconds_by_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "doom_cooldown_seconds_by_character_level",
+        "name": "终焉基础冷却（角色等级秒数）",
+        "valueType": "DECIMAL",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 25,
+          "2": 25,
+          "3": 25,
+          "4": 25,
+          "5": 25,
+          "6": 22,
+          "7": 22,
+          "8": 22,
+          "9": 22,
+          "10": 22,
+          "11": 19,
+          "12": 19,
+          "13": 19,
+          "14": 19,
+          "15": 19,
+          "16": 16,
+          "17": 16,
+          "18": 16
+        },
+        "description": "DoomCD树：25秒起，角色等级6/11/16各减少3秒；按角色等级1至18保存明确阶梯。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 94,
+      "method": "POST",
+      "route": "/skills/vex_p/parameters",
+      "detailRoute": "/skills/vex_p/parameters/fear_duration_seconds_by_character_level",
+      "skillKey": "vex_p",
+      "kind": "parameters",
+      "stableKey": "fear_duration_seconds_by_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "fear_duration_seconds_by_character_level",
+        "name": "恐惧持续（角色等级秒数）",
+        "valueType": "DECIMAL",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.75,
+          "2": 0.75,
+          "3": 0.75,
+          "4": 0.75,
+          "5": 0.75,
+          "6": 1,
+          "7": 1,
+          "8": 1,
+          "9": 1.25,
+          "10": 1.25,
+          "11": 1.25,
+          "12": 1.25,
+          "13": 1.5,
+          "14": 1.5,
+          "15": 1.5,
+          "16": 1.5,
+          "17": 1.5,
+          "18": 1.5
+        },
+        "description": "FearDuration树：0.75秒起，角色等级6/9/13各增加0.25秒。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 95,
+      "method": "POST",
+      "route": "/skills/vex_p/parameters",
+      "detailRoute": "/skills/vex_p/parameters/gloom_duration_ms",
+      "skillKey": "vex_p",
+      "kind": "parameters",
+      "stableKey": "gloom_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "gloom_duration_ms",
+        "name": "暮气持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "客户端GloomDuration取索引1的6秒，转换为6000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 96,
+      "method": "POST",
+      "route": "/skills/vex_p/parameters",
+      "detailRoute": "/skills/vex_p/parameters/actual_gloom_character_level_base_damage",
+      "skillKey": "vex_p",
+      "kind": "parameters",
+      "stableKey": "actual_gloom_character_level_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_gloom_character_level_base_damage",
+        "name": "当前角色等级暮气基础伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "GloomProcCalc只有40至150角色等级插值端点，未证中间函数；无默认实际输入。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 97,
+      "method": "POST",
+      "route": "/skills/vex_p/parameters",
+      "detailRoute": "/skills/vex_p/parameters/gloom_ap_ratio",
+      "skillKey": "vex_p",
+      "kind": "parameters",
+      "stableKey": "gloom_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "gloom_ap_ratio",
+        "name": "暮气额外伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "GloomProcCalc的APRatio=0.25×来源总法强。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 98,
+      "method": "POST",
+      "route": "/skills/vex_p/parameters",
+      "detailRoute": "/skills/vex_p/parameters/gloom_champion_cooldown_refund_ratio",
+      "skillKey": "vex_p",
+      "kind": "parameters",
+      "stableKey": "gloom_champion_cooldown_refund_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "gloom_champion_cooldown_refund_ratio",
+        "name": "英雄目标命中后终焉冷却返还比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前正文消费GloomCDChamp=0.25；只保留英雄条件参数。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 99,
+      "method": "POST",
+      "route": "/skills/vex_p/formulas",
+      "detailRoute": "/skills/vex_p/formulas/gloom_bonus_magic_damage",
+      "skillKey": "vex_p",
+      "kind": "formulas",
+      "stableKey": "gloom_bonus_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "gloom_bonus_magic_damage",
+        "name": "暮气额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_gloom_character_level_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "gloom_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "GloomProcCalc = 当前角色等级暮气基础伤害输入 + 0.25×来源总法强；不猜40至150中间曲线。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 100,
+      "method": "POST",
+      "route": "/skills/vex_q/parameters",
+      "detailRoute": "/skills/vex_q/parameters/base_damage",
+      "skillKey": "vex_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 115,
+          "3": 160,
+          "4": 205,
+          "5": 250
+        },
+        "description": "客户端BaseDamage取索引1至5；索引0的25不是等级1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 101,
+      "method": "POST",
+      "route": "/skills/vex_q/parameters",
+      "detailRoute": "/skills/vex_q/parameters/ap_ratio",
+      "skillKey": "vex_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "QDamageCalc消费APRatio=0.7×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 102,
+      "method": "POST",
+      "route": "/skills/vex_q/parameters",
+      "detailRoute": "/skills/vex_q/parameters/cast_time_ms",
+      "skillKey": "vex_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 150,
+        "levelValues": null,
+        "description": "当前根spellCastTime约0.15秒，按来源精度转换为150毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 103,
+      "method": "POST",
+      "route": "/skills/vex_q/formulas",
+      "detailRoute": "/skills/vex_q/formulas/magic_damage",
+      "skillKey": "vex_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "寒心波云魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "QDamageCalc = BaseDamage + APRatio×来源总法强；命中后消费暮气由事件接线。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 104,
+      "method": "POST",
+      "route": "/skills/vex_w/parameters",
+      "detailRoute": "/skills/vex_w/parameters/base_shield",
+      "skillKey": "vex_w",
+      "kind": "parameters",
+      "stableKey": "base_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_shield",
+        "name": "基础护盾值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 75,
+          "3": 100,
+          "4": 125,
+          "5": 150
+        },
+        "description": "客户端ShieldAmount取索引1至5；索引0的25不是等级1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 105,
+      "method": "POST",
+      "route": "/skills/vex_w/parameters",
+      "detailRoute": "/skills/vex_w/parameters/shield_ap_ratio",
+      "skillKey": "vex_w",
+      "kind": "parameters",
+      "stableKey": "shield_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_ap_ratio",
+        "name": "护盾法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.75,
+        "levelValues": null,
+        "description": "ShieldCalc树的StatByCoefficient=0.75×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 106,
+      "method": "POST",
+      "route": "/skills/vex_w/parameters",
+      "detailRoute": "/skills/vex_w/parameters/base_damage",
+      "skillKey": "vex_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "description": "客户端BaseDamage取索引1至5；索引0的40不是等级1。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 107,
+      "method": "POST",
+      "route": "/skills/vex_w/parameters",
+      "detailRoute": "/skills/vex_w/parameters/damage_ap_ratio",
+      "skillKey": "vex_w",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "WDamageCalc消费DamageAPRatio=0.3×来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 108,
+      "method": "POST",
+      "route": "/skills/vex_w/parameters",
+      "detailRoute": "/skills/vex_w/parameters/shield_duration_ms",
+      "skillKey": "vex_w",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "护盾持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "客户端ShieldDuration取索引1的2.5秒，转换为2500毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 109,
+      "method": "POST",
+      "route": "/skills/vex_w/parameters",
+      "detailRoute": "/skills/vex_w/parameters/aoe_radius",
+      "skillKey": "vex_w",
+      "kind": "parameters",
+      "stableKey": "aoe_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "aoe_radius",
+        "name": "冲击波范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 475,
+        "levelValues": null,
+        "description": "客户端AOERadius取索引1。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 110,
+      "method": "POST",
+      "route": "/skills/vex_w/parameters",
+      "detailRoute": "/skills/vex_w/parameters/bonus_aoe_radius_vs_dashes",
+      "skillKey": "vex_w",
+      "kind": "parameters",
+      "stableKey": "bonus_aoe_radius_vs_dashes",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_aoe_radius_vs_dashes",
+        "name": "针对位移目标的额外范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 75,
+        "levelValues": null,
+        "description": "客户端BonusAOERadiusVsDashes取索引1；条件事件待接。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 111,
+      "method": "POST",
+      "route": "/skills/vex_w/parameters",
+      "detailRoute": "/skills/vex_w/parameters/cast_time_ms",
+      "skillKey": "vex_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 112,
+      "method": "POST",
+      "route": "/skills/vex_w/formulas",
+      "detailRoute": "/skills/vex_w/formulas/shield_value",
+      "skillKey": "vex_w",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "生人勿近自身护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ShieldCalc = ShieldAmount + 0.75×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 113,
+      "method": "POST",
+      "route": "/skills/vex_w/formulas",
+      "detailRoute": "/skills/vex_w/formulas/magic_damage",
+      "skillKey": "vex_w",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "生人勿近唯一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "WDamageCalc = BaseDamage + DamageAPRatio×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 114,
+      "method": "POST",
+      "route": "/skills/vex_w/effects",
+      "detailRoute": "/skills/vex_w/effects/self_shield",
+      "skillKey": "vex_w",
+      "kind": "effects",
+      "stableKey": "self_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "self_shield",
+        "name": "生人勿近自身护盾",
+        "description": "当前正文明确自身护盾，普通护盾吸收类型未限定；命中与暮气消费事件未接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "生人勿近自身护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "sequence": 115,
+      "method": "POST",
+      "route": "/skills/vex_e/parameters",
+      "detailRoute": "/skills/vex_e/parameters/base_damage",
+      "skillKey": "vex_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 70,
+          "3": 90,
+          "4": 110,
+          "5": 130
+        },
+        "description": "客户端BaseDamage取索引1至5；索引0的30不是等级1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 116,
+      "method": "POST",
+      "route": "/skills/vex_e/parameters",
+      "detailRoute": "/skills/vex_e/parameters/ap_ratio",
+      "skillKey": "vex_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.4,
+          "2": 0.45,
+          "3": 0.5,
+          "4": 0.55,
+          "5": 0.6
+        },
+        "description": "客户端APRatio取索引1至5，EDamageCalc按技能等级消费。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 117,
+      "method": "POST",
+      "route": "/skills/vex_e/parameters",
+      "detailRoute": "/skills/vex_e/parameters/slow_ratio",
+      "skillKey": "vex_e",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.35,
+          "3": 0.4,
+          "4": 0.45,
+          "5": 0.5
+        },
+        "description": "客户端SlowAmount取索引1至5的比例值；当前正文按SlowAmount×100显示百分数。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 118,
+      "method": "POST",
+      "route": "/skills/vex_e/parameters",
+      "detailRoute": "/skills/vex_e/parameters/slow_duration_ms",
+      "skillKey": "vex_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端SlowDuration取索引1的2秒，转换为2000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 119,
+      "method": "POST",
+      "route": "/skills/vex_e/parameters",
+      "detailRoute": "/skills/vex_e/parameters/starting_radius",
+      "skillKey": "vex_e",
+      "kind": "parameters",
+      "stableKey": "starting_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "starting_radius",
+        "name": "初始范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 200,
+        "levelValues": null,
+        "description": "客户端StartingRadius取索引1。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 120,
+      "method": "POST",
+      "route": "/skills/vex_e/parameters",
+      "detailRoute": "/skills/vex_e/parameters/radius_growth_rate",
+      "skillKey": "vex_e",
+      "kind": "parameters",
+      "stableKey": "radius_growth_rate",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "radius_growth_rate",
+        "name": "范围增长率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 13,
+        "levelValues": null,
+        "description": "客户端RadiusGrowthRate取索引1；增长时序待接。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 121,
+      "method": "POST",
+      "route": "/skills/vex_e/parameters",
+      "detailRoute": "/skills/vex_e/parameters/max_radius",
+      "skillKey": "vex_e",
+      "kind": "parameters",
+      "stableKey": "max_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_radius",
+        "name": "最大范围半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 300,
+        "levelValues": null,
+        "description": "客户端MaxRadius取索引1。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 122,
+      "method": "POST",
+      "route": "/skills/vex_e/parameters",
+      "detailRoute": "/skills/vex_e/parameters/gloom_champion_cooldown_refund_ratio",
+      "skillKey": "vex_e",
+      "kind": "parameters",
+      "stableKey": "gloom_champion_cooldown_refund_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "gloom_champion_cooldown_refund_ratio",
+        "name": "击杀英雄后终焉冷却返还比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前正文扩展消费GloomCDChampTooltip=0.25；仅英雄击杀条件。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 123,
+      "method": "POST",
+      "route": "/skills/vex_e/parameters",
+      "detailRoute": "/skills/vex_e/parameters/cast_time_ms",
+      "skillKey": "vex_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "sequence": 124,
+      "method": "POST",
+      "route": "/skills/vex_e/formulas",
+      "detailRoute": "/skills/vex_e/formulas/magic_damage",
+      "skillKey": "vex_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "溟濛渐染唯一敌人魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "EDamageCalc = BaseDamage + APRatio×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 125,
+      "method": "POST",
+      "route": "/skills/vex_r/parameters",
+      "detailRoute": "/skills/vex_r/parameters/base_damage",
+      "skillKey": "vex_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "首次基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 75,
+          "2": 125,
+          "3": 175
+        },
+        "description": "客户端BaseDamage取索引1至3；索引0的25不是等级1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 126,
+      "method": "POST",
+      "route": "/skills/vex_r/parameters",
+      "detailRoute": "/skills/vex_r/parameters/first_ap_ratio",
+      "skillKey": "vex_r",
+      "kind": "parameters",
+      "stableKey": "first_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "first_ap_ratio",
+        "name": "首次伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "RDamageCalc树的StatByCoefficient=0.2×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 127,
+      "method": "POST",
+      "route": "/skills/vex_r/parameters",
+      "detailRoute": "/skills/vex_r/parameters/recast_base_damage",
+      "skillKey": "vex_r",
+      "kind": "parameters",
+      "stableKey": "recast_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "recast_base_damage",
+        "name": "重施基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "客户端RecastDamage取索引1至3；索引0的50不是等级1。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 128,
+      "method": "POST",
+      "route": "/skills/vex_r/parameters",
+      "detailRoute": "/skills/vex_r/parameters/recast_ap_ratio",
+      "skillKey": "vex_r",
+      "kind": "parameters",
+      "stableKey": "recast_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "recast_ap_ratio",
+        "name": "重施伤害法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "RecastDamageCalc树的StatByCoefficient=0.5×来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 129,
+      "method": "POST",
+      "route": "/skills/vex_r/parameters",
+      "detailRoute": "/skills/vex_r/parameters/recast_window_ms",
+      "skillKey": "vex_r",
+      "kind": "parameters",
+      "stableKey": "recast_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "recast_window_ms",
+        "name": "标记与重施窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "客户端R2Duration取索引1的4秒，转换为4000毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 130,
+      "method": "POST",
+      "route": "/skills/vex_r/parameters",
+      "detailRoute": "/skills/vex_r/parameters/takedown_window_ms",
+      "skillKey": "vex_r",
+      "kind": "parameters",
+      "stableKey": "takedown_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "takedown_window_ms",
+        "name": "击杀判定窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8000,
+        "levelValues": null,
+        "description": "客户端TakedownWindow取索引1的8秒，转换为8000毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "sequence": 131,
+      "method": "POST",
+      "route": "/skills/vex_r/parameters",
+      "detailRoute": "/skills/vex_r/parameters/reset_window_ms",
+      "skillKey": "vex_r",
+      "kind": "parameters",
+      "stableKey": "reset_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "reset_window_ms",
+        "name": "冷却暂时重置窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12000,
+        "levelValues": null,
+        "description": "客户端ResetWindow取索引1的12秒，转换为12000毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "sequence": 132,
+      "method": "POST",
+      "route": "/skills/vex_r/parameters",
+      "detailRoute": "/skills/vex_r/parameters/cast_time_ms",
+      "skillKey": "vex_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime=0.25秒，转换为250毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "sequence": 133,
+      "method": "POST",
+      "route": "/skills/vex_r/formulas",
+      "detailRoute": "/skills/vex_r/formulas/first_magic_damage",
+      "skillKey": "vex_r",
+      "kind": "formulas",
+      "stableKey": "first_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "first_magic_damage",
+        "name": "愁煞首次魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "first_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "RDamageCalc = BaseDamage + 0.2×来源总法强。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 134,
+      "method": "POST",
+      "route": "/skills/vex_r/formulas",
+      "detailRoute": "/skills/vex_r/formulas/recast_magic_damage",
+      "skillKey": "vex_r",
+      "kind": "formulas",
+      "stableKey": "recast_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "recast_magic_damage",
+        "name": "愁煞重施魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "recast_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "recast_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "RecastDamageCalc = RecastDamage + 0.5×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 135,
+      "method": "POST",
+      "route": "/skills/zilean_q/parameters",
+      "detailRoute": "/skills/zilean_q/parameters/base_damage",
+      "skillKey": "zilean_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 75,
+          "2": 115,
+          "3": 165,
+          "4": 230,
+          "5": 300
+        },
+        "description": "客户端BombBaseDamage取索引1至5；索引0的30不是等级1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 136,
+      "method": "POST",
+      "route": "/skills/zilean_q/parameters",
+      "detailRoute": "/skills/zilean_q/parameters/ap_ratio",
+      "skillKey": "zilean_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.9,
+        "levelValues": null,
+        "description": "TotalDamage树消费APRatio=0.9×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 137,
+      "method": "POST",
+      "route": "/skills/zilean_q/parameters",
+      "detailRoute": "/skills/zilean_q/parameters/stun_duration_ms",
+      "skillKey": "zilean_q",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "晕眩持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1100,
+          "2": 1200,
+          "3": 1300,
+          "4": 1400,
+          "5": 1500
+        },
+        "description": "客户端StunDuration取索引1至5，秒转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 138,
+      "method": "POST",
+      "route": "/skills/zilean_q/parameters",
+      "detailRoute": "/skills/zilean_q/parameters/fuse_duration_ms",
+      "skillKey": "zilean_q",
+      "kind": "parameters",
+      "stableKey": "fuse_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "fuse_duration_ms",
+        "name": "炸弹引爆时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端FuseDuration取索引1的3秒，转换为3000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 140,
+      "method": "POST",
+      "route": "/skills/zilean_q/formulas",
+      "detailRoute": "/skills/zilean_q/formulas/magic_damage",
+      "skillKey": "zilean_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "定时炸弹魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage = BombBaseDamage + APRatio×来源总法强；同一目标Q-W-Q的双炸由事件层决定。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 141,
+      "method": "POST",
+      "route": "/skills/zilean_w/parameters",
+      "detailRoute": "/skills/zilean_w/parameters/cooldown_reduction_ms",
+      "skillKey": "zilean_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_reduction_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_reduction_ms",
+        "name": "其它基础技能冷却缩短（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10000,
+        "levelValues": null,
+        "description": "客户端CooldownReduction取索引1的10秒，转换为10000毫秒；当前正文限定其它基础技能。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 142,
+      "method": "POST",
+      "route": "/skills/zilean_w/parameters",
+      "detailRoute": "/skills/zilean_w/parameters/cast_time_seconds",
+      "skillKey": "zilean_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_seconds",
+        "name": "施法时间（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5183,
+        "levelValues": null,
+        "description": "当前根spellCastTime原值约0.5183秒，因毫秒换算不是整数，保留来源秒单位。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 143,
+      "method": "POST",
+      "route": "/skills/zilean_e/parameters",
+      "detailRoute": "/skills/zilean_e/parameters/duration_ms",
+      "skillKey": "zilean_e",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "移速效果持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "客户端Duration取索引1的2.5秒，转换为2500毫秒。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 144,
+      "method": "POST",
+      "route": "/skills/zilean_e/parameters",
+      "detailRoute": "/skills/zilean_e/parameters/speed_percent_points",
+      "skillKey": "zilean_e",
+      "kind": "parameters",
+      "stableKey": "speed_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "speed_percent_points",
+        "name": "移动速度百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 55,
+          "3": 70,
+          "4": 85,
+          "5": 99
+        },
+        "description": "客户端SpeedAmount取技能等级索引1至5；索引0的25不是等级1。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 145,
+      "method": "POST",
+      "route": "/skills/zilean_e/parameters",
+      "detailRoute": "/skills/zilean_e/parameters/cast_time_seconds",
+      "skillKey": "zilean_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_seconds",
+        "name": "施法时间（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.51525,
+        "levelValues": null,
+        "description": "当前根spellCastTime原值约0.51525秒，因毫秒换算不是整数，保留来源秒单位。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 146,
+      "method": "POST",
+      "route": "/skills/zilean_r/parameters",
+      "detailRoute": "/skills/zilean_r/parameters/base_heal",
+      "skillKey": "zilean_r",
+      "kind": "parameters",
+      "stableKey": "base_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_heal",
+        "name": "复活基础治疗量",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 600,
+          "2": 850,
+          "3": 1100
+        },
+        "description": "客户端RBaseHeal取索引1至3；索引0的350不是等级1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "sequence": 147,
+      "method": "POST",
+      "route": "/skills/zilean_r/parameters",
+      "detailRoute": "/skills/zilean_r/parameters/ap_ratio",
+      "skillKey": "zilean_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "RTotalHeal树消费APRatio=2×来源总法强。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "sequence": 148,
+      "method": "POST",
+      "route": "/skills/zilean_r/parameters",
+      "detailRoute": "/skills/zilean_r/parameters/protection_duration_ms",
+      "skillKey": "zilean_r",
+      "kind": "parameters",
+      "stableKey": "protection_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "protection_duration_ms",
+        "name": "保护符文持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "客户端RDuration取索引1的5秒，转换为5000毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "sequence": 149,
+      "method": "POST",
+      "route": "/skills/zilean_r/parameters",
+      "detailRoute": "/skills/zilean_r/parameters/revive_stasis_duration_ms",
+      "skillKey": "zilean_r",
+      "kind": "parameters",
+      "stableKey": "revive_stasis_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "revive_stasis_duration_ms",
+        "name": "复活凝滞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "客户端ReviveStateDuration取索引1的3秒，转换为3000毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "sequence": 150,
+      "method": "POST",
+      "route": "/skills/zilean_r/parameters",
+      "detailRoute": "/skills/zilean_r/parameters/cast_time_seconds",
+      "skillKey": "zilean_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_seconds",
+        "name": "施法时间（秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5183,
+        "levelValues": null,
+        "description": "当前根spellCastTime原值约0.5183秒，因毫秒换算不是整数，保留来源秒单位。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "sequence": 151,
+      "method": "POST",
+      "route": "/skills/zilean_r/formulas",
+      "detailRoute": "/skills/zilean_r/formulas/revive_heal",
+      "skillKey": "zilean_r",
+      "kind": "formulas",
+      "stableKey": "revive_heal",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "revive_heal",
+        "name": "时光倒流复活治疗量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_heal"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "RTotalHeal = RBaseHeal + 2×来源总法强；治疗应用时点和自身资格待接。",
+        "sortOrder": 10
+      }
+    }
+  ],
+  "noApiCalls": true,
+  "apiWrites": 0,
+  "currentTotalComponents": 173
+}

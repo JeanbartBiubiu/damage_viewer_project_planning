@@ -1,0 +1,23 @@
+{
+  "i": 36,
+  "intent": {
+    "sequence": 39,
+    "method": "POST",
+    "route": "/skills/katarina_r/parameters",
+    "detailRoute": "/skills/katarina_r/parameters/actual_attack_speed_ratio",
+    "skillKey": "katarina_r",
+    "kind": "parameters",
+    "stableKey": "actual_attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_attack_speed_ratio",
+      "name": "实际攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "ADDamageCalc的mStat=4、mStatFormula=2选择器未在本批窄证，使用无默认实际输入。",
+      "sortOrder": 100
+    }
+  }
+}

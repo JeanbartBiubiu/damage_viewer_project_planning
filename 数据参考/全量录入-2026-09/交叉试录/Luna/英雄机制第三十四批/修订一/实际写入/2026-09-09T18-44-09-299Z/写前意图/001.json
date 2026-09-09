@@ -1,0 +1,23 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "method": "POST",
+    "route": "/skills/katarina_p/parameters",
+    "detailRoute": "/skills/katarina_p/parameters/reset_window_ms",
+    "skillKey": "katarina_p",
+    "kind": "parameters",
+    "stableKey": "reset_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "reset_window_ms",
+      "name": "击杀判定窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "客户端ResetWindow为3秒，转换为3000毫秒。",
+      "sortOrder": 10
+    }
+  }
+}

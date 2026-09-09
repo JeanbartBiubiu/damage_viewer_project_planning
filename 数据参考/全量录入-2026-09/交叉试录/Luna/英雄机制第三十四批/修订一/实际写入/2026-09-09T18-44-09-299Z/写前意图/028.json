@@ -1,0 +1,23 @@
+{
+  "i": 27,
+  "intent": {
+    "sequence": 30,
+    "method": "POST",
+    "route": "/skills/katarina_r/parameters",
+    "detailRoute": "/skills/katarina_r/parameters/magic_ap_ratio",
+    "skillKey": "katarina_r",
+    "kind": "parameters",
+    "stableKey": "magic_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "magic_ap_ratio",
+      "name": "每次魔法伤害法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.19,
+      "levelValues": null,
+      "description": "DamageCalc树的RAPRatio=0.19，读取来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

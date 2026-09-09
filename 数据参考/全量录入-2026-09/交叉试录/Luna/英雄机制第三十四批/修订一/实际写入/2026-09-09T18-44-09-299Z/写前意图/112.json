@@ -1,0 +1,29 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 115,
+    "method": "POST",
+    "route": "/skills/vex_e/parameters",
+    "detailRoute": "/skills/vex_e/parameters/base_damage",
+    "skillKey": "vex_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 70,
+        "3": 90,
+        "4": 110,
+        "5": 130
+      },
+      "description": "客户端BaseDamage取索引1至5；索引0的30不是等级1。",
+      "sortOrder": 10
+    }
+  }
+}

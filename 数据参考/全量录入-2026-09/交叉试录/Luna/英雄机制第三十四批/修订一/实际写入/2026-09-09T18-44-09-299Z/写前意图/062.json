@@ -1,0 +1,45 @@
+{
+  "i": 61,
+  "intent": {
+    "sequence": 65,
+    "method": "POST",
+    "route": "/skills/leblanc_w/formulas",
+    "detailRoute": "/skills/leblanc_w/formulas/magic_damage",
+    "skillKey": "leblanc_w",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "魔影迷踪魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage = BaseDamage + WAPRatio×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

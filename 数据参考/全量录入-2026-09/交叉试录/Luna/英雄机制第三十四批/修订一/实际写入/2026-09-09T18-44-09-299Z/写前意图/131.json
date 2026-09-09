@@ -1,0 +1,45 @@
+{
+  "i": 130,
+  "intent": {
+    "sequence": 134,
+    "method": "POST",
+    "route": "/skills/vex_r/formulas",
+    "detailRoute": "/skills/vex_r/formulas/recast_magic_damage",
+    "skillKey": "vex_r",
+    "kind": "formulas",
+    "stableKey": "recast_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "recast_magic_damage",
+      "name": "愁煞重施魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "recast_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "recast_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "RecastDamageCalc = RecastDamage + 0.5×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 60,
+    "method": "POST",
+    "route": "/skills/leblanc_w/parameters",
+    "detailRoute": "/skills/leblanc_w/parameters/snapback_window_ms",
+    "skillKey": "leblanc_w",
+    "kind": "parameters",
+    "stableKey": "snapback_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "snapback_window_ms",
+      "name": "返回初始位置窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "客户端SnapbackTimeAllowed取索引1的4秒，转换为4000毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

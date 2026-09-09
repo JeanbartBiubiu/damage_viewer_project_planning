@@ -1,0 +1,27 @@
+{
+  "i": 32,
+  "intent": {
+    "sequence": 35,
+    "method": "POST",
+    "route": "/skills/katarina_r/parameters",
+    "detailRoute": "/skills/katarina_r/parameters/on_hit_ratio",
+    "skillKey": "katarina_r",
+    "kind": "parameters",
+    "stableKey": "on_hit_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "on_hit_ratio",
+      "name": "攻击特效和附伤比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.25,
+        "2": 0.3,
+        "3": 0.35
+      },
+      "description": "客户端OnHitRatio取R等级索引1至3的比例值；正文按百分数显示。",
+      "sortOrder": 70
+    }
+  }
+}
