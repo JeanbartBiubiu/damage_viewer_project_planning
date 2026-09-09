@@ -1,0 +1,38 @@
+{
+  "at": "2026-09-09T04:29:01.788Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/varus_r/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "damage",
+    "name": "腐败锁链初始魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_1"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "当前英雄一次命中伤害，不乘后续扩散目标数；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

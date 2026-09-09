@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T04:29:17.315Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/kogmaw_w/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "bonus_attack_range",
+    "name": "生化弹幕额外攻击距离",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 130,
+      "2": 150,
+      "3": 170,
+      "4": 190,
+      "5": 210
+    },
+    "description": "客户端当前根绑定 DataValues.Range 取索引1至5。",
+    "sortOrder": 60
+  }
+}

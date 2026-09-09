@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-09T04:27:38.690Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/jinx_q/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "rocket_damage",
+    "name": "火箭当前目标物理伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "SOURCE",
+          "attributeKey": "attack_damage",
+          "attributeValueKind": "TOTAL"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "rocket_total_ad_ratio"
+        }
+      ]
+    },
+    "description": "1.1总攻击力，只取当前目标；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

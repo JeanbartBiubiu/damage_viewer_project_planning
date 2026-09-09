@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T04:29:26.334Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/kogmaw_e/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "slow_ratio",
+    "name": "淤泥路径减速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.4,
+      "2": 0.45,
+      "3": 0.5,
+      "4": 0.55,
+      "5": 0.6
+    },
+    "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+    "sortOrder": 60
+  }
+}

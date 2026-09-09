@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-09T04:28:49.641Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/varus_w/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "base_cooldown_refund_ms",
+    "name": "对应基础技能冷却返还毫秒",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_cooldown_refund_ratio_per_stack"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_detonated_stacks"
+            }
+          ]
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "affected_skill_base_cooldown_ms"
+        }
+      ]
+    },
+    "description": "13%×实际引爆层数×对应技能基础冷却毫秒；每个受影响技能分别求值，不把同一毫秒数同时用于不同基础冷却。",
+    "sortOrder": 90
+  }
+}

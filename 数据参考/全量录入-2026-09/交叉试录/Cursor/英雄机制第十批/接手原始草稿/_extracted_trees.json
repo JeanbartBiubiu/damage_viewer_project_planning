@@ -1,0 +1,4821 @@
+{
+  "heroMeta": {
+    "Graves": {
+      "id": "Graves",
+      "chineseName": "法外狂徒",
+      "rootPath": "Characters/Graves/CharacterRecords/Root",
+      "clientSha256": "77bf8e202e55753f7f2d17378841202bf4389bef35fdca33d9c645599f616d78",
+      "clientCompressedSha256": "435bc1b1de464ae4837e2c5fb3ec4648da2039440265fd202b3a45608da18509",
+      "officialSha256": "2bffed5c33c68bf1cd792a4bf371d2c94483c72295242a7633e99d539b9b8afa",
+      "critDamageMultiplier": 2,
+      "baseDamage": 66,
+      "attackRange": 425,
+      "passive": "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive",
+      "spells": [
+        "Characters/Graves/Spells/GravesQLineSpellAbility/GravesQLineSpell",
+        "Characters/Graves/Spells/GravesSmokeGrenadeAbility/GravesSmokeGrenade",
+        "Characters/Graves/Spells/GravesMoveAbility/GravesMove",
+        "Characters/Graves/Spells/GravesChargeShotAbility/GravesChargeShot"
+      ]
+    },
+    "Jinx": {
+      "id": "Jinx",
+      "chineseName": "暴走萝莉",
+      "rootPath": "Characters/Jinx/CharacterRecords/Root",
+      "clientSha256": "418b979131b28130d8ae588ea8bc5490338394acb294c9efd233ae69bad533ca",
+      "clientCompressedSha256": "2aab6400e3c69cba912025158da537785b16a0c90108e216095639e0b16ff638",
+      "officialSha256": "4d1dcfe5c41eba2941f2bd883569c246e1a7409c76a0fc62358d0bf04aebf77f",
+      "critDamageMultiplier": 2,
+      "baseDamage": 59,
+      "attackRange": 525,
+      "passive": "Characters/Jinx/Spells/JinxPassiveMarkerAbility/JinxPassiveMarker",
+      "spells": [
+        "Characters/Jinx/Spells/JinxQAbility/JinxQ",
+        "Characters/Jinx/Spells/JinxWAbility/JinxW",
+        "Characters/Jinx/Spells/JinxEAbility/JinxE",
+        "Characters/Jinx/Spells/JinxRAbility/JinxR"
+      ]
+    },
+    "Varus": {
+      "id": "Varus",
+      "chineseName": "惩戒之箭",
+      "rootPath": "Characters/Varus/CharacterRecords/Root",
+      "clientSha256": "a8974d2f907d29235a63d94f8628b8b2892037f203a91b71816bc824356d9eb7",
+      "clientCompressedSha256": "057f1dbe200a53c97e7e4c4b784eace82fd5a41dd5e3f4851ae41d33c659598b",
+      "officialSha256": "619d6e042b1adcfcf8b81ef731e3014c270d5662dc05cb07b0c10cfed751d1ba",
+      "critDamageMultiplier": 2,
+      "baseDamage": 59,
+      "attackRange": 575,
+      "passive": "Characters/Varus/Spells/VarusPassiveAbility/VarusPassive",
+      "spells": [
+        "Characters/Varus/Spells/VarusQAbility/VarusQ",
+        "Characters/Varus/Spells/VarusWAbility/VarusW",
+        "Characters/Varus/Spells/VarusEAbility/VarusE",
+        "Characters/Varus/Spells/VarusRAbility/VarusR"
+      ]
+    },
+    "KogMaw": {
+      "id": "KogMaw",
+      "chineseName": "深渊巨口",
+      "rootPath": "Characters/KogMaw/CharacterRecords/Root",
+      "clientSha256": "a9f72b07de44dcad18624d61daa4dcaaabe7d4990103c0c7dbc3a7b36026749a",
+      "clientCompressedSha256": "5eafce97815062a4cc8ef819967257c625a487ff560347eeb4dc810a859e8c5c",
+      "officialSha256": "0b3108e708beef63649ff526f6539c2575598f7f19c8e85553d4397bc67ed8ed",
+      "critDamageMultiplier": 2,
+      "baseDamage": 61,
+      "attackRange": 500,
+      "passive": "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianSurpriseReady",
+      "spells": [
+        "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
+        "Characters/KogMaw/Spells/KogMawBioArcaneBarrageAbility/KogMawBioArcaneBarrage",
+        "Characters/KogMaw/Spells/KogMawVoidOozeAbility/KogMawVoidOoze",
+        "Characters/KogMaw/Spells/KogMawLivingArtilleryAbility/KogMawLivingArtillery"
+      ]
+    }
+  },
+  "existing": {
+    "graves_p": {
+      "subject": {
+        "createdAt": "2026-09-06T18:18:27.446696Z",
+        "description": "格雷福斯的散弹枪拥有一些独特性能。他的弹药打光后就必须重新装弹。每次攻击会发射4颗弹丸，弹丸无法穿透单位。会击退被多颗弹丸命中的非英雄单位。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "格雷福斯·新命运",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "graves_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:27.446696Z"
+      },
+      "parameters": [],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "graves_q": {
+      "subject": {
+        "createdAt": "2026-09-06T18:18:27.743453Z",
+        "description": "格雷福斯发射一颗爆破性的榴弹，会在1秒后引爆，或是在碰到地形后立刻爆炸。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "格雷福斯·穷途末路",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "graves_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:27.743453Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 13000,
+            "2": 11250,
+            "3": 9500,
+            "4": 7750,
+            "5": 6000
+          },
+          "description": "DDragon16.17.1 Graves.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 80,
+          "levelValues": null,
+          "description": "DDragon16.17.1 Graves.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "graves_w": {
+      "subject": {
+        "createdAt": "2026-09-06T18:18:27.994388Z",
+        "description": "格雷福斯朝目标区域掷出一颗烟幕弹。如果敌人处在烟幕之中，则其视野会被降低。被烟幕弹的初始冲击所命中的敌人会受到魔法伤害并且移动速度会被短暂降低。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "格雷福斯·烟幕弹",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "graves_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:27.994388Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 26000,
+            "2": 24000,
+            "3": 22000,
+            "4": 20000,
+            "5": 18000
+          },
+          "description": "DDragon16.17.1 Graves.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 70,
+            "2": 75,
+            "3": 80,
+            "4": 85,
+            "5": 90
+          },
+          "description": "DDragon16.17.1 Graves.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "graves_e": {
+      "subject": {
+        "createdAt": "2026-09-06T18:18:28.241716Z",
+        "description": "格雷福斯向前冲刺，获得一层持续数秒的护甲和魔法抗性加成。如果格雷福斯朝着一名敌方英雄冲刺，则会获得两层纯爷们效果。格雷福斯的每次未被闪避的普通攻击，都会减少这个技能的冷却时间并刷新该防御属性加成。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "格雷福斯·快速拔枪",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "graves_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:28.241716Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 16000,
+            "2": 15000,
+            "3": 14000,
+            "4": 13000,
+            "5": 12000
+          },
+          "description": "DDragon16.17.1 Graves.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40,
+          "levelValues": null,
+          "description": "DDragon16.17.1 Graves.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "graves_r": {
+      "subject": {
+        "createdAt": "2026-09-06T18:18:28.555735Z",
+        "description": "格雷福斯射出一枚爆破弹，对它所命中的第一个敌人造成大量伤害。在命中一名英雄或者达到它的最大射程之后，爆弹会爆炸，并对锥形范围内的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "格雷福斯·终极爆弹",
+        "skillCategoryKeys": [],
+        "skillKey": "graves_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:28.555735Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 100000,
+            "2": 80000,
+            "3": 60000
+          },
+          "description": "DDragon16.17.1 Graves.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "description": "DDragon16.17.1 Graves.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "jinx_p": {
+      "subject": {
+        "createdAt": "2026-09-06T18:18:45.568162Z",
+        "description": "金克丝每当参与击杀或摧毁一名英雄、一个史诗级野怪或一座建筑物后，她的移动速度和攻击速度就会得到显著提升。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "金克丝·罪恶快感",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "jinx_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:45.568162Z"
+      },
+      "parameters": [],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "jinx_q": {
+      "subject": {
+        "createdAt": "2026-09-06T18:18:45.824464Z",
+        "description": "金克丝可以通过切换武器来改变普通攻击的方式。在用她的轻机枪“砰砰”攻击时，她的攻击速度会提升。在用她的火箭发射器“鱼骨头”攻击时，她的普通攻击会造成范围伤害，攻击距离提升，但会消耗法力值并且攻击得更慢。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "金克丝·枪炮交响曲！",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "jinx_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:45.824464Z"
+      },
+      "parameters": [],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "jinx_w": {
+      "subject": {
+        "createdAt": "2026-09-06T18:18:46.084855Z",
+        "description": "金克丝使用她的震荡手枪“电磁器”来发射震荡波，让被命中的第一个敌人暴露在己方视野中（可使隐形英雄现形），并对其造成伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "金克丝·震荡电磁波！",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "jinx_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:46.084855Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 8000,
+            "2": 7000,
+            "3": 6000,
+            "4": 5000,
+            "5": 4000
+          },
+          "description": "DDragon16.17.1 Jinx.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 40,
+            "2": 45,
+            "3": 50,
+            "4": 55,
+            "5": 60
+          },
+          "description": "DDragon16.17.1 Jinx.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "jinx_e": {
+      "subject": {
+        "createdAt": "2026-09-06T18:18:46.42394Z",
+        "description": "金克丝扔出一串陷阱手雷。手雷会在5秒后爆炸，让敌人着火。嚼火者手雷将会袭击路过的敌方英雄，并将他们束缚在原地。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "金克丝·嚼火者手雷！",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "jinx_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:46.42394Z"
+      },
+      "parameters": [],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "jinx_r": {
+      "subject": {
+        "createdAt": "2026-09-06T18:18:46.707135Z",
+        "description": "金克丝发射一枚能够跨越整个地图的飞弹，并且飞行的时间越长，伤害值越高。飞弹会在命中一名敌方英雄后爆炸，对目标和目标附近的敌人造成伤害，且目标的生命值越低，所受的伤害值越高。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "金克丝·超究极死神飞弹！",
+        "skillCategoryKeys": [],
+        "skillKey": "jinx_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:46.707135Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 85000,
+            "2": 65000,
+            "3": 45000
+          },
+          "description": "DDragon16.17.1 Jinx.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "description": "DDragon16.17.1 Jinx.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "varus_p": {
+      "subject": {
+        "createdAt": "2026-09-06T18:20:51.812136Z",
+        "description": "每完成一次击杀或助攻，韦鲁斯就会暂时获得攻击速度、攻击力和法术强度。如果敌人是个英雄，则这个加成的幅度会更大。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "韦鲁斯·复仇之欲",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "varus_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:51.812136Z"
+      },
+      "parameters": [],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "varus_q": {
+      "subject": {
+        "createdAt": "2026-09-06T18:20:52.083599Z",
+        "description": "韦鲁斯开始蓄力，随后进行一次远距离的强力射击，蓄力时间越长，伤害越高。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "韦鲁斯·穿刺之箭",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "varus_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:52.083599Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 16000,
+            "2": 15000,
+            "3": 14000,
+            "4": 13000,
+            "5": 12000
+          },
+          "description": "DDragon16.17.1 Varus.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "description": "DDragon16.17.1 Varus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "varus_w": {
+      "subject": {
+        "createdAt": "2026-09-06T18:20:52.364978Z",
+        "description": "被动：韦鲁斯的普通攻击会造成额外的伤害，并附加枯萎效果。韦鲁斯的其它技能会引爆枯萎效果，造成基于目标最大生命值的魔法伤害。主动：韦鲁斯增强他的下一个【穿刺之箭】。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "韦鲁斯·枯萎箭袋",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "varus_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:52.364978Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40000,
+          "levelValues": null,
+          "description": "DDragon16.17.1 Varus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "varus_e": {
+      "subject": {
+        "createdAt": "2026-09-06T18:20:52.637362Z",
+        "description": "韦鲁斯射出一阵箭雨，造成物理伤害并污染地面。被污染的地面将会减慢敌人的移动速度，并降低他们的自我治疗效果和回复效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "韦鲁斯·恶灵箭雨",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "varus_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:52.637362Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 18000,
+            "2": 16000,
+            "3": 14000,
+            "4": 12000,
+            "5": 10000
+          },
+          "description": "DDragon16.17.1 Varus.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 90,
+          "levelValues": null,
+          "description": "DDragon16.17.1 Varus.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "varus_r": {
+      "subject": {
+        "createdAt": "2026-09-06T18:20:52.881981Z",
+        "description": "韦鲁斯投掷出一个腐败藤蔓，来禁锢命中的第一个敌方英雄，随后向附近没有被感染的英雄蔓延，并在碰到后将他们也禁锢。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "韦鲁斯·腐败锁链",
+        "skillCategoryKeys": [],
+        "skillKey": "varus_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:52.881981Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 100000,
+            "2": 80000,
+            "3": 60000
+          },
+          "description": "DDragon16.17.1 Varus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null,
+          "description": "DDragon16.17.1 Varus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "kogmaw_p": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:03.937344Z",
+        "description": "在死后4秒，克格莫会爆炸，对周围的敌人造成真实伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "克格莫·来自艾卡西亚的惊喜",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "kogmaw_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:03.937344Z"
+      },
+      "parameters": [],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "kogmaw_q": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:04.23212Z",
+        "description": "克格莫发射一团腐蚀性物质，对目标造成魔法伤害，并暂时腐蚀目标的护甲和魔法抗性。克格莫还会获得额外攻速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "克格莫·腐蚀唾液",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kogmaw_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:04.23212Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 7000,
+          "levelValues": null,
+          "description": "DDragon16.17.1 KogMaw.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40,
+          "levelValues": null,
+          "description": "DDragon16.17.1 KogMaw.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "kogmaw_w": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:04.483812Z",
+        "description": "克格莫的攻击获得额外距离，并且能够对目标造成额外的魔法伤害，伤害值基于目标的最大生命值%i:OnHit% <OnHit>攻击特效</OnHit>。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "克格莫·生化弹幕",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kogmaw_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:04.483812Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 17000,
+          "levelValues": null,
+          "description": "DDragon16.17.1 KogMaw.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40,
+          "levelValues": null,
+          "description": "DDragon16.17.1 KogMaw.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "kogmaw_e": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:04.806909Z",
+        "description": "克格莫抛射出一团特殊的分泌物，对经过或停留在分泌物上的敌人造成伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "克格莫·虚空淤泥",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "kogmaw_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:04.806909Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 12000,
+          "levelValues": null,
+          "description": "DDragon16.17.1 KogMaw.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 40,
+            "2": 55,
+            "3": 70,
+            "4": 85,
+            "5": 100
+          },
+          "description": "DDragon16.17.1 KogMaw.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    },
+    "kogmaw_r": {
+      "subject": {
+        "createdAt": "2026-09-06T18:19:05.073026Z",
+        "description": "克格莫发射一枚射程极远的活体炮弹，让被命中的敌人暴露在己方视野中，并对目标造成魔法伤害（对低血量目标的伤害会显著提升）。 在短时间内连续使用活体大炮，将消耗额外的法力值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "克格莫·活体大炮",
+        "skillCategoryKeys": [],
+        "skillKey": "kogmaw_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:05.073026Z"
+      },
+      "parameters": [
+        {
+          "parameterKey": "cooldown_ms",
+          "name": "基础冷却时间（毫秒）",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 2000,
+            "2": 1500,
+            "3": 1000
+          },
+          "description": "DDragon16.17.1 KogMaw.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "sortOrder": 100
+        },
+        {
+          "parameterKey": "mana_cost",
+          "name": "基础法力消耗",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 40,
+          "levelValues": null,
+          "description": "DDragon16.17.1 KogMaw.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。此40法力仅为无额外层数的基础消耗，连续施放的8秒累加及400上限另行配置。",
+          "sortOrder": 110
+        }
+      ],
+      "formulaCount": 0,
+      "effectCount": 0,
+      "processCount": 0,
+      "stateCount": 0,
+      "ruleCount": 0
+    }
+  },
+  "attributes": [
+    "move_speed",
+    "move_speed_percent",
+    "armor_pen_flat",
+    "armor_pen_percent",
+    "magic_pen_flat",
+    "magic_pen_percent",
+    "hp",
+    "hp_regen",
+    "base_hp_regen_percent",
+    "mana",
+    "mana_regen",
+    "base_mana_regen_percent",
+    "energy",
+    "armor",
+    "magic_resistance",
+    "tenacity_percent",
+    "slow_resist_percent",
+    "attack_damage",
+    "ability_power",
+    "attack_speed",
+    "bonus_attack_speed_percent",
+    "critical_strike_chance",
+    "critical_strike_damage_bonus_percent",
+    "attack_range",
+    "ability_haste",
+    "life_steal_percent",
+    "omnivamp_percent",
+    "heal_shield_power_percent"
+  ],
+  "skills": {
+    "graves_p": {
+      "slot": "P",
+      "skillKey": "graves_p",
+      "binding": "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive",
+      "name": "新命运",
+      "maxrank": 1,
+      "officialCooldown": null,
+      "officialCost": null,
+      "officialResource": null,
+      "officialDescription": "格雷福斯的散弹枪拥有一些独特性能。他的弹药打光后就必须重新装弹。每次攻击会发射4颗弹丸，弹丸无法穿透单位。会击退被多颗弹丸命中的非英雄单位。",
+      "dataValues": [
+        {
+          "name": "CritDamageRatio",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "StructureDamageReduction",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        }
+      ],
+      "calculations": {
+        "SingleBulletDamage": {
+          "__type": "GameCalculation",
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "__type": "StatBySubPartCalculationPart",
+              "mStat": 2,
+              "mSubpart": {
+                "__type": "ByCharLevelFormulaCalculationPart",
+                "values": [
+                  0,
+                  0.7000017762184143,
+                  0.7112977504730225,
+                  0.7233880162239075,
+                  0.7362725138664246,
+                  0.7499512434005737,
+                  0.7644242644309998,
+                  0.7796915173530579,
+                  0.795753002166748,
+                  0.8126087784767151,
+                  0.8302587270736694,
+                  0.8487030267715454,
+                  0.8679414987564087,
+                  0.8879742622375488,
+                  0.908801257610321,
+                  0.9304224848747253,
+                  0.9528380036354065,
+                  0.9760477542877197,
+                  1.000051736831665,
+                  1.0248500108718872,
+                  1.0504424571990967,
+                  1.076829195022583,
+                  1.1040102243423462,
+                  1.1319855451583862,
+                  1.1607550382614136,
+                  1.1903187036514282,
+                  1.2206767797470093,
+                  1.2518290281295776,
+                  1.2837754487991333,
+                  1.3165162801742554,
+                  1.3500512838363647
+                ]
+              }
+            }
+          ]
+        },
+        "MultiBulletDamage": {
+          "__type": "GameCalculationModified",
+          "mMultiplier": {
+            "__type": "NumberCalculationPart",
+            "mNumber": 0.3330000042915344
+          },
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mModifiedGameCalculation": "SingleBulletDamage"
+        },
+        "CritDamageMult": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "ProductOfSubPartsCalculationPart",
+              "mPart1": {
+                "__type": "NamedDataValueCalculationPart",
+                "mDataValue": "CritDamageRatio"
+              },
+              "mPart2": {
+                "__type": "SumOfSubPartsCalculationPart",
+                "mSubparts": [
+                  {
+                    "__type": "NumberCalculationPart",
+                    "mNumber": -1
+                  },
+                  {
+                    "__type": "StatByCoefficientCalculationPart",
+                    "mStat": 9,
+                    "mCoefficient": 1
+                  }
+                ]
+              }
+            }
+          ],
+          "mDisplayAsPercent": true
+        },
+        "{549cda4d}": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 9,
+              "mCoefficient": 1
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "castRange": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "castRangeValues": {
+          "values": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "{0a3e0478}": 0,
+          "__type": "{0a0eddc9}"
+        }
+      },
+      "objectPath": "Characters/Graves/Spells/GravesPassiveAbility/GravesPassive",
+      "objectName": "GravesPassive",
+      "hero": "Graves"
+    },
+    "graves_q": {
+      "slot": "Q",
+      "skillKey": "graves_q",
+      "binding": "Characters/Graves/Spells/GravesQLineSpellAbility/GravesQLineSpell",
+      "name": "穷途末路",
+      "maxrank": 5,
+      "officialCooldown": [
+        13,
+        11.25,
+        9.5,
+        7.75,
+        6
+      ],
+      "officialCost": [
+        80,
+        80,
+        80,
+        80,
+        80
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "格雷福斯发射一颗爆破性的榴弹，会在1秒后引爆，或是在碰到地形后立刻爆炸。",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            25,
+            50,
+            75,
+            100,
+            125,
+            150,
+            175
+          ]
+        },
+        {
+          "name": "FirstADRatio",
+          "values": [
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929
+          ]
+        },
+        {
+          "name": "BaseDetonationDamage",
+          "values": [
+            35,
+            80,
+            125,
+            170,
+            215,
+            260,
+            305
+          ]
+        },
+        {
+          "name": "bADDetonationRatio",
+          "values": [
+            0.30000001192092896,
+            0.44999998807907104,
+            0.6000000238418579,
+            0.75,
+            0.8999999761581421,
+            1.0499999523162842,
+            1.2000000476837158
+          ]
+        },
+        {
+          "name": "TerrainCollisionDelay",
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "FirstADRatio"
+            }
+          ]
+        },
+        "TotalDetonationDamage": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDetonationDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "bADDetonationRatio"
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          13,
+          13,
+          11.25,
+          9.5,
+          7.75,
+          6,
+          6
+        ],
+        "mana": [
+          80,
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "castRange": [
+          800,
+          800,
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "castRangeDisplayOverride": [
+          925,
+          925,
+          925,
+          925,
+          925,
+          925,
+          925
+        ],
+        "Cooldown": {
+          "values": [
+            13,
+            13,
+            11.25,
+            9.5,
+            7.75,
+            6,
+            6
+          ],
+          "__type": "{0a0eddc9}"
+        },
+        "castRangeValues": {
+          "values": [
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800
+          ],
+          "{0a3e0478}": 800,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            80,
+            80,
+            80,
+            80,
+            80,
+            80
+          ],
+          "{0a3e0478}": 80,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/Graves/Spells/GravesQLineSpellAbility/GravesQLineSpell",
+      "objectName": "GravesQLineSpell",
+      "hero": "Graves"
+    },
+    "graves_w": {
+      "slot": "W",
+      "skillKey": "graves_w",
+      "binding": "Characters/Graves/Spells/GravesSmokeGrenadeAbility/GravesSmokeGrenade",
+      "name": "烟幕弹",
+      "maxrank": 5,
+      "officialCooldown": [
+        26,
+        24,
+        22,
+        20,
+        18
+      ],
+      "officialCost": [
+        70,
+        75,
+        80,
+        85,
+        90
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "格雷福斯朝目标区域掷出一颗烟幕弹。如果敌人处在烟幕之中，则其视野会被降低。被烟幕弹的初始冲击所命中的敌人会受到魔法伤害并且移动速度会被短暂降低。",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            10,
+            60,
+            110,
+            160,
+            210,
+            260,
+            310
+          ]
+        },
+        {
+          "name": "SlowAmount",
+          "values": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ]
+        },
+        {
+          "name": "SmokeRadius",
+          "values": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ]
+        },
+        {
+          "name": "SmokeDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "calculations": {
+        "ImpactDamage": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mCoefficient": 0.6000000238418579
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          26,
+          26,
+          24,
+          22,
+          20,
+          18,
+          18
+        ],
+        "mana": [
+          70,
+          75,
+          80,
+          85,
+          90,
+          95
+        ],
+        "castRange": [
+          950,
+          950,
+          950,
+          950,
+          950,
+          950,
+          950
+        ],
+        "Cooldown": {
+          "values": [
+            26,
+            26,
+            24,
+            22,
+            20,
+            18,
+            18
+          ],
+          "__type": "{0a0eddc9}"
+        },
+        "mProjectTargetToCastRange": true,
+        "castRangeValues": {
+          "values": [
+            950,
+            950,
+            950,
+            950,
+            950,
+            950,
+            950
+          ],
+          "{0a3e0478}": 950,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            70,
+            75,
+            80,
+            85,
+            90,
+            95
+          ],
+          "{0a3e0478}": 70,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/Graves/Spells/GravesSmokeGrenadeAbility/GravesSmokeGrenade",
+      "objectName": "GravesSmokeGrenade",
+      "hero": "Graves"
+    },
+    "graves_e": {
+      "slot": "E",
+      "skillKey": "graves_e",
+      "binding": "Characters/Graves/Spells/GravesMoveAbility/GravesMove",
+      "name": "快速拔枪",
+      "maxrank": 5,
+      "officialCooldown": [
+        16,
+        15,
+        14,
+        13,
+        12
+      ],
+      "officialCost": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "格雷福斯向前冲刺，获得一层持续数秒的护甲和魔法抗性加成。如果格雷福斯朝着一名敌方英雄冲刺，则会获得两层纯爷们效果。格雷福斯的每次未被闪避的普通攻击，都会减少这个技能的冷却时间并刷新该防御属性加成。",
+      "dataValues": [
+        {
+          "name": "ArmorPerStack",
+          "values": [
+            4,
+            7,
+            10,
+            13,
+            16,
+            19,
+            22
+          ]
+        },
+        {
+          "name": "MRGrantPercent",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "BuffDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "name": "CooldownPerHit",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "MaxStacks",
+          "values": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "DashSpeed",
+          "values": [
+            750,
+            750,
+            750,
+            750,
+            750,
+            750,
+            750
+          ]
+        },
+        {
+          "name": "DashMaxDistance",
+          "values": [
+            375,
+            375,
+            375,
+            375,
+            375,
+            375,
+            375
+          ]
+        },
+        {
+          "name": "DashMinDistance",
+          "values": [
+            275,
+            275,
+            275,
+            275,
+            275,
+            275,
+            275
+          ]
+        },
+        {
+          "name": "DashAngle",
+          "values": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ]
+        }
+      ],
+      "calculations": {
+        "MRGrant": {
+          "__type": "GameCalculation",
+          "mMultiplier": {
+            "__type": "NamedDataValueCalculationPart",
+            "mDataValue": "MRGrantPercent"
+          },
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "ArmorPerStack"
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          17,
+          16,
+          15,
+          14,
+          13,
+          12,
+          11
+        ],
+        "mana": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "castRange": [
+          25000,
+          25000,
+          25000,
+          25000,
+          25000,
+          25000,
+          25000
+        ],
+        "castRangeDisplayOverride": [
+          425,
+          425,
+          425,
+          425,
+          425,
+          425,
+          425
+        ],
+        "Cooldown": {
+          "values": [
+            17,
+            16,
+            15,
+            14,
+            13,
+            12,
+            11
+          ],
+          "{0a3e0478}": 17,
+          "__type": "{0a0eddc9}"
+        },
+        "mProjectTargetToCastRange": true,
+        "castRangeValues": {
+          "values": [
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000
+          ],
+          "{0a3e0478}": 25000,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "{0a3e0478}": 40,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/Graves/Spells/GravesMoveAbility/GravesMove",
+      "objectName": "GravesMove",
+      "hero": "Graves"
+    },
+    "graves_r": {
+      "slot": "R",
+      "skillKey": "graves_r",
+      "binding": "Characters/Graves/Spells/GravesChargeShotAbility/GravesChargeShot",
+      "name": "终极爆弹",
+      "maxrank": 3,
+      "officialCooldown": [
+        100,
+        80,
+        60
+      ],
+      "officialCost": [
+        100,
+        100,
+        100
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "格雷福斯射出一枚爆破弹，对它所命中的第一个敌人造成大量伤害。在命中一名英雄或者达到它的最大射程之后，爆弹会爆炸，并对锥形范围内的敌人造成伤害。",
+      "dataValues": [
+        {
+          "name": "RBaseDamage",
+          "values": [
+            125,
+            275,
+            425,
+            575,
+            725,
+            875,
+            1025
+          ]
+        },
+        {
+          "name": "RFalloffDamage",
+          "values": [
+            80,
+            200,
+            320,
+            440,
+            560,
+            680,
+            800
+          ]
+        },
+        {
+          "name": "RKnockbackDistance",
+          "values": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ]
+        }
+      ],
+      "calculations": {
+        "Damage": {
+          "__type": "GameCalculation",
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "RBaseDamage"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1.5
+            }
+          ]
+        },
+        "FalloffDamage": {
+          "__type": "GameCalculation",
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "RFalloffDamage"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1.2000000476837158
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          100,
+          100,
+          80,
+          60,
+          60,
+          60,
+          60
+        ],
+        "mana": [
+          100,
+          100,
+          100,
+          0,
+          0,
+          0
+        ],
+        "castRange": [
+          25000,
+          25000,
+          25000,
+          25000,
+          25000,
+          25000,
+          25000
+        ],
+        "castRangeDisplayOverride": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "Cooldown": {
+          "values": [
+            100,
+            100,
+            80,
+            60,
+            60,
+            60,
+            60
+          ],
+          "__type": "{0a0eddc9}"
+        },
+        "castRangeValues": {
+          "values": [
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000
+          ],
+          "{0a3e0478}": 25000,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/Graves/Spells/GravesChargeShotAbility/GravesChargeShot",
+      "objectName": "GravesChargeShot",
+      "hero": "Graves"
+    },
+    "jinx_p": {
+      "slot": "P",
+      "skillKey": "jinx_p",
+      "binding": "Characters/Jinx/Spells/JinxPassiveMarkerAbility/JinxPassiveMarker",
+      "name": "罪恶快感",
+      "maxrank": 1,
+      "officialCooldown": null,
+      "officialCost": null,
+      "officialResource": null,
+      "officialDescription": "金克丝每当参与击杀或摧毁一名英雄、一个史诗级野怪或一座建筑物后，她的移动速度和攻击速度就会得到显著提升。",
+      "dataValues": [
+        {
+          "name": "BuffDuration",
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ]
+        },
+        {
+          "name": "ASBuff",
+          "values": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ]
+        },
+        {
+          "name": "MSBuff",
+          "values": [
+            175,
+            175,
+            175,
+            175,
+            175,
+            175,
+            175
+          ]
+        },
+        {
+          "name": "MSDecayRate",
+          "values": [
+            0.875,
+            0.875,
+            0.875,
+            0.875,
+            0.875,
+            0.875,
+            0.875
+          ]
+        },
+        {
+          "name": "AssistMarkerDuration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        }
+      ],
+      "calculations": {},
+      "spellFields": {
+        "castRange": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "castRangeValues": {
+          "values": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "{0a3e0478}": 0,
+          "__type": "{0a0eddc9}"
+        }
+      },
+      "objectPath": "Characters/Jinx/Spells/JinxPassiveMarkerAbility/JinxPassiveMarker",
+      "objectName": "JinxPassiveMarker",
+      "hero": "Jinx"
+    },
+    "jinx_q": {
+      "slot": "Q",
+      "skillKey": "jinx_q",
+      "binding": "Characters/Jinx/Spells/JinxQAbility/JinxQ",
+      "name": "枪炮交响曲！",
+      "maxrank": 5,
+      "officialCooldown": [
+        0.9,
+        0.9,
+        0.9,
+        0.9,
+        0.9
+      ],
+      "officialCost": [
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "officialResource": "每发火箭{{ cost }}法力值",
+      "officialDescription": "金克丝可以通过切换武器来改变普通攻击的方式。在用她的轻机枪“砰砰”攻击时，她的攻击速度会提升。在用她的火箭发射器“鱼骨头”攻击时，她的普通攻击会造成范围伤害，攻击距离提升，但会消耗法力值并且攻击得更慢。",
+      "dataValues": [
+        {
+          "name": "RocketAoERadius",
+          "values": [
+            250,
+            250,
+            250,
+            250,
+            250,
+            250,
+            250
+          ]
+        },
+        {
+          "name": "RocketBonusRange",
+          "values": [
+            75,
+            100,
+            125,
+            150,
+            175,
+            200,
+            225
+          ]
+        },
+        {
+          "name": "MinigunAttackSpeedMax",
+          "values": [
+            5,
+            30,
+            55,
+            80,
+            105,
+            130,
+            155
+          ]
+        },
+        {
+          "name": "MinigunAttackSpeedDuration",
+          "values": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ]
+        },
+        {
+          "name": "MinigunAttackSpeedStacks",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "RocketTAD",
+          "values": [
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858,
+            1.100000023841858
+          ]
+        },
+        {
+          "name": "RocketASPDPenalty",
+          "values": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
+          ]
+        }
+      ],
+      "calculations": {
+        "RocketDamage": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mStat": 2,
+              "mDataValue": "RocketTAD"
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421,
+          0.8999999761581421
+        ],
+        "mana": [
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "castRange": [
+          600,
+          600,
+          600,
+          600,
+          600,
+          600,
+          600
+        ],
+        "Cooldown": {
+          "values": [
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421
+          ],
+          "{0a3e0478}": 0.8999999761581421,
+          "__type": "{0a0eddc9}"
+        },
+        "mCooldownNotAffectedByCDR": true,
+        "mDoesNotConsumeMana": true,
+        "castRangeValues": {
+          "values": [
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600
+          ],
+          "{0a3e0478}": 600,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "{0a3e0478}": 20,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/Jinx/Spells/JinxQAbility/JinxQ",
+      "objectName": "JinxQ",
+      "hero": "Jinx"
+    },
+    "jinx_w": {
+      "slot": "W",
+      "skillKey": "jinx_w",
+      "binding": "Characters/Jinx/Spells/JinxWAbility/JinxW",
+      "name": "震荡电磁波！",
+      "maxrank": 5,
+      "officialCooldown": [
+        8,
+        7,
+        6,
+        5,
+        4
+      ],
+      "officialCost": [
+        40,
+        45,
+        50,
+        55,
+        60
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "金克丝使用她的震荡手枪“电磁器”来发射震荡波，让被命中的第一个敌人暴露在己方视野中（可使隐形英雄现形），并对其造成伤害和减速效果。",
+      "dataValues": [
+        {
+          "name": "JinxLowEndWCastTime",
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ]
+        },
+        {
+          "name": "JinxWASpeedCastTimeScalarPerHundrethSecond",
+          "values": [
+            0.07999999821186066,
+            0.07999999821186066,
+            0.07999999821186066,
+            0.07999999821186066,
+            0.07999999821186066,
+            0.07999999821186066,
+            0.07999999821186066
+          ]
+        },
+        {
+          "name": "Damage",
+          "values": [
+            -40,
+            10,
+            60,
+            110,
+            160,
+            210,
+            260
+          ]
+        },
+        {
+          "name": "SlowPercent",
+          "values": [
+            30,
+            40,
+            50,
+            60,
+            70,
+            80,
+            90
+          ]
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "name": "ADRatio",
+          "values": [
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142,
+            1.399999976158142
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "Damage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mStat": 2,
+              "mDataValue": "ADRatio"
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3
+        ],
+        "mana": [
+          40,
+          45,
+          50,
+          55,
+          60,
+          65
+        ],
+        "castRange": [
+          10000,
+          10000,
+          10000,
+          10000,
+          10000,
+          10000,
+          10000
+        ],
+        "castRangeDisplayOverride": [
+          1450,
+          1450,
+          1450,
+          1450,
+          1450,
+          1450,
+          1450
+        ],
+        "Cooldown": {
+          "values": [
+            9,
+            8,
+            7,
+            6,
+            5,
+            4,
+            3
+          ],
+          "{0a3e0478}": 9,
+          "__type": "{0a0eddc9}"
+        },
+        "castRangeValues": {
+          "values": [
+            10000,
+            10000,
+            10000,
+            10000,
+            10000,
+            10000,
+            10000
+          ],
+          "{0a3e0478}": 10000,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            40,
+            45,
+            50,
+            55,
+            60,
+            65
+          ],
+          "{0a3e0478}": 40,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/Jinx/Spells/JinxWAbility/JinxW",
+      "objectName": "JinxW",
+      "hero": "Jinx"
+    },
+    "jinx_e": {
+      "slot": "E",
+      "skillKey": "jinx_e",
+      "binding": "Characters/Jinx/Spells/JinxEAbility/JinxE",
+      "name": "嚼火者手雷！",
+      "maxrank": 5,
+      "officialCooldown": [
+        24,
+        20.5,
+        17,
+        13.5,
+        10
+      ],
+      "officialCost": [
+        90,
+        90,
+        90,
+        90,
+        90
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "金克丝扔出一串陷阱手雷。手雷会在5秒后爆炸，让敌人着火。嚼火者手雷将会袭击路过的敌方英雄，并将他们束缚在原地。",
+      "dataValues": [
+        {
+          "name": "Damage",
+          "values": [
+            40,
+            90,
+            140,
+            190,
+            240,
+            290,
+            340
+          ]
+        },
+        {
+          "name": "RootDuration",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ]
+        },
+        {
+          "name": "GrenadeDuration",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "name": "GrenadeArmTime",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "Damage"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mCoefficient": 1
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          27.5,
+          24,
+          20.5,
+          17,
+          13.5,
+          10,
+          10
+        ],
+        "mana": [
+          90,
+          90,
+          90,
+          90,
+          90,
+          90
+        ],
+        "castRange": [
+          925,
+          925,
+          925,
+          925,
+          925,
+          925,
+          925
+        ],
+        "Cooldown": {
+          "values": [
+            27.5,
+            24,
+            20.5,
+            17,
+            13.5,
+            10,
+            10
+          ],
+          "__type": "{0a0eddc9}"
+        },
+        "mProjectTargetToCastRange": true,
+        "castRangeValues": {
+          "values": [
+            925,
+            925,
+            925,
+            925,
+            925,
+            925,
+            925
+          ],
+          "{0a3e0478}": 925,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            90,
+            90,
+            90,
+            90,
+            90,
+            90
+          ],
+          "{0a3e0478}": 90,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/Jinx/Spells/JinxEAbility/JinxE",
+      "objectName": "JinxE",
+      "hero": "Jinx"
+    },
+    "jinx_r": {
+      "slot": "R",
+      "skillKey": "jinx_r",
+      "binding": "Characters/Jinx/Spells/JinxRAbility/JinxR",
+      "name": "超究极死神飞弹！",
+      "maxrank": 3,
+      "officialCooldown": [
+        85,
+        65,
+        45
+      ],
+      "officialCost": [
+        100,
+        100,
+        100
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "金克丝发射一枚能够跨越整个地图的飞弹，并且飞行的时间越长，伤害值越高。飞弹会在命中一名敌方英雄后爆炸，对目标和目标附近的敌人造成伤害，且目标的生命值越低，所受的伤害值越高。",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            5,
+            20,
+            35,
+            50,
+            65,
+            80,
+            95
+          ]
+        },
+        {
+          "name": "MaxDamage",
+          "values": [
+            50,
+            200,
+            350,
+            500,
+            650,
+            800,
+            950
+          ]
+        },
+        {
+          "name": "PercentDamage",
+          "values": [
+            20,
+            25,
+            30,
+            35,
+            40,
+            45,
+            50
+          ]
+        },
+        {
+          "name": "AoEDamageMult",
+          "values": [
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929,
+            0.800000011920929
+          ]
+        },
+        {
+          "name": "MonsterExecuteMax",
+          "values": [
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200
+          ]
+        },
+        {
+          "name": "AoERadius",
+          "values": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ]
+        }
+      ],
+      "calculations": {
+        "DamageFloor": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.11999999731779099
+            }
+          ]
+        },
+        "DamageMax": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "MaxDamage"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1.2000000476837158
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          85,
+          85,
+          65,
+          45,
+          45,
+          45,
+          45
+        ],
+        "mana": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "castRange": [
+          25000,
+          25000,
+          25000,
+          25000,
+          25000,
+          25000,
+          25000
+        ],
+        "Cooldown": {
+          "values": [
+            85,
+            85,
+            65,
+            45,
+            45,
+            45,
+            45
+          ],
+          "__type": "{0a0eddc9}"
+        },
+        "castRangeValues": {
+          "values": [
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000
+          ],
+          "{0a3e0478}": 25000,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "{0a3e0478}": 100,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/Jinx/Spells/JinxRAbility/JinxR",
+      "objectName": "JinxR",
+      "hero": "Jinx"
+    },
+    "varus_p": {
+      "slot": "P",
+      "skillKey": "varus_p",
+      "binding": "Characters/Varus/Spells/VarusPassiveAbility/VarusPassive",
+      "name": "复仇之欲",
+      "maxrank": 1,
+      "officialCooldown": null,
+      "officialCost": null,
+      "officialResource": null,
+      "officialDescription": "每完成一次击杀或助攻，韦鲁斯就会暂时获得攻击速度、攻击力和法术强度。如果敌人是个英雄，则这个加成的幅度会更大。",
+      "dataValues": [
+        {
+          "name": "PassiveAS",
+          "values": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ]
+        },
+        {
+          "name": "PassiveASMinion",
+          "values": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
+          ]
+        },
+        {
+          "name": "PassiveASRatio",
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ]
+        },
+        {
+          "name": "PassiveASRatioMinion",
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ]
+        },
+        {
+          "name": "AStoADMinion",
+          "values": [
+            11,
+            11,
+            11,
+            11,
+            11,
+            11,
+            11
+          ]
+        },
+        {
+          "name": "AStoAPMinion",
+          "values": [
+            11,
+            11,
+            11,
+            11,
+            11,
+            11,
+            11
+          ]
+        },
+        {
+          "name": "AStoADChampion",
+          "values": [
+            33,
+            33,
+            33,
+            33,
+            33,
+            33,
+            33
+          ]
+        },
+        {
+          "name": "AStoAPChampion",
+          "values": [
+            33,
+            33,
+            33,
+            33,
+            33,
+            33,
+            33
+          ]
+        },
+        {
+          "name": "NewASCap",
+          "values": [
+            3.3299999237060547,
+            3.3299999237060547,
+            3.3299999237060547,
+            3.3299999237060547,
+            3.3299999237060547,
+            3.3299999237060547,
+            3.3299999237060547
+          ]
+        }
+      ],
+      "calculations": {
+        "MinionAS": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 0.10000000149011612,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint"
+                },
+                {
+                  "__type": "Breakpoint"
+                }
+              ]
+            }
+          ],
+          "mDisplayAsPercent": true
+        },
+        "ChampionAS": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "PassiveAS"
+            }
+          ],
+          "mDisplayAsPercent": true
+        },
+        "ASDuration": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "ByCharLevelBreakpointsCalculationPart",
+              "mLevel1Value": 5,
+              "mBreakpoints": [
+                {
+                  "__type": "Breakpoint"
+                },
+                {
+                  "__type": "Breakpoint"
+                },
+                {
+                  "__type": "Breakpoint"
+                },
+                {
+                  "__type": "Breakpoint"
+                },
+                {
+                  "__type": "Breakpoint"
+                }
+              ]
+            }
+          ]
+        },
+        "MinionAD": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mStat": 4,
+              "mStatFormula": 2,
+              "mDataValue": "AStoADMinion"
+            }
+          ]
+        },
+        "MinionAP": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mStat": 4,
+              "mStatFormula": 2,
+              "mDataValue": "AStoAPMinion"
+            }
+          ]
+        },
+        "ChampionAD": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mStat": 4,
+              "mStatFormula": 2,
+              "mDataValue": "AStoADChampion"
+            }
+          ]
+        },
+        "ChampionAP": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mStat": 4,
+              "mStatFormula": 2,
+              "mDataValue": "AStoAPChampion"
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "castRange": [
+          650,
+          650,
+          650,
+          650,
+          650,
+          650,
+          650
+        ],
+        "castRangeValues": {
+          "values": [
+            650,
+            650,
+            650,
+            650,
+            650,
+            650,
+            650
+          ],
+          "{0a3e0478}": 650,
+          "__type": "{0a0eddc9}"
+        }
+      },
+      "objectPath": "Characters/Varus/Spells/VarusPassiveAbility/VarusPassive",
+      "objectName": "VarusPassive",
+      "hero": "Varus"
+    },
+    "varus_q": {
+      "slot": "Q",
+      "skillKey": "varus_q",
+      "binding": "Characters/Varus/Spells/VarusQAbility/VarusQ",
+      "name": "穿刺之箭",
+      "maxrank": 5,
+      "officialCooldown": [
+        16,
+        15,
+        14,
+        13,
+        12
+      ],
+      "officialCost": [
+        50,
+        55,
+        60,
+        65,
+        70
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "韦鲁斯开始蓄力，随后进行一次远距离的强力射击，蓄力时间越长，伤害越高。",
+      "dataValues": [
+        {
+          "name": "BaseDamageMax",
+          "values": [
+            10,
+            80,
+            150,
+            220,
+            290,
+            360,
+            430
+          ]
+        },
+        {
+          "name": "ChargeMultiplierInverse",
+          "values": [
+            0.666670024394989,
+            0.666670024394989,
+            0.666670024394989,
+            0.666670024394989,
+            0.666670024394989,
+            0.666670024394989,
+            0.666670024394989
+          ]
+        },
+        {
+          "name": "tADRatioMax",
+          "values": [
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158,
+            1.2000000476837158
+          ]
+        },
+        {
+          "name": "MaxChargeAmp",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "FalloffPercent",
+          "values": [
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448
+          ]
+        },
+        {
+          "name": "ManaRefund",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "MaxChannelDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "name": "CDRefund",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "MoveSpeedMod",
+          "values": [
+            -0.20000000298023224,
+            -0.20000000298023224,
+            -0.20000000298023224,
+            -0.20000000298023224,
+            -0.20000000298023224,
+            -0.20000000298023224,
+            -0.20000000298023224
+          ]
+        },
+        {
+          "name": "MinDamagePercent",
+          "values": [
+            0.33000001311302185,
+            0.33000001311302185,
+            0.33000001311302185,
+            0.33000001311302185,
+            0.33000001311302185,
+            0.33000001311302185,
+            0.33000001311302185
+          ]
+        }
+      ],
+      "calculations": {
+        "{b3ef3984}": {
+          "__type": "GameCalculationModified",
+          "mMultiplier": {
+            "__type": "NamedDataValueCalculationPart",
+            "mDataValue": "ChargeMultiplierInverse"
+          },
+          "mModifiedGameCalculation": "TotalDamageMax"
+        },
+        "TotalDamageMax": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamageMax"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "tADRatioMax"
+            }
+          ]
+        },
+        "TotalDamageMinTooltip": {
+          "__type": "GameCalculationModified",
+          "mMultiplier": {
+            "__type": "NamedDataValueCalculationPart",
+            "mDataValue": "ChargeMultiplierInverse"
+          },
+          "mModifiedGameCalculation": "TotalDamageMax"
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          17,
+          16,
+          15,
+          14,
+          13,
+          12,
+          11
+        ],
+        "mana": [
+          50,
+          55,
+          60,
+          65,
+          70,
+          75
+        ],
+        "castRange": [
+          925,
+          925,
+          925,
+          925,
+          925,
+          925,
+          925
+        ],
+        "Cooldown": {
+          "values": [
+            17,
+            16,
+            15,
+            14,
+            13,
+            12,
+            11
+          ],
+          "{0a3e0478}": 17,
+          "__type": "{0a0eddc9}"
+        },
+        "mCastRangeGrowthMax": [
+          1600,
+          1600,
+          1600,
+          1600,
+          1600,
+          1600,
+          1600
+        ],
+        "mCastRangeGrowthDuration": [
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842
+        ],
+        "castRangeValues": {
+          "values": [
+            925,
+            925,
+            925,
+            925,
+            925,
+            925,
+            925
+          ],
+          "{0a3e0478}": 925,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "{0a3e0478}": 50,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/Varus/Spells/VarusQAbility/VarusQ",
+      "objectName": "VarusQ",
+      "hero": "Varus"
+    },
+    "varus_w": {
+      "slot": "W",
+      "skillKey": "varus_w",
+      "binding": "Characters/Varus/Spells/VarusWAbility/VarusW",
+      "name": "枯萎箭袋",
+      "maxrank": 5,
+      "officialCooldown": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "officialCost": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "officialResource": "无消耗",
+      "officialDescription": "被动：韦鲁斯的普通攻击会造成额外的伤害，并附加枯萎效果。韦鲁斯的其它技能会引爆枯萎效果，造成基于目标最大生命值的魔法伤害。主动：韦鲁斯增强他的下一个【穿刺之箭】。",
+      "dataValues": [
+        {
+          "name": "VarusWDebuffDuration",
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ]
+        },
+        {
+          "name": "VarusWMaxStacks",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "MaxMonsterDamage",
+          "values": [
+            120,
+            120,
+            120,
+            120,
+            120,
+            120,
+            120
+          ]
+        },
+        {
+          "name": "BasePercentHPPerStack",
+          "values": [
+            0.02500000037252903,
+            0.029999999329447746,
+            0.03500000014901161,
+            0.03999999910593033,
+            0.04500000178813934,
+            0.05000000074505806,
+            0.054999999701976776
+          ]
+        },
+        {
+          "name": "QEmpowerMonsterCap",
+          "values": [
+            360,
+            360,
+            360,
+            360,
+            360,
+            360,
+            360
+          ]
+        },
+        {
+          "name": "VarusWOnHitDamage",
+          "values": [
+            -5,
+            4,
+            13,
+            22,
+            31,
+            40,
+            49
+          ]
+        },
+        {
+          "name": "CDRPerBlightStack",
+          "values": [
+            0.12999999523162842,
+            0.12999999523162842,
+            0.12999999523162842,
+            0.12999999523162842,
+            0.12999999523162842,
+            0.12999999523162842,
+            0.12999999523162842
+          ]
+        },
+        {
+          "name": "VarusWMaxChargeHPDamage",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ]
+        },
+        {
+          "name": "OnHitRatio",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        {
+          "name": "OnHitADRatio",
+          "values": [
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448
+          ]
+        },
+        {
+          "name": "WQHealthDamage",
+          "values": [
+            0.03999999910593033,
+            0.05999999865889549,
+            0.07999999821186066,
+            0.10000000149011612,
+            0.11999999731779099,
+            0.14000000059604645,
+            0.1599999964237213
+          ]
+        },
+        {
+          "name": "DebuffDuration",
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ]
+        },
+        {
+          "name": "MaxStacks",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        }
+      ],
+      "calculations": {
+        "PercentHPPerStack": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BasePercentHPPerStack"
+            },
+            {
+              "__type": "StatBySubPartCalculationPart",
+              "mSubpart": {
+                "__type": "ProductOfSubPartsCalculationPart",
+                "mPart1": {
+                  "__type": "NumberCalculationPart",
+                  "mNumber": 0.009999999776482582
+                },
+                "mPart2": {
+                  "__type": "NumberCalculationPart",
+                  "mNumber": 0.013000000268220901
+                }
+              }
+            }
+          ],
+          "mDisplayAsPercent": true
+        },
+        "QEmpowerPercentHP": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "WQHealthDamage"
+            }
+          ],
+          "mDisplayAsPercent": true
+        },
+        "OnHitDamage": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "VarusWOnHitDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "OnHitRatio"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "OnHitADRatio"
+            }
+          ]
+        },
+        "MaxPercentHPPerStack": {
+          "__type": "GameCalculationModified",
+          "mMultiplier": {
+            "__type": "NumberCalculationPart",
+            "mNumber": 3
+          },
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "PercentHPPerStack"
+        },
+        "MaxQEmpowerPercentHP": {
+          "__type": "GameCalculationModified",
+          "mMultiplier": {
+            "__type": "NamedDataValueCalculationPart",
+            "mDataValue": "VarusWMaxChargeHPDamage"
+          },
+          "mModifiedGameCalculation": "QEmpowerPercentHP"
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "castRange": [
+          10000,
+          10000,
+          10000,
+          10000,
+          10000,
+          10000,
+          10000
+        ],
+        "castRangeDisplayOverride": [
+          750,
+          750,
+          750,
+          750,
+          750,
+          750,
+          750
+        ],
+        "Cooldown": {
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "{0a3e0478}": 40,
+          "__type": "{0a0eddc9}"
+        },
+        "castRangeValues": {
+          "values": [
+            10000,
+            10000,
+            10000,
+            10000,
+            10000,
+            10000,
+            10000
+          ],
+          "{0a3e0478}": 10000,
+          "__type": "{0a0eddc9}"
+        }
+      },
+      "objectPath": "Characters/Varus/Spells/VarusWAbility/VarusW",
+      "objectName": "VarusW",
+      "hero": "Varus"
+    },
+    "varus_e": {
+      "slot": "E",
+      "skillKey": "varus_e",
+      "binding": "Characters/Varus/Spells/VarusEAbility/VarusE",
+      "name": "恶灵箭雨",
+      "maxrank": 5,
+      "officialCooldown": [
+        18,
+        16,
+        14,
+        12,
+        10
+      ],
+      "officialCost": [
+        90,
+        90,
+        90,
+        90,
+        90
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "韦鲁斯射出一阵箭雨，造成物理伤害并污染地面。被污染的地面将会减慢敌人的移动速度，并降低他们的自我治疗效果和回复效果。",
+      "dataValues": [
+        {
+          "name": "GrievousAmount",
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ]
+        },
+        {
+          "name": "GrievousDuration",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "BonusADRatio",
+          "values": [
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421
+          ]
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            30,
+            60,
+            90,
+            120,
+            150,
+            180,
+            210
+          ]
+        },
+        {
+          "name": "SlowPercent",
+          "values": [
+            -0.25,
+            -0.30000001192092896,
+            -0.3499999940395355,
+            -0.4000000059604645,
+            -0.44999998807907104,
+            -0.5,
+            -0.550000011920929
+          ]
+        },
+        {
+          "name": "AoERange",
+          "values": [
+            300,
+            300,
+            300,
+            300,
+            300,
+            300,
+            300
+          ]
+        },
+        {
+          "name": "DebuffDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        {
+          "name": "GroundDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "BonusADRatio"
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          18,
+          18,
+          16,
+          14,
+          12,
+          10,
+          10
+        ],
+        "mana": [
+          90,
+          90,
+          90,
+          90,
+          90,
+          90
+        ],
+        "castRange": [
+          925,
+          925,
+          925,
+          925,
+          925,
+          925,
+          925
+        ],
+        "Cooldown": {
+          "values": [
+            18,
+            18,
+            16,
+            14,
+            12,
+            10,
+            10
+          ],
+          "__type": "{0a0eddc9}"
+        },
+        "mProjectTargetToCastRange": true,
+        "castRangeValues": {
+          "values": [
+            925,
+            925,
+            925,
+            925,
+            925,
+            925,
+            925
+          ],
+          "{0a3e0478}": 925,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            90,
+            90,
+            90,
+            90,
+            90,
+            90
+          ],
+          "{0a3e0478}": 90,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/Varus/Spells/VarusEAbility/VarusE",
+      "objectName": "VarusE",
+      "hero": "Varus"
+    },
+    "varus_r": {
+      "slot": "R",
+      "skillKey": "varus_r",
+      "binding": "Characters/Varus/Spells/VarusRAbility/VarusR",
+      "name": "腐败锁链",
+      "maxrank": 3,
+      "officialCooldown": [
+        100,
+        80,
+        60
+      ],
+      "officialCost": [
+        100,
+        100,
+        100
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "韦鲁斯投掷出一个腐败藤蔓，来禁锢命中的第一个敌方英雄，随后向附近没有被感染的英雄蔓延，并在碰到后将他们也禁锢。",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            50,
+            150,
+            250,
+            350,
+            450,
+            550,
+            650
+          ]
+        },
+        {
+          "name": "RootDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "name": "VarusRTargetAcquisitionRange",
+          "values": [
+            650,
+            650,
+            650,
+            650,
+            650,
+            650,
+            650
+          ]
+        },
+        {
+          "name": "PassiveStacksAdded",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "TimeBetweenStackAddition",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "VarusRTargetLeashRange",
+          "values": [
+            600,
+            600,
+            600,
+            600,
+            600,
+            600,
+            600
+          ]
+        },
+        {
+          "name": "VarusRLeashTimer",
+          "values": [
+            1.75,
+            1.75,
+            1.75,
+            1.75,
+            1.75,
+            1.75,
+            1.75
+          ]
+        },
+        {
+          "name": "VarusWDebuffDuration",
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ]
+        },
+        {
+          "name": "VarusWMaxStacks",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "PassiveStacks",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mCoefficient": 1
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          100,
+          100,
+          80,
+          60,
+          60,
+          60,
+          60
+        ],
+        "mana": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "castRange": [
+          25000,
+          25000,
+          25000,
+          25000,
+          25000,
+          25000,
+          25000
+        ],
+        "castRangeDisplayOverride": [
+          1300,
+          1300,
+          1300,
+          1300,
+          1300,
+          1300,
+          1300
+        ],
+        "Cooldown": {
+          "values": [
+            100,
+            100,
+            80,
+            60,
+            60,
+            60,
+            60
+          ],
+          "__type": "{0a0eddc9}"
+        },
+        "mProjectTargetToCastRange": true,
+        "castRangeValues": {
+          "values": [
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000,
+            25000
+          ],
+          "{0a3e0478}": 25000,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "{0a3e0478}": 100,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/Varus/Spells/VarusRAbility/VarusR",
+      "objectName": "VarusR",
+      "hero": "Varus"
+    },
+    "kogmaw_p": {
+      "slot": "P",
+      "skillKey": "kogmaw_p",
+      "binding": "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianSurpriseReady",
+      "name": "来自艾卡西亚的惊喜",
+      "maxrank": 1,
+      "officialCooldown": null,
+      "officialCost": null,
+      "officialResource": null,
+      "officialDescription": "在死后4秒，克格莫会爆炸，对周围的敌人造成真实伤害。",
+      "dataValues": [
+        {
+          "name": "TooltipPassiveMS",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "name": "TooltipPassiveDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        }
+      ],
+      "calculations": {
+        "PassiveDamage": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "castRange": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "castRangeValues": {
+          "values": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "{0a3e0478}": 0,
+          "__type": "{0a0eddc9}"
+        }
+      },
+      "objectPath": "Characters/KogMaw/Spells/KogMawIcathianSurpriseReadyAbility/KogMawIcathianSurpriseReady",
+      "objectName": "KogMawIcathianSurpriseReady",
+      "hero": "KogMaw"
+    },
+    "kogmaw_q": {
+      "slot": "Q",
+      "skillKey": "kogmaw_q",
+      "binding": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
+      "name": "腐蚀唾液",
+      "maxrank": 5,
+      "officialCooldown": [
+        7,
+        7,
+        7,
+        7,
+        7
+      ],
+      "officialCost": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "克格莫发射一团腐蚀性物质，对目标造成魔法伤害，并暂时腐蚀目标的护甲和魔法抗性。克格莫还会获得额外攻速。",
+      "dataValues": [
+        {
+          "name": "AttackSpeed",
+          "values": [
+            0,
+            0.05000000074505806,
+            0.10000000149011612,
+            0.15000000596046448,
+            0.20000000298023224,
+            0.25,
+            0.30000001192092896
+          ]
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            35,
+            80,
+            125,
+            170,
+            215,
+            260,
+            305
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421,
+            0.8999999761581421
+          ]
+        },
+        {
+          "name": "ShredAmount",
+          "values": [
+            12,
+            16,
+            20,
+            24,
+            28,
+            32,
+            36
+          ]
+        },
+        {
+          "name": "ShredDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          7,
+          7,
+          7,
+          7,
+          7,
+          7,
+          7
+        ],
+        "mana": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "castRange": [
+          1200,
+          1200,
+          1200,
+          1200,
+          1200,
+          1200,
+          1200
+        ],
+        "castRangeDisplayOverride": [
+          1175,
+          1175,
+          1175,
+          1175,
+          1175,
+          1175,
+          1175
+        ],
+        "Cooldown": {
+          "values": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "{0a3e0478}": 7,
+          "__type": "{0a0eddc9}"
+        },
+        "castRangeValues": {
+          "values": [
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200
+          ],
+          "{0a3e0478}": 1200,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "{0a3e0478}": 40,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/KogMaw/Spells/KogMawQAbility/KogMawQ",
+      "objectName": "KogMawQ",
+      "hero": "KogMaw"
+    },
+    "kogmaw_w": {
+      "slot": "W",
+      "skillKey": "kogmaw_w",
+      "binding": "Characters/KogMaw/Spells/KogMawBioArcaneBarrageAbility/KogMawBioArcaneBarrage",
+      "name": "生化弹幕",
+      "maxrank": 5,
+      "officialCooldown": [
+        17,
+        17,
+        17,
+        17,
+        17
+      ],
+      "officialCost": [
+        40,
+        40,
+        40,
+        40,
+        40
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "克格莫的攻击获得额外距离，并且能够对目标造成额外的魔法伤害，伤害值基于目标的最大生命值%i:OnHit% <OnHit>攻击特效</OnHit>。",
+      "dataValues": [
+        {
+          "name": "MaxHealthDamage",
+          "values": [
+            2.25,
+            3,
+            3.75,
+            4.5,
+            5.25,
+            6,
+            6.75
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.014999999664723873,
+            0.014999999664723873,
+            0.014999999664723873,
+            0.014999999664723873,
+            0.014999999664723873,
+            0.014999999664723873,
+            0.014999999664723873
+          ]
+        },
+        {
+          "name": "Range",
+          "values": [
+            110,
+            130,
+            150,
+            170,
+            190,
+            210,
+            230
+          ]
+        },
+        {
+          "name": "Duration",
+          "values": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "MonsterDamageCap",
+          "values": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalHealthDamage": {
+          "__type": "GameCalculation",
+          "mMultiplier": {
+            "__type": "NumberCalculationPart",
+            "mNumber": 0.009999999776482582
+          },
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "MaxHealthDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ],
+          "mDisplayAsPercent": true
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          17,
+          17,
+          17,
+          17,
+          17,
+          17,
+          17
+        ],
+        "mana": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "castRange": [
+          530,
+          530,
+          530,
+          530,
+          530,
+          530,
+          530
+        ],
+        "Cooldown": {
+          "values": [
+            17,
+            17,
+            17,
+            17,
+            17,
+            17,
+            17
+          ],
+          "{0a3e0478}": 17,
+          "__type": "{0a0eddc9}"
+        },
+        "castRangeValues": {
+          "values": [
+            530,
+            530,
+            530,
+            530,
+            530,
+            530,
+            530
+          ],
+          "{0a3e0478}": 530,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "{0a3e0478}": 40,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/KogMaw/Spells/KogMawBioArcaneBarrageAbility/KogMawBioArcaneBarrage",
+      "objectName": "KogMawBioArcaneBarrage",
+      "hero": "KogMaw"
+    },
+    "kogmaw_e": {
+      "slot": "E",
+      "skillKey": "kogmaw_e",
+      "binding": "Characters/KogMaw/Spells/KogMawVoidOozeAbility/KogMawVoidOoze",
+      "name": "虚空淤泥",
+      "maxrank": 5,
+      "officialCooldown": [
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "officialCost": [
+        40,
+        55,
+        70,
+        85,
+        100
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "克格莫抛射出一团特殊的分泌物，对经过或停留在分泌物上的敌人造成伤害和减速效果。",
+      "dataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            30,
+            70,
+            110,
+            150,
+            190,
+            230,
+            270
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.6499999761581421,
+            0.6499999761581421,
+            0.6499999761581421,
+            0.6499999761581421,
+            0.6499999761581421,
+            0.6499999761581421,
+            0.6499999761581421
+          ]
+        },
+        {
+          "name": "SlowAmount",
+          "values": [
+            35,
+            40,
+            45,
+            50,
+            55,
+            60,
+            65
+          ]
+        },
+        {
+          "name": "TrailDuration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "BaseDamage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            }
+          ]
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12
+        ],
+        "mana": [
+          40,
+          55,
+          70,
+          85,
+          100,
+          110
+        ],
+        "castRange": [
+          10000,
+          10000,
+          10000,
+          10000,
+          10000,
+          10000,
+          10000
+        ],
+        "castRangeDisplayOverride": [
+          1200,
+          1200,
+          1200,
+          1200,
+          1200,
+          1200,
+          1200
+        ],
+        "Cooldown": {
+          "values": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "{0a3e0478}": 12,
+          "__type": "{0a0eddc9}"
+        },
+        "castRangeValues": {
+          "values": [
+            10000,
+            10000,
+            10000,
+            10000,
+            10000,
+            10000,
+            10000
+          ],
+          "{0a3e0478}": 10000,
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            40,
+            55,
+            70,
+            85,
+            100,
+            110
+          ],
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/KogMaw/Spells/KogMawVoidOozeAbility/KogMawVoidOoze",
+      "objectName": "KogMawVoidOoze",
+      "hero": "KogMaw"
+    },
+    "kogmaw_r": {
+      "slot": "R",
+      "skillKey": "kogmaw_r",
+      "binding": "Characters/KogMaw/Spells/KogMawLivingArtilleryAbility/KogMawLivingArtillery",
+      "name": "活体大炮",
+      "maxrank": 3,
+      "officialCooldown": [
+        2,
+        1.5,
+        1
+      ],
+      "officialCost": [
+        40,
+        40,
+        40
+      ],
+      "officialResource": "{{ cost }} {{ abilityresourcename }}",
+      "officialDescription": "克格莫发射一枚射程极远的活体炮弹，让被命中的敌人暴露在己方视野中，并对目标造成魔法伤害（对低血量目标的伤害会显著提升）。 在短时间内连续使用活体大炮，将消耗额外的法力值。",
+      "dataValues": [
+        {
+          "name": "Damage",
+          "values": [
+            60,
+            100,
+            140,
+            180,
+            220,
+            260,
+            300
+          ]
+        },
+        {
+          "name": "ManaCostDuration",
+          "values": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "Range",
+          "values": [
+            105,
+            130,
+            155,
+            180,
+            205,
+            230,
+            255
+          ]
+        },
+        {
+          "name": "BaseCost",
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ]
+        },
+        {
+          "name": "ManaCostCap",
+          "values": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ]
+        },
+        {
+          "name": "VisionDebuffDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "name": "FinalDamageMult",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "name": "MaxExtraCost",
+          "values": [
+            360,
+            360,
+            360,
+            360,
+            360,
+            360,
+            360
+          ]
+        },
+        {
+          "name": "VisionRadius",
+          "values": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ]
+        },
+        {
+          "name": "MidDamageMult",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ]
+        },
+        {
+          "name": "TooltipMissingHealthDamageAmp",
+          "values": [
+            0.833329975605011,
+            0.833329975605011,
+            0.833329975605011,
+            0.833329975605011,
+            0.833329975605011,
+            0.833329975605011,
+            0.833329975605011
+          ]
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.3499999940395355,
+            0.3499999940395355,
+            0.4000000059604645,
+            0.44999998807907104,
+            0.44999998807907104,
+            0.44999998807907104,
+            0.44999998807907104
+          ]
+        }
+      ],
+      "calculations": {
+        "BaseDamageCalc": {
+          "__type": "GameCalculation",
+          "mFormulaParts": [
+            {
+              "__type": "NamedDataValueCalculationPart",
+              "mDataValue": "Damage"
+            },
+            {
+              "__type": "StatByNamedDataValueCalculationPart",
+              "mDataValue": "APRatio"
+            },
+            {
+              "__type": "StatByCoefficientCalculationPart",
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.75
+            }
+          ]
+        },
+        "MidDamageCalc": {
+          "__type": "GameCalculationModified",
+          "mMultiplier": {
+            "__type": "NamedDataValueCalculationPart",
+            "mDataValue": "MidDamageMult"
+          },
+          "mModifiedGameCalculation": "BaseDamageCalc"
+        },
+        "MaxDamageCalc": {
+          "__type": "GameCalculationModified",
+          "mMultiplier": {
+            "__type": "NamedDataValueCalculationPart",
+            "mDataValue": "FinalDamageMult"
+          },
+          "mModifiedGameCalculation": "BaseDamageCalc"
+        }
+      },
+      "spellFields": {
+        "cooldownTime": [
+          2,
+          2,
+          1.5,
+          1,
+          2,
+          2,
+          2
+        ],
+        "mana": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "castRange": [
+          1300,
+          1300,
+          1550,
+          1800,
+          1200,
+          1200,
+          1200
+        ],
+        "Cooldown": {
+          "values": [
+            2,
+            2,
+            1.5,
+            1,
+            2,
+            2,
+            2
+          ],
+          "__type": "{0a0eddc9}"
+        },
+        "mCostAlwaysShownInUI": true,
+        "castRangeValues": {
+          "values": [
+            1300,
+            1300,
+            1550,
+            1800,
+            1200,
+            1200,
+            1200
+          ],
+          "__type": "{0a0eddc9}"
+        },
+        "manaValues": {
+          "values": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "{0a3e0478}": 40,
+          "__type": "{630af303}"
+        }
+      },
+      "objectPath": "Characters/KogMaw/Spells/KogMawLivingArtilleryAbility/KogMawLivingArtillery",
+      "objectName": "KogMawLivingArtillery",
+      "hero": "KogMaw"
+    }
+  },
+  "bindGeneratedAt": "2026-09-09T02:50:32.595Z",
+  "bindNote": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整计算树保留在本批证据。资料来自规划树固定客户端16.17与官方16.17.1，不以名称相似对象替代根绑定。",
+  "sourceFiles": [
+    {
+      "name": "根绑定与数值证据.json",
+      "sha256": "e59f40c13d57fcef26ede39ce33fe9c99fc938f46f8666bb5ab10d21752cb1b6"
+    },
+    {
+      "name": "补充文本证据.json",
+      "sha256": "95ad677cb6aaca057e67e35641ce23bb1beb6992f2eba977684ee259d54e1f4b"
+    },
+    {
+      "name": "写前现值.json",
+      "sha256": "c34a9ffb21b345e4f576c2183019fa391e19cb0ee3f1f8af44a0c24fc862163b"
+    },
+    {
+      "name": "已验收请求结构.json",
+      "sha256": "56dbefdb84857b820fe5278f6d82e226967c5f7edee828e37c8b937003b1af4b"
+    },
+    {
+      "name": "同构建类型与默认.json",
+      "sha256": "b655135a440e892435ff500e2dc8034eba247f7323c532cb47ee2001137c831e"
+    },
+    {
+      "name": "默认属性具名旁证.json",
+      "sha256": "7bef315950eb50aae547bda5aafefba01c054b7b70b5a1f3214ac06d962f63e3"
+    },
+    {
+      "name": "默认字段采用边界.json",
+      "sha256": "f3ac2a44098b4ccf38772dbba8760deb79faef38beb4b635c9fb118598e6134c"
+    }
+  ]
+}

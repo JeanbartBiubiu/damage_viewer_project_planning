@@ -1,0 +1,28 @@
+{
+  "at": "2026-09-09T04:28:47.880Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/varus_w/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "q_empower_missing_damage",
+    "name": "主动强化Q基础魔法增伤",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "q_empower_missing_hp_ratio"
+        },
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "TARGET",
+          "attributeKey": "hp",
+          "attributeValueKind": "MISSING"
+        }
+      ]
+    },
+    "description": "目标已损生命乘W主动基础比例。",
+    "sortOrder": 70
+  }
+}

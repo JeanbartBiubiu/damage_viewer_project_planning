@@ -1,0 +1,38 @@
+{
+  "at": "2026-09-09T04:28:55.824Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/varus_e/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "damage",
+    "name": "恶灵箭雨物理伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BONUS"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_ad_ratio"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "一次箭雨伤害，不能当4秒每跳伤害；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}

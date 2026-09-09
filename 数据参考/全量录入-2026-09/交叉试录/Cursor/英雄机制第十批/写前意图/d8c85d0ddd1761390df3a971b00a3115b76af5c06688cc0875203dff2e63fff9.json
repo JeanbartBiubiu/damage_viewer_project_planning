@@ -1,0 +1,46 @@
+{
+  "at": "2026-09-09T04:29:44.906Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/kogmaw_r/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "actual_mana_cost",
+    "name": "本次活体大炮法力消耗",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MIN",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "mana_cost_cap"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_cost"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_prior_cost_stacks"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "原文每次后续发射额外40，最多400；按实际已存在费用档数计算，不以基础mana_cost40替代所有发射。",
+    "sortOrder": 40
+  }
+}

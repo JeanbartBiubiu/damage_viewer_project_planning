@@ -1,0 +1,46 @@
+{
+  "at": "2026-09-09T04:26:49.002Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/graves_p/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "crit_pellet_increase",
+    "name": "暴击弹丸伤害增幅比例",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "crit_damage_ratio"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "calculation_constant_2"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_stat_9_0_value"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "calculation_constant_3"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "原节点mStat9未解码，以实际输入保留；不以角色基础暴击倍率2替代活体属性；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 30
+  }
+}

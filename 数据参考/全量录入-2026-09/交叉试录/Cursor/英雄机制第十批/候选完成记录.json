@@ -1,0 +1,168 @@
+{
+  "at": "2026-09-09T04:18:02.315Z",
+  "state": "候选完成，待主负责人独立复核；未授权实际录入",
+  "apiWrites": 0,
+  "fileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "planSha256": "55ba724ff495fc172debca3bbe3bb3257bd66b624dc135450a1debda3c8b8a6d",
+  "skills": 20,
+  "counts": {
+    "parameters": 170,
+    "formulas": 49,
+    "effects": 21,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedParameters": 27,
+  "missingComponents": 213,
+  "independentMath": {
+    "checks": 1359,
+    "sourceCases": 122,
+    "handCases": 28,
+    "pass": true
+  },
+  "actualReadOnly": {
+    "requests": 171,
+    "checks": 702,
+    "statusCounts": {
+      "200": 171
+    },
+    "pass": true
+  },
+  "checks": [
+    {
+      "name": "候选.mjs",
+      "pass": true
+    },
+    {
+      "name": "计算树候选.mjs",
+      "pass": true
+    },
+    {
+      "name": "英雄组成.mjs",
+      "pass": true
+    },
+    {
+      "name": "生成候选.mjs",
+      "pass": true
+    },
+    {
+      "name": "独立核算.mjs",
+      "pass": true
+    },
+    {
+      "name": "写前独立只读核对.mjs",
+      "pass": true
+    },
+    {
+      "name": "根绑定与数值证据.json",
+      "actual": "e59f40c13d57fcef26ede39ce33fe9c99fc938f46f8666bb5ab10d21752cb1b6",
+      "expected": "e59f40c13d57fcef26ede39ce33fe9c99fc938f46f8666bb5ab10d21752cb1b6",
+      "pass": true
+    },
+    {
+      "name": "补充文本证据.json",
+      "actual": "95ad677cb6aaca057e67e35641ce23bb1beb6992f2eba977684ee259d54e1f4b",
+      "expected": "95ad677cb6aaca057e67e35641ce23bb1beb6992f2eba977684ee259d54e1f4b",
+      "pass": true
+    },
+    {
+      "name": "写前现值.json",
+      "actual": "c34a9ffb21b345e4f576c2183019fa391e19cb0ee3f1f8af44a0c24fc862163b",
+      "expected": "c34a9ffb21b345e4f576c2183019fa391e19cb0ee3f1f8af44a0c24fc862163b",
+      "pass": true
+    },
+    {
+      "name": "完整候选.json",
+      "actual": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+      "expected": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+      "pass": true
+    }
+  ],
+  "files": [
+    {
+      "file": "Cursor失败与部分产物审计.json",
+      "sha256": "4c1458ad859229597a6fc3cca39511a79996ad815327524bd953003b5e0ec596"
+    },
+    {
+      "file": "README.md",
+      "sha256": "fe5bef6adf14ff1387a3399be3e990b8ad5c29207168e8e33f55f36c0533b72e"
+    },
+    {
+      "file": "候选.mjs",
+      "sha256": "d7038e483c8fcb6116fe7724d19cba873a6d2587020832c90eaa655f534e1c6f"
+    },
+    {
+      "file": "候选版本.json",
+      "sha256": "59709fee886fefb8e2b9466690038cbce6c8801d548dd36f9f96c939d3fe9381"
+    },
+    {
+      "file": "写前独立只读核对-2026-09-09T04-14-41-470Z.json",
+      "sha256": "1bdfc7399204429985cfbafc406ac713d040746aac89f298d2e31c7396a9f81a"
+    },
+    {
+      "file": "写前独立只读核对.mjs",
+      "sha256": "9fd1451eab8d890326fa9be58b71b8e13198ac8f59404920fa4fa26e4f482cc1"
+    },
+    {
+      "file": "写前现值.json",
+      "sha256": "c34a9ffb21b345e4f576c2183019fa391e19cb0ee3f1f8af44a0c24fc862163b"
+    },
+    {
+      "file": "冻结文本.mjs",
+      "sha256": "4bcf3a68513fabee8720a916d86f2ca1181a1f0be1cfb829e93f50cb26af487d"
+    },
+    {
+      "file": "冻结来源.mjs",
+      "sha256": "5aa0aa51ee24c6497a862fb7eee9b19961fb3aef4a4810cc261adc0cee4f2461"
+    },
+    {
+      "file": "完整候选.json",
+      "sha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae"
+    },
+    {
+      "file": "当前20技能只读核对.mjs",
+      "sha256": "b4b19a39edaf0f568f792e6948ea04bb734b53f34a39d71eb65e87686bc96a60"
+    },
+    {
+      "file": "当前20技能组成核对.json",
+      "sha256": "450ef56b9674493047d23bd3058e8d266ca659d1b3bc660c42e4a5bf6475e30f"
+    },
+    {
+      "file": "接手与配置体验.md",
+      "sha256": "8a254f74dc3c9318abf55ab13a772099ff22beb24d61e67a5a8f5c36232655b4"
+    },
+    {
+      "file": "接手哈希核对.json",
+      "sha256": "d9dbd2c825488217df87b9f7f3519c1aa18153fd25159bf3ba0285a9e2f7baef"
+    },
+    {
+      "file": "根绑定与数值证据.json",
+      "sha256": "e59f40c13d57fcef26ede39ce33fe9c99fc938f46f8666bb5ab10d21752cb1b6"
+    },
+    {
+      "file": "独立核算.json",
+      "sha256": "cd95c5bf64f45e1eda86acc6769940f8870f283d3a0d7209337618da8d9c782c"
+    },
+    {
+      "file": "独立核算.mjs",
+      "sha256": "fd79644d11a23f94f901648b988f6e777fbb33e9ff22de599624d7a9063e0a5c"
+    },
+    {
+      "file": "生成候选.mjs",
+      "sha256": "5052a7c1a7472d42d87668f00989aa4560ed97fc8fdbafade7931b2babd19332"
+    },
+    {
+      "file": "英雄组成.mjs",
+      "sha256": "717cf84c131b27f6c04c6f50da99e0379c85dbe5236fc41675c8752d5d0ab757"
+    },
+    {
+      "file": "补充文本证据.json",
+      "sha256": "95ad677cb6aaca057e67e35641ce23bb1beb6992f2eba977684ee259d54e1f4b"
+    },
+    {
+      "file": "计算树候选.mjs",
+      "sha256": "23eeb134827583624fb474e684b7709e544b9f6f5805e32b4240899cc2c8c34f"
+    }
+  ]
+}

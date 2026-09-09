@@ -1,0 +1,4817 @@
+{
+  "at": "2026-09-09T02:50:34.519Z",
+  "mode": "全部请求为GET；保留当前20技能及六类组成原值；不写业务接口",
+  "base": "http://127.0.0.1:8080/api/admin/games/lol",
+  "heroes": [
+    "Graves",
+    "Jinx",
+    "Varus",
+    "KogMaw"
+  ],
+  "skillKeys": [
+    "graves_p",
+    "graves_q",
+    "graves_w",
+    "graves_e",
+    "graves_r",
+    "jinx_p",
+    "jinx_q",
+    "jinx_w",
+    "jinx_e",
+    "jinx_r",
+    "varus_p",
+    "varus_q",
+    "varus_w",
+    "varus_e",
+    "varus_r",
+    "kogmaw_p",
+    "kogmaw_q",
+    "kogmaw_w",
+    "kogmaw_e",
+    "kogmaw_r"
+  ],
+  "kinds": [
+    {
+      "name": "parameters",
+      "api": "parameters",
+      "id": "parameterKey"
+    },
+    {
+      "name": "formulas",
+      "api": "formulas",
+      "id": "formulaKey"
+    },
+    {
+      "name": "effects",
+      "api": "effects",
+      "id": "effectKey"
+    },
+    {
+      "name": "processes",
+      "api": "processes",
+      "id": "processKey"
+    },
+    {
+      "name": "internalStates",
+      "api": "internal-states",
+      "id": "stateKey"
+    },
+    {
+      "name": "triggerRules",
+      "api": "trigger-rules",
+      "id": "ruleKey"
+    }
+  ],
+  "skills": {
+    "graves_p": {
+      "subject": {
+        "route": "/skills/graves_p",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:27.446696Z",
+          "description": "格雷福斯的散弹枪拥有一些独特性能。他的弹药打光后就必须重新装弹。每次攻击会发射4颗弹丸，弹丸无法穿透单位。会击退被多颗弹丸命中的非英雄单位。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "格雷福斯·新命运",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "graves_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:27.446696Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/graves_p/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/graves_p/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/graves_p/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/graves_p/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/graves_p/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/graves_p/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "graves_q": {
+      "subject": {
+        "route": "/skills/graves_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:27.743453Z",
+          "description": "格雷福斯发射一颗爆破性的榴弹，会在1秒后引爆，或是在碰到地形后立刻爆炸。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "格雷福斯·穷途末路",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "graves_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:27.743453Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/graves_q/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:59:53.715242Z",
+                "description": "DDragon16.17.1 Graves.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 13000,
+                  "2": 11250,
+                  "3": 9500,
+                  "4": 7750,
+                  "5": 6000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "graves_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:59:53.715242Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:59:54.119427Z",
+                "description": "DDragon16.17.1 Graves.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 80,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "graves_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:54.119427Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:59:53.715242Z",
+              "description": "DDragon16.17.1 Graves.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 13000,
+                "2": 11250,
+                "3": 9500,
+                "4": 7750,
+                "5": 6000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "graves_q",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:59:53.715242Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:59:54.119427Z",
+              "description": "DDragon16.17.1 Graves.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 80,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "graves_q",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:59:54.119427Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:59:53.715242Z",
+                "description": "DDragon16.17.1 Graves.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 13000,
+                  "2": 11250,
+                  "3": 9500,
+                  "4": 7750,
+                  "5": 6000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "graves_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:59:53.715242Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/graves_q/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:53.715242Z",
+                  "description": "DDragon16.17.1 Graves.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 13000,
+                    "2": 11250,
+                    "3": 9500,
+                    "4": 7750,
+                    "5": 6000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "graves_q",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:59:53.715242Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:59:54.119427Z",
+                "description": "DDragon16.17.1 Graves.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 80,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "graves_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:54.119427Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/graves_q/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:54.119427Z",
+                  "description": "DDragon16.17.1 Graves.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 80,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "graves_q",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:59:54.119427Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/graves_q/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/graves_q/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/graves_q/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/graves_q/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/graves_q/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "graves_w": {
+      "subject": {
+        "route": "/skills/graves_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:27.994388Z",
+          "description": "格雷福斯朝目标区域掷出一颗烟幕弹。如果敌人处在烟幕之中，则其视野会被降低。被烟幕弹的初始冲击所命中的敌人会受到魔法伤害并且移动速度会被短暂降低。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "格雷福斯·烟幕弹",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "graves_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:27.994388Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/graves_w/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:59:54.536941Z",
+                "description": "DDragon16.17.1 Graves.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 26000,
+                  "2": 24000,
+                  "3": 22000,
+                  "4": 20000,
+                  "5": 18000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "graves_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:59:54.536941Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:59:54.963419Z",
+                "description": "DDragon16.17.1 Graves.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 70,
+                  "2": 75,
+                  "3": 80,
+                  "4": 85,
+                  "5": 90
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "graves_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:54.963419Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:59:54.536941Z",
+              "description": "DDragon16.17.1 Graves.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 26000,
+                "2": 24000,
+                "3": 22000,
+                "4": 20000,
+                "5": 18000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "graves_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:59:54.536941Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:59:54.963419Z",
+              "description": "DDragon16.17.1 Graves.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 70,
+                "2": 75,
+                "3": 80,
+                "4": 85,
+                "5": 90
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "graves_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:59:54.963419Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:59:54.536941Z",
+                "description": "DDragon16.17.1 Graves.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 26000,
+                  "2": 24000,
+                  "3": 22000,
+                  "4": 20000,
+                  "5": 18000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "graves_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:59:54.536941Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/graves_w/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:54.536941Z",
+                  "description": "DDragon16.17.1 Graves.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 26000,
+                    "2": 24000,
+                    "3": 22000,
+                    "4": 20000,
+                    "5": 18000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "graves_w",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:59:54.536941Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:59:54.963419Z",
+                "description": "DDragon16.17.1 Graves.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 70,
+                  "2": 75,
+                  "3": 80,
+                  "4": 85,
+                  "5": 90
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "graves_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:54.963419Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/graves_w/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:54.963419Z",
+                  "description": "DDragon16.17.1 Graves.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 70,
+                    "2": 75,
+                    "3": 80,
+                    "4": 85,
+                    "5": 90
+                  },
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "graves_w",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:59:54.963419Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/graves_w/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/graves_w/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/graves_w/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/graves_w/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/graves_w/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "graves_e": {
+      "subject": {
+        "route": "/skills/graves_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:28.241716Z",
+          "description": "格雷福斯向前冲刺，获得一层持续数秒的护甲和魔法抗性加成。如果格雷福斯朝着一名敌方英雄冲刺，则会获得两层纯爷们效果。格雷福斯的每次未被闪避的普通攻击，都会减少这个技能的冷却时间并刷新该防御属性加成。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "格雷福斯·快速拔枪",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "graves_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:28.241716Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/graves_e/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:59:55.367495Z",
+                "description": "DDragon16.17.1 Graves.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 16000,
+                  "2": 15000,
+                  "3": 14000,
+                  "4": 13000,
+                  "5": 12000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "graves_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:59:55.367495Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:59:55.723856Z",
+                "description": "DDragon16.17.1 Graves.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "graves_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:55.723856Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:59:55.367495Z",
+              "description": "DDragon16.17.1 Graves.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 16000,
+                "2": 15000,
+                "3": 14000,
+                "4": 13000,
+                "5": 12000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "graves_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:59:55.367495Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:59:55.723856Z",
+              "description": "DDragon16.17.1 Graves.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 40,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "graves_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:59:55.723856Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:59:55.367495Z",
+                "description": "DDragon16.17.1 Graves.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 16000,
+                  "2": 15000,
+                  "3": 14000,
+                  "4": 13000,
+                  "5": 12000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "graves_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:59:55.367495Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/graves_e/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:55.367495Z",
+                  "description": "DDragon16.17.1 Graves.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 16000,
+                    "2": 15000,
+                    "3": 14000,
+                    "4": 13000,
+                    "5": 12000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "graves_e",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:59:55.367495Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:59:55.723856Z",
+                "description": "DDragon16.17.1 Graves.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "graves_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:55.723856Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/graves_e/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:55.723856Z",
+                  "description": "DDragon16.17.1 Graves.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 40,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "graves_e",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:59:55.723856Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/graves_e/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/graves_e/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/graves_e/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/graves_e/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/graves_e/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "graves_r": {
+      "subject": {
+        "route": "/skills/graves_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:28.555735Z",
+          "description": "格雷福斯射出一枚爆破弹，对它所命中的第一个敌人造成大量伤害。在命中一名英雄或者达到它的最大射程之后，爆弹会爆炸，并对锥形范围内的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "格雷福斯·终极爆弹",
+          "skillCategoryKeys": [],
+          "skillKey": "graves_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:28.555735Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/graves_r/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T17:59:56.157736Z",
+                "description": "DDragon16.17.1 Graves.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 100000,
+                  "2": 80000,
+                  "3": 60000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "graves_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:59:56.157736Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T17:59:56.555434Z",
+                "description": "DDragon16.17.1 Graves.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "graves_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:56.555434Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T17:59:56.157736Z",
+              "description": "DDragon16.17.1 Graves.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 100000,
+                "2": 80000,
+                "3": 60000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "graves_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T17:59:56.157736Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T17:59:56.555434Z",
+              "description": "DDragon16.17.1 Graves.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 100,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "graves_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T17:59:56.555434Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T17:59:56.157736Z",
+                "description": "DDragon16.17.1 Graves.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 100000,
+                  "2": 80000,
+                  "3": 60000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "graves_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T17:59:56.157736Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/graves_r/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:56.157736Z",
+                  "description": "DDragon16.17.1 Graves.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 100000,
+                    "2": 80000,
+                    "3": 60000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "graves_r",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T17:59:56.157736Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T17:59:56.555434Z",
+                "description": "DDragon16.17.1 Graves.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "graves_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T17:59:56.555434Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/graves_r/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T17:59:56.555434Z",
+                  "description": "DDragon16.17.1 Graves.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "graves_r",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T17:59:56.555434Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/graves_r/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/graves_r/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/graves_r/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/graves_r/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/graves_r/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "jinx_p": {
+      "subject": {
+        "route": "/skills/jinx_p",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:45.568162Z",
+          "description": "金克丝每当参与击杀或摧毁一名英雄、一个史诗级野怪或一座建筑物后，她的移动速度和攻击速度就会得到显著提升。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "金克丝·罪恶快感",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "jinx_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:45.568162Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/jinx_p/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/jinx_p/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/jinx_p/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/jinx_p/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/jinx_p/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/jinx_p/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "jinx_q": {
+      "subject": {
+        "route": "/skills/jinx_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:45.824464Z",
+          "description": "金克丝可以通过切换武器来改变普通攻击的方式。在用她的轻机枪“砰砰”攻击时，她的攻击速度会提升。在用她的火箭发射器“鱼骨头”攻击时，她的普通攻击会造成范围伤害，攻击距离提升，但会消耗法力值并且攻击得更慢。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "金克丝·枪炮交响曲！",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "jinx_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:45.824464Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/jinx_q/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/jinx_q/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/jinx_q/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/jinx_q/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/jinx_q/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/jinx_q/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "jinx_w": {
+      "subject": {
+        "route": "/skills/jinx_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:46.084855Z",
+          "description": "金克丝使用她的震荡手枪“电磁器”来发射震荡波，让被命中的第一个敌人暴露在己方视野中（可使隐形英雄现形），并对其造成伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "金克丝·震荡电磁波！",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "jinx_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:46.084855Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/jinx_w/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T18:00:07.228519Z",
+                "description": "DDragon16.17.1 Jinx.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 8000,
+                  "2": 7000,
+                  "3": 6000,
+                  "4": 5000,
+                  "5": 4000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "jinx_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:00:07.228519Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T18:00:07.618767Z",
+                "description": "DDragon16.17.1 Jinx.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 40,
+                  "2": 45,
+                  "3": 50,
+                  "4": 55,
+                  "5": 60
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "jinx_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:00:07.618767Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T18:00:07.228519Z",
+              "description": "DDragon16.17.1 Jinx.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 8000,
+                "2": 7000,
+                "3": 6000,
+                "4": 5000,
+                "5": 4000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "jinx_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:00:07.228519Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:00:07.618767Z",
+              "description": "DDragon16.17.1 Jinx.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 40,
+                "2": 45,
+                "3": 50,
+                "4": 55,
+                "5": 60
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "jinx_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:00:07.618767Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T18:00:07.228519Z",
+                "description": "DDragon16.17.1 Jinx.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 8000,
+                  "2": 7000,
+                  "3": 6000,
+                  "4": 5000,
+                  "5": 4000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "jinx_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:00:07.228519Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/jinx_w/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:00:07.228519Z",
+                  "description": "DDragon16.17.1 Jinx.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 8000,
+                    "2": 7000,
+                    "3": 6000,
+                    "4": 5000,
+                    "5": 4000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "jinx_w",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T18:00:07.228519Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T18:00:07.618767Z",
+                "description": "DDragon16.17.1 Jinx.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 40,
+                  "2": 45,
+                  "3": 50,
+                  "4": 55,
+                  "5": 60
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "jinx_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:00:07.618767Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/jinx_w/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:00:07.618767Z",
+                  "description": "DDragon16.17.1 Jinx.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 40,
+                    "2": 45,
+                    "3": 50,
+                    "4": 55,
+                    "5": 60
+                  },
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "jinx_w",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T18:00:07.618767Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/jinx_w/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/jinx_w/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/jinx_w/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/jinx_w/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/jinx_w/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "jinx_e": {
+      "subject": {
+        "route": "/skills/jinx_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:46.42394Z",
+          "description": "金克丝扔出一串陷阱手雷。手雷会在5秒后爆炸，让敌人着火。嚼火者手雷将会袭击路过的敌方英雄，并将他们束缚在原地。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "金克丝·嚼火者手雷！",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "jinx_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:46.42394Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/jinx_e/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/jinx_e/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/jinx_e/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/jinx_e/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/jinx_e/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/jinx_e/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "jinx_r": {
+      "subject": {
+        "route": "/skills/jinx_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:18:46.707135Z",
+          "description": "金克丝发射一枚能够跨越整个地图的飞弹，并且飞行的时间越长，伤害值越高。飞弹会在命中一名敌方英雄后爆炸，对目标和目标附近的敌人造成伤害，且目标的生命值越低，所受的伤害值越高。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "金克丝·超究极死神飞弹！",
+          "skillCategoryKeys": [],
+          "skillKey": "jinx_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:18:46.707135Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/jinx_r/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T18:00:08.02928Z",
+                "description": "DDragon16.17.1 Jinx.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 85000,
+                  "2": 65000,
+                  "3": 45000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "jinx_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:00:08.02928Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T18:00:08.419868Z",
+                "description": "DDragon16.17.1 Jinx.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "jinx_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:00:08.419868Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T18:00:08.02928Z",
+              "description": "DDragon16.17.1 Jinx.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 85000,
+                "2": 65000,
+                "3": 45000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "jinx_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:00:08.02928Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:00:08.419868Z",
+              "description": "DDragon16.17.1 Jinx.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 100,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "jinx_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:00:08.419868Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T18:00:08.02928Z",
+                "description": "DDragon16.17.1 Jinx.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 85000,
+                  "2": 65000,
+                  "3": 45000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "jinx_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:00:08.02928Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/jinx_r/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:00:08.02928Z",
+                  "description": "DDragon16.17.1 Jinx.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 85000,
+                    "2": 65000,
+                    "3": 45000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "jinx_r",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T18:00:08.02928Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T18:00:08.419868Z",
+                "description": "DDragon16.17.1 Jinx.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "jinx_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:00:08.419868Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/jinx_r/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:00:08.419868Z",
+                  "description": "DDragon16.17.1 Jinx.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "jinx_r",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T18:00:08.419868Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/jinx_r/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/jinx_r/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/jinx_r/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/jinx_r/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/jinx_r/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "varus_p": {
+      "subject": {
+        "route": "/skills/varus_p",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:51.812136Z",
+          "description": "每完成一次击杀或助攻，韦鲁斯就会暂时获得攻击速度、攻击力和法术强度。如果敌人是个英雄，则这个加成的幅度会更大。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "韦鲁斯·复仇之欲",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "varus_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:51.812136Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/varus_p/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/varus_p/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/varus_p/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/varus_p/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/varus_p/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/varus_p/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "varus_q": {
+      "subject": {
+        "route": "/skills/varus_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:52.083599Z",
+          "description": "韦鲁斯开始蓄力，随后进行一次远距离的强力射击，蓄力时间越长，伤害越高。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "韦鲁斯·穿刺之箭",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "varus_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:52.083599Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/varus_q/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-08T02:05:29.339487Z",
+                "description": "DDragon16.17.1 Varus.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 16000,
+                  "2": 15000,
+                  "3": 14000,
+                  "4": 13000,
+                  "5": 12000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "varus_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-08T02:05:29.339487Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-08T02:05:29.946571Z",
+                "description": "DDragon16.17.1 Varus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 50,
+                  "2": 55,
+                  "3": 60,
+                  "4": 65,
+                  "5": 70
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "varus_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-08T02:05:29.946571Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-08T02:05:29.339487Z",
+              "description": "DDragon16.17.1 Varus.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 16000,
+                "2": 15000,
+                "3": 14000,
+                "4": 13000,
+                "5": 12000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "varus_q",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-08T02:05:29.339487Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T02:05:29.946571Z",
+              "description": "DDragon16.17.1 Varus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 50,
+                "2": 55,
+                "3": 60,
+                "4": 65,
+                "5": 70
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "varus_q",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-08T02:05:29.946571Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-08T02:05:29.339487Z",
+                "description": "DDragon16.17.1 Varus.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 16000,
+                  "2": 15000,
+                  "3": 14000,
+                  "4": 13000,
+                  "5": 12000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "varus_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-08T02:05:29.339487Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/varus_q/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T02:05:29.339487Z",
+                  "description": "DDragon16.17.1 Varus.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 16000,
+                    "2": 15000,
+                    "3": 14000,
+                    "4": 13000,
+                    "5": 12000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "varus_q",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-08T02:05:29.339487Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-08T02:05:29.946571Z",
+                "description": "DDragon16.17.1 Varus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 50,
+                  "2": 55,
+                  "3": 60,
+                  "4": 65,
+                  "5": 70
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "varus_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-08T02:05:29.946571Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/varus_q/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T02:05:29.946571Z",
+                  "description": "DDragon16.17.1 Varus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 50,
+                    "2": 55,
+                    "3": 60,
+                    "4": 65,
+                    "5": 70
+                  },
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "varus_q",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-08T02:05:29.946571Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/varus_q/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/varus_q/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/varus_q/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/varus_q/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/varus_q/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "varus_w": {
+      "subject": {
+        "route": "/skills/varus_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:52.364978Z",
+          "description": "被动：韦鲁斯的普通攻击会造成额外的伤害，并附加枯萎效果。韦鲁斯的其它技能会引爆枯萎效果，造成基于目标最大生命值的魔法伤害。主动：韦鲁斯增强他的下一个【穿刺之箭】。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "韦鲁斯·枯萎箭袋",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "varus_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:52.364978Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/varus_w/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-08T02:05:30.411786Z",
+                "description": "DDragon16.17.1 Varus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "varus_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-08T02:05:30.411786Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-08T02:05:30.411786Z",
+              "description": "DDragon16.17.1 Varus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 40000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "varus_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-08T02:05:30.411786Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-08T02:05:30.411786Z",
+                "description": "DDragon16.17.1 Varus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "varus_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-08T02:05:30.411786Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/varus_w/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T02:05:30.411786Z",
+                  "description": "DDragon16.17.1 Varus.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 40000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "varus_w",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-08T02:05:30.411786Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/varus_w/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/varus_w/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/varus_w/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/varus_w/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/varus_w/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "varus_e": {
+      "subject": {
+        "route": "/skills/varus_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:52.637362Z",
+          "description": "韦鲁斯射出一阵箭雨，造成物理伤害并污染地面。被污染的地面将会减慢敌人的移动速度，并降低他们的自我治疗效果和回复效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "韦鲁斯·恶灵箭雨",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "varus_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:52.637362Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/varus_e/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-08T02:05:30.896513Z",
+                "description": "DDragon16.17.1 Varus.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 18000,
+                  "2": 16000,
+                  "3": 14000,
+                  "4": 12000,
+                  "5": 10000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "varus_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-08T02:05:30.896513Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-08T02:05:31.318102Z",
+                "description": "DDragon16.17.1 Varus.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 90,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "varus_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-08T02:05:31.318102Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-08T02:05:30.896513Z",
+              "description": "DDragon16.17.1 Varus.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 18000,
+                "2": 16000,
+                "3": 14000,
+                "4": 12000,
+                "5": 10000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "varus_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-08T02:05:30.896513Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T02:05:31.318102Z",
+              "description": "DDragon16.17.1 Varus.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 90,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "varus_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-08T02:05:31.318102Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-08T02:05:30.896513Z",
+                "description": "DDragon16.17.1 Varus.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 18000,
+                  "2": 16000,
+                  "3": 14000,
+                  "4": 12000,
+                  "5": 10000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "varus_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-08T02:05:30.896513Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/varus_e/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T02:05:30.896513Z",
+                  "description": "DDragon16.17.1 Varus.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 18000,
+                    "2": 16000,
+                    "3": 14000,
+                    "4": 12000,
+                    "5": 10000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "varus_e",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-08T02:05:30.896513Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-08T02:05:31.318102Z",
+                "description": "DDragon16.17.1 Varus.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 90,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "varus_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-08T02:05:31.318102Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/varus_e/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T02:05:31.318102Z",
+                  "description": "DDragon16.17.1 Varus.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 90,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "varus_e",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-08T02:05:31.318102Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/varus_e/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/varus_e/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/varus_e/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/varus_e/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/varus_e/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "varus_r": {
+      "subject": {
+        "route": "/skills/varus_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:20:52.881981Z",
+          "description": "韦鲁斯投掷出一个腐败藤蔓，来禁锢命中的第一个敌方英雄，随后向附近没有被感染的英雄蔓延，并在碰到后将他们也禁锢。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "韦鲁斯·腐败锁链",
+          "skillCategoryKeys": [],
+          "skillKey": "varus_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:20:52.881981Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/varus_r/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-08T02:05:31.746652Z",
+                "description": "DDragon16.17.1 Varus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 100000,
+                  "2": 80000,
+                  "3": 60000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "varus_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-08T02:05:31.746652Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-08T02:05:32.227915Z",
+                "description": "DDragon16.17.1 Varus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "varus_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-08T02:05:32.227915Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-08T02:05:31.746652Z",
+              "description": "DDragon16.17.1 Varus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 100000,
+                "2": 80000,
+                "3": 60000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "varus_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-08T02:05:31.746652Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-08T02:05:32.227915Z",
+              "description": "DDragon16.17.1 Varus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 100,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "varus_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-08T02:05:32.227915Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-08T02:05:31.746652Z",
+                "description": "DDragon16.17.1 Varus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 100000,
+                  "2": 80000,
+                  "3": 60000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "varus_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-08T02:05:31.746652Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/varus_r/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T02:05:31.746652Z",
+                  "description": "DDragon16.17.1 Varus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 100000,
+                    "2": 80000,
+                    "3": 60000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "varus_r",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-08T02:05:31.746652Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-08T02:05:32.227915Z",
+                "description": "DDragon16.17.1 Varus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 100,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "varus_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-08T02:05:32.227915Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/varus_r/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-08T02:05:32.227915Z",
+                  "description": "DDragon16.17.1 Varus.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 100,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "varus_r",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-08T02:05:32.227915Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/varus_r/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/varus_r/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/varus_r/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/varus_r/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/varus_r/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "kogmaw_p": {
+      "subject": {
+        "route": "/skills/kogmaw_p",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:03.937344Z",
+          "description": "在死后4秒，克格莫会爆炸，对周围的敌人造成真实伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+          "gameId": "lol",
+          "maxLevel": 1,
+          "name": "克格莫·来自艾卡西亚的惊喜",
+          "skillCategoryKeys": [
+            "passive"
+          ],
+          "skillKey": "kogmaw_p",
+          "sortOrder": 0,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:03.937344Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/kogmaw_p/parameters",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/kogmaw_p/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/kogmaw_p/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/kogmaw_p/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/kogmaw_p/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/kogmaw_p/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "kogmaw_q": {
+      "subject": {
+        "route": "/skills/kogmaw_q",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:04.23212Z",
+          "description": "克格莫发射一团腐蚀性物质，对目标造成魔法伤害，并暂时腐蚀目标的护甲和魔法抗性。克格莫还会获得额外攻速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "克格莫·腐蚀唾液",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "kogmaw_q",
+          "sortOrder": 1,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:04.23212Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/kogmaw_q/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T18:00:15.073968Z",
+                "description": "DDragon16.17.1 KogMaw.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 7000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "kogmaw_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:00:15.073968Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T18:00:15.437135Z",
+                "description": "DDragon16.17.1 KogMaw.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "kogmaw_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:00:15.437135Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T18:00:15.073968Z",
+              "description": "DDragon16.17.1 KogMaw.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 7000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "kogmaw_q",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:00:15.073968Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:00:15.437135Z",
+              "description": "DDragon16.17.1 KogMaw.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 40,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "kogmaw_q",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:00:15.437135Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T18:00:15.073968Z",
+                "description": "DDragon16.17.1 KogMaw.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 7000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "kogmaw_q",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:00:15.073968Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/kogmaw_q/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:00:15.073968Z",
+                  "description": "DDragon16.17.1 KogMaw.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 7000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "kogmaw_q",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T18:00:15.073968Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T18:00:15.437135Z",
+                "description": "DDragon16.17.1 KogMaw.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "kogmaw_q",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:00:15.437135Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/kogmaw_q/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:00:15.437135Z",
+                  "description": "DDragon16.17.1 KogMaw.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 40,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "kogmaw_q",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T18:00:15.437135Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/kogmaw_q/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/kogmaw_q/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/kogmaw_q/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/kogmaw_q/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/kogmaw_q/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "kogmaw_w": {
+      "subject": {
+        "route": "/skills/kogmaw_w",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:04.483812Z",
+          "description": "克格莫的攻击获得额外距离，并且能够对目标造成额外的魔法伤害，伤害值基于目标的最大生命值%i:OnHit% <OnHit>攻击特效</OnHit>。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "克格莫·生化弹幕",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "kogmaw_w",
+          "sortOrder": 2,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:04.483812Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/kogmaw_w/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T18:00:15.822368Z",
+                "description": "DDragon16.17.1 KogMaw.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 17000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "kogmaw_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:00:15.822368Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T18:00:16.181576Z",
+                "description": "DDragon16.17.1 KogMaw.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "kogmaw_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:00:16.181576Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T18:00:15.822368Z",
+              "description": "DDragon16.17.1 KogMaw.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 17000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:00:15.822368Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:00:16.181576Z",
+              "description": "DDragon16.17.1 KogMaw.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 40,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "kogmaw_w",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:00:16.181576Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T18:00:15.822368Z",
+                "description": "DDragon16.17.1 KogMaw.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 17000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "kogmaw_w",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:00:15.822368Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/kogmaw_w/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:00:15.822368Z",
+                  "description": "DDragon16.17.1 KogMaw.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 17000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "kogmaw_w",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T18:00:15.822368Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T18:00:16.181576Z",
+                "description": "DDragon16.17.1 KogMaw.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "kogmaw_w",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:00:16.181576Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/kogmaw_w/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:00:16.181576Z",
+                  "description": "DDragon16.17.1 KogMaw.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 40,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "kogmaw_w",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T18:00:16.181576Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/kogmaw_w/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/kogmaw_w/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/kogmaw_w/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/kogmaw_w/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/kogmaw_w/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "kogmaw_e": {
+      "subject": {
+        "route": "/skills/kogmaw_e",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:04.806909Z",
+          "description": "克格莫抛射出一团特殊的分泌物，对经过或停留在分泌物上的敌人造成伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 5,
+          "name": "克格莫·虚空淤泥",
+          "skillCategoryKeys": [
+            "common"
+          ],
+          "skillKey": "kogmaw_e",
+          "sortOrder": 3,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:04.806909Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/kogmaw_e/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T18:00:16.621096Z",
+                "description": "DDragon16.17.1 KogMaw.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 12000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "kogmaw_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:00:16.621096Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T18:00:16.987923Z",
+                "description": "DDragon16.17.1 KogMaw.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 40,
+                  "2": 55,
+                  "3": 70,
+                  "4": 85,
+                  "5": 100
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "kogmaw_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:00:16.987923Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T18:00:16.621096Z",
+              "description": "DDragon16.17.1 KogMaw.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": 12000,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "kogmaw_e",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:00:16.621096Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:00:16.987923Z",
+              "description": "DDragon16.17.1 KogMaw.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 40,
+                "2": 55,
+                "3": 70,
+                "4": 85,
+                "5": 100
+              },
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "kogmaw_e",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:00:16.987923Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T18:00:16.621096Z",
+                "description": "DDragon16.17.1 KogMaw.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": 12000,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "kogmaw_e",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:00:16.621096Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/kogmaw_e/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:00:16.621096Z",
+                  "description": "DDragon16.17.1 KogMaw.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": 12000,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "kogmaw_e",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T18:00:16.621096Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T18:00:16.987923Z",
+                "description": "DDragon16.17.1 KogMaw.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 40,
+                  "2": 55,
+                  "3": 70,
+                  "4": 85,
+                  "5": 100
+                },
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "kogmaw_e",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:00:16.987923Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/kogmaw_e/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:00:16.987923Z",
+                  "description": "DDragon16.17.1 KogMaw.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 40,
+                    "2": 55,
+                    "3": 70,
+                    "4": 85,
+                    "5": 100
+                  },
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "kogmaw_e",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T18:00:16.987923Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/kogmaw_e/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/kogmaw_e/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/kogmaw_e/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/kogmaw_e/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/kogmaw_e/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    },
+    "kogmaw_r": {
+      "subject": {
+        "route": "/skills/kogmaw_r",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-06T18:19:05.073026Z",
+          "description": "克格莫发射一枚射程极远的活体炮弹，让被命中的敌人暴露在己方视野中，并对目标造成魔法伤害（对低血量目标的伤害会显著提升）。 在短时间内连续使用活体大炮，将消耗额外的法力值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+          "gameId": "lol",
+          "maxLevel": 3,
+          "name": "克格莫·活体大炮",
+          "skillCategoryKeys": [],
+          "skillKey": "kogmaw_r",
+          "sortOrder": 4,
+          "status": "ENABLED",
+          "updatedAt": "2026-09-06T18:19:05.073026Z"
+        }
+      },
+      "components": {
+        "parameters": {
+          "list": {
+            "route": "/skills/kogmaw_r/parameters",
+            "status": 200,
+            "data": [
+              {
+                "createdAt": "2026-09-07T18:00:17.333173Z",
+                "description": "DDragon16.17.1 KogMaw.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 2000,
+                  "2": 1500,
+                  "3": 1000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "kogmaw_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:00:17.333173Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              {
+                "createdAt": "2026-09-07T18:00:17.769045Z",
+                "description": "DDragon16.17.1 KogMaw.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。此40法力仅为无额外层数的基础消耗，连续施放的8秒累加及400上限另行配置。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "kogmaw_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:00:17.769045Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              }
+            ]
+          },
+          "items": [
+            {
+              "createdAt": "2026-09-07T18:00:17.333173Z",
+              "description": "DDragon16.17.1 KogMaw.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+              "fixedValue": null,
+              "gameId": "lol",
+              "levelValues": {
+                "1": 2000,
+                "2": 1500,
+                "3": 1000
+              },
+              "name": "基础冷却时间（毫秒）",
+              "parameterKey": "cooldown_ms",
+              "skillKey": "kogmaw_r",
+              "sortOrder": 100,
+              "updatedAt": "2026-09-07T18:00:17.333173Z",
+              "valueMode": "SKILL_LEVEL",
+              "valueType": "INTEGER"
+            },
+            {
+              "createdAt": "2026-09-07T18:00:17.769045Z",
+              "description": "DDragon16.17.1 KogMaw.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。此40法力仅为无额外层数的基础消耗，连续施放的8秒累加及400上限另行配置。",
+              "fixedValue": 40,
+              "gameId": "lol",
+              "levelValues": null,
+              "name": "基础法力消耗",
+              "parameterKey": "mana_cost",
+              "skillKey": "kogmaw_r",
+              "sortOrder": 110,
+              "updatedAt": "2026-09-07T18:00:17.769045Z",
+              "valueMode": "FIXED",
+              "valueType": "INTEGER"
+            }
+          ],
+          "details": [
+            {
+              "key": "cooldown_ms",
+              "item": {
+                "createdAt": "2026-09-07T18:00:17.333173Z",
+                "description": "DDragon16.17.1 KogMaw.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                "fixedValue": null,
+                "gameId": "lol",
+                "levelValues": {
+                  "1": 2000,
+                  "2": 1500,
+                  "3": 1000
+                },
+                "name": "基础冷却时间（毫秒）",
+                "parameterKey": "cooldown_ms",
+                "skillKey": "kogmaw_r",
+                "sortOrder": 100,
+                "updatedAt": "2026-09-07T18:00:17.333173Z",
+                "valueMode": "SKILL_LEVEL",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/kogmaw_r/parameters/cooldown_ms",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:00:17.333173Z",
+                  "description": "DDragon16.17.1 KogMaw.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+                  "fixedValue": null,
+                  "gameId": "lol",
+                  "levelValues": {
+                    "1": 2000,
+                    "2": 1500,
+                    "3": 1000
+                  },
+                  "name": "基础冷却时间（毫秒）",
+                  "parameterKey": "cooldown_ms",
+                  "skillKey": "kogmaw_r",
+                  "sortOrder": 100,
+                  "updatedAt": "2026-09-07T18:00:17.333173Z",
+                  "valueMode": "SKILL_LEVEL",
+                  "valueType": "INTEGER"
+                }
+              }
+            },
+            {
+              "key": "mana_cost",
+              "item": {
+                "createdAt": "2026-09-07T18:00:17.769045Z",
+                "description": "DDragon16.17.1 KogMaw.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。此40法力仅为无额外层数的基础消耗，连续施放的8秒累加及400上限另行配置。",
+                "fixedValue": 40,
+                "gameId": "lol",
+                "levelValues": null,
+                "name": "基础法力消耗",
+                "parameterKey": "mana_cost",
+                "skillKey": "kogmaw_r",
+                "sortOrder": 110,
+                "updatedAt": "2026-09-07T18:00:17.769045Z",
+                "valueMode": "FIXED",
+                "valueType": "INTEGER"
+              },
+              "detail": {
+                "route": "/skills/kogmaw_r/parameters/mana_cost",
+                "status": 200,
+                "data": {
+                  "createdAt": "2026-09-07T18:00:17.769045Z",
+                  "description": "DDragon16.17.1 KogMaw.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。此40法力仅为无额外层数的基础消耗，连续施放的8秒累加及400上限另行配置。",
+                  "fixedValue": 40,
+                  "gameId": "lol",
+                  "levelValues": null,
+                  "name": "基础法力消耗",
+                  "parameterKey": "mana_cost",
+                  "skillKey": "kogmaw_r",
+                  "sortOrder": 110,
+                  "updatedAt": "2026-09-07T18:00:17.769045Z",
+                  "valueMode": "FIXED",
+                  "valueType": "INTEGER"
+                }
+              }
+            }
+          ]
+        },
+        "formulas": {
+          "list": {
+            "route": "/skills/kogmaw_r/formulas",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "effects": {
+          "list": {
+            "route": "/skills/kogmaw_r/effects",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "processes": {
+          "list": {
+            "route": "/skills/kogmaw_r/processes",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "internalStates": {
+          "list": {
+            "route": "/skills/kogmaw_r/internal-states",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        },
+        "triggerRules": {
+          "list": {
+            "route": "/skills/kogmaw_r/trigger-rules",
+            "status": 200,
+            "data": []
+          },
+          "items": [],
+          "details": []
+        }
+      }
+    }
+  },
+  "catalogs": {
+    "attributes": {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    "modifier-zones": {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    "statuses": {
+      "route": "/statuses",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-28T14:55:06.53067Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "眩晕",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "statusKey": "vertigo",
+            "updatedAt": "2026-08-28T14:55:06.53067Z"
+          }
+        ],
+        "total": 1
+      }
+    },
+    "damage-types": {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    }
+  },
+  "duplicateKeys": [],
+  "requests": [
+    {
+      "route": "/attributes",
+      "status": 200
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200
+    },
+    {
+      "route": "/statuses",
+      "status": 200
+    },
+    {
+      "route": "/damage-types",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_p",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_p/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_p/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_p/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_p/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_p/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_q",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_q/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_q/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_q/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_q/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_q/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_w",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_w/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_w/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_w/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_w/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_w/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_e",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_e/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_e/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_e/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_e/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_e/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_r",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_r/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_r/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_r/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_r/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_r/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/graves_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_p",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_p/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_p/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_p/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_p/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_p/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_q",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_q/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_q/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_q/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_q/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_q/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_w",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_w/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_w/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_w/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_w/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_w/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_e",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_e/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_e/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_e/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_e/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_e/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_r",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_r/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_r/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_r/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_r/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_r/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/jinx_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_p",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_p/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_p/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_p/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_p/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_p/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_q",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_q/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_q/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_q/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_q/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_q/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_w",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_w/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_w/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_w/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_w/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_w/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_e",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_e/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_e/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_e/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_e/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_e/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_r",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_r/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_r/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_r/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_r/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_r/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/varus_r/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_p",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_p/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_p/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_p/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_p/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_p/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_p/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_q",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_q/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_q/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_q/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_q/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_q/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_q/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_q/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_q/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_w",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_w/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_w/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_w/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_w/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_w/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_w/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_w/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_w/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_e",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_e/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_e/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_e/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_e/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_e/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_e/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_e/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_e/trigger-rules",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_r",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_r/parameters",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_r/parameters/cooldown_ms",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_r/parameters/mana_cost",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_r/formulas",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_r/effects",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_r/processes",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_r/internal-states",
+      "status": 200
+    },
+    {
+      "route": "/skills/kogmaw_r/trigger-rules",
+      "status": 200
+    }
+  ],
+  "errors": [],
+  "summary": {
+    "skillCount": 20,
+    "expectedSkillCount": 20,
+    "compositionCount": 120,
+    "detailCount": 27,
+    "duplicateCount": 0,
+    "errorCount": 0,
+    "requestCount": 171
+  }
+}

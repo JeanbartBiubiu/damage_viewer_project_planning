@@ -1,0 +1,33 @@
+{
+  "at": "2026-09-09T04:25:53.262Z",
+  "pass": true,
+  "businessHttp": 0,
+  "businessWrites": 0,
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "checks": [
+    {
+      "name": "忽略对象字段顺序，但完整比较字段值",
+      "pass": true
+    },
+    {
+      "name": "POST503后只GET对账，不重放",
+      "pass": true
+    },
+    {
+      "name": "异常且未落地时暂停该技能后续依赖",
+      "pass": true
+    },
+    {
+      "name": "写前异值不会发POST",
+      "pass": true
+    },
+    {
+      "name": "并发同值只复用，不发POST",
+      "pass": true
+    },
+    {
+      "name": "实际缺项时拒绝用候选替代求值",
+      "pass": true
+    }
+  ]
+}

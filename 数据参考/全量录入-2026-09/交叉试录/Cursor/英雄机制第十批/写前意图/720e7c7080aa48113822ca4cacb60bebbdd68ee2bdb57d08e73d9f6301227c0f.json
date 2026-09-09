@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T04:27:46.731Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/jinx_e/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "cooldown_ms",
+    "name": "基础冷却时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 24000,
+      "2": 20500,
+      "3": 17000,
+      "4": 13500,
+      "5": 10000
+    },
+    "description": "官方逐级冷却与当前根Cooldown.values索引1至等级上限逐级一致；不含急速或其他技能修正。",
+    "sortOrder": 10
+  }
+}
