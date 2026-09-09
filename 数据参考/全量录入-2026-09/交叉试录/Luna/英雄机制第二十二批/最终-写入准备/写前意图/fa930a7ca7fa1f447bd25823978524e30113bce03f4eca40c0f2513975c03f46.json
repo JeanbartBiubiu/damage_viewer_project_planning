@@ -1,0 +1,40 @@
+{
+  "at": "2026-09-09T13:44:49.872Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/leona_w/formulas",
+  "detailRoute": "/skills/leona_w/formulas/bonus_armor",
+  "skillKey": "leona_w",
+  "kind": "formulas",
+  "stableKey": "bonus_armor",
+  "body": {
+    "formulaKey": "bonus_armor",
+    "name": "日蚀额外护甲",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "armor_base_bonus"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "armor_bonus_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "source_mstat1_for_armor_bonus"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "BonusArmorTooltip=ArmorBaseBonus+0.2×未映射mStat1运行时输入；属性归属待窄证。",
+    "sortOrder": 20
+  }
+}

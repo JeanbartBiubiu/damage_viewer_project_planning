@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T13:45:48.793Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/nautilus_e/effects",
+  "detailRoute": "/skills/nautilus_e/effects/mana_cost",
+  "skillKey": "nautilus_e",
+  "kind": "effects",
+  "stableKey": "mana_cost",
+  "body": {
+    "effectKey": "mana_cost",
+    "name": "施放法力消耗",
+    "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+    "sortOrder": 10,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "consume_mana",
+        "name": "消耗法力",
+        "resultType": "RESOURCE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "mana",
+          "operation": "CONSUME"
+        }
+      }
+    ]
+  }
+}

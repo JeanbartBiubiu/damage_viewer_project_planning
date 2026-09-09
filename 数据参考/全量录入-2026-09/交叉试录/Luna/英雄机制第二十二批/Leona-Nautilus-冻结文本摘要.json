@@ -1,0 +1,998 @@
+{
+  "generatedAt": "2026-09-09T13:08:42.621Z",
+  "policy": "正文仅取当前根绑定mLocKeys对应的16.17中文字符串；16.17.1官方资料和英文资料作为交叉来源，不将摘要冲突静默覆盖正文。",
+  "skills": {
+    "leona_p": {
+      "keyName": {
+        "sourceKey": "Spell_LeonaSunlightPassive_Name",
+        "text": "日光"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_LeonaSunlightPassive_Tooltip",
+        "text": "蕾欧娜的各个技能会标记敌人@MarkDuration@秒，其他友方英雄在对被标记的敌人造成伤害时，会消耗该印记以造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>。 "
+      },
+      "keySummary": {
+        "sourceKey": "Spell_LeonaSunlightPassive_Summary",
+        "text": "技能会在敌人身上施加【日光】效果，持续1.5秒。在此期间，蕾欧娜友军对这些目标造成伤害时，会触发【日光】，使目标受到额外的魔法伤害。"
+      }
+    },
+    "leona_q": {
+      "keyName": {
+        "sourceKey": "Spell_LeonaShieldOfDaybreak_Name",
+        "text": "破晓之盾"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_LeonaShieldOfDaybreak_Summary",
+        "text": "蕾欧娜用盾进行下次普通攻击，造成额外魔法伤害并晕眩目标。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_LeonaShieldOfDaybreak_Tooltip",
+        "text": "蕾欧娜的下次攻击会<status>晕眩</status>目标@StunDuration@秒，并造成额外的<magicDamage>@TotalDamageTooltip@</magicDamage>魔法伤害。"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_LeonaShieldOfDaybreak_TooltipExtendedBelowLine",
+        "text": "<rules>必须在6秒内打出这次攻击，否则它就会消退。</rules>"
+      }
+    },
+    "leona_w": {
+      "keyName": {
+        "sourceKey": "Spell_LeonaSolarBarrier_Name",
+        "text": "日蚀"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_LeonaSolarBarrier_Summary",
+        "text": "蕾欧娜举起盾牌，提供伤害减免、护甲和魔法抗性。当持续时间首次结束时，如果附近有敌人，那么她会对其造成魔法伤害并延长效果的持续时间。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_LeonaSolarBarrier_Tooltip",
+        "text": "蕾欧娜举起她的盾牌，使即将到来的伤害降低@FlatDamageReduction@并获得<scaleArmor>@BonusArmorTooltip@护甲</scaleArmor>和<scaleMR>@BonusMRTooltip@魔法抗性</scaleMR>，持续@ArmorMRDuration@秒。之后，她的盾牌会爆炸，对附近的敌人造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。如果她命中了至少一名敌人，那么她会将该<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>加成延续额外的@ArmorMRDuration@秒。<br>"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_LeonaSolarBarrier_TooltipExtendedBelowLine",
+        "text": "<rules>伤害降低效果无法将伤害降至@FlatDamageReductionMax*100@%以下。</rules>"
+      }
+    },
+    "leona_e": {
+      "keyName": {
+        "sourceKey": "Spell_LeonaZenithBlade_Name",
+        "text": "天顶之刃"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_LeonaZenithBlade_Summary",
+        "text": "蕾欧娜投掷一束日光，对直线上的所有敌人造成魔法伤害。当效果消失时，蕾欧娜会冲向最后一个被击中的敌人并使其无法移动。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_LeonaZenithBlade_Tooltip",
+        "text": "蕾欧娜用光明之剑进行猛刺，造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。最后一个被命中的英雄将会被<status>禁锢</status>@RootDuration@秒，并且蕾欧娜将会冲向该英雄。"
+      }
+    },
+    "leona_r": {
+      "keyName": {
+        "sourceKey": "Spell_LeonaSolarFlare_Name",
+        "text": "日炎耀斑"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_LeonaSolarFlare_Summary",
+        "text": "蕾欧娜召唤一道太阳光束，对区域内的敌人造成伤害。区域中心的敌人会被晕眩，并且外围的敌人会被减速。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_LeonaSolarFlare_Tooltip",
+        "text": "蕾欧娜召唤一道太阳光束，造成<magicDamage>@ExplosionCalculatedDamage@魔法伤害</magicDamage>并使敌人<status>减速</status>@SlowPercent@%，持续@CCDuration@秒。处于区域正中的敌人会受到<status>晕眩</status>效果而非<status>减速</status>效果。"
+      }
+    },
+    "nautilus_p": {
+      "keyName": {
+        "sourceKey": "Spell_NautilusPassive_Name",
+        "text": "排山倒海"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_NautilusPassive_Summary",
+        "text": "诺提勒斯对一名目标发起的第一次攻击会造成提升过的物理伤害并将其暂时禁锢。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_NautilusPassive_Tooltip",
+        "text": "诺提勒斯对一名目标发起的第一次攻击会造成<physicalDamage>@TotalDamageTooltip@物理伤害</physicalDamage>并将其<status>禁锢</status>@RootDuration@秒。"
+      },
+      "keyTooltipExtended": {
+        "sourceKey": "Spell_NautilusPassive_TooltipExtended",
+        "text": "{{ Spell_NautilusPassive_Tooltip }}<br><rules>这个特效只能在@PerTargetCD@秒内对相同目标生效一次。</rules>"
+      }
+    },
+    "nautilus_q": {
+      "keyName": {
+        "sourceKey": "Spell_NautilusAnchorDrag_Name",
+        "text": "疏通航道"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_NautilusAnchorDrag_Summary",
+        "text": "诺提勒斯向前抛出他的船锚。在与敌人碰撞后，船锚会将目标与诺提勒斯拉到一起，并造成魔法伤害。与地形碰撞时会将诺提勒斯拉向它。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_NautilusAnchorDrag_Tooltip",
+        "text": "诺提勒斯向前猛掷他的船锚。如果它命中了一个敌方单位，诺提勒斯就会将他自己和目标吸到一起，同时造成<magicDamage>@QDamageCalc@魔法伤害</magicDamage>，并将目标暂时<status>晕眩</status>。如果它命中了地形，诺提勒斯则会把自己拉到船锚处。"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_NautilusAnchorDrag_TooltipExtendedBelowLine",
+        "text": "<rules>如果诺提勒斯勾中了地形，那么这个技能的冷却时间会缩短@TerrainCDR*100@%，并且返还@TerrainMana*100@%法力消耗。</rules>"
+      }
+    },
+    "nautilus_w": {
+      "keyName": {
+        "sourceKey": "Spell_NautilusPiercingGaze_Name",
+        "text": "泰坦之怒"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_NautilusPiercingGaze_Summary",
+        "text": "诺提勒斯获得一个临时护盾。当护盾存在时，他的攻击会对目标及目标周围的敌人造成持续伤害。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_NautilusPiercingGaze_Tooltip",
+        "text": "诺提勒斯获得一层持续@ShieldDuration@秒的<shield>@ShieldCalc@护盾</shield>。当<shield>护盾</shield>存在时，诺提勒斯的攻击会在2秒里对目标及目标周围的敌人持续造成共<magicDamage>@DotDamageCalc@额外魔法伤害</magicDamage>。"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_NautilusPiercingGaze_TooltipExtendedBelowLine",
+        "text": ""
+      }
+    },
+    "nautilus_e": {
+      "keyName": {
+        "sourceKey": "Spell_NautilusSplashZone_Name",
+        "text": "暗流涌动"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_NautilusSplashZone_Summary",
+        "text": "诺提勒斯在他身边生成3道爆炸波纹。每道爆炸波纹都会伤害并减速敌人。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_NautilusSplashZone_Tooltip",
+        "text": "诺提勒斯在他身边生成3道爆炸波纹，每道爆炸波纹都会对范围内的敌人们造成<magicDamage>@DamageCalc@魔法伤害</magicDamage>并使他们<status>减速</status>@SlowPercent*100@%，在@SlowDuration@秒里持续衰减。"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_NautilusSplashZone_TooltipExtendedBelowLine",
+        "text": "<rules>后续爆炸波纹造成的伤害减少@ExtraWavePenalty*100@%。</rules><br><rules>这个技能在首次命中时对野怪造成@MonsterBonusCalc@额外伤害。</rules>"
+      }
+    },
+    "nautilus_r": {
+      "keyName": {
+        "sourceKey": "Spell_NautilusGrandLine_Name",
+        "text": "深海冲击"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_NautilusGrandLine_Summary",
+        "text": "诺提勒斯将一束冲击波打进土里，来追击敌方目标。这束冲击波会撕裂它上面的地表，将敌人震到半空中。当它命中目标时，冲击波会喷发，将他的目标震到半空中，并使目标晕眩。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_NautilusGrandLine_Tooltip",
+        "text": "诺提勒斯发射一道冲击波来追击一名敌方英雄，造成<magicDamage>@PrimaryTargetDamage@魔法伤害</magicDamage>，<status>击飞</status>目标并将其<status>晕眩</status>@StunDuration@秒。冲击波还会<status>击飞</status>和<status>晕眩</status>沿途经过的其它敌人，并造成<magicDamage>@SecondaryTargetDamage@魔法伤害</magicDamage>。"
+      }
+    }
+  },
+  "rawProofPointers": {
+    "leona_p": {
+      "rootPath": "Characters/Leona/Spells/LeonaSunlightPassiveAbility/LeonaSunlightPassive",
+      "DataValues": {
+        "MarkDuration": [
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5
+        ]
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "values": [
+                25,
+                32,
+                39,
+                46,
+                53,
+                60,
+                67,
+                74,
+                81,
+                88,
+                95,
+                102,
+                109,
+                116,
+                123,
+                130,
+                137,
+                144,
+                151,
+                158,
+                165,
+                172,
+                179,
+                186,
+                193,
+                200,
+                207,
+                214,
+                221,
+                228,
+                235
+              ],
+              "__type": "ByCharLevelFormulaCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      }
+    },
+    "leona_q": {
+      "rootPath": "Characters/Leona/Spells/LeonaShieldOfDaybreakAbility/LeonaShieldOfDaybreak",
+      "DataValues": {
+        "StunDuration": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "BaseDamage": [
+          10,
+          10,
+          35,
+          60,
+          85,
+          110,
+          135
+        ]
+      },
+      "calculations": {
+        "TotalDamageTooltip": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.30000001192092896,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      }
+    },
+    "leona_w": {
+      "rootPath": "Characters/Leona/Spells/LeonaSolarBarrierAbility/LeonaSolarBarrier",
+      "DataValues": {
+        "FlatDamageReduction": [
+          4,
+          8,
+          12,
+          16,
+          20,
+          24,
+          28
+        ],
+        "FlatDamageReductionMax": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "APRatio": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "ExplosionBaseDamage": [
+          25,
+          55,
+          85,
+          115,
+          145,
+          175,
+          205
+        ],
+        "MRBaseBonus": [
+          12.5,
+          20,
+          27.5,
+          35,
+          42.5,
+          50,
+          57.5
+        ],
+        "ArmorBaseBonus": [
+          12.5,
+          20,
+          27.5,
+          35,
+          42.5,
+          50,
+          57.5
+        ],
+        "ArmorMRDuration": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      "calculations": {
+        "BonusArmorTooltip": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "ArmorBaseBonus",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 1,
+              "mStatFormula": 2,
+              "mCoefficient": 0.20000000298023224,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BonusMRTooltip": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "ArmorBaseBonus",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 6,
+              "mStatFormula": 2,
+              "mCoefficient": 0.20000000298023224,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalDamageTooltip": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "ExplosionBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      }
+    },
+    "leona_e": {
+      "rootPath": "Characters/Leona/Spells/LeonaZenithBladeAbility/LeonaZenithBlade",
+      "DataValues": {
+        "BaseDamage": [
+          10,
+          50,
+          90,
+          130,
+          170,
+          210,
+          250
+        ],
+        "RootDuration": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "calculations": {
+        "TotalDamageTooltip": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.4000000059604645,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      }
+    },
+    "leona_r": {
+      "rootPath": "Characters/Leona/Spells/LeonaSolarFlareAbility/LeonaSolarFlare",
+      "DataValues": {
+        "OnHitBaseDamage": [
+          20,
+          30,
+          40,
+          50,
+          60,
+          70,
+          80
+        ],
+        "OnHitStacks": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "OnHitDuration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "AttackRangeIncrease": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "OnHitAPRatio": [
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448
+        ],
+        "ExplosionBaseDamage": [
+          75,
+          150,
+          225,
+          300,
+          375,
+          450,
+          525
+        ],
+        "ExplosionAPRatio": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ],
+        "SlowPercent": [
+          80,
+          80,
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "CCDuration": [
+          1.75,
+          1.75,
+          1.75,
+          1.75,
+          1.75,
+          1.75,
+          1.75
+        ]
+      },
+      "calculations": {
+        "{f4c90e5c}": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "OnHitBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "OnHitAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ExplosionCalculatedDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "ExplosionBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "ExplosionAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      }
+    },
+    "nautilus_p": {
+      "rootPath": "Characters/Nautilus/Spells/NautilusPassiveAbility/NautilusPassive",
+      "DataValues": {
+        "PerTargetCD": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "calculations": {
+        "BonusDamage": {
+          "mFormulaParts": [
+            {
+              "values": [
+                8,
+                14,
+                20,
+                26,
+                32,
+                38,
+                44,
+                50,
+                56,
+                62,
+                68,
+                74,
+                80,
+                86,
+                92,
+                98,
+                104,
+                110,
+                116,
+                122,
+                128,
+                134,
+                140,
+                146,
+                152,
+                158,
+                164,
+                170,
+                176,
+                182,
+                188
+              ],
+              "__type": "ByCharLevelFormulaCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalDamageTooltip": {
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "values": [
+                8,
+                14,
+                20,
+                26,
+                32,
+                38,
+                44,
+                50,
+                56,
+                62,
+                68,
+                74,
+                80,
+                86,
+                92,
+                98,
+                104,
+                110,
+                116,
+                122,
+                128,
+                134,
+                140,
+                146,
+                152,
+                158,
+                164,
+                170,
+                176,
+                182,
+                188
+              ],
+              "__type": "ByCharLevelFormulaCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "RootDuration": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 0.75,
+              "mBreakpoints": [
+                {
+                  "mLevel": 6,
+                  "mAdditionalBonusAtThisLevel": 0.25,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 11,
+                  "mAdditionalBonusAtThisLevel": 0.25,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 16,
+                  "mAdditionalBonusAtThisLevel": 0.25,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 21,
+                  "mAdditionalBonusAtThisLevel": 0.25,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 26,
+                  "mAdditionalBonusAtThisLevel": 0.25,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "mPrecision": 2,
+          "__type": "GameCalculation"
+        }
+      }
+    },
+    "nautilus_q": {
+      "rootPath": "Characters/Nautilus/Spells/NautilusAnchorDragAbility/NautilusAnchorDrag",
+      "DataValues": {
+        "BaseDamage": [
+          40,
+          85,
+          130,
+          175,
+          220,
+          265,
+          310
+        ],
+        "TerrainCDR": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "TerrainMana": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "TerrainReduction": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "TerrainManaRefund": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "calculations": {
+        "QDamageCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.8999999761581421,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      }
+    },
+    "nautilus_w": {
+      "rootPath": "Characters/Nautilus/Spells/NautilusPiercingGazeAbility/NautilusPiercingGaze",
+      "DataValues": {
+        "ShieldBase": [
+          40,
+          50,
+          60,
+          70,
+          80,
+          90,
+          100
+        ],
+        "ShieldHealthRatio": [
+          0.07000000029802322,
+          0.07999999821186066,
+          0.09000000357627869,
+          0.10000000149011612,
+          0.10999999940395355,
+          0.11999999731779099,
+          0.12999999523162842
+        ],
+        "ShieldDuration": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "DotDamageBase": [
+          20,
+          30,
+          40,
+          50,
+          60,
+          70,
+          80
+        ],
+        "DotDamageAPRatio": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ]
+      },
+      "calculations": {
+        "DotDamageCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "DotDamageBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "DotDamageAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ShieldCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "ShieldBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mDataValue": "ShieldHealthRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      }
+    },
+    "nautilus_e": {
+      "rootPath": "Characters/Nautilus/Spells/NautilusSplashZoneAbility/NautilusSplashZone",
+      "DataValues": {
+        "DamageBase": [
+          20,
+          55,
+          90,
+          125,
+          160,
+          195,
+          230
+        ],
+        "SlowPercent": [
+          0.25,
+          0.30000001192092896,
+          0.3499999940395355,
+          0.4000000059604645,
+          0.44999998807907104,
+          0.5,
+          0.550000011920929
+        ],
+        "SlowDuration": [
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25
+        ],
+        "MultiHitReduction": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "DamageMonsterMod": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "DamageAPRatio": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "ExtraWavePenalty": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "DamageRadius": [
+          125,
+          125,
+          125,
+          125,
+          125,
+          125,
+          125
+        ],
+        "MonsterBonusDamage": [
+          85,
+          125,
+          165,
+          205,
+          245,
+          285,
+          325
+        ]
+      },
+      "calculations": {
+        "DamageCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "DamageBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "DamageAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MonsterBonusCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MonsterBonusDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.5,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      }
+    },
+    "nautilus_r": {
+      "rootPath": "Characters/Nautilus/Spells/NautilusGrandLineAbility/NautilusGrandLine",
+      "DataValues": {
+        "PrimaryDamage": [
+          25,
+          150,
+          275,
+          400,
+          525,
+          650,
+          775
+        ],
+        "SecondaryDamage": [
+          75,
+          125,
+          175,
+          225,
+          275,
+          325,
+          375
+        ],
+        "StunDuration": [
+          0.5,
+          1,
+          1.5,
+          2,
+          2.5,
+          3,
+          3.5
+        ]
+      },
+      "calculations": {
+        "PrimaryTargetDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "PrimaryDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.800000011920929,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "SecondaryTargetDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "SecondaryDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.4000000059604645,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      }
+    }
+  }
+}

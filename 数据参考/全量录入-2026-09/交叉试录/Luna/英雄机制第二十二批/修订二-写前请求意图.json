@@ -1,0 +1,2048 @@
+{
+  "generatedAt": "2026-09-09T13:33:34.191Z",
+  "status": "仅生成修订二精确POST意图，未执行业务写入",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "businessWrites": 0,
+  "baseCandidateSha256": "e70babf3438399d5d40e5e848b9a5819bbdeca5dd70f216fbe498ca91403459b",
+  "candidateSha256": "a95d6f7a739ebc9edf18ee997a03302d5dcd4df624104c4fc9923744e19f0c46",
+  "requestCount": 77,
+  "requestCounts": {
+    "parameters": 54,
+    "formulas": 14,
+    "effects": 9,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "protectedSkills": [],
+  "reusedPublicParameters": 16,
+  "observedExistingParameters": 16,
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/leona_q/parameters",
+      "skillKey": "leona_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 522,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.5217499732971191秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_q/parameters",
+      "skillKey": "leona_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "破晓之盾基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 35,
+          "3": 60,
+          "4": 85,
+          "5": 110
+        },
+        "description": "当前根DataValues.BaseDamage取索引1至5；等级1至5为10、35、60、85、110。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_q/parameters",
+      "skillKey": "leona_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "强化攻击法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "TotalDamageTooltip未显式给mStat，按已证mStat0默认来源总法术强度；系数为0.3。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_q/parameters",
+      "skillKey": "leona_q",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "晕眩持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前根DataValues.StunDuration等级值为1秒，转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_q/parameters",
+      "skillKey": "leona_q",
+      "kind": "parameters",
+      "stableKey": "empowered_attack_window_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "empowered_attack_window_ms",
+        "name": "强化攻击有效窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "当前根扩展正文明确必须在6秒内打出下次攻击；不与施法时间混用。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_q/formulas",
+      "skillKey": "leona_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "破晓之盾额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamageTooltip=BaseDamage+0.3×来源总法术强度；只建立数值公式，不创建伤害结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_q/effects",
+      "skillKey": "leona_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/parameters",
+      "skillKey": "leona_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/parameters",
+      "skillKey": "leona_w",
+      "kind": "parameters",
+      "stableKey": "flat_damage_reduction",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "flat_damage_reduction",
+        "name": "即将受到伤害的固定减免",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 8,
+          "2": 12,
+          "3": 16,
+          "4": 20,
+          "5": 24
+        },
+        "description": "当前根DataValues.FlatDamageReduction取索引1至5；保留点数。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/parameters",
+      "skillKey": "leona_w",
+      "kind": "parameters",
+      "stableKey": "flat_damage_reduction_floor_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "flat_damage_reduction_floor_ratio",
+        "name": "固定减免后的最低伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前扩展正文@FlatDamageReductionMax*100@%明确为50%，保留比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/parameters",
+      "skillKey": "leona_w",
+      "kind": "parameters",
+      "stableKey": "explosion_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "explosion_base_damage",
+        "name": "日蚀爆炸基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 85,
+          "3": 115,
+          "4": 145,
+          "5": 175
+        },
+        "description": "当前根DataValues.ExplosionBaseDamage取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/parameters",
+      "skillKey": "leona_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "爆炸法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "TotalDamageTooltip的StatByNamedDataValue APRatio=0.4，按已证mStat0默认来源总法术强度。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/parameters",
+      "skillKey": "leona_w",
+      "kind": "parameters",
+      "stableKey": "armor_base_bonus",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "armor_base_bonus",
+        "name": "额外护甲基础值",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 27.5,
+          "3": 35,
+          "4": 42.5,
+          "5": 50
+        },
+        "description": "当前根DataValues.ArmorBaseBonus取索引1至5；保留护甲点数。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/parameters",
+      "skillKey": "leona_w",
+      "kind": "parameters",
+      "stableKey": "magic_resistance_base_bonus",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "magic_resistance_base_bonus",
+        "name": "额外魔法抗性基础值",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 27.5,
+          "3": 35,
+          "4": 42.5,
+          "5": 50
+        },
+        "description": "当前BonusMRTooltip绑定计算树的mDataValue实际为ArmorBaseBonus，取该DataValue索引1至5；DataValues.MRBaseBonus数组在本版数值相同，仅作为交叉核对，不改写树的真实引用。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/parameters",
+      "skillKey": "leona_w",
+      "kind": "parameters",
+      "stableKey": "armor_magic_resistance_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "armor_magic_resistance_duration_ms",
+        "name": "护甲和魔抗持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前根DataValues.ArmorMRDuration=3秒，转毫秒；命中敌人后的延续仍待事件接线。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/parameters",
+      "skillKey": "leona_w",
+      "kind": "parameters",
+      "stableKey": "source_mstat1_for_armor_bonus",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "source_mstat1_for_armor_bonus",
+        "name": "护甲加成树的未映射属性输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "BonusArmorTooltip含mStat1/formula2×0.2；当前同版窄证未确认属性归属和总/额外口径，无默认值。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/parameters",
+      "skillKey": "leona_w",
+      "kind": "parameters",
+      "stableKey": "armor_bonus_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "armor_bonus_ratio",
+        "name": "额外护甲输入倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前BonusArmorTooltip的mStat1/formula2系数为0.2。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/parameters",
+      "skillKey": "leona_w",
+      "kind": "parameters",
+      "stableKey": "magic_resistance_bonus_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "magic_resistance_bonus_ratio",
+        "name": "额外魔抗输入倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前BonusMRTooltip的mStat6/formula2系数为0.2。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/parameters",
+      "skillKey": "leona_w",
+      "kind": "parameters",
+      "stableKey": "incoming_damage_for_reduction",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "incoming_damage_for_reduction",
+        "name": "本次步骤进入伤害输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "按当前步骤提供的即将受到伤害数值计算固定减免量；缺输入不默认0。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/formulas",
+      "skillKey": "leona_w",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "日蚀爆炸魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "explosion_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamageTooltip=ExplosionBaseDamage+0.4×来源总法术强度；只建立数值公式。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/formulas",
+      "skillKey": "leona_w",
+      "kind": "formulas",
+      "stableKey": "bonus_armor",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_armor",
+        "name": "日蚀额外护甲",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "armor_base_bonus"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "armor_bonus_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat1_for_armor_bonus"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "BonusArmorTooltip=ArmorBaseBonus+0.2×未映射mStat1运行时输入；属性归属待窄证。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/formulas",
+      "skillKey": "leona_w",
+      "kind": "formulas",
+      "stableKey": "bonus_magic_resistance",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_magic_resistance",
+        "name": "日蚀额外魔法抗性",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "magic_resistance_base_bonus"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "magic_resistance_bonus_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "magic_resistance",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "BonusMRTooltip实际树=ArmorBaseBonus+0.2×来源额外魔法抗性；mStat6/formula2按同版窄证绑定为额外魔抗。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/formulas",
+      "skillKey": "leona_w",
+      "kind": "formulas",
+      "stableKey": "damage_reduction_amount",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "damage_reduction_amount",
+        "name": "日蚀固定减免量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MIN",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "flat_damage_reduction"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_damage_reduction_floor_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "incoming_damage_for_reduction"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "最终固定减免量=MIN(FlatDamageReduction,0.5×本次步骤进入伤害输入)；50%保底来自当前扩展正文，不创建伤害结果。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_w/effects",
+      "skillKey": "leona_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_e/parameters",
+      "skillKey": "leona_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_e/parameters",
+      "skillKey": "leona_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "天顶之刃基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 90,
+          "3": 130,
+          "4": 170,
+          "5": 210
+        },
+        "description": "当前根DataValues.BaseDamage取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_e/parameters",
+      "skillKey": "leona_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "天顶之刃法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "TotalDamageTooltip的省略mStat分支按已证mStat0默认来源总法术强度；系数为0.4。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_e/parameters",
+      "skillKey": "leona_e",
+      "kind": "parameters",
+      "stableKey": "root_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "root_duration_ms",
+        "name": "禁锢持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "当前根DataValues.RootDuration=0.5秒，转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_e/formulas",
+      "skillKey": "leona_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "天顶之刃魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamageTooltip=BaseDamage+0.4×来源总法术强度；只建立数值公式。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_e/effects",
+      "skillKey": "leona_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_r/parameters",
+      "skillKey": "leona_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_r/parameters",
+      "skillKey": "leona_r",
+      "kind": "parameters",
+      "stableKey": "explosion_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "explosion_base_damage",
+        "name": "日炎耀斑基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 225,
+          "3": 300
+        },
+        "description": "当前根DataValues.ExplosionBaseDamage取索引1至3。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_r/parameters",
+      "skillKey": "leona_r",
+      "kind": "parameters",
+      "stableKey": "explosion_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "explosion_ap_ratio",
+        "name": "日炎耀斑法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "ExplosionCalculatedDamage的StatByNamedDataValue ExplosionAPRatio=0.8，按已证mStat0默认来源总法术强度。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_r/parameters",
+      "skillKey": "leona_r",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "外围减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 80,
+        "levelValues": null,
+        "description": "当前根DataValues.SlowPercent为80，正文直接追加百分号；保留百分数点，不乘0.01。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_r/parameters",
+      "skillKey": "leona_r",
+      "kind": "parameters",
+      "stableKey": "cc_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cc_duration_ms",
+        "name": "外围减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1750,
+        "levelValues": null,
+        "description": "当前根DataValues.CCDuration=1.75秒，转毫秒；中心晕眩分支共用控制持续字面值但应用未接线。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_r/formulas",
+      "skillKey": "leona_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "日炎耀斑魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "explosion_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "explosion_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ExplosionCalculatedDamage=ExplosionBaseDamage+0.8×来源总法术强度；只建立数值公式。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/leona_r/effects",
+      "skillKey": "leona_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_p/parameters",
+      "skillKey": "nautilus_p",
+      "kind": "parameters",
+      "stableKey": "bonus_damage_by_character_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_damage_by_character_level",
+        "name": "排山倒海额外物理伤害（角色等级）",
+        "valueType": "INTEGER",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 8,
+          "2": 14,
+          "3": 20,
+          "4": 26,
+          "5": 32,
+          "6": 38,
+          "7": 44,
+          "8": 50,
+          "9": 56,
+          "10": 62,
+          "11": 68,
+          "12": 74,
+          "13": 80,
+          "14": 86,
+          "15": 92,
+          "16": 98,
+          "17": 104,
+          "18": 110
+        },
+        "description": "当前根BonusDamage是显式ByCharLevelFormulaCalculationPart数组；只保存角色等级1至18原值，不线性展开或外推。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_p/parameters",
+      "skillKey": "nautilus_p",
+      "kind": "parameters",
+      "stableKey": "per_target_cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "per_target_cooldown_ms",
+        "name": "同一目标触发间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "当前根DataValues.PerTargetCD=6秒，正文明确同目标6秒内仅触发一次，转毫秒。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_p/parameters",
+      "skillKey": "nautilus_p",
+      "kind": "parameters",
+      "stableKey": "root_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "root_duration_ms",
+        "name": "禁锢持续（毫秒）运行时输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "RootDuration为ByCharLevelBreakpoints：角色等级1为0.75秒，等级6/11/16/21/26各增加0.25秒；不展开未知等级曲线，输入缺失无默认值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_p/formulas",
+      "skillKey": "nautilus_p",
+      "kind": "formulas",
+      "stableKey": "physical_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "physical_damage",
+        "name": "排山倒海物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_damage_by_character_level"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "TotalDamageTooltip=显式角色等级额外伤害+来源总攻击力；mStat2窄证为总攻击力，不创建伤害结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_q/parameters",
+      "skillKey": "nautilus_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_q/parameters",
+      "skillKey": "nautilus_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "疏通航道基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 85,
+          "2": 130,
+          "3": 175,
+          "4": 220,
+          "5": 265
+        },
+        "description": "当前根DataValues.BaseDamage取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_q/parameters",
+      "skillKey": "nautilus_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "疏通航道法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.9,
+        "levelValues": null,
+        "description": "QDamageCalc省略mStat分支按已证mStat0默认来源总法术强度；系数为0.9。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_q/parameters",
+      "skillKey": "nautilus_q",
+      "kind": "parameters",
+      "stableKey": "terrain_cooldown_reduction_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "terrain_cooldown_reduction_ratio",
+        "name": "命中地形冷却缩短比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前扩展正文TerrainCDR*100为50%，原值已是比例。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_q/parameters",
+      "skillKey": "nautilus_q",
+      "kind": "parameters",
+      "stableKey": "terrain_mana_refund_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "terrain_mana_refund_ratio",
+        "name": "命中地形法力返还比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前扩展正文TerrainMana*100为50%，原值已是比例。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_q/formulas",
+      "skillKey": "nautilus_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "疏通航道魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "QDamageCalc=BaseDamage+0.9×来源总法术强度；只建立数值公式。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_q/effects",
+      "skillKey": "nautilus_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/parameters",
+      "skillKey": "nautilus_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/parameters",
+      "skillKey": "nautilus_w",
+      "kind": "parameters",
+      "stableKey": "shield_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_base",
+        "name": "泰坦之怒护盾基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 60,
+          "3": 70,
+          "4": 80,
+          "5": 90
+        },
+        "description": "当前根DataValues.ShieldBase取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/parameters",
+      "skillKey": "nautilus_w",
+      "kind": "parameters",
+      "stableKey": "shield_health_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_health_ratio",
+        "name": "护盾生命值倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.08,
+          "2": 0.09,
+          "3": 0.1,
+          "4": 0.11,
+          "5": 0.12
+        },
+        "description": "当前根DataValues.ShieldHealthRatio取索引1至5；mStat12按同版根证据取来源生命值总值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/parameters",
+      "skillKey": "nautilus_w",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "护盾持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "当前绑定正文明确护盾持续6秒，转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/parameters",
+      "skillKey": "nautilus_w",
+      "kind": "parameters",
+      "stableKey": "dot_damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dot_damage_base",
+        "name": "护盾期间额外魔法伤害基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 40,
+          "3": 50,
+          "4": 60,
+          "5": 70
+        },
+        "description": "当前根DataValues.DotDamageBase取索引1至5；正文称2秒内总额。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/parameters",
+      "skillKey": "nautilus_w",
+      "kind": "parameters",
+      "stableKey": "dot_damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dot_damage_ap_ratio",
+        "name": "护盾期间额外伤害法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "DotDamageCalc的StatByNamedDataValue DotDamageAPRatio=0.4，按已证mStat0默认来源总法术强度。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/parameters",
+      "skillKey": "nautilus_w",
+      "kind": "parameters",
+      "stableKey": "dot_total_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dot_total_duration_ms",
+        "name": "额外伤害总持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前绑定正文明确在2秒里持续造成共计额外伤害；不能解释成每个节拍数值。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/formulas",
+      "skillKey": "nautilus_w",
+      "kind": "formulas",
+      "stableKey": "shield_value",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "shield_value",
+        "name": "泰坦之怒护盾数值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_health_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ShieldCalc=ShieldBase+ShieldHealthRatio×来源生命值总值；供自身NORMAL_SHIELD效果引用，施放事件另行接线。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/formulas",
+      "skillKey": "nautilus_w",
+      "kind": "formulas",
+      "stableKey": "bonus_magic_damage_total",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_magic_damage_total",
+        "name": "护盾期间额外魔法伤害总量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "dot_damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "dot_damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "DotDamageCalc=DotDamageBase+0.4×来源总法术强度；正文共2秒总量，不表示单节拍。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/effects",
+      "skillKey": "nautilus_w",
+      "kind": "effects",
+      "stableKey": "shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "shield",
+        "name": "泰坦之怒自身护盾",
+        "description": "当前根绑定正文明确自身获得持续6秒护盾；只记录成熟NORMAL_SHIELD组成，攻击额外伤害事件另待接。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "shield",
+            "name": "泰坦之怒自身护盾",
+            "resultType": "NORMAL_SHIELD",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "FORMULA",
+                "formulaKey": "shield_value"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "absorbedDamageTypeKey": null,
+              "decayMode": "NONE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_w/effects",
+      "skillKey": "nautilus_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_e/parameters",
+      "skillKey": "nautilus_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_e/parameters",
+      "skillKey": "nautilus_e",
+      "kind": "parameters",
+      "stableKey": "damage_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_base",
+        "name": "暗流涌动基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 90,
+          "3": 125,
+          "4": 160,
+          "5": 195
+        },
+        "description": "当前根DataValues.DamageBase取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_e/parameters",
+      "skillKey": "nautilus_e",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "暗流涌动减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.35,
+          "3": 0.4,
+          "4": 0.45,
+          "5": 0.5
+        },
+        "description": "当前根SlowPercent已是0至1比例，正文使用*100显示；保留比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_e/parameters",
+      "skillKey": "nautilus_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1250,
+        "levelValues": null,
+        "description": "当前根DataValues.SlowDuration=1.25秒，转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_e/parameters",
+      "skillKey": "nautilus_e",
+      "kind": "parameters",
+      "stableKey": "extra_wave_penalty_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "extra_wave_penalty_ratio",
+        "name": "后续波纹伤害减少比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前扩展正文ExtraWavePenalty*100为50%，原值已是比例。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_e/parameters",
+      "skillKey": "nautilus_e",
+      "kind": "parameters",
+      "stableKey": "wave_count",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "wave_count",
+        "name": "爆炸波纹数量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前绑定摘要和正文都明确生成3道波纹；表示实际波纹次数，不是面积换算。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_e/parameters",
+      "skillKey": "nautilus_e",
+      "kind": "parameters",
+      "stableKey": "damage_radius",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_radius",
+        "name": "单次波纹命中半径",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 125,
+        "levelValues": null,
+        "description": "当前根DataValues.DamageRadius=125；作为实际命中范围参数，不创建展示面积公式。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_e/parameters",
+      "skillKey": "nautilus_e",
+      "kind": "parameters",
+      "stableKey": "one",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "one",
+        "name": "常数1",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "用于表达后续波纹为首波乘以（1-减少比例）的完整分支。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_e/parameters",
+      "skillKey": "nautilus_e",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "波纹法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "DamageCalc省略mStat分支按已证mStat0默认来源总法术强度；系数为0.5。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_e/formulas",
+      "skillKey": "nautilus_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "暗流涌动首波魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "DamageCalc=DamageBase+0.5×来源总法术强度；只建立首波数值公式。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_e/formulas",
+      "skillKey": "nautilus_e",
+      "kind": "formulas",
+      "stableKey": "later_wave_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "later_wave_magic_damage",
+        "name": "暗流涌动后续波纹魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "SUBTRACT",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "extra_wave_penalty_ratio"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "后续波纹=(1-ExtraWavePenalty)×首波；保留每次波纹单一敌人分支，不与首波相加成单次伤害。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_e/effects",
+      "skillKey": "nautilus_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_r/parameters",
+      "skillKey": "nautilus_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_r/parameters",
+      "skillKey": "nautilus_r",
+      "kind": "parameters",
+      "stableKey": "primary_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "primary_damage",
+        "name": "深海冲击主要目标基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 275,
+          "3": 400
+        },
+        "description": "当前根DataValues.PrimaryDamage取索引1至3；只对应主要目标。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_r/parameters",
+      "skillKey": "nautilus_r",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "深海冲击晕眩持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1000,
+          "2": 1500,
+          "3": 2000
+        },
+        "description": "当前根DataValues.StunDuration取索引1至3，秒转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_r/parameters",
+      "skillKey": "nautilus_r",
+      "kind": "parameters",
+      "stableKey": "primary_ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "primary_ap_ratio",
+        "name": "主要目标法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "PrimaryTargetDamage省略mStat分支按已证mStat0默认来源总法术强度。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_r/formulas",
+      "skillKey": "nautilus_r",
+      "kind": "formulas",
+      "stableKey": "primary_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "primary_magic_damage",
+        "name": "深海冲击主要目标魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "primary_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "primary_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "PrimaryTargetDamage=PrimaryDamage+0.8×来源总法术强度；不与沿途分支相加。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/nautilus_r/effects",
+      "skillKey": "nautilus_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

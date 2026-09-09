@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T13:44:47.623Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/leona_w/parameters",
+  "detailRoute": "/skills/leona_w/parameters/incoming_damage_for_reduction",
+  "skillKey": "leona_w",
+  "kind": "parameters",
+  "stableKey": "incoming_damage_for_reduction",
+  "body": {
+    "parameterKey": "incoming_damage_for_reduction",
+    "name": "本次步骤进入伤害输入",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "按当前步骤提供的即将受到伤害数值计算固定减免量；缺输入不默认0。",
+    "sortOrder": 120
+  }
+}

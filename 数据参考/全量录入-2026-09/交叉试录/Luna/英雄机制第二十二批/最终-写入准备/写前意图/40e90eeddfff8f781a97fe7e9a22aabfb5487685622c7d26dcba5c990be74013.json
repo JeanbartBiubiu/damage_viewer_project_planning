@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T13:45:12.505Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/nautilus_p/parameters",
+  "detailRoute": "/skills/nautilus_p/parameters/per_target_cooldown_ms",
+  "skillKey": "nautilus_p",
+  "kind": "parameters",
+  "stableKey": "per_target_cooldown_ms",
+  "body": {
+    "parameterKey": "per_target_cooldown_ms",
+    "name": "同一目标触发间隔（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 6000,
+    "levelValues": null,
+    "description": "当前根DataValues.PerTargetCD=6秒，正文明确同目标6秒内仅触发一次，转毫秒。",
+    "sortOrder": 30
+  }
+}

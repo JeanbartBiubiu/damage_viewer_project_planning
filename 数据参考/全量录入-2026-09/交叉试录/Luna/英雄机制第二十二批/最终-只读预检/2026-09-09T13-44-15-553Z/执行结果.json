@@ -1,0 +1,435 @@
+{
+  "at": "2026-09-09T13:44:15.555Z",
+  "runId": "2026-09-09T13-44-15-553Z",
+  "mode": "apply",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "planSha256": "3ca4514a0f7d61b7852e771f7e714a8979d1a735f546e5a552370930225aa4ba",
+  "businessWrites": 0,
+  "expected": {
+    "catalogs": 4,
+    "subjects": 20,
+    "characters": 4,
+    "relations": 4,
+    "images": 20,
+    "componentLists": 120,
+    "protectedDetails": 29,
+    "candidateComponents": 77
+  },
+  "candidateCounts": {
+    "parameters": 54,
+    "formulas": 14,
+    "effects": 9,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedPublicParameters": 16,
+  "staticChecks": [
+    {
+      "name": "最终候选文件散列冻结",
+      "passed": true,
+      "detail": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074"
+    },
+    {
+      "name": "最终请求计划散列冻结",
+      "passed": true,
+      "detail": "3ca4514a0f7d61b7852e771f7e714a8979d1a735f546e5a552370930225aa4ba"
+    },
+    {
+      "name": "最终候选锁散列冻结",
+      "passed": true,
+      "detail": "fed7aca54f6da2c62dbc8a046a91f3a577320343ebd52064d5264aed4be0a1bf"
+    },
+    {
+      "name": "最终候选版本散列冻结",
+      "passed": true,
+      "detail": "37296dd40be566d4b54a4017659fa6bc3fa826bc9a37f38de021e673afc93137"
+    },
+    {
+      "name": "最终严格数学散列冻结",
+      "passed": true,
+      "detail": "5a1f5131bba0d9f2dc696b1135ca67858a371b250cf952306da8cec897e17853"
+    },
+    {
+      "name": "最终严格数学全公式与边界通过",
+      "passed": true,
+      "detail": {
+        "finalFormulaCount": 14,
+        "formulaCases": 28,
+        "expectedCases": 28,
+        "rejectionCases": 6,
+        "boundaryCases": 3,
+        "checks": 47,
+        "failures": 0,
+        "passed": true
+      }
+    },
+    {
+      "name": "现值快照散列冻结",
+      "passed": true,
+      "detail": "8ec887af62d5c6ebdf592fab60b72cd2589022338ce76ee589f8c370bce7d079"
+    },
+    {
+      "name": "源值核对散列冻结",
+      "passed": true,
+      "detail": "1f5c18f71a9492a5aa86f33c4896f5c47b460c85b0b5f4560029856b2e8761f5"
+    },
+    {
+      "name": "最终来源哈希汇总冻结",
+      "passed": true,
+      "detail": "9dfa1b1ec7debc76d6ea73629f03e55577a4955f84d398050c5871b1bf223014"
+    },
+    {
+      "name": "锁内散列互相一致",
+      "passed": true,
+      "detail": {
+        "generatedAt": "2026-09-09T13:37:53.188Z",
+        "status": "最终候选已生成，等待根负责人审查；未授权业务写入",
+        "batch": "英雄机制第二十二批",
+        "previousRevisionCandidateSha256": "e70babf3438399d5d40e5e848b9a5819bbdeca5dd70f216fbe498ca91403459b",
+        "baseCandidateSha256": "e70babf3438399d5d40e5e848b9a5819bbdeca5dd70f216fbe498ca91403459b",
+        "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+        "requestPlanSha256": "3ca4514a0f7d61b7852e771f7e714a8979d1a735f546e5a552370930225aa4ba",
+        "sourceManifestSha256": "9dfa1b1ec7debc76d6ea73629f03e55577a4955f84d398050c5871b1bf223014",
+        "snapshotSha256": "8ec887af62d5c6ebdf592fab60b72cd2589022338ce76ee589f8c370bce7d079",
+        "sourceValuesSha256": "1f5c18f71a9492a5aa86f33c4896f5c47b460c85b0b5f4560029856b2e8761f5",
+        "counts": {
+          "parameters": 54,
+          "formulas": 14,
+          "effects": 9,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "requestCount": 77,
+        "businessWrites": 0,
+        "protectedSkills": [],
+        "protectedCoverage": {
+          "subjects": 20,
+          "componentLists": 120,
+          "componentDetails": 29,
+          "characters": 4,
+          "relations": 4,
+          "images": 20,
+          "catalogs": 4
+        },
+        "previousRevisionPreserved": true,
+        "previousRevisionFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero22-candidate\\修订一-完整候选.json"
+      }
+    },
+    {
+      "name": "版本文件引用一致",
+      "passed": true,
+      "detail": {
+        "generatedAt": "2026-09-09T13:37:53.188Z",
+        "status": "最终候选待审",
+        "batch": "英雄机制第二十二批",
+        "previousRevisionCandidateSha256": "e70babf3438399d5d40e5e848b9a5819bbdeca5dd70f216fbe498ca91403459b",
+        "baseCandidateSha256": "e70babf3438399d5d40e5e848b9a5819bbdeca5dd70f216fbe498ca91403459b",
+        "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+        "requestPlanSha256": "3ca4514a0f7d61b7852e771f7e714a8979d1a735f546e5a552370930225aa4ba",
+        "sourceManifestSha256": "9dfa1b1ec7debc76d6ea73629f03e55577a4955f84d398050c5871b1bf223014",
+        "snapshotSha256": "8ec887af62d5c6ebdf592fab60b72cd2589022338ce76ee589f8c370bce7d079",
+        "counts": {
+          "parameters": 54,
+          "formulas": 14,
+          "effects": 9,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "requestCount": 77,
+        "businessWrites": 0
+      }
+    },
+    {
+      "name": "锁内禁止业务写入",
+      "passed": true,
+      "detail": {
+        "freeze": 0,
+        "candidate": 0,
+        "plan": 0
+      }
+    },
+    {
+      "name": "候选槽顺序冻结",
+      "passed": true,
+      "detail": [
+        "leona_p",
+        "leona_q",
+        "leona_w",
+        "leona_e",
+        "leona_r",
+        "nautilus_p",
+        "nautilus_q",
+        "nautilus_w",
+        "nautilus_e",
+        "nautilus_r"
+      ]
+    },
+    {
+      "name": "候选计数冻结",
+      "passed": true,
+      "detail": {
+        "parameters": 54,
+        "formulas": 14,
+        "effects": 9,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "候选条目唯一",
+      "passed": true,
+      "detail": {
+        "total": 77,
+        "unique": 77
+      }
+    },
+    {
+      "name": "计划条目唯一且与候选一一对应",
+      "passed": true,
+      "detail": {
+        "total": 77,
+        "unique": 77
+      }
+    },
+    {
+      "name": "计划计数冻结",
+      "passed": true,
+      "detail": {
+        "parameters": 54,
+        "formulas": 14,
+        "effects": 9,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "只新增三类组成",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "既有公共参数不进入POST",
+      "passed": true,
+      "detail": {
+        "reused": 16
+      }
+    },
+    {
+      "name": "不写主体、关系、图片和目录",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选结构与类型校验",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "staticFailures": [],
+  "calls": {
+    "total": 432,
+    "methods": {
+      "GET": 355,
+      "POST": 77
+    },
+    "statuses": {
+      "200": 278,
+      "201": 77,
+      "404": 77
+    }
+  },
+  "freshCounts": {
+    "counts": {
+      "parameters": 29,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "details": 29,
+    "expectedExistingDetails": 29,
+    "existingNonPublic": []
+  },
+  "protectionConflicts": [],
+  "candidateConflicts": [],
+  "missing": {
+    "count": 77,
+    "byKind": {
+      "parameters": 54,
+      "formulas": 14,
+      "effects": 9,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "identities": [
+      "leona_q/parameters/cast_time_ms",
+      "leona_q/parameters/base_damage",
+      "leona_q/parameters/ap_ratio",
+      "leona_q/parameters/stun_duration_ms",
+      "leona_q/parameters/empowered_attack_window_ms",
+      "leona_q/formulas/magic_damage",
+      "leona_q/effects/mana_cost",
+      "leona_w/parameters/cast_time_ms",
+      "leona_w/parameters/flat_damage_reduction",
+      "leona_w/parameters/flat_damage_reduction_floor_ratio",
+      "leona_w/parameters/explosion_base_damage",
+      "leona_w/parameters/ap_ratio",
+      "leona_w/parameters/armor_base_bonus",
+      "leona_w/parameters/magic_resistance_base_bonus",
+      "leona_w/parameters/armor_magic_resistance_duration_ms",
+      "leona_w/parameters/source_mstat1_for_armor_bonus",
+      "leona_w/parameters/armor_bonus_ratio",
+      "leona_w/parameters/magic_resistance_bonus_ratio",
+      "leona_w/parameters/incoming_damage_for_reduction",
+      "leona_w/formulas/magic_damage",
+      "leona_w/formulas/bonus_armor",
+      "leona_w/formulas/bonus_magic_resistance",
+      "leona_w/formulas/damage_reduction_amount",
+      "leona_w/effects/mana_cost",
+      "leona_e/parameters/cast_time_ms",
+      "leona_e/parameters/base_damage",
+      "leona_e/parameters/ap_ratio",
+      "leona_e/parameters/root_duration_ms",
+      "leona_e/formulas/magic_damage",
+      "leona_e/effects/mana_cost",
+      "leona_r/parameters/cast_time_ms",
+      "leona_r/parameters/explosion_base_damage",
+      "leona_r/parameters/explosion_ap_ratio",
+      "leona_r/parameters/slow_percent_points",
+      "leona_r/parameters/cc_duration_ms",
+      "leona_r/formulas/magic_damage",
+      "leona_r/effects/mana_cost",
+      "nautilus_p/parameters/bonus_damage_by_character_level",
+      "nautilus_p/parameters/per_target_cooldown_ms",
+      "nautilus_p/parameters/root_duration_ms",
+      "nautilus_p/formulas/physical_damage",
+      "nautilus_q/parameters/cast_time_ms",
+      "nautilus_q/parameters/base_damage",
+      "nautilus_q/parameters/ap_ratio",
+      "nautilus_q/parameters/terrain_cooldown_reduction_ratio",
+      "nautilus_q/parameters/terrain_mana_refund_ratio",
+      "nautilus_q/formulas/magic_damage",
+      "nautilus_q/effects/mana_cost",
+      "nautilus_w/parameters/cast_time_ms",
+      "nautilus_w/parameters/shield_base",
+      "nautilus_w/parameters/shield_health_ratio",
+      "nautilus_w/parameters/shield_duration_ms",
+      "nautilus_w/parameters/dot_damage_base",
+      "nautilus_w/parameters/dot_damage_ap_ratio",
+      "nautilus_w/parameters/dot_total_duration_ms",
+      "nautilus_w/formulas/shield_value",
+      "nautilus_w/formulas/bonus_magic_damage_total",
+      "nautilus_w/effects/shield",
+      "nautilus_w/effects/mana_cost",
+      "nautilus_e/parameters/cast_time_ms",
+      "nautilus_e/parameters/damage_base",
+      "nautilus_e/parameters/slow_ratio",
+      "nautilus_e/parameters/slow_duration_ms",
+      "nautilus_e/parameters/extra_wave_penalty_ratio",
+      "nautilus_e/parameters/wave_count",
+      "nautilus_e/parameters/damage_radius",
+      "nautilus_e/parameters/one",
+      "nautilus_e/parameters/damage_ap_ratio",
+      "nautilus_e/formulas/magic_damage",
+      "nautilus_e/formulas/later_wave_magic_damage",
+      "nautilus_e/effects/mana_cost",
+      "nautilus_r/parameters/cast_time_ms",
+      "nautilus_r/parameters/primary_damage",
+      "nautilus_r/parameters/stun_duration_ms",
+      "nautilus_r/parameters/primary_ap_ratio",
+      "nautilus_r/formulas/primary_magic_damage",
+      "nautilus_r/effects/mana_cost"
+    ]
+  },
+  "apiWrites": 77,
+  "success": true,
+  "errors": [],
+  "catalogPresence": {
+    "attributes": [
+      {
+        "key": "ability_power",
+        "present": true
+      },
+      {
+        "key": "attack_damage",
+        "present": true
+      },
+      {
+        "key": "hp",
+        "present": true
+      },
+      {
+        "key": "magic_resistance",
+        "present": true
+      },
+      {
+        "key": "mana",
+        "present": true
+      }
+    ]
+  },
+  "preflight": {
+    "pass": true,
+    "expectedGets": 201,
+    "actualGets": 201,
+    "protectionConflicts": 0,
+    "candidateConflicts": 0,
+    "existingNonPublic": 0,
+    "missing": 77,
+    "freshCounts": {
+      "counts": {
+        "parameters": 29,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "details": 29
+    },
+    "catalogPresence": {
+      "attributes": [
+        {
+          "key": "ability_power",
+          "present": true
+        },
+        {
+          "key": "attack_damage",
+          "present": true
+        },
+        {
+          "key": "hp",
+          "present": true
+        },
+        {
+          "key": "magic_resistance",
+          "present": true
+        },
+        {
+          "key": "mana",
+          "present": true
+        }
+      ]
+    },
+    "apiWrites": 0
+  },
+  "apply": {
+    "startedAt": "2026-09-09T13:44:27.066Z",
+    "confirmed": 77,
+    "postCount": 77,
+    "skippedExisting": 0,
+    "stopped": false,
+    "stopReason": null,
+    "finishedAt": "2026-09-09T13:45:56.950Z"
+  },
+  "nextStep": "逐项写后GET已完成；另行运行独立全量回读器确认全量组成与公式。",
+  "finishedAt": "2026-09-09T13:45:56.950Z"
+}

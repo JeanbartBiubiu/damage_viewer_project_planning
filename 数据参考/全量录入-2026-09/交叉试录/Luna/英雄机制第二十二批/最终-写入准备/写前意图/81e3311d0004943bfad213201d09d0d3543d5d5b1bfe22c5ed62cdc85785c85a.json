@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T13:45:32.157Z",
+  "candidateSha256": "9ce3115402b975c25dc86ce779179e094fba433ff3273a3aac5d06952547e074",
+  "method": "POST",
+  "route": "/skills/nautilus_w/formulas",
+  "detailRoute": "/skills/nautilus_w/formulas/shield_value",
+  "skillKey": "nautilus_w",
+  "kind": "formulas",
+  "stableKey": "shield_value",
+  "body": {
+    "formulaKey": "shield_value",
+    "name": "泰坦之怒护盾数值",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "shield_base"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "shield_health_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "ShieldCalc=ShieldBase+ShieldHealthRatio×来源生命值总值；供自身NORMAL_SHIELD效果引用，施放事件另行接线。",
+    "sortOrder": 10
+  }
+}

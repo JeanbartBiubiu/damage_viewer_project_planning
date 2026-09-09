@@ -1,0 +1,4382 @@
+{
+  "meta": {
+    "generatedAt": "2026-09-09T13:18:37.052Z",
+    "executor": "本地候选修订一脚本",
+    "gameId": "lol",
+    "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+    "sourceVersion": "客户端16.17/官方16.17.1，构建16.17.8104348+branch.releases-16-17.content.release",
+    "scope": "第二十二批前两英雄修订一：Leona、Nautilus各P/Q/W/E/R；移除第三友军纯收益和沿途额外目标，补充Leona W减免量数值公式、Nautilus W自身护盾成熟组成和8个主动槽一次法力代价；不创建DAMAGE、直接治疗或自动事件。",
+    "attributeBoundary": "公式只使用已证SOURCE/TARGET属性节点及TOTAL/BONUS口径；mStat0默认来源法术强度、mStat2总攻击力、mStat12来源生命值总值和mStat6/formula2来源额外魔抗按同版窄证，mStat1/formula2保留无默认运行时输入；RUNTIME_INPUT缺输入不默认0。",
+    "businessWrites": 0,
+    "apiCalls": 0,
+    "tokenStored": false,
+    "protectedDirs": [
+      "C:/project/damage_web_dev/.agents/artifacts/hero22-candidate",
+      "C:/project/damage_web_dev/数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十二批"
+    ]
+  },
+  "skills": {
+    "leona_p": {
+      "skillKey": "leona_p",
+      "name": "日光",
+      "maxLevel": 1,
+      "source": {
+        "hero": "Leona",
+        "rootPath": "Characters/Leona/CharacterRecords/Root",
+        "spellPath": "Characters/Leona/Spells/LeonaSunlightPassiveAbility/LeonaSunlightPassive",
+        "clientFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Leona.json.gz",
+        "clientSha256": "593a213daf3e452d4cc01998441afb3869814da88649439a741f3921125f4f5d",
+        "clientCompressedSha256": "ee144693a093e0887d836fd3857223549f0566da4aed0f115a908ab1da8125a8",
+        "officialZhFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Leona.json",
+        "officialZhSha256": "eaea33f42b422a429bfff246352a38fb925581c257d11adc6be541d13939f990",
+        "officialEnFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Leona.json",
+        "officialEnSha256": "e9b27d6076d7f5be88b2843527d8163797776026accb9fc7b1bc42c937b33b4d",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_LeonaSunlightPassive_Name",
+            "text": "日光"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_LeonaSunlightPassive_Tooltip",
+            "text": "蕾欧娜的各个技能会标记敌人@MarkDuration@秒，其他友方英雄在对被标记的敌人造成伤害时，会消耗该印记以造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>。 "
+          },
+          "keySummary": {
+            "sourceKey": "Spell_LeonaSunlightPassive_Summary",
+            "text": "技能会在敌人身上施加【日光】效果，持续1.5秒。在此期间，蕾欧娜友军对这些目标造成伤害时，会触发【日光】，使目标受到额外的魔法伤害。"
+          }
+        }
+      },
+      "write": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "binding": {
+            "hero": "Leona",
+            "rootPath": "Characters/Leona/CharacterRecords/Root",
+            "spellPath": "Characters/Leona/Spells/LeonaSunlightPassiveAbility/LeonaSunlightPassive"
+          },
+          "currentBoundText": {
+            "keyName": {
+              "sourceKey": "Spell_LeonaSunlightPassive_Name",
+              "text": "日光"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LeonaSunlightPassive_Tooltip",
+              "text": "蕾欧娜的各个技能会标记敌人@MarkDuration@秒，其他友方英雄在对被标记的敌人造成伤害时，会消耗该印记以造成额外的<magicDamage>@TotalDamage@魔法伤害</magicDamage>。 "
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LeonaSunlightPassive_Summary",
+              "text": "技能会在敌人身上施加【日光】效果，持续1.5秒。在此期间，蕾欧娜友军对这些目标造成伤害时，会触发【日光】，使目标受到额外的魔法伤害。"
+            }
+          },
+          "raw": {
+            "spellCastTime": null,
+            "spellTotalTime": null,
+            "DataValues": {
+              "MarkDuration": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ]
+            },
+            "mEffectAmount": null,
+            "mSpellCalculations": {
+              "TotalDamage": {
+                "mFormulaParts": [
+                  {
+                    "values": [
+                      25,
+                      32,
+                      39,
+                      46,
+                      53,
+                      60,
+                      67,
+                      74,
+                      81,
+                      88,
+                      95,
+                      102,
+                      109,
+                      116,
+                      123,
+                      130,
+                      137,
+                      144,
+                      151,
+                      158,
+                      165,
+                      172,
+                      179,
+                      186,
+                      193,
+                      200,
+                      207,
+                      214,
+                      221,
+                      228,
+                      235
+                    ],
+                    "__type": "ByCharLevelFormulaCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          }
+        }
+      ],
+      "pending": [],
+      "excluded": [
+        {
+          "item": "MarkDuration、TotalDamage及日光触发",
+          "reason": "当前根绑定正文明确“其他友方英雄”在被标记敌人上造成伤害时才触发；本轮1v1范围移除整P写入，原值和当前正文保留于source/proofs，不把友方触发当作待接事件。"
+        },
+        {
+          "item": "原候选参数：mark_duration_ms、bonus_magic_damage_by_character_level",
+          "reason": "修订一撤回原候选参数，避免在本轮范围外产生POST意图；没有已有非公共组成可供保护。"
+        }
+      ],
+      "reusedParameters": [],
+      "protectedExisting": false,
+      "existingCompositionCounts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "item": "MarkDuration、TotalDamage及日光触发",
+            "reason": "当前根绑定正文明确“其他友方英雄”在被标记敌人上造成伤害时才触发；本轮1v1范围移除整P写入，原值和当前正文保留于source/proofs，不把友方触发当作待接事件。"
+          },
+          {
+            "item": "原候选参数：mark_duration_ms、bonus_magic_damage_by_character_level",
+            "reason": "修订一撤回原候选参数，避免在本轮范围外产生POST意图；没有已有非公共组成可供保护。"
+          }
+        ],
+        "待补证": []
+      },
+      "status": "范围外：当前正文要求其他友方英雄触发，本轮1v1不建立组成"
+    },
+    "leona_q": {
+      "skillKey": "leona_q",
+      "name": "破晓之盾",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Leona",
+        "rootPath": "Characters/Leona/CharacterRecords/Root",
+        "spellPath": "Characters/Leona/Spells/LeonaShieldOfDaybreakAbility/LeonaShieldOfDaybreak",
+        "clientFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Leona.json.gz",
+        "clientSha256": "593a213daf3e452d4cc01998441afb3869814da88649439a741f3921125f4f5d",
+        "clientCompressedSha256": "ee144693a093e0887d836fd3857223549f0566da4aed0f115a908ab1da8125a8",
+        "officialZhFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Leona.json",
+        "officialZhSha256": "eaea33f42b422a429bfff246352a38fb925581c257d11adc6be541d13939f990",
+        "officialEnFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Leona.json",
+        "officialEnSha256": "e9b27d6076d7f5be88b2843527d8163797776026accb9fc7b1bc42c937b33b4d",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_LeonaShieldOfDaybreak_Name",
+            "text": "破晓之盾"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_LeonaShieldOfDaybreak_Summary",
+            "text": "蕾欧娜用盾进行下次普通攻击，造成额外魔法伤害并晕眩目标。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_LeonaShieldOfDaybreak_Tooltip",
+            "text": "蕾欧娜的下次攻击会<status>晕眩</status>目标@StunDuration@秒，并造成额外的<magicDamage>@TotalDamageTooltip@</magicDamage>魔法伤害。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_LeonaShieldOfDaybreak_TooltipExtendedBelowLine",
+            "text": "<rules>必须在6秒内打出这次攻击，否则它就会消退。</rules>"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 522,
+            "levelValues": null,
+            "description": "当前根spellCastTime为0.5217499732971191秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+            "sortOrder": 5
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "破晓之盾基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 10,
+              "2": 35,
+              "3": 60,
+              "4": 85,
+              "5": 110
+            },
+            "description": "当前根DataValues.BaseDamage取索引1至5；等级1至5为10、35、60、85、110。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "强化攻击法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.3,
+            "levelValues": null,
+            "description": "TotalDamageTooltip未显式给mStat，按已证mStat0默认来源总法术强度；系数为0.3。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "stun_duration_ms",
+            "name": "晕眩持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "当前根DataValues.StunDuration等级值为1秒，转毫秒。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "empowered_attack_window_ms",
+            "name": "强化攻击有效窗口（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "当前根扩展正文明确必须在6秒内打出下次攻击；不与施法时间混用。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "magic_damage",
+            "name": "破晓之盾额外魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TotalDamageTooltip=BaseDamage+0.3×来源总法术强度；只建立数值公式，不创建伤害结果。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "binding": {
+            "hero": "Leona",
+            "rootPath": "Characters/Leona/CharacterRecords/Root",
+            "spellPath": "Characters/Leona/Spells/LeonaShieldOfDaybreakAbility/LeonaShieldOfDaybreak"
+          },
+          "currentBoundText": {
+            "keyName": {
+              "sourceKey": "Spell_LeonaShieldOfDaybreak_Name",
+              "text": "破晓之盾"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LeonaShieldOfDaybreak_Summary",
+              "text": "蕾欧娜用盾进行下次普通攻击，造成额外魔法伤害并晕眩目标。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LeonaShieldOfDaybreak_Tooltip",
+              "text": "蕾欧娜的下次攻击会<status>晕眩</status>目标@StunDuration@秒，并造成额外的<magicDamage>@TotalDamageTooltip@</magicDamage>魔法伤害。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_LeonaShieldOfDaybreak_TooltipExtendedBelowLine",
+              "text": "<rules>必须在6秒内打出这次攻击，否则它就会消退。</rules>"
+            }
+          },
+          "raw": {
+            "spellCastTime": 0.5217499732971191,
+            "spellTotalTime": 1.533400058746338,
+            "DataValues": {
+              "StunDuration": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "BaseDamage": [
+                10,
+                10,
+                35,
+                60,
+                85,
+                110,
+                135
+              ]
+            },
+            "mEffectAmount": [
+              {
+                "value": [
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "value": [
+                  10,
+                  10,
+                  35,
+                  60,
+                  85,
+                  110,
+                  135
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              }
+            ],
+            "mSpellCalculations": {
+              "TotalDamageTooltip": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "BaseDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mCoefficient": 0.30000001192092896,
+                    "__type": "StatByCoefficientCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          }
+        },
+        {
+          "field": "spellCastTime",
+          "rawValue": 0.5217499732971191,
+          "convertedMilliseconds": 522,
+          "policy": "负数不换算"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "事件",
+          "item": "强化普攻",
+          "reason": "强化窗口内的下一次普通攻击触发、晕眩和伤害应用未接线。"
+        }
+      ],
+      "excluded": [],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "protectedExisting": false,
+      "existingCompositionCounts": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "disposition": {
+        "范围外": [],
+        "待补证": [
+          {
+            "kind": "事件",
+            "item": "强化普攻",
+            "reason": "强化窗口内的下一次普通攻击触发、晕眩和伤害应用未接线。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存、未接线和范围外分支不表示完整战斗机制"
+    },
+    "leona_w": {
+      "skillKey": "leona_w",
+      "name": "日蚀",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Leona",
+        "rootPath": "Characters/Leona/CharacterRecords/Root",
+        "spellPath": "Characters/Leona/Spells/LeonaSolarBarrierAbility/LeonaSolarBarrier",
+        "clientFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Leona.json.gz",
+        "clientSha256": "593a213daf3e452d4cc01998441afb3869814da88649439a741f3921125f4f5d",
+        "clientCompressedSha256": "ee144693a093e0887d836fd3857223549f0566da4aed0f115a908ab1da8125a8",
+        "officialZhFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Leona.json",
+        "officialZhSha256": "eaea33f42b422a429bfff246352a38fb925581c257d11adc6be541d13939f990",
+        "officialEnFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Leona.json",
+        "officialEnSha256": "e9b27d6076d7f5be88b2843527d8163797776026accb9fc7b1bc42c937b33b4d",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_LeonaSolarBarrier_Name",
+            "text": "日蚀"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_LeonaSolarBarrier_Summary",
+            "text": "蕾欧娜举起盾牌，提供伤害减免、护甲和魔法抗性。当持续时间首次结束时，如果附近有敌人，那么她会对其造成魔法伤害并延长效果的持续时间。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_LeonaSolarBarrier_Tooltip",
+            "text": "蕾欧娜举起她的盾牌，使即将到来的伤害降低@FlatDamageReduction@并获得<scaleArmor>@BonusArmorTooltip@护甲</scaleArmor>和<scaleMR>@BonusMRTooltip@魔法抗性</scaleMR>，持续@ArmorMRDuration@秒。之后，她的盾牌会爆炸，对附近的敌人造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。如果她命中了至少一名敌人，那么她会将该<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>加成延续额外的@ArmorMRDuration@秒。<br>"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_LeonaSolarBarrier_TooltipExtendedBelowLine",
+            "text": "<rules>伤害降低效果无法将伤害降至@FlatDamageReductionMax*100@%以下。</rules>"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+            "sortOrder": 5
+          },
+          {
+            "parameterKey": "flat_damage_reduction",
+            "name": "即将受到伤害的固定减免",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 8,
+              "2": 12,
+              "3": 16,
+              "4": 20,
+              "5": 24
+            },
+            "description": "当前根DataValues.FlatDamageReduction取索引1至5；保留点数。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "flat_damage_reduction_floor_ratio",
+            "name": "固定减免后的最低伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "当前扩展正文@FlatDamageReductionMax*100@%明确为50%，保留比例。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "explosion_base_damage",
+            "name": "日蚀爆炸基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 55,
+              "2": 85,
+              "3": 115,
+              "4": 145,
+              "5": 175
+            },
+            "description": "当前根DataValues.ExplosionBaseDamage取索引1至5。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "爆炸法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "TotalDamageTooltip的StatByNamedDataValue APRatio=0.4，按已证mStat0默认来源总法术强度。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "armor_base_bonus",
+            "name": "额外护甲基础值",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 20,
+              "2": 27.5,
+              "3": 35,
+              "4": 42.5,
+              "5": 50
+            },
+            "description": "当前根DataValues.ArmorBaseBonus取索引1至5；保留护甲点数。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "magic_resistance_base_bonus",
+            "name": "额外魔法抗性基础值",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 20,
+              "2": 27.5,
+              "3": 35,
+              "4": 42.5,
+              "5": 50
+            },
+            "description": "当前根DataValues.MRBaseBonus取索引1至5；保留魔法抗性点数。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "armor_magic_resistance_duration_ms",
+            "name": "护甲和魔抗持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "当前根DataValues.ArmorMRDuration=3秒，转毫秒；命中敌人后的延续仍待事件接线。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "source_mstat1_for_armor_bonus",
+            "name": "护甲加成树的未映射属性输入",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "BonusArmorTooltip含mStat1/formula2×0.2；当前同版窄证未确认属性归属和总/额外口径，无默认值。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "armor_bonus_ratio",
+            "name": "额外护甲输入倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.2,
+            "levelValues": null,
+            "description": "当前BonusArmorTooltip的mStat1/formula2系数为0.2。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "magic_resistance_bonus_ratio",
+            "name": "额外魔抗输入倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.2,
+            "levelValues": null,
+            "description": "当前BonusMRTooltip的mStat6/formula2系数为0.2。",
+            "sortOrder": 110
+          },
+          {
+            "parameterKey": "incoming_damage_for_reduction",
+            "name": "本次步骤进入伤害输入",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "按当前步骤提供的即将受到伤害数值计算固定减免量；缺输入不默认0。",
+            "sortOrder": 120
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "magic_damage",
+            "name": "日蚀爆炸魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "explosion_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TotalDamageTooltip=ExplosionBaseDamage+0.4×来源总法术强度；只建立数值公式。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "bonus_armor",
+            "name": "日蚀额外护甲",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "armor_base_bonus"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "armor_bonus_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "source_mstat1_for_armor_bonus"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "BonusArmorTooltip=ArmorBaseBonus+0.2×未映射mStat1运行时输入；属性归属待窄证。",
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "bonus_magic_resistance",
+            "name": "日蚀额外魔法抗性",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "magic_resistance_base_bonus"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "magic_resistance_bonus_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "magic_resistance",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "BonusMRTooltip=MRBaseBonus+0.2×来源额外魔法抗性；mStat6/formula2按同版窄证绑定为额外魔抗。",
+            "sortOrder": 30
+          },
+          {
+            "formulaKey": "damage_reduction_amount",
+            "name": "日蚀固定减免量",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MIN",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_damage_reduction"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "flat_damage_reduction_floor_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "incoming_damage_for_reduction"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "最终固定减免量=MIN(FlatDamageReduction,0.5×本次步骤进入伤害输入)；50%保底来自当前扩展正文，不创建伤害结果。",
+            "sortOrder": 40
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "binding": {
+            "hero": "Leona",
+            "rootPath": "Characters/Leona/CharacterRecords/Root",
+            "spellPath": "Characters/Leona/Spells/LeonaSolarBarrierAbility/LeonaSolarBarrier"
+          },
+          "currentBoundText": {
+            "keyName": {
+              "sourceKey": "Spell_LeonaSolarBarrier_Name",
+              "text": "日蚀"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LeonaSolarBarrier_Summary",
+              "text": "蕾欧娜举起盾牌，提供伤害减免、护甲和魔法抗性。当持续时间首次结束时，如果附近有敌人，那么她会对其造成魔法伤害并延长效果的持续时间。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LeonaSolarBarrier_Tooltip",
+              "text": "蕾欧娜举起她的盾牌，使即将到来的伤害降低@FlatDamageReduction@并获得<scaleArmor>@BonusArmorTooltip@护甲</scaleArmor>和<scaleMR>@BonusMRTooltip@魔法抗性</scaleMR>，持续@ArmorMRDuration@秒。之后，她的盾牌会爆炸，对附近的敌人造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。如果她命中了至少一名敌人，那么她会将该<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>加成延续额外的@ArmorMRDuration@秒。<br>"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_LeonaSolarBarrier_TooltipExtendedBelowLine",
+              "text": "<rules>伤害降低效果无法将伤害降至@FlatDamageReductionMax*100@%以下。</rules>"
+            }
+          },
+          "raw": {
+            "spellCastTime": 0.25,
+            "spellTotalTime": 1,
+            "DataValues": {
+              "FlatDamageReduction": [
+                4,
+                8,
+                12,
+                16,
+                20,
+                24,
+                28
+              ],
+              "FlatDamageReductionMax": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "APRatio": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ],
+              "ExplosionBaseDamage": [
+                25,
+                55,
+                85,
+                115,
+                145,
+                175,
+                205
+              ],
+              "MRBaseBonus": [
+                12.5,
+                20,
+                27.5,
+                35,
+                42.5,
+                50,
+                57.5
+              ],
+              "ArmorBaseBonus": [
+                12.5,
+                20,
+                27.5,
+                35,
+                42.5,
+                50,
+                57.5
+              ],
+              "ArmorMRDuration": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ]
+            },
+            "mEffectAmount": [
+              {
+                "value": [
+                  45,
+                  55,
+                  85,
+                  115,
+                  145,
+                  175,
+                  175
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "value": [
+                  20,
+                  20,
+                  27.5,
+                  35,
+                  42.5,
+                  50,
+                  50
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "value": [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "value": [
+                  20,
+                  20,
+                  27.5,
+                  35,
+                  42.5,
+                  50,
+                  50
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              }
+            ],
+            "mSpellCalculations": {
+              "BonusArmorTooltip": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "ArmorBaseBonus",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mStat": 1,
+                    "mStatFormula": 2,
+                    "mCoefficient": 0.20000000298023224,
+                    "__type": "StatByCoefficientCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "BonusMRTooltip": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "ArmorBaseBonus",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mStat": 6,
+                    "mStatFormula": 2,
+                    "mCoefficient": 0.20000000298023224,
+                    "__type": "StatByCoefficientCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "TotalDamageTooltip": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "ExplosionBaseDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mDataValue": "APRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          }
+        },
+        {
+          "field": "spellCastTime",
+          "rawValue": 0.25,
+          "convertedMilliseconds": 250,
+          "policy": "负数不换算"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "事件",
+          "item": "护盾爆炸与加成延续",
+          "reason": "首次持续结束后的附近敌人命中、爆炸伤害及命中后延长护甲和魔抗的事件与目标范围未接线。"
+        },
+        {
+          "kind": "输入",
+          "item": "incoming_damage_for_reduction",
+          "reason": "只有具体步骤伤害输入后才能求减免量，缺失时保持拒绝。"
+        }
+      ],
+      "excluded": [],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "protectedExisting": false,
+      "existingCompositionCounts": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "disposition": {
+        "范围外": [],
+        "待补证": [
+          {
+            "kind": "事件",
+            "item": "护盾爆炸与加成延续",
+            "reason": "首次持续结束后的附近敌人命中、爆炸伤害及命中后延长护甲和魔抗的事件与目标范围未接线。"
+          },
+          {
+            "kind": "输入",
+            "item": "incoming_damage_for_reduction",
+            "reason": "只有具体步骤伤害输入后才能求减免量，缺失时保持拒绝。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存、未接线和范围外分支不表示完整战斗机制"
+    },
+    "leona_e": {
+      "skillKey": "leona_e",
+      "name": "天顶之刃",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Leona",
+        "rootPath": "Characters/Leona/CharacterRecords/Root",
+        "spellPath": "Characters/Leona/Spells/LeonaZenithBladeAbility/LeonaZenithBlade",
+        "clientFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Leona.json.gz",
+        "clientSha256": "593a213daf3e452d4cc01998441afb3869814da88649439a741f3921125f4f5d",
+        "clientCompressedSha256": "ee144693a093e0887d836fd3857223549f0566da4aed0f115a908ab1da8125a8",
+        "officialZhFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Leona.json",
+        "officialZhSha256": "eaea33f42b422a429bfff246352a38fb925581c257d11adc6be541d13939f990",
+        "officialEnFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Leona.json",
+        "officialEnSha256": "e9b27d6076d7f5be88b2843527d8163797776026accb9fc7b1bc42c937b33b4d",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_LeonaZenithBlade_Name",
+            "text": "天顶之刃"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_LeonaZenithBlade_Summary",
+            "text": "蕾欧娜投掷一束日光，对直线上的所有敌人造成魔法伤害。当效果消失时，蕾欧娜会冲向最后一个被击中的敌人并使其无法移动。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_LeonaZenithBlade_Tooltip",
+            "text": "蕾欧娜用光明之剑进行猛刺，造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。最后一个被命中的英雄将会被<status>禁锢</status>@RootDuration@秒，并且蕾欧娜将会冲向该英雄。"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+            "sortOrder": 5
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "天顶之刃基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 50,
+              "2": 90,
+              "3": 130,
+              "4": 170,
+              "5": 210
+            },
+            "description": "当前根DataValues.BaseDamage取索引1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "天顶之刃法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "TotalDamageTooltip的省略mStat分支按已证mStat0默认来源总法术强度；系数为0.4。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "root_duration_ms",
+            "name": "禁锢持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 500,
+            "levelValues": null,
+            "description": "当前根DataValues.RootDuration=0.5秒，转毫秒。",
+            "sortOrder": 40
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "magic_damage",
+            "name": "天顶之刃魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TotalDamageTooltip=BaseDamage+0.4×来源总法术强度；只建立数值公式。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "binding": {
+            "hero": "Leona",
+            "rootPath": "Characters/Leona/CharacterRecords/Root",
+            "spellPath": "Characters/Leona/Spells/LeonaZenithBladeAbility/LeonaZenithBlade"
+          },
+          "currentBoundText": {
+            "keyName": {
+              "sourceKey": "Spell_LeonaZenithBlade_Name",
+              "text": "天顶之刃"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LeonaZenithBlade_Summary",
+              "text": "蕾欧娜投掷一束日光，对直线上的所有敌人造成魔法伤害。当效果消失时，蕾欧娜会冲向最后一个被击中的敌人并使其无法移动。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LeonaZenithBlade_Tooltip",
+              "text": "蕾欧娜用光明之剑进行猛刺，造成<magicDamage>@TotalDamageTooltip@魔法伤害</magicDamage>。最后一个被命中的英雄将会被<status>禁锢</status>@RootDuration@秒，并且蕾欧娜将会冲向该英雄。"
+            }
+          },
+          "raw": {
+            "spellCastTime": 0.25,
+            "spellTotalTime": 1,
+            "DataValues": {
+              "BaseDamage": [
+                10,
+                50,
+                90,
+                130,
+                170,
+                210,
+                250
+              ],
+              "RootDuration": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            "mEffectAmount": [
+              {
+                "value": [
+                  10,
+                  50,
+                  90,
+                  130,
+                  170,
+                  210,
+                  250
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "value": [
+                  0.5,
+                  0.5,
+                  0.5,
+                  0.5,
+                  0.5,
+                  0.5,
+                  0.5
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              }
+            ],
+            "mSpellCalculations": {
+              "TotalDamageTooltip": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "BaseDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mCoefficient": 0.4000000059604645,
+                    "__type": "StatByCoefficientCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          }
+        },
+        {
+          "field": "spellCastTime",
+          "rawValue": 0.25,
+          "convertedMilliseconds": 250,
+          "policy": "负数不换算"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "事件",
+          "item": "最后命中英雄与突进",
+          "reason": "最后命中英雄资格、禁锢应用和蕾欧娜突进事件未接线。"
+        }
+      ],
+      "excluded": [],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "protectedExisting": false,
+      "existingCompositionCounts": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "disposition": {
+        "范围外": [],
+        "待补证": [
+          {
+            "kind": "事件",
+            "item": "最后命中英雄与突进",
+            "reason": "最后命中英雄资格、禁锢应用和蕾欧娜突进事件未接线。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存、未接线和范围外分支不表示完整战斗机制"
+    },
+    "leona_r": {
+      "skillKey": "leona_r",
+      "name": "日炎耀斑",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Leona",
+        "rootPath": "Characters/Leona/CharacterRecords/Root",
+        "spellPath": "Characters/Leona/Spells/LeonaSolarFlareAbility/LeonaSolarFlare",
+        "clientFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Leona.json.gz",
+        "clientSha256": "593a213daf3e452d4cc01998441afb3869814da88649439a741f3921125f4f5d",
+        "clientCompressedSha256": "ee144693a093e0887d836fd3857223549f0566da4aed0f115a908ab1da8125a8",
+        "officialZhFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Leona.json",
+        "officialZhSha256": "eaea33f42b422a429bfff246352a38fb925581c257d11adc6be541d13939f990",
+        "officialEnFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Leona.json",
+        "officialEnSha256": "e9b27d6076d7f5be88b2843527d8163797776026accb9fc7b1bc42c937b33b4d",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_LeonaSolarFlare_Name",
+            "text": "日炎耀斑"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_LeonaSolarFlare_Summary",
+            "text": "蕾欧娜召唤一道太阳光束，对区域内的敌人造成伤害。区域中心的敌人会被晕眩，并且外围的敌人会被减速。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_LeonaSolarFlare_Tooltip",
+            "text": "蕾欧娜召唤一道太阳光束，造成<magicDamage>@ExplosionCalculatedDamage@魔法伤害</magicDamage>并使敌人<status>减速</status>@SlowPercent@%，持续@CCDuration@秒。处于区域正中的敌人会受到<status>晕眩</status>效果而非<status>减速</status>效果。"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+            "sortOrder": 5
+          },
+          {
+            "parameterKey": "explosion_base_damage",
+            "name": "日炎耀斑基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 150,
+              "2": 225,
+              "3": 300
+            },
+            "description": "当前根DataValues.ExplosionBaseDamage取索引1至3。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "explosion_ap_ratio",
+            "name": "日炎耀斑法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "ExplosionCalculatedDamage的StatByNamedDataValue ExplosionAPRatio=0.8，按已证mStat0默认来源总法术强度。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "slow_percent_points",
+            "name": "外围减速百分数点",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 80,
+            "levelValues": null,
+            "description": "当前根DataValues.SlowPercent为80，正文直接追加百分号；保留百分数点，不乘0.01。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "cc_duration_ms",
+            "name": "外围减速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1750,
+            "levelValues": null,
+            "description": "当前根DataValues.CCDuration=1.75秒，转毫秒；中心晕眩分支共用控制持续字面值但应用未接线。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "magic_damage",
+            "name": "日炎耀斑魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "explosion_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "explosion_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "ExplosionCalculatedDamage=ExplosionBaseDamage+0.8×来源总法术强度；只建立数值公式。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "binding": {
+            "hero": "Leona",
+            "rootPath": "Characters/Leona/CharacterRecords/Root",
+            "spellPath": "Characters/Leona/Spells/LeonaSolarFlareAbility/LeonaSolarFlare"
+          },
+          "currentBoundText": {
+            "keyName": {
+              "sourceKey": "Spell_LeonaSolarFlare_Name",
+              "text": "日炎耀斑"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_LeonaSolarFlare_Summary",
+              "text": "蕾欧娜召唤一道太阳光束，对区域内的敌人造成伤害。区域中心的敌人会被晕眩，并且外围的敌人会被减速。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_LeonaSolarFlare_Tooltip",
+              "text": "蕾欧娜召唤一道太阳光束，造成<magicDamage>@ExplosionCalculatedDamage@魔法伤害</magicDamage>并使敌人<status>减速</status>@SlowPercent@%，持续@CCDuration@秒。处于区域正中的敌人会受到<status>晕眩</status>效果而非<status>减速</status>效果。"
+            }
+          },
+          "raw": {
+            "spellCastTime": 0.25,
+            "spellTotalTime": 1,
+            "DataValues": {
+              "OnHitBaseDamage": [
+                20,
+                30,
+                40,
+                50,
+                60,
+                70,
+                80
+              ],
+              "OnHitStacks": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "OnHitDuration": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "AttackRangeIncrease": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              "OnHitAPRatio": [
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448
+              ],
+              "ExplosionBaseDamage": [
+                75,
+                150,
+                225,
+                300,
+                375,
+                450,
+                525
+              ],
+              "ExplosionAPRatio": [
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929
+              ],
+              "SlowPercent": [
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80
+              ],
+              "CCDuration": [
+                1.75,
+                1.75,
+                1.75,
+                1.75,
+                1.75,
+                1.75,
+                1.75
+              ]
+            },
+            "mEffectAmount": [
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "value": [
+                  0,
+                  100,
+                  100,
+                  100,
+                  100,
+                  100,
+                  100
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "value": [
+                  0,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              }
+            ],
+            "mSpellCalculations": {
+              "{f4c90e5c}": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "OnHitBaseDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mDataValue": "OnHitAPRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "ExplosionCalculatedDamage": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "ExplosionBaseDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mDataValue": "ExplosionAPRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          }
+        },
+        {
+          "field": "spellCastTime",
+          "rawValue": 0.25,
+          "convertedMilliseconds": 250,
+          "policy": "负数不换算"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "事件",
+          "item": "中心与外围控制分支",
+          "reason": "区域中心应晕眩、外围应减速；单一敌人位置分支和控制应用未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "item": "OnHitBaseDamage、OnHitStacks、OnHitDuration、AttackRangeIncrease、OnHitAPRatio",
+          "reason": "当前正文和计算树未消费这组旧字段；不新增无消费者参数，完整原树留在证明中。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "protectedExisting": false,
+      "existingCompositionCounts": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "item": "OnHitBaseDamage、OnHitStacks、OnHitDuration、AttackRangeIncrease、OnHitAPRatio",
+            "reason": "当前正文和计算树未消费这组旧字段；不新增无消费者参数，完整原树留在证明中。"
+          }
+        ],
+        "待补证": [
+          {
+            "kind": "事件",
+            "item": "中心与外围控制分支",
+            "reason": "区域中心应晕眩、外围应减速；单一敌人位置分支和控制应用未接线。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存、未接线和范围外分支不表示完整战斗机制"
+    },
+    "nautilus_p": {
+      "skillKey": "nautilus_p",
+      "name": "排山倒海",
+      "maxLevel": 1,
+      "source": {
+        "hero": "Nautilus",
+        "rootPath": "Characters/Nautilus/CharacterRecords/Root",
+        "spellPath": "Characters/Nautilus/Spells/NautilusPassiveAbility/NautilusPassive",
+        "clientFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Nautilus.json.gz",
+        "clientSha256": "e60756435fe0a107ae6d4dbabd50f0fb18f6964dd298e35dcda55066d40ab7e9",
+        "clientCompressedSha256": "9a9adac2cf61f5e228c3857697639972fa2c32ed172323a8c455ff572c196158",
+        "officialZhFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Nautilus.json",
+        "officialZhSha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f",
+        "officialEnFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Nautilus.json",
+        "officialEnSha256": "b408e5a3ea7d026a91d273a9c0afa1555183f0748e297e7a988147b3baca1779",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_NautilusPassive_Name",
+            "text": "排山倒海"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_NautilusPassive_Summary",
+            "text": "诺提勒斯对一名目标发起的第一次攻击会造成提升过的物理伤害并将其暂时禁锢。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_NautilusPassive_Tooltip",
+            "text": "诺提勒斯对一名目标发起的第一次攻击会造成<physicalDamage>@TotalDamageTooltip@物理伤害</physicalDamage>并将其<status>禁锢</status>@RootDuration@秒。"
+          },
+          "keyTooltipExtended": {
+            "sourceKey": "Spell_NautilusPassive_TooltipExtended",
+            "text": "{{ Spell_NautilusPassive_Tooltip }}<br><rules>这个特效只能在@PerTargetCD@秒内对相同目标生效一次。</rules>"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "bonus_damage_by_character_level",
+            "name": "排山倒海额外物理伤害（角色等级）",
+            "valueType": "INTEGER",
+            "valueMode": "CHARACTER_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 8,
+              "2": 14,
+              "3": 20,
+              "4": 26,
+              "5": 32,
+              "6": 38,
+              "7": 44,
+              "8": 50,
+              "9": 56,
+              "10": 62,
+              "11": 68,
+              "12": 74,
+              "13": 80,
+              "14": 86,
+              "15": 92,
+              "16": 98,
+              "17": 104,
+              "18": 110
+            },
+            "description": "当前根BonusDamage是显式ByCharLevelFormulaCalculationPart数组；只保存角色等级1至18原值，不线性展开或外推。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "per_target_cooldown_ms",
+            "name": "同一目标触发间隔（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "当前根DataValues.PerTargetCD=6秒，正文明确同目标6秒内仅触发一次，转毫秒。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "root_duration_ms",
+            "name": "禁锢持续（毫秒）运行时输入",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "RootDuration为ByCharLevelBreakpoints：角色等级1为0.75秒，等级6/11/16/21/26各增加0.25秒；不展开未知等级曲线，输入缺失无默认值。",
+            "sortOrder": 40
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "physical_damage",
+            "name": "排山倒海物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_damage_by_character_level"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "description": "TotalDamageTooltip=显式角色等级额外伤害+来源总攻击力；mStat2窄证为总攻击力，不创建伤害结果。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "binding": {
+            "hero": "Nautilus",
+            "rootPath": "Characters/Nautilus/CharacterRecords/Root",
+            "spellPath": "Characters/Nautilus/Spells/NautilusPassiveAbility/NautilusPassive"
+          },
+          "currentBoundText": {
+            "keyName": {
+              "sourceKey": "Spell_NautilusPassive_Name",
+              "text": "排山倒海"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_NautilusPassive_Summary",
+              "text": "诺提勒斯对一名目标发起的第一次攻击会造成提升过的物理伤害并将其暂时禁锢。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_NautilusPassive_Tooltip",
+              "text": "诺提勒斯对一名目标发起的第一次攻击会造成<physicalDamage>@TotalDamageTooltip@物理伤害</physicalDamage>并将其<status>禁锢</status>@RootDuration@秒。"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_NautilusPassive_TooltipExtended",
+              "text": "{{ Spell_NautilusPassive_Tooltip }}<br><rules>这个特效只能在@PerTargetCD@秒内对相同目标生效一次。</rules>"
+            }
+          },
+          "raw": {
+            "spellCastTime": null,
+            "spellTotalTime": null,
+            "DataValues": {
+              "PerTargetCD": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ]
+            },
+            "mEffectAmount": null,
+            "mSpellCalculations": {
+              "BonusDamage": {
+                "mFormulaParts": [
+                  {
+                    "values": [
+                      8,
+                      14,
+                      20,
+                      26,
+                      32,
+                      38,
+                      44,
+                      50,
+                      56,
+                      62,
+                      68,
+                      74,
+                      80,
+                      86,
+                      92,
+                      98,
+                      104,
+                      110,
+                      116,
+                      122,
+                      128,
+                      134,
+                      140,
+                      146,
+                      152,
+                      158,
+                      164,
+                      170,
+                      176,
+                      182,
+                      188
+                    ],
+                    "__type": "ByCharLevelFormulaCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "TotalDamageTooltip": {
+                "tooltipOnly": true,
+                "mFormulaParts": [
+                  {
+                    "values": [
+                      8,
+                      14,
+                      20,
+                      26,
+                      32,
+                      38,
+                      44,
+                      50,
+                      56,
+                      62,
+                      68,
+                      74,
+                      80,
+                      86,
+                      92,
+                      98,
+                      104,
+                      110,
+                      116,
+                      122,
+                      128,
+                      134,
+                      140,
+                      146,
+                      152,
+                      158,
+                      164,
+                      170,
+                      176,
+                      182,
+                      188
+                    ],
+                    "__type": "ByCharLevelFormulaCalculationPart"
+                  },
+                  {
+                    "mStat": 2,
+                    "mCoefficient": 1,
+                    "__type": "StatByCoefficientCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "RootDuration": {
+                "mSimpleTooltipCalculationDisplay": 6,
+                "mFormulaParts": [
+                  {
+                    "mLevel1Value": 0.75,
+                    "mBreakpoints": [
+                      {
+                        "mLevel": 6,
+                        "mAdditionalBonusAtThisLevel": 0.25,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 11,
+                        "mAdditionalBonusAtThisLevel": 0.25,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 16,
+                        "mAdditionalBonusAtThisLevel": 0.25,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 21,
+                        "mAdditionalBonusAtThisLevel": 0.25,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 26,
+                        "mAdditionalBonusAtThisLevel": 0.25,
+                        "__type": "Breakpoint"
+                      }
+                    ],
+                    "__type": "ByCharLevelBreakpointsCalculationPart"
+                  }
+                ],
+                "mPrecision": 2,
+                "__type": "GameCalculation"
+              }
+            }
+          }
+        }
+      ],
+      "pending": [
+        {
+          "kind": "来源",
+          "item": "spellCastTime",
+          "reason": "根字段缺失或不是有限数，不生成施法时间参数。"
+        },
+        {
+          "kind": "事件",
+          "item": "首次攻击与同目标限制",
+          "reason": "首次攻击触发、同一目标冷却和禁锢应用未接线；root_duration_ms需由角色等级运行时输入提供。"
+        }
+      ],
+      "excluded": [],
+      "reusedParameters": [],
+      "protectedExisting": false,
+      "existingCompositionCounts": {
+        "parameters": 0,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "disposition": {
+        "范围外": [],
+        "待补证": [
+          {
+            "kind": "来源",
+            "item": "spellCastTime",
+            "reason": "根字段缺失或不是有限数，不生成施法时间参数。"
+          },
+          {
+            "kind": "事件",
+            "item": "首次攻击与同目标限制",
+            "reason": "首次攻击触发、同一目标冷却和禁锢应用未接线；root_duration_ms需由角色等级运行时输入提供。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存、未接线和范围外分支不表示完整战斗机制"
+    },
+    "nautilus_q": {
+      "skillKey": "nautilus_q",
+      "name": "疏通航道",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Nautilus",
+        "rootPath": "Characters/Nautilus/CharacterRecords/Root",
+        "spellPath": "Characters/Nautilus/Spells/NautilusAnchorDragAbility/NautilusAnchorDrag",
+        "clientFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Nautilus.json.gz",
+        "clientSha256": "e60756435fe0a107ae6d4dbabd50f0fb18f6964dd298e35dcda55066d40ab7e9",
+        "clientCompressedSha256": "9a9adac2cf61f5e228c3857697639972fa2c32ed172323a8c455ff572c196158",
+        "officialZhFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Nautilus.json",
+        "officialZhSha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f",
+        "officialEnFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Nautilus.json",
+        "officialEnSha256": "b408e5a3ea7d026a91d273a9c0afa1555183f0748e297e7a988147b3baca1779",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_NautilusAnchorDrag_Name",
+            "text": "疏通航道"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_NautilusAnchorDrag_Summary",
+            "text": "诺提勒斯向前抛出他的船锚。在与敌人碰撞后，船锚会将目标与诺提勒斯拉到一起，并造成魔法伤害。与地形碰撞时会将诺提勒斯拉向它。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_NautilusAnchorDrag_Tooltip",
+            "text": "诺提勒斯向前猛掷他的船锚。如果它命中了一个敌方单位，诺提勒斯就会将他自己和目标吸到一起，同时造成<magicDamage>@QDamageCalc@魔法伤害</magicDamage>，并将目标暂时<status>晕眩</status>。如果它命中了地形，诺提勒斯则会把自己拉到船锚处。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_NautilusAnchorDrag_TooltipExtendedBelowLine",
+            "text": "<rules>如果诺提勒斯勾中了地形，那么这个技能的冷却时间会缩短@TerrainCDR*100@%，并且返还@TerrainMana*100@%法力消耗。</rules>"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+            "sortOrder": 5
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "疏通航道基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 85,
+              "2": 130,
+              "3": 175,
+              "4": 220,
+              "5": 265
+            },
+            "description": "当前根DataValues.BaseDamage取索引1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "疏通航道法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.9,
+            "levelValues": null,
+            "description": "QDamageCalc省略mStat分支按已证mStat0默认来源总法术强度；系数为0.9。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "terrain_cooldown_reduction_ratio",
+            "name": "命中地形冷却缩短比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "当前扩展正文TerrainCDR*100为50%，原值已是比例。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "terrain_mana_refund_ratio",
+            "name": "命中地形法力返还比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "当前扩展正文TerrainMana*100为50%，原值已是比例。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "magic_damage",
+            "name": "疏通航道魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "QDamageCalc=BaseDamage+0.9×来源总法术强度；只建立数值公式。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "binding": {
+            "hero": "Nautilus",
+            "rootPath": "Characters/Nautilus/CharacterRecords/Root",
+            "spellPath": "Characters/Nautilus/Spells/NautilusAnchorDragAbility/NautilusAnchorDrag"
+          },
+          "currentBoundText": {
+            "keyName": {
+              "sourceKey": "Spell_NautilusAnchorDrag_Name",
+              "text": "疏通航道"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_NautilusAnchorDrag_Summary",
+              "text": "诺提勒斯向前抛出他的船锚。在与敌人碰撞后，船锚会将目标与诺提勒斯拉到一起，并造成魔法伤害。与地形碰撞时会将诺提勒斯拉向它。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_NautilusAnchorDrag_Tooltip",
+              "text": "诺提勒斯向前猛掷他的船锚。如果它命中了一个敌方单位，诺提勒斯就会将他自己和目标吸到一起，同时造成<magicDamage>@QDamageCalc@魔法伤害</magicDamage>，并将目标暂时<status>晕眩</status>。如果它命中了地形，诺提勒斯则会把自己拉到船锚处。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_NautilusAnchorDrag_TooltipExtendedBelowLine",
+              "text": "<rules>如果诺提勒斯勾中了地形，那么这个技能的冷却时间会缩短@TerrainCDR*100@%，并且返还@TerrainMana*100@%法力消耗。</rules>"
+            }
+          },
+          "raw": {
+            "spellCastTime": 0.25,
+            "spellTotalTime": 1,
+            "DataValues": {
+              "BaseDamage": [
+                40,
+                85,
+                130,
+                175,
+                220,
+                265,
+                310
+              ],
+              "TerrainCDR": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "TerrainMana": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "TerrainReduction": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "TerrainManaRefund": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            },
+            "mEffectAmount": [
+              {
+                "value": [
+                  70,
+                  70,
+                  115,
+                  160,
+                  205,
+                  250,
+                  250
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "value": [
+                  0.5,
+                  0.5,
+                  0.5,
+                  0.5,
+                  0.5,
+                  0.5,
+                  0.5
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "value": [
+                  0.5,
+                  0.5,
+                  0.5,
+                  0.5,
+                  0.5,
+                  0.5,
+                  0.5
+                ],
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              },
+              {
+                "__type": "SpellEffectAmount"
+              }
+            ],
+            "mSpellCalculations": {
+              "QDamageCalc": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "BaseDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mCoefficient": 0.8999999761581421,
+                    "__type": "StatByCoefficientCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          }
+        },
+        {
+          "field": "spellCastTime",
+          "rawValue": 0.25,
+          "convertedMilliseconds": 250,
+          "policy": "负数不换算"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "事件",
+          "item": "敌人与地形分支",
+          "reason": "敌方单位命中和地形命中的拉近、冷却缩短、法力返还及晕眩应用未接线；不将两条分支相加。"
+        }
+      ],
+      "excluded": [
+        {
+          "item": "TerrainReduction、TerrainManaRefund",
+          "reason": "当前绑定正文和计算树只消费TerrainCDR、TerrainMana；未消费字段不建无消费者参数。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "protectedExisting": false,
+      "existingCompositionCounts": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "item": "TerrainReduction、TerrainManaRefund",
+            "reason": "当前绑定正文和计算树只消费TerrainCDR、TerrainMana；未消费字段不建无消费者参数。"
+          }
+        ],
+        "待补证": [
+          {
+            "kind": "事件",
+            "item": "敌人与地形分支",
+            "reason": "敌方单位命中和地形命中的拉近、冷却缩短、法力返还及晕眩应用未接线；不将两条分支相加。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存、未接线和范围外分支不表示完整战斗机制"
+    },
+    "nautilus_w": {
+      "skillKey": "nautilus_w",
+      "name": "泰坦之怒",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Nautilus",
+        "rootPath": "Characters/Nautilus/CharacterRecords/Root",
+        "spellPath": "Characters/Nautilus/Spells/NautilusPiercingGazeAbility/NautilusPiercingGaze",
+        "clientFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Nautilus.json.gz",
+        "clientSha256": "e60756435fe0a107ae6d4dbabd50f0fb18f6964dd298e35dcda55066d40ab7e9",
+        "clientCompressedSha256": "9a9adac2cf61f5e228c3857697639972fa2c32ed172323a8c455ff572c196158",
+        "officialZhFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Nautilus.json",
+        "officialZhSha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f",
+        "officialEnFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Nautilus.json",
+        "officialEnSha256": "b408e5a3ea7d026a91d273a9c0afa1555183f0748e297e7a988147b3baca1779",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_NautilusPiercingGaze_Name",
+            "text": "泰坦之怒"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_NautilusPiercingGaze_Summary",
+            "text": "诺提勒斯获得一个临时护盾。当护盾存在时，他的攻击会对目标及目标周围的敌人造成持续伤害。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_NautilusPiercingGaze_Tooltip",
+            "text": "诺提勒斯获得一层持续@ShieldDuration@秒的<shield>@ShieldCalc@护盾</shield>。当<shield>护盾</shield>存在时，诺提勒斯的攻击会在2秒里对目标及目标周围的敌人持续造成共<magicDamage>@DotDamageCalc@额外魔法伤害</magicDamage>。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_NautilusPiercingGaze_TooltipExtendedBelowLine",
+            "text": ""
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+            "sortOrder": 5
+          },
+          {
+            "parameterKey": "shield_base",
+            "name": "泰坦之怒护盾基础值",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 50,
+              "2": 60,
+              "3": 70,
+              "4": 80,
+              "5": 90
+            },
+            "description": "当前根DataValues.ShieldBase取索引1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "shield_health_ratio",
+            "name": "护盾生命值倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.08,
+              "2": 0.09,
+              "3": 0.1,
+              "4": 0.11,
+              "5": 0.12
+            },
+            "description": "当前根DataValues.ShieldHealthRatio取索引1至5；mStat12按同版根证据取来源生命值总值。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "shield_duration_ms",
+            "name": "护盾持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6000,
+            "levelValues": null,
+            "description": "当前绑定正文明确护盾持续6秒，转毫秒。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "dot_damage_base",
+            "name": "护盾期间额外魔法伤害基础值",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 30,
+              "2": 40,
+              "3": 50,
+              "4": 60,
+              "5": 70
+            },
+            "description": "当前根DataValues.DotDamageBase取索引1至5；正文称2秒内总额。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "dot_damage_ap_ratio",
+            "name": "护盾期间额外伤害法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "DotDamageCalc的StatByNamedDataValue DotDamageAPRatio=0.4，按已证mStat0默认来源总法术强度。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "dot_total_duration_ms",
+            "name": "额外伤害总持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "当前绑定正文明确在2秒里持续造成共计额外伤害；不能解释成每个节拍数值。",
+            "sortOrder": 70
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "shield_value",
+            "name": "泰坦之怒护盾数值",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "shield_health_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "ShieldCalc=ShieldBase+ShieldHealthRatio×来源生命值总值；不创建护盾结果。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "bonus_magic_damage_total",
+            "name": "护盾期间额外魔法伤害总量",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "dot_damage_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "dot_damage_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "DotDamageCalc=DotDamageBase+0.4×来源总法术强度；正文共2秒总量，不表示单节拍。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "shield",
+            "name": "泰坦之怒自身护盾",
+            "description": "当前根绑定正文明确自身获得持续6秒护盾；只记录成熟NORMAL_SHIELD组成，攻击额外伤害事件另待接。",
+            "sortOrder": 10,
+            "lifecycle": {
+              "durationValue": {
+                "kind": "PARAMETER",
+                "parameterKey": "shield_duration_ms"
+              },
+              "maxStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "applicationStacksValue": {
+                "kind": "FIXED",
+                "value": 1
+              },
+              "instanceScope": "SOURCE",
+              "reapplicationStackMode": "KEEP",
+              "reapplicationDurationMode": "REFRESH_ALL",
+              "expiryMode": "ALL_AT_ONCE",
+              "periodicIntervalValue": null,
+              "firstPeriodicExecution": null
+            },
+            "results": [
+              {
+                "resultKey": "shield",
+                "name": "泰坦之怒自身护盾",
+                "resultType": "NORMAL_SHIELD",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": {
+                  "moment": "PERSISTENT",
+                  "valueReadMode": "APPLICATION_SNAPSHOT",
+                  "stackValueMode": "SHARED",
+                  "reapplicationValueMode": "REPLACE",
+                  "periodicExecutionMode": null
+                },
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "FORMULA",
+                    "formulaKey": "shield_value"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "absorbedDamageTypeKey": null,
+                  "decayMode": "NONE"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "binding": {
+            "hero": "Nautilus",
+            "rootPath": "Characters/Nautilus/CharacterRecords/Root",
+            "spellPath": "Characters/Nautilus/Spells/NautilusPiercingGazeAbility/NautilusPiercingGaze"
+          },
+          "currentBoundText": {
+            "keyName": {
+              "sourceKey": "Spell_NautilusPiercingGaze_Name",
+              "text": "泰坦之怒"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_NautilusPiercingGaze_Summary",
+              "text": "诺提勒斯获得一个临时护盾。当护盾存在时，他的攻击会对目标及目标周围的敌人造成持续伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_NautilusPiercingGaze_Tooltip",
+              "text": "诺提勒斯获得一层持续@ShieldDuration@秒的<shield>@ShieldCalc@护盾</shield>。当<shield>护盾</shield>存在时，诺提勒斯的攻击会在2秒里对目标及目标周围的敌人持续造成共<magicDamage>@DotDamageCalc@额外魔法伤害</magicDamage>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_NautilusPiercingGaze_TooltipExtendedBelowLine",
+              "text": ""
+            }
+          },
+          "raw": {
+            "spellCastTime": 0.25,
+            "spellTotalTime": 1,
+            "DataValues": {
+              "ShieldBase": [
+                40,
+                50,
+                60,
+                70,
+                80,
+                90,
+                100
+              ],
+              "ShieldHealthRatio": [
+                0.07000000029802322,
+                0.07999999821186066,
+                0.09000000357627869,
+                0.10000000149011612,
+                0.10999999940395355,
+                0.11999999731779099,
+                0.12999999523162842
+              ],
+              "ShieldDuration": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ],
+              "DotDamageBase": [
+                20,
+                30,
+                40,
+                50,
+                60,
+                70,
+                80
+              ],
+              "DotDamageAPRatio": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ]
+            },
+            "mEffectAmount": null,
+            "mSpellCalculations": {
+              "DotDamageCalc": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "DotDamageBase",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mDataValue": "DotDamageAPRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "ShieldCalc": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "ShieldBase",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mStat": 12,
+                    "mDataValue": "ShieldHealthRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          }
+        },
+        {
+          "field": "spellCastTime",
+          "rawValue": 0.25,
+          "convertedMilliseconds": 250,
+          "policy": "负数不换算"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "事件",
+          "item": "护盾存在期间攻击",
+          "reason": "护盾获得、攻击触发、目标及其周围敌人命中和2秒内总量分配未接线。"
+        }
+      ],
+      "excluded": [],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "protectedExisting": false,
+      "existingCompositionCounts": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "disposition": {
+        "范围外": [],
+        "待补证": [
+          {
+            "kind": "事件",
+            "item": "护盾存在期间攻击",
+            "reason": "护盾获得、攻击触发、目标及其周围敌人命中和2秒内总量分配未接线。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存、未接线和范围外分支不表示完整战斗机制"
+    },
+    "nautilus_e": {
+      "skillKey": "nautilus_e",
+      "name": "暗流涌动",
+      "maxLevel": 5,
+      "source": {
+        "hero": "Nautilus",
+        "rootPath": "Characters/Nautilus/CharacterRecords/Root",
+        "spellPath": "Characters/Nautilus/Spells/NautilusSplashZoneAbility/NautilusSplashZone",
+        "clientFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Nautilus.json.gz",
+        "clientSha256": "e60756435fe0a107ae6d4dbabd50f0fb18f6964dd298e35dcda55066d40ab7e9",
+        "clientCompressedSha256": "9a9adac2cf61f5e228c3857697639972fa2c32ed172323a8c455ff572c196158",
+        "officialZhFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Nautilus.json",
+        "officialZhSha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f",
+        "officialEnFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Nautilus.json",
+        "officialEnSha256": "b408e5a3ea7d026a91d273a9c0afa1555183f0748e297e7a988147b3baca1779",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_NautilusSplashZone_Name",
+            "text": "暗流涌动"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_NautilusSplashZone_Summary",
+            "text": "诺提勒斯在他身边生成3道爆炸波纹。每道爆炸波纹都会伤害并减速敌人。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_NautilusSplashZone_Tooltip",
+            "text": "诺提勒斯在他身边生成3道爆炸波纹，每道爆炸波纹都会对范围内的敌人们造成<magicDamage>@DamageCalc@魔法伤害</magicDamage>并使他们<status>减速</status>@SlowPercent*100@%，在@SlowDuration@秒里持续衰减。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_NautilusSplashZone_TooltipExtendedBelowLine",
+            "text": "<rules>后续爆炸波纹造成的伤害减少@ExtraWavePenalty*100@%。</rules><br><rules>这个技能在首次命中时对野怪造成@MonsterBonusCalc@额外伤害。</rules>"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+            "sortOrder": 5
+          },
+          {
+            "parameterKey": "damage_base",
+            "name": "暗流涌动基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 55,
+              "2": 90,
+              "3": 125,
+              "4": 160,
+              "5": 195
+            },
+            "description": "当前根DataValues.DamageBase取索引1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "slow_ratio",
+            "name": "暗流涌动减速比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.3,
+              "2": 0.35,
+              "3": 0.4,
+              "4": 0.45,
+              "5": 0.5
+            },
+            "description": "当前根SlowPercent已是0至1比例，正文使用*100显示；保留比例。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "减速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1250,
+            "levelValues": null,
+            "description": "当前根DataValues.SlowDuration=1.25秒，转毫秒。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "extra_wave_penalty_ratio",
+            "name": "后续波纹伤害减少比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "当前扩展正文ExtraWavePenalty*100为50%，原值已是比例。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "wave_count",
+            "name": "爆炸波纹数量",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "当前绑定摘要和正文都明确生成3道波纹；表示实际波纹次数，不是面积换算。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "damage_radius",
+            "name": "单次波纹命中半径",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 125,
+            "levelValues": null,
+            "description": "当前根DataValues.DamageRadius=125；作为实际命中范围参数，不创建展示面积公式。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "one",
+            "name": "常数1",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1,
+            "levelValues": null,
+            "description": "用于表达后续波纹为首波乘以（1-减少比例）的完整分支。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "damage_ap_ratio",
+            "name": "波纹法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.5,
+            "levelValues": null,
+            "description": "DamageCalc省略mStat分支按已证mStat0默认来源总法术强度；系数为0.5。",
+            "sortOrder": 90
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "magic_damage",
+            "name": "暗流涌动首波魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "DamageCalc=DamageBase+0.5×来源总法术强度；只建立首波数值公式。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "later_wave_magic_damage",
+            "name": "暗流涌动后续波纹魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "SUBTRACT",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "extra_wave_penalty_ratio"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_base"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "damage_ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "后续波纹=(1-ExtraWavePenalty)×首波；保留每次波纹单一敌人分支，不与首波相加成单次伤害。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "binding": {
+            "hero": "Nautilus",
+            "rootPath": "Characters/Nautilus/CharacterRecords/Root",
+            "spellPath": "Characters/Nautilus/Spells/NautilusSplashZoneAbility/NautilusSplashZone"
+          },
+          "currentBoundText": {
+            "keyName": {
+              "sourceKey": "Spell_NautilusSplashZone_Name",
+              "text": "暗流涌动"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_NautilusSplashZone_Summary",
+              "text": "诺提勒斯在他身边生成3道爆炸波纹。每道爆炸波纹都会伤害并减速敌人。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_NautilusSplashZone_Tooltip",
+              "text": "诺提勒斯在他身边生成3道爆炸波纹，每道爆炸波纹都会对范围内的敌人们造成<magicDamage>@DamageCalc@魔法伤害</magicDamage>并使他们<status>减速</status>@SlowPercent*100@%，在@SlowDuration@秒里持续衰减。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_NautilusSplashZone_TooltipExtendedBelowLine",
+              "text": "<rules>后续爆炸波纹造成的伤害减少@ExtraWavePenalty*100@%。</rules><br><rules>这个技能在首次命中时对野怪造成@MonsterBonusCalc@额外伤害。</rules>"
+            }
+          },
+          "raw": {
+            "spellCastTime": 0.25,
+            "spellTotalTime": 1,
+            "DataValues": {
+              "DamageBase": [
+                20,
+                55,
+                90,
+                125,
+                160,
+                195,
+                230
+              ],
+              "SlowPercent": [
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355,
+                0.4000000059604645,
+                0.44999998807907104,
+                0.5,
+                0.550000011920929
+              ],
+              "SlowDuration": [
+                1.25,
+                1.25,
+                1.25,
+                1.25,
+                1.25,
+                1.25,
+                1.25
+              ],
+              "MultiHitReduction": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "DamageMonsterMod": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "DamageAPRatio": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "ExtraWavePenalty": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "DamageRadius": [
+                125,
+                125,
+                125,
+                125,
+                125,
+                125,
+                125
+              ],
+              "MonsterBonusDamage": [
+                85,
+                125,
+                165,
+                205,
+                245,
+                285,
+                325
+              ]
+            },
+            "mEffectAmount": null,
+            "mSpellCalculations": {
+              "DamageCalc": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "DamageBase",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mDataValue": "DamageAPRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "MonsterBonusCalc": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "MonsterBonusDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mCoefficient": 0.5,
+                    "__type": "StatByCoefficientCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          }
+        },
+        {
+          "field": "spellCastTime",
+          "rawValue": 0.25,
+          "convertedMilliseconds": 250,
+          "policy": "负数不换算"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "事件",
+          "item": "三波纹逐次命中",
+          "reason": "波纹产生时点、同一目标多次命中、减速衰减和后续波纹应用顺序未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "item": "DamageMonsterMod、MonsterBonusDamage、MonsterBonusCalc",
+          "reason": "野怪专用伤害分支，本批单一英雄目标范围外。"
+        },
+        {
+          "item": "MultiHitReduction",
+          "reason": "当前绑定正文和消费树未直接使用该字段；不建无消费者中转参数。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "protectedExisting": false,
+      "existingCompositionCounts": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "item": "DamageMonsterMod、MonsterBonusDamage、MonsterBonusCalc",
+            "reason": "野怪专用伤害分支，本批单一英雄目标范围外。"
+          },
+          {
+            "item": "MultiHitReduction",
+            "reason": "当前绑定正文和消费树未直接使用该字段；不建无消费者中转参数。"
+          }
+        ],
+        "待补证": [
+          {
+            "kind": "事件",
+            "item": "三波纹逐次命中",
+            "reason": "波纹产生时点、同一目标多次命中、减速衰减和后续波纹应用顺序未接线。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存、未接线和范围外分支不表示完整战斗机制"
+    },
+    "nautilus_r": {
+      "skillKey": "nautilus_r",
+      "name": "深海冲击",
+      "maxLevel": 3,
+      "source": {
+        "hero": "Nautilus",
+        "rootPath": "Characters/Nautilus/CharacterRecords/Root",
+        "spellPath": "Characters/Nautilus/Spells/NautilusGrandLineAbility/NautilusGrandLine",
+        "clientFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Nautilus.json.gz",
+        "clientSha256": "e60756435fe0a107ae6d4dbabd50f0fb18f6964dd298e35dcda55066d40ab7e9",
+        "clientCompressedSha256": "9a9adac2cf61f5e228c3857697639972fa2c32ed172323a8c455ff572c196158",
+        "officialZhFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Nautilus.json",
+        "officialZhSha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f",
+        "officialEnFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Nautilus.json",
+        "officialEnSha256": "b408e5a3ea7d026a91d273a9c0afa1555183f0748e297e7a988147b3baca1779",
+        "currentBoundText": {
+          "keyName": {
+            "sourceKey": "Spell_NautilusGrandLine_Name",
+            "text": "深海冲击"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_NautilusGrandLine_Summary",
+            "text": "诺提勒斯将一束冲击波打进土里，来追击敌方目标。这束冲击波会撕裂它上面的地表，将敌人震到半空中。当它命中目标时，冲击波会喷发，将他的目标震到半空中，并使目标晕眩。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_NautilusGrandLine_Tooltip",
+            "text": "诺提勒斯发射一道冲击波来追击一名敌方英雄，造成<magicDamage>@PrimaryTargetDamage@魔法伤害</magicDamage>，<status>击飞</status>目标并将其<status>晕眩</status>@StunDuration@秒。冲击波还会<status>击飞</status>和<status>晕眩</status>沿途经过的其它敌人，并造成<magicDamage>@SecondaryTargetDamage@魔法伤害</magicDamage>。"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+            "sortOrder": 5
+          },
+          {
+            "parameterKey": "primary_damage",
+            "name": "深海冲击主要目标基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 150,
+              "2": 275,
+              "3": 400
+            },
+            "description": "当前根DataValues.PrimaryDamage取索引1至3；只对应主要目标。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "stun_duration_ms",
+            "name": "深海冲击晕眩持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 1000,
+              "2": 1500,
+              "3": 2000
+            },
+            "description": "当前根DataValues.StunDuration取索引1至3，秒转毫秒。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "primary_ap_ratio",
+            "name": "主要目标法术强度倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.8,
+            "levelValues": null,
+            "description": "PrimaryTargetDamage省略mStat分支按已证mStat0默认来源总法术强度。",
+            "sortOrder": 50
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "primary_magic_damage",
+            "name": "深海冲击主要目标魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "primary_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "primary_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "PrimaryTargetDamage=PrimaryDamage+0.8×来源总法术强度；不与沿途分支相加。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "只记录一次施放的基础法力代价；实际扣除资格、扣除时点和资源不足处理仍待事件接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "consume_mana",
+                "name": "消耗法力",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "description": null,
+                "sortOrder": 10,
+                "lifecycleBehavior": null,
+                "spellShieldBlockScope": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "proofs": [
+        {
+          "binding": {
+            "hero": "Nautilus",
+            "rootPath": "Characters/Nautilus/CharacterRecords/Root",
+            "spellPath": "Characters/Nautilus/Spells/NautilusGrandLineAbility/NautilusGrandLine"
+          },
+          "currentBoundText": {
+            "keyName": {
+              "sourceKey": "Spell_NautilusGrandLine_Name",
+              "text": "深海冲击"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_NautilusGrandLine_Summary",
+              "text": "诺提勒斯将一束冲击波打进土里，来追击敌方目标。这束冲击波会撕裂它上面的地表，将敌人震到半空中。当它命中目标时，冲击波会喷发，将他的目标震到半空中，并使目标晕眩。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_NautilusGrandLine_Tooltip",
+              "text": "诺提勒斯发射一道冲击波来追击一名敌方英雄，造成<magicDamage>@PrimaryTargetDamage@魔法伤害</magicDamage>，<status>击飞</status>目标并将其<status>晕眩</status>@StunDuration@秒。冲击波还会<status>击飞</status>和<status>晕眩</status>沿途经过的其它敌人，并造成<magicDamage>@SecondaryTargetDamage@魔法伤害</magicDamage>。"
+            }
+          },
+          "raw": {
+            "spellCastTime": 0.25,
+            "spellTotalTime": 1,
+            "DataValues": {
+              "PrimaryDamage": [
+                25,
+                150,
+                275,
+                400,
+                525,
+                650,
+                775
+              ],
+              "SecondaryDamage": [
+                75,
+                125,
+                175,
+                225,
+                275,
+                325,
+                375
+              ],
+              "StunDuration": [
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5,
+                3,
+                3.5
+              ]
+            },
+            "mEffectAmount": null,
+            "mSpellCalculations": {
+              "PrimaryTargetDamage": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "PrimaryDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mCoefficient": 0.800000011920929,
+                    "__type": "StatByCoefficientCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "SecondaryTargetDamage": {
+                "mFormulaParts": [
+                  {
+                    "mDataValue": "SecondaryDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mCoefficient": 0.4000000059604645,
+                    "__type": "StatByCoefficientCalculationPart"
+                  }
+                ],
+                "__type": "GameCalculation"
+              }
+            }
+          }
+        },
+        {
+          "field": "spellCastTime",
+          "rawValue": 0.25,
+          "convertedMilliseconds": 250,
+          "policy": "负数不换算"
+        }
+      ],
+      "pending": [
+        {
+          "kind": "事件",
+          "item": "主要与沿途目标分支",
+          "reason": "主要目标分支保留；沿途其它敌人是额外目标，已移出本轮单一敌人范围。"
+        }
+      ],
+      "excluded": [
+        {
+          "item": "SecondaryDamage、secondary_ap_ratio、SecondaryTargetDamage",
+          "reason": "当前正文把主要目标和沿途其它敌人分成不同目标；沿途其它敌人属于额外目标，本轮单一敌人范围移出，不建立对应专用参数或公式。撤回：secondary_damage、secondary_ap_ratio、secondary_magic_damage。"
+        }
+      ],
+      "reusedParameters": [
+        "cooldown_ms",
+        "mana_cost"
+      ],
+      "protectedExisting": false,
+      "existingCompositionCounts": {
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "disposition": {
+        "范围外": [
+          {
+            "item": "SecondaryDamage、secondary_ap_ratio、SecondaryTargetDamage",
+            "reason": "当前正文把主要目标和沿途其它敌人分成不同目标；沿途其它敌人属于额外目标，本轮单一敌人范围移出，不建立对应专用参数或公式。撤回：secondary_damage、secondary_ap_ratio、secondary_magic_damage。"
+          }
+        ],
+        "待补证": [
+          {
+            "kind": "事件",
+            "item": "主要与沿途目标分支",
+            "reason": "主要目标分支保留；沿途其它敌人是额外目标，已移出本轮单一敌人范围。"
+          }
+        ]
+      },
+      "status": "确定组成候选；未保存、未接线和范围外分支不表示完整战斗机制"
+    }
+  },
+  "order": [
+    "leona_p",
+    "leona_q",
+    "leona_w",
+    "leona_e",
+    "leona_r",
+    "nautilus_p",
+    "nautilus_q",
+    "nautilus_w",
+    "nautilus_e",
+    "nautilus_r"
+  ],
+  "reusedPublicParameters": [
+    {
+      "skillKey": "leona_q",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "leona_q",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "leona_w",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "leona_w",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "leona_e",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "leona_e",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "leona_r",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "leona_r",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "nautilus_q",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "nautilus_q",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "nautilus_w",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "nautilus_w",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "nautilus_e",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "nautilus_e",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "nautilus_r",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "nautilus_r",
+      "parameterKey": "mana_cost"
+    }
+  ],
+  "reusedExistingParameters": [
+    {
+      "skillKey": "leona_q",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "leona_q",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "leona_w",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "leona_w",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "leona_e",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "leona_e",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "leona_r",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "leona_r",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "nautilus_q",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "nautilus_q",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "nautilus_w",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "nautilus_w",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "nautilus_e",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "nautilus_e",
+      "parameterKey": "mana_cost"
+    },
+    {
+      "skillKey": "nautilus_r",
+      "parameterKey": "cooldown_ms"
+    },
+    {
+      "skillKey": "nautilus_r",
+      "parameterKey": "mana_cost"
+    }
+  ],
+  "counts": {
+    "parameters": 54,
+    "formulas": 14,
+    "effects": 9,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "apiWrites": 0,
+  "sourceFiles": {
+    "leona": {
+      "hero": "Leona",
+      "rawFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Leona.json.gz",
+      "zhFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Leona.json",
+      "enFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Leona.json",
+      "rootFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\角色根记录\\Leona.json",
+      "levelFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\等级属性候选\\Leona.json",
+      "rawSha256": "593a213daf3e452d4cc01998441afb3869814da88649439a741f3921125f4f5d",
+      "compressedSha256": "ee144693a093e0887d836fd3857223549f0566da4aed0f115a908ab1da8125a8",
+      "zhSha256": "eaea33f42b422a429bfff246352a38fb925581c257d11adc6be541d13939f990",
+      "enSha256": "e9b27d6076d7f5be88b2843527d8163797776026accb9fc7b1bc42c937b33b4d",
+      "rootSha256": "4f9cdf3ddc5b563428ea44adbeed0d9474a83bb53303b3023165af06b5c5c29c",
+      "levelSha256": "885618b86ca16113f7f617e4e7453a7b4d449964a71530bbcb7858bd4c88834d",
+      "rootPath": "Characters/Leona/CharacterRecords/Root",
+      "index": {
+        "championId": "Leona",
+        "chineseName": "曙光女神",
+        "resourceType": "法力",
+        "client": {
+          "path": "客户端原文/Leona.json.gz",
+          "sha256": "593a213daf3e452d4cc01998441afb3869814da88649439a741f3921125f4f5d",
+          "compressedSha256": "ee144693a093e0887d836fd3857223549f0566da4aed0f115a908ab1da8125a8",
+          "byteSize": 49988,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/leona/leona.bin.json",
+          "fetchedAt": "2026-09-06T14:26:25.137Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Leona.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Leona.json",
+          "fetchedAt": "2026-09-06T14:12:49.038Z",
+          "byteSize": 14207,
+          "sha256": "eaea33f42b422a429bfff246352a38fb925581c257d11adc6be541d13939f990"
+        },
+        "rootPath": "Characters/Leona/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "日光",
+            "clientPath": "Characters/Leona/Spells/LeonaSunlightPassiveAbility/LeonaSunlightPassive",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": null,
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "MarkDuration"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "LeonaShieldOfDaybreak",
+            "name": "破晓之盾",
+            "clientPath": "Characters/Leona/Spells/LeonaShieldOfDaybreakAbility/LeonaShieldOfDaybreak",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "cost": [
+              30,
+              35,
+              40,
+              45,
+              50
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "clientMana": [
+              30,
+              35,
+              40,
+              45,
+              50,
+              55
+            ],
+            "clientCastTime": 0.5217499732971191,
+            "dataValueNames": [
+              "StunDuration",
+              "BaseDamage"
+            ],
+            "calculationNames": [
+              "TotalDamageTooltip"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "LeonaSolarBarrier",
+            "name": "日蚀",
+            "clientPath": "Characters/Leona/Spells/LeonaSolarBarrierAbility/LeonaSolarBarrier",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              14,
+              13,
+              12,
+              11,
+              10
+            ],
+            "cost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              14,
+              14,
+              13,
+              12,
+              11,
+              10,
+              9
+            ],
+            "clientMana": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "FlatDamageReduction",
+              "FlatDamageReductionMax",
+              "APRatio",
+              "ExplosionBaseDamage",
+              "MRBaseBonus",
+              "ArmorBaseBonus",
+              "ArmorMRDuration"
+            ],
+            "calculationNames": [
+              "BonusArmorTooltip",
+              "BonusMRTooltip",
+              "TotalDamageTooltip"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "LeonaZenithBlade",
+            "name": "天顶之刃",
+            "clientPath": "Characters/Leona/Spells/LeonaZenithBladeAbility/LeonaZenithBlade",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              12,
+              10.5,
+              9,
+              7.5,
+              6
+            ],
+            "cost": [
+              40,
+              45,
+              50,
+              55,
+              60
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              13,
+              12,
+              10.5,
+              9,
+              7.5,
+              6,
+              6
+            ],
+            "clientMana": [
+              40,
+              45,
+              50,
+              55,
+              60,
+              65
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "BaseDamage",
+              "RootDuration"
+            ],
+            "calculationNames": [
+              "TotalDamageTooltip"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "LeonaSolarFlare",
+            "name": "日炎耀斑",
+            "clientPath": "Characters/Leona/Spells/LeonaSolarFlareAbility/LeonaSolarFlare",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              90,
+              75,
+              60
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              90,
+              90,
+              75,
+              60,
+              90,
+              90,
+              150
+            ],
+            "clientMana": [
+              100,
+              100,
+              100,
+              0,
+              0,
+              0
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "OnHitBaseDamage",
+              "OnHitStacks",
+              "OnHitDuration",
+              "AttackRangeIncrease",
+              "OnHitAPRatio",
+              "ExplosionBaseDamage",
+              "ExplosionAPRatio",
+              "SlowPercent",
+              "CCDuration"
+            ],
+            "calculationNames": [
+              "{f4c90e5c}",
+              "ExplosionCalculatedDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      }
+    },
+    "nautilus": {
+      "hero": "Nautilus",
+      "rawFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\客户端原文\\Nautilus.json.gz",
+      "zhFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\zh_CN\\champion\\Nautilus.json",
+      "enFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\原始资料\\en_US\\champion\\Nautilus.json",
+      "rootFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\角色根记录\\Nautilus.json",
+      "levelFile": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\英雄\\等级属性候选\\Nautilus.json",
+      "rawSha256": "e60756435fe0a107ae6d4dbabd50f0fb18f6964dd298e35dcda55066d40ab7e9",
+      "compressedSha256": "9a9adac2cf61f5e228c3857697639972fa2c32ed172323a8c455ff572c196158",
+      "zhSha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f",
+      "enSha256": "b408e5a3ea7d026a91d273a9c0afa1555183f0748e297e7a988147b3baca1779",
+      "rootSha256": "9da5ee2a180ad0897d35243befb874f4db770c9dca6c17d66220c225d3bc4c0d",
+      "levelSha256": "521a918c40e42d05dbbab7a9464adb31e931c5d55d987cca5a8a0646234140a3",
+      "rootPath": "Characters/Nautilus/CharacterRecords/Root",
+      "index": {
+        "championId": "Nautilus",
+        "chineseName": "深海泰坦",
+        "resourceType": "法力",
+        "client": {
+          "path": "客户端原文/Nautilus.json.gz",
+          "sha256": "e60756435fe0a107ae6d4dbabd50f0fb18f6964dd298e35dcda55066d40ab7e9",
+          "compressedSha256": "9a9adac2cf61f5e228c3857697639972fa2c32ed172323a8c455ff572c196158",
+          "byteSize": 57497,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/nautilus/nautilus.bin.json",
+          "fetchedAt": "2026-09-06T14:26:29.652Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Nautilus.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Nautilus.json",
+          "fetchedAt": "2026-09-06T14:12:50.878Z",
+          "byteSize": 12923,
+          "sha256": "8e3f8406606349fdacc276de72124bd36afd90dd2aad4de3246f3c97ca29765f"
+        },
+        "rootPath": "Characters/Nautilus/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "排山倒海",
+            "clientPath": "Characters/Nautilus/Spells/NautilusPassiveAbility/NautilusPassive",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": null,
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "PerTargetCD"
+            ],
+            "calculationNames": [
+              "BonusDamage",
+              "TotalDamageTooltip",
+              "RootDuration"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "NautilusAnchorDrag",
+            "name": "疏通航道",
+            "clientPath": "Characters/Nautilus/Spells/NautilusAnchorDragAbility/NautilusAnchorDrag",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              14,
+              13,
+              12,
+              11,
+              10
+            ],
+            "cost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              14,
+              14,
+              13,
+              12,
+              11,
+              10,
+              9
+            ],
+            "clientMana": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "BaseDamage",
+              "TerrainCDR",
+              "TerrainMana",
+              "TerrainReduction",
+              "TerrainManaRefund"
+            ],
+            "calculationNames": [
+              "QDamageCalc"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "NautilusPiercingGaze",
+            "name": "泰坦之怒",
+            "clientPath": "Characters/Nautilus/Spells/NautilusPiercingGazeAbility/NautilusPiercingGaze",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "cost": [
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              12,
+              12,
+              12,
+              12,
+              12,
+              12,
+              12
+            ],
+            "clientMana": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "ShieldBase",
+              "ShieldHealthRatio",
+              "ShieldDuration",
+              "DotDamageBase",
+              "DotDamageAPRatio"
+            ],
+            "calculationNames": [
+              "DotDamageCalc",
+              "ShieldCalc"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "NautilusSplashZone",
+            "name": "暗流涌动",
+            "clientPath": "Characters/Nautilus/Spells/NautilusSplashZoneAbility/NautilusSplashZone",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              7,
+              6.5,
+              6,
+              5.5,
+              5
+            ],
+            "cost": [
+              50,
+              60,
+              70,
+              80,
+              90
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              7.5,
+              7,
+              6.5,
+              6,
+              5.5,
+              5,
+              5
+            ],
+            "clientMana": [
+              50,
+              60,
+              70,
+              80,
+              90,
+              100
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "DamageBase",
+              "SlowPercent",
+              "SlowDuration",
+              "MultiHitReduction",
+              "DamageMonsterMod",
+              "DamageAPRatio",
+              "ExtraWavePenalty",
+              "DamageRadius",
+              "MonsterBonusDamage"
+            ],
+            "calculationNames": [
+              "DamageCalc",
+              "MonsterBonusCalc"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "NautilusGrandLine",
+            "name": "深海冲击",
+            "clientPath": "Characters/Nautilus/Spells/NautilusGrandLineAbility/NautilusGrandLine",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              120,
+              100,
+              80
+            ],
+            "cost": [
+              100,
+              100,
+              100
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              120,
+              120,
+              100,
+              80,
+              80,
+              80,
+              80
+            ],
+            "clientMana": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              0
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "PrimaryDamage",
+              "SecondaryDamage",
+              "StunDuration"
+            ],
+            "calculationNames": [
+              "PrimaryTargetDamage",
+              "SecondaryTargetDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      }
+    }
+  },
+  "revision": {
+    "baseCandidateSha256": "99dea55611f94341b9b67dcf1951007cb167c76c9adec15118ce2d2693e2a1c4",
+    "baseCandidateFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero22-candidate\\Leona-Nautilus-完整候选.json",
+    "changes": [
+      "Leona P因当前正文明确其他友方英雄，整槽日光机制移出本轮1v1写入组成，仅保留排除证据。",
+      "Nautilus R沿途其它敌人为额外目标，移除secondary_damage、secondary_ap_ratio和secondary_magic_damage，保留主要目标分支。",
+      "Leona W新增无默认incoming_damage_for_reduction输入，减免量为MIN(FlatDamageReduction,0.5×输入)。",
+      "Nautilus W新增自身NORMAL_SHIELD效果，持续值引用shield_duration_ms参数。",
+      "Leona/Nautilus八个主动槽各新增一次mana_cost RESOURCE_CHANGE效果。"
+    ]
+  }
+}
