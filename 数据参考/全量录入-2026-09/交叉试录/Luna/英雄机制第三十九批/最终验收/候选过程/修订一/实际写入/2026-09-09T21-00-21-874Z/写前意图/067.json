@@ -1,0 +1,30 @@
+{
+  "i": 66,
+  "intent": {
+    "sequence": 67,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_w/parameters",
+    "detailRoute": "/skills/samira_w/parameters/base_damage",
+    "skillKey": "samira_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "锋旋每段基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 35,
+        "3": 50,
+        "4": 65,
+        "5": 80
+      },
+      "description": "BaseDamage取索引1至5的20/35/50/65/80。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "i": 186,
+  "intent": {
+    "sequence": 187,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_w/formulas",
+    "detailRoute": "/skills/smolder_w/formulas/initial_physical_damage",
+    "skillKey": "smolder_w",
+    "kind": "formulas",
+    "stableKey": "initial_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "initial_physical_damage",
+      "name": "阿嚏直击单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "initial_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "initial_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "InitialDamage=基础伤害+0.6×来源额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

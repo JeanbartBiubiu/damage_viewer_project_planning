@@ -1,0 +1,24 @@
+{
+  "i": 74,
+  "intent": {
+    "sequence": 75,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_e/parameters",
+    "detailRoute": "/skills/samira_e/parameters/attack_speed_duration_ms",
+    "skillKey": "samira_e",
+    "kind": "parameters",
+    "stableKey": "attack_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_duration_ms",
+      "name": "狂飙自身攻击速度持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "AttackSpeedDuration=5秒，转换为5000毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

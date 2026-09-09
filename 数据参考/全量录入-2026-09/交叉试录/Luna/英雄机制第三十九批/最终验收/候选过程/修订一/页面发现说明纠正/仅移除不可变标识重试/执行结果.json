@@ -1,0 +1,71 @@
+{
+  "at": "2026-09-09T21:09:10.180Z",
+  "status": "PASS",
+  "GETs": 2,
+  "PUTs": 1,
+  "changedFields": [
+    "description"
+  ],
+  "numbersChanged": false,
+  "expressionChanged": false,
+  "originalIndependentSnapshotPreserved": true,
+  "initialRejectedPUTs": 1,
+  "totalGETsIncludingInitial": 3,
+  "totalPUTAttempts": 2,
+  "confirmedChanges": 1,
+  "planSha256": "65c1b5fcf217a441a3dbe88bde2adbd532f634fb2de9571dad74aff6e30ab25b",
+  "final": {
+    "createdAt": "2026-09-09T21:03:45.599159Z",
+    "description": "自身治疗量=完整治疗比例×当前目标合资格的实际治疗基准伤害；折前或折后阶段尚未证明，不能默认，实际基准由运行层提供。",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_healing_base_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "self_healing_mstat8_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_mstat8_value"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_q_crit_lifesteal_ratio"
+            }
+          ],
+          "operation": "ADD"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "actual_current_enemy_healing_basis_damage"
+        }
+      ],
+      "operation": "MULTIPLY"
+    },
+    "formulaKey": "self_healing_amount",
+    "gameId": "lol",
+    "name": "神恩激荡自身治疗量",
+    "skillKey": "nilah_r",
+    "sortOrder": 50,
+    "updatedAt": "2026-09-09T21:09:09.402443Z"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 47,
+  "intent": {
+    "sequence": 48,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/parameters",
+    "detailRoute": "/skills/samira_p/parameters/melee_base_damage_at_character_level",
+    "skillKey": "samira_p",
+    "kind": "parameters",
+    "stableKey": "melee_base_damage_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "melee_base_damage_at_character_level",
+      "name": "近战额外伤害角色等级实际基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "BonusMeleeDamage的角色等级部分实际求值阶段由运行层提供；不以端点或名称猜中间读取方式。",
+      "sortOrder": 70
+    }
+  }
+}

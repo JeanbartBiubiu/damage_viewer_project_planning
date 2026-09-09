@@ -1,0 +1,24 @@
+{
+  "i": 132,
+  "intent": {
+    "sequence": 133,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_r/parameters",
+    "detailRoute": "/skills/nilah_r/parameters/actual_q_crit_lifesteal_ratio",
+    "skillKey": "nilah_r",
+    "kind": "parameters",
+    "stableKey": "actual_q_crit_lifesteal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_q_crit_lifesteal_ratio",
+      "name": "神恩激荡当前Q生命偷取比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "正文要求R自身治疗比例加上Q的CritLifesteal；跨技能实际值由运行层提供，不能复制Q的未知mStat8为默认。",
+      "sortOrder": 130
+    }
+  }
+}

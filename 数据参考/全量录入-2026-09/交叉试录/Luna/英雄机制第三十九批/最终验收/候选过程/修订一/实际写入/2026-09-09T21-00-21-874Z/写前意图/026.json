@@ -1,0 +1,30 @@
+{
+  "i": 25,
+  "intent": {
+    "sequence": 26,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_e/parameters",
+    "detailRoute": "/skills/urgot_e/parameters/shield_base",
+    "skillKey": "urgot_e",
+    "kind": "parameters",
+    "stableKey": "shield_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base",
+      "name": "鄙弃护盾基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 55,
+        "2": 75,
+        "3": 95,
+        "4": 115,
+        "5": 135
+      },
+      "description": "EShieldBaseHealth取索引1至5的55/75/95/115/135；索引0=35是占位。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "i": 73,
+  "intent": {
+    "sequence": 74,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_e/parameters",
+    "detailRoute": "/skills/samira_e/parameters/bonus_attack_speed_ratio",
+    "skillKey": "samira_e",
+    "kind": "parameters",
+    "stableKey": "bonus_attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_attack_speed_ratio",
+      "name": "狂飙自身攻击速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.20000000298023224,
+        "2": 0.25,
+        "3": 0.30000001192092896,
+        "4": 0.3499999940395355,
+        "5": 0.4000000059604645
+      },
+      "description": "BonusAttackSpeed取索引1至5的20%/25%/30%/35%/40%，按比例保存。",
+      "sortOrder": 20
+    }
+  }
+}

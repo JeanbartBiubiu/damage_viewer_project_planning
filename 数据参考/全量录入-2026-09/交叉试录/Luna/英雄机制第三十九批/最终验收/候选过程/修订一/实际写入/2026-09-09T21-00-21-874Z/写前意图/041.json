@@ -1,0 +1,46 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 41,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_r/formulas",
+    "detailRoute": "/skills/urgot_r/formulas/physical_damage",
+    "skillKey": "urgot_r",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "超越死亡单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "RCalculatedDamage=基础伤害+0.5×来源额外攻击力；只保留当前被命中敌方英雄的伤害。",
+      "sortOrder": 10
+    }
+  }
+}

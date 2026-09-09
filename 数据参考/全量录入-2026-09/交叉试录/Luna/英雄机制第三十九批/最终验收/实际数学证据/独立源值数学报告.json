@@ -1,0 +1,795 @@
+{
+  "actualHydrated": 215,
+  "actualGETFile": "C:/project/damage_web_dev/.agents/artifacts/hero39-independent-review/实际回读/2026-09-09T21-06-22-413Z/独立全量GET.json",
+  "actualGETSha256": "d35b383f98a03e9a7a3173a4409bb6918b478ef65e6cee9d70eb3d3df71eac4a",
+  "generatedAt": "2026-09-09T21:06:59.279Z",
+  "status": "PASS",
+  "revision": "hero39-source-v1-revision-1",
+  "candidateFileSha256": "b79197a5ca3d1762bdbc5955871d4c17e6923274e318913cf8843481254122c8",
+  "sourceFileSha256": "14f853be25cd3ec6b9ac75b64c99dc1941802cb61357a19c3320c9f636aa2acc",
+  "sourcePolicy": "实际侧读取独立447GET快照中的真实参数和表达式；期望侧只读取固定输入包来源绑定的DataValues、mSpellCalculations和当前文本所确定的常量。两侧不从同一份候选参数互相代算。",
+  "formulaCount": 38,
+  "formulaCaseCount": 76,
+  "formulaCases": [
+    {
+      "skillKey": "urgot_p",
+      "formulaKey": "leg_physical_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 128.0000001192093,
+      "sourceExpected": 128.0000001192093,
+      "passed": true
+    },
+    {
+      "skillKey": "urgot_p",
+      "formulaKey": "leg_physical_damage",
+      "high": true,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 591.9999918341637,
+      "sourceExpected": 591.9999918341637,
+      "passed": true
+    },
+    {
+      "skillKey": "urgot_q",
+      "formulaKey": "physical_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 164.9999976158142,
+      "sourceExpected": 164.9999976158142,
+      "passed": true
+    },
+    {
+      "skillKey": "urgot_q",
+      "formulaKey": "physical_damage",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 442.99999594688416,
+      "sourceExpected": 442.99999594688416,
+      "passed": true
+    },
+    {
+      "skillKey": "urgot_w",
+      "formulaKey": "damage_per_shot",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 52.00000059604645,
+      "sourceExpected": 52.00000059604645,
+      "passed": true
+    },
+    {
+      "skillKey": "urgot_w",
+      "formulaKey": "damage_per_shot",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 127.60000121593475,
+      "sourceExpected": 127.60000121593475,
+      "passed": true
+    },
+    {
+      "skillKey": "urgot_e",
+      "formulaKey": "shield_value",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 244.00000512599945,
+      "sourceExpected": 244.00000512599945,
+      "passed": true
+    },
+    {
+      "skillKey": "urgot_e",
+      "formulaKey": "shield_value",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 621.0000139474869,
+      "sourceExpected": 621.0000139474869,
+      "passed": true
+    },
+    {
+      "skillKey": "urgot_e",
+      "formulaKey": "physical_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 170,
+      "sourceExpected": 170,
+      "passed": true
+    },
+    {
+      "skillKey": "urgot_e",
+      "formulaKey": "physical_damage",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 390,
+      "sourceExpected": 390,
+      "passed": true
+    },
+    {
+      "skillKey": "urgot_r",
+      "formulaKey": "physical_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 140,
+      "sourceExpected": 140,
+      "passed": true
+    },
+    {
+      "skillKey": "urgot_r",
+      "formulaKey": "physical_damage",
+      "high": true,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "actual": 440,
+      "sourceExpected": 440,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_p",
+      "formulaKey": "melee_bonus_damage_base",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 11,
+      "sourceExpected": 11,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_p",
+      "formulaKey": "melee_bonus_damage_base",
+      "high": true,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 49.599999999999994,
+      "sourceExpected": 49.599999999999994,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_p",
+      "formulaKey": "melee_bonus_damage_max",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 22,
+      "sourceExpected": 22,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_p",
+      "formulaKey": "melee_bonus_damage_max",
+      "high": true,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 99.19999999999999,
+      "sourceExpected": 99.19999999999999,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_p",
+      "formulaKey": "style_move_speed_ratio_total",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.054999999701976776,
+      "sourceExpected": 0.054999999701976776,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_p",
+      "formulaKey": "style_move_speed_ratio_total",
+      "high": true,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 0.20999999810010195,
+      "sourceExpected": 0.20999999810010195,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_q",
+      "formulaKey": "physical_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 220.00000476837158,
+      "sourceExpected": 220.00000476837158,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_q",
+      "formulaKey": "physical_damage",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 394.0000081062317,
+      "sourceExpected": 394.0000081062317,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_q",
+      "formulaKey": "critical_physical_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 247.50000536441803,
+      "sourceExpected": 247.50000536441803,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_q",
+      "formulaKey": "critical_physical_damage",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 610.7000125646591,
+      "sourceExpected": 610.7000125646591,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_w",
+      "formulaKey": "physical_damage_per_hit",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 60,
+      "sourceExpected": 60,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_w",
+      "formulaKey": "physical_damage_per_hit",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 170,
+      "sourceExpected": 170,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_e",
+      "formulaKey": "dash_magic_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 66,
+      "sourceExpected": 66.00000023841858,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_e",
+      "formulaKey": "dash_magic_damage",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 126,
+      "sourceExpected": 126.0000005364418,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_r",
+      "formulaKey": "physical_damage_per_shot",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 80.00000238418579,
+      "sourceExpected": 80.00000238418579,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_r",
+      "formulaKey": "physical_damage_per_shot",
+      "high": true,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "actual": 162.00000405311584,
+      "sourceExpected": 162.00000405311584,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_r",
+      "formulaKey": "critical_physical_damage_per_shot",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 100.00000298023224,
+      "sourceExpected": 100.00000298023224,
+      "passed": true
+    },
+    {
+      "skillKey": "samira_r",
+      "formulaKey": "critical_physical_damage_per_shot",
+      "high": true,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "actual": 340.2000085115433,
+      "sourceExpected": 340.2000085115433,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_q",
+      "formulaKey": "physical_damage_with_crit_scaling",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 210.49999982118607,
+      "sourceExpected": 210.49999982118607,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_q",
+      "formulaKey": "physical_damage_with_crit_scaling",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 617.4049959570169,
+      "sourceExpected": 617.4049959570169,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_q",
+      "formulaKey": "critical_lifesteal_ratio",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.05000000074505806,
+      "sourceExpected": 0.05000000074505806,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_q",
+      "formulaKey": "critical_lifesteal_ratio",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 0.1700000025331974,
+      "sourceExpected": 0.1700000025331974,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_q",
+      "formulaKey": "critical_armor_penetration_ratio",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.07500000298023224,
+      "sourceExpected": 0.07500000298023224,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_q",
+      "formulaKey": "critical_armor_penetration_ratio",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 0.2550000101327896,
+      "sourceExpected": 0.2550000101327896,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_e",
+      "formulaKey": "dash_physical_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 76.00000023841858,
+      "sourceExpected": 76.00000023841858,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_e",
+      "formulaKey": "dash_physical_damage",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 136.0000005364418,
+      "sourceExpected": 136.0000005364418,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_r",
+      "formulaKey": "burst_physical_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 205,
+      "sourceExpected": 205,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_r",
+      "formulaKey": "burst_physical_damage",
+      "high": true,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "actual": 505,
+      "sourceExpected": 505,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_r",
+      "formulaKey": "damage_per_tick",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 23.00000011920929,
+      "sourceExpected": 23.00000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_r",
+      "formulaKey": "damage_per_tick",
+      "high": true,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "actual": 53.0000002682209,
+      "sourceExpected": 53.0000002682209,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_r",
+      "formulaKey": "tooltip_sustained_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 92.00000047683716,
+      "sourceExpected": 92.00000047683716,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_r",
+      "formulaKey": "tooltip_sustained_damage",
+      "high": true,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "actual": 212.0000010728836,
+      "sourceExpected": 212.0000010728836,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_r",
+      "formulaKey": "self_healing_ratio",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.28500000335276127,
+      "sourceExpected": 0.28500000335276127,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_r",
+      "formulaKey": "self_healing_ratio",
+      "high": true,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "actual": 0.5250000042468309,
+      "sourceExpected": 0.5250000042468309,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_r",
+      "formulaKey": "self_healing_amount",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 185.25000217929482,
+      "sourceExpected": 185.25000217929482,
+      "passed": true
+    },
+    {
+      "skillKey": "nilah_r",
+      "formulaKey": "self_healing_amount",
+      "high": true,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "actual": 918.7500074319541,
+      "sourceExpected": 918.7500074319541,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_p",
+      "formulaKey": "q_bonus_magic_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 27.250000089406967,
+      "sourceExpected": 27.250000089406967,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_p",
+      "formulaKey": "q_bonus_magic_damage",
+      "high": true,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 258.87500531971455,
+      "sourceExpected": 258.87500531971455,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_p",
+      "formulaKey": "w_bonus_magic_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 55.000001192092896,
+      "sourceExpected": 55.000001192092896,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_p",
+      "formulaKey": "w_bonus_magic_damage",
+      "high": true,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 275.0000059604645,
+      "sourceExpected": 275.0000059604645,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_p",
+      "formulaKey": "e_bonus_magic_damage_per_hit",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 8.359999827444554,
+      "sourceExpected": 8.359999827444554,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_p",
+      "formulaKey": "e_bonus_magic_damage_per_hit",
+      "high": true,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 61.419999478310324,
+      "sourceExpected": 61.419999478310324,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_q",
+      "formulaKey": "physical_damage_with_crit_scaling",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 173.22499597072598,
+      "sourceExpected": 173.22499597072598,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_q",
+      "formulaKey": "physical_damage_with_crit_scaling",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 557.5712356716394,
+      "sourceExpected": 557.5712356716394,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_q",
+      "formulaKey": "tier3_burn_max_health_ratio",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.025000000823638402,
+      "sourceExpected": 0.025000000823638402,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_q",
+      "formulaKey": "tier3_burn_max_health_ratio",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 0.07000000150583219,
+      "sourceExpected": 0.07000000150583219,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_q",
+      "formulaKey": "tier3_burn_true_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 60.000001976732165,
+      "sourceExpected": 60.000001976732165,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_q",
+      "formulaKey": "tier3_burn_true_damage",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 294.0000063244952,
+      "sourceExpected": 294.0000063244952,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_q",
+      "formulaKey": "tier3_execute_health_threshold_ratio",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.06499999854713678,
+      "sourceExpected": 0.06499999854713678,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_q",
+      "formulaKey": "tier3_execute_health_threshold_ratio",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 0.06499999854713678,
+      "sourceExpected": 0.06499999854713678,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_w",
+      "formulaKey": "initial_physical_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 108.00000190734863,
+      "sourceExpected": 108.00000190734863,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_w",
+      "formulaKey": "initial_physical_damage",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 208.00000429153442,
+      "sourceExpected": 208.00000429153442,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_w",
+      "formulaKey": "hero_explosion_physical_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 114.00000095367432,
+      "sourceExpected": 114.00000095367432,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_w",
+      "formulaKey": "hero_explosion_physical_damage",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 400.00000298023224,
+      "sourceExpected": 400.00000298023224,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_e",
+      "formulaKey": "attack_count_unrounded",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 5.999999977648258,
+      "sourceExpected": 5.999999977648258,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_e",
+      "formulaKey": "attack_count_unrounded",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 9.999999888241291,
+      "sourceExpected": 9.999999888241291,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_e",
+      "formulaKey": "physical_damage_per_hit",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 70.00000238418579,
+      "sourceExpected": 70.00000238418579,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_e",
+      "formulaKey": "physical_damage_per_hit",
+      "high": true,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 132.00000405311584,
+      "sourceExpected": 132.00000405311584,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_r",
+      "formulaKey": "outer_physical_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 310,
+      "sourceExpected": 310,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_r",
+      "formulaKey": "outer_physical_damage",
+      "high": true,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "actual": 780,
+      "sourceExpected": 780,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_r",
+      "formulaKey": "center_physical_damage",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 465,
+      "sourceExpected": 465,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_r",
+      "formulaKey": "center_physical_damage",
+      "high": true,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "actual": 1170,
+      "sourceExpected": 1170,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_r",
+      "formulaKey": "self_healing_amount",
+      "high": false,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 200,
+      "sourceExpected": 200,
+      "passed": true
+    },
+    {
+      "skillKey": "smolder_r",
+      "formulaKey": "self_healing_amount",
+      "high": true,
+      "skillLevel": 3,
+      "characterLevel": 18,
+      "actual": 447.5,
+      "sourceExpected": 447.5,
+      "passed": true
+    }
+  ],
+  "missingInputChecks": 63,
+  "binaryChecks": 114,
+  "integerChecks": 179,
+  "millisecondTypeChecks": 34,
+  "runtimeGuardChecks": 10,
+  "sourceSeriesChecks": 183,
+  "boundaryChecks": 13,
+  "failures": [],
+  "apiCalls": 0,
+  "apiWrites": 0,
+  "businessWrites": 0,
+  "noBusinessWrites": true,
+  "noBrowser": true,
+  "notes": [
+    "厄加特E的mStat2/mStatFormula2和mStat12/mStatFormula2分别按来源额外攻击力与来源额外生命读取；属性与目标生命场景故意使用不同数值。",
+    "莎弥拉被动角色等级中间总攻击力比例仍使用外供运行输入；独立期望只从原树读取固定端点，不从端点猜中间曲线。",
+    "尼菈R的NumTicks与正文4倍持续伤害展示值并存；脚本只核对4倍树，不把6跳宣称为实际跳数。",
+    "斯莫德E只核算未取整原式，并用独立floor边界记录向下取整约束；候选没有伪造取整运算。",
+    "脚本只做真实GET详情的静态表达式代入核对，不代表战斗运行时或页面证据。"
+  ]
+}

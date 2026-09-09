@@ -1,0 +1,78 @@
+{
+  "i": 213,
+  "intent": {
+    "sequence": 214,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_r/formulas",
+    "detailRoute": "/skills/smolder_r/formulas/center_physical_damage",
+    "skillKey": "smolder_r",
+    "kind": "formulas",
+    "stableKey": "center_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "center_physical_damage",
+      "name": "妈----！中心单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "center_damage_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_base"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_ad_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "attack_damage",
+                        "attributeValueKind": "BONUS"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "中心命中=1.5×外圈完整式；中心结果替换外圈结果。",
+      "sortOrder": 20
+    }
+  }
+}

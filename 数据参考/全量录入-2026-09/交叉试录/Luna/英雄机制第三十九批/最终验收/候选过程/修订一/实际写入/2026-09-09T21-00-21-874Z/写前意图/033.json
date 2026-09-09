@@ -1,0 +1,68 @@
+{
+  "i": 32,
+  "intent": {
+    "sequence": 33,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_e/formulas",
+    "detailRoute": "/skills/urgot_e/formulas/shield_value",
+    "skillKey": "urgot_e",
+    "kind": "formulas",
+    "stableKey": "shield_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shield_value",
+      "name": "鄙弃护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "shield_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_bonus_health_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ETotalShieldHealth=基础值+1.35×来源额外攻击力+0.135×来源额外生命；护盾应用资格和时点不在本轮创建效果。",
+      "sortOrder": 10
+    }
+  }
+}

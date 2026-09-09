@@ -1,0 +1,28 @@
+{
+  "i": 79,
+  "intent": {
+    "sequence": 80,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_r/parameters",
+    "detailRoute": "/skills/samira_r/parameters/base_damage",
+    "skillKey": "samira_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "炼狱扳机每发基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 40,
+        "3": 60
+      },
+      "description": "BaseDamage取索引1至3的20/40/60。",
+      "sortOrder": 10
+    }
+  }
+}

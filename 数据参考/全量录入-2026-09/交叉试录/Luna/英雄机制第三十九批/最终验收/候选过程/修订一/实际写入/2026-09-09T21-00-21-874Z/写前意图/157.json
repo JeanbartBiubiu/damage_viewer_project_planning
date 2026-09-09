@@ -1,0 +1,30 @@
+{
+  "i": 156,
+  "intent": {
+    "sequence": 157,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/parameters",
+    "detailRoute": "/skills/smolder_q/parameters/base_damage",
+    "skillKey": "smolder_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "超级灼热龙息基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "description": "BaseDamage取索引1至5的60/70/80/90/100；索引0=50是占位。",
+      "sortOrder": 10
+    }
+  }
+}

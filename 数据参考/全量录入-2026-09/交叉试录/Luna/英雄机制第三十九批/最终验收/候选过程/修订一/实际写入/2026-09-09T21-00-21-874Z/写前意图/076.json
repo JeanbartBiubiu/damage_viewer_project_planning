@@ -1,0 +1,24 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_e/parameters",
+    "detailRoute": "/skills/samira_e/parameters/dash_damage_bonus_ad_ratio",
+    "skillKey": "samira_e",
+    "kind": "parameters",
+    "stableKey": "dash_damage_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dash_damage_bonus_ad_ratio",
+      "name": "狂飙冲刺额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "DashDamage的mStat=2、mStatFormula=2且系数0.2，读取来源额外攻击力。",
+      "sortOrder": 40
+    }
+  }
+}

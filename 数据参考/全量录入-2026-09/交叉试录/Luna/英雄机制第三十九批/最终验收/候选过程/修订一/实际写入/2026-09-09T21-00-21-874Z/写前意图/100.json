@@ -1,0 +1,24 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 100,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_q/parameters",
+    "detailRoute": "/skills/nilah_q/parameters/attack_speed_interpolation_max_percent_points",
+    "skillKey": "nilah_q",
+    "kind": "parameters",
+    "stableKey": "attack_speed_interpolation_max_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_interpolation_max_percent_points",
+      "name": "游刃万变攻击速度插值上限百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 60,
+      "levelValues": null,
+      "description": "BonusAttackSpeedCalc角色等级插值上限60；只保存端点，未知等级求值不猜。",
+      "sortOrder": 100
+    }
+  }
+}

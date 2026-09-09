@@ -1,0 +1,24 @@
+{
+  "i": 84,
+  "intent": {
+    "sequence": 85,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_r/parameters",
+    "detailRoute": "/skills/samira_r/parameters/required_style_grade",
+    "skillKey": "samira_r",
+    "kind": "parameters",
+    "stableKey": "required_style_grade",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "required_style_grade",
+      "name": "炼狱扳机所需评价等级",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6,
+      "levelValues": null,
+      "description": "当前正文明确达到S评价才能施放；6对应E至S评价等级，不由公式计算。",
+      "sortOrder": 60
+    }
+  }
+}

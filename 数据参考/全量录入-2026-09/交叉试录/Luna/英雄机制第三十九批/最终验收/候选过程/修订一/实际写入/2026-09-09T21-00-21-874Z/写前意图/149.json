@@ -1,0 +1,24 @@
+{
+  "i": 148,
+  "intent": {
+    "sequence": 149,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_p/parameters",
+    "detailRoute": "/skills/smolder_p/parameters/actual_mstat8_value",
+    "skillKey": "smolder_p",
+    "kind": "parameters",
+    "stableKey": "actual_mstat8_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_mstat8_value",
+      "name": "龙之研习原始mStat8输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "Q/E额外魔伤树均消费mStat8；属性含义未证，运行层提供原始值，不设默认。",
+      "sortOrder": 80
+    }
+  }
+}

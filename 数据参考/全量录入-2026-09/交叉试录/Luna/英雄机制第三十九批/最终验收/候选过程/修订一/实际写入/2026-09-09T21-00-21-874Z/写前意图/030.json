@@ -1,0 +1,30 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_e/parameters",
+    "detailRoute": "/skills/urgot_e/parameters/damage_base",
+    "skillKey": "urgot_e",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "鄙弃冲撞基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 90,
+        "2": 120,
+        "3": 150,
+        "4": 180,
+        "5": 210
+      },
+      "description": "EBaseDamage取索引1至5的90/120/150/180/210；索引0=60是占位。",
+      "sortOrder": 50
+    }
+  }
+}

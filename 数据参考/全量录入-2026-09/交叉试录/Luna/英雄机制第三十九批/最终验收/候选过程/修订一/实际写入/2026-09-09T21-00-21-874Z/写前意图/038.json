@@ -1,0 +1,24 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_r/parameters",
+    "detailRoute": "/skills/urgot_r/parameters/slow_duration_ms",
+    "skillKey": "urgot_r",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "超越死亡减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "RSlowDuration=4秒，转换为4000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

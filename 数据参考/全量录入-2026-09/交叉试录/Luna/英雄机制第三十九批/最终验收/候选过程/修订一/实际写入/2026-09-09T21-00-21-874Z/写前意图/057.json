@@ -1,0 +1,30 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_q/parameters",
+    "detailRoute": "/skills/samira_q/parameters/base_damage",
+    "skillKey": "samira_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "交火基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0,
+        "2": 5,
+        "3": 10,
+        "4": 15,
+        "5": 20
+      },
+      "description": "BaseDamage取索引1至5的0/5/10/15/20。",
+      "sortOrder": 10
+    }
+  }
+}

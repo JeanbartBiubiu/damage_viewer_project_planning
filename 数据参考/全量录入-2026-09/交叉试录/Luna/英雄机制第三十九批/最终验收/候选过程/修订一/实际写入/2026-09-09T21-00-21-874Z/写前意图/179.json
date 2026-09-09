@@ -1,0 +1,30 @@
+{
+  "i": 178,
+  "intent": {
+    "sequence": 179,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_w/parameters",
+    "detailRoute": "/skills/smolder_w/parameters/initial_damage_base",
+    "skillKey": "smolder_w",
+    "kind": "parameters",
+    "stableKey": "initial_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "initial_damage_base",
+      "name": "阿嚏直击基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 70,
+        "3": 80,
+        "4": 90,
+        "5": 100
+      },
+      "description": "BaseDamage取索引1至5的60/70/80/90/100。",
+      "sortOrder": 10
+    }
+  }
+}

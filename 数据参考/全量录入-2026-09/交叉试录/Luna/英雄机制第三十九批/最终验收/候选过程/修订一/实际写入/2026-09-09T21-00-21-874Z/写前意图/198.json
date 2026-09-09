@@ -1,0 +1,24 @@
+{
+  "i": 197,
+  "intent": {
+    "sequence": 198,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_e/parameters",
+    "detailRoute": "/skills/smolder_e/parameters/cast_time_ms",
+    "skillKey": "smolder_e",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "spellCastTime与mCastTime均为0.25秒，语义一致，转换为250毫秒。",
+      "sortOrder": 100
+    }
+  }
+}

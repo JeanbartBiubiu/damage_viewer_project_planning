@@ -1,0 +1,28 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_r/parameters",
+    "detailRoute": "/skills/nilah_r/parameters/damage_base",
+    "skillKey": "nilah_r",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "神恩激荡爆发基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 125,
+        "2": 225,
+        "3": 325
+      },
+      "description": "DamageBase取索引1至3的125/225/325。",
+      "sortOrder": 20
+    }
+  }
+}

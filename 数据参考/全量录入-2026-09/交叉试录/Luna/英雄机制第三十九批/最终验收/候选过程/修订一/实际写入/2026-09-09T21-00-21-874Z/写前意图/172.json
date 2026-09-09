@@ -1,0 +1,24 @@
+{
+  "i": 171,
+  "intent": {
+    "sequence": 172,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/parameters",
+    "detailRoute": "/skills/smolder_q/parameters/actual_stack_count",
+    "skillKey": "smolder_q",
+    "kind": "parameters",
+    "stableKey": "actual_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_stack_count",
+      "name": "超级灼热龙息当前层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "层数是明确战前输入；运行层提供实际整数层数，不从额外敌人或兵野来源自动叠加。",
+      "sortOrder": 160
+    }
+  }
+}

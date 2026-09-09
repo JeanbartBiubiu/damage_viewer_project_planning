@@ -1,0 +1,24 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 98,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_q/parameters",
+    "detailRoute": "/skills/nilah_q/parameters/overheal_shield_duration_ms",
+    "skillKey": "nilah_q",
+    "kind": "parameters",
+    "stableKey": "overheal_shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "overheal_shield_duration_ms",
+      "name": "游刃万变过量治疗护盾持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前正文明确过量治疗转为护盾并持续4秒，转换为4000毫秒；护盾值和应用事件待接线。",
+      "sortOrder": 80
+    }
+  }
+}

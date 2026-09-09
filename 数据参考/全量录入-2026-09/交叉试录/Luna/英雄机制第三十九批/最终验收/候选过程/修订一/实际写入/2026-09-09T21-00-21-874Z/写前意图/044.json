@@ -1,0 +1,43 @@
+{
+  "i": 43,
+  "intent": {
+    "sequence": 44,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_p/parameters",
+    "detailRoute": "/skills/samira_p/parameters/queen_max_dash_range_points",
+    "skillKey": "samira_p",
+    "kind": "parameters",
+    "stableKey": "queen_max_dash_range_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "queen_max_dash_range_points",
+      "name": "定身目标最大突进距离",
+      "valueType": "INTEGER",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 650,
+        "2": 650,
+        "3": 650,
+        "4": 725,
+        "5": 725,
+        "6": 725,
+        "7": 725,
+        "8": 800,
+        "9": 800,
+        "10": 800,
+        "11": 800,
+        "12": 875,
+        "13": 875,
+        "14": 875,
+        "15": 875,
+        "16": 950,
+        "17": 950,
+        "18": 950
+      },
+      "description": "QueenMaxDashRange由650开始，4/8/12/16级各增加75，按角色等级展开18级。",
+      "sortOrder": 30
+    }
+  }
+}

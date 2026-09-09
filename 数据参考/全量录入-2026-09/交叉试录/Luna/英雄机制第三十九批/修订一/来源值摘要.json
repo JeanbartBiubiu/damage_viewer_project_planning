@@ -1,0 +1,3118 @@
+{
+  "generatedAt": "2026-09-09T20:42:10.368Z",
+  "batch": "英雄机制第三十九批",
+  "revision": "hero39-source-v1-revision-1",
+  "status": "修订一独立来源值摘要；未调用业务接口",
+  "sourceBindingSha256": "14f853be25cd3ec6b9ac75b64c99dc1941802cb61357a19c3320c9f636aa2acc",
+  "sourceValues": {
+    "urgot_p": {
+      "hero": "Urgot",
+      "slot": "P",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_UrgotPassive_Name",
+          "text": "回响烈焰"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_UrgotPassive_Summary",
+          "text": "厄加特的普攻和【净除】会周期性地触发他腿上的烈焰喷射，造成物理伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_UrgotPassive_Tooltip",
+          "text": "厄加特的6条腿上各有一门加农炮。攻击和<spellName>{{Spell_UrgotW_Name}}</spellName>时将会发射面对着他目标的那门腿炮，造成<physicalDamage>@ADDamage@外加@PercentHPRatio@最大生命值的物理伤害</physicalDamage>。每条腿的这个效果各有@PerLegCD@秒冷却时间。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_UrgotPassive_TooltipExtended",
+          "text": "{{Spell_UrgotPassive_Tooltip}}<br><br><rules>对野怪最多造成<physicalDamage>@MonsterCap@伤害</physicalDamage>。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "LegWarningTime": [
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5,
+          2.5
+        ]
+      },
+      "rawCalculations": {
+        "PerLegCD": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 30,
+              "mBreakpoints": [
+                {
+                  "mLevel": 6,
+                  "mAdditionalBonusAtThisLevel": -10,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 9,
+                  "mAdditionalBonusAtThisLevel": -10,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 11,
+                  "mAdditionalBonusAtThisLevel": -5,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 13,
+                  "mAdditionalBonusAtThisLevel": -2.5,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "ADDamage": {
+          "mFormulaParts": [
+            {
+              "mStat": 2,
+              "mSubpart": {
+                "mLevel1Value": 0.4000000059604645,
+                "mBreakpoints": [
+                  {
+                    "mLevel": 6,
+                    "mAdditionalBonusAtThisLevel": 0.11999999731779099,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 9,
+                    "mAdditionalBonusAtThisLevel": 0.11999999731779099,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 11,
+                    "mAdditionalBonusAtThisLevel": 0.11999999731779099,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 13,
+                    "mAdditionalBonusAtThisLevel": 0.11999999731779099,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 15,
+                    "mAdditionalBonusAtThisLevel": 0.11999999731779099,
+                    "__type": "Breakpoint"
+                  }
+                ],
+                "__type": "ByCharLevelBreakpointsCalculationPart"
+              },
+              "__type": "StatBySubPartCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "PercentHPRatio": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 0.019999999552965164,
+              "mBreakpoints": [
+                {
+                  "mLevel": 6,
+                  "mAdditionalBonusAtThisLevel": 0.009999999776482582,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 9,
+                  "mAdditionalBonusAtThisLevel": 0.009999999776482582,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 11,
+                  "mAdditionalBonusAtThisLevel": 0.009999999776482582,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 13,
+                  "mAdditionalBonusAtThisLevel": 0.009999999776482582,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "MonsterCap": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 100,
+              "mEndValue": 360,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TriggerRange": {
+          "mFormulaParts": [
+            {
+              "mNumber": 650,
+              "__type": "NumberCalculationPart"
+            },
+            {
+              "mStat": 31,
+              "mStatFormula": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "CastRange": {
+          "mFormulaParts": [
+            {
+              "mNumber": 700,
+              "__type": "NumberCalculationPart"
+            },
+            {
+              "mStat": 31,
+              "mStatFormula": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "leg_attack_cooldown_ms",
+        "leg_attack_ad_ratio",
+        "leg_attack_target_max_health_ratio",
+        "leg_warning_time_ms",
+        "leg_count",
+        "actual_target_max_health"
+      ],
+      "selectedFormulaKeys": [
+        "leg_physical_damage"
+      ],
+      "sourceTextConsumers": "回响烈焰\n厄加特的普攻和【净除】会周期性地触发他腿上的烈焰喷射，造成物理伤害。\n厄加特的6条腿上各有一门加农炮。攻击和<spellName>{{Spell_UrgotW_Name}}</spellName>时将会发射面对着他目标的那门腿炮，造成<physicalDamage>@ADDamage@外加@PercentHPRatio@最大生命值的物理伤害</physicalDamage>。每条腿的这个效果各有@PerLegCD@秒冷却时间。\n{{Spell_UrgotPassive_Tooltip}}<br><br><rules>对野怪最多造成<physicalDamage>@MonsterCap@伤害</physicalDamage>。</rules>"
+    },
+    "urgot_q": {
+      "hero": "Urgot",
+      "slot": "Q",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_UrgotQ_Name",
+          "text": "腐蚀电荷"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_UrgotQ_Summary",
+          "text": "发射一个可爆炸的电荷至目标位置，对爆炸波及到的敌人造成物理伤害和减速效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_UrgotQ_Tooltip",
+          "text": "厄加特发射一个爆炸性的电荷，对爆炸波及到的敌人造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。"
+        }
+      },
+      "rawDataValues": {
+        "SlowDuration": [
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25
+        ],
+        "SlowAmount": [
+          0.4000000059604645,
+          0.44999998807907104,
+          0.5,
+          0.550000011920929,
+          0.6000000238418579,
+          0.6499999761581421,
+          0.699999988079071
+        ],
+        "BaseDamage": [
+          -20,
+          25,
+          70,
+          115,
+          160,
+          205,
+          250
+        ],
+        "ExplosionDelayPostMissile": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "DelayOnMissileLaunch": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "WHalterDuration": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "AoERadius": [
+          210,
+          210,
+          210,
+          210,
+          210,
+          210,
+          210
+        ]
+      },
+      "rawCalculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mCoefficient": 0.699999988079071,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "base_damage",
+        "ad_ratio",
+        "slow_duration_ms",
+        "slow_percent_points",
+        "cast_time_ms"
+      ],
+      "selectedFormulaKeys": [
+        "physical_damage"
+      ],
+      "sourceTextConsumers": "腐蚀电荷\n发射一个可爆炸的电荷至目标位置，对爆炸波及到的敌人造成物理伤害和减速效果。\n厄加特发射一个爆炸性的电荷，对爆炸波及到的敌人造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。"
+    },
+    "urgot_w": {
+      "hero": "Urgot",
+      "slot": "W",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_UrgotW_Name",
+          "text": "净除"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_UrgotW_Summary",
+          "text": "厄加特减速自身的同时对附近的敌人们火力全开。优先攻击被厄加特近期用其它技能命中过的敌方英雄，并触发回响烈焰。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_UrgotW_Tooltip",
+          "text": "<spellPassive>被动：</spellPassive>厄加特的其它技能会将命中的最后一名敌方英雄标记5秒。<br><br><spellActive>主动：</spellActive>厄加特开始用他的链枪朝着相距最近的敌人开火，优先选择被标记的敌人。他每秒攻击目标@WAttacksPerSecond@次并且每次射击造成<physicalDamage>@DamagePerShot@物理伤害</physicalDamage>。厄加特可以在开火时移动，并且拥有@SlowResistance@%<status>减速抗性</status>，但会失去<speed>@MoveSpeedMod@移动速度</speed>。<br><br>这个技能在点满技能等级后，可无限持续并且能<toggle>切换</toggle>开启状态和关闭状态。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_UrgotW_TooltipExtendedBelowLine",
+          "text": "<rules>这些射击附带@OnHitDamageReduction*100@%伤害的攻击特效。它们无法造成暴击。<br>这些射击对小兵和野怪至少造成@MinionMinimumDamage@伤害。<br>厄加特在开火时可以无视小兵和非史诗级野怪的碰撞体积。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "ADRatioTT": [
+          0.16500000655651093,
+          0.20000000298023224,
+          0.23499999940395355,
+          0.27000001072883606,
+          0.3050000071525574,
+          0.3400000035762787,
+          0.375
+        ],
+        "OnHitDamageReduction": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "WAttacksPerSecond": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "BaseDamage": [
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12
+        ],
+        "MinionMinimumDamage": [
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "SlowResistance": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "Duration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          25000,
+          25000
+        ],
+        "MoveSpeedMod": [
+          125,
+          125,
+          125,
+          125,
+          125,
+          125,
+          125
+        ],
+        "MoveSpeedDuration": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "rawCalculations": {
+        "DamagePerShot": {
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "ADRatioTT",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "RangeCheck": {
+          "mFormulaParts": [
+            {
+              "mNumber": 450,
+              "__type": "NumberCalculationPart"
+            },
+            {
+              "mStat": 31,
+              "mStatFormula": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "attack_frequency_per_second",
+        "base_damage_per_shot",
+        "ad_ratio",
+        "on_hit_effectiveness_ratio",
+        "self_move_speed_reduction_points",
+        "slow_resist_percent_points",
+        "finite_duration_ms",
+        "max_rank_toggle_mode",
+        "cannot_crit",
+        "mark_duration_ms",
+        "recast_lockout_ms"
+      ],
+      "selectedFormulaKeys": [
+        "damage_per_shot"
+      ],
+      "sourceTextConsumers": "净除\n厄加特减速自身的同时对附近的敌人们火力全开。优先攻击被厄加特近期用其它技能命中过的敌方英雄，并触发回响烈焰。\n<spellPassive>被动：</spellPassive>厄加特的其它技能会将命中的最后一名敌方英雄标记5秒。<br><br><spellActive>主动：</spellActive>厄加特开始用他的链枪朝着相距最近的敌人开火，优先选择被标记的敌人。他每秒攻击目标@WAttacksPerSecond@次并且每次射击造成<physicalDamage>@DamagePerShot@物理伤害</physicalDamage>。厄加特可以在开火时移动，并且拥有@SlowResistance@%<status>减速抗性</status>，但会失去<speed>@MoveSpeedMod@移动速度</speed>。<br><br>这个技能在点满技能等级后，可无限持续并且能<toggle>切换</toggle>开启状态和关闭状态。\n<rules>这些射击附带@OnHitDamageReduction*100@%伤害的攻击特效。它们无法造成暴击。<br>这些射击对小兵和野怪至少造成@MinionMinimumDamage@伤害。<br>厄加特在开火时可以无视小兵和非史诗级野怪的碰撞体积。</rules>"
+    },
+    "urgot_e": {
+      "hero": "Urgot",
+      "slot": "E",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_UrgotE_Name",
+          "text": "鄙弃"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_UrgotE_Summary",
+          "text": "厄加特向一个方向冲锋，为自身提供护盾并践踏非英雄的敌人。如果他捕捉到一个敌方英雄，他将会停下并将该英雄抛到他的另一侧。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_UrgotE_Tooltip",
+          "text": "厄加特向前冲锋，获得持续@EShieldDuration@秒的<shield>@ETotalShieldHealth@护盾值</shield>。命中的第一个英雄会被<status>晕眩</status>@StunDuration@秒并被投向厄加特的身后。厄加特碰撞到的所有敌人都会受到<physicalDamage>@EDamage@物理伤害</physicalDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_UrgotE_TooltipExtendedBelowLine",
+          "text": "<rules>无法穿过地形。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "EShieldDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "EShieldBaseHealth": [
+          35,
+          55,
+          75,
+          95,
+          115,
+          135,
+          155
+        ],
+        "EShieldbADRatio": [
+          1.5,
+          1.350000023841858,
+          1.350000023841858,
+          1.350000023841858,
+          1.350000023841858,
+          1.350000023841858,
+          1.350000023841858
+        ],
+        "EBaseDamage": [
+          60,
+          90,
+          120,
+          150,
+          180,
+          210,
+          240
+        ],
+        "EShieldBonusHealthRatio": [
+          0,
+          0.13500000536441803,
+          0.13500000536441803,
+          0.13500000536441803,
+          0.13500000536441803,
+          0.13500000536441803,
+          0.13500000536441803
+        ],
+        "StunDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "BaseDashSpeed": [
+          1200,
+          1200,
+          1200,
+          1200,
+          1200,
+          1200,
+          1200
+        ],
+        "MinimumDashRange": [
+          450,
+          450,
+          450,
+          450,
+          450,
+          450,
+          450
+        ],
+        "ThrowDistance": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "WHalterDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ]
+      },
+      "rawCalculations": {
+        "ETotalShieldHealth": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "EShieldBaseHealth",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "EShieldbADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 12,
+              "mStatFormula": 2,
+              "mDataValue": "EShieldBonusHealthRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "EDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "EBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "shield_base",
+        "shield_bonus_ad_ratio",
+        "shield_bonus_health_ratio",
+        "shield_duration_ms",
+        "damage_base",
+        "damage_bonus_ad_ratio",
+        "stun_duration_ms"
+      ],
+      "selectedFormulaKeys": [
+        "shield_value",
+        "physical_damage"
+      ],
+      "sourceTextConsumers": "鄙弃\n厄加特向一个方向冲锋，为自身提供护盾并践踏非英雄的敌人。如果他捕捉到一个敌方英雄，他将会停下并将该英雄抛到他的另一侧。\n厄加特向前冲锋，获得持续@EShieldDuration@秒的<shield>@ETotalShieldHealth@护盾值</shield>。命中的第一个英雄会被<status>晕眩</status>@StunDuration@秒并被投向厄加特的身后。厄加特碰撞到的所有敌人都会受到<physicalDamage>@EDamage@物理伤害</physicalDamage>。\n<rules>无法穿过地形。</rules>"
+    },
+    "urgot_r": {
+      "hero": "Urgot",
+      "slot": "R",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_UrgotR_Name",
+          "text": "超越死亡的恐惧"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_UrgotR_Summary",
+          "text": "厄加特发射一个化学钻头，刺穿命中的第一个敌方英雄。如果该英雄的生命值低于一定阈值，那么厄加特就会将该英雄评判为弱者并将其处决。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_UrgotR_Tooltip",
+          "text": "厄加特发射一个炼金钻头来刺穿命中的第一个敌方英雄。造成<physicalDamage>@RCalculatedDamage@物理伤害</physicalDamage>和持续@RSlowDuration@秒的<status>减速</status>，幅度为每1%已损失生命值提供1%，至多为@RMoveSpeedMod@%。<br><br>如果目标的生命值在被刺穿状态下跌至@RHealthThreshold@%生命值以下，厄加特就可以<recast>再次施放</recast>这个技能，来<status>压制</status>目标并将其拖过来。在接触到厄加特后，目标会被击杀并且附近敌人会被<status>恐惧</status>@RFearDuration@秒。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_UrgotR_TooltipExtendedBelowLine",
+          "text": "<rules>如果目标生命值低于处决阈值，那么这个技能会在持续时间结束时自动<recast>再次施放</recast>。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "RBaseDamage": [
+          100,
+          100,
+          225,
+          350,
+          475,
+          600,
+          725
+        ],
+        "RBonusADRatio": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "RMoveSpeedMod": [
+          75,
+          75,
+          75,
+          75,
+          75,
+          75,
+          75
+        ],
+        "RSlowDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "RSlowMultiplier": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "RFearDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "RHealthThreshold": [
+          25,
+          25,
+          25,
+          25,
+          25,
+          25,
+          25
+        ],
+        "RChannelTimeReel": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "RFearRadius": [
+          600,
+          600,
+          600,
+          600,
+          600,
+          600,
+          600
+        ]
+      },
+      "rawCalculations": {
+        "RCalculatedDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "RBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "RBonusADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "damage_base",
+        "damage_bonus_ad_ratio",
+        "execute_health_threshold_percent_points",
+        "slow_duration_ms",
+        "slow_per_missing_health_percent_points",
+        "max_slow_percent_points"
+      ],
+      "selectedFormulaKeys": [
+        "physical_damage"
+      ],
+      "sourceTextConsumers": "超越死亡的恐惧\n厄加特发射一个化学钻头，刺穿命中的第一个敌方英雄。如果该英雄的生命值低于一定阈值，那么厄加特就会将该英雄评判为弱者并将其处决。\n厄加特发射一个炼金钻头来刺穿命中的第一个敌方英雄。造成<physicalDamage>@RCalculatedDamage@物理伤害</physicalDamage>和持续@RSlowDuration@秒的<status>减速</status>，幅度为每1%已损失生命值提供1%，至多为@RMoveSpeedMod@%。<br><br>如果目标的生命值在被刺穿状态下跌至@RHealthThreshold@%生命值以下，厄加特就可以<recast>再次施放</recast>这个技能，来<status>压制</status>目标并将其拖过来。在接触到厄加特后，目标会被击杀并且附近敌人会被<status>恐惧</status>@RFearDuration@秒。\n<rules>如果目标生命值低于处决阈值，那么这个技能会在持续时间结束时自动<recast>再次施放</recast>。</rules>"
+    },
+    "samira_p": {
+      "hero": "Samira",
+      "slot": "P",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_SamiraPassive_Name",
+          "text": "悍勇本色"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SamiraPassive_Tooltip",
+          "text": "莎弥拉可通过用不同的技能或攻击对敌方英雄造成伤害来构建一次连招。每个与前一个不同的技能或攻击都会提升她的<keywordMajor>评价等级</keywordMajor>，从E到S(一共6级)。每个评级会为莎弥拉提供<speed>@MSBonusNew@移动速度</speed>。<br><br>莎弥拉在近战距离的攻击和技能会造成额外的<magicDamage>@BonusMeleeDamage@魔法伤害</magicDamage>，基于目标的已损失生命值至多提升至<magicDamage>@EmpoweredMeleeDamageTooltip@</magicDamage>。<br><br>莎弥拉对被<status>定身</status>的敌人打出的攻击会使她突进到她的攻击距离处。如果敌人已被<status>击飞</status>，那么她还会使其保持<status>击飞</status>状态至少0.5秒。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_SamiraPassive_TooltipExtended",
+          "text": "{{Spell_SamiraPassive_Tooltip}}<br><br><rules>莎弥拉的冲刺距离为@QueenMaxDashRange@码。莎弥拉如果在@DurationTOOLTIP@秒里没有用她的攻击或技能对敌方英雄造成伤害，就会失去她的<keywordMajor>评价等级</keywordMajor></rules>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SamiraPassive_Summary",
+          "text": "莎弥拉可通过用不同的技能或攻击命中敌人来构建一次连招。莎弥拉在近战距离的攻击会造成额外的魔法伤害。莎弥拉在对被<status>定身</status>的敌人进行攻击时，将冲刺到她的最大攻击距离处。如果该敌人已被<status>击飞</status>，她还会使其短暂保持<status>击飞</status>状态。"
+        }
+      },
+      "rawDataValues": {
+        "SwordRange": [
+          200,
+          200,
+          200,
+          200,
+          200,
+          200,
+          200
+        ],
+        "VisualBonusRange": [
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400
+        ],
+        "DurationTOOLTIP": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ]
+      },
+      "rawCalculations": {
+        "QueenMaxDashRange": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 650,
+              "mBreakpoints": [
+                {
+                  "mLevel": 4,
+                  "mAdditionalBonusAtThisLevel": 75,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 8,
+                  "mAdditionalBonusAtThisLevel": 75,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 12,
+                  "mAdditionalBonusAtThisLevel": 75,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 16,
+                  "mAdditionalBonusAtThisLevel": 75,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BonusMeleeDamage": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 2,
+              "mInitialBonusPerLevel": 1,
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mSubpart": {
+                "mStartValue": 0.03500000014901161,
+                "mEndValue": 0.10499999672174454,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              },
+              "__type": "StatBySubPartCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "EmpoweredMeleeDamageTooltip": {
+          "mMultiplier": {
+            "mNumber": 2,
+            "__type": "NumberCalculationPart"
+          },
+          "mModifiedGameCalculation": "BonusMeleeDamage",
+          "__type": "GameCalculationModified"
+        },
+        "MSBonusNew": {
+          "mFormulaParts": [
+            {
+              "mLevel1Value": 0.027499999850988388,
+              "mBreakpoints": [
+                {
+                  "mLevel": 6,
+                  "mAdditionalBonusAtThisLevel": 0.0024999999441206455,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 11,
+                  "mAdditionalBonusAtThisLevel": 0.0024999999441206455,
+                  "__type": "Breakpoint"
+                },
+                {
+                  "mLevel": 16,
+                  "mAdditionalBonusAtThisLevel": 0.0024999999441206455,
+                  "__type": "Breakpoint"
+                }
+              ],
+              "__type": "ByCharLevelBreakpointsCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "style_grade_count",
+        "style_decay_duration_ms",
+        "queen_max_dash_range_points",
+        "style_move_speed_ratio_per_grade",
+        "melee_base_damage_level1",
+        "melee_base_damage_per_character_level",
+        "melee_base_damage_at_character_level",
+        "melee_ad_ratio_min",
+        "melee_ad_ratio_max",
+        "melee_ad_ratio_at_character_level",
+        "actual_style_grade_count",
+        "melee_missing_health_max_multiplier"
+      ],
+      "selectedFormulaKeys": [
+        "melee_bonus_damage_base",
+        "melee_bonus_damage_max",
+        "style_move_speed_ratio_total"
+      ],
+      "sourceTextConsumers": "悍勇本色\n莎弥拉可通过用不同的技能或攻击对敌方英雄造成伤害来构建一次连招。每个与前一个不同的技能或攻击都会提升她的<keywordMajor>评价等级</keywordMajor>，从E到S(一共6级)。每个评级会为莎弥拉提供<speed>@MSBonusNew@移动速度</speed>。<br><br>莎弥拉在近战距离的攻击和技能会造成额外的<magicDamage>@BonusMeleeDamage@魔法伤害</magicDamage>，基于目标的已损失生命值至多提升至<magicDamage>@EmpoweredMeleeDamageTooltip@</magicDamage>。<br><br>莎弥拉对被<status>定身</status>的敌人打出的攻击会使她突进到她的攻击距离处。如果敌人已被<status>击飞</status>，那么她还会使其保持<status>击飞</status>状态至少0.5秒。\n{{Spell_SamiraPassive_Tooltip}}<br><br><rules>莎弥拉的冲刺距离为@QueenMaxDashRange@码。莎弥拉如果在@DurationTOOLTIP@秒里没有用她的攻击或技能对敌方英雄造成伤害，就会失去她的<keywordMajor>评价等级</keywordMajor></rules>。\n莎弥拉可通过用不同的技能或攻击命中敌人来构建一次连招。莎弥拉在近战距离的攻击会造成额外的魔法伤害。莎弥拉在对被<status>定身</status>的敌人进行攻击时，将冲刺到她的最大攻击距离处。如果该敌人已被<status>击飞</status>，她还会使其短暂保持<status>击飞</status>状态。"
+    },
+    "samira_q": {
+      "hero": "Samira",
+      "slot": "Q",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_SamiraQ_Name",
+          "text": "交火"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SamiraQ_Tooltip",
+          "text": "莎弥拉进行一次射击，对命中的第一个敌人造成<physicalDamage>@DamageCalc@物理伤害</physicalDamage>。如果朝着近战距离内的一名敌人施放这个技能，那么莎弥拉会转而用她的剑进行斩击，造成<physicalDamage>@DamageCalc@物理伤害</physicalDamage>。 "
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SamiraQ_Summary",
+          "text": "莎弥拉进行一次射击或斩击，造成伤害。如果在【狂飙】期间施放，那么会在完成时打击沿途的所有敌人。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SamiraQ_TooltipExtendedBelowLine",
+          "text": "<rules>这两种打击能够暴击(造成<physicalDamage>@CriticalDamageCalc@</physicalDamage>伤害)并施加@LifestealMod*100@%效能的生命偷取。</rules><br><rules>如果在<spellName>狂飙</spellName>期间施放此技能，那么莎弥拉将在冲刺完成时打击她沿途的所有敌人。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          -5,
+          0,
+          5,
+          10,
+          15,
+          20,
+          25
+        ],
+        "CheatingThreshold": [
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "CritDamageMod": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "LifestealMod": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "QADRatio": [
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858,
+          1.100000023841858
+        ]
+      },
+      "rawCalculations": {
+        "DamageCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "QADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "CriticalDamageCalc": {
+          "mMultiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mPart1": {
+                  "mDataValue": "CritDamageMod",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                "mPart2": {
+                  "mSubparts": [
+                    {
+                      "mStat": 9,
+                      "mCoefficient": 1,
+                      "__type": "StatByCoefficientCalculationPart"
+                    },
+                    {
+                      "mNumber": -1,
+                      "__type": "NumberCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                },
+                "__type": "ProductOfSubPartsCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          },
+          "mModifiedGameCalculation": "DamageCalc",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedParameterKeys": [
+        "base_damage",
+        "ad_ratio",
+        "crit_damage_modifier",
+        "lifesteal_effectiveness_ratio",
+        "critical_hit_eligible",
+        "actual_crit_multiplier",
+        "cast_time_ms",
+        "critical_multiplier_base"
+      ],
+      "selectedFormulaKeys": [
+        "physical_damage",
+        "critical_physical_damage"
+      ],
+      "sourceTextConsumers": "交火\n莎弥拉进行一次射击，对命中的第一个敌人造成<physicalDamage>@DamageCalc@物理伤害</physicalDamage>。如果朝着近战距离内的一名敌人施放这个技能，那么莎弥拉会转而用她的剑进行斩击，造成<physicalDamage>@DamageCalc@物理伤害</physicalDamage>。 \n莎弥拉进行一次射击或斩击，造成伤害。如果在【狂飙】期间施放，那么会在完成时打击沿途的所有敌人。\n<rules>这两种打击能够暴击(造成<physicalDamage>@CriticalDamageCalc@</physicalDamage>伤害)并施加@LifestealMod*100@%效能的生命偷取。</rules><br><rules>如果在<spellName>狂飙</spellName>期间施放此技能，那么莎弥拉将在冲刺完成时打击她沿途的所有敌人。</rules>"
+    },
+    "samira_w": {
+      "hero": "Samira",
+      "slot": "W",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_SamiraW_Name",
+          "text": "锋旋"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SamiraW_Tooltip",
+          "text": "莎弥拉斩击她的周围@SlashDuration@秒，对敌人造成2段伤害，每段为<physicalDamage>@DamageCalc@物理伤害</physicalDamage>并摧毁任何进入该区域的敌方飞行道具。<br><br>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SamiraW_Summary",
+          "text": "莎弥拉斩击她的周围，对敌人造成伤害并摧毁敌人的飞行道具。"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          5,
+          20,
+          35,
+          50,
+          65,
+          80,
+          95
+        ],
+        "SlashDuration": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ]
+      },
+      "rawCalculations": {
+        "DamageCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.5,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "slash_duration_ms",
+        "same_target_hit_count",
+        "projectile_interception_enabled"
+      ],
+      "selectedFormulaKeys": [
+        "physical_damage_per_hit"
+      ],
+      "sourceTextConsumers": "锋旋\n莎弥拉斩击她的周围@SlashDuration@秒，对敌人造成2段伤害，每段为<physicalDamage>@DamageCalc@物理伤害</physicalDamage>并摧毁任何进入该区域的敌方飞行道具。<br><br>\n莎弥拉斩击她的周围，对敌人造成伤害并摧毁敌人的飞行道具。"
+    },
+    "samira_e": {
+      "hero": "Samira",
+      "slot": "E",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_SamiraE_Name",
+          "text": "狂飙"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SamiraE_Tooltip",
+          "text": "莎弥拉冲刺经过一名敌人（包括建筑物），斩击沿途的敌人来造成<magicDamage>@DashDamage@魔法伤害</magicDamage>并获得持续@AttackSpeedDuration@秒的<attackSpeed>@BonusAttackSpeed*100@%攻击速度</attackSpeed>。<br><br>如果敌方英雄在被莎弥拉造成伤害后的3秒内被击杀，那么这个技能的冷却时间将重置。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SamiraE_Summary",
+          "text": "莎弥拉冲刺并越过一名敌人（包含建筑物），斩击沿途的敌人并获得攻击速度。击杀一名敌方英雄会刷新这个技能的冷却时间。"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          40,
+          50,
+          60,
+          70,
+          80,
+          90,
+          100
+        ],
+        "BonusAttackSpeed": [
+          0.15000000596046448,
+          0.20000000298023224,
+          0.25,
+          0.30000001192092896,
+          0.3499999940395355,
+          0.4000000059604645,
+          0.44999998807907104
+        ],
+        "DashSpeed": [
+          1600,
+          1600,
+          1600,
+          1600,
+          1600,
+          1600,
+          1600
+        ],
+        "DashTotalDistance": [
+          650,
+          650,
+          650,
+          650,
+          650,
+          650,
+          650
+        ],
+        "AttackSpeedDuration": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      },
+      "rawCalculations": {
+        "DashDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.20000000298023224,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "damage_base",
+        "bonus_attack_speed_ratio",
+        "attack_speed_duration_ms",
+        "dash_damage_bonus_ad_ratio",
+        "champion_kill_reset_window_ms",
+        "cast_time_ms"
+      ],
+      "selectedFormulaKeys": [
+        "dash_magic_damage"
+      ],
+      "sourceTextConsumers": "狂飙\n莎弥拉冲刺经过一名敌人（包括建筑物），斩击沿途的敌人来造成<magicDamage>@DashDamage@魔法伤害</magicDamage>并获得持续@AttackSpeedDuration@秒的<attackSpeed>@BonusAttackSpeed*100@%攻击速度</attackSpeed>。<br><br>如果敌方英雄在被莎弥拉造成伤害后的3秒内被击杀，那么这个技能的冷却时间将重置。\n莎弥拉冲刺并越过一名敌人（包含建筑物），斩击沿途的敌人并获得攻击速度。击杀一名敌方英雄会刷新这个技能的冷却时间。"
+    },
+    "samira_r": {
+      "hero": "Samira",
+      "slot": "R",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_SamiraR_Name",
+          "text": "炼狱扳机"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SamiraR_Tooltip",
+          "text": "莎弥拉只能在她当前的<keywordMajor>评价等级</keywordMajor>为S时使用这个技能。使用这个技能会消耗掉所有<keywordMajor>评价等级</keywordMajor>。<br><br>莎弥拉的武器倾泻出大量的子弹，狂野地在2秒里持续对她周围的所有敌人进行10次射击，每次射击造成<physicalDamage>@DamageCalc@物理伤害</physicalDamage>并施加@LifestealMod*100@%效能的生命偷取。这些射击也可以产生暴击。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SamiraR_Summary",
+          "text": "莎弥拉的武器倾泻出大量的子弹，狂野地射击她周围的所有敌人。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SamiraR_TooltipExtendedBelowLine",
+          "text": "<rules>这个技能对小兵造成@MinionDamageMod*100@%伤害。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          0,
+          20,
+          40,
+          60,
+          80,
+          100,
+          120
+        ],
+        "BaseMSBonus": [
+          0.019999999552965164,
+          0.019999999552965164,
+          0.019999999552965164,
+          0.019999999552965164,
+          0.019999999552965164,
+          0.019999999552965164,
+          0.019999999552965164
+        ],
+        "LifestealMod": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "MinionDamageMod": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "ADRatio": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ]
+      },
+      "rawCalculations": {
+        "DamageCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "CriticalDamageCalc": {
+          "mMultiplier": {
+            "mStat": 9,
+            "mCoefficient": 1,
+            "__type": "StatByCoefficientCalculationPart"
+          },
+          "mModifiedGameCalculation": "DamageCalc",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "selectedParameterKeys": [
+        "base_damage",
+        "ad_ratio",
+        "lifesteal_effectiveness_ratio",
+        "duration_ms",
+        "shot_count",
+        "required_style_grade",
+        "critical_hit_eligible",
+        "actual_crit_multiplier",
+        "cast_time_ms"
+      ],
+      "selectedFormulaKeys": [
+        "physical_damage_per_shot",
+        "critical_physical_damage_per_shot"
+      ],
+      "sourceTextConsumers": "炼狱扳机\n莎弥拉只能在她当前的<keywordMajor>评价等级</keywordMajor>为S时使用这个技能。使用这个技能会消耗掉所有<keywordMajor>评价等级</keywordMajor>。<br><br>莎弥拉的武器倾泻出大量的子弹，狂野地在2秒里持续对她周围的所有敌人进行10次射击，每次射击造成<physicalDamage>@DamageCalc@物理伤害</physicalDamage>并施加@LifestealMod*100@%效能的生命偷取。这些射击也可以产生暴击。\n莎弥拉的武器倾泻出大量的子弹，狂野地射击她周围的所有敌人。\n<rules>这个技能对小兵造成@MinionDamageMod*100@%伤害。</rules>"
+    },
+    "nilah_p": {
+      "hero": "Nilah",
+      "slot": "P",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_NilahPassive_Name",
+          "text": "喜色川流"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NilahPassive_Tooltip",
+          "text": "当尼菈击杀一个小兵时，她和距她最近的那名友方英雄获得@ExperiencePercentage*100@%他们本该因分享击杀而正常损失的经验值。<br><br>尼菈在获得来自友方英雄技能提供的治疗和护盾时，会将<healing>治疗效能提升@HealingIncrease*100@%</healing>，将<shield>护盾效能提升@ShieldIncrease*100@%</shield>。如果一名友方英雄对她提供了治疗或护盾，那么该友方英雄自身也将获得相当于该提升数额的护盾和治疗。如果一名友方英雄对其自身提供了治疗或护盾，那么尼菈也将获得该额外效果。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NilahPassive_Summary",
+          "text": "尼菈在对小兵进行补刀时可获得提升过的经验值，并且能够增强与分享附近的来自她友方的治疗和护盾效果。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_NilahPassive_TooltipExtended",
+          "text": "当尼菈击杀一个小兵时，她和距她最近的那名友方英雄获得@ExperiencePercentage*100@%他们本该因分享击杀而正常损失的经验值。<br><br>尼菈在获得来自友方英雄技能提供的治疗和护盾时，会将<healing>治疗效能提升@HealingIncrease*100@%</healing>，将<shield>护盾效能提升@ShieldIncrease*100@%</shield>。如果一名友方英雄对她提供了治疗或护盾，那么该友方英雄自身也将获得相当于该提升数额的护盾和治疗。如果一名友方英雄对其自身提供了治疗或护盾，那么尼菈也将获得该额外效果。<br><br><rules>由尼菈分享的护盾的最大持续时长为@ShieldMaxDuration@秒。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "ExperiencePercentage": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "HealDistance": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "ShieldIncrease": [
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448,
+          0.15000000596046448
+        ],
+        "HealingIncrease": [
+          0.07500000298023224,
+          0.07500000298023224,
+          0.07500000298023224,
+          0.07500000298023224,
+          0.07500000298023224,
+          0.07500000298023224,
+          0.07500000298023224
+        ],
+        "ShieldMaxDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ]
+      },
+      "rawCalculations": {},
+      "selectedParameterKeys": [],
+      "selectedFormulaKeys": [],
+      "sourceTextConsumers": "喜色川流\n当尼菈击杀一个小兵时，她和距她最近的那名友方英雄获得@ExperiencePercentage*100@%他们本该因分享击杀而正常损失的经验值。<br><br>尼菈在获得来自友方英雄技能提供的治疗和护盾时，会将<healing>治疗效能提升@HealingIncrease*100@%</healing>，将<shield>护盾效能提升@ShieldIncrease*100@%</shield>。如果一名友方英雄对她提供了治疗或护盾，那么该友方英雄自身也将获得相当于该提升数额的护盾和治疗。如果一名友方英雄对其自身提供了治疗或护盾，那么尼菈也将获得该额外效果。\n尼菈在对小兵进行补刀时可获得提升过的经验值，并且能够增强与分享附近的来自她友方的治疗和护盾效果。\n当尼菈击杀一个小兵时，她和距她最近的那名友方英雄获得@ExperiencePercentage*100@%他们本该因分享击杀而正常损失的经验值。<br><br>尼菈在获得来自友方英雄技能提供的治疗和护盾时，会将<healing>治疗效能提升@HealingIncrease*100@%</healing>，将<shield>护盾效能提升@ShieldIncrease*100@%</shield>。如果一名友方英雄对她提供了治疗或护盾，那么该友方英雄自身也将获得相当于该提升数额的护盾和治疗。如果一名友方英雄对其自身提供了治疗或护盾，那么尼菈也将获得该额外效果。<br><br><rules>由尼菈分享的护盾的最大持续时长为@ShieldMaxDuration@秒。</rules>"
+    },
+    "nilah_q": {
+      "hero": "Nilah",
+      "slot": "Q",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_NilahQ_Name",
+          "text": "游刃万变"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NilahQ_Tooltip",
+          "text": "<spellPassive>被动：</spellPassive>尼菈获得@CritArmorPen@护甲穿透，并且她对英雄进行的攻击会回复自身<healing>@CritLifesteal@造成伤害值的生命值</healing>。来自这个效果的过量治疗将转化为一个持续@ShieldDuration@秒的<shield>护盾</shield>。<br><br><spellActive>主动：</spellActive>尼菈甩出她的鞭刃，造成 <physicalDamage>@DamageCalc@物理伤害</physicalDamage>。如果命中了一个敌方单位或建筑物，尼菈就会获得125攻击距离和<attackSpeed>@BonusAttackSpeedCalc@%攻击速度</attackSpeed>，并且她的攻击会命中一个锥形范围，这些效果持续@BuffDuration@秒。<br>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NilahQ_Summary",
+          "text": "随着她鞭刃的一次抽击，尼菈对她所选方向中一条直线上命中的任何敌人们造成伤害。这个行动会在短时间里延伸她的攻击距离。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_NilahQ_TooltipExtendedBelowLine",
+          "text": "<rules>伤害可通过她的暴击几率和暴击伤害来提升，效能为@ActiveCritScaling*100@%。<br>如果在<spellName>纵情逐流</spellName>期间施放，尼菈会生成一道水波来打击她路径上的所有敌人。</rules><br><rules>群体攻击对小兵造成造成@MinionMod*100@%伤害并对野怪造成@MonsterMod*100@%伤害。</rules><br><rules>这个技能会处决低生命值的小兵。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          -10,
+          0,
+          10,
+          20,
+          30,
+          40,
+          50
+        ],
+        "CheatingThreshold": [
+          20,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "QADRatio": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "CastRange": [
+          600,
+          600,
+          600,
+          600,
+          600,
+          600,
+          600
+        ],
+        "CritHealScalar": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ],
+        "CritArmorPenScalar": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "MinionMod": [
+          0.33000001311302185,
+          0.33000001311302185,
+          0.33000001311302185,
+          0.33000001311302185,
+          0.33000001311302185,
+          0.33000001311302185,
+          0.33000001311302185
+        ],
+        "BuffDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "RangeIncrease": [
+          125,
+          125,
+          125,
+          125,
+          125,
+          125,
+          125
+        ],
+        "MonsterMod": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "ShieldDuration": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "CritDamageRatio": null,
+        "ActiveCritScaling": [
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071
+        ]
+      },
+      "rawCalculations": {
+        "DamageCalc": {
+          "mMultiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mPart1": {
+                  "mStat": 8,
+                  "mDataValue": "ActiveCritScaling",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                "mPart2": {
+                  "mSubparts": [
+                    {
+                      "mStat": 9,
+                      "mCoefficient": 1,
+                      "__type": "StatByCoefficientCalculationPart"
+                    },
+                    {
+                      "mNumber": -1,
+                      "__type": "NumberCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                },
+                "__type": "ProductOfSubPartsCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "QADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "AttackTotalDamageTooltip": {
+          "mFormulaParts": [
+            {
+              "mStat": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BonusAttackSpeedCalc": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 10,
+              "mEndValue": 60,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "CritLifesteal": {
+          "mFormulaParts": [
+            {
+              "mStat": 8,
+              "mDataValue": "CritHealScalar",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "CritArmorPen": {
+          "mFormulaParts": [
+            {
+              "mStat": 8,
+              "mDataValue": "CritArmorPenScalar",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "base_damage",
+        "ad_ratio",
+        "crit_scaling",
+        "crit_heal_scalar",
+        "crit_armor_pen_scalar",
+        "buff_duration_ms",
+        "range_increase_points",
+        "overheal_shield_duration_ms",
+        "attack_speed_interpolation_min_percent_points",
+        "attack_speed_interpolation_max_percent_points",
+        "actual_attack_speed_percent_points",
+        "actual_mstat8_value",
+        "actual_mstat9_value",
+        "critical_hit_eligible",
+        "critical_multiplier_base",
+        "cast_time_ms"
+      ],
+      "selectedFormulaKeys": [
+        "physical_damage_with_crit_scaling",
+        "critical_lifesteal_ratio",
+        "critical_armor_penetration_ratio"
+      ],
+      "sourceTextConsumers": "游刃万变\n<spellPassive>被动：</spellPassive>尼菈获得@CritArmorPen@护甲穿透，并且她对英雄进行的攻击会回复自身<healing>@CritLifesteal@造成伤害值的生命值</healing>。来自这个效果的过量治疗将转化为一个持续@ShieldDuration@秒的<shield>护盾</shield>。<br><br><spellActive>主动：</spellActive>尼菈甩出她的鞭刃，造成 <physicalDamage>@DamageCalc@物理伤害</physicalDamage>。如果命中了一个敌方单位或建筑物，尼菈就会获得125攻击距离和<attackSpeed>@BonusAttackSpeedCalc@%攻击速度</attackSpeed>，并且她的攻击会命中一个锥形范围，这些效果持续@BuffDuration@秒。<br>\n随着她鞭刃的一次抽击，尼菈对她所选方向中一条直线上命中的任何敌人们造成伤害。这个行动会在短时间里延伸她的攻击距离。\n<rules>伤害可通过她的暴击几率和暴击伤害来提升，效能为@ActiveCritScaling*100@%。<br>如果在<spellName>纵情逐流</spellName>期间施放，尼菈会生成一道水波来打击她路径上的所有敌人。</rules><br><rules>群体攻击对小兵造成造成@MinionMod*100@%伤害并对野怪造成@MonsterMod*100@%伤害。</rules><br><rules>这个技能会处决低生命值的小兵。</rules>"
+    },
+    "nilah_w": {
+      "hero": "Nilah",
+      "slot": "W",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_NilahW_Name",
+          "text": "轻纱飞漾"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NilahW_Tooltip",
+          "text": "尼菈将自身裹入迷雾中@BaseDuration@秒，从而变为幽灵状态、获得<speed>@MoveSpeedPercent*100@%移动速度</speed>、躲避攻击并使所受的<magicDamage>魔法伤害</magicDamage>降低@MagicDamageReduction*100@%。<br><br>在激活期间，她接触到的任何友方英雄也都会裹入迷雾中，获得持续@ShareBaseDuration@秒的相同增益。<br>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NilahW_Summary",
+          "text": "尼菈将自身裹入迷雾中，提升她的移动速度并使她能够优雅地躲避所有即将到来的攻击。在迷雾期间，她接触到的任何友方英雄也都会获得这个效果。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_NilahW_TooltipExtendedBelowLine",
+          "text": "<rules>{{Reminder_Ghosted}}</rules>"
+        }
+      },
+      "rawDataValues": {
+        "MoveSpeedPercent": [
+          0.125,
+          0.15000000596046448,
+          0.17499999701976776,
+          0.20000000298023224,
+          0.22499999403953552,
+          0.25,
+          0.2750000059604645
+        ],
+        "BaseDuration": [
+          2.25,
+          2.25,
+          2.25,
+          2.25,
+          2.25,
+          2.25,
+          2.25
+        ],
+        "ShareBaseDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "ExtensionBonus": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "AreaTriggerSize": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150
+        ],
+        "MagicDamageReduction": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ]
+      },
+      "rawCalculations": {},
+      "selectedParameterKeys": [
+        "self_move_speed_ratio",
+        "self_duration_ms",
+        "magic_damage_reduction_ratio",
+        "self_basic_attack_dodge_enabled",
+        "self_ghost_enabled"
+      ],
+      "selectedFormulaKeys": [],
+      "sourceTextConsumers": "轻纱飞漾\n尼菈将自身裹入迷雾中@BaseDuration@秒，从而变为幽灵状态、获得<speed>@MoveSpeedPercent*100@%移动速度</speed>、躲避攻击并使所受的<magicDamage>魔法伤害</magicDamage>降低@MagicDamageReduction*100@%。<br><br>在激活期间，她接触到的任何友方英雄也都会裹入迷雾中，获得持续@ShareBaseDuration@秒的相同增益。<br>\n尼菈将自身裹入迷雾中，提升她的移动速度并使她能够优雅地躲避所有即将到来的攻击。在迷雾期间，她接触到的任何友方英雄也都会获得这个效果。\n<rules>{{Reminder_Ghosted}}</rules>"
+    },
+    "nilah_e": {
+      "hero": "Nilah",
+      "slot": "E",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_NilahE_Name",
+          "text": "纵情逐流"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NilahE_Tooltip",
+          "text": "尼菈冲刺并穿过一个单位，对她途经的任何敌人们造成<physicalDamage>@DashDamage@物理伤害</physicalDamage>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NilahE_Summary",
+          "text": "尼菈热情洋溢地朝着她的目标冲刺，对她途经的任何敌人们造成伤害。"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_NilahE_CooldownAmmo",
+          "text": "@AmmoRechargeTime@秒充能时间(@Cooldown@秒%i:cooldown%)"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          50,
+          60,
+          70,
+          80,
+          90,
+          100,
+          110
+        ],
+        "DashSpeed": [
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200,
+          2200
+        ],
+        "DashTotalDistance": [
+          600,
+          600,
+          600,
+          600,
+          600,
+          600,
+          600
+        ]
+      },
+      "rawCalculations": {
+        "DashDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.20000000298023224,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "charge_count",
+        "charge_segment_cooldown_ms",
+        "damage_base",
+        "bonus_ad_ratio",
+        "cast_time_ms"
+      ],
+      "selectedFormulaKeys": [
+        "dash_physical_damage"
+      ],
+      "sourceTextConsumers": "纵情逐流\n尼菈冲刺并穿过一个单位，对她途经的任何敌人们造成<physicalDamage>@DashDamage@物理伤害</physicalDamage>。\n尼菈热情洋溢地朝着她的目标冲刺，对她途经的任何敌人们造成伤害。\n@AmmoRechargeTime@秒充能时间(@Cooldown@秒%i:cooldown%)"
+    },
+    "nilah_r": {
+      "hero": "Nilah",
+      "slot": "R",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_NilahR_Name",
+          "text": "神恩激荡"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_NilahR_Summary",
+          "text": "尼菈快乐洋溢地挥舞她的鞭刃，对她周围的敌人们造成伤害，然后用她的武器将他们拉得更加靠近。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_NilahR_Tooltip",
+          "text": "尼菈挥舞她的鞭刃，在1秒里持续造成<physicalDamage>@DamagePerTickCalcTooltip@物理伤害</physicalDamage>，然后用一次<physicalDamage>@DamageCalc@物理伤害</physicalDamage>的爆发来完成挥舞，并将附近的敌人们<status>拉拽</status>向她。<br><br>【神恩激荡】对尼菈和附近的友方英雄们进行治疗，治疗量相当于<healing>她对敌方英雄们的@ChampHealingPercent@ (+@spell.NilahQ:CritLifesteal@ {{ Spell_NilahQ_Name }})造成伤害值</healing>，并将任何过量治疗转化为一个持续@Duration@秒的<shield>护盾</shield>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_NilahR_TooltipExtendedBelowLine",
+          "text": "<rules>对非英雄单位的治疗效果降低至@OtherHealingPercent*100@%。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "Duration": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "DamageBase": [
+          25,
+          125,
+          225,
+          325,
+          425,
+          525,
+          625
+        ],
+        "ShieldBase": [
+          15,
+          65,
+          115,
+          165,
+          215,
+          265,
+          315
+        ],
+        "DamagePerTick": [
+          5,
+          15,
+          25,
+          35,
+          45,
+          55,
+          65
+        ],
+        "OtherHealingPercent": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "Microslow": [
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612,
+          -0.10000000149011612
+        ],
+        "NumTicks": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "TickDelay": [
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224,
+          0.20000000298023224
+        ]
+      },
+      "rawCalculations": {
+        "DamageCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "DamageBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ShieldCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "ShieldBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "DamagePerTickCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "DamagePerTick",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.10000000149011612,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "DamagePerTickCalcTooltip": {
+          "mMultiplier": {
+            "mNumber": 4,
+            "__type": "NumberCalculationPart"
+          },
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "DamagePerTickCalc",
+          "__type": "GameCalculationModified"
+        },
+        "ChampHealingPercent": {
+          "mFormulaParts": [
+            {
+              "mNumber": 0.20000000298023224,
+              "__type": "NumberCalculationPart"
+            },
+            {
+              "mStat": 8,
+              "mCoefficient": 0.10000000149011612,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "duration_ms",
+        "damage_base",
+        "damage_bonus_ad_ratio",
+        "damage_per_tick_base",
+        "damage_per_tick_bonus_ad_ratio",
+        "display_sustained_damage_multiplier",
+        "source_num_ticks",
+        "tick_delay_ms",
+        "slow_percent_points",
+        "self_healing_base_ratio",
+        "self_healing_mstat8_ratio",
+        "actual_mstat8_value",
+        "actual_q_crit_lifesteal_ratio",
+        "actual_current_enemy_healing_basis_damage",
+        "overheal_shield_duration_ms",
+        "cast_time_ms"
+      ],
+      "selectedFormulaKeys": [
+        "burst_physical_damage",
+        "damage_per_tick",
+        "tooltip_sustained_damage",
+        "self_healing_ratio",
+        "self_healing_amount"
+      ],
+      "sourceTextConsumers": "神恩激荡\n尼菈快乐洋溢地挥舞她的鞭刃，对她周围的敌人们造成伤害，然后用她的武器将他们拉得更加靠近。\n尼菈挥舞她的鞭刃，在1秒里持续造成<physicalDamage>@DamagePerTickCalcTooltip@物理伤害</physicalDamage>，然后用一次<physicalDamage>@DamageCalc@物理伤害</physicalDamage>的爆发来完成挥舞，并将附近的敌人们<status>拉拽</status>向她。<br><br>【神恩激荡】对尼菈和附近的友方英雄们进行治疗，治疗量相当于<healing>她对敌方英雄们的@ChampHealingPercent@ (+@spell.NilahQ:CritLifesteal@ {{ Spell_NilahQ_Name }})造成伤害值</healing>，并将任何过量治疗转化为一个持续@Duration@秒的<shield>护盾</shield>。\n<rules>对非英雄单位的治疗效果降低至@OtherHealingPercent*100@%。</rules>"
+    },
+    "smolder_p": {
+      "hero": "Smolder",
+      "slot": "P",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_SmolderP_Name",
+          "text": "龙之研习"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SmolderP_Tooltip",
+          "text": "用技能命中英雄和用<spellName>{{Spell_SmolderQ_Name}}</spellName>击杀敌人时会提供一层<spellName>{{Spell_SmolderP_Name}}</spellName>，这些层数可强化斯莫德的各个基础技能。<br><li><spellName>{{Spell_SmolderQ_Name}}</spellName>：造成额外的<magicDamage>@Passive_QDamageIncrease@魔法伤害</magicDamage>并在@spell.SmolderQ:StackTier1@层、@spell.SmolderQ:StackTier2@层和@spell.SmolderQ:StackTier3@层时获得新效果。<li><spellName>{{Spell_SmolderW_Name}}</spellName>：爆炸造成额外<magicDamage>@Passive_WDamageIncrease@魔法伤害</magicDamage>。<li><spellName>{{Spell_SmolderE_Name}}</spellName>：每次命中造成额外<magicDamage>@EBonusDamage@魔法伤害</magicDamage>并且每@EStacksPerAttackTooltip@层获得一个额外弹体。<br><br><rules>斯莫德已获得<font color='#c93c3c'>龙之研习</font>：<font color='#c93c3c'>@f1.0@</font>。</rules>"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_SmolderP_TooltipExtended",
+          "text": "用技能命中英雄和用<spellName>{{Spell_SmolderQ_Name}}</spellName>击杀敌人时会给斯莫德提供一层<spellName>龙之研习</spellName>。层数会提升斯莫德各基础技能的伤害。<br><li><spellName>{{Spell_SmolderQ_Name}}</spellName>：造成额外的<magicDamage>@Passive_QDamageIncrease@ = (</magicDamage><spellName>@TooltipOnly_QStacks@</spellName><magicDamage> * (</magicDamage><spellName>1</spellName><magicDamage> + </magicDamage><spellName>@TooltipOnly_QCritMultiplier@</spellName><magicDamage>))魔法伤害</magicDamage>，并且在<keywordMajor>@Tier3_Breakpoint@</keywordMajor>层<spellName>龙之研习</spellName>时，他的灼烧将额外造成<trueDamage>@Q_tier3_bonus_burn@最大生命值的真实伤害</trueDamage>。</li><li><spellName>{{Spell_SmolderW_Name}}</spellName>：爆炸造成额外的<magicDamage>@Passive_WDamageIncrease@魔法伤害</magicDamage>。</li><li><spellName>{{Spell_SmolderE_Name}}</spellName>：每次命中造成额外的<magicDamage>@EBonusDamage@魔法伤害</magicDamage>。</li><br><br><rules>斯莫德已获得的<font color='#c93c3c'>龙之研习</font>：<font color='#c93c3c'>@f1.0@</font>。</rules><br>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SmolderP_Tooltip_Summary",
+          "text": "用技能命中英雄和用{{Spell_SmolderQ_Name}} 击杀敌人时会提供一层{{Spell_SmolderP_Name}}。层数会提升斯莫德各基础技能的伤害。"
+        }
+      },
+      "rawDataValues": {
+        "QCritRatio": [
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158,
+          1.2000000476837158
+        ],
+        "QDamagePerStack": [
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "WDamagePerStack": [
+          0.550000011920929,
+          0.550000011920929,
+          0.550000011920929,
+          0.550000011920929,
+          0.550000011920929,
+          0.550000011920929,
+          0.550000011920929
+        ],
+        "EDamagePerStack": [
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066,
+          0.07999999821186066
+        ],
+        "EStacksPerAttackTooltip": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ]
+      },
+      "rawCalculations": {
+        "Passive_QDamageIncrease": {
+          "mMultiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mPart1": {
+                  "mStat": 8,
+                  "mDataValue": "QCritRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                "mPart2": {
+                  "mSubparts": [
+                    {
+                      "mNumber": -1,
+                      "__type": "NumberCalculationPart"
+                    },
+                    {
+                      "mStat": 9,
+                      "mCoefficient": 1,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                },
+                "__type": "ProductOfSubPartsCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mBuffName": "{32bcea5d}",
+              "mIconKey": "%i:Smolder%",
+              "mDataValue": "QDamagePerStack",
+              "__type": "BuffCounterByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "Passive_WDamageIncrease": {
+          "mFormulaParts": [
+            {
+              "mBuffName": "{32bcea5d}",
+              "mIconKey": "%i:Smolder%",
+              "mDataValue": "WDamagePerStack",
+              "__type": "BuffCounterByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TooltipOnly_QStacks": {
+          "mExpandedTooltipCalculationDisplay": 2,
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mBuffName": "{32bcea5d}",
+              "mIconKey": "%i:Smolder%",
+              "mDataValue": "QDamagePerStack",
+              "__type": "BuffCounterByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "TooltipOnly_QCritMultiplier": {
+          "mExpandedTooltipCalculationDisplay": 2,
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mBuffName": "{098531db}",
+              "mIconKey": "%i:scaleCrit%",
+              "mDataValue": "QCritRatio",
+              "__type": "BuffCounterByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "EBonusDamage": {
+          "mMultiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mPart1": {
+                  "mStat": 8,
+                  "mCoefficient": 0.6000000238418579,
+                  "__type": "StatByCoefficientCalculationPart"
+                },
+                "mPart2": {
+                  "mSubparts": [
+                    {
+                      "mNumber": -1,
+                      "__type": "NumberCalculationPart"
+                    },
+                    {
+                      "mStat": 9,
+                      "mCoefficient": 1,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                },
+                "__type": "ProductOfSubPartsCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mBuffName": "{32bcea5d}",
+              "mIconKey": "%i:Smolder%",
+              "mDataValue": "EDamagePerStack",
+              "__type": "BuffCounterByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "q_damage_per_stack_ratio",
+        "w_damage_per_stack",
+        "e_damage_per_stack",
+        "e_stacks_per_attack",
+        "q_crit_ratio",
+        "e_crit_ratio",
+        "actual_stack_count",
+        "actual_mstat8_value",
+        "actual_mstat9_value",
+        "crit_multiplier_base",
+        "hero_hit_stack_gain",
+        "q_kill_self_enemy_stack_gain"
+      ],
+      "selectedFormulaKeys": [
+        "q_bonus_magic_damage",
+        "w_bonus_magic_damage",
+        "e_bonus_magic_damage_per_hit"
+      ],
+      "sourceTextConsumers": "龙之研习\n用技能命中英雄和用<spellName>{{Spell_SmolderQ_Name}}</spellName>击杀敌人时会提供一层<spellName>{{Spell_SmolderP_Name}}</spellName>，这些层数可强化斯莫德的各个基础技能。<br><li><spellName>{{Spell_SmolderQ_Name}}</spellName>：造成额外的<magicDamage>@Passive_QDamageIncrease@魔法伤害</magicDamage>并在@spell.SmolderQ:StackTier1@层、@spell.SmolderQ:StackTier2@层和@spell.SmolderQ:StackTier3@层时获得新效果。<li><spellName>{{Spell_SmolderW_Name}}</spellName>：爆炸造成额外<magicDamage>@Passive_WDamageIncrease@魔法伤害</magicDamage>。<li><spellName>{{Spell_SmolderE_Name}}</spellName>：每次命中造成额外<magicDamage>@EBonusDamage@魔法伤害</magicDamage>并且每@EStacksPerAttackTooltip@层获得一个额外弹体。<br><br><rules>斯莫德已获得<font color='#c93c3c'>龙之研习</font>：<font color='#c93c3c'>@f1.0@</font>。</rules>\n用技能命中英雄和用<spellName>{{Spell_SmolderQ_Name}}</spellName>击杀敌人时会给斯莫德提供一层<spellName>龙之研习</spellName>。层数会提升斯莫德各基础技能的伤害。<br><li><spellName>{{Spell_SmolderQ_Name}}</spellName>：造成额外的<magicDamage>@Passive_QDamageIncrease@ = (</magicDamage><spellName>@TooltipOnly_QStacks@</spellName><magicDamage> * (</magicDamage><spellName>1</spellName><magicDamage> + </magicDamage><spellName>@TooltipOnly_QCritMultiplier@</spellName><magicDamage>))魔法伤害</magicDamage>，并且在<keywordMajor>@Tier3_Breakpoint@</keywordMajor>层<spellName>龙之研习</spellName>时，他的灼烧将额外造成<trueDamage>@Q_tier3_bonus_burn@最大生命值的真实伤害</trueDamage>。</li><li><spellName>{{Spell_SmolderW_Name}}</spellName>：爆炸造成额外的<magicDamage>@Passive_WDamageIncrease@魔法伤害</magicDamage>。</li><li><spellName>{{Spell_SmolderE_Name}}</spellName>：每次命中造成额外的<magicDamage>@EBonusDamage@魔法伤害</magicDamage>。</li><br><br><rules>斯莫德已获得的<font color='#c93c3c'>龙之研习</font>：<font color='#c93c3c'>@f1.0@</font>。</rules><br>\n用技能命中英雄和用{{Spell_SmolderQ_Name}} 击杀敌人时会提供一层{{Spell_SmolderP_Name}}。层数会提升斯莫德各基础技能的伤害。"
+    },
+    "smolder_q": {
+      "hero": "Smolder",
+      "slot": "Q",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_SmolderQ_Name",
+          "text": "超级灼热龙息"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SmolderQ_Tooltip2",
+          "text": "斯莫德喷出烈焰，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage> + <magicDamage>@spell.SmolderP:Passive_QDamageIncrease@魔法伤害</magicDamage>。如果目标阵亡，斯莫德会返还<scaleMana>@ManaRestore@法力值</scaleMana>，这个效果在每次施放仅触发一次。<br><br>基于<spellName>龙之研习</spellName>的层数，这个技能会不断进化，获得以下效果：<li><keywordMajor>@StackTier1@层</keywordMajor>：对目标周围的所有敌人造成伤害。<li><keywordMajor>@StackTier2@层</keywordMajor>：在目标后侧引发<spellName>@Tier2_NumberOfBlowback@</spellName>次爆炸，造成此技能@Tier2_BlowbackPercentageDamage@%的伤害。<li><keywordMajor>@StackTier3@层</keywordMajor>：灼烧目标，@Tier3_DotLength@秒内持续造成共<trueDamage>@Tier3_Burn@最大生命值的真实伤害</trueDamage>。 敌方英雄如果在灼烧期间总生命值降至<trueDamage>@Tier3_ExecuteThreshold@</trueDamage>以下，则会被立刻击杀。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SmolderQ_TooltipExtended",
+          "text": "<rules><spellName>{{Spell_SmolderQ_Name}}</spellName>会被视为一次普攻，施加附带特效、并施加@LifestealMod*100@%效能的生命偷取。<br>伤害可通过%i:scaleCrit%暴击几率和%i:scaleCritMult%暴击伤害来提升，效能为@CritRatio*100@%。<br>这个技能在每次施放时仅会对每个目标造成一次伤害。<br></rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SmolderQ_Tooltip_Summary",
+          "text": "斯莫德在一名敌人身上喷吐烈焰。随着他获得更多层数，这个技能会变得更加强力。"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          50,
+          60,
+          70,
+          80,
+          90,
+          100,
+          110
+        ],
+        "ADRatio": [
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842,
+          1.2999999523162842
+        ],
+        "StackTier1": [
+          25,
+          25,
+          25,
+          25,
+          25,
+          25,
+          25
+        ],
+        "StackTier2": [
+          125,
+          125,
+          125,
+          125,
+          125,
+          125,
+          125
+        ],
+        "StackTier3": [
+          225,
+          225,
+          225,
+          225,
+          225,
+          225,
+          225
+        ],
+        "Tier1_ExplosionRadius": [
+          285,
+          285,
+          285,
+          285,
+          285,
+          285,
+          285
+        ],
+        "Tier2_BlowbackDistance": [
+          500,
+          500,
+          500,
+          500,
+          500,
+          500,
+          500
+        ],
+        "Tier2_BlowbackAmountBase": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "Tier2_BlowbackExplosionRadius": [
+          150,
+          150,
+          150,
+          150,
+          150,
+          150,
+          150
+        ],
+        "Tier2_BlowbackSpreadAngle": [
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15
+        ],
+        "Tier3_TrueDamagePercent": [
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582
+        ],
+        "Tier3_MonsterCap": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "CritRatio": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "LifestealMod": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "Tier3_ExecuteThresholdStart": [
+          6.5,
+          6.5,
+          6.5,
+          6.5,
+          6.5,
+          6.5,
+          6.5
+        ],
+        "Tier3_DotLength": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "Tier2_BlowbackPercentageDamage": [
+          50,
+          50,
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "minionmod": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "Tier3_Burn_Stack_Mult": [
+          0.00004999999873689376,
+          0.00004999999873689376,
+          0.00004999999873689376,
+          0.00004999999873689376,
+          0.00004999999873689376,
+          0.00004999999873689376,
+          0.00004999999873689376
+        ],
+        "ManaRestore": [
+          15,
+          15,
+          15,
+          15,
+          15,
+          15,
+          15
+        ]
+      },
+      "rawCalculations": {
+        "TotalDamage": {
+          "mMultiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mPart1": {
+                  "mStat": 8,
+                  "mDataValue": "CritRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                "mPart2": {
+                  "mSubparts": [
+                    {
+                      "mNumber": -1,
+                      "__type": "NumberCalculationPart"
+                    },
+                    {
+                      "mStat": 9,
+                      "mCoefficient": 1,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                },
+                "__type": "ProductOfSubPartsCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "Tier2_NumberOfBlowback": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "Tier2_BlowbackAmountBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mBuffName": "{32bcea5d}",
+              "mIconKey": "%i:Smolder%",
+              "mCoefficient": 0.00800000037997961,
+              "__type": "BuffCounterByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "Tier3_ExecuteThreshold": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mExpandedTooltipCalculationDisplay": 5,
+          "mFormulaParts": [
+            {
+              "mDataValue": "Tier3_ExecuteThresholdStart",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "Tier3_Burn": {
+          "mFormulaParts": [
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.0002500000118743628,
+              "__type": "StatByCoefficientCalculationPart"
+            },
+            {
+              "mBuffName": "{32bcea5d}",
+              "mIconKey": "%i:Smolder%",
+              "mDataValue": "Tier3_Burn_Stack_Mult",
+              "__type": "BuffCounterByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "base_damage",
+        "bonus_ad_ratio",
+        "crit_ratio",
+        "actual_mstat8_value",
+        "actual_mstat9_value",
+        "tier1_stack_threshold",
+        "tier2_stack_threshold",
+        "tier3_stack_threshold",
+        "burn_duration_ms",
+        "burn_bonus_ad_ratio",
+        "burn_stack_ratio",
+        "execute_threshold_start_percent_points",
+        "percent_points_to_ratio",
+        "mana_restore",
+        "main_hit_count_per_target",
+        "actual_stack_count",
+        "actual_target_max_health",
+        "crit_multiplier_base"
+      ],
+      "selectedFormulaKeys": [
+        "physical_damage_with_crit_scaling",
+        "tier3_burn_max_health_ratio",
+        "tier3_burn_true_damage",
+        "tier3_execute_health_threshold_ratio"
+      ],
+      "sourceTextConsumers": "超级灼热龙息\n斯莫德喷出烈焰，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage> + <magicDamage>@spell.SmolderP:Passive_QDamageIncrease@魔法伤害</magicDamage>。如果目标阵亡，斯莫德会返还<scaleMana>@ManaRestore@法力值</scaleMana>，这个效果在每次施放仅触发一次。<br><br>基于<spellName>龙之研习</spellName>的层数，这个技能会不断进化，获得以下效果：<li><keywordMajor>@StackTier1@层</keywordMajor>：对目标周围的所有敌人造成伤害。<li><keywordMajor>@StackTier2@层</keywordMajor>：在目标后侧引发<spellName>@Tier2_NumberOfBlowback@</spellName>次爆炸，造成此技能@Tier2_BlowbackPercentageDamage@%的伤害。<li><keywordMajor>@StackTier3@层</keywordMajor>：灼烧目标，@Tier3_DotLength@秒内持续造成共<trueDamage>@Tier3_Burn@最大生命值的真实伤害</trueDamage>。 敌方英雄如果在灼烧期间总生命值降至<trueDamage>@Tier3_ExecuteThreshold@</trueDamage>以下，则会被立刻击杀。\n<rules><spellName>{{Spell_SmolderQ_Name}}</spellName>会被视为一次普攻，施加附带特效、并施加@LifestealMod*100@%效能的生命偷取。<br>伤害可通过%i:scaleCrit%暴击几率和%i:scaleCritMult%暴击伤害来提升，效能为@CritRatio*100@%。<br>这个技能在每次施放时仅会对每个目标造成一次伤害。<br></rules>\n斯莫德在一名敌人身上喷吐烈焰。随着他获得更多层数，这个技能会变得更加强力。"
+    },
+    "smolder_w": {
+      "hero": "Smolder",
+      "slot": "W",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_SmolderW_Name",
+          "text": "阿嚏！"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SmolderW_Tooltip",
+          "text": "斯莫德发出一个萌萌的烈焰喷嚏，造成<physicalDamage>@InitialDamage@物理伤害</physicalDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。<br><br>命中英雄时会引发一次爆炸，造成<physicalDamage>@ExplosionDamage@物理</physicalDamage> + <magicDamage>@spell.SmolderP:Passive_WDamageIncrease@魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SmolderW_BTL",
+          "text": "<rules>每次后续的爆炸造成@ExplosionDamageMultihitPenalty*100@%伤害。<br>斯莫德每命中一个英雄仅能获得一层<spellName>龙之研习</spellName>。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SmolderW_Tooltip_Summary",
+          "text": "斯莫德发出一个萌萌的烈焰喷嚏，喷嚏会在命中敌人时爆炸。"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          50,
+          60,
+          70,
+          80,
+          90,
+          100,
+          110
+        ],
+        "HitADRatio": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "ExplosionBaseDamage": [
+          -15,
+          10,
+          35,
+          60,
+          85,
+          110,
+          135
+        ],
+        "ExplosionRadius": [
+          385,
+          385,
+          385,
+          385,
+          385,
+          385,
+          385
+        ],
+        "SlowAmount": [
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355,
+          0.3499999940395355
+        ],
+        "SlowDuration": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "ExplosionDamageMult": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "ExplosionDamageMultihitPenalty": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "MinionMod": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "rawCalculations": {
+        "InitialDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "HitADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ExplosionDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "ExplosionBaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.5,
+              "__type": "StatByCoefficientCalculationPart"
+            },
+            {
+              "mCoefficient": 0.800000011920929,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "initial_damage_base",
+        "initial_bonus_ad_ratio",
+        "explosion_damage_base",
+        "explosion_bonus_ad_ratio",
+        "explosion_ap_ratio",
+        "slow_percent_points",
+        "slow_duration_ms",
+        "same_target_direct_and_explosion"
+      ],
+      "selectedFormulaKeys": [
+        "initial_physical_damage",
+        "hero_explosion_physical_damage"
+      ],
+      "sourceTextConsumers": "阿嚏！\n斯莫德发出一个萌萌的烈焰喷嚏，造成<physicalDamage>@InitialDamage@物理伤害</physicalDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。<br><br>命中英雄时会引发一次爆炸，造成<physicalDamage>@ExplosionDamage@物理</physicalDamage> + <magicDamage>@spell.SmolderP:Passive_WDamageIncrease@魔法伤害</magicDamage>。\n<rules>每次后续的爆炸造成@ExplosionDamageMultihitPenalty*100@%伤害。<br>斯莫德每命中一个英雄仅能获得一层<spellName>龙之研习</spellName>。</rules>\n斯莫德发出一个萌萌的烈焰喷嚏，喷嚏会在命中敌人时爆炸。"
+    },
+    "smolder_e": {
+      "hero": "Smolder",
+      "slot": "E",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_SmolderE_Name",
+          "text": "扑棱，扑棱，扑棱！"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SmolderE_Tooltip",
+          "text": "斯莫德展翅高飞，获得<speed>@MoveSpeed*100@%移动速度</speed>并无视地形，持续@Duration@秒。<br><br>飞行时，斯莫德轰击生命值最低的敌方英雄<spellName>@TotalNumberOfAttacks@</spellName>次(向下取整)，每次命中造成<physicalDamage>@DamagePerHit@物理伤害</physicalDamage> + <magicDamage>@spell.SmolderP:EBonusDamage@魔法伤害</magicDamage>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SmolderE_TooltipExtendedBelowLine",
+          "text": "<rules>这个技能会优先以英雄为目标。<br>飞行时，斯莫德的视野变广。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SmolderE_Tooltip_Summary",
+          "text": "斯莫德展翅高飞，无视地形并轰击生命值最低的敌人。"
+        }
+      },
+      "rawDataValues": {
+        "Duration": [
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25,
+          1.25
+        ],
+        "MoveSpeed": [
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75,
+          0.75
+        ],
+        "NumOfAttacksBase": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "BaseDamage": [
+          5,
+          10,
+          15,
+          20,
+          25,
+          30,
+          35
+        ],
+        "ADRatio": [
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "Range": [
+          700,
+          700,
+          700,
+          700,
+          700,
+          700,
+          700
+        ],
+        "NumAttackStackRatio": [
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582,
+          0.009999999776482582
+        ]
+      },
+      "rawCalculations": {
+        "TotalNumberOfAttacks": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "NumOfAttacksBase",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mBuffName": "{32bcea5d}",
+              "mIconKey": "%i:Smolder%",
+              "mDataValue": "NumAttackStackRatio",
+              "__type": "BuffCounterByNamedDataValueCalculationPart"
+            }
+          ],
+          "mPrecision": 2,
+          "__type": "GameCalculation"
+        },
+        "DamagePerHit": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "flight_duration_ms",
+        "self_move_speed_ratio",
+        "base_attack_count",
+        "attack_count_stack_ratio",
+        "actual_stack_count",
+        "actual_attack_count_integer",
+        "damage_base",
+        "damage_ad_ratio",
+        "same_target_repeated_hit",
+        "cast_time_ms"
+      ],
+      "selectedFormulaKeys": [
+        "attack_count_unrounded",
+        "physical_damage_per_hit"
+      ],
+      "sourceTextConsumers": "扑棱，扑棱，扑棱！\n斯莫德展翅高飞，获得<speed>@MoveSpeed*100@%移动速度</speed>并无视地形，持续@Duration@秒。<br><br>飞行时，斯莫德轰击生命值最低的敌方英雄<spellName>@TotalNumberOfAttacks@</spellName>次(向下取整)，每次命中造成<physicalDamage>@DamagePerHit@物理伤害</physicalDamage> + <magicDamage>@spell.SmolderP:EBonusDamage@魔法伤害</magicDamage>。\n<rules>这个技能会优先以英雄为目标。<br>飞行时，斯莫德的视野变广。</rules>\n斯莫德展翅高飞，无视地形并轰击生命值最低的敌人。"
+    },
+    "smolder_r": {
+      "hero": "Smolder",
+      "slot": "R",
+      "currentText": {
+        "keyName": {
+          "sourceKey": "Spell_SmolderR_Name",
+          "text": "妈----！"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SmolderR_Tooltip",
+          "text": "斯莫德的妈妈从天空喷吐烈焰，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。中心的敌人们会转而受到<physicalDamage>@TooltipOnly_TotalSweetspotDamage@</physicalDamage>物理伤害和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。<br><br>斯莫德的妈妈如果命中了她的儿子，则会为他治疗<healing>@MomHealCalc@生命值</healing>。"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SmolderR_Tooltip_Summary",
+          "text": "斯莫德召唤他的妈妈从天空喷吐烈焰，对她的烈焰中心的敌人们造成额外伤害和减速。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SmolderR_TooltipExtendedBelowLine",
+          "text": "<rules>对小兵和野怪造成@MinionMod*100@%伤害。</rules>"
+        }
+      },
+      "rawDataValues": {
+        "BaseDamage": [
+          50,
+          150,
+          250,
+          350,
+          450,
+          550,
+          650
+        ],
+        "ADRatio": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "MomDistBehindOffset": [
+          600,
+          600,
+          600,
+          600,
+          600,
+          600,
+          600
+        ],
+        "SlowDuration": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "SlowAmount": [
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "MomSpawnDelay": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "SweetspotPercentageIncrease": [
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "MomHeal": [
+          65,
+          100,
+          135,
+          170,
+          205,
+          240,
+          275
+        ],
+        "SoundDistanceBehindSmolder": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "SoundDistanceBehindSmolderSelfOnly": [
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000,
+          1000
+        ],
+        "LingeringSimmerSoundAmount": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "LingeringSimmerSoundOffset": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ],
+        "LingeringSimmerSoundDebug": null,
+        "MissileLandingSound": [
+          500,
+          500,
+          500,
+          500,
+          500,
+          500,
+          500
+        ],
+        "VFXNorthAngleReplacement": [
+          90,
+          90,
+          90,
+          90,
+          90,
+          90,
+          90
+        ],
+        "LingeringSimmerSoundDelay": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "MinionMod": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "rawCalculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mDataValue": "ADRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 1,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TooltipOnly_TotalSweetspotDamage": {
+          "mMultiplier": {
+            "mDataValue": "SweetspotPercentageIncrease",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "TotalDamage",
+          "__type": "GameCalculationModified"
+        },
+        "MomHealCalc": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MomHeal",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mStat": 2,
+              "mStatFormula": 2,
+              "mCoefficient": 0.5,
+              "__type": "StatByCoefficientCalculationPart"
+            },
+            {
+              "mCoefficient": 0.75,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "selectedParameterKeys": [
+        "damage_base",
+        "bonus_ad_ratio",
+        "ap_ratio",
+        "center_damage_multiplier",
+        "heal_base",
+        "heal_bonus_ad_ratio",
+        "heal_ap_ratio",
+        "slow_percent_points",
+        "slow_duration_ms",
+        "center_replaces_outer_damage",
+        "self_heal_if_mom_hits_smolder",
+        "cast_time_ms"
+      ],
+      "selectedFormulaKeys": [
+        "outer_physical_damage",
+        "center_physical_damage",
+        "self_healing_amount"
+      ],
+      "sourceTextConsumers": "妈----！\n斯莫德的妈妈从天空喷吐烈焰，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。中心的敌人们会转而受到<physicalDamage>@TooltipOnly_TotalSweetspotDamage@</physicalDamage>物理伤害和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。<br><br>斯莫德的妈妈如果命中了她的儿子，则会为他治疗<healing>@MomHealCalc@生命值</healing>。\n斯莫德召唤他的妈妈从天空喷吐烈焰，对她的烈焰中心的敌人们造成额外伤害和减速。\n<rules>对小兵和野怪造成@MinionMod*100@%伤害。</rules>"
+    }
+  },
+  "excludedSourceNames": {
+    "urgot_p": [
+      "MonsterCap",
+      "TriggerRange",
+      "CastRange"
+    ],
+    "urgot_w": [
+      "MinionMinimumDamage",
+      "RangeCheck"
+    ],
+    "nilah_p": [
+      "ExperiencePercentage",
+      "HealDistance",
+      "ShieldMaxDuration"
+    ],
+    "nilah_q": [
+      "MinionMod",
+      "MonsterMod",
+      "CritDamageRatio"
+    ],
+    "smolder_q": [
+      "Tier2_NumberOfBlowback",
+      "Tier3_MonsterCap",
+      "Tier3_TrueDamagePercent",
+      "minionmod"
+    ],
+    "smolder_r": [
+      "MinionMod",
+      "SoundDistanceBehindSmolder",
+      "SoundDistanceBehindSmolderSelfOnly",
+      "LingeringSimmerSoundAmount",
+      "LingeringSimmerSoundOffset",
+      "LingeringSimmerSoundDebug",
+      "MissileLandingSound",
+      "VFXNorthAngleReplacement",
+      "LingeringSimmerSoundDelay"
+    ]
+  },
+  "noApiCalls": true,
+  "apiWrites": 0
+}

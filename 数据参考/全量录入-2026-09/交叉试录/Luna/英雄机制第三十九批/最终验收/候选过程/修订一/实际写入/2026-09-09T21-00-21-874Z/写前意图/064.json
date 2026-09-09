@@ -1,0 +1,24 @@
+{
+  "i": 63,
+  "intent": {
+    "sequence": 64,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_q/parameters",
+    "detailRoute": "/skills/samira_q/parameters/critical_multiplier_base",
+    "skillKey": "samira_q",
+    "kind": "parameters",
+    "stableKey": "critical_multiplier_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_multiplier_base",
+      "name": "暴击倍率基准",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "CriticalDamageCalc的mMultiplier第一项为Number=1；用于保持完整二元倍率树。",
+      "sortOrder": 80
+    }
+  }
+}

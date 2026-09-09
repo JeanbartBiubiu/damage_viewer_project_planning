@@ -1,0 +1,24 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_p/parameters",
+    "detailRoute": "/skills/smolder_p/parameters/q_damage_per_stack_ratio",
+    "skillKey": "smolder_p",
+    "kind": "parameters",
+    "stableKey": "q_damage_per_stack_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "q_damage_per_stack_ratio",
+      "name": "Q每层额外魔法伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "Passive_QDamageIncrease消费QDamagePerStack=0.25。",
+      "sortOrder": 10
+    }
+  }
+}

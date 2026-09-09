@@ -1,0 +1,46 @@
+{
+  "i": 24,
+  "intent": {
+    "sequence": 25,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_w/formulas",
+    "detailRoute": "/skills/urgot_w/formulas/damage_per_shot",
+    "skillKey": "urgot_w",
+    "kind": "formulas",
+    "stableKey": "damage_per_shot",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_per_shot",
+      "name": "净除单发物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage_per_shot"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "正文消费tooltipOnly的DamagePerShot；完整式=12+ADRatioTT×来源总攻击力，射击次数和逐腿触发时序另留事件层。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "i": 107,
+  "intent": {
+    "sequence": 108,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_q/formulas",
+    "detailRoute": "/skills/nilah_q/formulas/critical_lifesteal_ratio",
+    "skillKey": "nilah_q",
+    "kind": "formulas",
+    "stableKey": "critical_lifesteal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "critical_lifesteal_ratio",
+      "name": "游刃万变暴击生命偷取比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_mstat8_value"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "crit_heal_scalar"
+          }
+        ]
+      },
+      "description": "CritLifesteal=mStat8×0.2；mStat8保留为原始运行输入。",
+      "sortOrder": 20
+    }
+  }
+}

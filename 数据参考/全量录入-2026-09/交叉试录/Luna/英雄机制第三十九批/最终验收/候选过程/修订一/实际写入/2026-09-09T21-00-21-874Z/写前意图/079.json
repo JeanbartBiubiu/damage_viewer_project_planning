@@ -1,0 +1,46 @@
+{
+  "i": 78,
+  "intent": {
+    "sequence": 79,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_e/formulas",
+    "detailRoute": "/skills/samira_e/formulas/dash_magic_damage",
+    "skillKey": "samira_e",
+    "kind": "formulas",
+    "stableKey": "dash_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "dash_magic_damage",
+      "name": "狂飙单一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "dash_damage_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DashDamage=基础伤害+0.2×来源额外攻击力；当前目标冲刺命中保留。",
+      "sortOrder": 10
+    }
+  }
+}

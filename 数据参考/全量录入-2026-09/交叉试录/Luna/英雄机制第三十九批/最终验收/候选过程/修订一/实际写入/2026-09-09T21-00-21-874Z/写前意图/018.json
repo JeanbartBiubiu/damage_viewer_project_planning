@@ -1,0 +1,24 @@
+{
+  "i": 17,
+  "intent": {
+    "sequence": 18,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_w/parameters",
+    "detailRoute": "/skills/urgot_w/parameters/self_move_speed_reduction_points",
+    "skillKey": "urgot_w",
+    "kind": "parameters",
+    "stableKey": "self_move_speed_reduction_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_move_speed_reduction_points",
+      "name": "净除自身移动速度减少点数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 125,
+      "levelValues": null,
+      "description": "MoveSpeedMod=125是自身移动速度减少点数，不按百分比解释。",
+      "sortOrder": 50
+    }
+  }
+}

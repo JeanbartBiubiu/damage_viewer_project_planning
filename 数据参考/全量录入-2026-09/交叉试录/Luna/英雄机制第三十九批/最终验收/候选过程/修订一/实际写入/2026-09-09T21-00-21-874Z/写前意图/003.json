@@ -1,0 +1,43 @@
+{
+  "i": 2,
+  "intent": {
+    "sequence": 3,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/urgot_p/parameters",
+    "detailRoute": "/skills/urgot_p/parameters/leg_attack_target_max_health_ratio",
+    "skillKey": "urgot_p",
+    "kind": "parameters",
+    "stableKey": "leg_attack_target_max_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "leg_attack_target_max_health_ratio",
+      "name": "逐腿目标最大生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.019999999552965164,
+        "2": 0.019999999552965164,
+        "3": 0.019999999552965164,
+        "4": 0.019999999552965164,
+        "5": 0.019999999552965164,
+        "6": 0.029999999329447746,
+        "7": 0.029999999329447746,
+        "8": 0.029999999329447746,
+        "9": 0.03999999910593033,
+        "10": 0.03999999910593033,
+        "11": 0.04999999888241291,
+        "12": 0.04999999888241291,
+        "13": 0.05999999865889549,
+        "14": 0.05999999865889549,
+        "15": 0.05999999865889549,
+        "16": 0.05999999865889549,
+        "17": 0.05999999865889549,
+        "18": 0.05999999865889549
+      },
+      "description": "PercentHPRatio保留原始比例0.02并按断点增加0.01；mDisplayAsPercent仅影响显示，公式中不再除以100。生命池读取阶段仍由实际输入提供。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "i": 137,
+  "intent": {
+    "sequence": 138,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_r/formulas",
+    "detailRoute": "/skills/nilah_r/formulas/damage_per_tick",
+    "skillKey": "nilah_r",
+    "kind": "formulas",
+    "stableKey": "damage_per_tick",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_per_tick",
+      "name": "神恩激荡单跳物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_per_tick_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_per_tick_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DamagePerTickCalc=每跳基础伤害+0.1×来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

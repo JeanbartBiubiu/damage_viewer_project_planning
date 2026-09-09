@@ -1,0 +1,24 @@
+{
+  "i": 182,
+  "intent": {
+    "sequence": 183,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_w/parameters",
+    "detailRoute": "/skills/smolder_w/parameters/explosion_ap_ratio",
+    "skillKey": "smolder_w",
+    "kind": "parameters",
+    "stableKey": "explosion_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "explosion_ap_ratio",
+      "name": "阿嚏英雄爆炸法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.800000011920929,
+      "levelValues": null,
+      "description": "ExplosionDamage第三项省略mStat的系数0.8，依据当前窄证读取来源总法强。",
+      "sortOrder": 50
+    }
+  }
+}

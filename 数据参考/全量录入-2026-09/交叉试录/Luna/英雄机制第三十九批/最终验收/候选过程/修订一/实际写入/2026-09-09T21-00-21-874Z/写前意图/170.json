@@ -1,0 +1,24 @@
+{
+  "i": 169,
+  "intent": {
+    "sequence": 170,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_q/parameters",
+    "detailRoute": "/skills/smolder_q/parameters/mana_restore",
+    "skillKey": "smolder_q",
+    "kind": "parameters",
+    "stableKey": "mana_restore",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mana_restore",
+      "name": "超级灼热龙息击杀返还法力",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 15,
+      "levelValues": null,
+      "description": "当前正文明确目标阵亡时每次施放返还15法力；触发一次性由事件层接线。",
+      "sortOrder": 140
+    }
+  }
+}

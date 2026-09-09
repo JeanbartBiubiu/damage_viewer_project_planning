@@ -1,0 +1,84 @@
+{
+  "i": 153,
+  "intent": {
+    "sequence": 154,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_p/formulas",
+    "detailRoute": "/skills/smolder_p/formulas/q_bonus_magic_damage",
+    "skillKey": "smolder_p",
+    "kind": "formulas",
+    "stableKey": "q_bonus_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "q_bonus_magic_damage",
+      "name": "Q每层额外魔法伤害完整式",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "q_damage_per_stack_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_stack_count"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crit_multiplier_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_mstat8_value"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "q_crit_ratio"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "SUBTRACT",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_mstat9_value"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "crit_multiplier_base"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Passive_QDamageIncrease=0.25×层数×[1+实际mStat8×1.2×(实际mStat9-1)]；保留原树完整乘区。",
+      "sortOrder": 10
+    }
+  }
+}

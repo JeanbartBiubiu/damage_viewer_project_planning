@@ -1,0 +1,24 @@
+{
+  "i": 114,
+  "intent": {
+    "sequence": 115,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_e/parameters",
+    "detailRoute": "/skills/nilah_e/parameters/charge_count",
+    "skillKey": "nilah_e",
+    "kind": "parameters",
+    "stableKey": "charge_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charge_count",
+      "name": "纵情逐流充能次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前正文明确E有两次充能；充能恢复事件不由次数参数自动生成。",
+      "sortOrder": 10
+    }
+  }
+}

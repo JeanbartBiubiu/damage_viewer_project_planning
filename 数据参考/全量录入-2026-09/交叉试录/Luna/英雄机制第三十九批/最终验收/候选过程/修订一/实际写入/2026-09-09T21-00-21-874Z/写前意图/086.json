@@ -1,0 +1,24 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_r/parameters",
+    "detailRoute": "/skills/samira_r/parameters/critical_hit_eligible",
+    "skillKey": "samira_r",
+    "kind": "parameters",
+    "stableKey": "critical_hit_eligible",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_hit_eligible",
+      "name": "炼狱扳机可暴击",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确R伤害可以暴击；实际暴击倍率独立使用运行输入。",
+      "sortOrder": 70
+    }
+  }
+}

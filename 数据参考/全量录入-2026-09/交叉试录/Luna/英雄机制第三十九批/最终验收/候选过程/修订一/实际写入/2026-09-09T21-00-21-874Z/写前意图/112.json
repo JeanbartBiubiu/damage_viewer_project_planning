@@ -1,0 +1,24 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 112,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_w/parameters",
+    "detailRoute": "/skills/nilah_w/parameters/magic_damage_reduction_ratio",
+    "skillKey": "nilah_w",
+    "kind": "parameters",
+    "stableKey": "magic_damage_reduction_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "magic_damage_reduction_ratio",
+      "name": "轻纱飞漾自身魔法伤害减免比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "MagicDamageReduction=0.25，保留自身减免比例。",
+      "sortOrder": 30
+    }
+  }
+}

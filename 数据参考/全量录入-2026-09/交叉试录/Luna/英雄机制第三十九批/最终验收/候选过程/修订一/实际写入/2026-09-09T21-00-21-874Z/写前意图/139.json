@@ -1,0 +1,56 @@
+{
+  "i": 138,
+  "intent": {
+    "sequence": 139,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nilah_r/formulas",
+    "detailRoute": "/skills/nilah_r/formulas/tooltip_sustained_damage",
+    "skillKey": "nilah_r",
+    "kind": "formulas",
+    "stableKey": "tooltip_sustained_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "tooltip_sustained_damage",
+      "name": "神恩激荡正文持续伤害展示式",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "display_sustained_damage_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_per_tick_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "damage_per_tick_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DamagePerTickCalcTooltip当前正文消费4×每跳式；NumTicks=6仅作为冲突来源值保留。",
+      "sortOrder": 30
+    }
+  }
+}

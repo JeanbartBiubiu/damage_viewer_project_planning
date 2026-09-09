@@ -1,0 +1,86 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_q/formulas",
+    "detailRoute": "/skills/samira_q/formulas/critical_physical_damage",
+    "skillKey": "samira_q",
+    "kind": "formulas",
+    "stableKey": "critical_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "critical_physical_damage",
+      "name": "交火暴击物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "critical_multiplier_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "crit_damage_modifier"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "SUBTRACT",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "actual_crit_multiplier"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "critical_multiplier_base"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "CriticalDamageCalc=DamageCalc×[1+0.5×(实际mStat9-1)]；实际暴击倍率为无默认运行输入。",
+      "sortOrder": 20
+    }
+  }
+}

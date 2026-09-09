@@ -1,0 +1,24 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 87,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_r/parameters",
+    "detailRoute": "/skills/samira_r/parameters/actual_crit_multiplier",
+    "skillKey": "samira_r",
+    "kind": "parameters",
+    "stableKey": "actual_crit_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_crit_multiplier",
+      "name": "炼狱扳机实际暴击倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "CriticalDamageCalc的mStat9未绑定到已有属性枚举；运行层提供实际倍率，不设默认。",
+      "sortOrder": 80
+    }
+  }
+}

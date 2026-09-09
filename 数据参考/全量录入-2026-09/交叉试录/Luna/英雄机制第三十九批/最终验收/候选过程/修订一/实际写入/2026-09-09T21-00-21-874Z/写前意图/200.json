@@ -1,0 +1,46 @@
+{
+  "i": 199,
+  "intent": {
+    "sequence": 200,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_e/formulas",
+    "detailRoute": "/skills/smolder_e/formulas/physical_damage_per_hit",
+    "skillKey": "smolder_e",
+    "kind": "formulas",
+    "stableKey": "physical_damage_per_hit",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage_per_hit",
+      "name": "扑棱每击单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DamagePerHit=基础伤害+0.3×来源总攻击力；每击另外消费P的E额外魔伤。",
+      "sortOrder": 20
+    }
+  }
+}

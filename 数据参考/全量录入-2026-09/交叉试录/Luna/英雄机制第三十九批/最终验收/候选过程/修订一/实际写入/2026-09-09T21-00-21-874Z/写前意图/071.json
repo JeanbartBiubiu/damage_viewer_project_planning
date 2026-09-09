@@ -1,0 +1,24 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 71,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/samira_w/parameters",
+    "detailRoute": "/skills/samira_w/parameters/projectile_interception_enabled",
+    "skillKey": "samira_w",
+    "kind": "parameters",
+    "stableKey": "projectile_interception_enabled",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "projectile_interception_enabled",
+      "name": "锋旋弹体拦截",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确W可拦截弹体；只保留资格事实，不创建额外目标结果。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 152,
+  "intent": {
+    "sequence": 153,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/smolder_p/parameters",
+    "detailRoute": "/skills/smolder_p/parameters/q_kill_self_enemy_stack_gain",
+    "skillKey": "smolder_p",
+    "kind": "parameters",
+    "stableKey": "q_kill_self_enemy_stack_gain",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "q_kill_self_enemy_stack_gain",
+      "name": "Q击杀自身敌人叠层",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前正文明确Q击杀敌人获得一层；仅保存自身敌人资格，不展开兵野来源。",
+      "sortOrder": 120
+    }
+  }
+}

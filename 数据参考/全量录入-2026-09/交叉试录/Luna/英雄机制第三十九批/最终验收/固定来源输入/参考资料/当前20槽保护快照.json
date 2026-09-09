@@ -1,0 +1,4149 @@
+{
+  "at": "2026-09-09T19:26:56.143Z",
+  "GETs": 202,
+  "requests": [
+    {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    {
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/characters/champion_urgot",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_urgot",
+        "createdAt": "2026-09-06T18:01:20.232535Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "厄加特",
+        "updatedAt": "2026-09-06T18:01:20.232535Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_urgot",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_urgot",
+            "characterName": "厄加特",
+            "gameId": "lol",
+            "skillKey": "urgot_p",
+            "skillName": "厄加特·回响烈焰",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_urgot",
+            "characterName": "厄加特",
+            "gameId": "lol",
+            "skillKey": "urgot_q",
+            "skillName": "厄加特·腐蚀电荷",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_urgot",
+            "characterName": "厄加特",
+            "gameId": "lol",
+            "skillKey": "urgot_w",
+            "skillName": "厄加特·净除",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_urgot",
+            "characterName": "厄加特",
+            "gameId": "lol",
+            "skillKey": "urgot_e",
+            "skillName": "厄加特·鄙弃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_urgot",
+            "characterName": "厄加特",
+            "gameId": "lol",
+            "skillKey": "urgot_r",
+            "skillName": "厄加特·超越死亡的恐惧",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_samira",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_samira",
+        "createdAt": "2026-09-06T16:34:11.902681Z",
+        "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+        "gameId": "lol",
+        "name": "莎弥拉",
+        "updatedAt": "2026-09-06T16:34:11.902681Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_samira",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_samira",
+            "characterName": "莎弥拉",
+            "gameId": "lol",
+            "skillKey": "samira_p",
+            "skillName": "莎弥拉·悍勇本色",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_samira",
+            "characterName": "莎弥拉",
+            "gameId": "lol",
+            "skillKey": "samira_q",
+            "skillName": "莎弥拉·交火",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_samira",
+            "characterName": "莎弥拉",
+            "gameId": "lol",
+            "skillKey": "samira_w",
+            "skillName": "莎弥拉·锋旋",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_samira",
+            "characterName": "莎弥拉",
+            "gameId": "lol",
+            "skillKey": "samira_e",
+            "skillName": "莎弥拉·狂飙",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_samira",
+            "characterName": "莎弥拉",
+            "gameId": "lol",
+            "skillKey": "samira_r",
+            "skillName": "莎弥拉·炼狱扳机",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_nilah",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_nilah",
+        "createdAt": "2026-09-06T17:16:36.652362Z",
+        "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。",
+        "gameId": "lol",
+        "name": "尼菈",
+        "updatedAt": "2026-09-06T17:16:36.652362Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_nilah",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_nilah",
+            "characterName": "尼菈",
+            "gameId": "lol",
+            "skillKey": "nilah_p",
+            "skillName": "尼菈·喜色川流",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_nilah",
+            "characterName": "尼菈",
+            "gameId": "lol",
+            "skillKey": "nilah_q",
+            "skillName": "尼菈·游刃万变",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_nilah",
+            "characterName": "尼菈",
+            "gameId": "lol",
+            "skillKey": "nilah_w",
+            "skillName": "尼菈·轻纱飞漾",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_nilah",
+            "characterName": "尼菈",
+            "gameId": "lol",
+            "skillKey": "nilah_e",
+            "skillName": "尼菈·纵情逐流",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_nilah",
+            "characterName": "尼菈",
+            "gameId": "lol",
+            "skillKey": "nilah_r",
+            "skillName": "尼菈·神恩激荡",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_smolder",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_smolder",
+        "createdAt": "2026-09-06T17:44:53.867142Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "斯莫德",
+        "updatedAt": "2026-09-06T17:44:53.867142Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_smolder",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_smolder",
+            "characterName": "斯莫德",
+            "gameId": "lol",
+            "skillKey": "smolder_p",
+            "skillName": "斯莫德·龙之研习",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_smolder",
+            "characterName": "斯莫德",
+            "gameId": "lol",
+            "skillKey": "smolder_q",
+            "skillName": "斯莫德·超级灼热龙息",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_smolder",
+            "characterName": "斯莫德",
+            "gameId": "lol",
+            "skillKey": "smolder_w",
+            "skillName": "斯莫德·阿嚏！",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_smolder",
+            "characterName": "斯莫德",
+            "gameId": "lol",
+            "skillKey": "smolder_e",
+            "skillName": "斯莫德·扑棱，扑棱，扑棱！",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_smolder",
+            "characterName": "斯莫德",
+            "gameId": "lol",
+            "skillKey": "smolder_r",
+            "skillName": "斯莫德·妈----！",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/urgot_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:50.480756Z",
+        "description": "厄加特的普攻和【净除】会周期性地触发他腿上的烈焰喷射，造成物理伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "厄加特·回响烈焰",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "urgot_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:50.480756Z"
+      }
+    },
+    {
+      "route": "/skills/urgot_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_urgot_p",
+          "name": "urgot_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/urgot_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:50.728097Z",
+        "description": "发射一个可爆炸的电荷至目标位置，对爆炸波及到的敌人造成物理伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "厄加特·腐蚀电荷",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "urgot_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:50.728097Z"
+      }
+    },
+    {
+      "route": "/skills/urgot_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_urgot_q",
+          "name": "urgot_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/urgot_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:24.895289Z",
+          "description": "DDragon16.17.1 Urgot.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9500,
+            "3": 9000,
+            "4": 8500,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "urgot_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:24.895289Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:25.381803Z",
+          "description": "DDragon16.17.1 Urgot.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 70,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "urgot_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:25.381803Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/urgot_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:24.895289Z",
+        "description": "DDragon16.17.1 Urgot.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "urgot_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:24.895289Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/urgot_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:25.381803Z",
+        "description": "DDragon16.17.1 Urgot.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 70,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "urgot_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:25.381803Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/urgot_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:51.021381Z",
+        "description": "厄加特减速自身的同时对附近的敌人们火力全开。优先攻击被厄加特近期用其它技能命中过的敌方英雄，并触发回响烈焰。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "厄加特·净除",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "urgot_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:51.021381Z"
+      }
+    },
+    {
+      "route": "/skills/urgot_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_urgot_w",
+          "name": "urgot_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/urgot_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:26.006684Z",
+          "description": "DDragon16.17.1 Urgot.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。满级费用与整轮冷却明确为零；满级可持续开关，零冷却不是开关操作间隔，客户端另有1.5秒再施放限制。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 9000,
+            "3": 6000,
+            "4": 3000,
+            "5": 0
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "urgot_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:26.006684Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:26.512662Z",
+          "description": "DDragon16.17.1 Urgot.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。末级零费用为两来源明确数值，并非缺值补零。满级费用与整轮冷却明确为零；满级可持续开关，零冷却不是开关操作间隔，客户端另有1.5秒再施放限制。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 40,
+            "2": 30,
+            "3": 20,
+            "4": 10,
+            "5": 0
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "urgot_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:26.512662Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/urgot_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:26.006684Z",
+        "description": "DDragon16.17.1 Urgot.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。满级费用与整轮冷却明确为零；满级可持续开关，零冷却不是开关操作间隔，客户端另有1.5秒再施放限制。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 9000,
+          "3": 6000,
+          "4": 3000,
+          "5": 0
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "urgot_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:26.006684Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/urgot_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:26.512662Z",
+        "description": "DDragon16.17.1 Urgot.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。末级零费用为两来源明确数值，并非缺值补零。满级费用与整轮冷却明确为零；满级可持续开关，零冷却不是开关操作间隔，客户端另有1.5秒再施放限制。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 30,
+          "3": 20,
+          "4": 10,
+          "5": 0
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "urgot_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:26.512662Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/urgot_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:51.261411Z",
+        "description": "厄加特向一个方向冲锋，为自身提供护盾并践踏非英雄的敌人。如果他捕捉到一个敌方英雄，他将会停下并将该英雄抛到他的另一侧。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "厄加特·鄙弃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "urgot_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:51.261411Z"
+      }
+    },
+    {
+      "route": "/skills/urgot_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_urgot_e",
+          "name": "urgot_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/urgot_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:27.126945Z",
+          "description": "DDragon16.17.1 Urgot.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 16000,
+            "2": 15500,
+            "3": 15000,
+            "4": 14500,
+            "5": 14000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "urgot_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:27.126945Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:27.63972Z",
+          "description": "DDragon16.17.1 Urgot.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 70,
+            "3": 80,
+            "4": 90,
+            "5": 100
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "urgot_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:27.63972Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/urgot_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:27.126945Z",
+        "description": "DDragon16.17.1 Urgot.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15500,
+          "3": 15000,
+          "4": 14500,
+          "5": 14000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "urgot_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:27.126945Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/urgot_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:27.63972Z",
+        "description": "DDragon16.17.1 Urgot.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "urgot_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:27.63972Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/urgot_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:51.514142Z",
+        "description": "厄加特发射一个化学钻头，刺穿命中的第一个敌方英雄。如果该英雄的生命值低于一定阈值，那么厄加特就会将该英雄评判为弱者并将其处决。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "厄加特·超越死亡的恐惧",
+        "skillCategoryKeys": [],
+        "skillKey": "urgot_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:51.514142Z"
+      }
+    },
+    {
+      "route": "/skills/urgot_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_urgot_r",
+          "name": "urgot_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/urgot_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:28.163549Z",
+          "description": "DDragon16.17.1 Urgot.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100000,
+            "2": 85000,
+            "3": 70000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "urgot_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:28.163549Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:28.76768Z",
+          "description": "DDragon16.17.1 Urgot.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "urgot_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:28.76768Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/urgot_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:28.163549Z",
+        "description": "DDragon16.17.1 Urgot.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 100000,
+          "2": 85000,
+          "3": 70000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "urgot_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:28.163549Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/urgot_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:28.76768Z",
+        "description": "DDragon16.17.1 Urgot.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "urgot_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:28.76768Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/urgot_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/urgot_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:09.264483Z",
+        "description": "莎弥拉可通过用不同的技能或攻击命中敌人来构建一次连招。莎弥拉在近战距离的攻击会造成额外的魔法伤害。莎弥拉在对被<status>定身</status>的敌人进行攻击时，将冲刺到她的最大攻击距离处。如果该敌人已被<status>击飞</status>，她还会使其短暂保持<status>击飞</status>状态。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "莎弥拉·悍勇本色",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "samira_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:09.264483Z"
+      }
+    },
+    {
+      "route": "/skills/samira_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_samira_p",
+          "name": "samira_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/samira_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:09.575051Z",
+        "description": "莎弥拉进行一次射击或斩击，造成伤害。如果在【狂飙】期间施放，那么会在完成时打击沿途的所有敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "莎弥拉·交火",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "samira_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:09.575051Z"
+      }
+    },
+    {
+      "route": "/skills/samira_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_samira_q",
+          "name": "samira_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/samira_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:42.473591Z",
+          "description": "DDragon16.17.1 Samira.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 6000,
+            "2": 5000,
+            "3": 4000,
+            "4": 3000,
+            "5": 2000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "samira_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:42.473591Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:42.889265Z",
+          "description": "DDragon16.17.1 Samira.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "samira_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:42.889265Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/samira_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:42.473591Z",
+        "description": "DDragon16.17.1 Samira.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 6000,
+          "2": 5000,
+          "3": 4000,
+          "4": 3000,
+          "5": 2000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "samira_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:42.473591Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/samira_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:42.889265Z",
+        "description": "DDragon16.17.1 Samira.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 30,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "samira_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:42.889265Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/samira_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:09.842082Z",
+        "description": "莎弥拉斩击她的周围，对敌人造成伤害并摧毁敌人的飞行道具。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "莎弥拉·锋旋",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "samira_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:09.842082Z"
+      }
+    },
+    {
+      "route": "/skills/samira_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_samira_w",
+          "name": "samira_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/samira_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:43.302261Z",
+          "description": "DDragon16.17.1 Samira.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30000,
+            "2": 28000,
+            "3": 26000,
+            "4": 24000,
+            "5": 22000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "samira_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:43.302261Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:43.670287Z",
+          "description": "DDragon16.17.1 Samira.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "samira_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:43.670287Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/samira_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:43.302261Z",
+        "description": "DDragon16.17.1 Samira.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30000,
+          "2": 28000,
+          "3": 26000,
+          "4": 24000,
+          "5": 22000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "samira_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:43.302261Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/samira_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:43.670287Z",
+        "description": "DDragon16.17.1 Samira.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 60,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "samira_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:43.670287Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/samira_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:10.112869Z",
+        "description": "莎弥拉冲刺并越过一名敌人（包含建筑物），斩击沿途的敌人并获得攻击速度。击杀一名敌方英雄会刷新这个技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "莎弥拉·狂飙",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "samira_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:10.112869Z"
+      }
+    },
+    {
+      "route": "/skills/samira_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_samira_e",
+          "name": "samira_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/samira_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:44.060143Z",
+          "description": "DDragon16.17.1 Samira.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20000,
+            "2": 18000,
+            "3": 16000,
+            "4": 14000,
+            "5": 12000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "samira_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:44.060143Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:44.523293Z",
+          "description": "DDragon16.17.1 Samira.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "samira_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:44.523293Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/samira_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:44.060143Z",
+        "description": "DDragon16.17.1 Samira.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 18000,
+          "3": 16000,
+          "4": 14000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "samira_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:44.060143Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/samira_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:44.523293Z",
+        "description": "DDragon16.17.1 Samira.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "samira_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:44.523293Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/samira_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:10.383943Z",
+        "description": "莎弥拉的武器倾泻出大量的子弹，狂野地射击她周围的所有敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "莎弥拉·炼狱扳机",
+        "skillCategoryKeys": [],
+        "skillKey": "samira_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:10.383943Z"
+      }
+    },
+    {
+      "route": "/skills/samira_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_samira_r",
+          "name": "samira_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/samira_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:44.889942Z",
+          "description": "DDragon16.17.1 Samira.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。冻结根明确mCooldownNotAffectedByCDR=true；该5000毫秒冷却不可按通用技能急速折算。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "samira_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:44.889942Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/samira_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:44.889942Z",
+        "description": "DDragon16.17.1 Samira.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。冻结根明确mCooldownNotAffectedByCDR=true；该5000毫秒冷却不可按通用技能急速折算。",
+        "fixedValue": 5000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "samira_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:44.889942Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/samira_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/samira_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:39.505288Z",
+        "description": "尼菈在对小兵进行补刀时可获得提升过的经验值，并且能够增强与分享附近的来自她友方的治疗和护盾效果。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "尼菈·喜色川流",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "nilah_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:39.505288Z"
+      }
+    },
+    {
+      "route": "/skills/nilah_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nilah_p",
+          "name": "nilah_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/nilah_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:39.764201Z",
+        "description": "随着她鞭刃的一次抽击，尼菈对她所选方向中一条直线上命中的任何敌人们造成伤害。这个行动会在短时间里延伸她的攻击距离。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "尼菈·游刃万变",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nilah_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:39.764201Z"
+      }
+    },
+    {
+      "route": "/skills/nilah_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nilah_q",
+          "name": "nilah_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/nilah_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:59.198204Z",
+          "description": "DDragon16.17.1 Nilah.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nilah_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:59.198204Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:59.643047Z",
+          "description": "DDragon16.17.1 Nilah.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nilah_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:59.643047Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nilah_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:59.198204Z",
+        "description": "DDragon16.17.1 Nilah.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nilah_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:59.198204Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:59.643047Z",
+        "description": "DDragon16.17.1 Nilah.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 30,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nilah_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:59.643047Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:40.067725Z",
+        "description": "尼菈将自身裹入迷雾中，提升她的移动速度并使她能够优雅地躲避所有即将到来的攻击。在迷雾期间，她接触到的任何友方英雄也都会获得这个效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "尼菈·轻纱飞漾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nilah_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:40.067725Z"
+      }
+    },
+    {
+      "route": "/skills/nilah_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nilah_w",
+          "name": "nilah_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/nilah_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:37:00.106244Z",
+          "description": "DDragon16.17.1 Nilah.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 26000,
+            "2": 25000,
+            "3": 24000,
+            "4": 23000,
+            "5": 22000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nilah_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:37:00.106244Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:37:00.590484Z",
+          "description": "DDragon16.17.1 Nilah.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。末级零费用为两来源明确数值，并非缺值补零。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 45,
+            "3": 30,
+            "4": 15,
+            "5": 0
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nilah_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:37:00.590484Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nilah_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:37:00.106244Z",
+        "description": "DDragon16.17.1 Nilah.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 26000,
+          "2": 25000,
+          "3": 24000,
+          "4": 23000,
+          "5": 22000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nilah_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:37:00.106244Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:37:00.590484Z",
+        "description": "DDragon16.17.1 Nilah.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。末级零费用为两来源明确数值，并非缺值补零。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 45,
+          "3": 30,
+          "4": 15,
+          "5": 0
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nilah_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:37:00.590484Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:40.316556Z",
+        "description": "尼菈热情洋溢地朝着她的目标冲刺，对她途经的任何敌人们造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "尼菈·纵情逐流",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nilah_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:40.316556Z"
+      }
+    },
+    {
+      "route": "/skills/nilah_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nilah_e",
+          "name": "nilah_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/nilah_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:37:01.02376Z",
+          "description": "DDragon16.17.1 Nilah.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nilah_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:37:01.02376Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nilah_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:37:01.02376Z",
+        "description": "DDragon16.17.1 Nilah.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 40,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nilah_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:37:01.02376Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:40.580096Z",
+        "description": "尼菈快乐洋溢地挥舞她的鞭刃，对她周围的敌人们造成伤害，然后用她的武器将他们拉得更加靠近。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "尼菈·神恩激荡",
+        "skillCategoryKeys": [],
+        "skillKey": "nilah_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:40.580096Z"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nilah_r",
+          "name": "nilah_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:37:01.43295Z",
+          "description": "DDragon16.17.1 Nilah.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 110000,
+            "2": 95000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nilah_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:37:01.43295Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:37:01.912883Z",
+          "description": "DDragon16.17.1 Nilah.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nilah_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:37:01.912883Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nilah_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:37:01.43295Z",
+        "description": "DDragon16.17.1 Nilah.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 110000,
+          "2": 95000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nilah_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:37:01.43295Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:37:01.912883Z",
+        "description": "DDragon16.17.1 Nilah.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nilah_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:37:01.912883Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:25.562643Z",
+        "description": "用技能命中英雄和用超级灼热龙息 击杀敌人时会提供一层龙之研习。层数会提升斯莫德各基础技能的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "斯莫德·龙之研习",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "smolder_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:25.562643Z"
+      }
+    },
+    {
+      "route": "/skills/smolder_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_smolder_p",
+          "name": "smolder_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/smolder_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:25.817004Z",
+        "description": "斯莫德在一名敌人身上喷吐烈焰。随着他获得更多层数，这个技能会变得更加强力。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "斯莫德·超级灼热龙息",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "smolder_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:25.817004Z"
+      }
+    },
+    {
+      "route": "/skills/smolder_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_smolder_q",
+          "name": "smolder_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/smolder_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:03:28.10526Z",
+          "description": "DDragon16.17.1 Smolder.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 5500,
+            "2": 5000,
+            "3": 4500,
+            "4": 4000,
+            "5": 3500
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "smolder_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:28.10526Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:28.78696Z",
+          "description": "DDragon16.17.1 Smolder.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "smolder_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:28.78696Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/smolder_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:03:28.10526Z",
+        "description": "DDragon16.17.1 Smolder.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 5500,
+          "2": 5000,
+          "3": 4500,
+          "4": 4000,
+          "5": 3500
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "smolder_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:28.10526Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/smolder_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:03:28.78696Z",
+        "description": "DDragon16.17.1 Smolder.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "smolder_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:03:28.78696Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/smolder_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:26.133429Z",
+        "description": "斯莫德发出一个萌萌的烈焰喷嚏，喷嚏会在命中敌人时爆炸。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "斯莫德·阿嚏！",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "smolder_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:26.133429Z"
+      }
+    },
+    {
+      "route": "/skills/smolder_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_smolder_w",
+          "name": "smolder_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/smolder_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:03:29.403078Z",
+          "description": "DDragon16.17.1 Smolder.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 13000,
+            "3": 12000,
+            "4": 11000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "smolder_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:29.403078Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:30.026733Z",
+          "description": "DDragon16.17.1 Smolder.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "smolder_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:30.026733Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/smolder_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:03:29.403078Z",
+        "description": "DDragon16.17.1 Smolder.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "smolder_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:29.403078Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/smolder_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:03:30.026733Z",
+        "description": "DDragon16.17.1 Smolder.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "smolder_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:03:30.026733Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/smolder_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:26.373156Z",
+        "description": "斯莫德展翅高飞，无视地形并轰击生命值最低的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "斯莫德·扑棱，扑棱，扑棱！",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "smolder_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:26.373156Z"
+      }
+    },
+    {
+      "route": "/skills/smolder_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_smolder_e",
+          "name": "smolder_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/smolder_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:03:30.686481Z",
+          "description": "DDragon16.17.1 Smolder.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 24000,
+            "2": 22000,
+            "3": 20000,
+            "4": 18000,
+            "5": 16000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "smolder_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:30.686481Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:31.339822Z",
+          "description": "DDragon16.17.1 Smolder.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 65,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "smolder_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:31.339822Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/smolder_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:03:30.686481Z",
+        "description": "DDragon16.17.1 Smolder.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 24000,
+          "2": 22000,
+          "3": 20000,
+          "4": 18000,
+          "5": 16000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "smolder_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:30.686481Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/smolder_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:03:31.339822Z",
+        "description": "DDragon16.17.1 Smolder.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 65,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "smolder_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:03:31.339822Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/smolder_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:26.626822Z",
+        "description": "斯莫德召唤他的妈妈从天空喷吐烈焰，对她的烈焰中心的敌人们造成额外伤害和减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "斯莫德·妈----！",
+        "skillCategoryKeys": [],
+        "skillKey": "smolder_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:26.626822Z"
+      }
+    },
+    {
+      "route": "/skills/smolder_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_smolder_r",
+          "name": "smolder_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/smolder_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:03:32.000036Z",
+          "description": "DDragon16.17.1 Smolder.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 110000,
+            "3": 100000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "smolder_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:32.000036Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:32.677514Z",
+          "description": "DDragon16.17.1 Smolder.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "smolder_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:32.677514Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/smolder_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:03:32.000036Z",
+        "description": "DDragon16.17.1 Smolder.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 110000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "smolder_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:03:32.000036Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/smolder_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:03:32.677514Z",
+        "description": "DDragon16.17.1 Smolder.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "smolder_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T01:03:32.677514Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/smolder_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/smolder_r/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "summary": {
+    "urgot_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:50.480756Z",
+        "description": "厄加特的普攻和【净除】会周期性地触发他腿上的烈焰喷射，造成物理伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "厄加特·回响烈焰",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "urgot_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:50.480756Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "urgot_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:50.728097Z",
+        "description": "发射一个可爆炸的电荷至目标位置，对爆炸波及到的敌人造成物理伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "厄加特·腐蚀电荷",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "urgot_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:50.728097Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:24.895289Z",
+            "description": "DDragon16.17.1 Urgot.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 10000,
+              "2": 9500,
+              "3": 9000,
+              "4": 8500,
+              "5": 8000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "urgot_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:24.895289Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:05:25.381803Z",
+            "description": "DDragon16.17.1 Urgot.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 70,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "urgot_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:05:25.381803Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "urgot_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:51.021381Z",
+        "description": "厄加特减速自身的同时对附近的敌人们火力全开。优先攻击被厄加特近期用其它技能命中过的敌方英雄，并触发回响烈焰。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "厄加特·净除",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "urgot_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:51.021381Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:26.006684Z",
+            "description": "DDragon16.17.1 Urgot.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。满级费用与整轮冷却明确为零；满级可持续开关，零冷却不是开关操作间隔，客户端另有1.5秒再施放限制。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 12000,
+              "2": 9000,
+              "3": 6000,
+              "4": 3000,
+              "5": 0
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "urgot_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:26.006684Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:05:26.512662Z",
+            "description": "DDragon16.17.1 Urgot.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。末级零费用为两来源明确数值，并非缺值补零。满级费用与整轮冷却明确为零；满级可持续开关，零冷却不是开关操作间隔，客户端另有1.5秒再施放限制。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 40,
+              "2": 30,
+              "3": 20,
+              "4": 10,
+              "5": 0
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "urgot_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:05:26.512662Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "urgot_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:51.261411Z",
+        "description": "厄加特向一个方向冲锋，为自身提供护盾并践踏非英雄的敌人。如果他捕捉到一个敌方英雄，他将会停下并将该英雄抛到他的另一侧。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "厄加特·鄙弃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "urgot_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:51.261411Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:27.126945Z",
+            "description": "DDragon16.17.1 Urgot.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 16000,
+              "2": 15500,
+              "3": 15000,
+              "4": 14500,
+              "5": 14000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "urgot_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:27.126945Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:05:27.63972Z",
+            "description": "DDragon16.17.1 Urgot.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 70,
+              "3": 80,
+              "4": 90,
+              "5": 100
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "urgot_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:05:27.63972Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "urgot_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:51.514142Z",
+        "description": "厄加特发射一个化学钻头，刺穿命中的第一个敌方英雄。如果该英雄的生命值低于一定阈值，那么厄加特就会将该英雄评判为弱者并将其处决。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "厄加特·超越死亡的恐惧",
+        "skillCategoryKeys": [],
+        "skillKey": "urgot_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:51.514142Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:05:28.163549Z",
+            "description": "DDragon16.17.1 Urgot.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 100000,
+              "2": 85000,
+              "3": 70000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "urgot_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:05:28.163549Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:05:28.76768Z",
+            "description": "DDragon16.17.1 Urgot.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "urgot_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:05:28.76768Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "samira_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:09.264483Z",
+        "description": "莎弥拉可通过用不同的技能或攻击命中敌人来构建一次连招。莎弥拉在近战距离的攻击会造成额外的魔法伤害。莎弥拉在对被<status>定身</status>的敌人进行攻击时，将冲刺到她的最大攻击距离处。如果该敌人已被<status>击飞</status>，她还会使其短暂保持<status>击飞</status>状态。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "莎弥拉·悍勇本色",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "samira_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:09.264483Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "samira_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:09.575051Z",
+        "description": "莎弥拉进行一次射击或斩击，造成伤害。如果在【狂飙】期间施放，那么会在完成时打击沿途的所有敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "莎弥拉·交火",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "samira_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:09.575051Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:42.473591Z",
+            "description": "DDragon16.17.1 Samira.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 6000,
+              "2": 5000,
+              "3": 4000,
+              "4": 3000,
+              "5": 2000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "samira_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:42.473591Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:42.889265Z",
+            "description": "DDragon16.17.1 Samira.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 30,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "samira_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:42.889265Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "samira_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:09.842082Z",
+        "description": "莎弥拉斩击她的周围，对敌人造成伤害并摧毁敌人的飞行道具。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "莎弥拉·锋旋",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "samira_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:09.842082Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:43.302261Z",
+            "description": "DDragon16.17.1 Samira.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 30000,
+              "2": 28000,
+              "3": 26000,
+              "4": 24000,
+              "5": 22000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "samira_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:43.302261Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:43.670287Z",
+            "description": "DDragon16.17.1 Samira.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 60,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "samira_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:43.670287Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "samira_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:10.112869Z",
+        "description": "莎弥拉冲刺并越过一名敌人（包含建筑物），斩击沿途的敌人并获得攻击速度。击杀一名敌方英雄会刷新这个技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "莎弥拉·狂飙",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "samira_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:10.112869Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:44.060143Z",
+            "description": "DDragon16.17.1 Samira.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 20000,
+              "2": 18000,
+              "3": 16000,
+              "4": 14000,
+              "5": 12000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "samira_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:44.060143Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:44.523293Z",
+            "description": "DDragon16.17.1 Samira.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 40,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "samira_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:44.523293Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "samira_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:10.383943Z",
+        "description": "莎弥拉的武器倾泻出大量的子弹，狂野地射击她周围的所有敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "莎弥拉·炼狱扳机",
+        "skillCategoryKeys": [],
+        "skillKey": "samira_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:10.383943Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:44.889942Z",
+            "description": "DDragon16.17.1 Samira.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。冻结根明确mCooldownNotAffectedByCDR=true；该5000毫秒冷却不可按通用技能急速折算。",
+            "fixedValue": 5000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "samira_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:44.889942Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nilah_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:39.505288Z",
+        "description": "尼菈在对小兵进行补刀时可获得提升过的经验值，并且能够增强与分享附近的来自她友方的治疗和护盾效果。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "尼菈·喜色川流",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "nilah_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:39.505288Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nilah_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:39.764201Z",
+        "description": "随着她鞭刃的一次抽击，尼菈对她所选方向中一条直线上命中的任何敌人们造成伤害。这个行动会在短时间里延伸她的攻击距离。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "尼菈·游刃万变",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nilah_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:39.764201Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:36:59.198204Z",
+            "description": "DDragon16.17.1 Nilah.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 4000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "nilah_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:36:59.198204Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:36:59.643047Z",
+            "description": "DDragon16.17.1 Nilah.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 30,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "nilah_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:36:59.643047Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nilah_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:40.067725Z",
+        "description": "尼菈将自身裹入迷雾中，提升她的移动速度并使她能够优雅地躲避所有即将到来的攻击。在迷雾期间，她接触到的任何友方英雄也都会获得这个效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "尼菈·轻纱飞漾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nilah_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:40.067725Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:37:00.106244Z",
+            "description": "DDragon16.17.1 Nilah.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 26000,
+              "2": 25000,
+              "3": 24000,
+              "4": 23000,
+              "5": 22000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "nilah_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:37:00.106244Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:37:00.590484Z",
+            "description": "DDragon16.17.1 Nilah.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。末级零费用为两来源明确数值，并非缺值补零。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 45,
+              "3": 30,
+              "4": 15,
+              "5": 0
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "nilah_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:37:00.590484Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nilah_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:40.316556Z",
+        "description": "尼菈热情洋溢地朝着她的目标冲刺，对她途经的任何敌人们造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "尼菈·纵情逐流",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nilah_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:40.316556Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:37:01.02376Z",
+            "description": "DDragon16.17.1 Nilah.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 40,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "nilah_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:37:01.02376Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "nilah_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:40.580096Z",
+        "description": "尼菈快乐洋溢地挥舞她的鞭刃，对她周围的敌人们造成伤害，然后用她的武器将他们拉得更加靠近。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "尼菈·神恩激荡",
+        "skillCategoryKeys": [],
+        "skillKey": "nilah_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:40.580096Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:37:01.43295Z",
+            "description": "DDragon16.17.1 Nilah.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 110000,
+              "2": 95000,
+              "3": 80000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "nilah_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:37:01.43295Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:37:01.912883Z",
+            "description": "DDragon16.17.1 Nilah.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "nilah_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:37:01.912883Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "smolder_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:25.562643Z",
+        "description": "用技能命中英雄和用超级灼热龙息 击杀敌人时会提供一层龙之研习。层数会提升斯莫德各基础技能的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "斯莫德·龙之研习",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "smolder_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:25.562643Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "smolder_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:25.817004Z",
+        "description": "斯莫德在一名敌人身上喷吐烈焰。随着他获得更多层数，这个技能会变得更加强力。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "斯莫德·超级灼热龙息",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "smolder_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:25.817004Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T01:03:28.10526Z",
+            "description": "DDragon16.17.1 Smolder.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 5500,
+              "2": 5000,
+              "3": 4500,
+              "4": 4000,
+              "5": 3500
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "smolder_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:03:28.10526Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:03:28.78696Z",
+            "description": "DDragon16.17.1 Smolder.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 25,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "smolder_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:03:28.78696Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "smolder_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:26.133429Z",
+        "description": "斯莫德发出一个萌萌的烈焰喷嚏，喷嚏会在命中敌人时爆炸。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "斯莫德·阿嚏！",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "smolder_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:26.133429Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T01:03:29.403078Z",
+            "description": "DDragon16.17.1 Smolder.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 14000,
+              "2": 13000,
+              "3": 12000,
+              "4": 11000,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "smolder_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:03:29.403078Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:03:30.026733Z",
+            "description": "DDragon16.17.1 Smolder.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 55,
+              "3": 60,
+              "4": 65,
+              "5": 70
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "smolder_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:03:30.026733Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "smolder_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:26.373156Z",
+        "description": "斯莫德展翅高飞，无视地形并轰击生命值最低的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "斯莫德·扑棱，扑棱，扑棱！",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "smolder_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:26.373156Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T01:03:30.686481Z",
+            "description": "DDragon16.17.1 Smolder.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 24000,
+              "2": 22000,
+              "3": 20000,
+              "4": 18000,
+              "5": 16000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "smolder_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:03:30.686481Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:03:31.339822Z",
+            "description": "DDragon16.17.1 Smolder.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 65,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "smolder_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:03:31.339822Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "smolder_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:20:26.626822Z",
+        "description": "斯莫德召唤他的妈妈从天空喷吐烈焰，对她的烈焰中心的敌人们造成额外伤害和减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "斯莫德·妈----！",
+        "skillCategoryKeys": [],
+        "skillKey": "smolder_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:26.626822Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T01:03:32.000036Z",
+            "description": "DDragon16.17.1 Smolder.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 110000,
+              "3": 100000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "smolder_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T01:03:32.000036Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T01:03:32.677514Z",
+            "description": "DDragon16.17.1 Smolder.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "smolder_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T01:03:32.677514Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    }
+  },
+  "apiWrites": 0
+}
