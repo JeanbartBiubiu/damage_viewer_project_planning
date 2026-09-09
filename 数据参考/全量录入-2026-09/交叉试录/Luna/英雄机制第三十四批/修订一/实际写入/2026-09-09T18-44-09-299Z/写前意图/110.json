@@ -1,0 +1,45 @@
+{
+  "i": 109,
+  "intent": {
+    "sequence": 113,
+    "method": "POST",
+    "route": "/skills/vex_w/formulas",
+    "detailRoute": "/skills/vex_w/formulas/magic_damage",
+    "skillKey": "vex_w",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "生人勿近唯一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "WDamageCalc = BaseDamage + DamageAPRatio×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

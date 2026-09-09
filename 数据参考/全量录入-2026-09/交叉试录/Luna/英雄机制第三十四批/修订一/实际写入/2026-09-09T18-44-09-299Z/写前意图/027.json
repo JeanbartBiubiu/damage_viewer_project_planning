@@ -1,0 +1,27 @@
+{
+  "i": 26,
+  "intent": {
+    "sequence": 29,
+    "method": "POST",
+    "route": "/skills/katarina_r/parameters",
+    "detailRoute": "/skills/katarina_r/parameters/magic_base_damage_per_tick",
+    "skillKey": "katarina_r",
+    "kind": "parameters",
+    "stableKey": "magic_base_damage_per_tick",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "magic_base_damage_per_tick",
+      "name": "每次魔法伤害基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 37.5,
+        "3": 50
+      },
+      "description": "客户端DamagePerTick取R技能等级索引1至3；索引0为12.5占位。",
+      "sortOrder": 10
+    }
+  }
+}

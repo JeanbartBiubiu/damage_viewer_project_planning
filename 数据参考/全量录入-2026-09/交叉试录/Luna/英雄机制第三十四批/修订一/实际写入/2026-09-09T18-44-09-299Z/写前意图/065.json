@@ -1,0 +1,23 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 68,
+    "method": "POST",
+    "route": "/skills/leblanc_e/parameters",
+    "detailRoute": "/skills/leblanc_e/parameters/initial_ap_ratio",
+    "skillKey": "leblanc_e",
+    "kind": "parameters",
+    "stableKey": "initial_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "initial_ap_ratio",
+      "name": "首段法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.4,
+      "levelValues": null,
+      "description": "InitialDamage树消费InitialAPRatio×来源总法强。",
+      "sortOrder": 30
+    }
+  }
+}

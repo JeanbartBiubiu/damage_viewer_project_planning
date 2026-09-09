@@ -1,0 +1,42 @@
+{
+  "i": 6,
+  "intent": {
+    "sequence": 7,
+    "method": "POST",
+    "route": "/skills/katarina_p/parameters",
+    "detailRoute": "/skills/katarina_p/parameters/ap_ratio_by_character_level",
+    "skillKey": "katarina_p",
+    "kind": "parameters",
+    "stableKey": "ap_ratio_by_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio_by_character_level",
+      "name": "角色等级法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.7,
+        "2": 0.7,
+        "3": 0.7,
+        "4": 0.7,
+        "5": 0.7,
+        "6": 0.8,
+        "7": 0.8,
+        "8": 0.8,
+        "9": 0.8,
+        "10": 0.8,
+        "11": 0.9,
+        "12": 0.9,
+        "13": 0.9,
+        "14": 0.9,
+        "15": 0.9,
+        "16": 1,
+        "17": 1,
+        "18": 1
+      },
+      "description": "TotalDamage树断点：起点0.7，角色等级6/11/16各增加0.1。",
+      "sortOrder": 70
+    }
+  }
+}

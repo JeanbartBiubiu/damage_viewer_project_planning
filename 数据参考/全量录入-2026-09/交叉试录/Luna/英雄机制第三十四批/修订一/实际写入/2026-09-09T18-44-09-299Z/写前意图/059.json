@@ -1,0 +1,23 @@
+{
+  "i": 58,
+  "intent": {
+    "sequence": 62,
+    "method": "POST",
+    "route": "/skills/leblanc_w/parameters",
+    "detailRoute": "/skills/leblanc_w/parameters/snapback_queue_window_ms",
+    "skillKey": "leblanc_w",
+    "kind": "parameters",
+    "stableKey": "snapback_queue_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "snapback_queue_window_ms",
+      "name": "返回排队窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 200,
+      "levelValues": null,
+      "description": "客户端SnapbackQueueWindow取索引1的0.2秒，转换为200毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

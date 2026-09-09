@@ -1,0 +1,23 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 107,
+    "method": "POST",
+    "route": "/skills/vex_w/parameters",
+    "detailRoute": "/skills/vex_w/parameters/damage_ap_ratio",
+    "skillKey": "vex_w",
+    "kind": "parameters",
+    "stableKey": "damage_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_ap_ratio",
+      "name": "伤害法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "WDamageCalc消费DamageAPRatio=0.3×来源总法强。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 40,
+    "method": "POST",
+    "route": "/skills/katarina_r/parameters",
+    "detailRoute": "/skills/katarina_r/parameters/cast_time_ms",
+    "skillKey": "katarina_r",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "当前根spellCastTime=0。",
+      "sortOrder": 110
+    }
+  }
+}

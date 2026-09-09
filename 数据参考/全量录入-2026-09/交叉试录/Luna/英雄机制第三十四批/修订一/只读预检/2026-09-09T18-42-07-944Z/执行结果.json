@@ -1,0 +1,6228 @@
+{
+  "runId": "2026-09-09T18-42-07-944Z",
+  "mode": "readonly",
+  "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
+  "planSha256": "0632be0bf547dd57c15329e3124e8d979a91c0eda61f7f47f12c9381510152aa",
+  "writerSha256": "5c40615d750b9e0a2c801f2c7df94d93d6fcf8c7334333b1a844f693ade1e632",
+  "apiWrites": 0,
+  "confirmed": 0,
+  "calls": [
+    {
+      "seq": 1,
+      "method": "GET",
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    {
+      "seq": 2,
+      "method": "GET",
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "seq": 3,
+      "method": "GET",
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    {
+      "seq": 4,
+      "method": "GET",
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "seq": 5,
+      "method": "GET",
+      "route": "/characters/champion_katarina",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_katarina",
+        "createdAt": "2026-09-06T17:24:21.055735Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "卡特琳娜",
+        "updatedAt": "2026-09-06T17:24:21.055735Z"
+      }
+    },
+    {
+      "seq": 6,
+      "method": "GET",
+      "route": "/character-skill-relations?characterKey=champion_katarina",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_katarina",
+            "characterName": "卡特琳娜",
+            "gameId": "lol",
+            "skillKey": "katarina_p",
+            "skillName": "卡特琳娜·贪婪",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_katarina",
+            "characterName": "卡特琳娜",
+            "gameId": "lol",
+            "skillKey": "katarina_q",
+            "skillName": "卡特琳娜·弹射之刃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_katarina",
+            "characterName": "卡特琳娜",
+            "gameId": "lol",
+            "skillKey": "katarina_w",
+            "skillName": "卡特琳娜·伺机待发",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_katarina",
+            "characterName": "卡特琳娜",
+            "gameId": "lol",
+            "skillKey": "katarina_e",
+            "skillName": "卡特琳娜·瞬步",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_katarina",
+            "characterName": "卡特琳娜",
+            "gameId": "lol",
+            "skillKey": "katarina_r",
+            "skillName": "卡特琳娜·死亡莲华",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "seq": 7,
+      "method": "GET",
+      "route": "/characters/champion_leblanc",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_leblanc",
+        "createdAt": "2026-09-06T17:15:09.319246Z",
+        "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。",
+        "gameId": "lol",
+        "name": "乐芙兰",
+        "updatedAt": "2026-09-06T17:15:09.319246Z"
+      }
+    },
+    {
+      "seq": 8,
+      "method": "GET",
+      "route": "/character-skill-relations?characterKey=champion_leblanc",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_leblanc",
+            "characterName": "乐芙兰",
+            "gameId": "lol",
+            "skillKey": "leblanc_p",
+            "skillName": "乐芙兰·镜花水月",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_leblanc",
+            "characterName": "乐芙兰",
+            "gameId": "lol",
+            "skillKey": "leblanc_q",
+            "skillName": "乐芙兰·恶意魔印",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_leblanc",
+            "characterName": "乐芙兰",
+            "gameId": "lol",
+            "skillKey": "leblanc_w",
+            "skillName": "乐芙兰·魔影迷踪",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_leblanc",
+            "characterName": "乐芙兰",
+            "gameId": "lol",
+            "skillKey": "leblanc_e",
+            "skillName": "乐芙兰·幻影锁链",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_leblanc",
+            "characterName": "乐芙兰",
+            "gameId": "lol",
+            "skillKey": "leblanc_r",
+            "skillName": "乐芙兰·故技重施",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "seq": 9,
+      "method": "GET",
+      "route": "/characters/champion_vex",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_vex",
+        "createdAt": "2026-09-06T18:03:29.333122Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "薇古丝",
+        "updatedAt": "2026-09-06T18:03:29.333122Z"
+      }
+    },
+    {
+      "seq": 10,
+      "method": "GET",
+      "route": "/character-skill-relations?characterKey=champion_vex",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_vex",
+            "characterName": "薇古丝",
+            "gameId": "lol",
+            "skillKey": "vex_p",
+            "skillName": "薇古丝·终焉暮气",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_vex",
+            "characterName": "薇古丝",
+            "gameId": "lol",
+            "skillKey": "vex_q",
+            "skillName": "薇古丝·寒心波云",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_vex",
+            "characterName": "薇古丝",
+            "gameId": "lol",
+            "skillKey": "vex_w",
+            "skillName": "薇古丝·生人勿近",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_vex",
+            "characterName": "薇古丝",
+            "gameId": "lol",
+            "skillKey": "vex_e",
+            "skillName": "薇古丝·溟濛渐染",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_vex",
+            "characterName": "薇古丝",
+            "gameId": "lol",
+            "skillKey": "vex_r",
+            "skillName": "薇古丝·愁煞",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "seq": 11,
+      "method": "GET",
+      "route": "/characters/champion_zilean",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_zilean",
+        "createdAt": "2026-09-06T18:14:11.897495Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "基兰",
+        "updatedAt": "2026-09-06T18:14:11.897495Z"
+      }
+    },
+    {
+      "seq": 12,
+      "method": "GET",
+      "route": "/character-skill-relations?characterKey=champion_zilean",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_zilean",
+            "characterName": "基兰",
+            "gameId": "lol",
+            "skillKey": "zilean_p",
+            "skillName": "基兰·瓶中时光",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_zilean",
+            "characterName": "基兰",
+            "gameId": "lol",
+            "skillKey": "zilean_q",
+            "skillName": "基兰·定时炸弹",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_zilean",
+            "characterName": "基兰",
+            "gameId": "lol",
+            "skillKey": "zilean_w",
+            "skillName": "基兰·穿梭未来",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_zilean",
+            "characterName": "基兰",
+            "gameId": "lol",
+            "skillKey": "zilean_e",
+            "skillName": "基兰·时光发条",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_zilean",
+            "characterName": "基兰",
+            "gameId": "lol",
+            "skillKey": "zilean_r",
+            "skillName": "基兰·时光倒流",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "seq": 13,
+      "method": "GET",
+      "route": "/skills/katarina_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:54.123671Z",
+        "description": "每当一名在过去3秒被卡特琳娜所伤害的敌方英雄阵亡时，卡特琳娜的技能的冷却时间就会显著减少。<br><br>如果卡特琳娜拾起一把<font color='#FFF673'>匕首</font>，她会用它来斩击附近的所有敌人以造成魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "卡特琳娜·贪婪",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "katarina_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:54.123671Z"
+      }
+    },
+    {
+      "seq": 14,
+      "method": "GET",
+      "route": "/skills/katarina_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_katarina_p",
+          "name": "katarina_p"
+        }
+      }
+    },
+    {
+      "seq": 15,
+      "method": "GET",
+      "route": "/skills/katarina_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 16,
+      "method": "GET",
+      "route": "/skills/katarina_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 17,
+      "method": "GET",
+      "route": "/skills/katarina_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 18,
+      "method": "GET",
+      "route": "/skills/katarina_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 19,
+      "method": "GET",
+      "route": "/skills/katarina_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 20,
+      "method": "GET",
+      "route": "/skills/katarina_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 21,
+      "method": "GET",
+      "route": "/skills/katarina_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:54.415377Z",
+        "description": "卡特琳娜朝敌人扔出一把<font color='#FFF673'>匕首</font>，<font color='#FFF673'>匕首</font>会弹射到附近敌人身上，然后落到地面上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡特琳娜·弹射之刃",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "katarina_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:54.415377Z"
+      }
+    },
+    {
+      "seq": 22,
+      "method": "GET",
+      "route": "/skills/katarina_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_katarina_q",
+          "name": "katarina_q"
+        }
+      }
+    },
+    {
+      "seq": 23,
+      "method": "GET",
+      "route": "/skills/katarina_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:02:34.766053Z",
+          "description": "DDragon16.17.1 Katarina.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 11000,
+            "2": 10000,
+            "3": 9000,
+            "4": 8000,
+            "5": 7000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "katarina_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:34.766053Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 24,
+      "method": "GET",
+      "route": "/skills/katarina_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:34.766053Z",
+        "description": "DDragon16.17.1 Katarina.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "katarina_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:34.766053Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 25,
+      "method": "GET",
+      "route": "/skills/katarina_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 26,
+      "method": "GET",
+      "route": "/skills/katarina_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 27,
+      "method": "GET",
+      "route": "/skills/katarina_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 28,
+      "method": "GET",
+      "route": "/skills/katarina_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 29,
+      "method": "GET",
+      "route": "/skills/katarina_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 30,
+      "method": "GET",
+      "route": "/skills/katarina_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:54.715572Z",
+        "description": "卡特琳娜获得爆发性的移动速度加成，同时投掷一把<font color='#FFF673'>匕首</font>到她正上方的空中。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡特琳娜·伺机待发",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "katarina_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:54.715572Z"
+      }
+    },
+    {
+      "seq": 31,
+      "method": "GET",
+      "route": "/skills/katarina_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_katarina_w",
+          "name": "katarina_w"
+        }
+      }
+    },
+    {
+      "seq": 32,
+      "method": "GET",
+      "route": "/skills/katarina_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:02:35.293216Z",
+          "description": "DDragon16.17.1 Katarina.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 15000,
+            "2": 14000,
+            "3": 13000,
+            "4": 12000,
+            "5": 11000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "katarina_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:35.293216Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 33,
+      "method": "GET",
+      "route": "/skills/katarina_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:35.293216Z",
+        "description": "DDragon16.17.1 Katarina.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 15000,
+          "2": 14000,
+          "3": 13000,
+          "4": 12000,
+          "5": 11000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "katarina_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:35.293216Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 34,
+      "method": "GET",
+      "route": "/skills/katarina_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 35,
+      "method": "GET",
+      "route": "/skills/katarina_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 36,
+      "method": "GET",
+      "route": "/skills/katarina_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 37,
+      "method": "GET",
+      "route": "/skills/katarina_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 38,
+      "method": "GET",
+      "route": "/skills/katarina_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 39,
+      "method": "GET",
+      "route": "/skills/katarina_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:54.98614Z",
+        "description": "卡特琳娜立刻闪烁到目标处，如果目标是敌人，则她会对目标造成伤害，否则会对距她最近的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡特琳娜·瞬步",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "katarina_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:54.98614Z"
+      }
+    },
+    {
+      "seq": 40,
+      "method": "GET",
+      "route": "/skills/katarina_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_katarina_e",
+          "name": "katarina_e"
+        }
+      }
+    },
+    {
+      "seq": 41,
+      "method": "GET",
+      "route": "/skills/katarina_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:02:35.72454Z",
+          "description": "DDragon16.17.1 Katarina.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11000,
+            "3": 10000,
+            "4": 9000,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "katarina_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:35.72454Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 42,
+      "method": "GET",
+      "route": "/skills/katarina_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:35.72454Z",
+        "description": "DDragon16.17.1 Katarina.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "katarina_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:35.72454Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 43,
+      "method": "GET",
+      "route": "/skills/katarina_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 44,
+      "method": "GET",
+      "route": "/skills/katarina_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 45,
+      "method": "GET",
+      "route": "/skills/katarina_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 46,
+      "method": "GET",
+      "route": "/skills/katarina_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 47,
+      "method": "GET",
+      "route": "/skills/katarina_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 48,
+      "method": "GET",
+      "route": "/skills/katarina_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:55.302259Z",
+        "description": "卡特琳娜化身为一道剑刃飓风，以无与伦比的速度对周围最多三个敌方英雄造成巨量魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡特琳娜·死亡莲华",
+        "skillCategoryKeys": [],
+        "skillKey": "katarina_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:55.302259Z"
+      }
+    },
+    {
+      "seq": 49,
+      "method": "GET",
+      "route": "/skills/katarina_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_katarina_r",
+          "name": "katarina_r"
+        }
+      }
+    },
+    {
+      "seq": 50,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T01:02:36.181554Z",
+          "description": "DDragon16.17.1 Katarina.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 75000,
+            "2": 60000,
+            "3": 45000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "katarina_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:36.181554Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 51,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:36.181554Z",
+        "description": "DDragon16.17.1 Katarina.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 75000,
+          "2": 60000,
+          "3": 45000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "katarina_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:36.181554Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 52,
+      "method": "GET",
+      "route": "/skills/katarina_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 53,
+      "method": "GET",
+      "route": "/skills/katarina_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 54,
+      "method": "GET",
+      "route": "/skills/katarina_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 55,
+      "method": "GET",
+      "route": "/skills/katarina_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 56,
+      "method": "GET",
+      "route": "/skills/katarina_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 57,
+      "method": "GET",
+      "route": "/skills/leblanc_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:06.847656Z",
+        "description": "当乐芙兰跌至40%最大生命值以下时，她会隐形1秒并创造一个幻像（不能造成伤害），幻像最多可持续8秒。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "乐芙兰·镜花水月",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "leblanc_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:06.847656Z"
+      }
+    },
+    {
+      "seq": 58,
+      "method": "GET",
+      "route": "/skills/leblanc_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_leblanc_p",
+          "name": "leblanc_p"
+        }
+      }
+    },
+    {
+      "seq": 59,
+      "method": "GET",
+      "route": "/skills/leblanc_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 60,
+      "method": "GET",
+      "route": "/skills/leblanc_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 61,
+      "method": "GET",
+      "route": "/skills/leblanc_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 62,
+      "method": "GET",
+      "route": "/skills/leblanc_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 63,
+      "method": "GET",
+      "route": "/skills/leblanc_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 64,
+      "method": "GET",
+      "route": "/skills/leblanc_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 65,
+      "method": "GET",
+      "route": "/skills/leblanc_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:07.108271Z",
+        "description": "乐芙兰朝目标投射一个魔印，造成魔法伤害并标记目标3.5秒。用一个技能对被标记的目标造成伤害时，会引爆魔印，造成附加伤害。如果这两部分伤害中有任一部分击杀了目标，那么乐芙兰就会返还此技能的法力消耗和此技能的一部分剩余冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "乐芙兰·恶意魔印",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "leblanc_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:07.108271Z"
+      }
+    },
+    {
+      "seq": 66,
+      "method": "GET",
+      "route": "/skills/leblanc_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_leblanc_q",
+          "name": "leblanc_q"
+        }
+      }
+    },
+    {
+      "seq": 67,
+      "method": "GET",
+      "route": "/skills/leblanc_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:41.758569Z",
+          "description": "DDragon16.17.1 Leblanc.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "leblanc_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:41.758569Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:42.217552Z",
+          "description": "DDragon16.17.1 Leblanc.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "leblanc_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:42.217552Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 68,
+      "method": "GET",
+      "route": "/skills/leblanc_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:41.758569Z",
+        "description": "DDragon16.17.1 Leblanc.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "leblanc_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:41.758569Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 69,
+      "method": "GET",
+      "route": "/skills/leblanc_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:42.217552Z",
+        "description": "DDragon16.17.1 Leblanc.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "leblanc_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:42.217552Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 70,
+      "method": "GET",
+      "route": "/skills/leblanc_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 71,
+      "method": "GET",
+      "route": "/skills/leblanc_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 72,
+      "method": "GET",
+      "route": "/skills/leblanc_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 73,
+      "method": "GET",
+      "route": "/skills/leblanc_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 74,
+      "method": "GET",
+      "route": "/skills/leblanc_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 75,
+      "method": "GET",
+      "route": "/skills/leblanc_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:07.384846Z",
+        "description": "乐芙兰位移至目标位置，并对目标位置附近的敌人造成伤害。在接下来的4秒里，她可以激活此技能来回到她的初始位置。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "乐芙兰·魔影迷踪",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "leblanc_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:07.384846Z"
+      }
+    },
+    {
+      "seq": 76,
+      "method": "GET",
+      "route": "/skills/leblanc_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_leblanc_w",
+          "name": "leblanc_w"
+        }
+      }
+    },
+    {
+      "seq": 77,
+      "method": "GET",
+      "route": "/skills/leblanc_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:42.708904Z",
+          "description": "DDragon16.17.1 Leblanc.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 15000,
+            "2": 13750,
+            "3": 12500,
+            "4": 11250,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "leblanc_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:42.708904Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:43.103056Z",
+          "description": "DDragon16.17.1 Leblanc.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 70,
+            "3": 80,
+            "4": 90,
+            "5": 100
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "leblanc_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:43.103056Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 78,
+      "method": "GET",
+      "route": "/skills/leblanc_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:42.708904Z",
+        "description": "DDragon16.17.1 Leblanc.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 15000,
+          "2": 13750,
+          "3": 12500,
+          "4": 11250,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "leblanc_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:42.708904Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 79,
+      "method": "GET",
+      "route": "/skills/leblanc_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:43.103056Z",
+        "description": "DDragon16.17.1 Leblanc.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "leblanc_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:43.103056Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 80,
+      "method": "GET",
+      "route": "/skills/leblanc_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 81,
+      "method": "GET",
+      "route": "/skills/leblanc_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 82,
+      "method": "GET",
+      "route": "/skills/leblanc_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 83,
+      "method": "GET",
+      "route": "/skills/leblanc_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 84,
+      "method": "GET",
+      "route": "/skills/leblanc_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 85,
+      "method": "GET",
+      "route": "/skills/leblanc_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:07.632729Z",
+        "description": "乐芙兰抛出一条锁链来束缚命中的第一个敌人。如果目标持续被束缚1.5秒，那么目标就会受到额外的魔法伤害并且被禁锢。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "乐芙兰·幻影锁链",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "leblanc_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:07.632729Z"
+      }
+    },
+    {
+      "seq": 86,
+      "method": "GET",
+      "route": "/skills/leblanc_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_leblanc_e",
+          "name": "leblanc_e"
+        }
+      }
+    },
+    {
+      "seq": 87,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:36:43.578632Z",
+          "description": "DDragon16.17.1 Leblanc.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 13250,
+            "3": 12500,
+            "4": 11750,
+            "5": 11000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "leblanc_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:36:43.578632Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:44.028556Z",
+          "description": "DDragon16.17.1 Leblanc.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "leblanc_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:44.028556Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 88,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:43.578632Z",
+        "description": "DDragon16.17.1 Leblanc.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13250,
+          "3": 12500,
+          "4": 11750,
+          "5": 11000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "leblanc_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:43.578632Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 89,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:44.028556Z",
+        "description": "DDragon16.17.1 Leblanc.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "leblanc_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:44.028556Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 90,
+      "method": "GET",
+      "route": "/skills/leblanc_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 91,
+      "method": "GET",
+      "route": "/skills/leblanc_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 92,
+      "method": "GET",
+      "route": "/skills/leblanc_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 93,
+      "method": "GET",
+      "route": "/skills/leblanc_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 94,
+      "method": "GET",
+      "route": "/skills/leblanc_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 95,
+      "method": "GET",
+      "route": "/skills/leblanc_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:07.864997Z",
+        "description": "乐芙兰可以施放她一个技能的故技重施版。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "乐芙兰·故技重施",
+        "skillCategoryKeys": [],
+        "skillKey": "leblanc_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:07.864997Z"
+      }
+    },
+    {
+      "seq": 96,
+      "method": "GET",
+      "route": "/skills/leblanc_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_leblanc_r",
+          "name": "leblanc_r"
+        }
+      }
+    },
+    {
+      "seq": 97,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 98,
+      "method": "GET",
+      "route": "/skills/leblanc_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 99,
+      "method": "GET",
+      "route": "/skills/leblanc_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 100,
+      "method": "GET",
+      "route": "/skills/leblanc_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 101,
+      "method": "GET",
+      "route": "/skills/leblanc_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 102,
+      "method": "GET",
+      "route": "/skills/leblanc_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 103,
+      "method": "GET",
+      "route": "/skills/vex_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:57.229767Z",
+        "description": "薇古丝周期性地获得强化，使她的下一个基础技能可以恐惧敌人并打断冲刺。当一名附近的敌人冲刺时，薇古丝会施加一个标记，该标记可被消耗来造成额外伤害，并缩短她强化状态的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "薇古丝·终焉暮气",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "vex_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:57.229767Z"
+      }
+    },
+    {
+      "seq": 104,
+      "method": "GET",
+      "route": "/skills/vex_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vex_p",
+          "name": "vex_p"
+        }
+      }
+    },
+    {
+      "seq": 105,
+      "method": "GET",
+      "route": "/skills/vex_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 106,
+      "method": "GET",
+      "route": "/skills/vex_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 107,
+      "method": "GET",
+      "route": "/skills/vex_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 108,
+      "method": "GET",
+      "route": "/skills/vex_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 109,
+      "method": "GET",
+      "route": "/skills/vex_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 110,
+      "method": "GET",
+      "route": "/skills/vex_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 111,
+      "method": "GET",
+      "route": "/skills/vex_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:57.529775Z",
+        "description": "发射一个可在飞行途中提速的伤害型飞弹。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "薇古丝·寒心波云",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vex_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:57.529775Z"
+      }
+    },
+    {
+      "seq": 112,
+      "method": "GET",
+      "route": "/skills/vex_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vex_q",
+          "name": "vex_q"
+        }
+      }
+    },
+    {
+      "seq": 113,
+      "method": "GET",
+      "route": "/skills/vex_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:39.238449Z",
+          "description": "DDragon16.17.1 Vex.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 8000,
+            "2": 7000,
+            "3": 6000,
+            "4": 5000,
+            "5": 4000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vex_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:39.238449Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:39.631983Z",
+          "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 45,
+            "2": 50,
+            "3": 55,
+            "4": 60,
+            "5": 65
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vex_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:39.631983Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 114,
+      "method": "GET",
+      "route": "/skills/vex_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:39.238449Z",
+        "description": "DDragon16.17.1 Vex.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7000,
+          "3": 6000,
+          "4": 5000,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:39.238449Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 115,
+      "method": "GET",
+      "route": "/skills/vex_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:39.631983Z",
+        "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:39.631983Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 116,
+      "method": "GET",
+      "route": "/skills/vex_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 117,
+      "method": "GET",
+      "route": "/skills/vex_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 118,
+      "method": "GET",
+      "route": "/skills/vex_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 119,
+      "method": "GET",
+      "route": "/skills/vex_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 120,
+      "method": "GET",
+      "route": "/skills/vex_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 121,
+      "method": "GET",
+      "route": "/skills/vex_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:57.769366Z",
+        "description": "获得一个护盾并伤害附近的敌人们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "薇古丝·生人勿近",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vex_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:57.769366Z"
+      }
+    },
+    {
+      "seq": 122,
+      "method": "GET",
+      "route": "/skills/vex_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vex_w",
+          "name": "vex_w"
+        }
+      }
+    },
+    {
+      "seq": 123,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:40.197699Z",
+          "description": "DDragon16.17.1 Vex.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 16000,
+            "2": 15000,
+            "3": 14000,
+            "4": 13000,
+            "5": 12000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vex_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:40.197699Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:40.635938Z",
+          "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vex_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:40.635938Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 124,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:40.197699Z",
+        "description": "DDragon16.17.1 Vex.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:40.197699Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 125,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:40.635938Z",
+        "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:40.635938Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 126,
+      "method": "GET",
+      "route": "/skills/vex_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 127,
+      "method": "GET",
+      "route": "/skills/vex_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 128,
+      "method": "GET",
+      "route": "/skills/vex_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 129,
+      "method": "GET",
+      "route": "/skills/vex_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 130,
+      "method": "GET",
+      "route": "/skills/vex_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 131,
+      "method": "GET",
+      "route": "/skills/vex_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:58.007734Z",
+        "description": "召唤一个伤害性的减速地带，来对敌人们施加【暮气】效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "薇古丝·溟濛渐染",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "vex_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:58.007734Z"
+      }
+    },
+    {
+      "seq": 132,
+      "method": "GET",
+      "route": "/skills/vex_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vex_e",
+          "name": "vex_e"
+        }
+      }
+    },
+    {
+      "seq": 133,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:41.120798Z",
+          "description": "DDragon16.17.1 Vex.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vex_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:41.120798Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:41.501996Z",
+          "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 80,
+            "3": 90,
+            "4": 100,
+            "5": 110
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vex_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:41.501996Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 134,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:41.120798Z",
+        "description": "DDragon16.17.1 Vex.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:41.120798Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 135,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:41.501996Z",
+        "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:41.501996Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 136,
+      "method": "GET",
+      "route": "/skills/vex_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 137,
+      "method": "GET",
+      "route": "/skills/vex_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 138,
+      "method": "GET",
+      "route": "/skills/vex_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 139,
+      "method": "GET",
+      "route": "/skills/vex_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 140,
+      "method": "GET",
+      "route": "/skills/vex_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 141,
+      "method": "GET",
+      "route": "/skills/vex_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:58.412362Z",
+        "description": "射出一个飞弹来标记一名敌方英雄。再次施放可冲刺至该英雄处并造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "薇古丝·愁煞",
+        "skillCategoryKeys": [],
+        "skillKey": "vex_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:58.412362Z"
+      }
+    },
+    {
+      "seq": 142,
+      "method": "GET",
+      "route": "/skills/vex_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_vex_r",
+          "name": "vex_r"
+        }
+      }
+    },
+    {
+      "seq": 143,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:41.941527Z",
+          "description": "DDragon16.17.1 Vex.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 140000,
+            "2": 120000,
+            "3": 100000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "vex_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:41.941527Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:42.398437Z",
+          "description": "DDragon16.17.1 Vex.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "vex_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:05:42.398437Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 144,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:41.941527Z",
+        "description": "DDragon16.17.1 Vex.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 140000,
+          "2": 120000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:41.941527Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 145,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:42.398437Z",
+        "description": "DDragon16.17.1 Vex.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:42.398437Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 146,
+      "method": "GET",
+      "route": "/skills/vex_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 147,
+      "method": "GET",
+      "route": "/skills/vex_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 148,
+      "method": "GET",
+      "route": "/skills/vex_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 149,
+      "method": "GET",
+      "route": "/skills/vex_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 150,
+      "method": "GET",
+      "route": "/skills/vex_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 151,
+      "method": "GET",
+      "route": "/skills/zilean_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:24.423737Z",
+        "description": "基兰将时光储存为经验值并能将其提供给他的友军。当他拥有足够的经验值来使一名友方英雄升级时，他就能通过右键点击来传授经验值。基兰自身也会获得等值的经验值。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "基兰·瓶中时光",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "zilean_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:24.423737Z"
+      }
+    },
+    {
+      "seq": 152,
+      "method": "GET",
+      "route": "/skills/zilean_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zilean_p",
+          "name": "zilean_p"
+        }
+      }
+    },
+    {
+      "seq": 153,
+      "method": "GET",
+      "route": "/skills/zilean_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 154,
+      "method": "GET",
+      "route": "/skills/zilean_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 155,
+      "method": "GET",
+      "route": "/skills/zilean_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 156,
+      "method": "GET",
+      "route": "/skills/zilean_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 157,
+      "method": "GET",
+      "route": "/skills/zilean_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 158,
+      "method": "GET",
+      "route": "/skills/zilean_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 159,
+      "method": "GET",
+      "route": "/skills/zilean_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:24.660613Z",
+        "description": "将一颗炸弹扔向目标区域，炸弹会附着在靠近它的单位身上（英雄优先）。炸弹会在3秒后爆炸，造成范围魔法伤害。如果炸弹被另一颗定时炸弹给提前引爆，那么还会使敌人晕眩。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "基兰·定时炸弹",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zilean_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:24.660613Z"
+      }
+    },
+    {
+      "seq": 160,
+      "method": "GET",
+      "route": "/skills/zilean_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zilean_q",
+          "name": "zilean_q"
+        }
+      }
+    },
+    {
+      "seq": 161,
+      "method": "GET",
+      "route": "/skills/zilean_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:33.902666Z",
+          "description": "DDragon16.17.1 Zilean.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9500,
+            "3": 9000,
+            "4": 8500,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zilean_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:33.902666Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:34.397491Z",
+          "description": "DDragon16.17.1 Zilean.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "zilean_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:34.397491Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 162,
+      "method": "GET",
+      "route": "/skills/zilean_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:33.902666Z",
+        "description": "DDragon16.17.1 Zilean.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zilean_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:33.902666Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 163,
+      "method": "GET",
+      "route": "/skills/zilean_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:34.397491Z",
+        "description": "DDragon16.17.1 Zilean.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zilean_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:34.397491Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 164,
+      "method": "GET",
+      "route": "/skills/zilean_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 165,
+      "method": "GET",
+      "route": "/skills/zilean_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 166,
+      "method": "GET",
+      "route": "/skills/zilean_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 167,
+      "method": "GET",
+      "route": "/skills/zilean_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 168,
+      "method": "GET",
+      "route": "/skills/zilean_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 169,
+      "method": "GET",
+      "route": "/skills/zilean_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:24.989992Z",
+        "description": "基兰为未来的对抗做准备，减少他所有其它基础技能的冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "基兰·穿梭未来",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zilean_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:24.989992Z"
+      }
+    },
+    {
+      "seq": 170,
+      "method": "GET",
+      "route": "/skills/zilean_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zilean_w",
+          "name": "zilean_w"
+        }
+      }
+    },
+    {
+      "seq": 171,
+      "method": "GET",
+      "route": "/skills/zilean_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:34.836265Z",
+          "description": "DDragon16.17.1 Zilean.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 12000,
+            "3": 10000,
+            "4": 8000,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zilean_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:34.836265Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:35.300583Z",
+          "description": "DDragon16.17.1 Zilean.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 35,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "zilean_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:35.300583Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 172,
+      "method": "GET",
+      "route": "/skills/zilean_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:34.836265Z",
+        "description": "DDragon16.17.1 Zilean.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 12000,
+          "3": 10000,
+          "4": 8000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zilean_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:34.836265Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 173,
+      "method": "GET",
+      "route": "/skills/zilean_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:35.300583Z",
+        "description": "DDragon16.17.1 Zilean.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zilean_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:35.300583Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 174,
+      "method": "GET",
+      "route": "/skills/zilean_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 175,
+      "method": "GET",
+      "route": "/skills/zilean_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 176,
+      "method": "GET",
+      "route": "/skills/zilean_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 177,
+      "method": "GET",
+      "route": "/skills/zilean_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 178,
+      "method": "GET",
+      "route": "/skills/zilean_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 179,
+      "method": "GET",
+      "route": "/skills/zilean_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:25.233966Z",
+        "description": "基兰扭曲任意单位的时光，短时间内提升友方单位移动速度或减少敌方单位移动速度。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "基兰·时光发条",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "zilean_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:25.233966Z"
+      }
+    },
+    {
+      "seq": 180,
+      "method": "GET",
+      "route": "/skills/zilean_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zilean_e",
+          "name": "zilean_e"
+        }
+      }
+    },
+    {
+      "seq": 181,
+      "method": "GET",
+      "route": "/skills/zilean_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:35.76894Z",
+          "description": "DDragon16.17.1 Zilean.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 15000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zilean_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:35.76894Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:36.258887Z",
+          "description": "DDragon16.17.1 Zilean.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "zilean_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:36.258887Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 182,
+      "method": "GET",
+      "route": "/skills/zilean_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:35.76894Z",
+        "description": "DDragon16.17.1 Zilean.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 15000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zilean_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:35.76894Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 183,
+      "method": "GET",
+      "route": "/skills/zilean_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:36.258887Z",
+        "description": "DDragon16.17.1 Zilean.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zilean_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:36.258887Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 184,
+      "method": "GET",
+      "route": "/skills/zilean_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 185,
+      "method": "GET",
+      "route": "/skills/zilean_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 186,
+      "method": "GET",
+      "route": "/skills/zilean_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 187,
+      "method": "GET",
+      "route": "/skills/zilean_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 188,
+      "method": "GET",
+      "route": "/skills/zilean_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 189,
+      "method": "GET",
+      "route": "/skills/zilean_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:25.481875Z",
+        "description": "基兰对友方英雄施放时光结界，若目标死亡，则时光倒流，救活目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "基兰·时光倒流",
+        "skillCategoryKeys": [],
+        "skillKey": "zilean_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:25.481875Z"
+      }
+    },
+    {
+      "seq": 190,
+      "method": "GET",
+      "route": "/skills/zilean_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_zilean_r",
+          "name": "zilean_r"
+        }
+      }
+    },
+    {
+      "seq": 191,
+      "method": "GET",
+      "route": "/skills/zilean_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:36.6957Z",
+          "description": "DDragon16.17.1 Zilean.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 90000,
+            "3": 60000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zilean_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:36.6957Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:37.573663Z",
+          "description": "DDragon16.17.1 Zilean.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 125,
+            "2": 150,
+            "3": 175
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "zilean_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:37.573663Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "seq": 192,
+      "method": "GET",
+      "route": "/skills/zilean_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:36.6957Z",
+        "description": "DDragon16.17.1 Zilean.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 90000,
+          "3": 60000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zilean_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:36.6957Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 193,
+      "method": "GET",
+      "route": "/skills/zilean_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:37.573663Z",
+        "description": "DDragon16.17.1 Zilean.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 125,
+          "2": 150,
+          "3": 175
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zilean_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:37.573663Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 194,
+      "method": "GET",
+      "route": "/skills/zilean_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 195,
+      "method": "GET",
+      "route": "/skills/zilean_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 196,
+      "method": "GET",
+      "route": "/skills/zilean_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 197,
+      "method": "GET",
+      "route": "/skills/zilean_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 198,
+      "method": "GET",
+      "route": "/skills/zilean_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "seq": 199,
+      "method": "GET",
+      "route": "/skills/katarina_p/parameters/reset_window_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "reset_window_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 200,
+      "method": "GET",
+      "route": "/skills/katarina_p/parameters/reset_cooldown_reduction_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "reset_cooldown_reduction_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 201,
+      "method": "GET",
+      "route": "/skills/katarina_p/parameters/dagger_radius",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "dagger_radius"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 202,
+      "method": "GET",
+      "route": "/skills/katarina_p/parameters/dagger_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "dagger_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 203,
+      "method": "GET",
+      "route": "/skills/katarina_p/parameters/bonus_ad_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "bonus_ad_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 204,
+      "method": "GET",
+      "route": "/skills/katarina_p/parameters/character_level_base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "character_level_base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 205,
+      "method": "GET",
+      "route": "/skills/katarina_p/parameters/ap_ratio_by_character_level",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "ap_ratio_by_character_level"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 206,
+      "method": "GET",
+      "route": "/skills/katarina_p/formulas/dagger_magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "dagger_magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 207,
+      "method": "GET",
+      "route": "/skills/katarina_q/parameters/base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 208,
+      "method": "GET",
+      "route": "/skills/katarina_q/parameters/bounce_offset",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "bounce_offset"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 209,
+      "method": "GET",
+      "route": "/skills/katarina_q/parameters/ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 210,
+      "method": "GET",
+      "route": "/skills/katarina_q/parameters/cast_time_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 211,
+      "method": "GET",
+      "route": "/skills/katarina_q/formulas/magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 212,
+      "method": "GET",
+      "route": "/skills/katarina_w/parameters/movement_speed_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "movement_speed_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 213,
+      "method": "GET",
+      "route": "/skills/katarina_w/parameters/movement_speed_percent_points",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "movement_speed_percent_points"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 214,
+      "method": "GET",
+      "route": "/skills/katarina_w/parameters/cast_time_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 215,
+      "method": "GET",
+      "route": "/skills/katarina_e/parameters/base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 216,
+      "method": "GET",
+      "route": "/skills/katarina_e/parameters/data_cooldown_seconds",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "data_cooldown_seconds"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 217,
+      "method": "GET",
+      "route": "/skills/katarina_e/parameters/total_ad_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "total_ad_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 218,
+      "method": "GET",
+      "route": "/skills/katarina_e/parameters/ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 219,
+      "method": "GET",
+      "route": "/skills/katarina_e/parameters/cast_time_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 220,
+      "method": "GET",
+      "route": "/skills/katarina_e/parameters/dagger_cooldown_ratio_by_character_level",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "dagger_cooldown_ratio_by_character_level"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 221,
+      "method": "GET",
+      "route": "/skills/katarina_e/parameters/actual_cooldown_multiplier",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "actual_cooldown_multiplier"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 222,
+      "method": "GET",
+      "route": "/skills/katarina_e/parameters/milliseconds_per_second",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "milliseconds_per_second"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 223,
+      "method": "GET",
+      "route": "/skills/katarina_e/formulas/magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 224,
+      "method": "GET",
+      "route": "/skills/katarina_e/formulas/dagger_cooldown_reduction_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "dagger_cooldown_reduction_ms"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 225,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/magic_base_damage_per_tick",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "magic_base_damage_per_tick"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 226,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/magic_ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "magic_ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 227,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/ticks_per_second",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "ticks_per_second"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 228,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/duration_seconds",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "duration_seconds"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 229,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/grievous_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "grievous_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 230,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/grievous_amount_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "grievous_amount_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 231,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/on_hit_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "on_hit_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 232,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/bonus_ad_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "bonus_ad_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 233,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/attack_speed_coefficient",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "attack_speed_coefficient"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 234,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/one_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "one_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 235,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/actual_attack_speed_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "actual_attack_speed_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 236,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/cast_time_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 237,
+      "method": "GET",
+      "route": "/skills/katarina_r/formulas/magic_damage_per_tick",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "magic_damage_per_tick"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 238,
+      "method": "GET",
+      "route": "/skills/katarina_r/formulas/total_magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "total_magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 239,
+      "method": "GET",
+      "route": "/skills/katarina_r/formulas/physical_damage_per_tick",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "physical_damage_per_tick"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 240,
+      "method": "GET",
+      "route": "/skills/katarina_r/formulas/total_physical_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "total_physical_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 241,
+      "method": "GET",
+      "route": "/skills/leblanc_p/parameters/passive_cooldown_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "passive_cooldown_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 242,
+      "method": "GET",
+      "route": "/skills/leblanc_p/parameters/health_threshold_percent_points",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "health_threshold_percent_points"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 243,
+      "method": "GET",
+      "route": "/skills/leblanc_p/parameters/invisibility_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "invisibility_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 244,
+      "method": "GET",
+      "route": "/skills/leblanc_q/parameters/base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 245,
+      "method": "GET",
+      "route": "/skills/leblanc_q/parameters/mark_base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "mark_base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 246,
+      "method": "GET",
+      "route": "/skills/leblanc_q/parameters/mark_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "mark_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 247,
+      "method": "GET",
+      "route": "/skills/leblanc_q/parameters/cooldown_refund_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cooldown_refund_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 248,
+      "method": "GET",
+      "route": "/skills/leblanc_q/parameters/mana_refund_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "mana_refund_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 249,
+      "method": "GET",
+      "route": "/skills/leblanc_q/parameters/ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 250,
+      "method": "GET",
+      "route": "/skills/leblanc_q/parameters/cast_time_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 251,
+      "method": "GET",
+      "route": "/skills/leblanc_q/formulas/initial_magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "initial_magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 252,
+      "method": "GET",
+      "route": "/skills/leblanc_q/formulas/mark_magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "mark_magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 253,
+      "method": "GET",
+      "route": "/skills/leblanc_w/parameters/ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 254,
+      "method": "GET",
+      "route": "/skills/leblanc_w/parameters/base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 255,
+      "method": "GET",
+      "route": "/skills/leblanc_w/parameters/snapback_window_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "snapback_window_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 256,
+      "method": "GET",
+      "route": "/skills/leblanc_w/parameters/snapback_delay_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "snapback_delay_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 257,
+      "method": "GET",
+      "route": "/skills/leblanc_w/parameters/snapback_queue_window_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "snapback_queue_window_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 258,
+      "method": "GET",
+      "route": "/skills/leblanc_w/parameters/spell_max_range",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "spell_max_range"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 259,
+      "method": "GET",
+      "route": "/skills/leblanc_w/parameters/cast_time_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 260,
+      "method": "GET",
+      "route": "/skills/leblanc_w/formulas/magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 261,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters/initial_base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "initial_base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 262,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters/delayed_base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "delayed_base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 263,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters/initial_ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "initial_ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 264,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters/delayed_ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "delayed_ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 265,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters/tether_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "tether_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 266,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters/root_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "root_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 267,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters/tether_distance",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "tether_distance"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 268,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters/cast_time_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 269,
+      "method": "GET",
+      "route": "/skills/leblanc_e/formulas/initial_magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "initial_magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 270,
+      "method": "GET",
+      "route": "/skills/leblanc_e/formulas/delayed_magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "delayed_magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 271,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters/rq1_base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "rq1_base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 272,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters/rq2_base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "rq2_base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 273,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters/rw_base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "rw_base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 274,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters/re1_base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "re1_base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 275,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters/re2_base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "re2_base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 276,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters/mark_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "mark_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 277,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters/rq1_re1_ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "rq1_re1_ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 278,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters/rq2_ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "rq2_ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 279,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters/rw_ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "rw_ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 280,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters/re2_ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "re2_ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 281,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters/cooldown_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cooldown_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 282,
+      "method": "GET",
+      "route": "/skills/leblanc_r/parameters/cast_time_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 283,
+      "method": "GET",
+      "route": "/skills/leblanc_r/formulas/replicated_q_initial_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "replicated_q_initial_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 284,
+      "method": "GET",
+      "route": "/skills/leblanc_r/formulas/replicated_q_mark_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "replicated_q_mark_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 285,
+      "method": "GET",
+      "route": "/skills/leblanc_r/formulas/replicated_w_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "replicated_w_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 286,
+      "method": "GET",
+      "route": "/skills/leblanc_r/formulas/replicated_e_initial_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "replicated_e_initial_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 287,
+      "method": "GET",
+      "route": "/skills/leblanc_r/formulas/replicated_e_delayed_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "replicated_e_delayed_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 288,
+      "method": "GET",
+      "route": "/skills/vex_p/parameters/doom_cooldown_seconds_by_character_level",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "doom_cooldown_seconds_by_character_level"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 289,
+      "method": "GET",
+      "route": "/skills/vex_p/parameters/fear_duration_seconds_by_character_level",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "fear_duration_seconds_by_character_level"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 290,
+      "method": "GET",
+      "route": "/skills/vex_p/parameters/gloom_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "gloom_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 291,
+      "method": "GET",
+      "route": "/skills/vex_p/parameters/actual_gloom_character_level_base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "actual_gloom_character_level_base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 292,
+      "method": "GET",
+      "route": "/skills/vex_p/parameters/gloom_ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "gloom_ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 293,
+      "method": "GET",
+      "route": "/skills/vex_p/parameters/gloom_champion_cooldown_refund_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "gloom_champion_cooldown_refund_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 294,
+      "method": "GET",
+      "route": "/skills/vex_p/formulas/gloom_bonus_magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "gloom_bonus_magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 295,
+      "method": "GET",
+      "route": "/skills/vex_q/parameters/base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 296,
+      "method": "GET",
+      "route": "/skills/vex_q/parameters/ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 297,
+      "method": "GET",
+      "route": "/skills/vex_q/parameters/cast_time_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 298,
+      "method": "GET",
+      "route": "/skills/vex_q/formulas/magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 299,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters/base_shield",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "base_shield"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 300,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters/shield_ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "shield_ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 301,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters/base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 302,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters/damage_ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "damage_ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 303,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters/shield_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "shield_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 304,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters/aoe_radius",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "aoe_radius"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 305,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters/bonus_aoe_radius_vs_dashes",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "bonus_aoe_radius_vs_dashes"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 306,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters/cast_time_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 307,
+      "method": "GET",
+      "route": "/skills/vex_w/formulas/shield_value",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "shield_value"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 308,
+      "method": "GET",
+      "route": "/skills/vex_w/formulas/magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 309,
+      "method": "GET",
+      "route": "/skills/vex_w/effects/self_shield",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "self_shield"
+          },
+          "message": "技能效果不存在"
+        }
+      }
+    },
+    {
+      "seq": 310,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 311,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 312,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/slow_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "slow_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 313,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/slow_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "slow_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 314,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/starting_radius",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "starting_radius"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 315,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/radius_growth_rate",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "radius_growth_rate"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 316,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/max_radius",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "max_radius"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 317,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/gloom_champion_cooldown_refund_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "gloom_champion_cooldown_refund_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 318,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/cast_time_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 319,
+      "method": "GET",
+      "route": "/skills/vex_e/formulas/magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 320,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters/base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 321,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters/first_ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "first_ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 322,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters/recast_base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "recast_base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 323,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters/recast_ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "recast_ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 324,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters/recast_window_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "recast_window_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 325,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters/takedown_window_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "takedown_window_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 326,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters/reset_window_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "reset_window_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 327,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters/cast_time_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 328,
+      "method": "GET",
+      "route": "/skills/vex_r/formulas/first_magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "first_magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 329,
+      "method": "GET",
+      "route": "/skills/vex_r/formulas/recast_magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "recast_magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 330,
+      "method": "GET",
+      "route": "/skills/zilean_q/parameters/base_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "base_damage"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 331,
+      "method": "GET",
+      "route": "/skills/zilean_q/parameters/ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 332,
+      "method": "GET",
+      "route": "/skills/zilean_q/parameters/stun_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "stun_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 333,
+      "method": "GET",
+      "route": "/skills/zilean_q/parameters/fuse_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "fuse_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 334,
+      "method": "GET",
+      "route": "/skills/zilean_q/formulas/magic_damage",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "magic_damage"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 335,
+      "method": "GET",
+      "route": "/skills/zilean_w/parameters/cooldown_reduction_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cooldown_reduction_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 336,
+      "method": "GET",
+      "route": "/skills/zilean_w/parameters/cast_time_seconds",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_seconds"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 337,
+      "method": "GET",
+      "route": "/skills/zilean_e/parameters/duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 338,
+      "method": "GET",
+      "route": "/skills/zilean_e/parameters/speed_percent_points",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "speed_percent_points"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 339,
+      "method": "GET",
+      "route": "/skills/zilean_e/parameters/cast_time_seconds",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_seconds"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 340,
+      "method": "GET",
+      "route": "/skills/zilean_r/parameters/base_heal",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "base_heal"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 341,
+      "method": "GET",
+      "route": "/skills/zilean_r/parameters/ap_ratio",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "ap_ratio"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 342,
+      "method": "GET",
+      "route": "/skills/zilean_r/parameters/protection_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "protection_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 343,
+      "method": "GET",
+      "route": "/skills/zilean_r/parameters/revive_stasis_duration_ms",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "revive_stasis_duration_ms"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 344,
+      "method": "GET",
+      "route": "/skills/zilean_r/parameters/cast_time_seconds",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_PARAMETER_NOT_FOUND",
+          "details": {
+            "parameterKey": "cast_time_seconds"
+          },
+          "message": "技能参数不存在"
+        }
+      }
+    },
+    {
+      "seq": 345,
+      "method": "GET",
+      "route": "/skills/zilean_r/formulas/revive_heal",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_FORMULA_NOT_FOUND",
+          "details": {
+            "formulaKey": "revive_heal"
+          },
+          "message": "技能公式不存在"
+        }
+      }
+    },
+    {
+      "seq": 346,
+      "method": "GET",
+      "route": "/skills/katarina_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:34.766053Z",
+        "description": "DDragon16.17.1 Katarina.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "katarina_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:34.766053Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 347,
+      "method": "GET",
+      "route": "/skills/katarina_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:35.293216Z",
+        "description": "DDragon16.17.1 Katarina.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 15000,
+          "2": 14000,
+          "3": 13000,
+          "4": 12000,
+          "5": 11000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "katarina_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:35.293216Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 348,
+      "method": "GET",
+      "route": "/skills/katarina_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:35.72454Z",
+        "description": "DDragon16.17.1 Katarina.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "katarina_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:35.72454Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 349,
+      "method": "GET",
+      "route": "/skills/katarina_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T01:02:36.181554Z",
+        "description": "DDragon16.17.1 Katarina.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 75000,
+          "2": 60000,
+          "3": 45000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "katarina_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T01:02:36.181554Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 350,
+      "method": "GET",
+      "route": "/skills/leblanc_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:41.758569Z",
+        "description": "DDragon16.17.1 Leblanc.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "leblanc_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:41.758569Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 351,
+      "method": "GET",
+      "route": "/skills/leblanc_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:42.217552Z",
+        "description": "DDragon16.17.1 Leblanc.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "leblanc_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:42.217552Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 352,
+      "method": "GET",
+      "route": "/skills/leblanc_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:42.708904Z",
+        "description": "DDragon16.17.1 Leblanc.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 15000,
+          "2": 13750,
+          "3": 12500,
+          "4": 11250,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "leblanc_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:42.708904Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 353,
+      "method": "GET",
+      "route": "/skills/leblanc_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:43.103056Z",
+        "description": "DDragon16.17.1 Leblanc.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "leblanc_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:43.103056Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 354,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:43.578632Z",
+        "description": "DDragon16.17.1 Leblanc.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13250,
+          "3": 12500,
+          "4": 11750,
+          "5": 11000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "leblanc_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:36:43.578632Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 355,
+      "method": "GET",
+      "route": "/skills/leblanc_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:36:44.028556Z",
+        "description": "DDragon16.17.1 Leblanc.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "leblanc_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:36:44.028556Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 356,
+      "method": "GET",
+      "route": "/skills/vex_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:39.238449Z",
+        "description": "DDragon16.17.1 Vex.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7000,
+          "3": 6000,
+          "4": 5000,
+          "5": 4000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:39.238449Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 357,
+      "method": "GET",
+      "route": "/skills/vex_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:39.631983Z",
+        "description": "DDragon16.17.1 Vex.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:39.631983Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 358,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:40.197699Z",
+        "description": "DDragon16.17.1 Vex.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:40.197699Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 359,
+      "method": "GET",
+      "route": "/skills/vex_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:40.635938Z",
+        "description": "DDragon16.17.1 Vex.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:40.635938Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 360,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:41.120798Z",
+        "description": "DDragon16.17.1 Vex.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:41.120798Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 361,
+      "method": "GET",
+      "route": "/skills/vex_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:41.501996Z",
+        "description": "DDragon16.17.1 Vex.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 70,
+          "2": 80,
+          "3": 90,
+          "4": 100,
+          "5": 110
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:41.501996Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 362,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:41.941527Z",
+        "description": "DDragon16.17.1 Vex.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 140000,
+          "2": 120000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "vex_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:41.941527Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 363,
+      "method": "GET",
+      "route": "/skills/vex_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:42.398437Z",
+        "description": "DDragon16.17.1 Vex.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "vex_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:05:42.398437Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 364,
+      "method": "GET",
+      "route": "/skills/zilean_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:33.902666Z",
+        "description": "DDragon16.17.1 Zilean.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zilean_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:33.902666Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 365,
+      "method": "GET",
+      "route": "/skills/zilean_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:34.397491Z",
+        "description": "DDragon16.17.1 Zilean.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zilean_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:34.397491Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 366,
+      "method": "GET",
+      "route": "/skills/zilean_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:34.836265Z",
+        "description": "DDragon16.17.1 Zilean.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 12000,
+          "3": 10000,
+          "4": 8000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zilean_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:34.836265Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 367,
+      "method": "GET",
+      "route": "/skills/zilean_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:35.300583Z",
+        "description": "DDragon16.17.1 Zilean.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 35,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zilean_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:35.300583Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 368,
+      "method": "GET",
+      "route": "/skills/zilean_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:35.76894Z",
+        "description": "DDragon16.17.1 Zilean.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 15000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zilean_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:35.76894Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 369,
+      "method": "GET",
+      "route": "/skills/zilean_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:36.258887Z",
+        "description": "DDragon16.17.1 Zilean.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 50,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zilean_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:36.258887Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 370,
+      "method": "GET",
+      "route": "/skills/zilean_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:36.6957Z",
+        "description": "DDragon16.17.1 Zilean.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 90000,
+          "3": 60000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "zilean_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:36.6957Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "seq": 371,
+      "method": "GET",
+      "route": "/skills/zilean_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:37.573663Z",
+        "description": "DDragon16.17.1 Zilean.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 125,
+          "2": 150,
+          "3": 175
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "zilean_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:37.573663Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    }
+  ],
+  "preflight": {
+    "protection": {
+      "checked": 198,
+      "lists": 120,
+      "passed": true
+    },
+    "details": {
+      "matched": 26,
+      "missingBefore": 147,
+      "passed": true
+    }
+  },
+  "final": null,
+  "success": true,
+  "finishedAt": "2026-09-09T18:42:26.903Z",
+  "counts": {
+    "GET": 371,
+    "POST": 0
+  }
+}

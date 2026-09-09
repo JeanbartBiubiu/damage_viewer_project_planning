@@ -1,0 +1,23 @@
+{
+  "i": 137,
+  "intent": {
+    "sequence": 142,
+    "method": "POST",
+    "route": "/skills/zilean_w/parameters",
+    "detailRoute": "/skills/zilean_w/parameters/cast_time_seconds",
+    "skillKey": "zilean_w",
+    "kind": "parameters",
+    "stableKey": "cast_time_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_seconds",
+      "name": "施法时间（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5183,
+      "levelValues": null,
+      "description": "当前根spellCastTime原值约0.5183秒，因毫秒换算不是整数，保留来源秒单位。",
+      "sortOrder": 20
+    }
+  }
+}

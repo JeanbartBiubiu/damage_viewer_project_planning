@@ -1,0 +1,23 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 52,
+    "method": "POST",
+    "route": "/skills/leblanc_q/parameters",
+    "detailRoute": "/skills/leblanc_q/parameters/cooldown_refund_ratio",
+    "skillKey": "leblanc_q",
+    "kind": "parameters",
+    "stableKey": "cooldown_refund_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_refund_ratio",
+      "name": "击杀后剩余冷却返还比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "客户端CooldownRefund=0.3；只保留击杀条件参数。",
+      "sortOrder": 40
+    }
+  }
+}

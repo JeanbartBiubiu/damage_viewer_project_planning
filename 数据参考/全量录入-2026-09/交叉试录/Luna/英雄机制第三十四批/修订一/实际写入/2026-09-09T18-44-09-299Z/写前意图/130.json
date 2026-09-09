@@ -1,0 +1,45 @@
+{
+  "i": 129,
+  "intent": {
+    "sequence": 133,
+    "method": "POST",
+    "route": "/skills/vex_r/formulas",
+    "detailRoute": "/skills/vex_r/formulas/first_magic_damage",
+    "skillKey": "vex_r",
+    "kind": "formulas",
+    "stableKey": "first_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "first_magic_damage",
+      "name": "愁煞首次魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "first_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "RDamageCalc = BaseDamage + 0.2×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

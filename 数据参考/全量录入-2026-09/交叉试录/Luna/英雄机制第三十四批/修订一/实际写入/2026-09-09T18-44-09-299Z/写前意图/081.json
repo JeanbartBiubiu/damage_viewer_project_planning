@@ -1,0 +1,23 @@
+{
+  "i": 80,
+  "intent": {
+    "sequence": 84,
+    "method": "POST",
+    "route": "/skills/leblanc_r/parameters",
+    "detailRoute": "/skills/leblanc_r/parameters/rw_ap_ratio",
+    "skillKey": "leblanc_r",
+    "kind": "parameters",
+    "stableKey": "rw_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "rw_ap_ratio",
+      "name": "复制W法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.9,
+      "levelValues": null,
+      "description": "RWDamage树的StatByCoefficient=0.9。",
+      "sortOrder": 100
+    }
+  }
+}

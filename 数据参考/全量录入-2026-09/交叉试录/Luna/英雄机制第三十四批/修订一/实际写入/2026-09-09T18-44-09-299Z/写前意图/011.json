@@ -1,0 +1,23 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 13,
+    "method": "POST",
+    "route": "/skills/katarina_q/parameters",
+    "detailRoute": "/skills/katarina_q/parameters/ap_ratio",
+    "skillKey": "katarina_q",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.4,
+      "levelValues": null,
+      "description": "TotalDamage树的QAPRatio项读取来源总法强。",
+      "sortOrder": 50
+    }
+  }
+}

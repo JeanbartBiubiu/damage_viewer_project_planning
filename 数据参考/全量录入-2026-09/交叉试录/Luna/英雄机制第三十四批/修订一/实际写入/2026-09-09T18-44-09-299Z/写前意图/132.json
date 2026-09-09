@@ -1,0 +1,29 @@
+{
+  "i": 131,
+  "intent": {
+    "sequence": 135,
+    "method": "POST",
+    "route": "/skills/zilean_q/parameters",
+    "detailRoute": "/skills/zilean_q/parameters/base_damage",
+    "skillKey": "zilean_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 75,
+        "2": 115,
+        "3": 165,
+        "4": 230,
+        "5": 300
+      },
+      "description": "客户端BombBaseDamage取索引1至5；索引0的30不是等级1。",
+      "sortOrder": 10
+    }
+  }
+}

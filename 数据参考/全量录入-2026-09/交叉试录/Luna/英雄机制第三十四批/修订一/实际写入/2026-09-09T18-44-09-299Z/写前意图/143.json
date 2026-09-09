@@ -1,0 +1,23 @@
+{
+  "i": 142,
+  "intent": {
+    "sequence": 147,
+    "method": "POST",
+    "route": "/skills/zilean_r/parameters",
+    "detailRoute": "/skills/zilean_r/parameters/ap_ratio",
+    "skillKey": "zilean_r",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "RTotalHeal树消费APRatio=2×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

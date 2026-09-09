@@ -1,0 +1,42 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 24,
+    "method": "POST",
+    "route": "/skills/katarina_e/parameters",
+    "detailRoute": "/skills/katarina_e/parameters/dagger_cooldown_ratio_by_character_level",
+    "skillKey": "katarina_e",
+    "kind": "parameters",
+    "stableKey": "dagger_cooldown_ratio_by_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dagger_cooldown_ratio_by_character_level",
+      "name": "角色等级匕首冷却缩减比例",
+      "valueType": "DECIMAL",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.78,
+        "2": 0.78,
+        "3": 0.78,
+        "4": 0.78,
+        "5": 0.78,
+        "6": 0.84,
+        "7": 0.84,
+        "8": 0.84,
+        "9": 0.84,
+        "10": 0.84,
+        "11": 0.9,
+        "12": 0.9,
+        "13": 0.9,
+        "14": 0.9,
+        "15": 0.9,
+        "16": 0.96,
+        "17": 0.96,
+        "18": 0.96
+      },
+      "description": "匿名子树角色等级1至18：起点0.78，6/11/16各加0.06；等级21的0.04在本批范围外。",
+      "sortOrder": 60
+    }
+  }
+}

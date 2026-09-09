@@ -1,0 +1,23 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 97,
+    "method": "POST",
+    "route": "/skills/vex_p/parameters",
+    "detailRoute": "/skills/vex_p/parameters/gloom_ap_ratio",
+    "skillKey": "vex_p",
+    "kind": "parameters",
+    "stableKey": "gloom_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "gloom_ap_ratio",
+      "name": "暮气额外伤害法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "GloomProcCalc的APRatio=0.25×来源总法强。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "at": "2026-09-09T19:10:55.623Z",
+  "batch": "英雄机制第三十四批",
+  "status": "本轮范围内来源明确组成已保存并独立回读、数值和代表页面验收；未知事件与阶段单列",
+  "skills": [
+    "katarina_p",
+    "katarina_q",
+    "katarina_w",
+    "katarina_e",
+    "katarina_r",
+    "leblanc_p",
+    "leblanc_q",
+    "leblanc_w",
+    "leblanc_e",
+    "leblanc_r",
+    "vex_p",
+    "vex_q",
+    "vex_w",
+    "vex_e",
+    "vex_r",
+    "zilean_p",
+    "zilean_q",
+    "zilean_w",
+    "zilean_e",
+    "zilean_r"
+  ],
+  "heroes": [
+    "Katarina",
+    "Leblanc",
+    "Vex",
+    "Zilean"
+  ],
+  "newCounts": {
+    "parameters": 119,
+    "formulas": 27,
+    "effects": 1
+  },
+  "counts": {
+    "parameters": 145,
+    "formulas": 27,
+    "effects": 1
+  },
+  "created": 147,
+  "businessWrites": 147,
+  "reusedParameters": 26,
+  "currentTotalComponents": 173,
+  "candidateFile": "修订一/完整候选.json",
+  "candidateFileSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
+  "writePlan": "修订一/写前请求计划.json",
+  "writePlanSha256": "0632be0bf547dd57c15329e3124e8d979a91c0eda61f7f47f12c9381510152aa",
+  "save": {
+    "GETs": 1036,
+    "POSTs": 147,
+    "confirmed": 147,
+    "file": "修订一/实际写入/2026-09-09T18-44-09-299Z/执行结果.json"
+  },
+  "independentReadback": {
+    "GETs": 345,
+    "protectedPaths": 198,
+    "details": 173,
+    "reused": 26,
+    "new": 147,
+    "reader": "主负责人独立只读脚本",
+    "reusedEarlierGETs": 127,
+    "additionalGETs": 218,
+    "file": "独立回读证据/实际回读/2026-09-09T18-56-05-923Z/执行结果.json",
+    "explanation": "首次读到第127项时，效果列表派生的lifecycleEnabled/resultCount未投影而误报；修正只读检查器，复用127原始响应，仅继续218请求，未重放业务写入。"
+  },
+  "strictMath": {
+    "GETs": 147,
+    "formulas": 27,
+    "cases": 54,
+    "missing": 32,
+    "integer": 73,
+    "bounds": 32,
+    "file": "实际数学证据/2026-09-09T18-49-51-631Z/实际回读与数学.json",
+    "passed": true
+  },
+  "browser": {
+    "representativePages": 4,
+    "GETs": 0,
+    "mathCases": 0,
+    "file": "修订一/页面验收.json",
+    "passed": true
+  },
+  "cursorAudit": {
+    "verdict": "READY",
+    "events": 924,
+    "uniqueTools": 64,
+    "inputs": 25,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "issues": [
+    "原候选卡特琳娜E攻击力口径在写前改为总攻击力；P/R额外攻击力不变",
+    "原候选基兰Q施法字段0和0.25冲突，移除未经确认的零值并保留待核",
+    "额外敌人弹跳与独立分身字段排除，匕首落点与跨技能依赖保留",
+    "原数学两侧均代来源参数，已改为实际侧读取保存参数和表达式、期望侧读取原始资料",
+    "部分参数显示名称含来源字段名，后续统一中文名称时保留稳定键"
+  ],
+  "pending": [
+    "已知数值已录；未知等级曲线、真实属性阶段、资格和事件过程接线单独记录，未虚构默认值"
+  ],
+  "runtimeValidation": "未执行"
+}

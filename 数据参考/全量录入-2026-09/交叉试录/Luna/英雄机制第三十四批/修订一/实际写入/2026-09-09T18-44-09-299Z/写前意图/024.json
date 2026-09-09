@@ -1,0 +1,23 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 26,
+    "method": "POST",
+    "route": "/skills/katarina_e/parameters",
+    "detailRoute": "/skills/katarina_e/parameters/milliseconds_per_second",
+    "skillKey": "katarina_e",
+    "kind": "parameters",
+    "stableKey": "milliseconds_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "milliseconds_per_second",
+      "name": "每秒毫秒换算系数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "将DataCooldown秒数换算为接口公式的毫秒结果；单位换算常数，不是游戏平衡输入。",
+      "sortOrder": 80
+    }
+  }
+}

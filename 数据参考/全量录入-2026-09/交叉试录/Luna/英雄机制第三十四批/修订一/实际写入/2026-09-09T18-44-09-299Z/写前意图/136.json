@@ -1,0 +1,45 @@
+{
+  "i": 135,
+  "intent": {
+    "sequence": 140,
+    "method": "POST",
+    "route": "/skills/zilean_q/formulas",
+    "detailRoute": "/skills/zilean_q/formulas/magic_damage",
+    "skillKey": "zilean_q",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "定时炸弹魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage = BombBaseDamage + APRatio×来源总法强；同一目标Q-W-Q的双炸由事件层决定。",
+      "sortOrder": 10
+    }
+  }
+}

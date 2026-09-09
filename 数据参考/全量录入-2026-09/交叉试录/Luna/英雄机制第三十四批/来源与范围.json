@@ -1,0 +1,570 @@
+{
+  "generatedAt": "2026-09-09T18:32:29.339Z",
+  "batch": "英雄机制第三十四批",
+  "revision": "hero34-source-v1-candidate",
+  "status": "候选范围说明；未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "inputPackage": ".agents/artifacts/hero34-root-entry-20260910",
+  "sourceBindingSha256": "441f748d92b040a84c0b43018864236216aabb49dd2cdc2435c3ed38560e2b10",
+  "inputVersionSha256": "27232532097d11624261f958b121140b03e447f960d15b118396ad9b74c5b291",
+  "rootReviewSha256": "a61a1a0a31960c35efda17ca44ec605acd222febaa6fc50bd0fb6e022fefab12",
+  "semanticNoteSha256": "dfc574ff3ec9bcae8c0e7dc24e636a96afb7fa679ac021850a3d0de0e84c4cc3",
+  "cursorReviewSha256": "343d701b1fabb8457b36c92c4a538e09c8859de26e2c1c1a000f37069ffa8a6e",
+  "categories": [
+    "当前正文和树可录确定值",
+    "一对一无关分支",
+    "属性/目标/时序/曲线待核"
+  ],
+  "perSkill": {
+    "katarina_p": {
+      "recordable": [
+        "reset_window_ms",
+        "reset_cooldown_reduction_ms",
+        "dagger_radius",
+        "dagger_duration_ms",
+        "bonus_ad_ratio",
+        "character_level_base_damage",
+        "ap_ratio_by_character_level",
+        "dagger_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "击杀重置、匕首拾取和斩击命中",
+          "reason": "当前正文与参数明确窗口/范围，自动触发和命中时点未接线。"
+        },
+        {
+          "kind": "属性阶段",
+          "item": "mStat=2/mStatFormula=2",
+          "reason": "仅沿已有同版窄口径使用来源额外攻击力；未扩展全部选择器枚举。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "匕首附近多个敌人的分配",
+          "reason": "本轮只保留唯一敌人载体，不把多目标数乘入单目标公式。"
+        }
+      ]
+    },
+    "katarina_q": {
+      "recordable": [
+        "base_damage",
+        "bounce_offset",
+        "bounce_radius",
+        "max_bounces",
+        "ap_ratio",
+        "cast_time_ms",
+        "magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "匕首落地与弹射命中",
+          "reason": "MaxBounces及几何参数有来源，具体同目标是否重复命中未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "附近多个敌人",
+          "reason": "唯一敌人范围不把MaxBounces乘入单目标伤害。"
+        }
+      ]
+    },
+    "katarina_w": {
+      "recordable": [
+        "movement_speed_duration_ms",
+        "movement_speed_percent_points",
+        "cast_time_ms"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "移动速度随时间衰减和匕首落地",
+          "reason": "正文明确持续衰减，当前树没有可保存的衰减函数；不造周期过程。"
+        }
+      ],
+      "excluded": []
+    },
+    "katarina_e": {
+      "recordable": [
+        "base_damage",
+        "data_cooldown_seconds",
+        "bonus_ad_ratio",
+        "ap_ratio",
+        "cast_time_ms",
+        "dagger_cooldown_ratio_by_character_level",
+        "actual_cooldown_multiplier",
+        "milliseconds_per_second",
+        "magic_damage",
+        "dagger_cooldown_reduction_ms"
+      ],
+      "pending": [
+        {
+          "kind": "输入",
+          "item": "actual_cooldown_multiplier",
+          "reason": "冷却倍率是未窄证实际输入；缺值时拒绝求值。"
+        },
+        {
+          "kind": "目标资格",
+          "item": "友军、敌人、匕首三种目标分支",
+          "reason": "正文给出分支，但当前候选只保存数值，不预先制造命中事件。"
+        }
+      ],
+      "excluded": []
+    },
+    "katarina_r": {
+      "recordable": [
+        "magic_base_damage_per_tick",
+        "magic_ap_ratio",
+        "ticks_per_second",
+        "duration_seconds",
+        "grievous_duration_ms",
+        "grievous_amount_ratio",
+        "on_hit_ratio",
+        "bonus_ad_ratio",
+        "attack_speed_coefficient",
+        "one_ratio",
+        "actual_attack_speed_ratio",
+        "cast_time_ms",
+        "magic_damage_per_tick",
+        "total_magic_damage",
+        "physical_damage_per_tick",
+        "total_physical_damage"
+      ],
+      "pending": [
+        {
+          "kind": "输入",
+          "item": "actual_attack_speed_ratio",
+          "reason": "mStat=4/mStatFormula=2具体属性阶段未窄证；缺值时拒绝物理公式。"
+        },
+        {
+          "kind": "时序",
+          "item": "6次/秒持续2.5秒、重伤与攻击特效",
+          "reason": "树给出总量关系，事件时点和攻击特效接线未完成。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "第二、第三敌人",
+          "reason": "正文最多3名敌方英雄；唯一敌人候选不将单目标量乘3。"
+        }
+      ]
+    },
+    "leblanc_p": {
+      "recordable": [
+        "passive_cooldown_ms",
+        "health_threshold_percent_points",
+        "invisibility_duration_ms",
+        "illusion_duration_ms"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "低生命触发、隐形和本体保护",
+          "reason": "当前正文给出触发和时长，状态触发事件未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "无伤害幻像作为独立载体",
+          "reason": "正文明确幻像不能造成伤害，本轮不创建自主召唤伤害。"
+        }
+      ]
+    },
+    "leblanc_q": {
+      "recordable": [
+        "base_damage",
+        "mark_base_damage",
+        "mark_duration_ms",
+        "cooldown_refund_ratio",
+        "mana_refund_ratio",
+        "ap_ratio",
+        "cast_time_ms",
+        "initial_magic_damage",
+        "mark_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "标记命中、引爆和击杀返还",
+          "reason": "两段同一目标数值保留，实际标记/击杀事件未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "小兵额外伤害",
+          "reason": "BonusMinionDamage是小兵专用分支，不进入唯一敌方英雄范围。"
+        }
+      ]
+    },
+    "leblanc_w": {
+      "recordable": [
+        "ap_ratio",
+        "base_damage",
+        "snapback_window_ms",
+        "snapback_delay_ms",
+        "snapback_queue_window_ms",
+        "spell_max_range",
+        "cast_time_ms",
+        "magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "冲刺命中和4秒内返回",
+          "reason": "当前正文给出返回窗口，命中和重施资格未接线。"
+        }
+      ],
+      "excluded": []
+    },
+    "leblanc_e": {
+      "recordable": [
+        "initial_base_damage",
+        "delayed_base_damage",
+        "initial_ap_ratio",
+        "delayed_ap_ratio",
+        "tether_duration_ms",
+        "root_duration_ms",
+        "tether_distance",
+        "cast_time_ms",
+        "initial_magic_damage",
+        "delayed_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "首段、持续束缚、延迟伤害和禁锢",
+          "reason": "当前正文明确同一目标两段条件，断链与控制事件未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "非首个命中敌人",
+          "reason": "正文限定命中的第一个敌人。"
+        }
+      ]
+    },
+    "leblanc_r": {
+      "recordable": [
+        "rq1_base_damage",
+        "rq2_base_damage",
+        "rw_base_damage",
+        "re1_base_damage",
+        "re2_base_damage",
+        "mark_duration_ms",
+        "rq1_re1_ap_ratio",
+        "rq2_ap_ratio",
+        "rw_ap_ratio",
+        "re2_ap_ratio",
+        "cooldown_ms",
+        "cast_time_ms",
+        "replicated_q_initial_damage",
+        "replicated_q_mark_damage",
+        "replicated_w_damage",
+        "replicated_e_initial_damage",
+        "replicated_e_delayed_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "上一技能选择、复制技能重施资格和两段时序",
+          "reason": "当前正文和五棵树明确数值，选择记忆与事件生产未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "乐芙兰分身自主技能",
+          "reason": "本批排除自主分身；R本体五棵复制树仍完整保留。"
+        }
+      ]
+    },
+    "vex_p": {
+      "recordable": [
+        "doom_cooldown_seconds_by_character_level",
+        "fear_duration_seconds_by_character_level",
+        "gloom_duration_ms",
+        "actual_gloom_character_level_base_damage",
+        "gloom_ap_ratio",
+        "gloom_champion_cooldown_refund_ratio",
+        "gloom_bonus_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "输入",
+          "item": "actual_gloom_character_level_base_damage",
+          "reason": "角色等级插值中间值未证，缺值时拒绝求值。"
+        },
+        {
+          "kind": "时序",
+          "item": "冲刺标记、下一次攻击消费、恐惧和冷却返还",
+          "reason": "当前文本给出条件，自动触发与标记生命周期未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "非英雄GloomMinionMod/GloomCDNonChamp",
+          "reason": "兵线与野怪分支不进入本轮唯一敌方英雄范围。"
+        }
+      ]
+    },
+    "vex_q": {
+      "recordable": [
+        "base_damage",
+        "ap_ratio",
+        "cast_time_ms",
+        "magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "飞行提速和暮气消费",
+          "reason": "当前正文明确命中消费，飞行与状态事件未接线。"
+        }
+      ],
+      "excluded": []
+    },
+    "vex_w": {
+      "recordable": [
+        "base_shield",
+        "shield_ap_ratio",
+        "base_damage",
+        "damage_ap_ratio",
+        "shield_duration_ms",
+        "aoe_radius",
+        "bonus_aoe_radius_vs_dashes",
+        "cast_time_ms",
+        "shield_value",
+        "magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "护盾应用、冲击波命中和暮气消费",
+          "reason": "树给出数值，实际命中与状态消费未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "冲刺目标额外范围",
+          "reason": "只保留来源参数，不把条件额外范围扩成自动命中事件。"
+        }
+      ]
+    },
+    "vex_e": {
+      "recordable": [
+        "base_damage",
+        "ap_ratio",
+        "slow_ratio",
+        "slow_duration_ms",
+        "starting_radius",
+        "radius_growth_rate",
+        "max_radius",
+        "gloom_champion_cooldown_refund_ratio",
+        "cast_time_ms",
+        "magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "范围成长、减速、暮气施加和击杀返还",
+          "reason": "当前文本与参数明确数值，实际区域事件未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "非英雄击杀返还",
+          "reason": "GloomCDNonChampTooltip与非英雄分支不进入本轮唯一敌方英雄候选。"
+        }
+      ]
+    },
+    "vex_r": {
+      "recordable": [
+        "base_damage",
+        "first_ap_ratio",
+        "recast_base_damage",
+        "recast_ap_ratio",
+        "recast_window_ms",
+        "takedown_window_ms",
+        "reset_window_ms",
+        "cast_time_ms",
+        "first_magic_damage",
+        "recast_magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "首次标记、重施冲刺、击杀重置",
+          "reason": "当前正文给出4/8/12秒窗口，事件资格与时点未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "首个敌方英雄以外的目标",
+          "reason": "当前正文限定首个命中的敌方英雄。"
+        }
+      ]
+    },
+    "zilean_p": {
+      "recordable": [],
+      "pending": [
+        {
+          "kind": "范围",
+          "item": "经验获取、经验传授和经验计数",
+          "reason": "用户明确排除经验/金币；当前主体和空组成保护，不生成参数、公式或事件。"
+        }
+      ],
+      "excluded": []
+    },
+    "zilean_q": {
+      "recordable": [
+        "base_damage",
+        "ap_ratio",
+        "stun_duration_ms",
+        "fuse_duration_ms",
+        "cast_time_ms",
+        "magic_damage"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "附着、3秒引爆和Q-W-Q双炸",
+          "reason": "正文明确同一目标第二颗炸弹提前引爆第一颗；事件顺序未接线。"
+        },
+        {
+          "kind": "输入",
+          "item": "mCastTime与spellCastTime",
+          "reason": "当前根字段分别为0.25秒和0；候选只采用spellCastTime并保留冲突证据。"
+        }
+      ],
+      "excluded": []
+    },
+    "zilean_w": {
+      "recordable": [
+        "cooldown_reduction_ms",
+        "cast_time_seconds"
+      ],
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "W对Q/E的冷却联动",
+          "reason": "当前正文明确10秒数值，实际冷却变更时点未接线；不把W自身或R加入效果。"
+        },
+        {
+          "kind": "资源",
+          "item": "mDoesNotConsumeMana与公共法力",
+          "reason": "当前根有mDoesNotConsumeMana=true且公共法力值受保护，候选不重建或强行创建扣费结果。"
+        }
+      ],
+      "excluded": []
+    },
+    "zilean_e": {
+      "recordable": [
+        "duration_ms",
+        "speed_percent_points",
+        "cast_time_seconds"
+      ],
+      "pending": [
+        {
+          "kind": "目标资格",
+          "item": "自身是否属于友方可选目标",
+          "reason": "正文同时给出友方加速和敌方减速；本轮不自动把友方分支接成自身效果。"
+        },
+        {
+          "kind": "时序",
+          "item": "减速/加速实际应用",
+          "reason": "数值和持续时间有来源，目标选择与应用事件未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "纯其他友军收益",
+          "reason": "本轮唯一敌方范围不生成第三方友军效果；自身资格保留为待核。"
+        }
+      ]
+    },
+    "zilean_r": {
+      "recordable": [
+        "base_heal",
+        "ap_ratio",
+        "protection_duration_ms",
+        "revive_stasis_duration_ms",
+        "cast_time_seconds",
+        "revive_heal"
+      ],
+      "pending": [
+        {
+          "kind": "目标资格",
+          "item": "自身复活是否可选",
+          "reason": "本轮保留自身收益数值，但当前正文只明确友方英雄，未把自身资格当已证。"
+        },
+        {
+          "kind": "时序",
+          "item": "5秒保护、死亡、3秒凝滞和治疗",
+          "reason": "当前正文给出状态时长，真实触发与治疗时点未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "范围",
+          "item": "纯其他友军复活结果",
+          "reason": "本轮不创建第三方友军直接结果；保留R主体数值和自身待核路径。"
+        }
+      ]
+    }
+  },
+  "protectedSummary": {
+    "inputGETs": 198,
+    "protectedSubjects": 20,
+    "protectedCompositionLists": 120,
+    "protectedRepresentativeImages": 20,
+    "protectedCharacters": [
+      "champion_katarina",
+      "champion_leblanc",
+      "champion_vex",
+      "champion_zilean"
+    ],
+    "protectedCharacterRelations": [
+      "champion_katarina",
+      "champion_leblanc",
+      "champion_vex",
+      "champion_zilean"
+    ],
+    "protectedCatalogs": [
+      "/attributes",
+      "/skill-categories",
+      "/modifier-zones",
+      "/damage-types"
+    ],
+    "publicParameterDetails": 26,
+    "nonPublicExisting": []
+  },
+  "counts": {
+    "skills": 20,
+    "parameters": 123,
+    "formulas": 27,
+    "effects": 1,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "requestCount": 151,
+  "publicReuse": 26,
+  "apiWrites": 0,
+  "noApiCalls": true
+}

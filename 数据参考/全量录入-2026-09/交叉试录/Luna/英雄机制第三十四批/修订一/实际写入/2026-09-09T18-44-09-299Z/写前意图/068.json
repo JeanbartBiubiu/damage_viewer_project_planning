@@ -1,0 +1,23 @@
+{
+  "i": 67,
+  "intent": {
+    "sequence": 71,
+    "method": "POST",
+    "route": "/skills/leblanc_e/parameters",
+    "detailRoute": "/skills/leblanc_e/parameters/root_duration_ms",
+    "skillKey": "leblanc_e",
+    "kind": "parameters",
+    "stableKey": "root_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "root_duration_ms",
+      "name": "禁锢持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "客户端RootDuration取索引1的1.5秒，转换为1500毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

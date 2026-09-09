@@ -1,0 +1,23 @@
+{
+  "i": 124,
+  "intent": {
+    "sequence": 128,
+    "method": "POST",
+    "route": "/skills/vex_r/parameters",
+    "detailRoute": "/skills/vex_r/parameters/recast_ap_ratio",
+    "skillKey": "vex_r",
+    "kind": "parameters",
+    "stableKey": "recast_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "recast_ap_ratio",
+      "name": "重施伤害法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "RecastDamageCalc树的StatByCoefficient=0.5×来源总法强。",
+      "sortOrder": 40
+    }
+  }
+}

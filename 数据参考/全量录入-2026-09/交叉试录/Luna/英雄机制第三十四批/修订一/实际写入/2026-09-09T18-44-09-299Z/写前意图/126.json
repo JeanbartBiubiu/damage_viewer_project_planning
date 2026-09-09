@@ -1,0 +1,23 @@
+{
+  "i": 125,
+  "intent": {
+    "sequence": 129,
+    "method": "POST",
+    "route": "/skills/vex_r/parameters",
+    "detailRoute": "/skills/vex_r/parameters/recast_window_ms",
+    "skillKey": "vex_r",
+    "kind": "parameters",
+    "stableKey": "recast_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "recast_window_ms",
+      "name": "标记与重施窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "客户端R2Duration取索引1的4秒，转换为4000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

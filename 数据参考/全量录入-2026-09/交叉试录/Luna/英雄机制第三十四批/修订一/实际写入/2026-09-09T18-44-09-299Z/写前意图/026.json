@@ -1,0 +1,53 @@
+{
+  "i": 25,
+  "intent": {
+    "sequence": 28,
+    "method": "POST",
+    "route": "/skills/katarina_e/formulas",
+    "detailRoute": "/skills/katarina_e/formulas/dagger_cooldown_reduction_ms",
+    "skillKey": "katarina_e",
+    "kind": "formulas",
+    "stableKey": "dagger_cooldown_reduction_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "dagger_cooldown_reduction_ms",
+      "name": "拾取匕首缩短冷却（毫秒）",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "dagger_cooldown_ratio_by_character_level"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_cooldown_multiplier"
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "data_cooldown_seconds"
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "milliseconds_per_second"
+          }
+        ]
+      },
+      "description": "DaggerCooldownReduction = 角色等级比例×实际冷却倍率×DataCooldown秒×1000；保留匿名修改树及单位换算，不猜倍率。",
+      "sortOrder": 20
+    }
+  }
+}

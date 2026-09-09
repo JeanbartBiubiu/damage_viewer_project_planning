@@ -1,0 +1,23 @@
+{
+  "i": 44,
+  "intent": {
+    "sequence": 47,
+    "method": "POST",
+    "route": "/skills/leblanc_p/parameters",
+    "detailRoute": "/skills/leblanc_p/parameters/invisibility_duration_ms",
+    "skillKey": "leblanc_p",
+    "kind": "parameters",
+    "stableKey": "invisibility_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "invisibility_duration_ms",
+      "name": "隐形持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前绑定正文明确隐形1秒，转换为1000毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

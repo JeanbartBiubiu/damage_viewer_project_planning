@@ -1,0 +1,23 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "method": "POST",
+    "route": "/skills/katarina_p/parameters",
+    "detailRoute": "/skills/katarina_p/parameters/reset_cooldown_reduction_ms",
+    "skillKey": "katarina_p",
+    "kind": "parameters",
+    "stableKey": "reset_cooldown_reduction_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "reset_cooldown_reduction_ms",
+      "name": "击杀后技能冷却减少（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 15000,
+      "levelValues": null,
+      "description": "客户端ResetCDR为15秒，转换为15000毫秒；实际击杀事件未接线。",
+      "sortOrder": 20
+    }
+  }
+}

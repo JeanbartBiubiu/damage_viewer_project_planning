@@ -1,0 +1,70 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 114,
+    "method": "POST",
+    "route": "/skills/vex_w/effects",
+    "detailRoute": "/skills/vex_w/effects/self_shield",
+    "skillKey": "vex_w",
+    "kind": "effects",
+    "stableKey": "self_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "self_shield",
+      "name": "生人勿近自身护盾",
+      "description": "当前正文明确自身护盾，普通护盾吸收类型未限定；命中与暮气消费事件未接线。",
+      "sortOrder": 10,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "shield_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "shield",
+          "name": "生人勿近自身护盾",
+          "resultType": "NORMAL_SHIELD",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "shield_value"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          }
+        }
+      ]
+    }
+  }
+}

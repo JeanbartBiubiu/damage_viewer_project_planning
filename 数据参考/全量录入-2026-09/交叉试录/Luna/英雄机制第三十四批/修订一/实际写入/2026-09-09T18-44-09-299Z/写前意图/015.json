@@ -1,0 +1,29 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 17,
+    "method": "POST",
+    "route": "/skills/katarina_w/parameters",
+    "detailRoute": "/skills/katarina_w/parameters/movement_speed_percent_points",
+    "skillKey": "katarina_w",
+    "kind": "parameters",
+    "stableKey": "movement_speed_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "movement_speed_percent_points",
+      "name": "移动速度增益百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 60,
+        "3": 70,
+        "4": 80,
+        "5": 90
+      },
+      "description": "客户端MovespeedAmount取技能等级索引1至5；索引0的40不是等级1。",
+      "sortOrder": 20
+    }
+  }
+}

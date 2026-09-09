@@ -1,0 +1,42 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 94,
+    "method": "POST",
+    "route": "/skills/vex_p/parameters",
+    "detailRoute": "/skills/vex_p/parameters/fear_duration_seconds_by_character_level",
+    "skillKey": "vex_p",
+    "kind": "parameters",
+    "stableKey": "fear_duration_seconds_by_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "fear_duration_seconds_by_character_level",
+      "name": "恐惧持续（角色等级秒数）",
+      "valueType": "DECIMAL",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.75,
+        "2": 0.75,
+        "3": 0.75,
+        "4": 0.75,
+        "5": 0.75,
+        "6": 1,
+        "7": 1,
+        "8": 1,
+        "9": 1.25,
+        "10": 1.25,
+        "11": 1.25,
+        "12": 1.25,
+        "13": 1.5,
+        "14": 1.5,
+        "15": 1.5,
+        "16": 1.5,
+        "17": 1.5,
+        "18": 1.5
+      },
+      "description": "FearDuration树：0.75秒起，角色等级6/9/13各增加0.25秒。",
+      "sortOrder": 20
+    }
+  }
+}

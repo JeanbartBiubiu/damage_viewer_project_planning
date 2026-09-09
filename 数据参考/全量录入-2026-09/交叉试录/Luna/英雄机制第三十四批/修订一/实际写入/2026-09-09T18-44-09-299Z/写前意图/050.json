@@ -1,0 +1,23 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 53,
+    "method": "POST",
+    "route": "/skills/leblanc_q/parameters",
+    "detailRoute": "/skills/leblanc_q/parameters/mana_refund_ratio",
+    "skillKey": "leblanc_q",
+    "kind": "parameters",
+    "stableKey": "mana_refund_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mana_refund_ratio",
+      "name": "击杀后法力返还比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "客户端ManaRefund=1；只保留击杀条件参数。",
+      "sortOrder": 50
+    }
+  }
+}

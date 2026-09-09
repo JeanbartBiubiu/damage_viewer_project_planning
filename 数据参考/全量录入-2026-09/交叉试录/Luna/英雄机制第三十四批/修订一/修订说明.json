@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-09T18:39:42.609Z",
+  "parentCandidateSha256": "d494b730fac1da22b8ce266ce303aaec9cd4224e62423a0fa2d64b0a42fc30db",
+  "candidateSha256": "07cbc606f8138ec61cbd8600cd53ce9eaf392241960cb54ea72016a67b0c219b",
+  "planSha256": "0632be0bf547dd57c15329e3124e8d979a91c0eda61f7f47f12c9381510152aa",
+  "newCounts": {
+    "skills": 20,
+    "parameters": 119,
+    "formulas": 27,
+    "effects": 1,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "requests": 147,
+  "reused": 26,
+  "current": 173,
+  "removed": {
+    "katarina_q": [
+      "bounce_radius",
+      "max_bounces"
+    ],
+    "leblanc_p": [
+      "illusion_duration_ms"
+    ],
+    "zilean_q": [
+      "cast_time_ms"
+    ]
+  },
+  "changes": [
+    "卡特琳娜E使用总攻击力，参数同步改名；P/R额外攻击力不改",
+    "排除额外目标弹跳和独立分身参数；保留匕首落点及跨技能依赖",
+    "基兰Q施法0与0.25冲突，记录后暂不录值",
+    "候选数学实际取候选参数值；期望仍从原始来源读取，避免两侧都代入来源值掩盖录错"
+  ],
+  "apiWrites": 0
+}

@@ -1,0 +1,29 @@
+{
+  "i": 17,
+  "intent": {
+    "sequence": 20,
+    "method": "POST",
+    "route": "/skills/katarina_e/parameters",
+    "detailRoute": "/skills/katarina_e/parameters/data_cooldown_seconds",
+    "skillKey": "katarina_e",
+    "kind": "parameters",
+    "stableKey": "data_cooldown_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "data_cooldown_seconds",
+      "name": "匕首冷却缩减基准（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 12,
+        "2": 11,
+        "3": 10,
+        "4": 9,
+        "5": 8
+      },
+      "description": "DaggerCooldownReduction树引用DataCooldown索引1至5，保留来源秒单位。",
+      "sortOrder": 20
+    }
+  }
+}

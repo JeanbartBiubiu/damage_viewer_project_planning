@@ -1,0 +1,45 @@
+{
+  "i": 71,
+  "intent": {
+    "sequence": 75,
+    "method": "POST",
+    "route": "/skills/leblanc_e/formulas",
+    "detailRoute": "/skills/leblanc_e/formulas/delayed_magic_damage",
+    "skillKey": "leblanc_e",
+    "kind": "formulas",
+    "stableKey": "delayed_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "delayed_magic_damage",
+      "name": "幻影锁链延迟魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "delayed_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "delayed_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "DelayedDamage = BaseDelayedDamage + DelayedAPRatio×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

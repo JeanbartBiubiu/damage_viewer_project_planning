@@ -1,0 +1,45 @@
+{
+  "i": 95,
+  "intent": {
+    "sequence": 99,
+    "method": "POST",
+    "route": "/skills/vex_p/formulas",
+    "detailRoute": "/skills/vex_p/formulas/gloom_bonus_magic_damage",
+    "skillKey": "vex_p",
+    "kind": "formulas",
+    "stableKey": "gloom_bonus_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "gloom_bonus_magic_damage",
+      "name": "暮气额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_gloom_character_level_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "gloom_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "GloomProcCalc = 当前角色等级暮气基础伤害输入 + 0.25×来源总法强；不猜40至150中间曲线。",
+      "sortOrder": 10
+    }
+  }
+}

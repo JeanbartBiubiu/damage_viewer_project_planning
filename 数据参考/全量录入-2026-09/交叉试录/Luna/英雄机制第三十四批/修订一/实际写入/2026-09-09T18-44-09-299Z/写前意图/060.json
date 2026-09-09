@@ -1,0 +1,23 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 63,
+    "method": "POST",
+    "route": "/skills/leblanc_w/parameters",
+    "detailRoute": "/skills/leblanc_w/parameters/spell_max_range",
+    "skillKey": "leblanc_w",
+    "kind": "parameters",
+    "stableKey": "spell_max_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_max_range",
+      "name": "技能最大射程",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 600,
+      "levelValues": null,
+      "description": "客户端SpellMaxRange取索引1的600。",
+      "sortOrder": 60
+    }
+  }
+}

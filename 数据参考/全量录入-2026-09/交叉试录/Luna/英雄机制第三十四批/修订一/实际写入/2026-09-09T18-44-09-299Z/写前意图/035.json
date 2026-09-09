@@ -1,0 +1,23 @@
+{
+  "i": 34,
+  "intent": {
+    "sequence": 37,
+    "method": "POST",
+    "route": "/skills/katarina_r/parameters",
+    "detailRoute": "/skills/katarina_r/parameters/attack_speed_coefficient",
+    "skillKey": "katarina_r",
+    "kind": "parameters",
+    "stableKey": "attack_speed_coefficient",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_coefficient",
+      "name": "物理伤害攻速比例系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 3.125,
+      "levelValues": null,
+      "description": "ADDamageCalc内部3.125项；攻速输入仍保持原比例单位。",
+      "sortOrder": 90
+    }
+  }
+}
