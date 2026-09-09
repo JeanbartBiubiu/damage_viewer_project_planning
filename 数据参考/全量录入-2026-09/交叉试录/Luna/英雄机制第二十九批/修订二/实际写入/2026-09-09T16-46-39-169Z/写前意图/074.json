@@ -1,0 +1,20 @@
+{
+  "i": 73,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_q/parameters",
+    "skillKey": "shen_q",
+    "kind": "parameters",
+    "stableKey": "enhanced_attack_count",
+    "body": {
+      "parameterKey": "enhanced_attack_count",
+      "name": "强化普攻次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前根DataValues.NumEnhancedAttacks为3；不表示扣次事件已接通。",
+      "sortOrder": 100
+    }
+  }
+}

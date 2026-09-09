@@ -1,0 +1,42 @@
+{
+  "i": 62,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_p/formulas",
+    "skillKey": "shen_p",
+    "kind": "formulas",
+    "stableKey": "default_shield_value",
+    "body": {
+      "formulaKey": "default_shield_value",
+      "name": "忍法气合盾默认护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_base_shield_value"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_health_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前ShieldValue默认分支=实际等级基础护盾值+0.13×来源额外生命。",
+      "sortOrder": 10
+    }
+  }
+}

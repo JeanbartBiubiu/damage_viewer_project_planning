@@ -1,0 +1,39 @@
+{
+  "i": 93,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_e/parameters",
+    "skillKey": "shen_e",
+    "kind": "parameters",
+    "stableKey": "actual_energy_refund_on_damage",
+    "body": {
+      "parameterKey": "actual_energy_refund_on_damage",
+      "name": "角色等级造成伤害能量回复",
+      "valueType": "INTEGER",
+      "valueMode": "CHARACTER_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 30,
+        "3": 30,
+        "4": 40,
+        "5": 40,
+        "6": 40,
+        "7": 40,
+        "8": 40,
+        "9": 40,
+        "10": 40,
+        "11": 40,
+        "12": 50,
+        "13": 50,
+        "14": 50,
+        "15": 50,
+        "16": 50,
+        "17": 50,
+        "18": 50
+      },
+      "description": "当前energyrefund根阶梯为等级1起30，4级和12级各增加10；使用已支持的CHARACTER_LEVEL完整1至18映射，真实触发仍待接。",
+      "sortOrder": 80
+    }
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "at": "2026-09-09T16:45:36.617Z",
+  "decision": "保存前补齐输入语义及触发资格，所有标识、数值、表达式和请求数量与修订一保持一致。",
+  "diffs": [
+    {
+      "path": "candidate/skills/ornn_p/write/parameters/3/name",
+      "before": "奥恩被动应用前来源生命",
+      "after": "奥恩被动应用前额外生命"
+    },
+    {
+      "path": "candidate/skills/ornn_p/write/parameters/3/description",
+      "before": "应用10%加成前的来源生命基准；不能使用已经包含奥恩被动的最终生命，实际输入无默认。",
+      "after": "应用奥恩被动增幅前的额外生命基准，只取各来源提供的加成属性，不含基础生命，也不含本次奥恩被动增幅；实际输入无默认。"
+    },
+    {
+      "path": "candidate/skills/ornn_p/write/parameters/4/name",
+      "before": "奥恩被动应用前来源护甲",
+      "after": "奥恩被动应用前额外护甲"
+    },
+    {
+      "path": "candidate/skills/ornn_p/write/parameters/4/description",
+      "before": "应用10%加成前的来源护甲基准；不能使用已经包含奥恩被动的最终护甲，实际输入无默认。",
+      "after": "应用奥恩被动增幅前的额外护甲基准，只取各来源提供的加成属性，不含基础护甲，也不含本次奥恩被动增幅；实际输入无默认。"
+    },
+    {
+      "path": "candidate/skills/ornn_p/write/parameters/5/name",
+      "before": "奥恩被动应用前来源魔抗",
+      "after": "奥恩被动应用前额外魔抗"
+    },
+    {
+      "path": "candidate/skills/ornn_p/write/parameters/5/description",
+      "before": "应用10%加成前的来源魔抗基准；不能使用已经包含奥恩被动的最终魔抗，实际输入无默认。",
+      "after": "应用奥恩被动增幅前的额外魔抗基准，只取各来源提供的加成属性，不含基础魔抗，也不含本次奥恩被动增幅；实际输入无默认。"
+    },
+    {
+      "path": "candidate/skills/ornn_p/write/formulas/1/description",
+      "before": "额外生命=(10%+4%×杰作数量)×被动应用前来源生命。",
+      "after": "额外生命=(10%+4%×杰作数量)×被动应用前额外生命。"
+    },
+    {
+      "path": "candidate/skills/ornn_p/write/formulas/2/description",
+      "before": "额外护甲=(10%+4%×杰作数量)×被动应用前来源护甲。",
+      "after": "额外护甲=(10%+4%×杰作数量)×被动应用前额外护甲。"
+    },
+    {
+      "path": "candidate/skills/ornn_p/write/formulas/3/description",
+      "before": "额外魔抗=(10%+4%×杰作数量)×被动应用前来源魔抗。",
+      "after": "额外魔抗=(10%+4%×杰作数量)×被动应用前额外魔抗。"
+    },
+    {
+      "path": "candidate/skills/shen_e/write/effects/1/name",
+      "before": "造成伤害能量回复",
+      "after": "Q或E造成伤害能量回复"
+    },
+    {
+      "path": "candidate/skills/shen_e/write/effects/1/description",
+      "before": "当前属性目录已存在energy键；只保存当前等级实际输入对应的回复量，命中条件事件未自动触发。",
+      "after": "仅奥义！暮临（Q）的强化攻击或奥义！影缚（E）造成伤害时回复能量；按角色等级参数读取实际回复量，触发事件尚未接线，不适用于任意来源伤害。"
+    },
+    {
+      "path": "candidate/skills/shen_e/write/effects/1/results/0/name",
+      "before": "造成伤害能量回复",
+      "after": "Q或E造成伤害能量回复"
+    },
+    {
+      "path": "candidate/postIntents/3/body/name",
+      "before": "奥恩被动应用前来源生命",
+      "after": "奥恩被动应用前额外生命"
+    },
+    {
+      "path": "candidate/postIntents/3/body/description",
+      "before": "应用10%加成前的来源生命基准；不能使用已经包含奥恩被动的最终生命，实际输入无默认。",
+      "after": "应用奥恩被动增幅前的额外生命基准，只取各来源提供的加成属性，不含基础生命，也不含本次奥恩被动增幅；实际输入无默认。"
+    },
+    {
+      "path": "candidate/postIntents/4/body/name",
+      "before": "奥恩被动应用前来源护甲",
+      "after": "奥恩被动应用前额外护甲"
+    },
+    {
+      "path": "candidate/postIntents/4/body/description",
+      "before": "应用10%加成前的来源护甲基准；不能使用已经包含奥恩被动的最终护甲，实际输入无默认。",
+      "after": "应用奥恩被动增幅前的额外护甲基准，只取各来源提供的加成属性，不含基础护甲，也不含本次奥恩被动增幅；实际输入无默认。"
+    },
+    {
+      "path": "candidate/postIntents/5/body/name",
+      "before": "奥恩被动应用前来源魔抗",
+      "after": "奥恩被动应用前额外魔抗"
+    },
+    {
+      "path": "candidate/postIntents/5/body/description",
+      "before": "应用10%加成前的来源魔抗基准；不能使用已经包含奥恩被动的最终魔抗，实际输入无默认。",
+      "after": "应用奥恩被动增幅前的额外魔抗基准，只取各来源提供的加成属性，不含基础魔抗，也不含本次奥恩被动增幅；实际输入无默认。"
+    },
+    {
+      "path": "candidate/postIntents/7/body/description",
+      "before": "额外生命=(10%+4%×杰作数量)×被动应用前来源生命。",
+      "after": "额外生命=(10%+4%×杰作数量)×被动应用前额外生命。"
+    },
+    {
+      "path": "candidate/postIntents/8/body/description",
+      "before": "额外护甲=(10%+4%×杰作数量)×被动应用前来源护甲。",
+      "after": "额外护甲=(10%+4%×杰作数量)×被动应用前额外护甲。"
+    },
+    {
+      "path": "candidate/postIntents/9/body/description",
+      "before": "额外魔抗=(10%+4%×杰作数量)×被动应用前来源魔抗。",
+      "after": "额外魔抗=(10%+4%×杰作数量)×被动应用前额外魔抗。"
+    },
+    {
+      "path": "candidate/postIntents/96/body/name",
+      "before": "造成伤害能量回复",
+      "after": "Q或E造成伤害能量回复"
+    },
+    {
+      "path": "candidate/postIntents/96/body/description",
+      "before": "当前属性目录已存在energy键；只保存当前等级实际输入对应的回复量，命中条件事件未自动触发。",
+      "after": "仅奥义！暮临（Q）的强化攻击或奥义！影缚（E）造成伤害时回复能量；按角色等级参数读取实际回复量，触发事件尚未接线，不适用于任意来源伤害。"
+    },
+    {
+      "path": "candidate/postIntents/96/body/results/0/name",
+      "before": "造成伤害能量回复",
+      "after": "Q或E造成伤害能量回复"
+    },
+    {
+      "path": "plan/intents/3/body/name",
+      "before": "奥恩被动应用前来源生命",
+      "after": "奥恩被动应用前额外生命"
+    },
+    {
+      "path": "plan/intents/3/body/description",
+      "before": "应用10%加成前的来源生命基准；不能使用已经包含奥恩被动的最终生命，实际输入无默认。",
+      "after": "应用奥恩被动增幅前的额外生命基准，只取各来源提供的加成属性，不含基础生命，也不含本次奥恩被动增幅；实际输入无默认。"
+    },
+    {
+      "path": "plan/intents/4/body/name",
+      "before": "奥恩被动应用前来源护甲",
+      "after": "奥恩被动应用前额外护甲"
+    },
+    {
+      "path": "plan/intents/4/body/description",
+      "before": "应用10%加成前的来源护甲基准；不能使用已经包含奥恩被动的最终护甲，实际输入无默认。",
+      "after": "应用奥恩被动增幅前的额外护甲基准，只取各来源提供的加成属性，不含基础护甲，也不含本次奥恩被动增幅；实际输入无默认。"
+    },
+    {
+      "path": "plan/intents/5/body/name",
+      "before": "奥恩被动应用前来源魔抗",
+      "after": "奥恩被动应用前额外魔抗"
+    },
+    {
+      "path": "plan/intents/5/body/description",
+      "before": "应用10%加成前的来源魔抗基准；不能使用已经包含奥恩被动的最终魔抗，实际输入无默认。",
+      "after": "应用奥恩被动增幅前的额外魔抗基准，只取各来源提供的加成属性，不含基础魔抗，也不含本次奥恩被动增幅；实际输入无默认。"
+    },
+    {
+      "path": "plan/intents/7/body/description",
+      "before": "额外生命=(10%+4%×杰作数量)×被动应用前来源生命。",
+      "after": "额外生命=(10%+4%×杰作数量)×被动应用前额外生命。"
+    },
+    {
+      "path": "plan/intents/8/body/description",
+      "before": "额外护甲=(10%+4%×杰作数量)×被动应用前来源护甲。",
+      "after": "额外护甲=(10%+4%×杰作数量)×被动应用前额外护甲。"
+    },
+    {
+      "path": "plan/intents/9/body/description",
+      "before": "额外魔抗=(10%+4%×杰作数量)×被动应用前来源魔抗。",
+      "after": "额外魔抗=(10%+4%×杰作数量)×被动应用前额外魔抗。"
+    },
+    {
+      "path": "plan/intents/96/body/name",
+      "before": "造成伤害能量回复",
+      "after": "Q或E造成伤害能量回复"
+    },
+    {
+      "path": "plan/intents/96/body/description",
+      "before": "当前属性目录已存在energy键；只保存当前等级实际输入对应的回复量，命中条件事件未自动触发。",
+      "after": "仅奥义！暮临（Q）的强化攻击或奥义！影缚（E）造成伤害时回复能量；按角色等级参数读取实际回复量，触发事件尚未接线，不适用于任意来源伤害。"
+    },
+    {
+      "path": "plan/intents/96/body/results/0/name",
+      "before": "造成伤害能量回复",
+      "after": "Q或E造成伤害能量回复"
+    }
+  ],
+  "candidateSha256": "3837264e96ce61ca1cb420a0d37cdadb19d5d3082240f92cff29baff335875b1",
+  "planSha256": "162f1637ac59183d198265a5c152d245c7a1b619efef742256f094bd98344eb0",
+  "writerSha256": "1f7155feb8c15937f94cf26c373dafca32fd4a741bcb2f8dfae1ef28feac20c6",
+  "mathSha256": "92b838c400e7af27eda32790cad5a6b1895ebbd11342460854ba72d4e9852fcd",
+  "sourceRangeSha256": "821207448fffa37f84ab6e2bcab84a4d7d24d47161fe650d3cf40ba8b43c85e6",
+  "apiWrites": 0
+}

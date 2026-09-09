@@ -1,0 +1,20 @@
+{
+  "i": 67,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_q/parameters",
+    "skillKey": "shen_q",
+    "kind": "parameters",
+    "stableKey": "base_flat_damage_breakpoint_increment",
+    "body": {
+      "parameterKey": "base_flat_damage_breakpoint_increment",
+      "name": "基础附加伤害断点增量",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6,
+      "levelValues": null,
+      "description": "当前BaseFlatDamage根在4/7/10/13/16级各增加6；仅保留断点增量。",
+      "sortOrder": 40
+    }
+  }
+}

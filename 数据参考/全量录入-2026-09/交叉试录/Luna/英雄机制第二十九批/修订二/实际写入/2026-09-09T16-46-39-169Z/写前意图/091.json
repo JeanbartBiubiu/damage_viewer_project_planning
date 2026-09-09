@@ -1,0 +1,20 @@
+{
+  "i": 90,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_e/parameters",
+    "skillKey": "shen_e",
+    "kind": "parameters",
+    "stableKey": "energy_refund_level1",
+    "body": {
+      "parameterKey": "energy_refund_level1",
+      "name": "造成伤害能量回复等级1端点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 30,
+      "levelValues": null,
+      "description": "当前energyrefund根阶梯起点30；仅保留端点，不替代实际等级输入。",
+      "sortOrder": 50
+    }
+  }
+}

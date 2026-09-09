@@ -1,0 +1,26 @@
+{
+  "i": 11,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_q/parameters",
+    "skillKey": "ornn_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 45,
+        "3": 70,
+        "4": 95,
+        "5": 120
+      },
+      "description": "当前根DataValues.BaseDamage取技能等级1至5。",
+      "sortOrder": 20
+    }
+  }
+}

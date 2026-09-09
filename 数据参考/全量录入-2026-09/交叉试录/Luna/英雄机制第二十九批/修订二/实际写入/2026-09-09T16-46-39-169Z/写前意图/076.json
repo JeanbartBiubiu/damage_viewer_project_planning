@@ -1,0 +1,20 @@
+{
+  "i": 75,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_q/parameters",
+    "skillKey": "shen_q",
+    "kind": "parameters",
+    "stableKey": "enhanced_attack_speed_percent_points",
+    "body": {
+      "parameterKey": "enhanced_attack_speed_percent_points",
+      "name": "穿过英雄后攻速增加百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 50,
+      "levelValues": null,
+      "description": "当前根DataValues.SteroidAS为50；不把SteroidDuration=75当作持续秒数。",
+      "sortOrder": 120
+    }
+  }
+}

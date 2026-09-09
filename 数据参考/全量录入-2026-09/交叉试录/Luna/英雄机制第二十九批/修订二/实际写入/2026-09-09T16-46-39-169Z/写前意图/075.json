@@ -1,0 +1,20 @@
+{
+  "i": 74,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_q/parameters",
+    "skillKey": "shen_q",
+    "kind": "parameters",
+    "stableKey": "enhanced_attack_window_ms",
+    "body": {
+      "parameterKey": "enhanced_attack_window_ms",
+      "name": "强化普攻窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 8000,
+      "levelValues": null,
+      "description": "当前根DataValues.AttackBuffDuration为8秒，单位换算为毫秒；这是攻击窗口。",
+      "sortOrder": 110
+    }
+  }
+}

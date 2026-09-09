@@ -1,0 +1,74 @@
+{
+  "i": 79,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_q/formulas",
+    "skillKey": "shen_q",
+    "kind": "formulas",
+    "stableKey": "enhanced_attack_magic_damage",
+    "body": {
+      "formulaKey": "enhanced_attack_magic_damage",
+      "name": "奥义暮临穿过英雄后每次额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_base_flat_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_root_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "enhanced_percent_damage_points"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "enhanced_percent_ap_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "ability_power",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "TARGET",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "穿过敌方英雄后的每次附加伤害=实际等级基础附加伤害+目标最大生命×0.01×(5至7百分数点+0.02×来源总法强)。",
+      "sortOrder": 20
+    }
+  }
+}

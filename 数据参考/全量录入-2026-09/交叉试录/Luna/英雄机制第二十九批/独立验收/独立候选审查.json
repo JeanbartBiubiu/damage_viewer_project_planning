@@ -1,0 +1,2660 @@
+{
+  "at": "2026-09-09T17:07:54.318Z",
+  "mode": "静态独立审查",
+  "target": {
+    "candidate": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-luna-candidate\\修订二\\完整候选.json",
+    "plan": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-luna-candidate\\修订二\\请求计划.json",
+    "writer": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-luna-candidate\\修订二\\受保护写入器.mjs",
+    "input": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-root-entry-20260909"
+  },
+  "sourceVersions": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "hashes": {
+    "candidate": "3837264e96ce61ca1cb420a0d37cdadb19d5d3082240f92cff29baff335875b1",
+    "plan": "162f1637ac59183d198265a5c152d245c7a1b619efef742256f094bd98344eb0",
+    "range": "821207448fffa37f84ab6e2bcab84a4d7d24d47161fe650d3cf40ba8b43c85e6",
+    "version": "b341b6797e1d8dbf063e5262f10404f8a3114fd7dd09a5277859b68022b10fc4",
+    "sourceBinding": "f09cf7a5e4f515d89860cf5f05cfd89eb3f2f42b7b19294c906740f6910f6341",
+    "inputVersion": "85459db3db119841a7950124c3661b7cc5625b7be3b2283fe5e31fc61d66349f",
+    "protection": "e68afdd8f5b82dea441ac6fed6d2ecd912fc70d0a7b05812a22b695fffb73956",
+    "sourceNote": "3839875a178be5932150348757b8cbe3e6d9187041e2c98384ab0cc7acee7bc2",
+    "publicReuse": "ba209b9fedd67c4e00e8f95b6dcba477f1114a96df8755dffafd9f73a2a8d739",
+    "writer": "1f7155feb8c15937f94cf26c373dafca32fd4a741bcb2f8dfae1ef28feac20c6",
+    "candidateMath": "92b838c400e7af27eda32790cad5a6b1895ebbd11342460854ba72d4e9852fcd",
+    "cursorAudit": "2b4857d6731f457b5da232dd39b3a32b6cfe7d41aed7078a0c6e9aec33e3368c",
+    "auditScript": "9186ce6652997839b717feaa2cd4ec64894242c691f48ff02d60c80ea09724a0"
+  },
+  "counts": {
+    "current": {
+      "parameters": 82,
+      "formulas": 18,
+      "effects": 8,
+      "total": 108
+    },
+    "new": {
+      "parameters": 71,
+      "formulas": 18,
+      "effects": 8,
+      "total": 97
+    },
+    "reused": 11,
+    "protectedGETs": 99,
+    "protectedLists": 60
+  },
+  "readonlyEvidence": {
+    "candidatePreflight": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-luna-candidate\\修订一\\只读预检\\2026-09-09T16-25-34-367Z\\执行结果.json",
+    "GETs": 207,
+    "POSTs": 0,
+    "apiWrites": 0
+  },
+  "checks": {
+    "total": 439,
+    "passed": 439,
+    "failed": 0,
+    "rows": [
+      {
+        "id": "hash.candidate",
+        "status": "PASS",
+        "detail": "实际=3837264e96ce61ca1cb420a0d37cdadb19d5d3082240f92cff29baff335875b1，冻结=3837264e96ce61ca1cb420a0d37cdadb19d5d3082240f92cff29baff335875b1"
+      },
+      {
+        "id": "hash.plan",
+        "status": "PASS",
+        "detail": "实际=162f1637ac59183d198265a5c152d245c7a1b619efef742256f094bd98344eb0，冻结=162f1637ac59183d198265a5c152d245c7a1b619efef742256f094bd98344eb0"
+      },
+      {
+        "id": "hash.inputVersion",
+        "status": "PASS",
+        "detail": "实际=85459db3db119841a7950124c3661b7cc5625b7be3b2283fe5e31fc61d66349f，冻结=85459db3db119841a7950124c3661b7cc5625b7be3b2283fe5e31fc61d66349f"
+      },
+      {
+        "id": "hash.sourceBinding",
+        "status": "PASS",
+        "detail": "实际=f09cf7a5e4f515d89860cf5f05cfd89eb3f2f42b7b19294c906740f6910f6341，冻结=f09cf7a5e4f515d89860cf5f05cfd89eb3f2f42b7b19294c906740f6910f6341"
+      },
+      {
+        "id": "hash.protection",
+        "status": "PASS",
+        "detail": "实际=e68afdd8f5b82dea441ac6fed6d2ecd912fc70d0a7b05812a22b695fffb73956，冻结=e68afdd8f5b82dea441ac6fed6d2ecd912fc70d0a7b05812a22b695fffb73956"
+      },
+      {
+        "id": "hash.sourceNote",
+        "status": "PASS",
+        "detail": "实际=3839875a178be5932150348757b8cbe3e6d9187041e2c98384ab0cc7acee7bc2，冻结=3839875a178be5932150348757b8cbe3e6d9187041e2c98384ab0cc7acee7bc2"
+      },
+      {
+        "id": "hash.publicReuse",
+        "status": "PASS",
+        "detail": "实际=ba209b9fedd67c4e00e8f95b6dcba477f1114a96df8755dffafd9f73a2a8d739，冻结=ba209b9fedd67c4e00e8f95b6dcba477f1114a96df8755dffafd9f73a2a8d739"
+      },
+      {
+        "id": "hash.range",
+        "status": "PASS",
+        "detail": "实际=821207448fffa37f84ab6e2bcab84a4d7d24d47161fe650d3cf40ba8b43c85e6，冻结=821207448fffa37f84ab6e2bcab84a4d7d24d47161fe650d3cf40ba8b43c85e6"
+      },
+      {
+        "id": "hash.candidateMath",
+        "status": "PASS",
+        "detail": "实际=92b838c400e7af27eda32790cad5a6b1895ebbd11342460854ba72d4e9852fcd，冻结=92b838c400e7af27eda32790cad5a6b1895ebbd11342460854ba72d4e9852fcd"
+      },
+      {
+        "id": "hash.writer",
+        "status": "PASS",
+        "detail": "实际=1f7155feb8c15937f94cf26c373dafca32fd4a741bcb2f8dfae1ef28feac20c6，冻结=1f7155feb8c15937f94cf26c373dafca32fd4a741bcb2f8dfae1ef28feac20c6"
+      },
+      {
+        "id": "hash.candidate_version_meta",
+        "status": "PASS",
+        "detail": "候选版本中的 candidateSha256/planSha256 与修订一文件一致"
+      },
+      {
+        "id": "hash.source_range_meta",
+        "status": "PASS",
+        "detail": "来源范围冻结哈希全部对应当前输入字节"
+      },
+      {
+        "id": "source-file.参考资料/lol-16.17-zh_CN.stringtable.json.gz",
+        "status": "PASS",
+        "detail": "来源文件存在且散列=dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+      },
+      {
+        "id": "source-file.参考资料/客户端原文/Ornn.json.gz",
+        "status": "PASS",
+        "detail": "来源文件存在且散列=42bc358c5d093399fa99f75863f18aa71f605abcc50546b7bb814a42bb6e30c7"
+      },
+      {
+        "id": "source-file.参考资料/官方中文/Ornn.json",
+        "status": "PASS",
+        "detail": "来源文件存在且散列=662ca9b9dcd0f7273981ea8ef6085cb1c98593bdc05c48dbf14e83c1b68565e9"
+      },
+      {
+        "id": "source-file.参考资料/官方英文/Ornn.json",
+        "status": "PASS",
+        "detail": "来源文件存在且散列=e42ddac6085903dfee23bfeb40e65c277bee8cf06ba167abb65da5b1060683a6"
+      },
+      {
+        "id": "source-file.参考资料/客户端原文/Shen.json.gz",
+        "status": "PASS",
+        "detail": "来源文件存在且散列=6ee15edef5809b4bd618fb22b3a471c6212ba57fbc928506c972d82144dbe568"
+      },
+      {
+        "id": "source-file.参考资料/官方中文/Shen.json",
+        "status": "PASS",
+        "detail": "来源文件存在且散列=e1be63247dd0e129e1ade0ec6c280ad575a479caf31e32329e86ee43fd157dd3"
+      },
+      {
+        "id": "source-file.参考资料/官方英文/Shen.json",
+        "status": "PASS",
+        "detail": "来源文件存在且散列=88f18a33f8b51adcd2ecf9dabaa476214b7e378b95894dec9803dc454bff6231"
+      },
+      {
+        "id": "source-file.参考资料/属性默认与边界.json",
+        "status": "PASS",
+        "detail": "来源文件存在且散列=5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6"
+      },
+      {
+        "id": "source-file.参考资料/接口载荷样例.json",
+        "status": "PASS",
+        "detail": "来源文件存在且散列=96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02"
+      },
+      {
+        "id": "source.versions",
+        "status": "PASS",
+        "detail": "候选和输入均固定客户端16.17、官方16.17.1"
+      },
+      {
+        "id": "preflight.readonly",
+        "status": "PASS",
+        "detail": "mode=readonly，GET=207，POST=0，apiWrites=0"
+      },
+      {
+        "id": "preflight.protection",
+        "status": "PASS",
+        "detail": "保护=99，列表=60，复用=11，新增缺失=97"
+      },
+      {
+        "id": "counts.total",
+        "status": "PASS",
+        "detail": "当前组成=108，新增计划=97，复用=11"
+      },
+      {
+        "id": "counts.ornn_p",
+        "status": "PASS",
+        "detail": "实际=6/4/0，期望=6/4/0"
+      },
+      {
+        "id": "empty-extra.ornn_p.parameters",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，parameters数量=6"
+      },
+      {
+        "id": "empty-extra.ornn_p.formulas",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，formulas数量=4"
+      },
+      {
+        "id": "empty-extra.ornn_p.effects",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，effects数量=0"
+      },
+      {
+        "id": "empty-extra.ornn_p.processes",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，processes数量=0"
+      },
+      {
+        "id": "empty-extra.ornn_p.internalStates",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，internalStates数量=0"
+      },
+      {
+        "id": "empty-extra.ornn_p.triggerRules",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，triggerRules数量=0"
+      },
+      {
+        "id": "counts.ornn_q",
+        "status": "PASS",
+        "detail": "实际=8/1/1，期望=8/1/1"
+      },
+      {
+        "id": "empty-extra.ornn_q.parameters",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，parameters数量=8"
+      },
+      {
+        "id": "empty-extra.ornn_q.formulas",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，formulas数量=1"
+      },
+      {
+        "id": "empty-extra.ornn_q.effects",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，effects数量=1"
+      },
+      {
+        "id": "empty-extra.ornn_q.processes",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，processes数量=0"
+      },
+      {
+        "id": "empty-extra.ornn_q.internalStates",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，internalStates数量=0"
+      },
+      {
+        "id": "empty-extra.ornn_q.triggerRules",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，triggerRules数量=0"
+      },
+      {
+        "id": "counts.ornn_w",
+        "status": "PASS",
+        "detail": "实际=13/4/1，期望=13/4/1"
+      },
+      {
+        "id": "empty-extra.ornn_w.parameters",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，parameters数量=13"
+      },
+      {
+        "id": "empty-extra.ornn_w.formulas",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，formulas数量=4"
+      },
+      {
+        "id": "empty-extra.ornn_w.effects",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，effects数量=1"
+      },
+      {
+        "id": "empty-extra.ornn_w.processes",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，processes数量=0"
+      },
+      {
+        "id": "empty-extra.ornn_w.internalStates",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，internalStates数量=0"
+      },
+      {
+        "id": "empty-extra.ornn_w.triggerRules",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，triggerRules数量=0"
+      },
+      {
+        "id": "counts.ornn_e",
+        "status": "PASS",
+        "detail": "实际=8/1/1，期望=8/1/1"
+      },
+      {
+        "id": "empty-extra.ornn_e.parameters",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，parameters数量=8"
+      },
+      {
+        "id": "empty-extra.ornn_e.formulas",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，formulas数量=1"
+      },
+      {
+        "id": "empty-extra.ornn_e.effects",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，effects数量=1"
+      },
+      {
+        "id": "empty-extra.ornn_e.processes",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，processes数量=0"
+      },
+      {
+        "id": "empty-extra.ornn_e.internalStates",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，internalStates数量=0"
+      },
+      {
+        "id": "empty-extra.ornn_e.triggerRules",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，triggerRules数量=0"
+      },
+      {
+        "id": "counts.ornn_r",
+        "status": "PASS",
+        "detail": "实际=11/2/1，期望=11/2/1"
+      },
+      {
+        "id": "empty-extra.ornn_r.parameters",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，parameters数量=11"
+      },
+      {
+        "id": "empty-extra.ornn_r.formulas",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，formulas数量=2"
+      },
+      {
+        "id": "empty-extra.ornn_r.effects",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，effects数量=1"
+      },
+      {
+        "id": "empty-extra.ornn_r.processes",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，processes数量=0"
+      },
+      {
+        "id": "empty-extra.ornn_r.internalStates",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，internalStates数量=0"
+      },
+      {
+        "id": "empty-extra.ornn_r.triggerRules",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，triggerRules数量=0"
+      },
+      {
+        "id": "counts.shen_p",
+        "status": "PASS",
+        "detail": "实际=8/2/0，期望=8/2/0"
+      },
+      {
+        "id": "empty-extra.shen_p.parameters",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，parameters数量=8"
+      },
+      {
+        "id": "empty-extra.shen_p.formulas",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，formulas数量=2"
+      },
+      {
+        "id": "empty-extra.shen_p.effects",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，effects数量=0"
+      },
+      {
+        "id": "empty-extra.shen_p.processes",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，processes数量=0"
+      },
+      {
+        "id": "empty-extra.shen_p.internalStates",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，internalStates数量=0"
+      },
+      {
+        "id": "empty-extra.shen_p.triggerRules",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，triggerRules数量=0"
+      },
+      {
+        "id": "counts.shen_q",
+        "status": "PASS",
+        "detail": "实际=15/3/1，期望=15/3/1"
+      },
+      {
+        "id": "empty-extra.shen_q.parameters",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，parameters数量=15"
+      },
+      {
+        "id": "empty-extra.shen_q.formulas",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，formulas数量=3"
+      },
+      {
+        "id": "empty-extra.shen_q.effects",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，effects数量=1"
+      },
+      {
+        "id": "empty-extra.shen_q.processes",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，processes数量=0"
+      },
+      {
+        "id": "empty-extra.shen_q.internalStates",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，internalStates数量=0"
+      },
+      {
+        "id": "empty-extra.shen_q.triggerRules",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，triggerRules数量=0"
+      },
+      {
+        "id": "counts.shen_w",
+        "status": "PASS",
+        "detail": "实际=4/0/1，期望=4/0/1"
+      },
+      {
+        "id": "empty-extra.shen_w.parameters",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，parameters数量=4"
+      },
+      {
+        "id": "empty-extra.shen_w.formulas",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，formulas数量=0"
+      },
+      {
+        "id": "empty-extra.shen_w.effects",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，effects数量=1"
+      },
+      {
+        "id": "empty-extra.shen_w.processes",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，processes数量=0"
+      },
+      {
+        "id": "empty-extra.shen_w.internalStates",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，internalStates数量=0"
+      },
+      {
+        "id": "empty-extra.shen_w.triggerRules",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，triggerRules数量=0"
+      },
+      {
+        "id": "counts.shen_e",
+        "status": "PASS",
+        "detail": "实际=9/1/2，期望=9/1/2"
+      },
+      {
+        "id": "empty-extra.shen_e.parameters",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，parameters数量=9"
+      },
+      {
+        "id": "empty-extra.shen_e.formulas",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，formulas数量=1"
+      },
+      {
+        "id": "empty-extra.shen_e.effects",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，effects数量=2"
+      },
+      {
+        "id": "empty-extra.shen_e.processes",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，processes数量=0"
+      },
+      {
+        "id": "empty-extra.shen_e.internalStates",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，internalStates数量=0"
+      },
+      {
+        "id": "empty-extra.shen_e.triggerRules",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，triggerRules数量=0"
+      },
+      {
+        "id": "counts.shen_r",
+        "status": "PASS",
+        "detail": "实际=0/0/0，期望=0/0/0"
+      },
+      {
+        "id": "empty-extra.shen_r.parameters",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，parameters数量=0"
+      },
+      {
+        "id": "empty-extra.shen_r.formulas",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，formulas数量=0"
+      },
+      {
+        "id": "empty-extra.shen_r.effects",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，effects数量=0"
+      },
+      {
+        "id": "empty-extra.shen_r.processes",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，processes数量=0"
+      },
+      {
+        "id": "empty-extra.shen_r.internalStates",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，internalStates数量=0"
+      },
+      {
+        "id": "empty-extra.shen_r.triggerRules",
+        "status": "PASS",
+        "detail": "仅检查本批允许的参数、公式和效果，triggerRules数量=0"
+      },
+      {
+        "id": "counts.new_entries",
+        "status": "PASS",
+        "detail": "候选中扣除11项公共参数后的新增组成=97"
+      },
+      {
+        "id": "reuse.list",
+        "status": "PASS",
+        "detail": "11项公共参数均在候选中完整保留"
+      },
+      {
+        "id": "plan.unique",
+        "status": "PASS",
+        "detail": "计划无重复且不重复提交公共复用参数"
+      },
+      {
+        "id": "candidate.plan.intent_copy",
+        "status": "PASS",
+        "detail": "候选内嵌计划与独立请求计划逐项一致"
+      },
+      {
+        "id": "plan.body.ornn_p.parameters.base_stat_amp_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_p.parameters.additional_masterwork_stat_amp_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_p.parameters.actual_masterwork_count",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_p.parameters.actual_source_hp_before_ornn_passive",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_p.parameters.actual_source_armor_before_ornn_passive",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_p.parameters.actual_source_magic_resistance_before_ornn_passive",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_p.formulas.stat_amplification_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_p.formulas.bonus_health",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_p.formulas.bonus_armor",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_p.formulas.bonus_magic_resistance",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_q.parameters.actual_cast_time_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_q.parameters.base_damage",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_q.parameters.attack_damage_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_q.parameters.slow_percent_points",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_q.parameters.slow_duration_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_q.parameters.pillar_duration_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_q.formulas.physical_damage",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_q.effects.mana_cost",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.parameters.cast_time_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.parameters.minimum_damage_per_tick",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.parameters.target_max_health_ratio_per_tick",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.parameters.max_percent_health_total_percent_points",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.parameters.tick_count",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.parameters.breath_duration_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.parameters.actual_brittle_extra_magic_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.parameters.brittle_ratio_start_endpoint",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.parameters.brittle_ratio_end_endpoint",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.parameters.brittle_duration_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.parameters.brittle_next_immobilize_bonus_percent_points",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.formulas.minimum_damage_total",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.formulas.damage_per_tick",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.formulas.five_tick_damage_total",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.formulas.brittle_extra_magic_damage",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_w.effects.mana_cost",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_e.parameters.actual_cast_time_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_e.parameters.base_damage",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_e.parameters.armor_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_e.parameters.magic_resistance_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_e.parameters.actual_source_armor_for_ornn_e",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_e.parameters.knockup_duration_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_e.formulas.physical_damage",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_e.effects.mana_cost",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_r.parameters.actual_cast_time_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_r.parameters.base_damage_per_pass",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_r.parameters.ap_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_r.parameters.slow_percent_points",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_r.parameters.client_slow_duration_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_r.parameters.official_text_slow_duration_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_r.parameters.brittle_duration_ms_per_pass",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_r.parameters.second_pass_first_enemy_knockup_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_r.parameters.pass_count_same_enemy",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_r.formulas.magic_damage_per_pass",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_r.formulas.magic_damage_same_enemy_total",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.ornn_r.effects.mana_cost",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_p.parameters.actual_base_shield_value",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_p.parameters.base_shield_level1_endpoint",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_p.parameters.base_shield_level_max_endpoint",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_p.parameters.bonus_health_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_p.parameters.shield_duration_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_p.parameters.passive_cooldown_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_p.parameters.actual_shield_cooldown_reduction_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_p.parameters.conditional_shield_multiplier",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_p.formulas.default_shield_value",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_p.formulas.conditional_shield_value",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.energy_cost",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.actual_base_flat_damage",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.base_flat_damage_level1",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.base_flat_damage_breakpoint_increment",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.percent_root_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.base_percent_damage_points",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.base_percent_ap_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.enhanced_percent_damage_points",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.enhanced_percent_ap_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.enhanced_attack_count",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.enhanced_attack_window_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.enhanced_attack_speed_percent_points",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.slow_percent_points",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.parameters.slow_duration_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.formulas.normal_enhanced_attack_magic_damage",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.formulas.enhanced_attack_magic_damage",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.formulas.enhanced_attack_magic_damage_total",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_q.effects.energy_cost",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_w.parameters.energy_cost",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_w.parameters.zone_duration_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_w.parameters.zone_wait_window_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_w.effects.energy_cost",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_e.parameters.energy_cost",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_e.parameters.base_damage",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_e.parameters.bonus_health_ratio",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_e.parameters.taunt_duration_ms",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_e.parameters.energy_refund_level1",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_e.parameters.energy_refund_bonus_at_level4",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_e.parameters.energy_refund_bonus_at_level12",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_e.parameters.actual_energy_refund_on_damage",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_e.formulas.physical_damage",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_e.effects.energy_cost",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "plan.body.shen_e.effects.energy_refund",
+        "status": "PASS",
+        "detail": "计划请求体与候选请求体一致"
+      },
+      {
+        "id": "protection.snapshot",
+        "status": "PASS",
+        "detail": "冻结保护请求=99，技能组成列表=60"
+      },
+      {
+        "id": "protection.reuse.ornn_q.cooldown_ms",
+        "status": "PASS",
+        "detail": "保护快照详情与候选复用体一致"
+      },
+      {
+        "id": "protection.reuse.ornn_q.mana_cost",
+        "status": "PASS",
+        "detail": "保护快照详情与候选复用体一致"
+      },
+      {
+        "id": "protection.reuse.ornn_w.cooldown_ms",
+        "status": "PASS",
+        "detail": "保护快照详情与候选复用体一致"
+      },
+      {
+        "id": "protection.reuse.ornn_w.mana_cost",
+        "status": "PASS",
+        "detail": "保护快照详情与候选复用体一致"
+      },
+      {
+        "id": "protection.reuse.ornn_e.cooldown_ms",
+        "status": "PASS",
+        "detail": "保护快照详情与候选复用体一致"
+      },
+      {
+        "id": "protection.reuse.ornn_e.mana_cost",
+        "status": "PASS",
+        "detail": "保护快照详情与候选复用体一致"
+      },
+      {
+        "id": "protection.reuse.ornn_r.cooldown_ms",
+        "status": "PASS",
+        "detail": "保护快照详情与候选复用体一致"
+      },
+      {
+        "id": "protection.reuse.ornn_r.mana_cost",
+        "status": "PASS",
+        "detail": "保护快照详情与候选复用体一致"
+      },
+      {
+        "id": "protection.reuse.shen_q.cooldown_ms",
+        "status": "PASS",
+        "detail": "保护快照详情与候选复用体一致"
+      },
+      {
+        "id": "protection.reuse.shen_w.cooldown_ms",
+        "status": "PASS",
+        "detail": "保护快照详情与候选复用体一致"
+      },
+      {
+        "id": "protection.reuse.shen_e.cooldown_ms",
+        "status": "PASS",
+        "detail": "保护快照详情与候选复用体一致"
+      },
+      {
+        "id": "binding.ornn_p",
+        "status": "PASS",
+        "detail": "Characters/Ornn/Spells/OrnnPAbility/OrnnP，ornn_p"
+      },
+      {
+        "id": "range.ornn_p",
+        "status": "PASS",
+        "detail": "范围绑定与冻结根绑定一致"
+      },
+      {
+        "id": "binding.ornn_q",
+        "status": "PASS",
+        "detail": "Characters/Ornn/Spells/OrnnQAbility/OrnnQ，ornn_q"
+      },
+      {
+        "id": "range.ornn_q",
+        "status": "PASS",
+        "detail": "范围绑定与冻结根绑定一致"
+      },
+      {
+        "id": "binding.ornn_w",
+        "status": "PASS",
+        "detail": "Characters/Ornn/Spells/OrnnWAbility/OrnnW，ornn_w"
+      },
+      {
+        "id": "range.ornn_w",
+        "status": "PASS",
+        "detail": "范围绑定与冻结根绑定一致"
+      },
+      {
+        "id": "binding.ornn_e",
+        "status": "PASS",
+        "detail": "Characters/Ornn/Spells/OrnnEAbility/OrnnE，ornn_e"
+      },
+      {
+        "id": "range.ornn_e",
+        "status": "PASS",
+        "detail": "范围绑定与冻结根绑定一致"
+      },
+      {
+        "id": "binding.ornn_r",
+        "status": "PASS",
+        "detail": "Characters/Ornn/Spells/OrnnRAbility/OrnnR，ornn_r"
+      },
+      {
+        "id": "range.ornn_r",
+        "status": "PASS",
+        "detail": "范围绑定与冻结根绑定一致"
+      },
+      {
+        "id": "binding.shen_p",
+        "status": "PASS",
+        "detail": "Characters/Shen/Spells/ShenPassiveAbility/ShenPassive，shen_p"
+      },
+      {
+        "id": "range.shen_p",
+        "status": "PASS",
+        "detail": "范围绑定与冻结根绑定一致"
+      },
+      {
+        "id": "binding.shen_q",
+        "status": "PASS",
+        "detail": "Characters/Shen/Spells/ShenQAbility/ShenQ，shen_q"
+      },
+      {
+        "id": "range.shen_q",
+        "status": "PASS",
+        "detail": "范围绑定与冻结根绑定一致"
+      },
+      {
+        "id": "binding.shen_w",
+        "status": "PASS",
+        "detail": "Characters/Shen/Spells/ShenWAbility/ShenW，shen_w"
+      },
+      {
+        "id": "range.shen_w",
+        "status": "PASS",
+        "detail": "范围绑定与冻结根绑定一致"
+      },
+      {
+        "id": "binding.shen_e",
+        "status": "PASS",
+        "detail": "Characters/Shen/Spells/ShenEAbility/ShenE，shen_e"
+      },
+      {
+        "id": "range.shen_e",
+        "status": "PASS",
+        "detail": "范围绑定与冻结根绑定一致"
+      },
+      {
+        "id": "binding.shen_r",
+        "status": "PASS",
+        "detail": "Characters/Shen/Spells/ShenRAbility/ShenR，shen_r"
+      },
+      {
+        "id": "range.shen_r",
+        "status": "PASS",
+        "detail": "范围绑定与冻结根绑定一致"
+      },
+      {
+        "id": "source.attribute_catalog",
+        "status": "PASS",
+        "detail": "属性快照含本批公式和资源效果所需的属性"
+      },
+      {
+        "id": "official.ornn_q.cooldown",
+        "status": "PASS",
+        "detail": "官方冷却数组秒转毫秒后逐级一致"
+      },
+      {
+        "id": "official.ornn_q.cost",
+        "status": "PASS",
+        "detail": "官方消耗数组与候选一致"
+      },
+      {
+        "id": "official.ornn_w.cooldown",
+        "status": "PASS",
+        "detail": "官方冷却数组秒转毫秒后逐级一致"
+      },
+      {
+        "id": "official.ornn_w.cost",
+        "status": "PASS",
+        "detail": "官方消耗数组与候选一致"
+      },
+      {
+        "id": "official.ornn_e.cooldown",
+        "status": "PASS",
+        "detail": "官方冷却数组秒转毫秒后逐级一致"
+      },
+      {
+        "id": "official.ornn_e.cost",
+        "status": "PASS",
+        "detail": "官方消耗数组与候选一致"
+      },
+      {
+        "id": "official.ornn_r.cooldown",
+        "status": "PASS",
+        "detail": "官方冷却数组秒转毫秒后逐级一致"
+      },
+      {
+        "id": "official.ornn_r.cost",
+        "status": "PASS",
+        "detail": "官方消耗数组与候选一致"
+      },
+      {
+        "id": "official.shen_q.cooldown",
+        "status": "PASS",
+        "detail": "官方冷却数组秒转毫秒后逐级一致"
+      },
+      {
+        "id": "official.shen_q.cost",
+        "status": "PASS",
+        "detail": "官方消耗数组与候选一致"
+      },
+      {
+        "id": "official.shen_w.cooldown",
+        "status": "PASS",
+        "detail": "官方冷却数组秒转毫秒后逐级一致"
+      },
+      {
+        "id": "official.shen_w.cost",
+        "status": "PASS",
+        "detail": "官方消耗数组与候选一致"
+      },
+      {
+        "id": "official.shen_e.cooldown",
+        "status": "PASS",
+        "detail": "官方冷却数组秒转毫秒后逐级一致"
+      },
+      {
+        "id": "official.shen_e.cost",
+        "status": "PASS",
+        "detail": "官方消耗数组与候选一致"
+      },
+      {
+        "id": "source.ornn_p",
+        "status": "PASS",
+        "detail": "模式1正文和DataValues的10%/4%/模式值一致"
+      },
+      {
+        "id": "source.ornn_p.baseline_semantics",
+        "status": "PASS",
+        "detail": "奥恩P三个应用前输入明确为额外属性基准，不把总面板值带入"
+      },
+      {
+        "id": "source.ornn_q",
+        "status": "PASS",
+        "detail": "Q伤害数组、总攻击力节点和当前正文一致"
+      },
+      {
+        "id": "source.ornn_w",
+        "status": "PASS",
+        "detail": "W五次、单次比例、正文显示和易碎端点一致"
+      },
+      {
+        "id": "source.ornn_w.exclusions",
+        "status": "PASS",
+        "detail": "W未把野怪上限、旧BaseDamage或自减速混入候选"
+      },
+      {
+        "id": "source.ornn_e",
+        "status": "PASS",
+        "detail": "E两个属性节点、单一伤害公式和等级伤害一致"
+      },
+      {
+        "id": "source.ornn_e.narrow_mapping",
+        "status": "PASS",
+        "detail": "E的魔抗采用已有窄证；护甲仍使用无默认实际基准"
+      },
+      {
+        "id": "source.ornn_r",
+        "status": "PASS",
+        "detail": "R每程伤害、两程、减速冲突值和首个英雄击飞一致"
+      },
+      {
+        "id": "source.shen_p",
+        "status": "PASS",
+        "detail": "P当前默认47至120+0.13额外生命和1.3条件分支一致"
+      },
+      {
+        "id": "source.shen_p.excluded_alt",
+        "status": "PASS",
+        "detail": "P未混入47至101+0.07的非当前分支"
+      },
+      {
+        "id": "source.shen_q",
+        "status": "PASS",
+        "detail": "Q根0.01、两种法强比例、三次强化和正文绑定一致"
+      },
+      {
+        "id": "source.shen_q.level_map",
+        "status": "PASS",
+        "detail": "Q的tooltipOnly角色等级阶梯正确，未把75误作持续时间"
+      },
+      {
+        "id": "source.shen_e",
+        "status": "PASS",
+        "detail": "E伤害、额外生命、嘲讽、能量阶梯和Q/E回能正文一致"
+      },
+      {
+        "id": "source.shen_e.effect_scope",
+        "status": "PASS",
+        "detail": "E资源效果描述明确只覆盖Q或E造成伤害"
+      },
+      {
+        "id": "source.shen_r.scope",
+        "status": "PASS",
+        "detail": "R纯友方护盾与传送按本轮范围跳过"
+      },
+      {
+        "id": "formula.shape.ornn_p.stat_amplification_ratio",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.ornn_p.bonus_health",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.ornn_p.bonus_armor",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.ornn_p.bonus_magic_resistance",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.ornn_q.physical_damage",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.ornn_w.minimum_damage_total",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.ornn_w.damage_per_tick",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.ornn_w.five_tick_damage_total",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.ornn_w.brittle_extra_magic_damage",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.ornn_e.physical_damage",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.ornn_r.magic_damage_per_pass",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.ornn_r.magic_damage_same_enemy_total",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.shen_p.default_shield_value",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.shen_p.conditional_shield_value",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.shen_q.normal_enhanced_attack_magic_damage",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.shen_q.enhanced_attack_magic_damage",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.shen_q.enhanced_attack_magic_damage_total",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "formula.shape.shen_e.physical_damage",
+        "status": "PASS",
+        "detail": "二元运算、参数和属性节点均可解析"
+      },
+      {
+        "id": "parameter.shape.ornn_p.base_stat_amp_ratio",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_p.additional_masterwork_stat_amp_ratio",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_p.actual_masterwork_count",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_p.actual_source_hp_before_ornn_passive",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_p.actual_source_armor_before_ornn_passive",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_p.actual_source_magic_resistance_before_ornn_passive",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_q.cooldown_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_q.cooldown_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_q.mana_cost",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_q.actual_cast_time_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_q.actual_cast_time_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_q.base_damage",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_q.attack_damage_ratio",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_q.slow_percent_points",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_q.slow_duration_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_q.slow_duration_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_q.pillar_duration_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_q.pillar_duration_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_w.cooldown_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_w.cooldown_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_w.mana_cost",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_w.cast_time_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_w.cast_time_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_w.minimum_damage_per_tick",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_w.target_max_health_ratio_per_tick",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_w.max_percent_health_total_percent_points",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_w.tick_count",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_w.breath_duration_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_w.breath_duration_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_w.actual_brittle_extra_magic_ratio",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_w.brittle_ratio_start_endpoint",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_w.brittle_ratio_end_endpoint",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_w.brittle_duration_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_w.brittle_duration_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_w.brittle_next_immobilize_bonus_percent_points",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_e.cooldown_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_e.cooldown_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_e.mana_cost",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_e.actual_cast_time_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_e.actual_cast_time_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_e.base_damage",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_e.armor_ratio",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_e.magic_resistance_ratio",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_e.actual_source_armor_for_ornn_e",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_e.knockup_duration_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_e.knockup_duration_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_r.cooldown_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_r.cooldown_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_r.mana_cost",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_r.actual_cast_time_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_r.actual_cast_time_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_r.base_damage_per_pass",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_r.ap_ratio",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_r.slow_percent_points",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_r.client_slow_duration_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_r.client_slow_duration_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_r.official_text_slow_duration_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_r.official_text_slow_duration_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_r.brittle_duration_ms_per_pass",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.ornn_r.second_pass_first_enemy_knockup_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.ornn_r.second_pass_first_enemy_knockup_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.ornn_r.pass_count_same_enemy",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_p.actual_base_shield_value",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_p.base_shield_level1_endpoint",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_p.base_shield_level_max_endpoint",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_p.bonus_health_ratio",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_p.shield_duration_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.shen_p.shield_duration_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.shen_p.passive_cooldown_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.shen_p.passive_cooldown_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.shen_p.actual_shield_cooldown_reduction_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.shen_p.actual_shield_cooldown_reduction_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.shen_p.conditional_shield_multiplier",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_q.cooldown_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.shen_q.cooldown_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.shen_q.energy_cost",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_q.actual_base_flat_damage",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.level.shen_q.actual_base_flat_damage",
+        "status": "PASS",
+        "detail": "角色等级键完整覆盖1至18"
+      },
+      {
+        "id": "parameter.shape.shen_q.base_flat_damage_level1",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_q.base_flat_damage_breakpoint_increment",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_q.percent_root_ratio",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_q.base_percent_damage_points",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_q.base_percent_ap_ratio",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_q.enhanced_percent_damage_points",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_q.enhanced_percent_ap_ratio",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_q.enhanced_attack_count",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_q.enhanced_attack_window_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.shen_q.enhanced_attack_window_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.shen_q.enhanced_attack_speed_percent_points",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_q.slow_percent_points",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_q.slow_duration_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.shen_q.slow_duration_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.shen_w.cooldown_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.shen_w.cooldown_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.shen_w.energy_cost",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_w.zone_duration_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.shen_w.zone_duration_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.shen_w.zone_wait_window_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.shen_w.zone_wait_window_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.shen_e.cooldown_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.shen_e.cooldown_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.shen_e.energy_cost",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_e.base_damage",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_e.bonus_health_ratio",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_e.taunt_duration_ms",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.ms.shen_e.taunt_duration_ms",
+        "status": "PASS",
+        "detail": "毫秒参数为非负整数"
+      },
+      {
+        "id": "parameter.shape.shen_e.energy_refund_level1",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_e.energy_refund_bonus_at_level4",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_e.energy_refund_bonus_at_level12",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.shape.shen_e.actual_energy_refund_on_damage",
+        "status": "PASS",
+        "detail": "参数类型、取值方式与整数约束一致"
+      },
+      {
+        "id": "parameter.level.shen_e.actual_energy_refund_on_damage",
+        "status": "PASS",
+        "detail": "角色等级键完整覆盖1至18"
+      },
+      {
+        "id": "formula.no_literals",
+        "status": "PASS",
+        "detail": "公式未用数字节点绕过参数来源"
+      },
+      {
+        "id": "effects.allowed_types",
+        "status": "PASS",
+        "detail": "效果结果仅使用已支持的RESOURCE_CHANGE"
+      },
+      {
+        "id": "effects.resource_shapes",
+        "status": "PASS",
+        "detail": "资源效果目标、操作、参数值和无生命周期形状一致"
+      },
+      {
+        "id": "effects.no_forbidden",
+        "status": "PASS",
+        "detail": "未伪造伤害、直接治疗或瞬时求值效果"
+      },
+      {
+        "id": "math.ornn_p.stat_amplification_ratio.1",
+        "status": "PASS",
+        "detail": "独立源值算式=0.17999999970197678，候选表达式=0.18"
+      },
+      {
+        "id": "math.ornn_p.stat_amplification_ratio.2",
+        "status": "PASS",
+        "detail": "独立源值算式=0.29999999701976776，候选表达式=0.30000000000000004"
+      },
+      {
+        "id": "math.ornn_p.bonus_health.1",
+        "status": "PASS",
+        "detail": "独立源值算式=179.99999970197678，候选表达式=180"
+      },
+      {
+        "id": "math.ornn_p.bonus_health.2",
+        "status": "PASS",
+        "detail": "独立源值算式=599.9999940395355，候选表达式=600.0000000000001"
+      },
+      {
+        "id": "math.ornn_p.bonus_armor.1",
+        "status": "PASS",
+        "detail": "独立源值算式=17.999999970197678，候选表达式=18"
+      },
+      {
+        "id": "math.ornn_p.bonus_armor.2",
+        "status": "PASS",
+        "detail": "独立源值算式=59.99999940395355，候选表达式=60.00000000000001"
+      },
+      {
+        "id": "math.ornn_p.bonus_magic_resistance.1",
+        "status": "PASS",
+        "detail": "独立源值算式=8.999999985098839，候选表达式=9"
+      },
+      {
+        "id": "math.ornn_p.bonus_magic_resistance.2",
+        "status": "PASS",
+        "detail": "独立源值算式=29.999999701976776，候选表达式=30.000000000000004"
+      },
+      {
+        "id": "math.ornn_q.physical_damage.1",
+        "status": "PASS",
+        "detail": "独立源值算式=290.0000047683716，候选表达式=290"
+      },
+      {
+        "id": "math.ornn_q.physical_damage.2",
+        "status": "PASS",
+        "detail": "独立源值算式=455.00000834465027，候选表达式=455.00000000000006"
+      },
+      {
+        "id": "math.ornn_w.minimum_damage_total.1",
+        "status": "PASS",
+        "detail": "独立源值算式=180，候选表达式=180"
+      },
+      {
+        "id": "math.ornn_w.minimum_damage_total.2",
+        "status": "PASS",
+        "detail": "独立源值算式=180，候选表达式=180"
+      },
+      {
+        "id": "math.ornn_w.damage_per_tick.1",
+        "status": "PASS",
+        "detail": "独立源值算式=56.0000017285347，候选表达式=56"
+      },
+      {
+        "id": "math.ornn_w.damage_per_tick.2",
+        "status": "PASS",
+        "detail": "独立源值算式=36，候选表达式=36"
+      },
+      {
+        "id": "math.ornn_w.five_tick_damage_total.1",
+        "status": "PASS",
+        "detail": "独立源值算式=280.0000086426735，候选表达式=280"
+      },
+      {
+        "id": "math.ornn_w.five_tick_damage_total.2",
+        "status": "PASS",
+        "detail": "独立源值算式=180，候选表达式=180"
+      },
+      {
+        "id": "math.ornn_w.brittle_extra_magic_damage.1",
+        "status": "PASS",
+        "detail": "独立源值算式=180，候选表达式=180"
+      },
+      {
+        "id": "math.ornn_w.brittle_extra_magic_damage.2",
+        "status": "PASS",
+        "detail": "独立源值算式=85，候选表达式=85"
+      },
+      {
+        "id": "math.ornn_e.physical_damage.1",
+        "status": "PASS",
+        "detail": "独立源值算式=222.00000077486038，候选表达式=222"
+      },
+      {
+        "id": "math.ornn_e.physical_damage.2",
+        "status": "PASS",
+        "detail": "独立源值算式=270.0000014901161，候选表达式=270"
+      },
+      {
+        "id": "math.ornn_r.magic_damage_per_pass.1",
+        "status": "PASS",
+        "detail": "独立源值算式=215.00000059604645，候选表达式=215"
+      },
+      {
+        "id": "math.ornn_r.magic_damage_per_pass.2",
+        "status": "PASS",
+        "detail": "独立源值算式=265.0000013411045，候选表达式=265"
+      },
+      {
+        "id": "math.ornn_r.magic_damage_same_enemy_total.1",
+        "status": "PASS",
+        "detail": "独立源值算式=430.0000011920929，候选表达式=430"
+      },
+      {
+        "id": "math.ornn_r.magic_damage_same_enemy_total.2",
+        "status": "PASS",
+        "detail": "独立源值算式=530.000002682209，候选表达式=530"
+      },
+      {
+        "id": "math.shen_p.default_shield_value.1",
+        "status": "PASS",
+        "detail": "独立源值算式=209.99999523162842，候选表达式=210"
+      },
+      {
+        "id": "math.shen_p.default_shield_value.2",
+        "status": "PASS",
+        "detail": "独立源值算式=379.99999046325684，候选表达式=380"
+      },
+      {
+        "id": "math.shen_p.conditional_shield_value.1",
+        "status": "PASS",
+        "detail": "独立源值算式=272.99998378753685，候选表达式=273"
+      },
+      {
+        "id": "math.shen_p.conditional_shield_value.2",
+        "status": "PASS",
+        "detail": "独立源值算式=493.99996948242233，候选表达式=494"
+      },
+      {
+        "id": "math.shen_q.normal_enhanced_attack_magic_damage.1",
+        "status": "PASS",
+        "detail": "独立源值算式=147.9999959766865，候选表达式=148"
+      },
+      {
+        "id": "math.shen_q.normal_enhanced_attack_magic_damage.2",
+        "status": "PASS",
+        "detail": "独立源值算式=88.74999815598133，候选表达式=88.75"
+      },
+      {
+        "id": "math.shen_q.enhanced_attack_magic_damage.1",
+        "status": "PASS",
+        "detail": "独立源值算式=227.99999374151233，候选表达式=228"
+      },
+      {
+        "id": "math.shen_q.enhanced_attack_magic_damage.2",
+        "status": "PASS",
+        "detail": "独立源值算式=114.999997317791，候选表达式=115"
+      },
+      {
+        "id": "math.shen_q.enhanced_attack_magic_damage_total.1",
+        "status": "PASS",
+        "detail": "独立源值算式=683.999981224537，候选表达式=684"
+      },
+      {
+        "id": "math.shen_q.enhanced_attack_magic_damage_total.2",
+        "status": "PASS",
+        "detail": "独立源值算式=344.999991953373，候选表达式=345"
+      },
+      {
+        "id": "math.shen_e.physical_damage.1",
+        "status": "PASS",
+        "detail": "独立源值算式=219.99999940395355，候选表达式=220"
+      },
+      {
+        "id": "math.shen_e.physical_damage.2",
+        "status": "PASS",
+        "detail": "独立源值算式=329.9999988079071，候选表达式=330"
+      },
+      {
+        "id": "math.missing_inputs",
+        "status": "PASS",
+        "detail": "缺输入测试=30，拒绝=30"
+      },
+      {
+        "id": "math.integer_values",
+        "status": "PASS",
+        "detail": "整数参数值全部为整数"
+      },
+      {
+        "id": "math.ms_nonnegative",
+        "status": "PASS",
+        "detail": "所有毫秒参数为非负整数"
+      },
+      {
+        "id": "math.level_boundaries",
+        "status": "PASS",
+        "detail": "角色等级0、19和小数输入均拒绝"
+      },
+      {
+        "id": "math.masterwork_boundary",
+        "status": "PASS",
+        "detail": "负杰作数量拒绝由独立边界检查记录"
+      },
+      {
+        "id": "history.original_failure_preserved",
+        "status": "PASS",
+        "detail": "原始小数毫秒失败证据和两次描述修订证据仍在"
+      },
+      {
+        "id": "cursor.readonly",
+        "status": "PASS",
+        "detail": "Cursor来源复核为只读且无Git改动"
+      },
+      {
+        "id": "candidate.math_report",
+        "status": "PASS",
+        "detail": "既有候选数学报告通过且未写业务"
+      },
+      {
+        "id": "writer.lock_acquisition_guard",
+        "status": "PASS",
+        "detail": "写入器在锁创建失败时不会覆盖既有锁"
+      },
+      {
+        "id": "writer.static_counts",
+        "status": "PASS",
+        "detail": "写入器绑定修订候选、97新增、99保护和60列表"
+      },
+      {
+        "id": "writer.static_safety",
+        "status": "PASS",
+        "detail": "写入器有全局wx锁、一次确认、逐项写后GET且不含PUT/DELETE"
+      },
+      {
+        "id": "writer.input_path",
+        "status": "PASS",
+        "detail": "写入器从修订二使用正确的../../输入目录"
+      }
+    ]
+  },
+  "math": {
+    "formulaCount": 18,
+    "caseCount": 36,
+    "rows": [
+      {
+        "formula": "ornn_p/stat_amplification_ratio",
+        "case": 1,
+        "status": "PASS",
+        "actual": 0.18,
+        "expected": 0.17999999970197678
+      },
+      {
+        "formula": "ornn_p/stat_amplification_ratio",
+        "case": 2,
+        "status": "PASS",
+        "actual": 0.30000000000000004,
+        "expected": 0.29999999701976776
+      },
+      {
+        "formula": "ornn_p/bonus_health",
+        "case": 1,
+        "status": "PASS",
+        "actual": 180,
+        "expected": 179.99999970197678
+      },
+      {
+        "formula": "ornn_p/bonus_health",
+        "case": 2,
+        "status": "PASS",
+        "actual": 600.0000000000001,
+        "expected": 599.9999940395355
+      },
+      {
+        "formula": "ornn_p/bonus_armor",
+        "case": 1,
+        "status": "PASS",
+        "actual": 18,
+        "expected": 17.999999970197678
+      },
+      {
+        "formula": "ornn_p/bonus_armor",
+        "case": 2,
+        "status": "PASS",
+        "actual": 60.00000000000001,
+        "expected": 59.99999940395355
+      },
+      {
+        "formula": "ornn_p/bonus_magic_resistance",
+        "case": 1,
+        "status": "PASS",
+        "actual": 9,
+        "expected": 8.999999985098839
+      },
+      {
+        "formula": "ornn_p/bonus_magic_resistance",
+        "case": 2,
+        "status": "PASS",
+        "actual": 30.000000000000004,
+        "expected": 29.999999701976776
+      },
+      {
+        "formula": "ornn_q/physical_damage",
+        "case": 1,
+        "status": "PASS",
+        "actual": 290,
+        "expected": 290.0000047683716
+      },
+      {
+        "formula": "ornn_q/physical_damage",
+        "case": 2,
+        "status": "PASS",
+        "actual": 455.00000000000006,
+        "expected": 455.00000834465027
+      },
+      {
+        "formula": "ornn_w/minimum_damage_total",
+        "case": 1,
+        "status": "PASS",
+        "actual": 180,
+        "expected": 180
+      },
+      {
+        "formula": "ornn_w/minimum_damage_total",
+        "case": 2,
+        "status": "PASS",
+        "actual": 180,
+        "expected": 180
+      },
+      {
+        "formula": "ornn_w/damage_per_tick",
+        "case": 1,
+        "status": "PASS",
+        "actual": 56,
+        "expected": 56.0000017285347
+      },
+      {
+        "formula": "ornn_w/damage_per_tick",
+        "case": 2,
+        "status": "PASS",
+        "actual": 36,
+        "expected": 36
+      },
+      {
+        "formula": "ornn_w/five_tick_damage_total",
+        "case": 1,
+        "status": "PASS",
+        "actual": 280,
+        "expected": 280.0000086426735
+      },
+      {
+        "formula": "ornn_w/five_tick_damage_total",
+        "case": 2,
+        "status": "PASS",
+        "actual": 180,
+        "expected": 180
+      },
+      {
+        "formula": "ornn_w/brittle_extra_magic_damage",
+        "case": 1,
+        "status": "PASS",
+        "actual": 180,
+        "expected": 180
+      },
+      {
+        "formula": "ornn_w/brittle_extra_magic_damage",
+        "case": 2,
+        "status": "PASS",
+        "actual": 85,
+        "expected": 85
+      },
+      {
+        "formula": "ornn_e/physical_damage",
+        "case": 1,
+        "status": "PASS",
+        "actual": 222,
+        "expected": 222.00000077486038
+      },
+      {
+        "formula": "ornn_e/physical_damage",
+        "case": 2,
+        "status": "PASS",
+        "actual": 270,
+        "expected": 270.0000014901161
+      },
+      {
+        "formula": "ornn_r/magic_damage_per_pass",
+        "case": 1,
+        "status": "PASS",
+        "actual": 215,
+        "expected": 215.00000059604645
+      },
+      {
+        "formula": "ornn_r/magic_damage_per_pass",
+        "case": 2,
+        "status": "PASS",
+        "actual": 265,
+        "expected": 265.0000013411045
+      },
+      {
+        "formula": "ornn_r/magic_damage_same_enemy_total",
+        "case": 1,
+        "status": "PASS",
+        "actual": 430,
+        "expected": 430.0000011920929
+      },
+      {
+        "formula": "ornn_r/magic_damage_same_enemy_total",
+        "case": 2,
+        "status": "PASS",
+        "actual": 530,
+        "expected": 530.000002682209
+      },
+      {
+        "formula": "shen_p/default_shield_value",
+        "case": 1,
+        "status": "PASS",
+        "actual": 210,
+        "expected": 209.99999523162842
+      },
+      {
+        "formula": "shen_p/default_shield_value",
+        "case": 2,
+        "status": "PASS",
+        "actual": 380,
+        "expected": 379.99999046325684
+      },
+      {
+        "formula": "shen_p/conditional_shield_value",
+        "case": 1,
+        "status": "PASS",
+        "actual": 273,
+        "expected": 272.99998378753685
+      },
+      {
+        "formula": "shen_p/conditional_shield_value",
+        "case": 2,
+        "status": "PASS",
+        "actual": 494,
+        "expected": 493.99996948242233
+      },
+      {
+        "formula": "shen_q/normal_enhanced_attack_magic_damage",
+        "case": 1,
+        "status": "PASS",
+        "actual": 148,
+        "expected": 147.9999959766865
+      },
+      {
+        "formula": "shen_q/normal_enhanced_attack_magic_damage",
+        "case": 2,
+        "status": "PASS",
+        "actual": 88.75,
+        "expected": 88.74999815598133
+      },
+      {
+        "formula": "shen_q/enhanced_attack_magic_damage",
+        "case": 1,
+        "status": "PASS",
+        "actual": 228,
+        "expected": 227.99999374151233
+      },
+      {
+        "formula": "shen_q/enhanced_attack_magic_damage",
+        "case": 2,
+        "status": "PASS",
+        "actual": 115,
+        "expected": 114.999997317791
+      },
+      {
+        "formula": "shen_q/enhanced_attack_magic_damage_total",
+        "case": 1,
+        "status": "PASS",
+        "actual": 684,
+        "expected": 683.999981224537
+      },
+      {
+        "formula": "shen_q/enhanced_attack_magic_damage_total",
+        "case": 2,
+        "status": "PASS",
+        "actual": 345,
+        "expected": 344.999991953373
+      },
+      {
+        "formula": "shen_e/physical_damage",
+        "case": 1,
+        "status": "PASS",
+        "actual": 220,
+        "expected": 219.99999940395355
+      },
+      {
+        "formula": "shen_e/physical_damage",
+        "case": 2,
+        "status": "PASS",
+        "actual": 330,
+        "expected": 329.9999988079071
+      }
+    ],
+    "missingDependencyCount": 30,
+    "missingRejectedCount": 30,
+    "sourceIndependent": true,
+    "runtimeDefaults": false
+  },
+  "source": {
+    "protectedAttributes": [
+      "move_speed",
+      "move_speed_percent",
+      "armor_pen_flat",
+      "armor_pen_percent",
+      "magic_pen_flat",
+      "magic_pen_percent",
+      "hp",
+      "hp_regen",
+      "base_hp_regen_percent",
+      "mana",
+      "mana_regen",
+      "base_mana_regen_percent",
+      "energy",
+      "armor",
+      "magic_resistance",
+      "tenacity_percent",
+      "slow_resist_percent",
+      "attack_damage",
+      "ability_power",
+      "attack_speed",
+      "bonus_attack_speed_percent",
+      "critical_strike_chance",
+      "critical_strike_damage_bonus_percent",
+      "attack_range",
+      "ability_haste",
+      "life_steal_percent",
+      "omnivamp_percent",
+      "heal_shield_power_percent"
+    ],
+    "knownPendingLimits": [
+      "奥恩E mStat1/formula2护甲映射",
+      "奥恩W易碎9%至17%的等级求值",
+      "慎P护盾冷却缩短的完整等级求值与毫秒归整",
+      "慎Q/E强化资格、次数消费和资源触发时序"
+    ],
+    "reusedComparisons": [
+      {
+        "route": "/skills/ornn_q/parameters/cooldown_ms",
+        "status": "PASS"
+      },
+      {
+        "route": "/skills/ornn_q/parameters/mana_cost",
+        "status": "PASS"
+      },
+      {
+        "route": "/skills/ornn_w/parameters/cooldown_ms",
+        "status": "PASS"
+      },
+      {
+        "route": "/skills/ornn_w/parameters/mana_cost",
+        "status": "PASS"
+      },
+      {
+        "route": "/skills/ornn_e/parameters/cooldown_ms",
+        "status": "PASS"
+      },
+      {
+        "route": "/skills/ornn_e/parameters/mana_cost",
+        "status": "PASS"
+      },
+      {
+        "route": "/skills/ornn_r/parameters/cooldown_ms",
+        "status": "PASS"
+      },
+      {
+        "route": "/skills/ornn_r/parameters/mana_cost",
+        "status": "PASS"
+      },
+      {
+        "route": "/skills/shen_q/parameters/cooldown_ms",
+        "status": "PASS"
+      },
+      {
+        "route": "/skills/shen_w/parameters/cooldown_ms",
+        "status": "PASS"
+      },
+      {
+        "route": "/skills/shen_e/parameters/cooldown_ms",
+        "status": "PASS"
+      }
+    ]
+  },
+  "blockingFindings": [],
+  "nonBlockingFindings": [
+    {
+      "id": "preflight.revision_carryover",
+      "detail": "修订二只改变候选描述和效果名称，当前只读预检证据来自修订一；修订二仍需在实际写入前沿同一保护规则再次确认。",
+      "evidence": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-luna-candidate\\修订一\\只读预检\\2026-09-09T16-25-34-367Z\\执行结果.json",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-luna-candidate\\修订二"
+      ]
+    },
+    {
+      "id": "source.pending_limits",
+      "detail": "以上来源已给出节点或端点，但完整求值器、事件资格或时序仍未在本轮证明；候选均使用无默认输入或保留端点，没有替换成猜测值。",
+      "evidence": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-root-entry-20260909\\主负责人源值核对说明.md",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-luna-candidate\\修订二\\来源与范围.json"
+      ]
+    },
+    {
+      "id": "cross_skill.shen_q_to_shen_e_refund",
+      "detail": "慎E正文把Q或E造成伤害都绑定到同一回能量值；当前资源效果放在E上，符合被动归属，但本批没有触发规则或sourceSkillKey，Q到E的跨技能触发必须在后续接线中明确，不能把本候选描述为已执行。",
+      "evidence": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-root-entry-20260909\\来源绑定与当前文本.json",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-luna-candidate\\修订二\\完整候选.json"
+      ]
+    },
+    {
+      "id": "scope.shen_r",
+      "detail": "慎R只面向另一名友方英雄的护盾和传送，本轮一对一范围跳过；没有把纯友方组成伪装为可独自施放。",
+      "evidence": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-luna-candidate\\修订二\\来源与范围.json",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-root-entry-20260909\\来源绑定与当前文本.json"
+      ]
+    },
+    {
+      "id": "scope.ornn_w",
+      "detail": "奥恩W的野怪上限、旧BaseDamageTooltip和自身纯减速字段均留在来源证据，未作为本轮唯一敌人伤害写入。",
+      "evidence": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-luna-candidate\\修订二\\来源与范围.json",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-root-entry-20260909\\来源绑定与当前文本.json"
+      ]
+    },
+    {
+      "id": "scope.ornn_e",
+      "detail": "奥恩E只保留唯一敌人一次伤害公式；冲锋资格、地形碰撞和冲击波时序留待过程接线。",
+      "evidence": [
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-luna-candidate\\修订二\\来源与范围.json",
+        "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero29-root-entry-20260909\\来源绑定与当前文本.json"
+      ]
+    }
+  ],
+  "verdict": "PASS_WITH_NONBLOCKING_NOTES",
+  "apiWrites": 0,
+  "networkCalls": 0,
+  "noBusinessWrites": true,
+  "protectedInputBytes": {
+    "candidateSha256": "3837264e96ce61ca1cb420a0d37cdadb19d5d3082240f92cff29baff335875b1",
+    "planSha256": "162f1637ac59183d198265a5c152d245c7a1b619efef742256f094bd98344eb0",
+    "sourceBindingSha256": "f09cf7a5e4f515d89860cf5f05cfd89eb3f2f42b7b19294c906740f6910f6341"
+  }
+}

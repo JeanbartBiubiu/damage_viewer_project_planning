@@ -1,0 +1,84 @@
+{
+  "i": 80,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_q/formulas",
+    "skillKey": "shen_q",
+    "kind": "formulas",
+    "stableKey": "enhanced_attack_magic_damage_total",
+    "body": {
+      "formulaKey": "enhanced_attack_magic_damage_total",
+      "name": "奥义暮临三次强化普攻额外魔法伤害总量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "enhanced_attack_count"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_base_flat_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_root_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "ADD",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "enhanced_percent_damage_points"
+                          },
+                          {
+                            "nodeType": "OPERATION",
+                            "operation": "MULTIPLY",
+                            "operands": [
+                              {
+                                "nodeType": "PARAMETER",
+                                "parameterKey": "enhanced_percent_ap_ratio"
+                              },
+                              {
+                                "nodeType": "ATTRIBUTE",
+                                "attributeOwner": "SOURCE",
+                                "attributeKey": "ability_power",
+                                "attributeValueKind": "TOTAL"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "TARGET",
+                        "attributeKey": "hp",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "三次强化普攻算术总量=3×穿过英雄后的每次额外魔法伤害；不包含普通攻击物理伤害。",
+      "sortOrder": 30
+    }
+  }
+}

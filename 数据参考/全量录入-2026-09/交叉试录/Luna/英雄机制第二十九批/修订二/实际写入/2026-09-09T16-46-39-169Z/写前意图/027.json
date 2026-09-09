@@ -1,0 +1,20 @@
+{
+  "i": 26,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_w/parameters",
+    "skillKey": "ornn_w",
+    "kind": "parameters",
+    "stableKey": "brittle_ratio_end_endpoint",
+    "body": {
+      "parameterKey": "brittle_ratio_end_endpoint",
+      "name": "易碎比例终点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.17,
+      "levelValues": null,
+      "description": "根BrittlePercentMaxHPCalc终点为17%；仅保留来源端点，不替代实际等级输入。",
+      "sortOrder": 90
+    }
+  }
+}

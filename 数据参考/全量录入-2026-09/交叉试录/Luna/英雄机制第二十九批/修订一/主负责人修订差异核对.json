@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T16:25:33.915Z",
+  "decision": "只改慎被动实际冷却缩短量的毫秒类型和说明，其余业务载荷保持一致。先只读预检并等待独立最终复核。",
+  "diffs": [
+    {
+      "path": "candidate/skills/shen_p/write/parameters/6/valueType",
+      "before": "DECIMAL",
+      "after": "INTEGER"
+    },
+    {
+      "path": "candidate/skills/shen_p/write/parameters/6/description",
+      "before": "根ShieldCooldownReduction为4秒、每级0.235秒且19级后0.125秒，完整角色等级求值和毫秒归整未证，实际输入无默认。",
+      "after": "根ShieldCooldownReduction为4秒、每级0.235秒且19级后0.125秒；完整角色等级求值和归整未证，须提供正确阶段的实际整数毫秒，无默认；本参数不自行推测或执行归整。"
+    },
+    {
+      "path": "candidate/postIntents/60/body/valueType",
+      "before": "DECIMAL",
+      "after": "INTEGER"
+    },
+    {
+      "path": "candidate/postIntents/60/body/description",
+      "before": "根ShieldCooldownReduction为4秒、每级0.235秒且19级后0.125秒，完整角色等级求值和毫秒归整未证，实际输入无默认。",
+      "after": "根ShieldCooldownReduction为4秒、每级0.235秒且19级后0.125秒；完整角色等级求值和归整未证，须提供正确阶段的实际整数毫秒，无默认；本参数不自行推测或执行归整。"
+    },
+    {
+      "path": "plan/intents/60/body/valueType",
+      "before": "DECIMAL",
+      "after": "INTEGER"
+    },
+    {
+      "path": "plan/intents/60/body/description",
+      "before": "根ShieldCooldownReduction为4秒、每级0.235秒且19级后0.125秒，完整角色等级求值和毫秒归整未证，实际输入无默认。",
+      "after": "根ShieldCooldownReduction为4秒、每级0.235秒且19级后0.125秒；完整角色等级求值和归整未证，须提供正确阶段的实际整数毫秒，无默认；本参数不自行推测或执行归整。"
+    }
+  ],
+  "originalCandidateSha256": "ce5c1a4f433040fcbbe014b916a80bd26e74a897eefd34d3c36238a14c0696e8",
+  "candidateSha256": "b5178d6a884d372a092ff1d95f7b8f79c8396450e37cd65b8aecbb32fcd7f5f5",
+  "planSha256": "72fc6f0ef81fc241076b989b5484b7e475b2e1fd5d155d583f7e4207c5792184",
+  "writerSha256": "fca740418b54d55030a49d80d1f6b276675382b20dcfbe6cfc858ea40a88d42b",
+  "mathSha256": "19f6285069357b1ad48edbbe9991d57d47fd1abaac181c91431c8f86aff45082",
+  "apiWrites": 0
+}

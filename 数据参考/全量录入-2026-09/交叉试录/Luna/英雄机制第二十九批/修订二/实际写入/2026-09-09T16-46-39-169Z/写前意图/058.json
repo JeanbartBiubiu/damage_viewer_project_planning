@@ -1,0 +1,20 @@
+{
+  "i": 57,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_p/parameters",
+    "skillKey": "shen_p",
+    "kind": "parameters",
+    "stableKey": "bonus_health_ratio",
+    "body": {
+      "parameterKey": "bonus_health_ratio",
+      "name": "额外生命护盾倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.13,
+      "levelValues": null,
+      "description": "当前ShieldValue默认根树mStat12/formula2的mCoefficient为0.13；另一0.07分支排除。",
+      "sortOrder": 40
+    }
+  }
+}

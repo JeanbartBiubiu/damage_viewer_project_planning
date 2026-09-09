@@ -1,0 +1,20 @@
+{
+  "i": 47,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_r/parameters",
+    "skillKey": "ornn_r",
+    "kind": "parameters",
+    "stableKey": "official_text_slow_duration_ms",
+    "body": {
+      "parameterKey": "official_text_slow_duration_ms",
+      "name": "官方正文首程减速持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "官方英文正文把减速持续写入3000毫秒语句；中文没有明确时长，单独保留冲突来源。",
+      "sortOrder": 60
+    }
+  }
+}

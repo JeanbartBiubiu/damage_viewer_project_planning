@@ -1,0 +1,20 @@
+{
+  "i": 88,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_e/parameters",
+    "skillKey": "shen_e",
+    "kind": "parameters",
+    "stableKey": "bonus_health_ratio",
+    "body": {
+      "parameterKey": "bonus_health_ratio",
+      "name": "额外生命倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.11,
+      "levelValues": null,
+      "description": "当前根TauntDamage的mStat12/formula2绑定BonusHPRatio=0.11；按来源额外生命属性读取。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "i": 3,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_p/parameters",
+    "skillKey": "ornn_p",
+    "kind": "parameters",
+    "stableKey": "actual_source_hp_before_ornn_passive",
+    "body": {
+      "parameterKey": "actual_source_hp_before_ornn_passive",
+      "name": "奥恩被动应用前额外生命",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "应用奥恩被动增幅前的额外生命基准，只取各来源提供的加成属性，不含基础生命，也不含本次奥恩被动增幅；实际输入无默认。",
+      "sortOrder": 40
+    }
+  }
+}

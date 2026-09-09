@@ -1,0 +1,52 @@
+{
+  "i": 52,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_r/formulas",
+    "skillKey": "ornn_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage_same_enemy_total",
+    "body": {
+      "formulaKey": "magic_damage_same_enemy_total",
+      "name": "熔铸之神的召唤唯一敌人两程总魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "pass_count_same_enemy"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage_per_pass"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "唯一敌人两程总量=2×单程伤害；不包含第三目标分配。",
+      "sortOrder": 20
+    }
+  }
+}

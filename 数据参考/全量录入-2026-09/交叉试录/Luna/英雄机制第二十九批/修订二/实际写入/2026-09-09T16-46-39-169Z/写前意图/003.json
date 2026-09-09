@@ -1,0 +1,20 @@
+{
+  "i": 2,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_p/parameters",
+    "skillKey": "ornn_p",
+    "kind": "parameters",
+    "stableKey": "actual_masterwork_count",
+    "body": {
+      "parameterKey": "actual_masterwork_count",
+      "name": "已完成杰作数量",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "实际战前已完成的杰作数量；来源没有给出本轮允许的完整上限，实际输入无默认且必须为非负整数。",
+      "sortOrder": 30
+    }
+  }
+}

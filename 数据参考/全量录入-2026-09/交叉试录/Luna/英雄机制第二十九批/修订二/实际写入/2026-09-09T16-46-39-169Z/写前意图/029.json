@@ -1,0 +1,20 @@
+{
+  "i": 28,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_w/parameters",
+    "skillKey": "ornn_w",
+    "kind": "parameters",
+    "stableKey": "brittle_next_immobilize_bonus_percent_points",
+    "body": {
+      "parameterKey": "brittle_next_immobilize_bonus_percent_points",
+      "name": "下一次定身伤害增加百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 30,
+      "levelValues": null,
+      "description": "当前正文明确下一次定身持续时间增加30%；仅保留端点，不创建定身事件。",
+      "sortOrder": 110
+    }
+  }
+}

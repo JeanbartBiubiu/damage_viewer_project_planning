@@ -1,0 +1,1391 @@
+{
+  "at": "2026-09-09T16:55:37.339Z",
+  "passed": true,
+  "browser": "Codex内置浏览器既有tab2，http://127.0.0.1:5173/#/skills，真实查询并打开参数、公式及能量效果详情",
+  "representativePages": 3,
+  "observations": [
+    {
+      "skillKey": "ornn_w",
+      "ui": "五次伤害分别取最低值与目标最大生命比例伤害的较大值，总量乘五；750毫秒窗口。"
+    },
+    {
+      "skillKey": "shen_q",
+      "ui": "固定附加伤害按角色等级离散断点显示；普通及强化完整百分比根系数0.01，三次强化总量单独保存。"
+    },
+    {
+      "skillKey": "shen_e",
+      "ui": "伤害取额外生命值，能量消耗与回复都指向energy，回复按角色等级4和12切换。"
+    }
+  ],
+  "GETs": 18,
+  "mathCases": 12,
+  "calls": [
+    {
+      "route": "/skills/ornn_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:46.880046Z",
+        "description": "奥恩向前进发，喷出炎息。被最后一阵炎息命中的敌人将变为易碎状态。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "奥恩·风箱炎息",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "ornn_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:46.880046Z"
+      }
+    },
+    {
+      "route": "/skills/ornn_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_ornn_w",
+          "name": "ornn_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/ornn_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T16:47:14.34725Z",
+          "description": "当前正文明确施法250毫秒；不表示每次火焰命中时点。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "ornn_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T16:47:14.34725Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:47:15.570601Z",
+          "description": "当前根DataValues.MinimumDamagePerTick取技能等级1至5；英雄分支下限。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 16,
+            "2": 26,
+            "3": 36,
+            "4": 46,
+            "5": 56
+          },
+          "name": "每次伤害下限",
+          "parameterKey": "minimum_damage_per_tick",
+          "skillKey": "ornn_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T16:47:15.570601Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:47:16.739489Z",
+          "description": "当前根DataValues.PercentHPPerTick取索引1至5，原值2.4%至3.2%，直接录入比例。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.024,
+            "2": 0.026,
+            "3": 0.028,
+            "4": 0.03,
+            "5": 0.032
+          },
+          "name": "每次目标最大生命伤害比例",
+          "parameterKey": "target_max_health_ratio_per_tick",
+          "skillKey": "ornn_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T16:47:16.739489Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T16:47:18.169897Z",
+          "description": "当前正文直接消费MaxPercentHPPerTickTooltip，根DataValues取技能等级1至5的12/13/14/15/16；仅作正文显示值，不替代单次MAX公式。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12,
+            "2": 13,
+            "3": 14,
+            "4": 15,
+            "5": 16
+          },
+          "name": "五次最大生命百分数点",
+          "parameterKey": "max_percent_health_total_percent_points",
+          "skillKey": "ornn_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T16:47:18.169897Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:47:19.404886Z",
+          "description": "当前根DataValues.NumberOfTicks为5；不假定实际命中间隔。",
+          "fixedValue": 5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "火焰次数",
+          "parameterKey": "tick_count",
+          "skillKey": "ornn_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T16:47:19.404886Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:47:20.53307Z",
+          "description": "当前根DataValues.BreathDuration为0.75秒，单位换算为毫秒。",
+          "fixedValue": 750,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "火焰持续（毫秒）",
+          "parameterKey": "breath_duration_ms",
+          "skillKey": "ornn_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T16:47:20.53307Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:47:21.773115Z",
+          "description": "根BrittlePercentMaxHPCalc只有9%至17%角色等级端点，等级求值未证；实际比例无默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "实际等级易碎额外魔法伤害比例",
+          "parameterKey": "actual_brittle_extra_magic_ratio",
+          "skillKey": "ornn_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T16:47:21.773115Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T16:47:23.079544Z",
+          "description": "根BrittlePercentMaxHPCalc起点为9%；仅保留来源端点，不替代实际等级输入。",
+          "fixedValue": 0.09,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "易碎比例起点",
+          "parameterKey": "brittle_ratio_start_endpoint",
+          "skillKey": "ornn_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T16:47:23.079544Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T16:47:24.308588Z",
+          "description": "根BrittlePercentMaxHPCalc终点为17%；仅保留来源端点，不替代实际等级输入。",
+          "fixedValue": 0.17,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "易碎比例终点",
+          "parameterKey": "brittle_ratio_end_endpoint",
+          "skillKey": "ornn_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T16:47:24.308588Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:00.402875Z",
+          "description": "DDragon16.17.1 Ornn.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11500,
+            "3": 11000,
+            "4": 10500,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "ornn_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:00.402875Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:47:25.808846Z",
+          "description": "当前根DataValues.BrittleDuration为3秒；下一次定身增伤资格未接线。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "易碎持续（毫秒）",
+          "parameterKey": "brittle_duration_ms",
+          "skillKey": "ornn_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T16:47:25.808846Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:47:26.991237Z",
+          "description": "当前正文明确下一次定身持续时间增加30%；仅保留端点，不创建定身事件。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "下一次定身伤害增加百分数点",
+          "parameterKey": "brittle_next_immobilize_bonus_percent_points",
+          "skillKey": "ornn_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T16:47:26.991237Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:01.084459Z",
+          "description": "DDragon16.17.1 Ornn.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 45,
+            "2": 50,
+            "3": 55,
+            "4": 60,
+            "5": 65
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "ornn_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:03:01.084459Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/shen_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:17.672792Z",
+        "description": "慎召回他的魂刃并用它进行攻击，造成基于目标最大生命值的额外伤害。如果魂刃在召回途中与一个敌方英雄产生了碰撞，那么慎的魂刃攻击会获得极大强化，并且所有被碰撞的敌人在逃离慎的时候都会被减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "慎·奥义！暮临",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "shen_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:17.672792Z"
+      }
+    },
+    {
+      "route": "/skills/shen_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_shen_q",
+          "name": "shen_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/shen_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T16:48:14.959387Z",
+          "description": "当前根mana数组表示慎Q能量消耗，按索引0至4取140/130/120/110/100；不能称为法力。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 140,
+            "2": 130,
+            "3": 120,
+            "4": 110,
+            "5": 100
+          },
+          "name": "能量消耗",
+          "parameterKey": "energy_cost",
+          "skillKey": "shen_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T16:48:14.959387Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:16.286262Z",
+          "description": "当前BaseFlatDamage根阶梯为等级1起10，4/7/10/13/16级各增加6；使用已支持的CHARACTER_LEVEL完整1至18映射，断点值仍以当前服务角色等级读取。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10,
+            "2": 10,
+            "3": 10,
+            "4": 16,
+            "5": 16,
+            "6": 16,
+            "7": 22,
+            "8": 22,
+            "9": 22,
+            "10": 28,
+            "11": 28,
+            "12": 28,
+            "13": 34,
+            "14": 34,
+            "15": 34,
+            "16": 40,
+            "17": 40,
+            "18": 40
+          },
+          "name": "角色等级基础附加伤害",
+          "parameterKey": "actual_base_flat_damage",
+          "skillKey": "shen_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T16:48:16.286262Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:17.567622Z",
+          "description": "当前BaseFlatDamage根阶梯起点为10；仅保留来源端点。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础附加伤害等级1端点",
+          "parameterKey": "base_flat_damage_level1",
+          "skillKey": "shen_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T16:48:17.567622Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:18.869098Z",
+          "description": "当前BaseFlatDamage根在4/7/10/13/16级各增加6；仅保留断点增量。",
+          "fixedValue": 6,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础附加伤害断点增量",
+          "parameterKey": "base_flat_damage_breakpoint_increment",
+          "skillKey": "shen_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T16:48:18.869098Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:20.289921Z",
+          "description": "当前BasePercentHealth与EmpPercentHealth根倍率为0.01；进入完整比例表达式。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "生命比例根倍率",
+          "parameterKey": "percent_root_ratio",
+          "skillKey": "shen_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T16:48:20.289921Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:21.608276Z",
+          "description": "当前根DataValues.BasePercentDamage取技能等级1至5；原值百分数点，根倍率另乘0.01。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 2,
+            "2": 2.5,
+            "3": 3,
+            "4": 3.5,
+            "5": 4
+          },
+          "name": "普通强化攻击生命百分数点",
+          "parameterKey": "base_percent_damage_points",
+          "skillKey": "shen_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T16:48:21.608276Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:22.827733Z",
+          "description": "当前BasePercentHealth第二段StatByCoefficient为0.015。",
+          "fixedValue": 0.015,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "普通强化攻击法强倍率",
+          "parameterKey": "base_percent_ap_ratio",
+          "skillKey": "shen_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T16:48:22.827733Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:24.263204Z",
+          "description": "当前根DataValues.EnhancedPercentDamage取技能等级1至5；根倍率另乘0.01。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 5,
+            "2": 5.5,
+            "3": 6,
+            "4": 6.5,
+            "5": 7
+          },
+          "name": "穿过英雄后的生命百分数点",
+          "parameterKey": "enhanced_percent_damage_points",
+          "skillKey": "shen_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T16:48:24.263204Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:25.612051Z",
+          "description": "当前EmpPercentHealth第二段StatByCoefficient为0.02。",
+          "fixedValue": 0.02,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "穿过英雄后的法强倍率",
+          "parameterKey": "enhanced_percent_ap_ratio",
+          "skillKey": "shen_q",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T16:48:25.612051Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:21.394015Z",
+          "description": "DDragon16.17.1 Shen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 8000,
+            "2": 7250,
+            "3": 6500,
+            "4": 5750,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "shen_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:21.394015Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:26.908347Z",
+          "description": "当前根DataValues.NumEnhancedAttacks为3；不表示扣次事件已接通。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化普攻次数",
+          "parameterKey": "enhanced_attack_count",
+          "skillKey": "shen_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T16:48:26.908347Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:28.166696Z",
+          "description": "当前根DataValues.AttackBuffDuration为8秒，单位换算为毫秒；这是攻击窗口。",
+          "fixedValue": 8000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化普攻窗口（毫秒）",
+          "parameterKey": "enhanced_attack_window_ms",
+          "skillKey": "shen_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T16:48:28.166696Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:29.606872Z",
+          "description": "当前根DataValues.SteroidAS为50；不把SteroidDuration=75当作持续秒数。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "穿过英雄后攻速增加百分数点",
+          "parameterKey": "enhanced_attack_speed_percent_points",
+          "skillKey": "shen_q",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T16:48:29.606872Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:30.841727Z",
+          "description": "当前根DataValues.SlowPercent取技能等级1至5；方向资格未接线。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 25,
+            "2": 30,
+            "3": 35,
+            "4": 40,
+            "5": 45
+          },
+          "name": "逃离慎方向减速百分数点",
+          "parameterKey": "slow_percent_points",
+          "skillKey": "shen_q",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T16:48:30.841727Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:32.228179Z",
+          "description": "当前根DataValues.SlowDuration为2秒，单位换算为毫秒。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "逃离方向减速持续（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "shen_q",
+          "sortOrder": 140,
+          "updatedAt": "2026-09-09T16:48:32.228179Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/shen_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:18.196057Z",
+        "description": "慎朝着一个方向冲刺，嘲讽沿途的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "慎·奥义！影缚",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "shen_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:18.196057Z"
+      }
+    },
+    {
+      "route": "/skills/shen_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_shen_e",
+          "name": "shen_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/shen_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T16:48:44.017472Z",
+          "description": "当前根mana数组表示慎E能量150；不能称为法力，资源接线待补。",
+          "fixedValue": 150,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "能量消耗",
+          "parameterKey": "energy_cost",
+          "skillKey": "shen_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T16:48:44.017472Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:45.092867Z",
+          "description": "当前根DataValues.BaseDamage取技能等级1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 85,
+            "3": 110,
+            "4": 135,
+            "5": 160
+          },
+          "name": "基础物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "shen_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T16:48:45.092867Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:46.334968Z",
+          "description": "当前根TauntDamage的mStat12/formula2绑定BonusHPRatio=0.11；按来源额外生命属性读取。",
+          "fixedValue": 0.11,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外生命倍率",
+          "parameterKey": "bonus_health_ratio",
+          "skillKey": "shen_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T16:48:46.334968Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:47.495514Z",
+          "description": "当前根DataValues.CCDuration为1.5秒，单位换算为毫秒。",
+          "fixedValue": 1500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "嘲讽持续（毫秒）",
+          "parameterKey": "taunt_duration_ms",
+          "skillKey": "shen_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T16:48:47.495514Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:48.701579Z",
+          "description": "当前energyrefund根阶梯起点30；仅保留端点，不替代实际等级输入。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "造成伤害能量回复等级1端点",
+          "parameterKey": "energy_refund_level1",
+          "skillKey": "shen_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T16:48:48.701579Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:49.951894Z",
+          "description": "当前energyrefund根在4级增加10；仅保留断点。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "造成伤害能量回复四级断点增量",
+          "parameterKey": "energy_refund_bonus_at_level4",
+          "skillKey": "shen_e",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T16:48:49.951894Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:51.150586Z",
+          "description": "当前energyrefund根在12级增加10；仅保留断点。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "造成伤害能量回复十二级断点增量",
+          "parameterKey": "energy_refund_bonus_at_level12",
+          "skillKey": "shen_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T16:48:51.150586Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T16:48:52.425735Z",
+          "description": "当前energyrefund根阶梯为等级1起30，4级和12级各增加10；使用已支持的CHARACTER_LEVEL完整1至18映射，真实触发仍待接。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 30,
+            "3": 30,
+            "4": 40,
+            "5": 40,
+            "6": 40,
+            "7": 40,
+            "8": 40,
+            "9": 40,
+            "10": 40,
+            "11": 40,
+            "12": 50,
+            "13": 50,
+            "14": 50,
+            "15": 50,
+            "16": 50,
+            "17": 50,
+            "18": 50
+          },
+          "name": "角色等级造成伤害能量回复",
+          "parameterKey": "actual_energy_refund_on_damage",
+          "skillKey": "shen_e",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T16:48:52.425735Z",
+          "valueMode": "CHARACTER_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:03:22.876629Z",
+          "description": "DDragon16.17.1 Shen.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 18000,
+            "2": 16000,
+            "3": 14000,
+            "4": 12000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "shen_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:03:22.876629Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ornn_w/formulas/damage_per_tick",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T16:47:29.496796Z",
+        "description": "单次英雄伤害=MAX(每次下限，目标最大生命×每次比例)。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minimum_damage_per_tick"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "target_max_health_ratio_per_tick"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "TARGET",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "MAX"
+        },
+        "formulaKey": "damage_per_tick",
+        "gameId": "lol",
+        "name": "风箱炎息单次英雄伤害",
+        "skillKey": "ornn_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T16:47:29.496796Z"
+      }
+    },
+    {
+      "route": "/skills/ornn_w/formulas/five_tick_damage_total",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T16:47:30.982945Z",
+        "description": "五次算术总量=5×单次MAX值；不表示实际命中时序。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "tick_count"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "minimum_damage_per_tick"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_max_health_ratio_per_tick"
+                    },
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "TARGET",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "MAX"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "five_tick_damage_total",
+        "gameId": "lol",
+        "name": "风箱炎息五次英雄伤害总量",
+        "skillKey": "ornn_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T16:47:30.982945Z"
+      }
+    },
+    {
+      "route": "/skills/shen_q/formulas/normal_enhanced_attack_magic_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T16:48:33.587282Z",
+        "description": "普通附加伤害=实际等级基础附加伤害+目标最大生命×0.01×(技能等级生命百分数点+0.015×来源总法强)。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_base_flat_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_root_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_percent_damage_points"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "base_percent_ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "TARGET",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "normal_enhanced_attack_magic_damage",
+        "gameId": "lol",
+        "name": "奥义暮临普通强化普攻额外魔法伤害",
+        "skillKey": "shen_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T16:48:33.587282Z"
+      }
+    },
+    {
+      "route": "/skills/shen_q/formulas/enhanced_attack_magic_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T16:48:34.974384Z",
+        "description": "穿过敌方英雄后的每次附加伤害=实际等级基础附加伤害+目标最大生命×0.01×(5至7百分数点+0.02×来源总法强)。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_base_flat_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_root_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "enhanced_percent_damage_points"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "enhanced_percent_ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "TARGET",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "enhanced_attack_magic_damage",
+        "gameId": "lol",
+        "name": "奥义暮临穿过英雄后每次额外魔法伤害",
+        "skillKey": "shen_q",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T16:48:34.974384Z"
+      }
+    },
+    {
+      "route": "/skills/shen_q/formulas/enhanced_attack_magic_damage_total",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T16:48:36.314756Z",
+        "description": "三次强化普攻算术总量=3×穿过英雄后的每次额外魔法伤害；不包含普通攻击物理伤害。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "enhanced_attack_count"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_base_flat_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_root_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "enhanced_percent_damage_points"
+                            },
+                            {
+                              "nodeType": "OPERATION",
+                              "operands": [
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "enhanced_percent_ap_ratio"
+                                },
+                                {
+                                  "attributeKey": "ability_power",
+                                  "attributeOwner": "SOURCE",
+                                  "attributeValueKind": "TOTAL",
+                                  "nodeType": "ATTRIBUTE"
+                                }
+                              ],
+                              "operation": "MULTIPLY"
+                            }
+                          ],
+                          "operation": "ADD"
+                        },
+                        {
+                          "attributeKey": "hp",
+                          "attributeOwner": "TARGET",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "enhanced_attack_magic_damage_total",
+        "gameId": "lol",
+        "name": "奥义暮临三次强化普攻额外魔法伤害总量",
+        "skillKey": "shen_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T16:48:36.314756Z"
+      }
+    },
+    {
+      "route": "/skills/shen_e/formulas/physical_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T16:48:53.62821Z",
+        "description": "TauntDamage=BaseDamage+0.11×来源额外生命；能量回复是独立待接资源行为。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_health_ratio"
+                },
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "physical_damage",
+        "gameId": "lol",
+        "name": "奥义影缚物理伤害",
+        "skillKey": "shen_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T16:48:53.62821Z"
+      }
+    },
+    {
+      "route": "/skills/shen_q/effects/energy_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T16:48:37.581079Z",
+        "description": "当前属性目录已存在energy键；仅记录已证能量消耗，实际扣除时点与施放资格尚未接线。",
+        "effectKey": "energy_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放能量消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "energy",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "施放能量消耗",
+            "resultKey": "resource",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "energy_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "shen_q",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T16:48:37.581079Z"
+      }
+    },
+    {
+      "route": "/skills/shen_e/effects/energy_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T16:48:54.801493Z",
+        "description": "当前属性目录已存在energy键；仅记录已证能量消耗，实际扣除时点与施放资格尚未接线。",
+        "effectKey": "energy_cost",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "施放能量消耗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "energy",
+              "operation": "CONSUME"
+            },
+            "lifecycleBehavior": null,
+            "name": "施放能量消耗",
+            "resultKey": "resource",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "energy_cost"
+              }
+            }
+          }
+        ],
+        "skillKey": "shen_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T16:48:54.801493Z"
+      }
+    },
+    {
+      "route": "/skills/shen_e/effects/energy_refund",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T16:48:56.086519Z",
+        "description": "仅奥义！暮临（Q）的强化攻击或奥义！影缚（E）造成伤害时回复能量；按角色等级参数读取实际回复量，触发事件尚未接线，不适用于任意来源伤害。",
+        "effectKey": "energy_refund",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "Q或E造成伤害能量回复",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "energy",
+              "operation": "RESTORE"
+            },
+            "lifecycleBehavior": null,
+            "name": "Q或E造成伤害能量回复",
+            "resultKey": "resource",
+            "resultType": "RESOURCE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "actual_energy_refund_on_damage"
+              }
+            }
+          }
+        ],
+        "skillKey": "shen_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T16:48:56.086519Z"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "damage_per_tick",
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "attrs": {
+        "TARGET/hp/TOTAL": 200
+      },
+      "actual": 16,
+      "expected": 16,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "five_tick_damage_total",
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "attrs": {
+        "TARGET/hp/TOTAL": 200
+      },
+      "actual": 80,
+      "expected": 80,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "damage_per_tick",
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "attrs": {
+        "TARGET/hp/TOTAL": 4000
+      },
+      "actual": 128,
+      "expected": 128,
+      "passed": true
+    },
+    {
+      "skillKey": "ornn_w",
+      "formulaKey": "five_tick_damage_total",
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "attrs": {
+        "TARGET/hp/TOTAL": 4000
+      },
+      "actual": 640,
+      "expected": 640,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "normal_enhanced_attack_magic_damage",
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "attrs": {
+        "SOURCE/ability_power/TOTAL": 100,
+        "TARGET/hp/TOTAL": 2000
+      },
+      "actual": 80,
+      "expected": 80,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage",
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "attrs": {
+        "SOURCE/ability_power/TOTAL": 100,
+        "TARGET/hp/TOTAL": 2000
+      },
+      "actual": 150,
+      "expected": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage_total",
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "attrs": {
+        "SOURCE/ability_power/TOTAL": 100,
+        "TARGET/hp/TOTAL": 2000
+      },
+      "actual": 450,
+      "expected": 450,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "normal_enhanced_attack_magic_damage",
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "attrs": {
+        "SOURCE/ability_power/TOTAL": 200,
+        "TARGET/hp/TOTAL": 4000
+      },
+      "actual": 320,
+      "expected": 320,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage",
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "attrs": {
+        "SOURCE/ability_power/TOTAL": 200,
+        "TARGET/hp/TOTAL": 4000
+      },
+      "actual": 480,
+      "expected": 480,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_q",
+      "formulaKey": "enhanced_attack_magic_damage_total",
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "attrs": {
+        "SOURCE/ability_power/TOTAL": 200,
+        "TARGET/hp/TOTAL": 4000
+      },
+      "actual": 1440,
+      "expected": 1440,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_e",
+      "formulaKey": "physical_damage",
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "attrs": {
+        "SOURCE/hp/BONUS": 700
+      },
+      "actual": 137,
+      "expected": 137,
+      "passed": true
+    },
+    {
+      "skillKey": "shen_e",
+      "formulaKey": "physical_damage",
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "attrs": {
+        "SOURCE/hp/BONUS": 1800
+      },
+      "actual": 358,
+      "expected": 358,
+      "passed": true
+    }
+  ],
+  "apiWrites": 0,
+  "notes": [
+    "首次补核从效果列表读取results失败，列表仅摘要；最终改为3个效果详情端点。未因此改动业务数据，原补核脚本保留。"
+  ],
+  "runtimeValidation": "未执行",
+  "scriptSha256": "0e19361ee0dd8f94ce3f4ca89b0c95e242ae96621dcf8076b98fc26a7d264cbc"
+}

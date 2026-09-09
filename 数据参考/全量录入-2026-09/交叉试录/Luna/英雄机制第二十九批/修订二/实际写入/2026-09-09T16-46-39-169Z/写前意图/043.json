@@ -1,0 +1,20 @@
+{
+  "i": 42,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_r/parameters",
+    "skillKey": "ornn_r",
+    "kind": "parameters",
+    "stableKey": "actual_cast_time_ms",
+    "body": {
+      "parameterKey": "actual_cast_time_ms",
+      "name": "实际施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "客户端与官方来源分别给出250毫秒和500毫秒，不能任选固定值；实际输入无默认。",
+      "sortOrder": 10
+    }
+  }
+}

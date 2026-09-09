@@ -1,0 +1,4955 @@
+{
+  "meta": {
+    "generatedAt": "2026-09-09T16:44:54.213Z",
+    "batch": "第二十九批奥恩慎",
+    "executor": "Luna",
+    "sourceVersions": {
+      "client": "16.17",
+      "official": "16.17.1"
+    },
+    "sourceInputSha256": "85459db3db119841a7950124c3661b7cc5625b7be3b2283fe5e31fc61d66349f",
+    "sourceBindingSha256": "f09cf7a5e4f515d89860cf5f05cfd89eb3f2f42b7b19294c906740f6910f6341",
+    "protectionSnapshotSha256": "e68afdd8f5b82dea441ac6fed6d2ecd912fc70d0a7b05812a22b695fffb73956",
+    "protectionSnapshotGETs": 99,
+    "apiWrites": 0
+  },
+  "reusedPublicParameters": [
+    {
+      "skillKey": "ornn_q",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前99条保护快照既有详情"
+    },
+    {
+      "skillKey": "ornn_q",
+      "parameterKey": "mana_cost",
+      "reused": true,
+      "source": "当前99条保护快照既有详情"
+    },
+    {
+      "skillKey": "ornn_w",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前99条保护快照既有详情"
+    },
+    {
+      "skillKey": "ornn_w",
+      "parameterKey": "mana_cost",
+      "reused": true,
+      "source": "当前99条保护快照既有详情"
+    },
+    {
+      "skillKey": "ornn_e",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前99条保护快照既有详情"
+    },
+    {
+      "skillKey": "ornn_e",
+      "parameterKey": "mana_cost",
+      "reused": true,
+      "source": "当前99条保护快照既有详情"
+    },
+    {
+      "skillKey": "ornn_r",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前99条保护快照既有详情"
+    },
+    {
+      "skillKey": "ornn_r",
+      "parameterKey": "mana_cost",
+      "reused": true,
+      "source": "当前99条保护快照既有详情"
+    },
+    {
+      "skillKey": "shen_q",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前99条保护快照既有详情"
+    },
+    {
+      "skillKey": "shen_w",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前99条保护快照既有详情"
+    },
+    {
+      "skillKey": "shen_e",
+      "parameterKey": "cooldown_ms",
+      "reused": true,
+      "source": "当前99条保护快照既有详情"
+    }
+  ],
+  "skills": {
+    "ornn_p": {
+      "skillKey": "ornn_p",
+      "name": "活体锻炉",
+      "maxLevel": 1,
+      "source": {
+        "binding": "Characters/Ornn/Spells/OrnnPAbility/OrnnP",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "game_character_passiveName_Ornn",
+            "text": "活体锻炉"
+          },
+          "keySummary": {
+            "sourceKey": "game_character_passiveDescription_Ornn",
+            "text": "奥恩可使所有来源的护甲和魔抗加成获得额外提升。<br><br>奥恩可在地图的任意位置上花费金钱来锻造非消耗品的装备。<br><br>此外，他能为他自己和友方英雄打造杰作武器。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_OrnnP_Tooltip",
+            "text": "{{Spell_OrnnP_Tooltip_@GameModeInteger@}}"
+          },
+          "keyTooltipExtended": {
+            "sourceKey": "Spell_OrnnP_TooltipExtended",
+            "text": "{{Spell_OrnnP_TooltipExtended_@GameModeInteger@}}"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "base_stat_amp_ratio",
+            "name": "基础属性增幅比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.1,
+            "levelValues": null,
+            "description": "当前模式1正文明确生命、护甲和魔抗提高10%；根DataValues.BaseStatAmp为0.1。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "additional_masterwork_stat_amp_ratio",
+            "name": "每件杰作额外属性增幅比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.04,
+            "levelValues": null,
+            "description": "当前模式1正文明确每完成一件杰作额外提高4%；根DataValues.AdditionalMythicStatAmp为0.04。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "actual_masterwork_count",
+            "name": "已完成杰作数量",
+            "valueType": "INTEGER",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "实际战前已完成的杰作数量；来源没有给出本轮允许的完整上限，实际输入无默认且必须为非负整数。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "actual_source_hp_before_ornn_passive",
+            "name": "奥恩被动应用前额外生命",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "应用奥恩被动增幅前的额外生命基准，只取各来源提供的加成属性，不含基础生命，也不含本次奥恩被动增幅；实际输入无默认。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "actual_source_armor_before_ornn_passive",
+            "name": "奥恩被动应用前额外护甲",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "应用奥恩被动增幅前的额外护甲基准，只取各来源提供的加成属性，不含基础护甲，也不含本次奥恩被动增幅；实际输入无默认。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "actual_source_magic_resistance_before_ornn_passive",
+            "name": "奥恩被动应用前额外魔抗",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "应用奥恩被动增幅前的额外魔抗基准，只取各来源提供的加成属性，不含基础魔抗，也不含本次奥恩被动增幅；实际输入无默认。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "stat_amplification_ratio",
+            "name": "活体锻炉当前属性增幅比例",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_stat_amp_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "additional_masterwork_stat_amp_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_masterwork_count"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "当前属性增幅比例=10%+4%×已完成杰作数量；数量不设置本轮上限。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "bonus_health",
+            "name": "活体锻炉额外生命",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_stat_amp_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "additional_masterwork_stat_amp_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_masterwork_count"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_source_hp_before_ornn_passive"
+                }
+              ]
+            },
+            "description": "额外生命=(10%+4%×杰作数量)×被动应用前额外生命。",
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "bonus_armor",
+            "name": "活体锻炉额外护甲",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_stat_amp_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "additional_masterwork_stat_amp_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_masterwork_count"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_source_armor_before_ornn_passive"
+                }
+              ]
+            },
+            "description": "额外护甲=(10%+4%×杰作数量)×被动应用前额外护甲。",
+            "sortOrder": 30
+          },
+          {
+            "formulaKey": "bonus_magic_resistance",
+            "name": "活体锻炉额外魔抗",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_stat_amp_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "additional_masterwork_stat_amp_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_masterwork_count"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_source_magic_resistance_before_ornn_passive"
+                }
+              ]
+            },
+            "description": "额外魔抗=(10%+4%×杰作数量)×被动应用前额外魔抗。",
+            "sortOrder": 40
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "自身生命、护甲和魔抗的应用前基准必须由实际输入提供，避免把已含被动增益的最终值再次放大。",
+        "杰作升级数量没有本轮可用的完整上限；仅要求非负整数，不把13级解锁或经济操作写成事件。",
+        "当前模式1的10%基础加成和每件杰作4%加成保留，升级后的装备属性接线另待处理。"
+      ],
+      "excluded": [
+        "商店、铸造经济、队友装备升级及匿名90到10等级曲线不录入。"
+      ]
+    },
+    "ornn_q": {
+      "skillKey": "ornn_q",
+      "name": "火山突堑",
+      "maxLevel": 5,
+      "source": {
+        "binding": "Characters/Ornn/Spells/OrnnQAbility/OrnnQ",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_OrnnQ_Name",
+            "text": "火山突堑"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_OrnnQ_Summary",
+            "text": "奥恩猛砸地面，形成一道裂隙来伤害并减速被击中的敌人们。在一阵短暂的延迟后，一个熔岩之柱会在裂隙的终点处形成。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_OrnnQ_Tooltip",
+            "text": "奥恩猛砸地面，创造一道裂隙来造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，以及持续@SlowDuration@秒的@SlowAmount@%<status>减速</status>。一根熔岩之柱会在裂隙的终点处形成，持续@PillarDuration@秒。 "
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_OrnnQ_TooltipExtendedBelowLine",
+            "text": "<rules>裂隙在命中一名敌方英雄后会短暂地停滞。</rules><br>"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Ornn.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 9000,
+              "2": 8500,
+              "3": 8000,
+              "4": 7500,
+              "5": 7000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Ornn.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 45,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "actual_cast_time_ms",
+            "name": "实际施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "客户端与官方来源分别给出250毫秒和300毫秒，不能任选固定值；实际输入无默认。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 20,
+              "2": 45,
+              "3": 70,
+              "4": 95,
+              "5": 120
+            },
+            "description": "当前根DataValues.BaseDamage取技能等级1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "attack_damage_ratio",
+            "name": "总攻击力倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.1,
+            "levelValues": null,
+            "description": "当前根TotalDamage的StatByCoefficient为1.1，根说明按总攻击力取值。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "slow_percent_points",
+            "name": "减速百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 40,
+            "levelValues": null,
+            "description": "当前根DataValues.SlowAmount为40；应用资格与时点未接线。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "减速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "当前根DataValues.SlowDuration为2秒，单位换算为毫秒。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "pillar_duration_ms",
+            "name": "火山柱持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 4000,
+            "levelValues": null,
+            "description": "当前根DataValues.PillarDuration为4秒，仅作为地形交互时长参数。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "physical_damage",
+            "name": "火山突堑物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "attack_damage_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TotalDamage=BaseDamage+1.1×来源总攻击力。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅记录当前技能已证的法力基础消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "resource",
+                "name": "施放法力消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "施法250/300毫秒来源冲突，使用无默认实际输入；柱形成延迟、短暂停滞、碰撞和减速应用时点未接线。"
+      ],
+      "excluded": [
+        "不把火山柱实体交互写成自主召唤物或伤害事件；仅保留柱持续时间和技能伤害公式。"
+      ]
+    },
+    "ornn_w": {
+      "skillKey": "ornn_w",
+      "name": "风箱炎息",
+      "maxLevel": 5,
+      "source": {
+        "binding": "Characters/Ornn/Spells/OrnnWAbility/OrnnW",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_OrnnW_Name",
+            "text": "风箱炎息"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_OrnnW_Summary",
+            "text": "奥恩向前进发，喷出炎息。被最后一阵炎息命中的敌人将变为易碎状态。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_OrnnW_Tooltip",
+            "text": "奥恩向前不可阻挡地重踏，同时喷吐炎息，在@BreathDuration@秒里持续造成共<magicDamage>@MaxPercentHPPerTickTooltip@%最大生命值的魔法伤害</magicDamage>。被最后一道炎息命中的敌人，会变成<keywordMajor>易碎</keywordMajor>效果，持续@BrittleDuration@秒。<br><br>对<keywordMajor>易碎</keywordMajor>状态的敌人施加的下一个<status>定身</status>效果将使该效果的持续时间提升30%并对目标造成额外的<magicDamage>@BrittlePercentMaxHPCalc@最大生命值的魔法伤害</magicDamage>。奥恩的普攻会<status>击退</status><keywordMajor>易碎</keywordMajor>状态下的目标，并造成额外伤害。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_OrnnW_TooltipExtendedBelowLine",
+            "text": "<rules>对英雄和小兵最少造成<magicDamage>@TotalMinimumDamage@魔法伤害</magicDamage>，对野怪最多造成<magicDamage>@TotalMonsterDamageCap@魔法伤害</magicDamage>。</rules>"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Ornn.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 12000,
+              "2": 11500,
+              "3": 11000,
+              "4": 10500,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Ornn.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 45,
+              "2": 50,
+              "3": 55,
+              "4": 60,
+              "5": 65
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "cast_time_ms",
+            "name": "施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 250,
+            "levelValues": null,
+            "description": "当前正文明确施法250毫秒；不表示每次火焰命中时点。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "minimum_damage_per_tick",
+            "name": "每次伤害下限",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 16,
+              "2": 26,
+              "3": 36,
+              "4": 46,
+              "5": 56
+            },
+            "description": "当前根DataValues.MinimumDamagePerTick取技能等级1至5；英雄分支下限。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "target_max_health_ratio_per_tick",
+            "name": "每次目标最大生命伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 0.024,
+              "2": 0.026,
+              "3": 0.028,
+              "4": 0.03,
+              "5": 0.032
+            },
+            "description": "当前根DataValues.PercentHPPerTick取索引1至5，原值2.4%至3.2%，直接录入比例。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "max_percent_health_total_percent_points",
+            "name": "五次最大生命百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 12,
+              "2": 13,
+              "3": 14,
+              "4": 15,
+              "5": 16
+            },
+            "description": "当前正文直接消费MaxPercentHPPerTickTooltip，根DataValues取技能等级1至5的12/13/14/15/16；仅作正文显示值，不替代单次MAX公式。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "tick_count",
+            "name": "火焰次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 5,
+            "levelValues": null,
+            "description": "当前根DataValues.NumberOfTicks为5；不假定实际命中间隔。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "breath_duration_ms",
+            "name": "火焰持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 750,
+            "levelValues": null,
+            "description": "当前根DataValues.BreathDuration为0.75秒，单位换算为毫秒。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "actual_brittle_extra_magic_ratio",
+            "name": "实际等级易碎额外魔法伤害比例",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "根BrittlePercentMaxHPCalc只有9%至17%角色等级端点，等级求值未证；实际比例无默认。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "brittle_ratio_start_endpoint",
+            "name": "易碎比例起点",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.09,
+            "levelValues": null,
+            "description": "根BrittlePercentMaxHPCalc起点为9%；仅保留来源端点，不替代实际等级输入。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "brittle_ratio_end_endpoint",
+            "name": "易碎比例终点",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.17,
+            "levelValues": null,
+            "description": "根BrittlePercentMaxHPCalc终点为17%；仅保留来源端点，不替代实际等级输入。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "brittle_duration_ms",
+            "name": "易碎持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "当前根DataValues.BrittleDuration为3秒；下一次定身增伤资格未接线。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "brittle_next_immobilize_bonus_percent_points",
+            "name": "下一次定身伤害增加百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 30,
+            "levelValues": null,
+            "description": "当前正文明确下一次定身持续时间增加30%；仅保留端点，不创建定身事件。",
+            "sortOrder": 110
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "minimum_damage_total",
+            "name": "风箱炎息五次伤害下限总量",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "minimum_damage_per_tick"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tick_count"
+                }
+              ]
+            },
+            "description": "来源TotalMinimumDamage=每次英雄伤害下限×5。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "damage_per_tick",
+            "name": "风箱炎息单次英雄伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MAX",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "minimum_damage_per_tick"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_max_health_ratio_per_tick"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "单次英雄伤害=MAX(每次下限，目标最大生命×每次比例)。",
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "five_tick_damage_total",
+            "name": "风箱炎息五次英雄伤害总量",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tick_count"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MAX",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "minimum_damage_per_tick"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "target_max_health_ratio_per_tick"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "TARGET",
+                          "attributeKey": "hp",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "五次算术总量=5×单次MAX值；不表示实际命中时序。",
+            "sortOrder": 30
+          },
+          {
+            "formulaKey": "brittle_extra_magic_damage",
+            "name": "易碎下一次定身额外魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_brittle_extra_magic_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            },
+            "description": "实际等级易碎比例×目标最大生命；比例无默认且不把自身普攻的触发条件重复写入。",
+            "sortOrder": 40
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅记录当前技能已证的法力基础消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "resource",
+                "name": "施放法力消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "每次火焰取生命值的阶段、首末时点和五次间隔未接线；这里只表达单次下限、目标最大生命比例和五次算术总量。",
+        "易碎额外伤害比例只有9%至17%根插值端点，等级求值未证，实际比例无默认输入。"
+      ],
+      "excluded": [
+        "BaseDamageTooltip和野怪上限为当前正文未消费或非英雄分支；不把35%自减速挂成效果。"
+      ]
+    },
+    "ornn_e": {
+      "skillKey": "ornn_e",
+      "name": "炽烈冲锋",
+      "maxLevel": 5,
+      "source": {
+        "binding": "Characters/Ornn/Spells/OrnnEAbility/OrnnE",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_OrnnE_Name",
+            "text": "炽烈冲锋"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_OrnnE_Summary",
+            "text": "奥恩冲锋，对他途经的敌人造成伤害。如果奥恩在冲锋状态下与地形产生碰撞，那么这次碰撞就会在他四周生成一道冲击波，来对敌人造成伤害和击飞效果。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_OrnnE_Tooltip",
+            "text": "奥恩冲锋，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。如果奥恩撞到了地形，则会引发冲击波，<status>击飞</status>敌人@KnockupDuration@秒并将此技能的伤害施加给那些未被冲锋命中的敌人们。<br><br>奥恩的冲锋会摧毁熔岩之柱和由敌方英雄创造的地形。"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Ornn.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 14000,
+              "2": 13500,
+              "3": 13000,
+              "4": 12500,
+              "5": 12000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Ornn.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 35,
+              "2": 40,
+              "3": 45,
+              "4": 50,
+              "5": 55
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "actual_cast_time_ms",
+            "name": "实际施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "客户端与官方来源分别给出250毫秒和350毫秒，不能任选固定值；实际输入无默认。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 80,
+              "2": 125,
+              "3": 170,
+              "4": 215,
+              "5": 260
+            },
+            "description": "当前根DataValues.BaseDamage取技能等级1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "armor_ratio",
+            "name": "护甲倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "当前根TotalDamage第二段绑定ArmorRatio=0.4；mStat1/formula2的输入口径单独保留。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "magic_resistance_ratio",
+            "name": "魔抗倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.4,
+            "levelValues": null,
+            "description": "当前根TotalDamage第三段绑定MRRatio=0.4；同版窄口径按来源额外魔抗属性读取。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "actual_source_armor_for_ornn_e",
+            "name": "奥恩E实际来源护甲基准",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "mStat1/formula2的额外护甲映射尚缺明确窄证，先由实际输入提供应用前护甲基准，无默认。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "knockup_duration_ms",
+            "name": "撞地形击飞持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1250,
+            "levelValues": null,
+            "description": "当前根DataValues.KnockupDuration为1.25秒，单位换算为毫秒。",
+            "sortOrder": 60
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "physical_damage",
+            "name": "炽烈冲锋物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "armor_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_source_armor_for_ornn_e"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "magic_resistance_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "magic_resistance",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TotalDamage=BaseDamage+0.4×实际应用前护甲基准+0.4×来源额外魔抗；不把字段名当最终属性。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅记录当前技能已证的法力基础消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "resource",
+                "name": "施放法力消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "施法250/350毫秒来源冲突，使用无默认实际输入。",
+        "mStat1的额外护甲映射缺少本轮窄证，先以应用前实际护甲输入；mStat6按同版窄口径使用来源额外魔抗属性。",
+        "冲锋资格、地形判定、柱碰撞和同一英雄仅受一次冲击波伤害的事件时序未接线；保留唯一敌人一次伤害范围。"
+      ],
+      "excluded": [
+        "不按ArmorRatio字段名猜最终护甲，不创建第二次同敌伤害或冲锋过程。"
+      ]
+    },
+    "ornn_r": {
+      "skillKey": "ornn_r",
+      "name": "熔铸之神的召唤",
+      "maxLevel": 3,
+      "source": {
+        "binding": "Characters/Ornn/Spells/OrnnRAbility/OrnnR",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_OrnnR_Name",
+            "text": "熔铸之神的召唤"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_OrnnR_Summary",
+            "text": "奥恩在目标位置召唤一个巨大的岩浆元素，岩浆元素会以逐渐提升的速度跑向奥恩。被岩浆元素途经的敌人会受到伤害、减速效果并被施加易碎效果。奥恩可以再次施放这个技能，以冲向岩浆元素，并在命中岩浆元素时重新导向岩浆元素，使岩浆元素可将途经的任何敌人击飞，造成等额的伤害并再次施加易碎效果。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_OrnnR_Tooltip",
+            "text": "奥恩召唤一个巨大的岩浆元素来疾奔向他，造成<magicDamage>@RDamageCalc@魔法伤害</magicDamage>，对命中的敌人们施加持续@BrittleDurationTOOLTIPONLY@秒的<keywordMajor>易碎</keywordMajor>和@RSlowPercentBasePreMath@%<status>减速</status>。<br><br>奥恩可以<recast>再次施放</recast>这个技能来用头槌进行冲刺。如果他冲刺到了岩浆元素，那么他可以使它重新导向并强化它，使它<status>击飞</status>首个命中的敌方英雄@RStunDuration@秒和后续的英雄们@MinStun@秒。岩浆元素还会造成<magicDamage>@RDamageCalc@魔法伤害</magicDamage>并施加<keywordMajor>易碎</keywordMajor>。"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Ornn.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 140000,
+              "2": 120000,
+              "3": 100000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "description": "DDragon16.17.1 Ornn.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "sortOrder": 110,
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "actual_cast_time_ms",
+            "name": "实际施法时间（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "客户端与官方来源分别给出250毫秒和500毫秒，不能任选固定值；实际输入无默认。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "base_damage_per_pass",
+            "name": "每程基础魔法伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 125,
+              "2": 175,
+              "3": 225
+            },
+            "description": "当前根DataValues.RBaseDamage取技能等级1至3。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "ap_ratio",
+            "name": "法强倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.2,
+            "levelValues": null,
+            "description": "当前根RDamageCalc的RRatio为0.2，按来源总法强读取。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "slow_percent_points",
+            "name": "首程减速百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 40,
+              "2": 50,
+              "3": 60
+            },
+            "description": "当前根DataValues.RSlowPercentBasePreMath取技能等级1至3，30/40/50原数组索引1起转为正文40/50/60。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "client_slow_duration_ms",
+            "name": "客户端首程减速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "当前根DataValues.RSlowDuration为2秒；与官方英文正文3000毫秒冲突，单独保留。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "official_text_slow_duration_ms",
+            "name": "官方正文首程减速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "官方英文正文把减速持续写入3000毫秒语句；中文没有明确时长，单独保留冲突来源。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "brittle_duration_ms_per_pass",
+            "name": "每程易碎持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3000,
+            "levelValues": null,
+            "description": "当前根DataValues.BrittleDurationTOOLTIPONLY为3秒，单位换算为毫秒。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "second_pass_first_enemy_knockup_ms",
+            "name": "第二程首个英雄击飞持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1000,
+            "levelValues": null,
+            "description": "当前根DataValues.RStunDuration为1秒；第三目标缩短分支排除。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "pass_count_same_enemy",
+            "name": "唯一敌人可受伤程数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2,
+            "levelValues": null,
+            "description": "本轮范围保留来回两程对同一唯一敌人的两次伤害和易碎；不扩展第三目标分配。",
+            "sortOrder": 90
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "magic_damage_per_pass",
+            "name": "熔铸之神的召唤单程魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage_per_pass"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "RDamageCalc=RBaseDamage+0.2×来源总法强；每程独立可命中唯一敌人。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "magic_damage_same_enemy_total",
+            "name": "熔铸之神的召唤唯一敌人两程总魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "pass_count_same_enemy"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_damage_per_pass"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "唯一敌人两程总量=2×单程伤害；不包含第三目标分配。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "mana_cost",
+            "name": "施放法力消耗",
+            "description": "仅记录当前技能已证的法力基础消耗；实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "resource",
+                "name": "施放法力消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "mana_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "mana",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "施法250/500毫秒来源冲突，使用无默认实际输入；冲击波飞行和目标资格未接线。",
+        "客户端减速持续2000毫秒与官方英文正文3000毫秒冲突，分开记录两个来源值，不任选统一时长。"
+      ],
+      "excluded": [
+        "第三目标分配、后续英雄500毫秒击飞和完整元素碰撞过程排除；本轮唯一敌人保留来回两程。"
+      ]
+    },
+    "shen_p": {
+      "skillKey": "shen_p",
+      "name": "忍法！气合盾",
+      "maxLevel": 1,
+      "source": {
+        "binding": "Characters/Shen/Spells/ShenPassiveAbility/ShenPassive",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_ShenPassive_Name",
+            "text": "忍法！气合盾"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_ShenPassive_Tooltip",
+            "text": "慎在使用一个技能后，会获得持续@ShieldDuration@秒的<shield>@ShieldValue@护盾值</shield>。这个效果有@ShieldCooldown@秒冷却时间，每当慎有一个技能成功影响到一名友军或敌人时，这个冷却时间就会缩短@ShieldCooldownReduction@秒。<br><br>慎拥有一把<keywordMajor>魂刃</keywordMajor>，可供他的其它技能使用。"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_ShenPassive_Summary",
+            "text": "在施放一次技能后，慎会获得一层护盾。如果慎的技能对英雄产生作用，那么这个技能的冷却时间就会降低。"
+          },
+          "keyCooldown": {
+            "sourceKey": "Spell_ShenP_CD",
+            "text": "@ShieldCooldown@秒%i:cooldown%"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "parameterKey": "actual_base_shield_value",
+            "name": "实际等级基础护盾值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "当前ShieldValue默认分支的基础项为角色等级47至120，完整等级曲线未证，实际输入无默认。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "base_shield_level1_endpoint",
+            "name": "基础护盾等级1端点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 47,
+            "levelValues": null,
+            "description": "当前默认分支根树角色等级起点47；仅保留端点，不替代实际等级输入。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "base_shield_level_max_endpoint",
+            "name": "基础护盾高等级端点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 120,
+            "levelValues": null,
+            "description": "当前默认分支根树角色等级终点120；仅保留端点，不替代实际等级输入。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "bonus_health_ratio",
+            "name": "额外生命护盾倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.13,
+            "levelValues": null,
+            "description": "当前ShieldValue默认根树mStat12/formula2的mCoefficient为0.13；另一0.07分支排除。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "shield_duration_ms",
+            "name": "护盾持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2500,
+            "levelValues": null,
+            "description": "当前根DataValues.ShieldDuration为2.5秒，单位换算为毫秒。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "passive_cooldown_ms",
+            "name": "被动基础冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 11000,
+            "levelValues": null,
+            "description": "当前根DataValues.ShieldCooldown为11秒，单位换算为毫秒。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "actual_shield_cooldown_reduction_ms",
+            "name": "实际等级每次技能命中缩短被动冷却（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "根ShieldCooldownReduction为4秒、每级0.235秒且19级后0.125秒；完整角色等级求值和归整未证，须提供正确阶段的实际整数毫秒，无默认；本参数不自行推测或执行归整。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "conditional_shield_multiplier",
+            "name": "指定条件护盾倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 1.3,
+            "levelValues": null,
+            "description": "具名条件分支根树使用ShenZedQuestShieldMultiplier=1.3；不默认条件成立。",
+            "sortOrder": 80
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "default_shield_value",
+            "name": "忍法气合盾默认护盾值",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_base_shield_value"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_health_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "当前ShieldValue默认分支=实际等级基础护盾值+0.13×来源额外生命。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "conditional_shield_value",
+            "name": "忍法气合盾指定条件护盾值",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "conditional_shield_multiplier"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_base_shield_value"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_health_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "hp",
+                          "attributeValueKind": "BONUS"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "指定buff条件分支=1.3×默认护盾值；条件事件不在本轮接线。",
+            "sortOrder": 20
+          }
+        ],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "当前ShieldValue默认分支的角色等级基础护盾值和冷却缩短值均使用无默认实际输入；不按显示精度把冷却曲线造为整数毫秒数组。",
+        "指定buff条件的1.3倍护盾端点保留，但不假定慎劫任务已完成，也不创建技能触发事件。"
+      ],
+      "excluded": [
+        "另一个47至101加0.07额外生命的非当前分支不混入；队友收益和护盾触发资格待接。"
+      ]
+    },
+    "shen_q": {
+      "skillKey": "shen_q",
+      "name": "奥义！暮临",
+      "maxLevel": 5,
+      "source": {
+        "binding": "Characters/Shen/Spells/ShenQAbility/ShenQ",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_ShenQ_Name",
+            "text": "奥义！暮临"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_ShenQ_Summary",
+            "text": "慎召回他的魂刃并用它进行攻击，造成基于目标最大生命值的额外伤害。如果魂刃在召回途中与一个敌方英雄产生了碰撞，那么慎的魂刃攻击会获得极大强化，并且所有被碰撞的敌人在逃离慎的时候都会被减速。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_ShenQ_Tooltip",
+            "text": "慎召回他的<keywordMajor>魂刃</keywordMajor>。被其命中的敌人们在接下来的@SlowDuration@秒里，在远离慎的时候会被<status>减速</status>@SlowPercent@%。<br><br>此外，慎的下@NumEnhancedAttacks@次攻击造成额外的<magicDamage>@BaseFlatDamage@</magicDamage>外加<magicDamage>@BasePercentHealth@最大生命值的魔法伤害</magicDamage>。如果慎用<keywordMajor>魂刃</keywordMajor>命中了一名英雄，那么伤害提升至<magicDamage>@BaseFlatDamage@</magicDamage>外加<magicDamage>@EmpPercentHealth@最大生命值的魔法伤害</magicDamage>并且他的那几次攻击获得<attackSpeed>@SteroidAS@%攻击速度</attackSpeed>。"
+          },
+          "keyTooltipExtendedBelowLine": {
+            "sourceKey": "Spell_ShenQ_TooltipExtendedBelowLine",
+            "text": "<rules>每次攻击对野怪造成@MonsterAmp*100@%伤害提升(最大值为<magicDamage>@MinionDamageCap@伤害</magicDamage>)。<br>对建筑物的攻击造成@TowerDamageCalc@伤害。</rules>"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Shen.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 8000,
+              "2": 7250,
+              "3": 6500,
+              "4": 5750,
+              "5": 5000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "energy_cost",
+            "name": "能量消耗",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 140,
+              "2": 130,
+              "3": 120,
+              "4": 110,
+              "5": 100
+            },
+            "description": "当前根mana数组表示慎Q能量消耗，按索引0至4取140/130/120/110/100；不能称为法力。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "actual_base_flat_damage",
+            "name": "角色等级基础附加伤害",
+            "valueType": "INTEGER",
+            "valueMode": "CHARACTER_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 10,
+              "2": 10,
+              "3": 10,
+              "4": 16,
+              "5": 16,
+              "6": 16,
+              "7": 22,
+              "8": 22,
+              "9": 22,
+              "10": 28,
+              "11": 28,
+              "12": 28,
+              "13": 34,
+              "14": 34,
+              "15": 34,
+              "16": 40,
+              "17": 40,
+              "18": 40
+            },
+            "description": "当前BaseFlatDamage根阶梯为等级1起10，4/7/10/13/16级各增加6；使用已支持的CHARACTER_LEVEL完整1至18映射，断点值仍以当前服务角色等级读取。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "base_flat_damage_level1",
+            "name": "基础附加伤害等级1端点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10,
+            "levelValues": null,
+            "description": "当前BaseFlatDamage根阶梯起点为10；仅保留来源端点。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "base_flat_damage_breakpoint_increment",
+            "name": "基础附加伤害断点增量",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 6,
+            "levelValues": null,
+            "description": "当前BaseFlatDamage根在4/7/10/13/16级各增加6；仅保留断点增量。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "percent_root_ratio",
+            "name": "生命比例根倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.01,
+            "levelValues": null,
+            "description": "当前BasePercentHealth与EmpPercentHealth根倍率为0.01；进入完整比例表达式。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "base_percent_damage_points",
+            "name": "普通强化攻击生命百分数点",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 2,
+              "2": 2.5,
+              "3": 3,
+              "4": 3.5,
+              "5": 4
+            },
+            "description": "当前根DataValues.BasePercentDamage取技能等级1至5；原值百分数点，根倍率另乘0.01。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "base_percent_ap_ratio",
+            "name": "普通强化攻击法强倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.015,
+            "levelValues": null,
+            "description": "当前BasePercentHealth第二段StatByCoefficient为0.015。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "enhanced_percent_damage_points",
+            "name": "穿过英雄后的生命百分数点",
+            "valueType": "DECIMAL",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 5,
+              "2": 5.5,
+              "3": 6,
+              "4": 6.5,
+              "5": 7
+            },
+            "description": "当前根DataValues.EnhancedPercentDamage取技能等级1至5；根倍率另乘0.01。",
+            "sortOrder": 80
+          },
+          {
+            "parameterKey": "enhanced_percent_ap_ratio",
+            "name": "穿过英雄后的法强倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.02,
+            "levelValues": null,
+            "description": "当前EmpPercentHealth第二段StatByCoefficient为0.02。",
+            "sortOrder": 90
+          },
+          {
+            "parameterKey": "enhanced_attack_count",
+            "name": "强化普攻次数",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 3,
+            "levelValues": null,
+            "description": "当前根DataValues.NumEnhancedAttacks为3；不表示扣次事件已接通。",
+            "sortOrder": 100
+          },
+          {
+            "parameterKey": "enhanced_attack_window_ms",
+            "name": "强化普攻窗口（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 8000,
+            "levelValues": null,
+            "description": "当前根DataValues.AttackBuffDuration为8秒，单位换算为毫秒；这是攻击窗口。",
+            "sortOrder": 110
+          },
+          {
+            "parameterKey": "enhanced_attack_speed_percent_points",
+            "name": "穿过英雄后攻速增加百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 50,
+            "levelValues": null,
+            "description": "当前根DataValues.SteroidAS为50；不把SteroidDuration=75当作持续秒数。",
+            "sortOrder": 120
+          },
+          {
+            "parameterKey": "slow_percent_points",
+            "name": "逃离慎方向减速百分数点",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 25,
+              "2": 30,
+              "3": 35,
+              "4": 40,
+              "5": 45
+            },
+            "description": "当前根DataValues.SlowPercent取技能等级1至5；方向资格未接线。",
+            "sortOrder": 130
+          },
+          {
+            "parameterKey": "slow_duration_ms",
+            "name": "逃离方向减速持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "当前根DataValues.SlowDuration为2秒，单位换算为毫秒。",
+            "sortOrder": 140
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "normal_enhanced_attack_magic_damage",
+            "name": "奥义暮临普通强化普攻额外魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_base_flat_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_root_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "ADD",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "base_percent_damage_points"
+                            },
+                            {
+                              "nodeType": "OPERATION",
+                              "operation": "MULTIPLY",
+                              "operands": [
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "base_percent_ap_ratio"
+                                },
+                                {
+                                  "nodeType": "ATTRIBUTE",
+                                  "attributeOwner": "SOURCE",
+                                  "attributeKey": "ability_power",
+                                  "attributeValueKind": "TOTAL"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "TARGET",
+                          "attributeKey": "hp",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "普通附加伤害=实际等级基础附加伤害+目标最大生命×0.01×(技能等级生命百分数点+0.015×来源总法强)。",
+            "sortOrder": 10
+          },
+          {
+            "formulaKey": "enhanced_attack_magic_damage",
+            "name": "奥义暮临穿过英雄后每次额外魔法伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_base_flat_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_root_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "ADD",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "enhanced_percent_damage_points"
+                            },
+                            {
+                              "nodeType": "OPERATION",
+                              "operation": "MULTIPLY",
+                              "operands": [
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "enhanced_percent_ap_ratio"
+                                },
+                                {
+                                  "nodeType": "ATTRIBUTE",
+                                  "attributeOwner": "SOURCE",
+                                  "attributeKey": "ability_power",
+                                  "attributeValueKind": "TOTAL"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "TARGET",
+                          "attributeKey": "hp",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "穿过敌方英雄后的每次附加伤害=实际等级基础附加伤害+目标最大生命×0.01×(5至7百分数点+0.02×来源总法强)。",
+            "sortOrder": 20
+          },
+          {
+            "formulaKey": "enhanced_attack_magic_damage_total",
+            "name": "奥义暮临三次强化普攻额外魔法伤害总量",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "enhanced_attack_count"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_base_flat_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "percent_root_ratio"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "OPERATION",
+                              "operation": "ADD",
+                              "operands": [
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "enhanced_percent_damage_points"
+                                },
+                                {
+                                  "nodeType": "OPERATION",
+                                  "operation": "MULTIPLY",
+                                  "operands": [
+                                    {
+                                      "nodeType": "PARAMETER",
+                                      "parameterKey": "enhanced_percent_ap_ratio"
+                                    },
+                                    {
+                                      "nodeType": "ATTRIBUTE",
+                                      "attributeOwner": "SOURCE",
+                                      "attributeKey": "ability_power",
+                                      "attributeValueKind": "TOTAL"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "TARGET",
+                              "attributeKey": "hp",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "三次强化普攻算术总量=3×穿过英雄后的每次额外魔法伤害；不包含普通攻击物理伤害。",
+            "sortOrder": 30
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "energy_cost",
+            "name": "施放能量消耗",
+            "description": "当前属性目录已存在energy键；仅记录已证能量消耗，实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "resource",
+                "name": "施放能量消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "energy_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "energy",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "强化普攻的魂刃方向、穿过敌方英雄资格、三次攻击扣次和减速应用时序未接线；这里只记录两种实际额外魔法伤害与三次算术总量。",
+        "BaseFlatDamage使用已支持的CHARACTER_LEVEL断点值；完整角色等级求值仍以当前服务的角色等级输入为准，不把它错误放入技能等级数组。能量消耗保留为能量效果。"
+      ],
+      "excluded": [
+        "兵野专用加伤/封顶、建筑伤害、普通攻击物理伤害以及SteroidDuration=75等未接入分支排除。"
+      ]
+    },
+    "shen_w": {
+      "skillKey": "shen_w",
+      "name": "奥义！魂佑",
+      "maxLevel": 5,
+      "source": {
+        "binding": "Characters/Shen/Spells/ShenWAbility/ShenW",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_ShenW_Name",
+            "text": "奥义！魂佑"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_ShenW_Summary",
+            "text": "当慎或友方英雄在魂刃附近时，魂刃会对原本要命中他们的攻击进行格挡。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_ShenW_Tooltip",
+            "text": "慎在他的<keywordMajor>魂刃</keywordMajor>位置生成一个防御结界，持续@ZoneDuration@秒。对结界内的友方英雄进行的攻击都会被格挡。 <br><br>如果结界在开启时并没有英雄在其中，那么它会等待至多@ZoneDelay@秒。"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Shen.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 16000,
+              "2": 14500,
+              "3": 13000,
+              "4": 11500,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "energy_cost",
+            "name": "能量消耗",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 40,
+            "levelValues": null,
+            "description": "当前根mana数组表示慎W能量40；不能称为法力，资源接线待补。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "zone_duration_ms",
+            "name": "自身防御区域持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1750,
+            "levelValues": null,
+            "description": "当前根DataValues.ZoneDuration为1.75秒，单位换算为毫秒；不表示无敌。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "zone_wait_window_ms",
+            "name": "无可保护英雄时最多等待（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 2000,
+            "levelValues": null,
+            "description": "当前根DataValues.ZoneDelay为2秒，单位换算为毫秒；只保留等待窗口。",
+            "sortOrder": 30
+          }
+        ],
+        "formulas": [],
+        "effects": [
+          {
+            "effectKey": "energy_cost",
+            "name": "施放能量消耗",
+            "description": "当前属性目录已存在energy键；仅记录已证能量消耗，实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "resource",
+                "name": "施放能量消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "energy_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "energy",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "自身防御区域保留，但区域开启时机、普攻格挡和最多等待2000毫秒的条件事件未接线；不写成1750毫秒全伤害减免。",
+        "能量40使用当前属性目录已存在的energy资源效果；不改写成法力。"
+      ],
+      "excluded": [
+        "队友保护、伤害格挡事件与无敌效果不生成。"
+      ]
+    },
+    "shen_e": {
+      "skillKey": "shen_e",
+      "name": "奥义！影缚",
+      "maxLevel": 5,
+      "source": {
+        "binding": "Characters/Shen/Spells/ShenEAbility/ShenE",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_ShenE_Name",
+            "text": "奥义！影缚"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_ShenE_Summary",
+            "text": "慎朝着一个方向冲刺，嘲讽沿途的敌人。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_ShenE_Tooltip",
+            "text": "<spellPassive>被动：</spellPassive>用<spellName>奥义！暮临</spellName>或这个技能造成伤害时，会回复<keywordMajor>@EnergyRefund@能量</keywordMajor>。<br><br><spellActive>主动：</spellActive>慎进行冲刺，<status>嘲讽</status>英雄和野怪@CCDuration@秒并造成<physicalDamage>@TauntDamage@物理伤害</physicalDamage>。"
+          }
+        }
+      },
+      "write": {
+        "parameters": [
+          {
+            "description": "DDragon16.17.1 Shen.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 18000,
+              "2": 16000,
+              "3": 14000,
+              "4": 12000,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "sortOrder": 100,
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "parameterKey": "energy_cost",
+            "name": "能量消耗",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 150,
+            "levelValues": null,
+            "description": "当前根mana数组表示慎E能量150；不能称为法力，资源接线待补。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "base_damage",
+            "name": "基础物理伤害",
+            "valueType": "INTEGER",
+            "valueMode": "SKILL_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 60,
+              "2": 85,
+              "3": 110,
+              "4": 135,
+              "5": 160
+            },
+            "description": "当前根DataValues.BaseDamage取技能等级1至5。",
+            "sortOrder": 20
+          },
+          {
+            "parameterKey": "bonus_health_ratio",
+            "name": "额外生命倍率",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.11,
+            "levelValues": null,
+            "description": "当前根TauntDamage的mStat12/formula2绑定BonusHPRatio=0.11；按来源额外生命属性读取。",
+            "sortOrder": 30
+          },
+          {
+            "parameterKey": "taunt_duration_ms",
+            "name": "嘲讽持续（毫秒）",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 1500,
+            "levelValues": null,
+            "description": "当前根DataValues.CCDuration为1.5秒，单位换算为毫秒。",
+            "sortOrder": 40
+          },
+          {
+            "parameterKey": "energy_refund_level1",
+            "name": "造成伤害能量回复等级1端点",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 30,
+            "levelValues": null,
+            "description": "当前energyrefund根阶梯起点30；仅保留端点，不替代实际等级输入。",
+            "sortOrder": 50
+          },
+          {
+            "parameterKey": "energy_refund_bonus_at_level4",
+            "name": "造成伤害能量回复四级断点增量",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10,
+            "levelValues": null,
+            "description": "当前energyrefund根在4级增加10；仅保留断点。",
+            "sortOrder": 60
+          },
+          {
+            "parameterKey": "energy_refund_bonus_at_level12",
+            "name": "造成伤害能量回复十二级断点增量",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 10,
+            "levelValues": null,
+            "description": "当前energyrefund根在12级增加10；仅保留断点。",
+            "sortOrder": 70
+          },
+          {
+            "parameterKey": "actual_energy_refund_on_damage",
+            "name": "角色等级造成伤害能量回复",
+            "valueType": "INTEGER",
+            "valueMode": "CHARACTER_LEVEL",
+            "fixedValue": null,
+            "levelValues": {
+              "1": 30,
+              "2": 30,
+              "3": 30,
+              "4": 40,
+              "5": 40,
+              "6": 40,
+              "7": 40,
+              "8": 40,
+              "9": 40,
+              "10": 40,
+              "11": 40,
+              "12": 50,
+              "13": 50,
+              "14": 50,
+              "15": 50,
+              "16": 50,
+              "17": 50,
+              "18": 50
+            },
+            "description": "当前energyrefund根阶梯为等级1起30，4级和12级各增加10；使用已支持的CHARACTER_LEVEL完整1至18映射，真实触发仍待接。",
+            "sortOrder": 80
+          }
+        ],
+        "formulas": [
+          {
+            "formulaKey": "physical_damage",
+            "name": "奥义影缚物理伤害",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_health_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            "description": "TauntDamage=BaseDamage+0.11×来源额外生命；能量回复是独立待接资源行为。",
+            "sortOrder": 10
+          }
+        ],
+        "effects": [
+          {
+            "effectKey": "energy_cost",
+            "name": "施放能量消耗",
+            "description": "当前属性目录已存在energy键；仅记录已证能量消耗，实际扣除时点与施放资格尚未接线。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "resource",
+                "name": "施放能量消耗",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "energy_cost"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "energy",
+                  "operation": "CONSUME"
+                }
+              }
+            ]
+          },
+          {
+            "effectKey": "energy_refund",
+            "name": "Q或E造成伤害能量回复",
+            "description": "仅奥义！暮临（Q）的强化攻击或奥义！影缚（E）造成伤害时回复能量；按角色等级参数读取实际回复量，触发事件尚未接线，不适用于任意来源伤害。",
+            "sortOrder": 10,
+            "lifecycle": null,
+            "results": [
+              {
+                "resultKey": "resource",
+                "name": "Q或E造成伤害能量回复",
+                "resultType": "RESOURCE_CHANGE",
+                "target": "SOURCE",
+                "sortOrder": 10,
+                "description": null,
+                "spellShieldBlockScope": null,
+                "lifecycleBehavior": null,
+                "valueRule": {
+                  "value": {
+                    "kind": "PARAMETER",
+                    "parameterKey": "actual_energy_refund_on_damage"
+                  },
+                  "fixedMultiplier": 1,
+                  "fixedMinValue": 0,
+                  "fixedMaxValue": null
+                },
+                "detail": {
+                  "attributeKey": "energy",
+                  "operation": "RESTORE"
+                }
+              }
+            ]
+          }
+        ],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "嘲讽目标资格、冲刺碰撞未接线；能量回复使用已支持的CHARACTER_LEVEL断点值，触发时序仍未自动接线。",
+        "能量150和造成伤害后的能量回复均使用当前属性目录已存在的energy资源效果，不改写成法力。"
+      ],
+      "excluded": [
+        "兵野嘲讽独立目标分配和冲刺过程排除；没有明确施法时间，不补0。"
+      ]
+    },
+    "shen_r": {
+      "skillKey": "shen_r",
+      "name": "秘奥义！慈悲度魂落",
+      "maxLevel": 3,
+      "source": {
+        "binding": "Characters/Shen/Spells/ShenRAbility/ShenR",
+        "currentTexts": {
+          "keyName": {
+            "sourceKey": "Spell_ShenR_Name",
+            "text": "秘奥义！慈悲度魂落"
+          },
+          "keySummary": {
+            "sourceKey": "Spell_ShenR_Summary",
+            "text": "慎为目标友方英雄提供一层吸收伤害的护盾，然后很快传送到目标身旁。"
+          },
+          "keyTooltip": {
+            "sourceKey": "Spell_ShenR_Tooltip",
+            "text": "慎为地图任一位置的一名友方英雄提供持续@ShieldDuration@秒的<shield>@Shield@</shield>到<shield>@MaxShield@护盾值</shield>，基于目标的已损失生命值(在60%已损失生命值时达到最大值)。在引导@ChannelDuration@秒后，慎会带着<keywordMajor>魂刃</keywordMajor>传送到该友方英雄所在的位置。"
+          },
+          "keyCost": {
+            "sourceKey": "Spell_Cost_NoCost",
+            "text": "无消耗"
+          }
+        }
+      },
+      "write": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": []
+      },
+      "pending": [
+        "慎R只能选另一友方英雄，护盾和传送属于纯友方目标，本轮1V1范围跳过；保留完整来源依据，不生成参数、公式或效果。"
+      ],
+      "excluded": [
+        "不因本轮有慎自身被动或Q/E而虚构一个可独自在1V1施放的R过程。"
+      ]
+    }
+  },
+  "postIntents": [
+    {
+      "method": "POST",
+      "route": "/skills/ornn_p/parameters",
+      "skillKey": "ornn_p",
+      "kind": "parameters",
+      "stableKey": "base_stat_amp_ratio",
+      "body": {
+        "parameterKey": "base_stat_amp_ratio",
+        "name": "基础属性增幅比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "当前模式1正文明确生命、护甲和魔抗提高10%；根DataValues.BaseStatAmp为0.1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_p/parameters",
+      "skillKey": "ornn_p",
+      "kind": "parameters",
+      "stableKey": "additional_masterwork_stat_amp_ratio",
+      "body": {
+        "parameterKey": "additional_masterwork_stat_amp_ratio",
+        "name": "每件杰作额外属性增幅比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.04,
+        "levelValues": null,
+        "description": "当前模式1正文明确每完成一件杰作额外提高4%；根DataValues.AdditionalMythicStatAmp为0.04。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_p/parameters",
+      "skillKey": "ornn_p",
+      "kind": "parameters",
+      "stableKey": "actual_masterwork_count",
+      "body": {
+        "parameterKey": "actual_masterwork_count",
+        "name": "已完成杰作数量",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "实际战前已完成的杰作数量；来源没有给出本轮允许的完整上限，实际输入无默认且必须为非负整数。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_p/parameters",
+      "skillKey": "ornn_p",
+      "kind": "parameters",
+      "stableKey": "actual_source_hp_before_ornn_passive",
+      "body": {
+        "parameterKey": "actual_source_hp_before_ornn_passive",
+        "name": "奥恩被动应用前额外生命",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "应用奥恩被动增幅前的额外生命基准，只取各来源提供的加成属性，不含基础生命，也不含本次奥恩被动增幅；实际输入无默认。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_p/parameters",
+      "skillKey": "ornn_p",
+      "kind": "parameters",
+      "stableKey": "actual_source_armor_before_ornn_passive",
+      "body": {
+        "parameterKey": "actual_source_armor_before_ornn_passive",
+        "name": "奥恩被动应用前额外护甲",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "应用奥恩被动增幅前的额外护甲基准，只取各来源提供的加成属性，不含基础护甲，也不含本次奥恩被动增幅；实际输入无默认。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_p/parameters",
+      "skillKey": "ornn_p",
+      "kind": "parameters",
+      "stableKey": "actual_source_magic_resistance_before_ornn_passive",
+      "body": {
+        "parameterKey": "actual_source_magic_resistance_before_ornn_passive",
+        "name": "奥恩被动应用前额外魔抗",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "应用奥恩被动增幅前的额外魔抗基准，只取各来源提供的加成属性，不含基础魔抗，也不含本次奥恩被动增幅；实际输入无默认。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_p/formulas",
+      "skillKey": "ornn_p",
+      "kind": "formulas",
+      "stableKey": "stat_amplification_ratio",
+      "body": {
+        "formulaKey": "stat_amplification_ratio",
+        "name": "活体锻炉当前属性增幅比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_stat_amp_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "additional_masterwork_stat_amp_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_masterwork_count"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前属性增幅比例=10%+4%×已完成杰作数量；数量不设置本轮上限。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_p/formulas",
+      "skillKey": "ornn_p",
+      "kind": "formulas",
+      "stableKey": "bonus_health",
+      "body": {
+        "formulaKey": "bonus_health",
+        "name": "活体锻炉额外生命",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_stat_amp_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "additional_masterwork_stat_amp_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_masterwork_count"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_source_hp_before_ornn_passive"
+            }
+          ]
+        },
+        "description": "额外生命=(10%+4%×杰作数量)×被动应用前额外生命。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_p/formulas",
+      "skillKey": "ornn_p",
+      "kind": "formulas",
+      "stableKey": "bonus_armor",
+      "body": {
+        "formulaKey": "bonus_armor",
+        "name": "活体锻炉额外护甲",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_stat_amp_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "additional_masterwork_stat_amp_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_masterwork_count"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_source_armor_before_ornn_passive"
+            }
+          ]
+        },
+        "description": "额外护甲=(10%+4%×杰作数量)×被动应用前额外护甲。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_p/formulas",
+      "skillKey": "ornn_p",
+      "kind": "formulas",
+      "stableKey": "bonus_magic_resistance",
+      "body": {
+        "formulaKey": "bonus_magic_resistance",
+        "name": "活体锻炉额外魔抗",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_stat_amp_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "additional_masterwork_stat_amp_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_masterwork_count"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_source_magic_resistance_before_ornn_passive"
+            }
+          ]
+        },
+        "description": "额外魔抗=(10%+4%×杰作数量)×被动应用前额外魔抗。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_q/parameters",
+      "skillKey": "ornn_q",
+      "kind": "parameters",
+      "stableKey": "actual_cast_time_ms",
+      "body": {
+        "parameterKey": "actual_cast_time_ms",
+        "name": "实际施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端与官方来源分别给出250毫秒和300毫秒，不能任选固定值；实际输入无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_q/parameters",
+      "skillKey": "ornn_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 45,
+          "3": 70,
+          "4": 95,
+          "5": 120
+        },
+        "description": "当前根DataValues.BaseDamage取技能等级1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_q/parameters",
+      "skillKey": "ornn_q",
+      "kind": "parameters",
+      "stableKey": "attack_damage_ratio",
+      "body": {
+        "parameterKey": "attack_damage_ratio",
+        "name": "总攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.1,
+        "levelValues": null,
+        "description": "当前根TotalDamage的StatByCoefficient为1.1，根说明按总攻击力取值。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_q/parameters",
+      "skillKey": "ornn_q",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "description": "当前根DataValues.SlowAmount为40；应用资格与时点未接线。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_q/parameters",
+      "skillKey": "ornn_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根DataValues.SlowDuration为2秒，单位换算为毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_q/parameters",
+      "skillKey": "ornn_q",
+      "kind": "parameters",
+      "stableKey": "pillar_duration_ms",
+      "body": {
+        "parameterKey": "pillar_duration_ms",
+        "name": "火山柱持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前根DataValues.PillarDuration为4秒，仅作为地形交互时长参数。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_q/formulas",
+      "skillKey": "ornn_q",
+      "kind": "formulas",
+      "stableKey": "physical_damage",
+      "body": {
+        "formulaKey": "physical_damage",
+        "name": "火山突堑物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_damage_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage=BaseDamage+1.1×来源总攻击力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_q/effects",
+      "skillKey": "ornn_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录当前技能已证的法力基础消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/parameters",
+      "skillKey": "ornn_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前正文明确施法250毫秒；不表示每次火焰命中时点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/parameters",
+      "skillKey": "ornn_w",
+      "kind": "parameters",
+      "stableKey": "minimum_damage_per_tick",
+      "body": {
+        "parameterKey": "minimum_damage_per_tick",
+        "name": "每次伤害下限",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 16,
+          "2": 26,
+          "3": 36,
+          "4": 46,
+          "5": 56
+        },
+        "description": "当前根DataValues.MinimumDamagePerTick取技能等级1至5；英雄分支下限。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/parameters",
+      "skillKey": "ornn_w",
+      "kind": "parameters",
+      "stableKey": "target_max_health_ratio_per_tick",
+      "body": {
+        "parameterKey": "target_max_health_ratio_per_tick",
+        "name": "每次目标最大生命伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.024,
+          "2": 0.026,
+          "3": 0.028,
+          "4": 0.03,
+          "5": 0.032
+        },
+        "description": "当前根DataValues.PercentHPPerTick取索引1至5，原值2.4%至3.2%，直接录入比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/parameters",
+      "skillKey": "ornn_w",
+      "kind": "parameters",
+      "stableKey": "max_percent_health_total_percent_points",
+      "body": {
+        "parameterKey": "max_percent_health_total_percent_points",
+        "name": "五次最大生命百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 12,
+          "2": 13,
+          "3": 14,
+          "4": 15,
+          "5": 16
+        },
+        "description": "当前正文直接消费MaxPercentHPPerTickTooltip，根DataValues取技能等级1至5的12/13/14/15/16；仅作正文显示值，不替代单次MAX公式。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/parameters",
+      "skillKey": "ornn_w",
+      "kind": "parameters",
+      "stableKey": "tick_count",
+      "body": {
+        "parameterKey": "tick_count",
+        "name": "火焰次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "当前根DataValues.NumberOfTicks为5；不假定实际命中间隔。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/parameters",
+      "skillKey": "ornn_w",
+      "kind": "parameters",
+      "stableKey": "breath_duration_ms",
+      "body": {
+        "parameterKey": "breath_duration_ms",
+        "name": "火焰持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "当前根DataValues.BreathDuration为0.75秒，单位换算为毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/parameters",
+      "skillKey": "ornn_w",
+      "kind": "parameters",
+      "stableKey": "actual_brittle_extra_magic_ratio",
+      "body": {
+        "parameterKey": "actual_brittle_extra_magic_ratio",
+        "name": "实际等级易碎额外魔法伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "根BrittlePercentMaxHPCalc只有9%至17%角色等级端点，等级求值未证；实际比例无默认。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/parameters",
+      "skillKey": "ornn_w",
+      "kind": "parameters",
+      "stableKey": "brittle_ratio_start_endpoint",
+      "body": {
+        "parameterKey": "brittle_ratio_start_endpoint",
+        "name": "易碎比例起点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.09,
+        "levelValues": null,
+        "description": "根BrittlePercentMaxHPCalc起点为9%；仅保留来源端点，不替代实际等级输入。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/parameters",
+      "skillKey": "ornn_w",
+      "kind": "parameters",
+      "stableKey": "brittle_ratio_end_endpoint",
+      "body": {
+        "parameterKey": "brittle_ratio_end_endpoint",
+        "name": "易碎比例终点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.17,
+        "levelValues": null,
+        "description": "根BrittlePercentMaxHPCalc终点为17%；仅保留来源端点，不替代实际等级输入。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/parameters",
+      "skillKey": "ornn_w",
+      "kind": "parameters",
+      "stableKey": "brittle_duration_ms",
+      "body": {
+        "parameterKey": "brittle_duration_ms",
+        "name": "易碎持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前根DataValues.BrittleDuration为3秒；下一次定身增伤资格未接线。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/parameters",
+      "skillKey": "ornn_w",
+      "kind": "parameters",
+      "stableKey": "brittle_next_immobilize_bonus_percent_points",
+      "body": {
+        "parameterKey": "brittle_next_immobilize_bonus_percent_points",
+        "name": "下一次定身伤害增加百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "description": "当前正文明确下一次定身持续时间增加30%；仅保留端点，不创建定身事件。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/formulas",
+      "skillKey": "ornn_w",
+      "kind": "formulas",
+      "stableKey": "minimum_damage_total",
+      "body": {
+        "formulaKey": "minimum_damage_total",
+        "name": "风箱炎息五次伤害下限总量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minimum_damage_per_tick"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "tick_count"
+            }
+          ]
+        },
+        "description": "来源TotalMinimumDamage=每次英雄伤害下限×5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/formulas",
+      "skillKey": "ornn_w",
+      "kind": "formulas",
+      "stableKey": "damage_per_tick",
+      "body": {
+        "formulaKey": "damage_per_tick",
+        "name": "风箱炎息单次英雄伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MAX",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minimum_damage_per_tick"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "target_max_health_ratio_per_tick"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "单次英雄伤害=MAX(每次下限，目标最大生命×每次比例)。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/formulas",
+      "skillKey": "ornn_w",
+      "kind": "formulas",
+      "stableKey": "five_tick_damage_total",
+      "body": {
+        "formulaKey": "five_tick_damage_total",
+        "name": "风箱炎息五次英雄伤害总量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "tick_count"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MAX",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "minimum_damage_per_tick"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_max_health_ratio_per_tick"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "五次算术总量=5×单次MAX值；不表示实际命中时序。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/formulas",
+      "skillKey": "ornn_w",
+      "kind": "formulas",
+      "stableKey": "brittle_extra_magic_damage",
+      "body": {
+        "formulaKey": "brittle_extra_magic_damage",
+        "name": "易碎下一次定身额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_brittle_extra_magic_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "TARGET",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "实际等级易碎比例×目标最大生命；比例无默认且不把自身普攻的触发条件重复写入。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_w/effects",
+      "skillKey": "ornn_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录当前技能已证的法力基础消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_e/parameters",
+      "skillKey": "ornn_e",
+      "kind": "parameters",
+      "stableKey": "actual_cast_time_ms",
+      "body": {
+        "parameterKey": "actual_cast_time_ms",
+        "name": "实际施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端与官方来源分别给出250毫秒和350毫秒，不能任选固定值；实际输入无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_e/parameters",
+      "skillKey": "ornn_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "description": "当前根DataValues.BaseDamage取技能等级1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_e/parameters",
+      "skillKey": "ornn_e",
+      "kind": "parameters",
+      "stableKey": "armor_ratio",
+      "body": {
+        "parameterKey": "armor_ratio",
+        "name": "护甲倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前根TotalDamage第二段绑定ArmorRatio=0.4；mStat1/formula2的输入口径单独保留。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_e/parameters",
+      "skillKey": "ornn_e",
+      "kind": "parameters",
+      "stableKey": "magic_resistance_ratio",
+      "body": {
+        "parameterKey": "magic_resistance_ratio",
+        "name": "魔抗倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前根TotalDamage第三段绑定MRRatio=0.4；同版窄口径按来源额外魔抗属性读取。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_e/parameters",
+      "skillKey": "ornn_e",
+      "kind": "parameters",
+      "stableKey": "actual_source_armor_for_ornn_e",
+      "body": {
+        "parameterKey": "actual_source_armor_for_ornn_e",
+        "name": "奥恩E实际来源护甲基准",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "mStat1/formula2的额外护甲映射尚缺明确窄证，先由实际输入提供应用前护甲基准，无默认。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_e/parameters",
+      "skillKey": "ornn_e",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "body": {
+        "parameterKey": "knockup_duration_ms",
+        "name": "撞地形击飞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1250,
+        "levelValues": null,
+        "description": "当前根DataValues.KnockupDuration为1.25秒，单位换算为毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_e/formulas",
+      "skillKey": "ornn_e",
+      "kind": "formulas",
+      "stableKey": "physical_damage",
+      "body": {
+        "formulaKey": "physical_damage",
+        "name": "炽烈冲锋物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "armor_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_source_armor_for_ornn_e"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "magic_resistance_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "magic_resistance",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage=BaseDamage+0.4×实际应用前护甲基准+0.4×来源额外魔抗；不把字段名当最终属性。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_e/effects",
+      "skillKey": "ornn_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录当前技能已证的法力基础消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_r/parameters",
+      "skillKey": "ornn_r",
+      "kind": "parameters",
+      "stableKey": "actual_cast_time_ms",
+      "body": {
+        "parameterKey": "actual_cast_time_ms",
+        "name": "实际施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端与官方来源分别给出250毫秒和500毫秒，不能任选固定值；实际输入无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_r/parameters",
+      "skillKey": "ornn_r",
+      "kind": "parameters",
+      "stableKey": "base_damage_per_pass",
+      "body": {
+        "parameterKey": "base_damage_per_pass",
+        "name": "每程基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 125,
+          "2": 175,
+          "3": 225
+        },
+        "description": "当前根DataValues.RBaseDamage取技能等级1至3。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_r/parameters",
+      "skillKey": "ornn_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.2,
+        "levelValues": null,
+        "description": "当前根RDamageCalc的RRatio为0.2，按来源总法强读取。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_r/parameters",
+      "skillKey": "ornn_r",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "首程减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 50,
+          "3": 60
+        },
+        "description": "当前根DataValues.RSlowPercentBasePreMath取技能等级1至3，30/40/50原数组索引1起转为正文40/50/60。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_r/parameters",
+      "skillKey": "ornn_r",
+      "kind": "parameters",
+      "stableKey": "client_slow_duration_ms",
+      "body": {
+        "parameterKey": "client_slow_duration_ms",
+        "name": "客户端首程减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根DataValues.RSlowDuration为2秒；与官方英文正文3000毫秒冲突，单独保留。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_r/parameters",
+      "skillKey": "ornn_r",
+      "kind": "parameters",
+      "stableKey": "official_text_slow_duration_ms",
+      "body": {
+        "parameterKey": "official_text_slow_duration_ms",
+        "name": "官方正文首程减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "官方英文正文把减速持续写入3000毫秒语句；中文没有明确时长，单独保留冲突来源。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_r/parameters",
+      "skillKey": "ornn_r",
+      "kind": "parameters",
+      "stableKey": "brittle_duration_ms_per_pass",
+      "body": {
+        "parameterKey": "brittle_duration_ms_per_pass",
+        "name": "每程易碎持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3000,
+        "levelValues": null,
+        "description": "当前根DataValues.BrittleDurationTOOLTIPONLY为3秒，单位换算为毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_r/parameters",
+      "skillKey": "ornn_r",
+      "kind": "parameters",
+      "stableKey": "second_pass_first_enemy_knockup_ms",
+      "body": {
+        "parameterKey": "second_pass_first_enemy_knockup_ms",
+        "name": "第二程首个英雄击飞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前根DataValues.RStunDuration为1秒；第三目标缩短分支排除。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_r/parameters",
+      "skillKey": "ornn_r",
+      "kind": "parameters",
+      "stableKey": "pass_count_same_enemy",
+      "body": {
+        "parameterKey": "pass_count_same_enemy",
+        "name": "唯一敌人可受伤程数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "本轮范围保留来回两程对同一唯一敌人的两次伤害和易碎；不扩展第三目标分配。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_r/formulas",
+      "skillKey": "ornn_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage_per_pass",
+      "body": {
+        "formulaKey": "magic_damage_per_pass",
+        "name": "熔铸之神的召唤单程魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage_per_pass"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "RDamageCalc=RBaseDamage+0.2×来源总法强；每程独立可命中唯一敌人。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_r/formulas",
+      "skillKey": "ornn_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage_same_enemy_total",
+      "body": {
+        "formulaKey": "magic_damage_same_enemy_total",
+        "name": "熔铸之神的召唤唯一敌人两程总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "pass_count_same_enemy"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage_per_pass"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "唯一敌人两程总量=2×单程伤害；不包含第三目标分配。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/ornn_r/effects",
+      "skillKey": "ornn_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅记录当前技能已证的法力基础消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_p/parameters",
+      "skillKey": "shen_p",
+      "kind": "parameters",
+      "stableKey": "actual_base_shield_value",
+      "body": {
+        "parameterKey": "actual_base_shield_value",
+        "name": "实际等级基础护盾值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前ShieldValue默认分支的基础项为角色等级47至120，完整等级曲线未证，实际输入无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_p/parameters",
+      "skillKey": "shen_p",
+      "kind": "parameters",
+      "stableKey": "base_shield_level1_endpoint",
+      "body": {
+        "parameterKey": "base_shield_level1_endpoint",
+        "name": "基础护盾等级1端点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 47,
+        "levelValues": null,
+        "description": "当前默认分支根树角色等级起点47；仅保留端点，不替代实际等级输入。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_p/parameters",
+      "skillKey": "shen_p",
+      "kind": "parameters",
+      "stableKey": "base_shield_level_max_endpoint",
+      "body": {
+        "parameterKey": "base_shield_level_max_endpoint",
+        "name": "基础护盾高等级端点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 120,
+        "levelValues": null,
+        "description": "当前默认分支根树角色等级终点120；仅保留端点，不替代实际等级输入。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_p/parameters",
+      "skillKey": "shen_p",
+      "kind": "parameters",
+      "stableKey": "bonus_health_ratio",
+      "body": {
+        "parameterKey": "bonus_health_ratio",
+        "name": "额外生命护盾倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.13,
+        "levelValues": null,
+        "description": "当前ShieldValue默认根树mStat12/formula2的mCoefficient为0.13；另一0.07分支排除。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_p/parameters",
+      "skillKey": "shen_p",
+      "kind": "parameters",
+      "stableKey": "shield_duration_ms",
+      "body": {
+        "parameterKey": "shield_duration_ms",
+        "name": "护盾持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "当前根DataValues.ShieldDuration为2.5秒，单位换算为毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_p/parameters",
+      "skillKey": "shen_p",
+      "kind": "parameters",
+      "stableKey": "passive_cooldown_ms",
+      "body": {
+        "parameterKey": "passive_cooldown_ms",
+        "name": "被动基础冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 11000,
+        "levelValues": null,
+        "description": "当前根DataValues.ShieldCooldown为11秒，单位换算为毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_p/parameters",
+      "skillKey": "shen_p",
+      "kind": "parameters",
+      "stableKey": "actual_shield_cooldown_reduction_ms",
+      "body": {
+        "parameterKey": "actual_shield_cooldown_reduction_ms",
+        "name": "实际等级每次技能命中缩短被动冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "根ShieldCooldownReduction为4秒、每级0.235秒且19级后0.125秒；完整角色等级求值和归整未证，须提供正确阶段的实际整数毫秒，无默认；本参数不自行推测或执行归整。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_p/parameters",
+      "skillKey": "shen_p",
+      "kind": "parameters",
+      "stableKey": "conditional_shield_multiplier",
+      "body": {
+        "parameterKey": "conditional_shield_multiplier",
+        "name": "指定条件护盾倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.3,
+        "levelValues": null,
+        "description": "具名条件分支根树使用ShenZedQuestShieldMultiplier=1.3；不默认条件成立。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_p/formulas",
+      "skillKey": "shen_p",
+      "kind": "formulas",
+      "stableKey": "default_shield_value",
+      "body": {
+        "formulaKey": "default_shield_value",
+        "name": "忍法气合盾默认护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_base_shield_value"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_health_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前ShieldValue默认分支=实际等级基础护盾值+0.13×来源额外生命。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_p/formulas",
+      "skillKey": "shen_p",
+      "kind": "formulas",
+      "stableKey": "conditional_shield_value",
+      "body": {
+        "formulaKey": "conditional_shield_value",
+        "name": "忍法气合盾指定条件护盾值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "conditional_shield_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_base_shield_value"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_health_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "指定buff条件分支=1.3×默认护盾值；条件事件不在本轮接线。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "energy_cost",
+      "body": {
+        "parameterKey": "energy_cost",
+        "name": "能量消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 140,
+          "2": 130,
+          "3": 120,
+          "4": 110,
+          "5": 100
+        },
+        "description": "当前根mana数组表示慎Q能量消耗，按索引0至4取140/130/120/110/100；不能称为法力。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "actual_base_flat_damage",
+      "body": {
+        "parameterKey": "actual_base_flat_damage",
+        "name": "角色等级基础附加伤害",
+        "valueType": "INTEGER",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 10,
+          "3": 10,
+          "4": 16,
+          "5": 16,
+          "6": 16,
+          "7": 22,
+          "8": 22,
+          "9": 22,
+          "10": 28,
+          "11": 28,
+          "12": 28,
+          "13": 34,
+          "14": 34,
+          "15": 34,
+          "16": 40,
+          "17": 40,
+          "18": 40
+        },
+        "description": "当前BaseFlatDamage根阶梯为等级1起10，4/7/10/13/16级各增加6；使用已支持的CHARACTER_LEVEL完整1至18映射，断点值仍以当前服务角色等级读取。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "base_flat_damage_level1",
+      "body": {
+        "parameterKey": "base_flat_damage_level1",
+        "name": "基础附加伤害等级1端点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "当前BaseFlatDamage根阶梯起点为10；仅保留来源端点。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "base_flat_damage_breakpoint_increment",
+      "body": {
+        "parameterKey": "base_flat_damage_breakpoint_increment",
+        "name": "基础附加伤害断点增量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "当前BaseFlatDamage根在4/7/10/13/16级各增加6；仅保留断点增量。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "percent_root_ratio",
+      "body": {
+        "parameterKey": "percent_root_ratio",
+        "name": "生命比例根倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "当前BasePercentHealth与EmpPercentHealth根倍率为0.01；进入完整比例表达式。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "base_percent_damage_points",
+      "body": {
+        "parameterKey": "base_percent_damage_points",
+        "name": "普通强化攻击生命百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2,
+          "2": 2.5,
+          "3": 3,
+          "4": 3.5,
+          "5": 4
+        },
+        "description": "当前根DataValues.BasePercentDamage取技能等级1至5；原值百分数点，根倍率另乘0.01。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "base_percent_ap_ratio",
+      "body": {
+        "parameterKey": "base_percent_ap_ratio",
+        "name": "普通强化攻击法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.015,
+        "levelValues": null,
+        "description": "当前BasePercentHealth第二段StatByCoefficient为0.015。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "enhanced_percent_damage_points",
+      "body": {
+        "parameterKey": "enhanced_percent_damage_points",
+        "name": "穿过英雄后的生命百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 5,
+          "2": 5.5,
+          "3": 6,
+          "4": 6.5,
+          "5": 7
+        },
+        "description": "当前根DataValues.EnhancedPercentDamage取技能等级1至5；根倍率另乘0.01。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "enhanced_percent_ap_ratio",
+      "body": {
+        "parameterKey": "enhanced_percent_ap_ratio",
+        "name": "穿过英雄后的法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.02,
+        "levelValues": null,
+        "description": "当前EmpPercentHealth第二段StatByCoefficient为0.02。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "enhanced_attack_count",
+      "body": {
+        "parameterKey": "enhanced_attack_count",
+        "name": "强化普攻次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前根DataValues.NumEnhancedAttacks为3；不表示扣次事件已接通。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "enhanced_attack_window_ms",
+      "body": {
+        "parameterKey": "enhanced_attack_window_ms",
+        "name": "强化普攻窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8000,
+        "levelValues": null,
+        "description": "当前根DataValues.AttackBuffDuration为8秒，单位换算为毫秒；这是攻击窗口。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "enhanced_attack_speed_percent_points",
+      "body": {
+        "parameterKey": "enhanced_attack_speed_percent_points",
+        "name": "穿过英雄后攻速增加百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "description": "当前根DataValues.SteroidAS为50；不把SteroidDuration=75当作持续秒数。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "逃离慎方向减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 25,
+          "2": 30,
+          "3": 35,
+          "4": 40,
+          "5": 45
+        },
+        "description": "当前根DataValues.SlowPercent取技能等级1至5；方向资格未接线。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/parameters",
+      "skillKey": "shen_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "逃离方向减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根DataValues.SlowDuration为2秒，单位换算为毫秒。",
+        "sortOrder": 140
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/formulas",
+      "skillKey": "shen_q",
+      "kind": "formulas",
+      "stableKey": "normal_enhanced_attack_magic_damage",
+      "body": {
+        "formulaKey": "normal_enhanced_attack_magic_damage",
+        "name": "奥义暮临普通强化普攻额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_base_flat_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_root_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_percent_damage_points"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "base_percent_ap_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "ability_power",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "普通附加伤害=实际等级基础附加伤害+目标最大生命×0.01×(技能等级生命百分数点+0.015×来源总法强)。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/formulas",
+      "skillKey": "shen_q",
+      "kind": "formulas",
+      "stableKey": "enhanced_attack_magic_damage",
+      "body": {
+        "formulaKey": "enhanced_attack_magic_damage",
+        "name": "奥义暮临穿过英雄后每次额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_base_flat_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_root_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "enhanced_percent_damage_points"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "enhanced_percent_ap_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "ability_power",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "TARGET",
+                      "attributeKey": "hp",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "穿过敌方英雄后的每次附加伤害=实际等级基础附加伤害+目标最大生命×0.01×(5至7百分数点+0.02×来源总法强)。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/formulas",
+      "skillKey": "shen_q",
+      "kind": "formulas",
+      "stableKey": "enhanced_attack_magic_damage_total",
+      "body": {
+        "formulaKey": "enhanced_attack_magic_damage_total",
+        "name": "奥义暮临三次强化普攻额外魔法伤害总量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "enhanced_attack_count"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_base_flat_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_root_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "ADD",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "enhanced_percent_damage_points"
+                            },
+                            {
+                              "nodeType": "OPERATION",
+                              "operation": "MULTIPLY",
+                              "operands": [
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "enhanced_percent_ap_ratio"
+                                },
+                                {
+                                  "nodeType": "ATTRIBUTE",
+                                  "attributeOwner": "SOURCE",
+                                  "attributeKey": "ability_power",
+                                  "attributeValueKind": "TOTAL"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "TARGET",
+                          "attributeKey": "hp",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "三次强化普攻算术总量=3×穿过英雄后的每次额外魔法伤害；不包含普通攻击物理伤害。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_q/effects",
+      "skillKey": "shen_q",
+      "kind": "effects",
+      "stableKey": "energy_cost",
+      "body": {
+        "effectKey": "energy_cost",
+        "name": "施放能量消耗",
+        "description": "当前属性目录已存在energy键；仅记录已证能量消耗，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放能量消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "energy_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "energy",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_w/parameters",
+      "skillKey": "shen_w",
+      "kind": "parameters",
+      "stableKey": "energy_cost",
+      "body": {
+        "parameterKey": "energy_cost",
+        "name": "能量消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 40,
+        "levelValues": null,
+        "description": "当前根mana数组表示慎W能量40；不能称为法力，资源接线待补。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_w/parameters",
+      "skillKey": "shen_w",
+      "kind": "parameters",
+      "stableKey": "zone_duration_ms",
+      "body": {
+        "parameterKey": "zone_duration_ms",
+        "name": "自身防御区域持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1750,
+        "levelValues": null,
+        "description": "当前根DataValues.ZoneDuration为1.75秒，单位换算为毫秒；不表示无敌。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_w/parameters",
+      "skillKey": "shen_w",
+      "kind": "parameters",
+      "stableKey": "zone_wait_window_ms",
+      "body": {
+        "parameterKey": "zone_wait_window_ms",
+        "name": "无可保护英雄时最多等待（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根DataValues.ZoneDelay为2秒，单位换算为毫秒；只保留等待窗口。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_w/effects",
+      "skillKey": "shen_w",
+      "kind": "effects",
+      "stableKey": "energy_cost",
+      "body": {
+        "effectKey": "energy_cost",
+        "name": "施放能量消耗",
+        "description": "当前属性目录已存在energy键；仅记录已证能量消耗，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放能量消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "energy_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "energy",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_e/parameters",
+      "skillKey": "shen_e",
+      "kind": "parameters",
+      "stableKey": "energy_cost",
+      "body": {
+        "parameterKey": "energy_cost",
+        "name": "能量消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 150,
+        "levelValues": null,
+        "description": "当前根mana数组表示慎E能量150；不能称为法力，资源接线待补。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_e/parameters",
+      "skillKey": "shen_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 85,
+          "3": 110,
+          "4": 135,
+          "5": 160
+        },
+        "description": "当前根DataValues.BaseDamage取技能等级1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_e/parameters",
+      "skillKey": "shen_e",
+      "kind": "parameters",
+      "stableKey": "bonus_health_ratio",
+      "body": {
+        "parameterKey": "bonus_health_ratio",
+        "name": "额外生命倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.11,
+        "levelValues": null,
+        "description": "当前根TauntDamage的mStat12/formula2绑定BonusHPRatio=0.11；按来源额外生命属性读取。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_e/parameters",
+      "skillKey": "shen_e",
+      "kind": "parameters",
+      "stableKey": "taunt_duration_ms",
+      "body": {
+        "parameterKey": "taunt_duration_ms",
+        "name": "嘲讽持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前根DataValues.CCDuration为1.5秒，单位换算为毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_e/parameters",
+      "skillKey": "shen_e",
+      "kind": "parameters",
+      "stableKey": "energy_refund_level1",
+      "body": {
+        "parameterKey": "energy_refund_level1",
+        "name": "造成伤害能量回复等级1端点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 30,
+        "levelValues": null,
+        "description": "当前energyrefund根阶梯起点30；仅保留端点，不替代实际等级输入。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_e/parameters",
+      "skillKey": "shen_e",
+      "kind": "parameters",
+      "stableKey": "energy_refund_bonus_at_level4",
+      "body": {
+        "parameterKey": "energy_refund_bonus_at_level4",
+        "name": "造成伤害能量回复四级断点增量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "当前energyrefund根在4级增加10；仅保留断点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_e/parameters",
+      "skillKey": "shen_e",
+      "kind": "parameters",
+      "stableKey": "energy_refund_bonus_at_level12",
+      "body": {
+        "parameterKey": "energy_refund_bonus_at_level12",
+        "name": "造成伤害能量回复十二级断点增量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "当前energyrefund根在12级增加10；仅保留断点。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_e/parameters",
+      "skillKey": "shen_e",
+      "kind": "parameters",
+      "stableKey": "actual_energy_refund_on_damage",
+      "body": {
+        "parameterKey": "actual_energy_refund_on_damage",
+        "name": "角色等级造成伤害能量回复",
+        "valueType": "INTEGER",
+        "valueMode": "CHARACTER_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 30,
+          "3": 30,
+          "4": 40,
+          "5": 40,
+          "6": 40,
+          "7": 40,
+          "8": 40,
+          "9": 40,
+          "10": 40,
+          "11": 40,
+          "12": 50,
+          "13": 50,
+          "14": 50,
+          "15": 50,
+          "16": 50,
+          "17": 50,
+          "18": 50
+        },
+        "description": "当前energyrefund根阶梯为等级1起30，4级和12级各增加10；使用已支持的CHARACTER_LEVEL完整1至18映射，真实触发仍待接。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_e/formulas",
+      "skillKey": "shen_e",
+      "kind": "formulas",
+      "stableKey": "physical_damage",
+      "body": {
+        "formulaKey": "physical_damage",
+        "name": "奥义影缚物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_health_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TauntDamage=BaseDamage+0.11×来源额外生命；能量回复是独立待接资源行为。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_e/effects",
+      "skillKey": "shen_e",
+      "kind": "effects",
+      "stableKey": "energy_cost",
+      "body": {
+        "effectKey": "energy_cost",
+        "name": "施放能量消耗",
+        "description": "当前属性目录已存在energy键；仅记录已证能量消耗，实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "施放能量消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "energy_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "energy",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/shen_e/effects",
+      "skillKey": "shen_e",
+      "kind": "effects",
+      "stableKey": "energy_refund",
+      "body": {
+        "effectKey": "energy_refund",
+        "name": "Q或E造成伤害能量回复",
+        "description": "仅奥义！暮临（Q）的强化攻击或奥义！影缚（E）造成伤害时回复能量；按角色等级参数读取实际回复量，触发事件尚未接线，不适用于任意来源伤害。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "resource",
+            "name": "Q或E造成伤害能量回复",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "actual_energy_refund_on_damage"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "energy",
+              "operation": "RESTORE"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

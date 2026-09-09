@@ -1,0 +1,74 @@
+{
+  "i": 78,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_q/formulas",
+    "skillKey": "shen_q",
+    "kind": "formulas",
+    "stableKey": "normal_enhanced_attack_magic_damage",
+    "body": {
+      "formulaKey": "normal_enhanced_attack_magic_damage",
+      "name": "奥义暮临普通强化普攻额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_base_flat_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_root_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "base_percent_damage_points"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "base_percent_ap_ratio"
+                          },
+                          {
+                            "nodeType": "ATTRIBUTE",
+                            "attributeOwner": "SOURCE",
+                            "attributeKey": "ability_power",
+                            "attributeValueKind": "TOTAL"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "TARGET",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "普通附加伤害=实际等级基础附加伤害+目标最大生命×0.01×(技能等级生命百分数点+0.015×来源总法强)。",
+      "sortOrder": 10
+    }
+  }
+}

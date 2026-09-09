@@ -1,0 +1,40 @@
+{
+  "i": 6,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_p/formulas",
+    "skillKey": "ornn_p",
+    "kind": "formulas",
+    "stableKey": "stat_amplification_ratio",
+    "body": {
+      "formulaKey": "stat_amplification_ratio",
+      "name": "活体锻炉当前属性增幅比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_stat_amp_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "additional_masterwork_stat_amp_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_masterwork_count"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前属性增幅比例=10%+4%×已完成杰作数量；数量不设置本轮上限。",
+      "sortOrder": 10
+    }
+  }
+}
