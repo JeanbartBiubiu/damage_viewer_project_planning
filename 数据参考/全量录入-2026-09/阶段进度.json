@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T07:10:16.080Z",
+  "generatedAt": "2026-09-09T07:17:22.427Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -89,7 +89,7 @@
     "status": "181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理"
   },
   "images": {
-    "objectUses": 1380,
+    "objectUses": 1387,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
@@ -135,13 +135,14 @@
     "runeIdentityUses": 69,
     "runePathUses": 5,
     "runeEvidence": "API实录/符文基础资料第一批/页面验收.json",
-    "additionalRuneSkillRepresentativeReuses": 53,
+    "additionalRuneSkillRepresentativeReuses": 60,
     "additionalRuneSkillEvidence": [
       "API实录/符文效果第一批/页面验收.json",
       "API实录/符文效果第二批/页面验收.json",
       "API实录/符文效果第三批/页面验收.json",
       "API实录/符文效果第四批/页面验收.json",
-      "API实录/符文效果第五批/页面验收.json"
+      "API实录/符文效果第五批/页面验收.json",
+      "API实录/符文效果第六批/页面验收.json"
     ]
   },
   "runes": {
@@ -157,16 +158,37 @@
     "evidence": "API实录/符文基础资料第一批/接口录入/独立核对汇总-20260909005419486.json",
     "browserEvidence": "API实录/符文基础资料第一批/页面验收.json",
     "runtimeValidation": "未执行",
-    "mechanismStatus": "53符文/碎片技能已挂载；已保存确定参数、公式和独立效果，完整资格/时序及其他来源缺口继续处理",
+    "mechanismStatus": "60个符文/碎片技能已挂载确定组成，9项按范围排除；69身份已逐项核对，来源算法、事件资格及完整接线仍继续补，非完整机制完成",
     "scopeReview": {
+      "identities": 69,
       "ordinaryRunes": 62,
-      "within": 43,
-      "mixed": 12,
-      "excluded": 7,
-      "branches": 115,
-      "sourceEvidence": "API实录/符文机制盘点/主负责人来源核对.json",
-      "inventory": "API实录/符文机制盘点/逐项机器清单.json",
-      "status": "逐项范围与缺口盘点完成，非机制完成度"
+      "shards": 7,
+      "withSavedComposition": 60,
+      "excluded": 9,
+      "excludedKeys": [
+        "rune_8135",
+        "rune_8137",
+        "rune_8140",
+        "rune_8141",
+        "rune_8306",
+        "rune_8321",
+        "rune_8360",
+        "rune_8446",
+        "rune_8465"
+      ],
+      "currentEvidence": "API实录/符文效果第六批/页面验收.json",
+      "classificationEvidence": "API实录/符文效果第六批/范围与缺口报告.md",
+      "beforeSixthBatch": {
+        "ordinaryRunes": 62,
+        "within": 43,
+        "mixed": 12,
+        "excluded": 7,
+        "branches": 115,
+        "sourceEvidence": "API实录/符文机制盘点/主负责人来源核对.json",
+        "inventory": "API实录/符文机制盘点/逐项机器清单.json",
+        "status": "逐项范围与缺口盘点完成，非机制完成度"
+      },
+      "status": "当前全69项按实际挂载或具体范围排除逐一分类；原62项分支盘点保留为历史，不将已挂载等同于完整机制"
     }
   },
   "deferred": [
@@ -1863,6 +1885,43 @@
       "candidateSha256": "4863b2119fd7f154d188d207f4b6e465d3719146f35dd1cc2bfb047e4b294a2b",
       "evidence": "装备技能实录/第十八批剩余自身效果/当前实录状态.json",
       "browserEvidence": "装备技能实录/第十八批剩余自身效果/页面验收.json",
+      "runtimeValidation": "未执行"
+    },
+    "runeSixthBatch": {
+      "skills": [
+        "rune_5001_passive",
+        "rune_5008_passive",
+        "rune_8275_passive",
+        "rune_8316_passive",
+        "rune_8345_passive",
+        "rune_8463_passive",
+        "rune_9105_passive"
+      ],
+      "parameters": 40,
+      "formulas": 5,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "runeRelations": 7,
+      "representativeImageReuses": 7,
+      "created": 66,
+      "independentGets": 272,
+      "liveMathGets": 45,
+      "liveFormulaCases": 25,
+      "liveNegativeControls": 5,
+      "representativePages": 3,
+      "pageGets": 121,
+      "cursorReview": {
+        "verdict": "REVISE",
+        "runId": "run-4bd9feea-1711-4c39-a0a0-7fef0cf18a00",
+        "completedTools": 31,
+        "resolution": "最终公式应用10层上限，近远程标签纠正；主审额外撤去3中转公式并采用当前消费物品具名补证，独立最终审查通过。"
+      },
+      "status": "66请求实际完成，317写后独立GET与3页面通过；60挂载9范围排除覆盖身份清单，来源及完整机制接线继续补。",
+      "evidence": "API实录/符文效果第六批/当前实录状态.json",
+      "browserEvidence": "API实录/符文效果第六批/页面验收.json",
+      "finalSha256": "424ae390c61108adc692de63e95926c847e72e855607176bc8703621491eda02",
       "runtimeValidation": "未执行"
     }
   },

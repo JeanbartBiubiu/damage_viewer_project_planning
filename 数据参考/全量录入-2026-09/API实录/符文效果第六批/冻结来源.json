@@ -1,0 +1,3301 @@
+{
+  "at": "2026-09-09T06:10:38.568Z",
+  "batch": "符文效果第六批",
+  "executor": "Codex执行代理；只读来源冻结与候选准备",
+  "boundary": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "gameMode": "普通模式；严格一对一当前对手",
+    "api": "GET only; 127.0.0.1:8080/api/admin/games/lol",
+    "writes": 0
+  },
+  "sourceManifest": [
+    {
+      "relativePath": "装备符文/官方原始资料/runesReforged-16.17.1-zh_CN.json",
+      "bytes": 36166,
+      "sha256": "a6330b50b15a735d5b33543d5485d5ce3abac6b6e310a2182f70327ee5484ab0"
+    },
+    {
+      "relativePath": "装备符文/客户端提取资料/perks-16.17-zh_CN.json",
+      "bytes": 102473,
+      "sha256": "be0bb4eedde39f3a8e1dc245f9b4382379d87674c2fdc62b2650b6af4d9f565b"
+    },
+    {
+      "relativePath": "API实录/符文客户端数值补证/perks-16.17.cdtb.bin.json.gz",
+      "bytes": 171382,
+      "sha256": "141a289f8b83c543c108930675088ec1e5bd0f482799d2677a436f0ff9e65fac"
+    },
+    {
+      "relativePath": "API实录/符文客户端数值补证/当前69项数值来源.json",
+      "bytes": 376892,
+      "sha256": "fd43fdb6ee9404520aceac78f11392890be1632ba45910eb3d704399bf905f46"
+    },
+    {
+      "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "bytes": 8350124,
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "relativePath": "API实录/符文效果第六批/当前69身份与挂载独立GET.json",
+      "bytes": 180604,
+      "sha256": "99e0d445c4f04f4fd1b4daa73299ff91dcb7f35de8071ed90d0aae17f7d7ceef"
+    }
+  ],
+  "rawSource": {
+    "clientCompressedSha256": "141a289f8b83c543c108930675088ec1e5bd0f482799d2677a436f0ff9e65fac",
+    "clientRawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1",
+    "officialSha256": "a6330b50b15a735d5b33543d5485d5ce3abac6b6e310a2182f70327ee5484ab0",
+    "clientExtractedSha256": "be0bb4eedde39f3a8e1dc245f9b4382379d87674c2fdc62b2650b6af4d9f565b",
+    "stringtableCompressedSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+    "numericEntriesSha256": "fd43fdb6ee9404520aceac78f11392890be1632ba45910eb3d704399bf905f46"
+  },
+  "currentGET": {
+    "path": "API实录/符文效果第六批/当前69身份与挂载独立GET.json",
+    "sha256": "99e0d445c4f04f4fd1b4daa73299ff91dcb7f35de8071ed90d0aae17f7d7ceef",
+    "generatedAt": "2026-09-09T06:02:35.876Z",
+    "getRequests": 124,
+    "summary": {
+      "identityCount": 69,
+      "mountedRuneCount": 53,
+      "remainingRuneCount": 16,
+      "relationCount": 53,
+      "uniqueMountedSkillCount": 53,
+      "skillDirectoryCount": 53,
+      "skillDirectoryNotMounted": [],
+      "mountedSkillDetailsCount": 53,
+      "priorBatchSkillCount": 53,
+      "apiWrites": 0
+    },
+    "remainingRunes": [
+      {
+        "category": "SHARD",
+        "createdAt": "2026-09-08T18:47:54.229904Z",
+        "description": "+10-180生命值(基于等级)",
+        "gameId": "lol",
+        "name": "成长生命值",
+        "runeKey": "rune_5001",
+        "updatedAt": "2026-09-08T18:47:54.229904Z"
+      },
+      {
+        "category": "SHARD",
+        "createdAt": "2026-09-08T18:19:00.809364Z",
+        "description": "+9 适应之力",
+        "gameId": "lol",
+        "name": "适应之力",
+        "runeKey": "rune_5008",
+        "updatedAt": "2026-09-08T18:19:00.809364Z"
+      },
+      {
+        "category": "MINOR",
+        "createdAt": "2026-09-08T18:47:16.028385Z",
+        "description": "在你下次获得一层赏金猎人效果时提供额外的50金币。每层赏金猎人效果都会使提供的金币数额提升20金币，至多为130金币。\n\n你首次参与击杀每位独特的敌方英雄时，都会赚取一层赏金猎人效果。",
+        "gameId": "lol",
+        "name": "寻宝猎人",
+        "runeKey": "rune_8135",
+        "updatedAt": "2026-09-08T18:47:16.028385Z"
+      },
+      {
+        "category": "MINOR",
+        "createdAt": "2026-09-08T18:47:14.072872Z",
+        "description": "自动感知一个附近未被追踪且未被看见的守卫，并将其报给全队。\n\n11级：还会使这个守卫显形10秒。\n这个效果有250秒冷却时间。",
+        "gameId": "lol",
+        "name": "第六感",
+        "runeKey": "rune_8137",
+        "updatedAt": "2026-09-08T18:47:14.072872Z"
+      },
+      {
+        "category": "MINOR",
+        "createdAt": "2026-09-08T18:47:14.709584Z",
+        "description": "在参与击杀英雄时获得1个纪念品，至多至18个。\n\n获得基于已收集纪念品数量的6饰品急速。在那些不存在视野饰品的游戏模式中，会转而获得3召唤师技能急速。",
+        "gameId": "lol",
+        "name": "可怖纪念品",
+        "runeKey": "rune_8140",
+        "updatedAt": "2026-09-08T18:47:14.709584Z"
+      },
+      {
+        "category": "MINOR",
+        "createdAt": "2026-09-08T18:47:15.343703Z",
+        "description": "你在敌方野区布置的守卫处于深入状态。深入守卫获得+1额外生命值并+[30 - 45]秒额外持续时长 (对饰品侦察守卫则+[45 - 150]秒)。\n\n9级：布置在河道中的守卫也会处于深入状态。",
+        "gameId": "lol",
+        "name": "深入守卫",
+        "runeKey": "rune_8141",
+        "updatedAt": "2026-09-08T18:47:15.343703Z"
+      },
+      {
+        "category": "MINOR",
+        "createdAt": "2026-09-08T18:47:47.887012Z",
+        "description": "在你施放一个召唤师技能后，为你提供一个移动速度提升，持续2秒，并允许你无视单位的碰撞体积。\n\n提升：15% - 45%移动速度，基于召唤师技能的冷却时间(该召唤师技能的冷却时间越长，则提供的移动速度加成越多)。",
+        "gameId": "lol",
+        "name": "灵光披风",
+        "runeKey": "rune_8275",
+        "updatedAt": "2026-09-08T18:47:47.887012Z"
+      },
+      {
+        "category": "MINOR",
+        "createdAt": "2026-09-08T18:47:21.689248Z",
+        "description": "当【闪现】尚未冷却完毕时，它会被替换为海克斯闪现。\n\n海克斯闪现：引导2秒后闪烁到一个新位置。\n\n冷却时间：20秒。在你进入与英雄战斗的状态时，会有一个为期10秒的冷却时间。",
+        "gameId": "lol",
+        "name": "海克斯科技闪现罗网",
+        "runeKey": "rune_8306",
+        "updatedAt": "2026-09-08T18:47:21.689248Z"
+      },
+      {
+        "category": "MINOR",
+        "createdAt": "2026-09-08T18:47:26.685876Z",
+        "description": "每从装备中获得一种不同属性，就会获得一层【多面手】。每层为你提供1技能急速。\n\n在5层和10层时相应获得8或20额外适应之力。",
+        "gameId": "lol",
+        "name": "多面手",
+        "runeKey": "rune_8316",
+        "updatedAt": "2026-09-08T18:47:26.685876Z"
+      },
+      {
+        "category": "MINOR",
+        "createdAt": "2026-09-08T18:47:22.95982Z",
+        "description": "在你购买传说级装备时返还7.5%金币。",
+        "gameId": "lol",
+        "name": "返现",
+        "runeKey": "rune_8321",
+        "updatedAt": "2026-09-08T18:47:22.95982Z"
+      },
+      {
+        "category": "MINOR",
+        "createdAt": "2026-09-08T18:47:24.827778Z",
+        "description": "饼干配送：每过2分钟获得一个永续意志夹心饼干，直到6分钟。\n\n饼干可回复20+你的2%最大生命值，基于已损失生命值获得提升，至多可提升100%。消耗或出售一块饼干，都会为你永久提供30最大生命值。",
+        "gameId": "lol",
+        "name": "饼干配送",
+        "runeKey": "rune_8345",
+        "updatedAt": "2026-09-08T18:47:24.827778Z"
+      },
+      {
+        "category": "KEYSTONE",
+        "createdAt": "2026-09-08T18:47:20.468104Z",
+        "description": "将你的一个已装备的召唤师技能置换成一个新的、单次使用的召唤师技能。你所置换的每个独特的召唤师技能都会使你的置换冷却时间永久降低25秒（初始置换冷却时间为@f3@秒）。\n\n你的首次置换将在6分钟时变为可用状态。\n\n召唤师技能仅可在非战斗状态下置换。\n在使用一个已置换的召唤师技能后，你必须置换3次以上才能再次选择第一个召唤师技能。\n【惩戒】伤害会在置换2次召唤师技能后提升。",
+        "gameId": "lol",
+        "name": "启封的秘籍",
+        "runeKey": "rune_8360",
+        "updatedAt": "2026-09-08T18:47:20.468104Z"
+      },
+      {
+        "category": "MINOR",
+        "createdAt": "2026-09-08T18:47:37.08153Z",
+        "description": "你对防御塔的第三次攻击造成[85 (+28%最大生命值) 近战 || 50 (+20%最大生命值) 远程]额外物理伤害。\n\n冷却时间：30秒",
+        "gameId": "lol",
+        "name": "爆破",
+        "runeKey": "rune_8446",
+        "updatedAt": "2026-09-08T18:47:37.08153Z"
+      },
+      {
+        "category": "MINOR",
+        "createdAt": "2026-09-08T18:47:37.681104Z",
+        "description": "干扰敌方英雄的移动可为你和附近生命值最低的友方英雄回复@BaseHeal@生命值。\n\n远程英雄的使用效能为70%。\n\n冷却时间：20秒",
+        "gameId": "lol",
+        "name": "生命源泉",
+        "runeKey": "rune_8463",
+        "updatedAt": "2026-09-08T18:47:37.681104Z"
+      },
+      {
+        "category": "KEYSTONE",
+        "createdAt": "2026-09-08T18:47:36.075743Z",
+        "description": "守护距离你350码内的友军，以及被你选为技能目标的友军2.5秒。当守护持续时，如果你或该友军在守护持续期间承受的伤害超过一定数额，那么你们两个都会获得一层持续1.5秒的护盾。\n\n冷却时间：75 ~40秒\n护盾值：40~150+你20%法术强度+你6%额外生命值。\n触发阈值：50~165折后伤害。",
+        "gameId": "lol",
+        "name": "守护者",
+        "runeKey": "rune_8465",
+        "updatedAt": "2026-09-08T18:47:36.075743Z"
+      },
+      {
+        "category": "MINOR",
+        "createdAt": "2026-09-08T18:47:31.703987Z",
+        "description": "每层传说效果提供1.5基础技能急速(最大层数：10)。\n\n赚取传说层数进度的方式为：参与击杀英雄，参与击杀史诗级野怪，击杀大型野怪，击杀小兵。",
+        "gameId": "lol",
+        "name": "传说：急速",
+        "runeKey": "rune_9105",
+        "updatedAt": "2026-09-08T18:47:31.703987Z"
+      }
+    ],
+    "priorBatchEvidence": {
+      "ledgerSkillKeys": [
+        "rune_5005_passive",
+        "rune_5007_passive",
+        "rune_5010_passive",
+        "rune_5011_passive",
+        "rune_5013_passive",
+        "rune_8009_passive",
+        "rune_8014_passive",
+        "rune_8017_passive",
+        "rune_8105_passive",
+        "rune_8106_passive",
+        "rune_8112_passive",
+        "rune_8126_passive",
+        "rune_8128_passive",
+        "rune_8139_passive",
+        "rune_8143_passive",
+        "rune_8210_passive",
+        "rune_8214_passive",
+        "rune_8226_passive",
+        "rune_8229_passive",
+        "rune_8232_passive",
+        "rune_8233_passive",
+        "rune_8234_passive",
+        "rune_8237_passive",
+        "rune_8242_passive",
+        "rune_8304_passive",
+        "rune_8313_passive",
+        "rune_8347_passive",
+        "rune_8351_passive",
+        "rune_8352_passive",
+        "rune_8410_passive",
+        "rune_8429_passive",
+        "rune_8437_passive",
+        "rune_8439_passive",
+        "rune_8444_passive",
+        "rune_8451_passive",
+        "rune_8453_passive",
+        "rune_9101_passive",
+        "rune_9103_passive",
+        "rune_9104_passive",
+        "rune_9111_passive",
+        "rune_9923_passive"
+      ],
+      "fifthBatchCandidate": {
+        "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文效果第五批\\可审查候选.json",
+        "sha256": "f5f26d7af95018aa4021fbb4c8107211b0bd9fc04a5f684762b93800ee18a3fe",
+        "skillKeys": [
+          "rune_8005_passive",
+          "rune_8008_passive",
+          "rune_8010_passive",
+          "rune_8021_passive",
+          "rune_8224_passive",
+          "rune_8230_passive",
+          "rune_8236_passive",
+          "rune_8299_passive",
+          "rune_8369_passive",
+          "rune_8401_passive",
+          "rune_8473_passive",
+          "rune_8992_passive"
+        ]
+      },
+      "allPriorBatchSkillKeys": [
+        "rune_5005_passive",
+        "rune_5007_passive",
+        "rune_5010_passive",
+        "rune_5011_passive",
+        "rune_5013_passive",
+        "rune_8005_passive",
+        "rune_8008_passive",
+        "rune_8009_passive",
+        "rune_8010_passive",
+        "rune_8014_passive",
+        "rune_8017_passive",
+        "rune_8021_passive",
+        "rune_8105_passive",
+        "rune_8106_passive",
+        "rune_8112_passive",
+        "rune_8126_passive",
+        "rune_8128_passive",
+        "rune_8139_passive",
+        "rune_8143_passive",
+        "rune_8210_passive",
+        "rune_8214_passive",
+        "rune_8224_passive",
+        "rune_8226_passive",
+        "rune_8229_passive",
+        "rune_8230_passive",
+        "rune_8232_passive",
+        "rune_8233_passive",
+        "rune_8234_passive",
+        "rune_8236_passive",
+        "rune_8237_passive",
+        "rune_8242_passive",
+        "rune_8299_passive",
+        "rune_8304_passive",
+        "rune_8313_passive",
+        "rune_8347_passive",
+        "rune_8351_passive",
+        "rune_8352_passive",
+        "rune_8369_passive",
+        "rune_8401_passive",
+        "rune_8410_passive",
+        "rune_8429_passive",
+        "rune_8437_passive",
+        "rune_8439_passive",
+        "rune_8444_passive",
+        "rune_8451_passive",
+        "rune_8453_passive",
+        "rune_8473_passive",
+        "rune_8992_passive",
+        "rune_9101_passive",
+        "rune_9103_passive",
+        "rune_9104_passive",
+        "rune_9111_passive",
+        "rune_9923_passive"
+      ]
+    }
+  },
+  "priorBatchProtection": {
+    "currentMountedSkillKeys": [
+      "rune_5005_passive",
+      "rune_5007_passive",
+      "rune_5010_passive",
+      "rune_5011_passive",
+      "rune_5013_passive",
+      "rune_8005_passive",
+      "rune_8008_passive",
+      "rune_8009_passive",
+      "rune_8010_passive",
+      "rune_8014_passive",
+      "rune_8017_passive",
+      "rune_8021_passive",
+      "rune_8105_passive",
+      "rune_8106_passive",
+      "rune_8112_passive",
+      "rune_8126_passive",
+      "rune_8128_passive",
+      "rune_8139_passive",
+      "rune_8143_passive",
+      "rune_8210_passive",
+      "rune_8214_passive",
+      "rune_8224_passive",
+      "rune_8226_passive",
+      "rune_8229_passive",
+      "rune_8230_passive",
+      "rune_8232_passive",
+      "rune_8233_passive",
+      "rune_8234_passive",
+      "rune_8236_passive",
+      "rune_8237_passive",
+      "rune_8242_passive",
+      "rune_8299_passive",
+      "rune_8304_passive",
+      "rune_8313_passive",
+      "rune_8347_passive",
+      "rune_8351_passive",
+      "rune_8352_passive",
+      "rune_8369_passive",
+      "rune_8401_passive",
+      "rune_8410_passive",
+      "rune_8429_passive",
+      "rune_8437_passive",
+      "rune_8439_passive",
+      "rune_8444_passive",
+      "rune_8451_passive",
+      "rune_8453_passive",
+      "rune_8473_passive",
+      "rune_8992_passive",
+      "rune_9101_passive",
+      "rune_9103_passive",
+      "rune_9104_passive",
+      "rune_9111_passive",
+      "rune_9923_passive"
+    ],
+    "priorBatchSkillKeys": [
+      "rune_5005_passive",
+      "rune_5007_passive",
+      "rune_5010_passive",
+      "rune_5011_passive",
+      "rune_5013_passive",
+      "rune_8005_passive",
+      "rune_8008_passive",
+      "rune_8009_passive",
+      "rune_8010_passive",
+      "rune_8014_passive",
+      "rune_8017_passive",
+      "rune_8021_passive",
+      "rune_8105_passive",
+      "rune_8106_passive",
+      "rune_8112_passive",
+      "rune_8126_passive",
+      "rune_8128_passive",
+      "rune_8139_passive",
+      "rune_8143_passive",
+      "rune_8210_passive",
+      "rune_8214_passive",
+      "rune_8224_passive",
+      "rune_8226_passive",
+      "rune_8229_passive",
+      "rune_8230_passive",
+      "rune_8232_passive",
+      "rune_8233_passive",
+      "rune_8234_passive",
+      "rune_8236_passive",
+      "rune_8237_passive",
+      "rune_8242_passive",
+      "rune_8299_passive",
+      "rune_8304_passive",
+      "rune_8313_passive",
+      "rune_8347_passive",
+      "rune_8351_passive",
+      "rune_8352_passive",
+      "rune_8369_passive",
+      "rune_8401_passive",
+      "rune_8410_passive",
+      "rune_8429_passive",
+      "rune_8437_passive",
+      "rune_8439_passive",
+      "rune_8444_passive",
+      "rune_8451_passive",
+      "rune_8453_passive",
+      "rune_8473_passive",
+      "rune_8992_passive",
+      "rune_9101_passive",
+      "rune_9103_passive",
+      "rune_9104_passive",
+      "rune_9111_passive",
+      "rune_9923_passive"
+    ],
+    "fifthBatchCandidate": {
+      "path": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文效果第五批\\可审查候选.json",
+      "sha256": "f5f26d7af95018aa4021fbb4c8107211b0bd9fc04a5f684762b93800ee18a3fe",
+      "skillKeys": [
+        "rune_8005_passive",
+        "rune_8008_passive",
+        "rune_8010_passive",
+        "rune_8021_passive",
+        "rune_8224_passive",
+        "rune_8230_passive",
+        "rune_8236_passive",
+        "rune_8299_passive",
+        "rune_8369_passive",
+        "rune_8401_passive",
+        "rune_8473_passive",
+        "rune_8992_passive"
+      ]
+    },
+    "duplicateCheck": "第六批7个候选技能键均不在当前挂载和前五批候选键中；已有组成保护。"
+  },
+  "remainingRecords": [
+    {
+      "id": 5001,
+      "runeKey": "rune_5001",
+      "skillKey": "rune_5001_passive",
+      "name": "成长生命值",
+      "category": "SHARD",
+      "current69EntryPath": "entries/66",
+      "client16_17": {
+        "sourcePath": "Perks/StatMods/HealthScaling",
+        "sourceObjectSha256": "7413c009d2542a88536a0e266bc644b94c0462c7ff47aaaa5a2f7b24ed964282",
+        "object": {
+          "mPerkId": 5001,
+          "mPerkName": "HealthScaling",
+          "mDisplayNameLocalizationKey": "perk_displayname_HealthScaling",
+          "mTooltipNameLocalizationKey": "perk_tooltip_StatModHealthScaling",
+          "mShortDescLocalizationKey": "perk_long_desc_StatModHealthScaling",
+          "mLongDescLocalizationKey": "perk_long_desc_StatModHealthScaling",
+          "mIconTextureName": "assets/perks/statmods/statmodshealthplusicon.tex",
+          "mStackable": true,
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/StatMods/StatModHealthScaling.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "StatGainMin": 10,
+                "StatGainMax": 180
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_HealthScaling",
+            "resolvedKey": "perk_displayname_healthscaling",
+            "text": "成长生命值"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_StatModHealthScaling",
+            "resolvedKey": "perk_tooltip_statmodhealthscaling",
+            "text": "<scaleHealth>+@f1@生命值</scaleHealth>(基于等级)"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_StatModHealthScaling",
+            "resolvedKey": "perk_long_desc_statmodhealthscaling",
+            "text": "+@StatGainMin@-@StatGainMax@生命值(基于等级)"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_StatModHealthScaling",
+            "resolvedKey": "perk_long_desc_statmodhealthscaling",
+            "text": "+@StatGainMin@-@StatGainMax@生命值(基于等级)"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "StatGainMin": 10,
+            "StatGainMax": 180
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/StatMods/StatModHealthScaling.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": null,
+        "object": null,
+        "note": "官方身份树未包含此属性碎片；保留客户端16.17对象和当前目录身份。"
+      },
+      "machineScopeEvidence": {
+        "scope": "属性碎片",
+        "branches": [],
+        "confirmedFacts": [],
+        "missingFacts": [
+          "前序62项机器清单未收录该属性碎片；本批按当前69项数值来源和明确范围判定冻结。"
+        ],
+        "recordableComponents": [],
+        "sourceReferences": {
+          "current69": "entries/66"
+        },
+        "missingSourceValueFacts": []
+      },
+      "decision": {
+        "disposition": "候选",
+        "scope": "属性碎片；保留自身等级成长生命值",
+        "reason": "自身生命属性直接影响单挑生存和治疗基数；来源只给10至180端点，当前等级值保留为运行输入。"
+      }
+    },
+    {
+      "id": 5008,
+      "runeKey": "rune_5008",
+      "skillKey": "rune_5008_passive",
+      "name": "适应之力",
+      "category": "SHARD",
+      "current69EntryPath": "entries/62",
+      "client16_17": {
+        "sourcePath": "Perks/StatMods/Adaptive",
+        "sourceObjectSha256": "54c8a4f316c5a09a2a3f82ef7aca8a4c7f6172ac807c97eec56215a5b78297c4",
+        "object": {
+          "mPerkId": 5008,
+          "mPerkName": "Adaptive",
+          "mDisplayNameLocalizationKey": "perk_displayname_Adaptive",
+          "mTooltipNameLocalizationKey": "perk_tooltip_StatModAdaptive",
+          "mShortDescLocalizationKey": "perk_long_desc_StatModAdaptive",
+          "mLongDescLocalizationKey": "perk_long_desc_StatModAdaptive",
+          "mIconTextureName": "assets/perks/statmods/statmodsadaptiveforceicon.tex",
+          "mStackable": true,
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/StatMods/StatModAdaptive.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "StatGain2": 9,
+                "StatGain1": 5.400000095367432
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_Adaptive",
+            "resolvedKey": "perk_displayname_adaptive",
+            "text": "适应之力"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_StatModAdaptive",
+            "resolvedKey": "perk_tooltip_statmodadaptive",
+            "text": "{{perk_tooltip_dynamic_StatModAdaptive_@f1@}}"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_StatModAdaptive",
+            "resolvedKey": "perk_long_desc_statmodadaptive",
+            "text": "+@StatGain2@ <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>适应之力</font></lol-uikit-tooltipped-keyword>"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_StatModAdaptive",
+            "resolvedKey": "perk_long_desc_statmodadaptive",
+            "text": "+@StatGain2@ <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>适应之力</font></lol-uikit-tooltipped-keyword>"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "StatGain2": 9,
+            "StatGain1": 5.400000095367432
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/StatMods/StatModAdaptive.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": null,
+        "object": null,
+        "note": "官方身份树未包含此属性碎片；保留客户端16.17对象和当前目录身份。"
+      },
+      "machineScopeEvidence": {
+        "scope": "属性碎片",
+        "branches": [],
+        "confirmedFacts": [],
+        "missingFacts": [
+          "前序62项机器清单未收录该属性碎片；本批按当前69项数值来源和明确范围判定冻结。"
+        ],
+        "recordableComponents": [],
+        "sourceReferences": {
+          "current69": "entries/62"
+        },
+        "missingSourceValueFacts": []
+      },
+      "decision": {
+        "disposition": "候选",
+        "scope": "属性碎片；保留自身适应之力数值",
+        "reason": "自身适应属性会影响伤害或法术强度；仅保存明确的9适应之力，转换到攻击力或法术强度仍由运行时决定。"
+      }
+    },
+    {
+      "id": 8135,
+      "runeKey": "rune_8135",
+      "skillKey": "rune_8135_passive",
+      "name": "寻宝猎人",
+      "category": "MINOR",
+      "current69EntryPath": "entries/9",
+      "client16_17": {
+        "sourcePath": "Perks/Styles/Domination/TreasureHunter",
+        "sourceObjectSha256": "eebf6d865be76d9716af6c056aa71407dd4255353fa61c49147d5bb05d16ce12",
+        "object": {
+          "mPerkId": 8135,
+          "mPerkName": "TreasureHunter",
+          "mDisplayNameLocalizationKey": "perk_displayname_TreasureHunter",
+          "mTooltipNameLocalizationKey": "perk_tooltip_TreasureHunter",
+          "mShortDescLocalizationKey": "perk_short_desc_TreasureHunter",
+          "mLongDescLocalizationKey": "perk_long_desc_TreasureHunter",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_TreasureHunter2",
+            "perk_eog_stat_desc_TreasureHunter1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_BountyHunter",
+          "mIconTextureName": "assets/perks/styles/domination/treasurehunter/treasurehunter.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Domination/TreasureHunter/TreasureHunter.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "BaseGoldAmount": 50,
+                "GoldGrowth": 20,
+                "TOOLTIPMaxGoldAmount": 130
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "Perks_BountyHunter_Buff": "Perks/Styles/Domination/TreasureHunter/Particles/Perks_BountyHunter_Buff",
+              "Perks_BountyHunter_Debuff": "Perks/Styles/Domination/TreasureHunter/Particles/Perks_BountyHunter_Debuff",
+              "{b2ec89f5}": "Perks/Styles/Domination/TreasureHunter/Particles/Perks_TreasureHunter_RewardMis",
+              "{21adcb25}": "Perks/Styles/Domination/TreasureHunter/Particles/Perks_TreasureHunter_GoldFX"
+            },
+            "__type": "ResourceResolver"
+          },
+          "mDefault": true,
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_TreasureHunter",
+            "resolvedKey": "perk_displayname_treasurehunter",
+            "text": "寻宝猎人"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_TreasureHunter",
+            "resolvedKey": "perk_tooltip_treasurehunter",
+            "text": "{{perk_long_desc_TreasureHunter}}<br><br>当前可用的赏金：<gold>@f15@金币</gold><br>已收集的额外金币：<gold>@f3@金币</gold><br><hr><br>{{ bountyHunter_bountyBoard }}"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_TreasureHunter",
+            "resolvedKey": "perk_short_desc_treasurehunter",
+            "text": "<b>独特的</b><lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>会基于层数提供额外的金币。 "
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_TreasureHunter",
+            "resolvedKey": "perk_long_desc_treasurehunter",
+            "text": "在你下次获得一层<i>赏金猎人</i>效果时提供额外的<gold>@BaseGoldAmount@金币</gold>。每层<i>赏金猎人</i>效果都会使提供的金币数额提升<gold>@GoldGrowth@金币</gold>，至多为<gold>@TOOLTIPMaxGoldAmount@金币</gold>。<br><br>你首次参与击杀每位独特的敌方英雄时，都会赚取一层<i>赏金猎人</i>效果。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_BountyHunter",
+            "resolvedKey": "perk_display_stat_bountyhunter",
+            "text": "@f1@/@f2@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "BaseGoldAmount": 50,
+            "GoldGrowth": 20,
+            "TOOLTIPMaxGoldAmount": 130
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Domination/TreasureHunter/TreasureHunter.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/0/slots/3/runes/0",
+        "object": {
+          "id": 8135,
+          "key": "TreasureHunter",
+          "icon": "perk-images/Styles/Domination/TreasureHunter/TreasureHunter.png",
+          "name": "寻宝猎人",
+          "shortDesc": "<b>独特的</b><lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>会基于层数提供额外的金币。 ",
+          "longDesc": "在你下次获得一层<i>赏金猎人</i>效果时提供额外的<gold>50金币</gold>。每层<i>赏金猎人</i>效果都会使提供的金币数额提升<gold>20金币</gold>，至多为<gold>130金币</gold>。<br><br>你首次参与击杀每位独特的敌方英雄时，都会赚取一层<i>赏金猎人</i>效果。"
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "范围外",
+        "branches": [
+          {
+            "scope": "范围外",
+            "summary": "独特敌方英雄赏金的金币奖励",
+            "quote": "提供额外的50金币",
+            "reason": "全部收益为金币，无独立战斗属性或伤害",
+            "evidence": {
+              "sourceId": 8135,
+              "field": "officialLong",
+              "exactText": "提供额外的50金币"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "奖励50起每层+20至130金币"
+        ],
+        "missingFacts": [],
+        "recordableComponents": [],
+        "sourceReferences": {
+          "official": "/0/slots/3/runes/0",
+          "client": "/36"
+        },
+        "missingSourceValueFacts": []
+      },
+      "decision": {
+        "disposition": "排除",
+        "scope": "范围外",
+        "reason": "全部收益为参与击杀后的金币奖励，没有独立的英雄战斗属性或伤害组成。"
+      }
+    },
+    {
+      "id": 8137,
+      "runeKey": "rune_8137",
+      "skillKey": "rune_8137_passive",
+      "name": "第六感",
+      "category": "MINOR",
+      "current69EntryPath": "entries/6",
+      "client16_17": {
+        "sourcePath": "{4cd8582d}",
+        "sourceObjectSha256": "c9a0ff531fd8d3f36806d0a59638d429ea45da43acbe554e9d33d486c034d37e",
+        "object": {
+          "mPerkId": 8137,
+          "mPerkName": "SixthSense",
+          "mDisplayNameLocalizationKey": "perk_displayname_SixthSense",
+          "mTooltipNameLocalizationKey": "perk_tooltip_SixthSense",
+          "mPingTextLocalizationKey": "perk_pingtip_SixthSense",
+          "mShortDescLocalizationKey": "perk_short_desc_SixthSense",
+          "mLongDescLocalizationKey": "perk_long_desc_SixthSense",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_SixthSense"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_SixthSense",
+          "mIconTextureName": "assets/perks/styles/domination/sixthsense/sixthsense.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Domination/SixthSense/SixthSense_SEASONAL.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "{d3bd04a2}": 900,
+                "MeleeItemCalcValue": 250,
+                "RangedItemCalcValue": 250,
+                "LevelThreshold": 11,
+                "RevealDuration": 10
+              },
+              "mCalculations": {
+                "ChampRange": {
+                  "mSimpleTooltipCalculationDisplay": 5,
+                  "mExpandedTooltipCalculationDisplay": 5,
+                  "mDefaultGameCalculation": "{792cf56b}",
+                  "mConditionalGameCalculation": "{06387172}",
+                  "mConditionalCalculationRequirements": {
+                    "__type": "IsRangedCastRequirement"
+                  },
+                  "__type": "GameCalculationConditional"
+                },
+                "{792cf56b}": {
+                  "mFormulaParts": [
+                    {
+                      "mNumber": 1,
+                      "__type": "NumberCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "{06387172}": {
+                  "mFormulaParts": [
+                    {
+                      "mNumber": 2,
+                      "__type": "NumberCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mBuffs": [
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Domination/SixthSense/SixthSenseCD.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "buff_desc_SixthSenseCD",
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            }
+          ],
+          "mMajorChangePatchVersion": "14.1",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_SixthSense",
+            "resolvedKey": "perk_displayname_sixthsense",
+            "text": "第六感"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_SixthSense",
+            "resolvedKey": "perk_tooltip_sixthsense",
+            "text": "自动感知一个附近未被追踪且未被看见的守卫，并将其报给全队。<br><br>@LevelThreshold@级：还会使这个守卫显形@RevealDuration@秒。<br>这个效果有@MeleeItemCalcValue@秒冷却时间。<hr><br>已感知到的守卫数量：@f1@"
+          },
+          "mPingTextLocalizationKey": {
+            "sourceKey": "perk_pingtip_SixthSense",
+            "resolvedKey": "perk_pingtip_sixthsense",
+            "text": "{{perk_pingtip_SixthSense_@f2@}}"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_SixthSense",
+            "resolvedKey": "perk_short_desc_sixthsense",
+            "text": "在一段较长的冷却时间后，自动感知一个附近未被追踪且未被看见的守卫，并将其报给全队。<br><br>@LevelThreshold@级：还会使该守卫显形@RevealDuration@秒。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_SixthSense",
+            "resolvedKey": "perk_long_desc_sixthsense",
+            "text": "自动感知一个附近未被追踪且未被看见的守卫，并将其报给全队。<br><br>@LevelThreshold@级：还会使这个守卫显形@RevealDuration@秒。<br>这个效果有@MeleeItemCalcValue@秒冷却时间。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_SixthSense",
+            "resolvedKey": "perk_display_stat_sixthsense",
+            "text": "@f1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "{d3bd04a2}": 900,
+            "MeleeItemCalcValue": 250,
+            "RangedItemCalcValue": 250,
+            "LevelThreshold": 11,
+            "RevealDuration": 10
+          },
+          "calculations": {
+            "ChampRange": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mDefaultGameCalculation": "{792cf56b}",
+              "mConditionalGameCalculation": "{06387172}",
+              "mConditionalCalculationRequirements": {
+                "__type": "IsRangedCastRequirement"
+              },
+              "__type": "GameCalculationConditional"
+            },
+            "{792cf56b}": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{06387172}": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 2,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Domination/SixthSense/SixthSense_SEASONAL.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/0/slots/2/runes/0",
+        "object": {
+          "id": 8137,
+          "key": "SixthSense",
+          "icon": "perk-images/Styles/Domination/SixthSense/SixthSense.png",
+          "name": "第六感",
+          "shortDesc": "在一段较长的冷却时间后，自动感知一个附近未被追踪且未被看见的守卫，并将其报给全队。<br><br>11级：还会使该守卫显形10秒。",
+          "longDesc": "自动感知一个附近未被追踪且未被看见的守卫，并将其报给全队。<br><br>11级：还会使这个守卫显形10秒。<br>这个效果有250秒冷却时间。"
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "范围外",
+        "branches": [
+          {
+            "scope": "范围外",
+            "summary": "守卫感知、全队标记和显形",
+            "quote": "未被追踪且未被看见的守卫",
+            "reason": "只有守卫与视野收益，不构成英雄对战伤害或防御组成",
+            "evidence": {
+              "sourceId": 8137,
+              "field": "officialLong",
+              "exactText": "未被追踪且未被看见的守卫"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "11级显形10000毫秒；冷却250000毫秒"
+        ],
+        "missingFacts": [],
+        "recordableComponents": [],
+        "sourceReferences": {
+          "official": "/0/slots/2/runes/0",
+          "client": "/32"
+        },
+        "missingSourceValueFacts": []
+      },
+      "decision": {
+        "disposition": "排除",
+        "scope": "范围外",
+        "reason": "只感知、标记和显形守卫，收益对象是视野守卫，不构成英雄一对一战斗属性。"
+      }
+    },
+    {
+      "id": 8140,
+      "runeKey": "rune_8140",
+      "skillKey": "rune_8140_passive",
+      "name": "可怖纪念品",
+      "category": "MINOR",
+      "current69EntryPath": "entries/7",
+      "client16_17": {
+        "sourcePath": "{d17f2259}",
+        "sourceObjectSha256": "b9aff325cfa3a660003cfeb340e7e37ad1b96e65ea74abba3087b9e5bedaf30d",
+        "object": {
+          "mPerkId": 8140,
+          "mPerkName": "GrislyMementos",
+          "mDisplayNameLocalizationKey": "perk_displayname_GrislyMementos",
+          "mTooltipNameLocalizationKey": "perk_tooltip_GrislyMementos",
+          "mShortDescLocalizationKey": "perk_short_desc_GrislyMementos",
+          "mLongDescLocalizationKey": "perk_long_desc_GrislyMementos",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_GrislyMementos"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_GrislyMementos",
+          "mIconTextureName": "assets/perks/styles/domination/grislymementos/grislymementos.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Domination/GrislyMementos/GrislyMementos.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "TrinketAH": 6,
+                "StacksPerTakedown": 1,
+                "SummonerAH": 3,
+                "MaxStacks": 18
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mDefault": true,
+          "mMajorChangePatchVersion": "14.1",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_GrislyMementos",
+            "resolvedKey": "perk_displayname_grislymementos",
+            "text": "可怖纪念品"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_GrislyMementos",
+            "resolvedKey": "perk_tooltip_grislymementos",
+            "text": "{{perk_long_desc_GrislyMementos}}<br><hr><br>已收集的纪念品：@f1@ (最大值@MaxStacks@)"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_GrislyMementos",
+            "resolvedKey": "perk_short_desc_grislymementos",
+            "text": "在<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>英雄时获得@StacksPerTakedown@个纪念品，至多至@MaxStacks@个。<br><br>获得基于已收集纪念品数量的@TrinketAH@饰品急速。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_GrislyMementos",
+            "resolvedKey": "perk_long_desc_grislymementos",
+            "text": "在<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>英雄时获得@StacksPerTakedown@个纪念品，至多至@MaxStacks@个。<br><br>获得基于已收集纪念品数量的@TrinketAH@饰品急速。在那些不存在视野饰品的游戏模式中，会转而获得@SummonerAH@召唤师技能急速。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_GrislyMementos",
+            "resolvedKey": "perk_display_stat_grislymementos",
+            "text": "@f1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "TrinketAH": 6,
+            "StacksPerTakedown": 1,
+            "SummonerAH": 3,
+            "MaxStacks": 18
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Domination/GrislyMementos/GrislyMementos.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/0/slots/2/runes/1",
+        "object": {
+          "id": 8140,
+          "key": "GrislyMementos",
+          "icon": "perk-images/Styles/Domination/GrislyMementos/GrislyMementos.png",
+          "name": "可怖纪念品",
+          "shortDesc": "在<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>英雄时获得1个纪念品，至多至18个。<br><br>获得基于已收集纪念品数量的6饰品急速。",
+          "longDesc": "在<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>英雄时获得1个纪念品，至多至18个。<br><br>获得基于已收集纪念品数量的6饰品急速。在那些不存在视野饰品的游戏模式中，会转而获得3召唤师技能急速。"
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "混合保留",
+        "branches": [
+          {
+            "scope": "范围外",
+            "summary": "饰品急速分支",
+            "quote": "6饰品急速",
+            "reason": "视野饰品分支排除",
+            "evidence": {
+              "sourceId": 8140,
+              "field": "officialLong",
+              "exactText": "6饰品急速"
+            }
+          },
+          {
+            "scope": "范围内",
+            "summary": "没有视野饰品模式中的召唤师技能急速",
+            "quote": "转而获得3召唤师技能急速",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8140,
+              "field": "officialLong",
+              "exactText": "转而获得3召唤师技能急速"
+            }
+          },
+          {
+            "scope": "保留依赖",
+            "summary": "纪念品数量及模式分支",
+            "quote": "至多至18个",
+            "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+            "evidence": {
+              "sourceId": 8140,
+              "field": "officialLong",
+              "exactText": "至多至18个"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "参与击杀获得1纪念品，上限18；饰品分支6、替代召唤师技能分支3"
+        ],
+        "missingFacts": [
+          "适用模式事实；数字3与层数的精确组合表达；召唤师技能集合和冷却作用身份；参与击杀事件"
+        ],
+        "recordableComponents": [
+          "最多18和替代急速3等确定参数；不能把全游戏默认替换为召唤师急速"
+        ],
+        "sourceReferences": {
+          "official": "/0/slots/2/runes/1",
+          "client": "/84"
+        },
+        "missingSourceValueFacts": [
+          "纪念品与替代召唤师技能急速3的精确计量关系"
+        ]
+      },
+      "decision": {
+        "disposition": "排除",
+        "scope": "范围外/模式依赖",
+        "reason": "普通模式为饰品急速和视野进度；只有不存在视野饰品的特殊模式才替换为召唤师技能急速，当前模式分支与层数计量无法作为普通一对一组件。"
+      }
+    },
+    {
+      "id": 8141,
+      "runeKey": "rune_8141",
+      "skillKey": "rune_8141_passive",
+      "name": "深入守卫",
+      "category": "MINOR",
+      "current69EntryPath": "entries/8",
+      "client16_17": {
+        "sourcePath": "Perks/Styles/Domination/DeepWard",
+        "sourceObjectSha256": "e8ba1d3b181f7656cbd67a23353eaa0481aa26b42f0ec4be214b6bdda284fd5d",
+        "object": {
+          "mPerkId": 8141,
+          "mPerkName": "DeepWard",
+          "mDisplayNameLocalizationKey": "perk_displayname_DeepWard",
+          "mTooltipNameLocalizationKey": "perk_tooltip_DeepWard",
+          "mShortDescLocalizationKey": "perk_short_desc_DeepWard",
+          "mLongDescLocalizationKey": "perk_long_desc_DeepWard",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_DeepWard"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_DeepWard",
+          "mIconTextureName": "assets/perks/styles/domination/deepward/deepward.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Domination/DeepWard/DeepWard.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "ExtraHealth": 1,
+                "LevelThreshold": 9,
+                "TTDurationIncreaseMin": 30,
+                "TTDurationIncreaseMax": 45,
+                "TTTrinketDurationIncreaseMin": 45,
+                "TTTrinketDurationIncreaseMax": 150
+              },
+              "mCalculations": {
+                "DurationIncrease": {
+                  "mFormulaParts": [
+                    {
+                      "mStartValue": 30,
+                      "mEndValue": 45,
+                      "__type": "ByCharLevelInterpolationCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "TrinketDurationIncrease": {
+                  "mFormulaParts": [
+                    {
+                      "mStartValue": 45,
+                      "mEndValue": 150,
+                      "__type": "ByCharLevelInterpolationCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "{27802a1f}": "Perks/Styles/Domination/DeepWard/Particles/Perks_DeepWard"
+            },
+            "__type": "ResourceResolver"
+          },
+          "mMajorChangePatchVersion": "14.1",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_DeepWard",
+            "resolvedKey": "perk_displayname_deepward",
+            "text": "深入守卫"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_DeepWard",
+            "resolvedKey": "perk_tooltip_deepward",
+            "text": "你在敌方野区布置的守卫处于<keywordMajor>深入</keywordMajor>状态。<keywordMajor>深入</keywordMajor>守卫获得+@ExtraHealth@额外生命值并+@DurationIncrease@秒额外持续时长 (对饰品侦察守卫则+[@TrinketDurationIncrease@]秒)。<br><br>@LevelThreshold@级：布置在河道中的守卫也会处于<keywordMajor>深入</keywordMajor>状态。<br><hr><br>深入守卫数量：@f1@"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_DeepWard",
+            "resolvedKey": "perk_short_desc_deepward",
+            "text": "你在敌方野区布置的守卫处于<keywordMajor>深入</keywordMajor>状态，获得生命值和持续时长。<br><br>@LevelThreshold@级：布置在河道中的守卫也会处于<keywordMajor>深入</keywordMajor>状态。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_DeepWard",
+            "resolvedKey": "perk_long_desc_deepward",
+            "text": "你在敌方野区布置的守卫处于<keywordMajor>深入</keywordMajor>状态。<keywordMajor>深入</keywordMajor>守卫获得+@ExtraHealth@额外生命值并+[@TTDurationIncreaseMin@ - @TTDurationIncreaseMax@]秒额外持续时长 (对饰品侦察守卫则+[@TTTrinketDurationIncreaseMin@ - @TTTrinketDurationIncreaseMax@]秒)。<br><br>@LevelThreshold@级：布置在河道中的守卫也会处于<keywordMajor>深入</keywordMajor>状态。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_DeepWard",
+            "resolvedKey": "perk_display_stat_deepward",
+            "text": "@f1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "ExtraHealth": 1,
+            "LevelThreshold": 9,
+            "TTDurationIncreaseMin": 30,
+            "TTDurationIncreaseMax": 45,
+            "TTTrinketDurationIncreaseMin": 45,
+            "TTTrinketDurationIncreaseMax": 150
+          },
+          "calculations": {
+            "DurationIncrease": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 30,
+                  "mEndValue": 45,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "TrinketDurationIncrease": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 45,
+                  "mEndValue": 150,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Domination/DeepWard/DeepWard.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/0/slots/2/runes/2",
+        "object": {
+          "id": 8141,
+          "key": "DeepWard",
+          "icon": "perk-images/Styles/Domination/DeepWard/DeepWard.png",
+          "name": "深入守卫",
+          "shortDesc": "你在敌方野区布置的守卫处于<keywordMajor>深入</keywordMajor>状态，获得生命值和持续时长。<br><br>9级：布置在河道中的守卫也会处于<keywordMajor>深入</keywordMajor>状态。",
+          "longDesc": "你在敌方野区布置的守卫处于<keywordMajor>深入</keywordMajor>状态。<keywordMajor>深入</keywordMajor>守卫获得+1额外生命值并+[30 - 45]秒额外持续时长 (对饰品侦察守卫则+[45 - 150]秒)。<br><br>9级：布置在河道中的守卫也会处于<keywordMajor>深入</keywordMajor>状态。"
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "范围外",
+        "branches": [
+          {
+            "scope": "范围外",
+            "summary": "守卫生命与持续时间",
+            "quote": "深入守卫获得+1额外生命值",
+            "reason": "收益对象是守卫，不是角色生命；纯视野分支排除",
+            "evidence": {
+              "sourceId": 8141,
+              "field": "officialLong",
+              "exactText": "深入守卫获得+1额外生命值"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "9级河道守卫加入深入判定"
+        ],
+        "missingFacts": [],
+        "recordableComponents": [],
+        "sourceReferences": {
+          "official": "/0/slots/2/runes/2",
+          "client": "/18"
+        },
+        "missingSourceValueFacts": []
+      },
+      "decision": {
+        "disposition": "排除",
+        "scope": "范围外",
+        "reason": "只改变深入守卫的生命值和持续时间，收益对象为守卫，不是英雄自身。"
+      }
+    },
+    {
+      "id": 8275,
+      "runeKey": "rune_8275",
+      "skillKey": "rune_8275_passive",
+      "name": "灵光披风",
+      "category": "MINOR",
+      "current69EntryPath": "entries/55",
+      "client16_17": {
+        "sourcePath": "Perks/Styles/Sorcery/NimbusCloak",
+        "sourceObjectSha256": "50b0d960f8b0f89ea2b21f679c9ed41c9cc9800e1dfc696b55d913f1e081e210",
+        "object": {
+          "mPerkId": 8275,
+          "mPerkName": "NimbusCloak",
+          "mDisplayNameLocalizationKey": "perk_displayname_NimbusCloak",
+          "mTooltipNameLocalizationKey": "perk_tooltip_NimbusCloak",
+          "mShortDescLocalizationKey": "perk_short_desc_NimbusCloak",
+          "mLongDescLocalizationKey": "perk_long_desc_NimbusCloak",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_NimbusCloak"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_NimbusCloak",
+          "mIconTextureName": "assets/perks/styles/sorcery/nimbuscloak/6361.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Sorcery/NimbusCloak/NimbusCloak.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "Duration": 2,
+                "LowCDMSBoost": 0.15000000596046448,
+                "{1c32110c}": 0.3499999940395355,
+                "HighCDMSBoost": 0.44999998807907104,
+                "{2fd68801}": 100,
+                "{b0d06764}": 250
+              },
+              "mEffectAmountGameMode": {
+                "URF": {
+                  "mEffectAmountPerMode": {
+                    "{b0d06764}": 50,
+                    "{2fd68801}": 20
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "ARAM": {
+                  "mEffectAmountPerMode": {
+                    "{b0d06764}": 150,
+                    "{2fd68801}": 60
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "KINGPORO": {
+                  "mEffectAmountPerMode": {
+                    "{b0d06764}": 150,
+                    "{2fd68801}": 60
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "FIRSTBLOOD": {
+                  "mEffectAmountPerMode": {
+                    "{b0d06764}": 150,
+                    "{2fd68801}": 60
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                }
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mBuffs": [
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Sorcery/NimbusCloak/NimbusCloakBuff.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "buff_desc_NimbusCloakCastBuff",
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            }
+          ],
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "Perks_NimbusCloak_Buff": "Perks/Styles/Sorcery/NimbusCloak/Particles/Perks_NimbusCloak_Buff",
+              "NimbusCloakBlast": "Perks/Styles/Sorcery/NimbusCloak/Particles/NimbusCloakBlast",
+              "NimbusCloakBuildUp": "Perks/Styles/Sorcery/NimbusCloak/Particles/NimbusCloakBuildUp",
+              "NimbusCloakCharge": "Perks/Styles/Sorcery/NimbusCloak/Particles/NimbusCloakCharge"
+            },
+            "__type": "ResourceResolver"
+          },
+          "mMajorChangePatchVersion": "8.11",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_NimbusCloak",
+            "resolvedKey": "perk_displayname_nimbuscloak",
+            "text": "灵光披风"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_NimbusCloak",
+            "resolvedKey": "perk_tooltip_nimbuscloak",
+            "text": "在你施放一个召唤师技能后，为你提供一个不断衰减的<speed>移动速度</speed>提升，持续@Duration@秒，并允许你无视单位的碰撞体积。<br><hr><br>提升：<speed>@LowCDMSBoost*100@% - @HighCDMSBoost*100@%移动速度</speed>，基于召唤师技能的冷却时间(该召唤师技能的冷却时间越长，则提供的<speed>移动速度</speed>加成越多)。<br><hr><br>已激活的次数：@f1@"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_NimbusCloak",
+            "resolvedKey": "perk_short_desc_nimbuscloak",
+            "text": "在你施放一个召唤师技能后，为你提供一个短暂的<speed>移动速度</speed>提升，并允许你无视单位的碰撞体积。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_NimbusCloak",
+            "resolvedKey": "perk_long_desc_nimbuscloak",
+            "text": "在你施放一个召唤师技能后，为你提供一个<speed>移动速度</speed>提升，持续@Duration@秒，并允许你无视单位的碰撞体积。<br><br>提升：<speed>@LowCDMSBoost*100@% - @HighCDMSBoost*100@%移动速度</speed>，基于召唤师技能的冷却时间(该召唤师技能的冷却时间越长，则提供的<speed>移动速度</speed>加成越多)。 "
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_NimbusCloak",
+            "resolvedKey": "perk_display_stat_nimbuscloak",
+            "text": "@f1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "Duration": 2,
+            "LowCDMSBoost": 0.15000000596046448,
+            "{1c32110c}": 0.3499999940395355,
+            "HighCDMSBoost": 0.44999998807907104,
+            "{2fd68801}": 100,
+            "{b0d06764}": 250
+          },
+          "calculations": {},
+          "otherModeOverrides": [
+            "URF",
+            "ARAM",
+            "KINGPORO",
+            "FIRSTBLOOD"
+          ],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Sorcery/NimbusCloak/NimbusCloak.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/4/slots/1/runes/2",
+        "object": {
+          "id": 8275,
+          "key": "NimbusCloak",
+          "icon": "perk-images/Styles/Sorcery/NimbusCloak/6361.png",
+          "name": "灵光披风",
+          "shortDesc": "在你施放一个召唤师技能后，为你提供一个短暂的<speed>移动速度</speed>提升，并允许你无视单位的碰撞体积。",
+          "longDesc": "在你施放一个召唤师技能后，为你提供一个<speed>移动速度</speed>提升，持续2秒，并允许你无视单位的碰撞体积。<br><br>提升：<speed>15% - 45%移动速度</speed>，基于召唤师技能的冷却时间(该召唤师技能的冷却时间越长，则提供的<speed>移动速度</speed>加成越多)。 "
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "混合保留",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "召唤师技能后短时移速",
+            "quote": "移动速度提升，持续2秒",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8275,
+              "field": "officialLong",
+              "exactText": "移动速度提升，持续2秒"
+            }
+          },
+          {
+            "scope": "范围外",
+            "summary": "无视单位碰撞",
+            "quote": "允许你无视单位的碰撞体积",
+            "reason": "纯空间碰撞效果排除，保留同次战斗移速",
+            "evidence": {
+              "sourceId": 8275,
+              "field": "officialLong",
+              "exactText": "允许你无视单位的碰撞体积"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "持续2000毫秒；移速15%–45%取决于所用召唤师技能冷却；客户端tooltip额外注明不断衰减"
+        ],
+        "missingFacts": [
+          "冷却到移速的完整分段/映射；衰减方式；召唤师技能事件过滤；移速组合"
+        ],
+        "recordableComponents": [
+          "2000及比例端点参数；不把范围直接插值成曲线或常驻最大45%"
+        ],
+        "sourceReferences": {
+          "official": "/4/slots/1/runes/2",
+          "client": "/45"
+        },
+        "missingSourceValueFacts": [
+          "召唤师技能冷却到15%–45%移速的映射与衰减"
+        ]
+      },
+      "decision": {
+        "disposition": "候选",
+        "scope": "混合保留；保留自身召唤师技能后的短时移速",
+        "reason": "施放召唤师技能后的自身移速会影响一对一战斗；单位碰撞属于纯空间效果，单独排除。"
+      }
+    },
+    {
+      "id": 8306,
+      "runeKey": "rune_8306",
+      "skillKey": "rune_8306_passive",
+      "name": "海克斯科技闪现罗网",
+      "category": "MINOR",
+      "current69EntryPath": "entries/15",
+      "client16_17": {
+        "sourcePath": "Perks/Styles/Inspiration/HextechFlashtraption",
+        "sourceObjectSha256": "b2faa6a498f97451c079bc1988086b45fe9cb44f816d46f846b18137313b43ed",
+        "object": {
+          "mPerkId": 8306,
+          "mPerkName": "HextechFlashtraption",
+          "mDisplayNameLocalizationKey": "perk_displayname_HextechFlashtraption",
+          "mTooltipNameLocalizationKey": "perk_tooltip_HextechFlashtraption",
+          "mShortDescLocalizationKey": "perk_short_desc_8306",
+          "mLongDescLocalizationKey": "perk_long_desc_8306",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_HextechFlashtraption1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_Blank",
+          "mIconTextureName": "assets/perks/styles/inspiration/hextechflashtraption/hextechflashtraption.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Inspiration/HextechFlashtraption/HextechFlashtraption.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "ChannelDuration": 2,
+                "{c85ef93c}": 10,
+                "CooldownTime": 20,
+                "ChampionCombatCooldown": 10,
+                "MinimumChannelDuration": 1,
+                "{d6487c09}": 0.5
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "Perks_HextechFlashtraption_Cas": "Perks/Styles/Inspiration/HextechFlashtraption/Particles/Perks_HextechFlashtraption_Cas",
+              "Perks_HextechFlashtraption_Channel": "Perks/Styles/Inspiration/HextechFlashtraption/Particles/Perks_HextechFlashtraption_Channel",
+              "Perks_Dontblink_Tar": "Perks/Styles/Inspiration/HextechFlashtraption/Particles/Perks_Dontblink_Tar"
+            },
+            "__type": "ResourceResolver"
+          },
+          "mSummonerPerkReplacements": {
+            "mReplacements": [
+              {
+                "mSummonerSpellRequired": "Shared/Spells/SummonerFlash",
+                "mReplaceCurrentPerkWith": "{fcf87363}",
+                "__type": "SummonerSpellPerkReplacement"
+              }
+            ],
+            "__type": "SummonerSpellPerkReplacementList"
+          },
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_HextechFlashtraption",
+            "resolvedKey": "perk_displayname_hextechflashtraption",
+            "text": "海克斯科技闪现罗网"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_HextechFlashtraption",
+            "resolvedKey": "perk_tooltip_hextechflashtraption",
+            "text": "{{perk_long_desc_8306}}"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_8306",
+            "resolvedKey": "perk_short_desc_8306",
+            "text": "当【闪现】尚未冷却完毕时，它会被替换为<i>海克斯闪现</i>。<br><br><i>海克斯闪现</i>：引导，然后闪烁到一个新位置。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_8306",
+            "resolvedKey": "perk_long_desc_8306",
+            "text": "当【闪现】尚未冷却完毕时，它会被替换为<i>海克斯闪现</i>。<br><br><i>海克斯闪现</i>：引导@ChannelDuration@秒后闪烁到一个新位置。<br><br>冷却时间：@CooldownTime@秒。在你进入与英雄战斗的状态时，会有一个为期@ChampionCombatCooldown@秒的冷却时间。<br>"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_Blank",
+            "resolvedKey": "perk_display_stat_blank",
+            "text": "—"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "ChannelDuration": 2,
+            "{c85ef93c}": 10,
+            "CooldownTime": 20,
+            "ChampionCombatCooldown": 10,
+            "MinimumChannelDuration": 1,
+            "{d6487c09}": 0.5
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Inspiration/HextechFlashtraption/HextechFlashtraption.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/1/slots/1/runes/0",
+        "object": {
+          "id": 8306,
+          "key": "HextechFlashtraption",
+          "icon": "perk-images/Styles/Inspiration/HextechFlashtraption/HextechFlashtraption.png",
+          "name": "海克斯科技闪现罗网",
+          "shortDesc": "当【闪现】尚未冷却完毕时，它会被替换为<i>海克斯闪现</i>。<br><br><i>海克斯闪现</i>：引导，然后闪烁到一个新位置。",
+          "longDesc": "当【闪现】尚未冷却完毕时，它会被替换为<i>海克斯闪现</i>。<br><br><i>海克斯闪现</i>：引导2秒后闪烁到一个新位置。<br><br>冷却时间：20秒。在你进入与英雄战斗的状态时，会有一个为期10秒的冷却时间。<br>"
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "范围外",
+        "branches": [
+          {
+            "scope": "范围外",
+            "summary": "海克斯闪现的引导与位置改变",
+            "quote": "引导2秒后闪烁到一个新位置",
+            "reason": "只有空间移动及闪现替换，无独立伤害/治疗/属性组成；按本阶段纯空间效果排除",
+            "evidence": {
+              "sourceId": 8306,
+              "field": "officialLong",
+              "exactText": "引导2秒后闪烁到一个新位置"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "引导2000毫秒；通常冷却20000毫秒；进入英雄战斗10000毫秒冷却"
+        ],
+        "missingFacts": [],
+        "recordableComponents": [],
+        "sourceReferences": {
+          "official": "/1/slots/1/runes/0",
+          "client": "/78"
+        },
+        "missingSourceValueFacts": []
+      },
+      "decision": {
+        "disposition": "排除",
+        "scope": "范围外",
+        "reason": "需要替换召唤师闪现并改变位置，主体是召唤师技能替换、引导和空间位移，当前范围不建立独立战斗组件。"
+      }
+    },
+    {
+      "id": 8316,
+      "runeKey": "rune_8316",
+      "skillKey": "rune_8316_passive",
+      "name": "多面手",
+      "category": "MINOR",
+      "current69EntryPath": "entries/23",
+      "client16_17": {
+        "sourcePath": "{f781f833}",
+        "sourceObjectSha256": "ccadd474a9940a40e68ddcfaf91d77a4b1c10478c23f3e785098a7c00bd8d2fe",
+        "object": {
+          "mPerkId": 8316,
+          "mPerkName": "JackOfAllTrades",
+          "mDisplayNameLocalizationKey": "perk_displayname_MinionDematerializer",
+          "mTooltipNameLocalizationKey": "perk_tooltip_MinionDematerializer",
+          "mShortDescLocalizationKey": "perk_short_desc_MinionDematerializer",
+          "mLongDescLocalizationKey": "perk_long_desc_MinionDematerializer",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_JackOfAllTrades"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_MinionDematerializer",
+          "mIconTextureName": "assets/perks/styles/inspiration/jackofalltrades/jackofalltrades2.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Inspiration/JackOfAllTrades/JackOfAllTrades.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "{1b48f5ea}": 8,
+                "{55d14eea}": 20,
+                "HastePerStack": 1
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mVFXResourceResolver": {
+            "__type": "ResourceResolver"
+          },
+          "mMajorChangePatchVersion": "9.6",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_MinionDematerializer",
+            "resolvedKey": "perk_displayname_miniondematerializer",
+            "text": "多面手"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_MinionDematerializer",
+            "resolvedKey": "perk_tooltip_miniondematerializer",
+            "text": "{{perk_long_desc_MinionDematerializer}}<br><hr><br>不同属性的数量：@f1@<br>额外适应之力：+@f2@"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_MinionDematerializer",
+            "resolvedKey": "perk_short_desc_miniondematerializer",
+            "text": "每从装备中获得一种不同属性，就会获得一层【多面手】。每层为你提供<speed>@HasteperStack@技能急速</speed>。<br><br>在5层和10层时获得额外的<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'>适应之力</lol-uikit-tooltipped-keyword>。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_MinionDematerializer",
+            "resolvedKey": "perk_long_desc_miniondematerializer",
+            "text": "每从装备中获得一种不同属性，就会获得一层【多面手】。每层为你提供<speed>@HasteperStack@技能急速</speed>。<br><br>在5层和10层时相应获得@Adaptive5@或@Adaptive10@额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'>适应之力</lol-uikit-tooltipped-keyword>。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_MinionDematerializer",
+            "resolvedKey": "perk_display_stat_miniondematerializer",
+            "text": "@f1@ - @f2@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "{1b48f5ea}": 8,
+            "{55d14eea}": 20,
+            "HastePerStack": 1
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Inspiration/JackOfAllTrades/JackOfAllTrades.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/1/slots/3/runes/2",
+        "object": {
+          "id": 8316,
+          "key": "JackOfAllTrades",
+          "icon": "perk-images/Styles/Inspiration/JackOfAllTrades/JackofAllTrades2.png",
+          "name": "多面手",
+          "shortDesc": "每从装备中获得一种不同属性，就会获得一层【多面手】。每层为你提供<speed>1技能急速</speed>。<br><br>在5层和10层时获得额外的<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'>适应之力</lol-uikit-tooltipped-keyword>。",
+          "longDesc": "每从装备中获得一种不同属性，就会获得一层【多面手】。每层为你提供<speed>1技能急速</speed>。<br><br>在5层和10层时相应获得8或20额外<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'>适应之力</lol-uikit-tooltipped-keyword>。"
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "每种装备属性的技能急速和里程碑适应之力",
+            "quote": "每层为你提供1技能急速",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8316,
+              "field": "officialLong",
+              "exactText": "每层为你提供1技能急速"
+            }
+          },
+          {
+            "scope": "保留依赖",
+            "summary": "装备不同属性数量",
+            "quote": "每从装备中获得一种不同属性",
+            "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+            "evidence": {
+              "sourceId": 8316,
+              "field": "officialLong",
+              "exactText": "每从装备中获得一种不同属性"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "每层急速1；5层适应8，10层适应20"
+        ],
+        "missingFacts": [
+          "不同属性种类计数规则、去重与上限；适应转换；实际装备集合变化入口"
+        ],
+        "recordableComponents": [
+          "1、5、8、10、20参数；已确认层数×1公式，不把装备数当属性种类数"
+        ],
+        "sourceReferences": {
+          "official": "/1/slots/3/runes/2",
+          "client": "/99"
+        },
+        "missingSourceValueFacts": [
+          "不同装备属性计数清单及适应之力转换"
+        ]
+      },
+      "decision": {
+        "disposition": "候选",
+        "scope": "范围内；保留装备属性计数带来的自身技能急速和里程碑适应之力",
+        "reason": "自身技能急速和适应属性能直接影响一对一技能；不同装备属性的去重集合和适应转换保留为运行输入。"
+      }
+    },
+    {
+      "id": 8321,
+      "runeKey": "rune_8321",
+      "skillKey": "rune_8321_passive",
+      "name": "返现",
+      "category": "MINOR",
+      "current69EntryPath": "entries/17",
+      "client16_17": {
+        "sourcePath": "{fcf87363}",
+        "sourceObjectSha256": "fab7f8905bfec054c9caa406f41e8695a0d9c2644f9a719031603345583e4516",
+        "object": {
+          "mPerkId": 8321,
+          "mPerkName": "CashBack",
+          "mDisplayNameLocalizationKey": "perk_displayname_FuturesMarket",
+          "mTooltipNameLocalizationKey": "perk_tooltip_FuturesMarket",
+          "mShortDescLocalizationKey": "perk_short_desc_FuturesMarket",
+          "mLongDescLocalizationKey": "perk_long_desc_FuturesMarket",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_FuturesMarket1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat",
+          "mIconTextureName": "assets/perks/styles/inspiration/cashback/cashback2.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Inspiration/CashBack/CashBack.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "{d856a8af}": 0,
+                "GoldLowerBoundPerMinute": 8,
+                "{c0de5a7f}": 8,
+                "DebtAccumulationStartsAtMinute": 2,
+                "{7957e8a3}": 20,
+                "{8d08b1b5}": 0,
+                "ExcessCostPenaltyFlat": 50,
+                "GoldLowerBoundInitial": 100,
+                "{fa03b4f1}": 150,
+                "{ebbc116e}": -150,
+                "PercentRefund": 0.07500000298023224
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mDefault": true,
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_FuturesMarket",
+            "resolvedKey": "perk_displayname_futuresmarket",
+            "text": "返现"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_FuturesMarket",
+            "resolvedKey": "perk_tooltip_futuresmarket",
+            "text": "{{perk_long_desc_FuturesMarket}}"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_FuturesMarket",
+            "resolvedKey": "perk_short_desc_futuresmarket",
+            "text": "在你购买传说级装备时返还一些金币。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_FuturesMarket",
+            "resolvedKey": "perk_long_desc_futuresmarket",
+            "text": "在你购买传说级装备时返还@PercentRefund*100@%金币。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat",
+            "resolvedKey": "perk_display_stat",
+            "text": "@f1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "{d856a8af}": 0,
+            "GoldLowerBoundPerMinute": 8,
+            "{c0de5a7f}": 8,
+            "DebtAccumulationStartsAtMinute": 2,
+            "{7957e8a3}": 20,
+            "{8d08b1b5}": 0,
+            "ExcessCostPenaltyFlat": 50,
+            "GoldLowerBoundInitial": 100,
+            "{fa03b4f1}": 150,
+            "{ebbc116e}": -150,
+            "PercentRefund": 0.07500000298023224
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Inspiration/CashBack/CashBack.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/1/slots/1/runes/2",
+        "object": {
+          "id": 8321,
+          "key": "CashBack",
+          "icon": "perk-images/Styles/Inspiration/CashBack/CashBack2.png",
+          "name": "返现",
+          "shortDesc": "在你购买传说级装备时返还一些金币。",
+          "longDesc": "在你购买传说级装备时返还7.5%金币。"
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "范围外",
+        "branches": [
+          {
+            "scope": "范围外",
+            "summary": "购买传说装备返金币",
+            "quote": "返还7.5%金币",
+            "reason": "仅经济收益，整项效果排除",
+            "evidence": {
+              "sourceId": 8321,
+              "field": "officialLong",
+              "exactText": "返还7.5%金币"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "返还0.075购买金币"
+        ],
+        "missingFacts": [],
+        "recordableComponents": [],
+        "sourceReferences": {
+          "official": "/1/slots/1/runes/2",
+          "client": "/102"
+        },
+        "missingSourceValueFacts": []
+      },
+      "decision": {
+        "disposition": "排除",
+        "scope": "范围外",
+        "reason": "只在购买传说装备时返还金币，纯经济收益不建立战斗组件。"
+      }
+    },
+    {
+      "id": 8345,
+      "runeKey": "rune_8345",
+      "skillKey": "rune_8345_passive",
+      "name": "饼干配送",
+      "category": "MINOR",
+      "current69EntryPath": "entries/20",
+      "client16_17": {
+        "sourcePath": "Perks/Styles/Inspiration/BiscuitDelivery",
+        "sourceObjectSha256": "255e6a1bd23f1529f45b3cd9a96468af44a2bc45ac485ab25beeadfd4d4f05c7",
+        "object": {
+          "mPerkId": 8345,
+          "mPerkName": "BiscuitDelivery",
+          "mDisplayNameLocalizationKey": "perk_displayname_BiscuitDelivery",
+          "mTooltipNameLocalizationKey": "perk_tooltip_BiscuitDelivery",
+          "mShortDescLocalizationKey": "perk_short_desc_BiscuitDelivery",
+          "mLongDescLocalizationKey": "perk_long_desc_BiscuitDelivery",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_BiscuitDelivery1",
+            "perk_eog_stat_desc_BiscuitDelivery2"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_ratio",
+          "mIconTextureName": "assets/perks/styles/inspiration/biscuitdelivery/biscuitdelivery.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Inspiration/BiscuitDelivery/BiscuitDelivery.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "BiscuitMinuteInterval": 2,
+                "SwapOverMinute": 6,
+                "PermanentHP": 30,
+                "HealthHealPercent": 0.014999999664723873,
+                "DurationOfEffect": 5,
+                "FlatHeal": 20,
+                "{936e8fc2}": 0.30000001192092896,
+                "MaximumHealIncrease": 1
+              },
+              "mEffectAmountGameMode": {
+                "NEXUSBLITZ": {
+                  "mEffectAmountPerMode": {
+                    "BiscuitMinuteInterval": 1.5
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "URF": {
+                  "mEffectAmountPerMode": {
+                    "BiscuitMinuteInterval": 1.5
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                }
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_BiscuitDelivery",
+            "resolvedKey": "perk_displayname_biscuitdelivery",
+            "text": "饼干配送"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_BiscuitDelivery",
+            "resolvedKey": "perk_tooltip_biscuitdelivery",
+            "text": "{{ perk_long_desc_BiscuitDelivery }}<br><hr><br>已提供的饼干数：@f1@/@f2@<br>饼干治疗：@f3@"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_BiscuitDelivery",
+            "resolvedKey": "perk_short_desc_biscuitdelivery",
+            "text": "每过@BiscuitMinuteInterval@分钟获得一个免费的【饼干】，直到@SwapOverMinute@分钟为止。享用或出售一个饼干可永久提升你的最大生命值并回复生命值。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_BiscuitDelivery",
+            "resolvedKey": "perk_long_desc_biscuitdelivery",
+            "text": "饼干配送：每过@BiscuitMinuteInterval@分钟获得一个{{game_item_displayname_2010}}，直到@SwapOverMinute@分钟。<br><br>饼干可回复@FlatHeal@+你的@HealthHealPercent.0*100@%最大生命值，基于已损失生命值获得提升，至多可提升@MaximumHealIncrease*100@%。消耗或出售一块饼干，都会为你永久提供@PermanentHP@最大生命值。 "
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_ratio",
+            "resolvedKey": "perk_display_stat_ratio",
+            "text": "@f1@/@f2@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "BiscuitMinuteInterval": 2,
+            "SwapOverMinute": 6,
+            "PermanentHP": 30,
+            "HealthHealPercent": 0.014999999664723873,
+            "DurationOfEffect": 5,
+            "FlatHeal": 20,
+            "{936e8fc2}": 0.30000001192092896,
+            "MaximumHealIncrease": 1
+          },
+          "calculations": {},
+          "otherModeOverrides": [
+            "NEXUSBLITZ",
+            "URF"
+          ],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Inspiration/BiscuitDelivery/BiscuitDelivery.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/1/slots/2/runes/2",
+        "object": {
+          "id": 8345,
+          "key": "BiscuitDelivery",
+          "icon": "perk-images/Styles/Inspiration/BiscuitDelivery/BiscuitDelivery.png",
+          "name": "饼干配送",
+          "shortDesc": "每过2分钟获得一个免费的【饼干】，直到6分钟为止。享用或出售一个饼干可永久提升你的最大生命值并回复生命值。",
+          "longDesc": "饼干配送：每过2分钟获得一个永续意志夹心饼干，直到6分钟。<br><br>饼干可回复20+你的2%最大生命值，基于已损失生命值获得提升，至多可提升100%。消耗或出售一块饼干，都会为你永久提供30最大生命值。 "
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "饼干的恢复与永久生命收益",
+            "quote": "永久提供30最大生命值",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8345,
+              "field": "officialLong",
+              "exactText": "永久提供30最大生命值"
+            }
+          },
+          {
+            "scope": "保留依赖",
+            "summary": "饼干取得、消耗或出售次数",
+            "quote": "消耗或出售一块饼干",
+            "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+            "evidence": {
+              "sourceId": 8345,
+              "field": "officialLong",
+              "exactText": "消耗或出售一块饼干"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "每2分钟一次至6分钟；基础治疗20+0.02最大生命，依已损生命增幅最多100%；每块永久生命30；官方2010给出5秒治疗时长"
+        ],
+        "missingFacts": [
+          "已损生命到增幅的精确曲线；治疗跳频；消费/出售重复防护；不能因出售含经济字眼丢永久生命"
+        ],
+        "recordableComponents": [
+          "20、0.02、30、5000毫秒等参数及基础治疗公式；永久30独立组成，触发待消耗证据"
+        ],
+        "sourceReferences": {
+          "official": "/1/slots/2/runes/2",
+          "client": "/86"
+        },
+        "missingSourceValueFacts": [
+          "已损生命比例到饼干治疗增幅的曲线"
+        ]
+      },
+      "decision": {
+        "disposition": "候选",
+        "scope": "混合保留；保留自身饼干恢复和永久最大生命值",
+        "reason": "消耗或出售饼干后的自身最大生命和恢复影响一对一状态；取得、消耗次数与已损生命增幅保留为运行输入。"
+      }
+    },
+    {
+      "id": 8360,
+      "runeKey": "rune_8360",
+      "skillKey": "rune_8360_passive",
+      "name": "启封的秘籍",
+      "category": "KEYSTONE",
+      "current69EntryPath": "entries/13",
+      "client16_17": {
+        "sourcePath": "Perks/Styles/Inspiration/UnsealedSpellbook",
+        "sourceObjectSha256": "f0b98bc1e3612e5eca6b1ec53ad9dd193eac5c04597f8fcc138150a53a6bac86",
+        "object": {
+          "mPerkId": 8360,
+          "mPerkName": "UnsealedSpellbook",
+          "mDisplayNameLocalizationKey": "perk_displayname_UnsealedSpellbook",
+          "mTooltipNameLocalizationKey": "perk_tooltip_UnsealedSpellbook",
+          "mShortDescLocalizationKey": "perk_short_desc_UnsealedSpellbook",
+          "mLongDescLocalizationKey": "perk_long_desc_UnsealedSpellbook",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_UnsealedSpellbook"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_ratio_UnsealedSpellbook",
+          "mIconTextureName": "assets/perks/styles/inspiration/unsealedspellbook/unsealedspellbook.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Inspiration/UnsealedSpellbook/UnsealedSpellbook.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "{ea768132}": 1,
+                "{9a847429}": 0,
+                "{0f920874}": 1,
+                "ShardRechargeMinutes": 4.5,
+                "ShardFirstMinutes": 6,
+                "{9d01feeb}": 5,
+                "{b7e0131f}": 5,
+                "NumSummonersBeforeRepeat": 3,
+                "ShardRechargeReductionSeconds": 25,
+                "{a8402a49}": 10,
+                "{0bb7b933}": 6
+              },
+              "mEffectAmountGameMode": {
+                "ARAM": {
+                  "mEffectAmountPerMode": {
+                    "ShardFirstMinutes": 3,
+                    "ShardRechargeMinutes": 2.5,
+                    "ShardRechargeReductionSeconds": 20
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "{a110bc47}": {
+                  "mEffectAmountPerMode": {
+                    "ShardFirstMinutes": 2,
+                    "ShardRechargeMinutes": 1.5,
+                    "ShardRechargeReductionSeconds": 15
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                }
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mBuffs": [
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Inspiration/UnsealedSpellbook/UnsealedSpellbookNextChargeTrackerBuff.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "buff_desc_UnsealedSpellbook_ChargeTracker",
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            },
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Inspiration/UnsealedSpellbook/UnsealedSpellbookSwapAvailableBuff.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "buff_desc_UnsealedSpellbook_SwapAvailable",
+                  "mShowDuration": false,
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            },
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Inspiration/UnsealedSpellbook/UnsealedSpellbookSummonerCooldownBuff.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "buff_desc_UnsealedSpellbookBackgroundCD",
+                  "mShowDuration": false,
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            },
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Inspiration/UnsealedSpellbook/UnsealedSpellbookSummonerTwoCooldownBuff.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "buff_desc_UnsealedSpellbookBackgroundCD",
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            },
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Inspiration/UnsealedSpellbook/UnsealedSpellbookOOCTracker.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "buff_desc_UnsealedSpellbook_OOCTracker",
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            }
+          ],
+          "mMajorChangePatchVersion": "8.9",
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_UnsealedSpellbook",
+            "resolvedKey": "perk_displayname_unsealedspellbook",
+            "text": "启封的秘籍"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_UnsealedSpellbook",
+            "resolvedKey": "perk_tooltip_unsealedspellbook",
+            "text": "{{ perk_long_desc_UnsealedSpellbook }}<hr><br>已使用的独特召唤师技能：@f4@/@f8@<br>当前置换冷却时间：@f3@秒"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_UnsealedSpellbook",
+            "resolvedKey": "perk_short_desc_unsealedspellbook",
+            "text": "在非战斗状态下置换召唤师技能。置换到独特的召唤师技能时将提升你未来进行置换的速率。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_UnsealedSpellbook",
+            "resolvedKey": "perk_long_desc_unsealedspellbook",
+            "text": "将你的一个已装备的召唤师技能置换成一个新的、单次使用的召唤师技能。你所置换的每个独特的召唤师技能都会使你的置换冷却时间永久降低@ShardRechargeReductionSeconds@秒（初始置换冷却时间为@f3@秒）。<br><br>你的首次置换将在@ShardFirstMinutes@分钟时变为可用状态。<br><rules><br>召唤师技能仅可在非战斗状态下置换。<br>在使用一个已置换的召唤师技能后，你必须置换@NumSummonersBeforeRepeat@次以上才能再次选择第一个召唤师技能。<br>【惩戒】伤害会在置换2次召唤师技能后提升。</rules>"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_ratio_UnsealedSpellbook",
+            "resolvedKey": "perk_display_stat_ratio_unsealedspellbook",
+            "text": "@f4@/@f8@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "{ea768132}": 1,
+            "{9a847429}": 0,
+            "{0f920874}": 1,
+            "ShardRechargeMinutes": 4.5,
+            "ShardFirstMinutes": 6,
+            "{9d01feeb}": 5,
+            "{b7e0131f}": 5,
+            "NumSummonersBeforeRepeat": 3,
+            "ShardRechargeReductionSeconds": 25,
+            "{a8402a49}": 10,
+            "{0bb7b933}": 6
+          },
+          "calculations": {},
+          "otherModeOverrides": [
+            "ARAM",
+            "{a110bc47}"
+          ],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Inspiration/UnsealedSpellbook/UnsealedSpellbook.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/1/slots/0/runes/1",
+        "object": {
+          "id": 8360,
+          "key": "UnsealedSpellbook",
+          "icon": "perk-images/Styles/Inspiration/UnsealedSpellbook/UnsealedSpellbook.png",
+          "name": "启封的秘籍",
+          "shortDesc": "在非战斗状态下置换召唤师技能。置换到独特的召唤师技能时将提升你未来进行置换的速率。",
+          "longDesc": "将你的一个已装备的召唤师技能置换成一个新的、单次使用的召唤师技能。你所置换的每个独特的召唤师技能都会使你的置换冷却时间永久降低25秒（初始置换冷却时间为@f3@秒）。<br><br>你的首次置换将在6分钟时变为可用状态。<br><rules><br>召唤师技能仅可在非战斗状态下置换。<br>在使用一个已置换的召唤师技能后，你必须置换3次以上才能再次选择第一个召唤师技能。<br>【惩戒】伤害会在置换2次召唤师技能后提升。</rules>"
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "更换一次性召唤师技能改变战斗可用技能",
+            "quote": "单次使用的召唤师技能",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8360,
+              "field": "officialLong",
+              "exactText": "单次使用的召唤师技能"
+            }
+          },
+          {
+            "scope": "保留依赖",
+            "summary": "首次可用时间、独特置换进度与重选限制",
+            "quote": "你必须置换3次以上",
+            "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+            "evidence": {
+              "sourceId": 8360,
+              "field": "officialLong",
+              "exactText": "你必须置换3次以上"
+            }
+          },
+          {
+            "scope": "范围内",
+            "summary": "惩戒置换后的伤害提升",
+            "quote": "惩戒】伤害会在置换2次召唤师技能后提升",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8360,
+              "field": "officialLong",
+              "exactText": "惩戒】伤害会在置换2次召唤师技能后提升"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "首次360000毫秒；独特置换每次减25000毫秒；惩戒门槛2次；至少超过3次才能重新选第一个"
+        ],
+        "missingFacts": [
+          "初始冷却@f3@；置换技能集合与次数冷却下限；非战斗判定；惩戒具体伤害与对象；替换技能实例能力"
+        ],
+        "recordableComponents": [
+          "确定时间与次数参数；不能以召唤师技能=召唤物而全项排除"
+        ],
+        "sourceReferences": {
+          "official": "/1/slots/0/runes/1",
+          "client": "/10"
+        },
+        "missingSourceValueFacts": [
+          "@f3@初始置换冷却、惩戒提升伤害值"
+        ]
+      },
+      "decision": {
+        "disposition": "排除",
+        "scope": "范围外",
+        "reason": "主体是非战斗状态下替换召唤师技能及独立召唤师技能实例，按本批既定召唤师替换排除。"
+      }
+    },
+    {
+      "id": 8446,
+      "runeKey": "rune_8446",
+      "skillKey": "rune_8446_passive",
+      "name": "爆破",
+      "category": "MINOR",
+      "current69EntryPath": "entries/40",
+      "client16_17": {
+        "sourcePath": "Perks/Styles/Resolve/Demolish",
+        "sourceObjectSha256": "ae36c09d0eb55cd8019a4a6eb367802557a726059a0c0faa8425432b5dabefe7",
+        "object": {
+          "mPerkId": 8446,
+          "mPerkName": "Demolish",
+          "mDisplayNameLocalizationKey": "perk_displayname_8446",
+          "mTooltipNameLocalizationKey": "perk_tooltip_8446",
+          "mShortDescLocalizationKey": "perk_short_desc_8446",
+          "mLongDescLocalizationKey": "perk_long_desc_8446",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_Demolish1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_Demolish",
+          "mIconTextureName": "assets/perks/styles/resolve/demolish/demolish.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Resolve/Demolish/Demolish_SEASONAL.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "CooldownSeconds": 30,
+                "{8d810998}": 8,
+                "{97664ba4}": 3,
+                "BaseDamageMelee": 85,
+                "BaseDamageRanged": 50,
+                "HPRatioMelee": 0.2800000011920929,
+                "HPRatioRanged": 0.20000000298023224
+              },
+              "mEffectAmountGameMode": {
+                "NEXUSBLITZ": {
+                  "mEffectAmountPerMode": {
+                    "CooldownSeconds": 30
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "URF": {
+                  "mEffectAmountPerMode": {
+                    "CooldownSeconds": 30
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "ARAM": {
+                  "mEffectAmountPerMode": {
+                    "MaxHealthPercentDamage": 0.20000000298023224,
+                    "OutputDamagePerStack": 50
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "FIRSTBLOOD": {
+                  "mEffectAmountPerMode": {
+                    "MaxHealthPercentDamage": 0.10000000149011612,
+                    "OutputDamagePerStack": 35
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                },
+                "KINGPORO": {
+                  "mEffectAmountPerMode": {
+                    "MaxHealthPercentDamage": 0.20000000298023224,
+                    "OutputDamagePerStack": 50
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                }
+              },
+              "mCalculations": {
+                "DamageCalc": {
+                  "mSimpleTooltipCalculationDisplay": 4,
+                  "mDefaultGameCalculation": "{4e3f20aa}",
+                  "mConditionalGameCalculation": "{5fecac03}",
+                  "mConditionalCalculationRequirements": {
+                    "__type": "IsMeleeCastRequirement"
+                  },
+                  "__type": "GameCalculationConditional"
+                },
+                "{4e3f20aa}": {
+                  "mSimpleTooltipCalculationDisplay": 4,
+                  "{72c5c2a8}": 0,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamageRanged",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 12,
+                      "mDataValue": "HPRatioRanged",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "{5fecac03}": {
+                  "mSimpleTooltipCalculationDisplay": 4,
+                  "{72c5c2a8}": 0,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamageMelee",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 12,
+                      "mDataValue": "HPRatioMelee",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mBuffs": [
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/Demolish/SR_2026_S1_DemolishCooldown.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "perk_buff_description_Demolish_CD",
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            }
+          ],
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "Perks_Demolish_Crystal": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal",
+              "Perks_Demolish_Floor_Diamonds": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Floor_Diamonds",
+              "Perks_Demolish_Crystal_Pop": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_Pop",
+              "Perks_Demolish_Crystal_6": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_6",
+              "Perks_Demolish_Crystal_5_Pop": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_5_Pop",
+              "Perks_Demolish_Crystal_4_Pop": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_4_Pop",
+              "Perks_Demolish_Crystal_3_Pop": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_3_Pop",
+              "Perks_Demolish_Crystal_2_Pop": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_2_Pop",
+              "Perks_Demolish_Crystal_1_Pop": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_1_Pop",
+              "Perks_Demolish_Crystal_0_Pop": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_0_Pop",
+              "Perks_Demolish_Crystal_1_Pop_Ally": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_1_Pop_Ally",
+              "Perks_Demolish_Crystal_Ally": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_Ally",
+              "Perks_Demolish_Crystal_6_Ally": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_6_Ally",
+              "Perks_Demolish_Crystal_5_Pop_Ally": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_5_Pop_Ally",
+              "Perks_Demolish_Crystal_4_Pop_Ally": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_4_Pop_Ally",
+              "Perks_Demolish_Crystal_3_Pop_Ally": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_3_Pop_Ally",
+              "Perks_Demolish_Crystal_2_Pop_Ally": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_2_Pop_Ally",
+              "Perks_Demolish_Crystal_0_Pop_Ally": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Crystal_0_Pop_Ally",
+              "Perks_Demolish_Floor_Diamonds_Ally": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Floor_Diamonds_Ally",
+              "Perks_Demolish_Tar": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Tar",
+              "Perks_Demolish_Energy_Beam": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Energy_Beam",
+              "Perks_Demolish_Empowered": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Empowered",
+              "Perks_Demolish_Range": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Range",
+              "Perks_Demolish_Floor_Diamonds_Ready": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Floor_Diamonds_Ready",
+              "Perks_Demolish_Tar_Self": "Perks/Styles/Resolve/Demolish/Particles/Perks_Demolish_Tar_Self",
+              "{27df50d8}": "Perks/Styles/Resolve/Demolish/Particles/Rework_Demolish_Decal_0",
+              "{28df526b}": "Perks/Styles/Resolve/Demolish/Particles/Rework_Demolish_Decal_1",
+              "{29df53fe}": "Perks/Styles/Resolve/Demolish/Particles/Rework_Demolish_Decal_2",
+              "{2adf5591}": "Perks/Styles/Resolve/Demolish/Particles/Rework_Demolish_Decal_3",
+              "{79a4ee47}": "Perks/Styles/Resolve/Demolish/Particles/Rework_Demolish_Decal_0_Ally",
+              "{84c69bfa}": "Perks/Styles/Resolve/Demolish/Particles/Rework_Demolish_Decal_1_Ally",
+              "{17e98d6d}": "Perks/Styles/Resolve/Demolish/Particles/Rework_Demolish_Decal_2_Ally",
+              "{2eb36d78}": "Perks/Styles/Resolve/Demolish/Particles/Rework_Demolish_Decal_3_Ally",
+              "{6cd94f70}": "Perks/Styles/Resolve/Demolish/Particles/Rework_Demolish_Child",
+              "{f188886f}": "Perks/Styles/Resolve/Demolish/Particles/Rework_Demolish_Child_Ally",
+              "{c4b10c8b}": "Perks/Styles/Resolve/Demolish/Particles/Rework_Demolish_Target_Death_Child",
+              "{f68b83f4}": "Perks/Styles/Resolve/Demolish/Particles/Rework_Demolish_Target_Death_Ally_Child"
+            },
+            "__type": "ResourceResolver"
+          },
+          "mDefault": true,
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_8446",
+            "resolvedKey": "perk_displayname_8446",
+            "text": "爆破"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_8446",
+            "resolvedKey": "perk_tooltip_8446",
+            "text": "你对防御塔的第三次攻击造成<scaleAD>@DamageCalc@</scaleAD>额外物理伤害。<br><br>额外伤害总和：<scaleAD>@f1@</scaleAD><br>触发次数总和：<scaleAD>@f2@</scaleAD><br>冷却时间：@CooldownSeconds@秒"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_8446",
+            "resolvedKey": "perk_short_desc_8446",
+            "text": "你对防御塔的第三次攻击造成额外伤害。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_8446",
+            "resolvedKey": "perk_long_desc_8446",
+            "text": "你对防御塔的第三次攻击造成[@BaseDamageMelee@ (+@HPRatioMelee.0 * 100@%最大生命值) 近战 || @BaseDamageRanged@ (+@HPRatioRanged.0 * 100@%最大生命值) 远程]额外物理伤害。<br><br>冷却时间：@CooldownSeconds@秒"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_Demolish",
+            "resolvedKey": "perk_display_stat_demolish",
+            "text": "@f1@ | @f2@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "CooldownSeconds": 30,
+            "{8d810998}": 8,
+            "{97664ba4}": 3,
+            "BaseDamageMelee": 85,
+            "BaseDamageRanged": 50,
+            "HPRatioMelee": 0.2800000011920929,
+            "HPRatioRanged": 0.20000000298023224
+          },
+          "calculations": {
+            "DamageCalc": {
+              "mSimpleTooltipCalculationDisplay": 4,
+              "mDefaultGameCalculation": "{4e3f20aa}",
+              "mConditionalGameCalculation": "{5fecac03}",
+              "mConditionalCalculationRequirements": {
+                "__type": "IsMeleeCastRequirement"
+              },
+              "__type": "GameCalculationConditional"
+            },
+            "{4e3f20aa}": {
+              "mSimpleTooltipCalculationDisplay": 4,
+              "{72c5c2a8}": 0,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamageRanged",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mDataValue": "HPRatioRanged",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "{5fecac03}": {
+              "mSimpleTooltipCalculationDisplay": 4,
+              "{72c5c2a8}": 0,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamageMelee",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mDataValue": "HPRatioMelee",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "otherModeOverrides": [
+            "NEXUSBLITZ",
+            "URF",
+            "ARAM",
+            "FIRSTBLOOD",
+            "KINGPORO"
+          ],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Resolve/Demolish/Demolish_SEASONAL.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/3/slots/1/runes/0",
+        "object": {
+          "id": 8446,
+          "key": "Demolish",
+          "icon": "perk-images/Styles/Resolve/Demolish/Demolish.png",
+          "name": "爆破",
+          "shortDesc": "你对防御塔的第三次攻击造成额外伤害。",
+          "longDesc": "你对防御塔的第三次攻击造成[85 (+28%最大生命值) 近战 || 50 (+20%最大生命值) 远程]额外物理伤害。<br><br>冷却时间：30秒"
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "范围外",
+        "branches": [
+          {
+            "scope": "范围外",
+            "summary": "防御塔第三次攻击伤害",
+            "quote": "你对防御塔的第三次攻击",
+            "reason": "专用目标为防御塔，不录成对英雄伤害",
+            "evidence": {
+              "sourceId": 8446,
+              "field": "officialLong",
+              "exactText": "你对防御塔的第三次攻击"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "近战85+0.28最大生命；远程50+0.20最大生命；冷却30000毫秒"
+        ],
+        "missingFacts": [],
+        "recordableComponents": [],
+        "sourceReferences": {
+          "official": "/3/slots/1/runes/0",
+          "client": "/1"
+        },
+        "missingSourceValueFacts": []
+      },
+      "decision": {
+        "disposition": "排除",
+        "scope": "范围外",
+        "reason": "额外伤害的目标明确是防御塔，属于专用建筑目标，不录成对英雄伤害。"
+      }
+    },
+    {
+      "id": 8463,
+      "runeKey": "rune_8463",
+      "skillKey": "rune_8463_passive",
+      "name": "生命源泉",
+      "category": "MINOR",
+      "current69EntryPath": "entries/41",
+      "client16_17": {
+        "sourcePath": "Perks/Styles/Resolve/FontOfLife",
+        "sourceObjectSha256": "802916ff35ab22e675ce9537e23ae60abdf3f8650802d67b401ad59dd3fb6b1e",
+        "object": {
+          "mPerkId": 8463,
+          "mPerkName": "FontOfLife",
+          "mDisplayNameLocalizationKey": "perk_displayname_FontOfLife",
+          "mTooltipNameLocalizationKey": "perk_tooltip_FontOfLife",
+          "mShortDescLocalizationKey": "perk_short_desc_FontOfLife",
+          "mLongDescLocalizationKey": "perk_long_desc_FontOfLife",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_FontOfLife1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_total",
+          "mIconTextureName": "assets/perks/styles/resolve/fontoflife/fontoflife.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Resolve/FontOfLife/FontOfLife.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "Cooldown": 20,
+                "RangedMod": 0.699999988079071
+              },
+              "mCalculations": {
+                "BaseHeal": {
+                  "mSimpleTooltipCalculationDisplay": 4,
+                  "mFormulaParts": [
+                    {
+                      "mStartValue": 10,
+                      "mEndValue": 50,
+                      "__type": "ByCharLevelInterpolationCalculationPart"
+                    }
+                  ],
+                  "mRangedMultiplier": {
+                    "mDataValue": "RangedMod",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "__type": "{e9a3c91d}"
+                }
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mBuffs": [
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/FontOfLife/FontOfLifeCD.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "buff_desc_FontOfLife",
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            }
+          ],
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "Perks_FontofLife_Marker": "Perks/Styles/Resolve/FontOfLife/Particles/Perks_FontofLife_Marker",
+              "Perks_FontofLife_Heal": "Perks/Styles/Resolve/FontOfLife/Particles/Perks_FontofLife_Heal",
+              "Perks_FontofLife_Beam": "Perks/Styles/Resolve/FontOfLife/Particles/Perks_FontofLife_Beam",
+              "Perks_FontofLife_Marker_Pulse": "Perks/Styles/Resolve/FontOfLife/Particles/Perks_FontofLife_Marker_Pulse"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_FontOfLife",
+            "resolvedKey": "perk_displayname_fontoflife",
+            "text": "生命源泉"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_FontOfLife",
+            "resolvedKey": "perk_tooltip_fontoflife",
+            "text": "干扰敌方英雄的移动可为你和附近生命值最低的友方英雄回复<healing>@BaseHeal@生命值</healing>。<br>冷却时间：@Cooldown@秒<br><br>治疗效果总和：<healing>@f1@</healing>"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_FontOfLife",
+            "resolvedKey": "perk_short_desc_fontoflife",
+            "text": "<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_ImpairMov'>干扰</lol-uikit-tooltipped-keyword>一个敌方英雄的移动可治疗附近的友方英雄们。 "
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_FontOfLife",
+            "resolvedKey": "perk_long_desc_fontoflife",
+            "text": "干扰敌方英雄的移动可为你和附近生命值最低的友方英雄回复<healing>@BaseHeal@生命值</healing>。<br><br>远程英雄的使用效能为@RangedMod*100@%。<br><br>冷却时间：@Cooldown@秒"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_total",
+            "resolvedKey": "perk_display_stat_total",
+            "text": "@f1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "Cooldown": 20,
+            "RangedMod": 0.699999988079071
+          },
+          "calculations": {
+            "BaseHeal": {
+              "mSimpleTooltipCalculationDisplay": 4,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 10,
+                  "mEndValue": 50,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "mRangedMultiplier": {
+                "mDataValue": "RangedMod",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "__type": "{e9a3c91d}"
+            }
+          },
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Resolve/FontOfLife/FontOfLife.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/3/slots/1/runes/1",
+        "object": {
+          "id": 8463,
+          "key": "FontOfLife",
+          "icon": "perk-images/Styles/Resolve/FontOfLife/FontOfLife.png",
+          "name": "生命源泉",
+          "shortDesc": "<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_ImpairMov'>干扰</lol-uikit-tooltipped-keyword>一个敌方英雄的移动可治疗附近的友方英雄们。 ",
+          "longDesc": "干扰敌方英雄的移动可为你和附近生命值最低的友方英雄回复<healing>@BaseHeal@生命值</healing>。<br><br>远程英雄的使用效能为70%。<br><br>冷却时间：20秒"
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "混合保留",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "自己干扰英雄移动后的自身治疗",
+            "quote": "可为你和附近生命值最低的友方英雄回复",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 8463,
+              "field": "officialLong",
+              "exactText": "可为你和附近生命值最低的友方英雄回复"
+            }
+          },
+          {
+            "scope": "范围外",
+            "summary": "附近友方英雄治疗",
+            "quote": "附近生命值最低的友方英雄",
+            "reason": "只排除队友份额，不删除同次自身治疗",
+            "evidence": {
+              "sourceId": 8463,
+              "field": "officialLong",
+              "exactText": "附近生命值最低的友方英雄"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "远程效能0.70；冷却20000毫秒"
+        ],
+        "missingFacts": [
+          "治疗@BaseHeal@仍缺值；合法移动受损及控制归属；近远程分类"
+        ],
+        "recordableComponents": [
+          "0.70和20000参数；没有治疗值不能用0或任意固定数创建治疗"
+        ],
+        "sourceReferences": {
+          "official": "/3/slots/1/runes/1",
+          "client": "/69"
+        },
+        "missingSourceValueFacts": [
+          "@BaseHeal@治疗量"
+        ]
+      },
+      "decision": {
+        "disposition": "候选",
+        "scope": "混合保留；保留自身受益的治疗数值和远程效能",
+        "reason": "自身干扰敌方英雄移动后的治疗属于一对一自身收益；附近最低友方治疗支路排除，治疗资格和基础等级求值保留缺口。"
+      }
+    },
+    {
+      "id": 8465,
+      "runeKey": "rune_8465",
+      "skillKey": "rune_8465_passive",
+      "name": "守护者",
+      "category": "KEYSTONE",
+      "current69EntryPath": "entries/39",
+      "client16_17": {
+        "sourcePath": "Perks/Styles/Resolve/Guardian",
+        "sourceObjectSha256": "d4a04c0e0233eb94a3462e0eead0f1ea017eac5ac94c7cbc2c3181aa16e5916d",
+        "object": {
+          "mPerkId": 8465,
+          "mPerkName": "Guardian",
+          "mDisplayNameLocalizationKey": "perk_displayname_Guardian",
+          "mTooltipNameLocalizationKey": "perk_tooltip_Guardian",
+          "mShortDescLocalizationKey": "perk_short_desc_Guardian",
+          "mLongDescLocalizationKey": "perk_long_desc_Guardian",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_Guardian1"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_Guardian",
+          "mIconTextureName": "assets/perks/styles/resolve/guardian/guardian.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Resolve/Guardian/Guardian.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "SnuggleRange": 350,
+                "ShieldBase": 40,
+                "ShieldMax": 150,
+                "APRatio": 0.20000000298023224,
+                "HPRatio": 0.05999999865889549,
+                "ShieldDuration": 1.5,
+                "Cooldown": 75,
+                "GuardDuration": 2.5,
+                "CooldownMaxLevel": 40,
+                "ThresholdMin": 50,
+                "ThresholdMax": 165
+              },
+              "mEffectAmountGameMode": {
+                "ARAM": {
+                  "mEffectAmountPerMode": {
+                    "Cooldown": 60,
+                    "CooldownMaxLevel": 30
+                  },
+                  "__type": "PerkEffectAmountPerMode"
+                }
+              },
+              "mCalculations": {
+                "ThresholdCalc": {
+                  "mSimpleTooltipCalculationDisplay": 4,
+                  "mFormulaParts": [
+                    {
+                      "mStartValue": 40,
+                      "mEndValue": 150,
+                      "__type": "ByCharLevelInterpolationCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "ShieldCalc": {
+                  "mSimpleTooltipCalculationDisplay": 4,
+                  "mFormulaParts": [
+                    {
+                      "mStartValue": 40,
+                      "mEndValue": 150,
+                      "__type": "ByCharLevelInterpolationCalculationPart"
+                    },
+                    {
+                      "mStatFormula": 2,
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 12,
+                      "mStatFormula": 2,
+                      "mDataValue": "HPRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "CooldownCalc": {
+                  "mSimpleTooltipCalculationDisplay": 4,
+                  "mFormulaParts": [
+                    {
+                      "mStartValue": 75,
+                      "mEndValue": 40,
+                      "__type": "ByCharLevelInterpolationCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "mBuffs": [
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/Guardian/GuardianCooldown.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "perk_buff_desc_Guardian_CD",
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            },
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/Guardian/GuardianShield.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "perk_desc_Guardian_Shield",
+                  "PersistentEffectConditions": [
+                    {
+                      "PersistentVfxs": [
+                        {
+                          "boneName": "C_BUFFBONE_GLB_CENTER_LOC",
+                          "effectKey": "Perk_Guardian_Shield",
+                          "__type": "PersistentVfxData"
+                        }
+                      ],
+                      "__type": "PersistentEffectConditionData"
+                    }
+                  ],
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            },
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/Guardian/Guardian.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "buff_desc_Guardian_Available",
+                  "PersistentEffectConditions": [
+                    {
+                      "PersistentVfxs": [
+                        {
+                          "effectKey": "Perk_Guardian_Orb",
+                          "FaceTarget": true,
+                          "__type": "PersistentVfxData"
+                        }
+                      ],
+                      "__type": "PersistentEffectConditionData"
+                    }
+                  ],
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            },
+            {
+              "mBuffScriptName": "ASSETS/Perks/Styles/Resolve/Guardian/GuardianWillProtect.lua",
+              "mBuffSpellObject": {
+                "mBuff": {
+                  "mDescription": "buff_desc_Guardian_Ally",
+                  "__type": "BuffData"
+                },
+                "__type": "SpellObject"
+              },
+              "__type": "PerkBuff"
+            }
+          ],
+          "mVFXResourceResolver": {
+            "resourceMap": {
+              "Perks_Guardian_Active": "Perks/Styles/Resolve/Guardian/Particles/Perks_Guardian_Active",
+              "Perk_Guardian_Shield": "Perks/Styles/Resolve/Guardian/Particles/Perk_Guardian_Shield",
+              "Perk_Guardian_Break": "Perks/Styles/Resolve/Guardian/Particles/Perk_Guardian_Break",
+              "Perk_Guardian_GroundIndicator": "Perks/Styles/Resolve/Guardian/Particles/Perk_Guardian_GroundIndicator",
+              "Perk_Guardian_Mis": "Perks/Styles/Resolve/Guardian/Particles/Perk_Guardian_Mis",
+              "Perk_Guardian_Orb": "Perks/Styles/Resolve/Guardian/Particles/Perk_Guardian_Orb",
+              "Perks_Guardian_Timer": "Perks/Styles/Resolve/Guardian/Particles/Perks_Guardian_Timer",
+              "Perks_Guardian_Shield_AOE_Ally": "Perks/Styles/Resolve/Guardian/Particles/Perks_Guardian_Shield_AOE_Ally"
+            },
+            "__type": "ResourceResolver"
+          },
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_Guardian",
+            "resolvedKey": "perk_displayname_guardian",
+            "text": "守护者"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_Guardian",
+            "resolvedKey": "perk_tooltip_guardian",
+            "text": "{{ perk_shared_desc_Guardian }}<br><br>强度：<shield>@ShieldCalc@护盾值</shield>。<br>伤害阈值： <scaleAD>@ThresholdCalc@</scaleAD>折后伤害。<br>冷却时间：@CooldownCalc@秒。<br>已格挡的伤害总和：<healing>@f1@</healing>。"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_Guardian",
+            "resolvedKey": "perk_short_desc_guardian",
+            "text": "守护你选作技能目标的友军和那些距离你非常近的友军们。如果你和一个被守护的友军即将承受伤害，那么你们两个都会获得一层护盾。"
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_Guardian",
+            "resolvedKey": "perk_long_desc_guardian",
+            "text": "{{ perk_shared_desc_Guardian }}<br><br>冷却时间：<scaleLevel>@Cooldown@ ~@CooldownMaxLevel@</scaleLevel>秒<br>护盾值：<scaleLevel>@ShieldBase@~@ShieldMax@</scaleLevel>+你<scaleAP>@APRatio*100@%</scaleAP>法术强度+你<scalehealth>@HPRatio.0*100@%</scalehealth>额外生命值。<br>触发阈值：<scaleLevel>@ThresholdMin@~@ThresholdMax@</scaleLevel>折后伤害。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_Guardian",
+            "resolvedKey": "perk_display_stat_guardian",
+            "text": "@f1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "SnuggleRange": 350,
+            "ShieldBase": 40,
+            "ShieldMax": 150,
+            "APRatio": 0.20000000298023224,
+            "HPRatio": 0.05999999865889549,
+            "ShieldDuration": 1.5,
+            "Cooldown": 75,
+            "GuardDuration": 2.5,
+            "CooldownMaxLevel": 40,
+            "ThresholdMin": 50,
+            "ThresholdMax": 165
+          },
+          "calculations": {
+            "ThresholdCalc": {
+              "mSimpleTooltipCalculationDisplay": 4,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 40,
+                  "mEndValue": 150,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ShieldCalc": {
+              "mSimpleTooltipCalculationDisplay": 4,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 40,
+                  "mEndValue": 150,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mStatFormula": 2,
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 12,
+                  "mStatFormula": 2,
+                  "mDataValue": "HPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "CooldownCalc": {
+              "mSimpleTooltipCalculationDisplay": 4,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 75,
+                  "mEndValue": 40,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          },
+          "otherModeOverrides": [
+            "ARAM"
+          ],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Resolve/Guardian/Guardian.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/3/slots/0/runes/2",
+        "object": {
+          "id": 8465,
+          "key": "Guardian",
+          "icon": "perk-images/Styles/Resolve/Guardian/Guardian.png",
+          "name": "守护者",
+          "shortDesc": "守护你选作技能目标的友军和那些距离你非常近的友军们。如果你和一个被守护的友军即将承受伤害，那么你们两个都会获得一层护盾。",
+          "longDesc": "<i>守护</i>距离你350码内的友军，以及被你选为技能目标的友军2.5秒。当<i>守护</i>持续时，如果你或该友军在<i>守护</i>持续期间承受的伤害超过一定数额，那么你们两个都会获得一层持续1.5秒的护盾。<br><br>冷却时间：<scaleLevel>75 ~40</scaleLevel>秒<br>护盾值：<scaleLevel>40~150</scaleLevel>+你<scaleAP>20%</scaleAP>法术强度+你<scalehealth>6%</scalehealth>额外生命值。<br>触发阈值：<scaleLevel>50~165</scaleLevel>折后伤害。"
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "范围外",
+        "branches": [
+          {
+            "scope": "范围外",
+            "summary": "依赖友军守护关系的双方护盾",
+            "quote": "守护距离你350码内的友军",
+            "reason": "自身护盾也要求存在受守护友军，严格单挑不能独立触发；不抽出无条件自身护盾",
+            "evidence": {
+              "sourceId": 8465,
+              "field": "officialLong",
+              "exactText": "守护距离你350码内的友军"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "守护2500毫秒、护盾1500毫秒；冷却/护盾/阈值均含等级端点"
+        ],
+        "missingFacts": [],
+        "recordableComponents": [],
+        "sourceReferences": {
+          "official": "/3/slots/0/runes/2",
+          "client": "/80"
+        },
+        "missingSourceValueFacts": []
+      },
+      "decision": {
+        "disposition": "排除",
+        "scope": "范围外",
+        "reason": "自身护盾要求存在被守护的友军并与其共同触发，严格一对一没有独立合法触发条件。"
+      }
+    },
+    {
+      "id": 9105,
+      "runeKey": "rune_9105",
+      "skillKey": "rune_9105_passive",
+      "name": "传说：急速",
+      "category": "MINOR",
+      "current69EntryPath": "entries/32",
+      "client16_17": {
+        "sourcePath": "{3ecd47e5}",
+        "sourceObjectSha256": "22549efca8a42d8329c2f806877c0406cdca47a6a7c3aa4a448c83d32accbe75",
+        "object": {
+          "mPerkId": 9105,
+          "mPerkName": "LegendHaste",
+          "mDisplayNameLocalizationKey": "perk_displayname_9105",
+          "mTooltipNameLocalizationKey": "perk_tooltip_9105",
+          "mShortDescLocalizationKey": "perk_short_desc_LegendHaste",
+          "mLongDescLocalizationKey": "perk_long_desc_LegendHaste",
+          "mEndOfGameStatDescriptions": [
+            "perk_eog_stat_desc_LegendTimeCompleted"
+          ],
+          "mDisplayStatLocalizationKey": "perk_display_stat_LegendHaste",
+          "mIconTextureName": "assets/perks/styles/precision/legendhaste/legendhaste.tex",
+          "mScript": {
+            "mSpellScriptName": "ASSETS/Perks/Styles/Precision/LegendHaste/LegendHaste.lua",
+            "mSpellScriptData": {
+              "mEffectAmount": {
+                "HastePerStack": 1.5,
+                "HasteBase": 0,
+                "MaxLegendStacks": 10,
+                "{3e1fdd4a}": 100,
+                "{8fb410e2}": 100,
+                "{f6570baa}": 100,
+                "LargeMonsterKillValue": 25,
+                "MinionKillValue": 4
+              },
+              "__type": "PerkScriptData"
+            },
+            "__type": "PerkScript"
+          },
+          "__type": "Perk"
+        },
+        "bound": {
+          "mDisplayNameLocalizationKey": {
+            "sourceKey": "perk_displayname_9105",
+            "resolvedKey": "perk_displayname_9105",
+            "text": "传说：急速"
+          },
+          "mTooltipNameLocalizationKey": {
+            "sourceKey": "perk_tooltip_9105",
+            "resolvedKey": "perk_tooltip_9105",
+            "text": "{{perk_long_desc_LegendHaste}}<br><hr><br>已提供的基础技能急速总和：<scaleAD>@f1.1@</scaleAD> (<statGood>@f3@ / @MaxLegendStacks@</statGood>){{ perk_legend_next_stack_@f4@ }}"
+          },
+          "mShortDescLocalizationKey": {
+            "sourceKey": "perk_short_desc_LegendHaste",
+            "resolvedKey": "perk_short_desc_legendhaste",
+            "text": "<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>敌人将提供永久的基础技能<b>急速</b>。 "
+          },
+          "mLongDescLocalizationKey": {
+            "sourceKey": "perk_long_desc_LegendHaste",
+            "resolvedKey": "perk_long_desc_legendhaste",
+            "text": "每层<i>传说</i>效果提供1.5基础技能急速(<statGood>最大层数：@MaxLegendStacks@</statGood>)。<br><br>赚取<i>传说</i>层数进度的方式为：参与击杀英雄，参与击杀史诗级野怪，击杀大型野怪，击杀小兵。"
+          },
+          "mDisplayStatLocalizationKey": {
+            "sourceKey": "perk_display_stat_LegendHaste",
+            "resolvedKey": "perk_display_stat_legendhaste",
+            "text": "@f1.1@"
+          }
+        },
+        "summary": {
+          "effectAmounts": {
+            "HastePerStack": 1.5,
+            "HasteBase": 0,
+            "MaxLegendStacks": 10,
+            "{3e1fdd4a}": 100,
+            "{8fb410e2}": 100,
+            "{f6570baa}": 100,
+            "LargeMonsterKillValue": 25,
+            "MinionKillValue": 4
+          },
+          "calculations": {},
+          "otherModeOverrides": [],
+          "hasDefaultScript": true,
+          "scriptPath": "ASSETS/Perks/Styles/Precision/LegendHaste/LegendHaste.lua"
+        }
+      },
+      "official16_17_1": {
+        "path": "/2/slots/2/runes/1",
+        "object": {
+          "id": 9105,
+          "key": "LegendHaste",
+          "icon": "perk-images/Styles/Precision/LegendHaste/LegendHaste.png",
+          "name": "传说：急速",
+          "shortDesc": "<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>敌人将提供永久的基础技能<b>急速</b>。 ",
+          "longDesc": "每层<i>传说</i>效果提供1.5基础技能急速(<statGood>最大层数：10</statGood>)。<br><br>赚取<i>传说</i>层数进度的方式为：参与击杀英雄，参与击杀史诗级野怪，击杀大型野怪，击杀小兵。"
+        }
+      },
+      "machineScopeEvidence": {
+        "scope": "范围内",
+        "branches": [
+          {
+            "scope": "范围内",
+            "summary": "每层基础技能急速",
+            "quote": "每层传说效果提供1.5基础技能急速",
+            "reason": "保留英雄单挑中的伤害、治疗、资源、属性或条件组成",
+            "evidence": {
+              "sourceId": 9105,
+              "field": "officialLong",
+              "exactText": "每层传说效果提供1.5基础技能急速"
+            }
+          },
+          {
+            "scope": "保留依赖",
+            "summary": "传奇进度来源",
+            "quote": "击杀大型野怪，击杀小兵",
+            "reason": "该进度或条件影响范围内战斗收益；不模拟范围外对象战斗，但不能丢失已获得进度",
+            "evidence": {
+              "sourceId": 9105,
+              "field": "officialLong",
+              "exactText": "击杀大型野怪，击杀小兵"
+            }
+          }
+        ],
+        "confirmedFacts": [
+          "每层1.5基础技能急速，上限10"
+        ],
+        "missingFacts": [
+          "进度权重；基础技能集合不能误包含终极技能；层数来源与更新"
+        ],
+        "recordableComponents": [
+          "1.5、10参数与已确认层数公式；用指定基础技能范围的急速结果，不加全技能急速"
+        ],
+        "sourceReferences": {
+          "official": "/2/slots/2/runes/1",
+          "client": "/24"
+        },
+        "missingSourceValueFacts": [
+          "各类对象击杀提供的传奇进度权重"
+        ]
+      },
+      "decision": {
+        "disposition": "候选",
+        "scope": "范围内；保留自身基础技能急速和进度依赖",
+        "reason": "自身基础技能急速直接影响一对一技能；击杀进度的对象权重和基础技能集合保持为运行输入，纯进度来源不误删。"
+      }
+    }
+  ],
+  "selectedIds": [
+    5001,
+    5008,
+    8275,
+    8316,
+    8345,
+    8463,
+    9105
+  ],
+  "excludedIds": [
+    8135,
+    8137,
+    8140,
+    8141,
+    8306,
+    8321,
+    8360,
+    8446,
+    8465
+  ],
+  "noBusinessWrites": true
+}
