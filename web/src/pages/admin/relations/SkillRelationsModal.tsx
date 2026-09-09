@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { getErrorMessage } from '../../../services/apiClient';
 import { listCharacters } from '../../../services/characterClient';
 import { listEquipment } from '../../../services/equipmentClient';
+import { listRunes } from '../../../services/runeClient';
 import { getSkill, listSkills } from '../../../services/skillClient';
 import {
   createCharacterSkillRelation,
@@ -13,12 +14,17 @@ import {
   listCharacterSkillRelations,
   listEquipmentSkillRelations,
   updateCharacterSkillRelation,
-  updateEquipmentSkillRelation
+  updateEquipmentSkillRelation,
+  createRuneSkillRelation,
+  deleteRuneSkillRelation,
+  listRuneSkillRelations,
+  updateRuneSkillRelation
 } from '../../../services/skillRelationClient';
 import type { SkillStatus } from '../../../types/skill';
 import type {
   CharacterSkillRelation,
   EquipmentSkillRelation,
+  RuneSkillRelation,
   SkillRelationOwnerKind,
   SkillRelationTarget
 } from '../../../types/skillRelation';
@@ -59,14 +65,16 @@ type LoadedRelations = {
   scope: string;
   characters: CharacterSkillRelation[];
   equipment: EquipmentSkillRelation[];
+  runes: RuneSkillRelation[];
   characterOptions: SkillRelationOption[];
   equipmentOptions: SkillRelationOption[];
+  runeOptions: SkillRelationOption[];
   skillOptions: SkillRelationOption[];
   skillStatus: SkillStatus | null;
 };
 
 function initialDrafts(): Record<SkillRelationOwnerKind, SkillRelationAddDraft> {
-  return { character: emptySkillRelationDraft(), equipment: emptySkillRelationDraft() };
+  return { character: emptySkillRelationDraft(), equipment: emptySkillRelationDraft(), rune: emptySkillRelationDraft() };
 }
 
 export function SkillRelationsModal({
@@ -99,21 +107,25 @@ export function SkillRelationsModal({
     setLoading(true);
     setError(null);
     const next: LoadedRelations = {
-      scope, characters: [], equipment: [], characterOptions: [], equipmentOptions: [], skillOptions: [], skillStatus: null
+      scope, characters: [], equipment: [], runes: [], characterOptions: [], equipmentOptions: [], runeOptions: [], skillOptions: [], skillStatus: null
     };
     try {
       if (kind === 'skill') {
-        const [characters, equipment, characterOptions, equipmentOptions, skill] = await Promise.all([
+        const [characters, equipment, runes, characterOptions, equipmentOptions, runeOptions, skill] = await Promise.all([
           listCharacterSkillRelations(apiBaseUrl, selectedGameId, token, { skillKey: targetKey }),
           listEquipmentSkillRelations(apiBaseUrl, selectedGameId, token, { skillKey: targetKey }),
+          listRuneSkillRelations(apiBaseUrl, selectedGameId, token, { skillKey: targetKey }),
           listCharacters(apiBaseUrl, selectedGameId, token),
           listEquipment(apiBaseUrl, selectedGameId, token),
+          listRunes(apiBaseUrl, selectedGameId, token),
           getSkill(apiBaseUrl, selectedGameId, targetKey, token)
         ]);
         next.characters = characters.data.items;
         next.equipment = equipment.data.items;
+        next.runes = runes.data.items;
         next.characterOptions = skillRelationOptionsFromResponse(characterOptions.data, selectedGameId, 'character');
         next.equipmentOptions = skillRelationOptionsFromResponse(equipmentOptions.data, selectedGameId, 'equipment');
+        next.runeOptions = skillRelationOptionsFromResponse(runeOptions.data, selectedGameId, 'rune');
         const currentSkill = skillRelationOptionsFromResponse({ items: [skill.data], total: 1 }, selectedGameId, 'skill')[0];
         if (currentSkill.key !== targetKey) throw new Error('当前技能响应不符合接口约定。');
         next.skillStatus = currentSkill.status;
@@ -121,11 +133,13 @@ export function SkillRelationsModal({
         const [relations, skills] = await Promise.all([
           kind === 'character'
             ? listCharacterSkillRelations(apiBaseUrl, selectedGameId, token, { characterKey: targetKey })
+            : kind === 'rune' ? listRuneSkillRelations(apiBaseUrl, selectedGameId, token, { runeKey: targetKey })
             : listEquipmentSkillRelations(apiBaseUrl, selectedGameId, token, { equipmentKey: targetKey }),
           listSkills(apiBaseUrl, selectedGameId, token)
         ]);
         if (kind === 'character') next.characters = relations.data.items as CharacterSkillRelation[];
-        else next.equipment = relations.data.items as EquipmentSkillRelation[];
+        else if (kind === 'equipment') next.equipment = relations.data.items as EquipmentSkillRelation[];
+        else next.runes = relations.data.items as RuneSkillRelation[];
         next.skillOptions = skillRelationOptionsFromResponse(skills.data, selectedGameId, 'skill');
       }
       if (currentScope.current === scope && loadSerial.current === serial) setLoaded(next);
@@ -234,6 +248,7 @@ export function SkillRelationsModal({
     void write(
       () => ownerKind === 'character'
         ? createCharacterSkillRelation(apiBaseUrl, selectedGameId, token, { characterKey: ownerKey, skillKey, sortOrder })
+        : ownerKind === 'rune' ? createRuneSkillRelation(apiBaseUrl, selectedGameId, token, { runeKey: ownerKey, skillKey, sortOrder })
         : createEquipmentSkillRelation(apiBaseUrl, selectedGameId, token, { equipmentKey: ownerKey, skillKey, sortOrder }),
       () => setDrafts(previous => ({ ...previous, [ownerKind]: emptySkillRelationDraft() })),
       '技能挂载已添加。'
@@ -248,6 +263,7 @@ export function SkillRelationsModal({
     void write(
       () => row.kind === 'character'
         ? updateCharacterSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey, token, { sortOrder })
+        : row.kind === 'rune' ? updateRuneSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey, token, { sortOrder })
         : updateEquipmentSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey, token, { sortOrder }),
       () => removeSortDraft(row.identity), '挂载顺序已保存。'
     );
@@ -258,13 +274,14 @@ export function SkillRelationsModal({
     void write(
       () => row.kind === 'character'
         ? deleteCharacterSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey, token)
+        : row.kind === 'rune' ? deleteRuneSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey, token)
         : deleteEquipmentSkillRelation(apiBaseUrl, selectedGameId, row.ownerKey, row.skillKey, token),
       () => removeSortDraft(row.identity), '技能挂载已移除。'
     );
   };
 
   const renderSection = (ownerKind: SkillRelationOwnerKind) => {
-    const ownerLabel = ownerKind === 'character' ? '角色' : '装备';
+    const ownerLabel = ownerKind === 'character' ? '角色' : ownerKind === 'equipment' ? '装备' : '符文';
     const rows: RelationRow[] = ownerKind === 'character'
       ? (data?.characters ?? []).map(item => ({
         identity: skillRelationIdentity(ownerKind, item.characterKey, item.skillKey),
@@ -273,7 +290,13 @@ export function SkillRelationsModal({
         key: kind === 'skill' ? item.characterKey : item.skillKey,
         skillStatus: item.skillStatus, sortOrder: item.sortOrder
       }))
-      : (data?.equipment ?? []).map(item => ({
+      : ownerKind === 'rune' ? (data?.runes ?? []).map(item => ({
+        identity: skillRelationIdentity(ownerKind, item.runeKey, item.skillKey),
+        kind: ownerKind, ownerKey: item.runeKey, skillKey: item.skillKey,
+        name: kind === 'skill' ? item.runeName : item.skillName,
+        key: kind === 'skill' ? item.runeKey : item.skillKey,
+        skillStatus: item.skillStatus, sortOrder: item.sortOrder
+      })) : (data?.equipment ?? []).map(item => ({
         identity: skillRelationIdentity(ownerKind, item.equipmentKey, item.skillKey),
         kind: ownerKind, ownerKey: item.equipmentKey, skillKey: item.skillKey,
         name: kind === 'skill' ? item.equipmentName : item.skillName,
@@ -281,7 +304,7 @@ export function SkillRelationsModal({
         skillStatus: item.skillStatus, sortOrder: item.sortOrder
       }));
     const options = availableSkillRelationOptions(
-      kind === 'skill' ? (ownerKind === 'character' ? data?.characterOptions ?? [] : data?.equipmentOptions ?? []) : data?.skillOptions ?? [],
+      kind === 'skill' ? (ownerKind === 'character' ? data?.characterOptions ?? [] : ownerKind === 'rune' ? data?.runeOptions ?? [] : data?.equipmentOptions ?? []) : data?.skillOptions ?? [],
       rows.map(row => row.key)
     );
     const canAdd = ready && (kind !== 'skill' || data?.skillStatus === 'ENABLED');
@@ -385,6 +408,7 @@ export function SkillRelationsModal({
       ) : null}
       {kind === 'character' || kind === 'skill' ? renderSection('character') : null}
       {kind === 'equipment' || kind === 'skill' ? renderSection('equipment') : null}
+      {kind === 'rune' || kind === 'skill' ? renderSection('rune') : null}
     </Modal>
   );
 }
