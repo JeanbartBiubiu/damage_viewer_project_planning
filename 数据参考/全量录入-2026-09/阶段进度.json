@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T03:58:09.479Z",
+  "generatedAt": "2026-09-09T04:07:12.456Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -89,7 +89,7 @@
     "status": "181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理"
   },
   "images": {
-    "objectUses": 1334,
+    "objectUses": 1346,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
@@ -133,11 +133,12 @@
     "runeIdentityUses": 69,
     "runePathUses": 5,
     "runeEvidence": "API实录/符文基础资料第一批/页面验收.json",
-    "additionalRuneSkillRepresentativeReuses": 29,
+    "additionalRuneSkillRepresentativeReuses": 41,
     "additionalRuneSkillEvidence": [
       "API实录/符文效果第一批/页面验收.json",
       "API实录/符文效果第二批/页面验收.json",
-      "API实录/符文效果第三批/页面验收.json"
+      "API实录/符文效果第三批/页面验收.json",
+      "API实录/符文效果第四批/页面验收.json"
     ]
   },
   "runes": {
@@ -153,7 +154,7 @@
     "evidence": "API实录/符文基础资料第一批/接口录入/独立核对汇总-20260909005419486.json",
     "browserEvidence": "API实录/符文基础资料第一批/页面验收.json",
     "runtimeValidation": "未执行",
-    "mechanismStatus": "29符文/碎片技能已挂载；已有明确参数、公式和独立效果，完整资格/时序及其他来源缺口继续处理",
+    "mechanismStatus": "41符文/碎片技能已挂载；已保存确定参数、公式和独立效果，完整资格/时序及其他来源缺口继续处理",
     "scopeReview": {
       "ordinaryRunes": 62,
       "within": 43,
@@ -1305,6 +1306,36 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第九批/页面验收.json",
         "commit": "de8447ac"
       }
+    },
+    "runeFourthBatch": {
+      "skills": [
+        "rune_8112_passive",
+        "rune_8126_passive",
+        "rune_8139_passive",
+        "rune_8143_passive",
+        "rune_9923_passive",
+        "rune_8439_passive",
+        "rune_9101_passive",
+        "rune_8233_passive",
+        "rune_8214_passive",
+        "rune_8229_passive",
+        "rune_8237_passive",
+        "rune_8232_passive"
+      ],
+      "parameters": 78,
+      "formulas": 17,
+      "effects": 1,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "runeRelations": 12,
+      "representativeImageReuses": 12,
+      "status": "132次写入回读一致；独立520GET、另57实值GET及21算例和3门槛算例、3页面与50页面后GET通过；等级曲线/条件及完整机制仍待补。",
+      "executor": "主负责人准备候选、接口写入和页面；Luna Max独立审查与实值核算",
+      "evidence": "API实录/符文效果第四批/实际录入结果.json",
+      "browserEvidence": "API实录/符文效果第四批/页面验收.json",
+      "finalSha256": "babcff78cd3b9bbc8dfe4b775b48358a6a548ce6a494f66f01f8ede80ec9e83c",
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行"

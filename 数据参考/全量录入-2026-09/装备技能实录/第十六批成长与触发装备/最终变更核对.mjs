@@ -5,18 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const planningDir = path.resolve(
-  here,
-  '..',
-  '..',
-  '..',
-  '..',
-  'damage_viewer_project_planning',
-  '数据参考',
-  '全量录入-2026-09',
-  '装备技能实录',
-  '第十六批成长与触发装备'
-);
+const planningDir = here;
 const files = {
   current: path.join(planningDir, '完整候选.json'),
   previous: path.join(planningDir, '完整候选-主审前.json'),
