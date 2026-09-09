@@ -1,0 +1,65 @@
+{
+  "at": "2026-09-09T05:42:06.490Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/akali_w/effects/smoke_energy_capacity",
+  "id": "smoke_energy_capacity",
+  "method": "POST",
+  "body": {
+    "effectKey": "smoke_energy_capacity",
+    "name": "烟幕期间额外最大能量",
+    "description": "当前正文明确烟幕激活期间最大能量增加100；烟幕结束移除，实际中断或延长尚未连接。",
+    "sortOrder": 10,
+    "lifecycle": {
+      "durationValue": {
+        "kind": "PARAMETER",
+        "parameterKey": "smoke_duration_ms"
+      },
+      "maxStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "applicationStacksValue": {
+        "kind": "FIXED",
+        "value": 1
+      },
+      "instanceScope": "SOURCE",
+      "reapplicationStackMode": "KEEP",
+      "reapplicationDurationMode": "REFRESH_ALL",
+      "expiryMode": "ALL_AT_ONCE",
+      "periodicIntervalValue": null,
+      "firstPeriodicExecution": null
+    },
+    "results": [
+      {
+        "resultKey": "attribute",
+        "name": "烟幕期间额外最大能量",
+        "resultType": "ATTRIBUTE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": {
+          "moment": "PERSISTENT",
+          "valueReadMode": "APPLICATION_SNAPSHOT",
+          "stackValueMode": "SHARED",
+          "reapplicationValueMode": "REPLACE",
+          "periodicExecutionMode": null
+        },
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "energy_amount"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "energy",
+          "operation": "INCREASE",
+          "modifierZoneKey": "attribute_flat_add"
+        }
+      }
+    ]
+  }
+}

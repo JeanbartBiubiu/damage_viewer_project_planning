@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T05:43:55.161Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/cassiopeia_p/formulas/additional_move_speed_bonus",
+  "id": "additional_move_speed_bonus",
+  "method": "POST",
+  "body": {
+    "formulaKey": "additional_move_speed_bonus",
+    "name": "合格移速加成额外数值",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "qualified_move_speed_bonus"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "move_speed_bonus_efficiency_ratio_level_value"
+        }
+      ]
+    },
+    "description": "仅提升符合条件的加成部分；不直接把总移速乘同一比率。",
+    "sortOrder": 20
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T05:43:00.769Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/kassadin_r/parameters/per_stack_base_damage",
+  "id": "per_stack_base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "per_stack_base_damage",
+    "name": "每层额外基础伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 35,
+      "2": 45,
+      "3": 55
+    },
+    "description": "客户端当前根绑定 DataValues.StackDamage 取索引1至3。",
+    "sortOrder": 40
+  }
+}

@@ -1,0 +1,678 @@
+{
+  "at": "2026-09-09T06:15:48.237Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "success": true,
+  "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "method": "主负责人真实浏览器只读查看，全部弹窗关闭；未保存草稿。",
+  "pages": [
+    {
+      "skillKey": "akali_w",
+      "verified": "主表代表图；烟幕期间最大能量增加100的生命周期效果与回复100能量的独立资源效果分开，属性为能量值及固定加算，非魔法值；结束和施加次序尚未接线。"
+    },
+    {
+      "skillKey": "kassadin_r",
+      "verified": "已有实际层数、未知原资源节点显示计算时传入。法力成本说明限定整数0/1/2/3/4对应40/80/160/320/640，中文预览为有限域等价表达式；未把复用基础40再次扣费。"
+    },
+    {
+      "skillKey": "ryze_p",
+      "verified": "最大法力增幅比例中文预览读取施法者法强总值并转换百分比点；说明AP100显示10%，实际比例0.1；未构造基数未证的反馈增幅效果。"
+    }
+  ],
+  "independentGets": 21,
+  "gets": [
+    {
+      "route": "/skills/akali_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:15.899823Z",
+        "description": "阿卡丽扔下一颗烟幕弹并暂时提供移动速度。在烟幕中时，阿卡丽会变为隐形状态并且不会被敌方的技能和攻击所选中。进行攻击或使用技能都将使阿卡丽短暂显形。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿卡丽·我流奥义！霞阵",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "akali_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:15.899823Z"
+      }
+    },
+    {
+      "route": "/skills/kassadin_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:53.825502Z",
+        "description": "卡萨丁传送到附近区域，对区域内的敌方单位造成伤害。 在一段时间内连续施放虚空行走技能会消耗更多的法力值，但也会造成额外伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡萨丁·虚空行走",
+        "skillCategoryKeys": [],
+        "skillKey": "kassadin_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:53.825502Z"
+      }
+    },
+    {
+      "route": "/skills/ryze_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:07.887908Z",
+        "description": "<mainText>瑞兹的技能会造成基于他法力值加成的额外伤害，并且他的最大法力值会基于他的法术强度来获得百分比的提升。</mainText>（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "瑞兹·奥术专精",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "ryze_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:07.887908Z"
+      }
+    },
+    {
+      "route": "/skills/akali_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T05:42:03.547826Z",
+          "description": "客户端当前根绑定 DataValues.MovementSpeed 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.3,
+            "2": 0.35,
+            "3": 0.4,
+            "4": 0.45,
+            "5": 0.5
+          },
+          "name": "初始移动速度增益比例",
+          "parameterKey": "initial_move_speed_ratio",
+          "skillKey": "akali_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:42:03.547826Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T05:42:04.389591Z",
+          "description": "客户端当前根绑定 DataValues.EnergyRestore 取索引1至5。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "能量上限增加及回复数值",
+          "parameterKey": "energy_amount",
+          "skillKey": "akali_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T05:42:04.389591Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:42:05.518953Z",
+          "description": "客户端当前根绑定 DataValues.BaseDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 5000,
+            "2": 5500,
+            "3": 6000,
+            "4": 6500,
+            "5": 7000
+          },
+          "name": "当前烟幕持续（毫秒）",
+          "parameterKey": "smoke_duration_ms",
+          "skillKey": "akali_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T05:42:05.518953Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:42:06.458853Z",
+          "description": "客户端当前根绑定 DataValues.MovementSpeedDuration 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "移动速度衰减持续（毫秒）",
+          "parameterKey": "move_speed_decay_duration_ms",
+          "skillKey": "akali_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:42:06.458853Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:35:47.995235Z",
+          "description": "DDragon16.17.1 Akali.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20000,
+            "2": 19000,
+            "3": 18000,
+            "4": 17000,
+            "5": 16000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "akali_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:35:47.995235Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/akali_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/akali_w/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T05:42:07.389595Z",
+          "description": "当前正文明确烟幕激活期间最大能量增加100；烟幕结束移除，实际中断或延长尚未连接。",
+          "effectKey": "smoke_energy_capacity",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "烟幕期间额外最大能量",
+          "resultCount": 1,
+          "skillKey": "akali_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T05:42:07.389595Z"
+        },
+        {
+          "createdAt": "2026-09-09T05:42:08.357007Z",
+          "description": "当前绑定keyCost明确回复100能量；与最大能量增加分别保存，真实施放中应用次序、上限裁剪与结束须接线。",
+          "effectKey": "smoke_energy_restore",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "烟幕回复能量",
+          "resultCount": 1,
+          "skillKey": "akali_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:42:08.357007Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/akali_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/akali_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/akali_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kassadin_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T05:42:59.921285Z",
+          "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "kassadin_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:42:59.921285Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:00.774558Z",
+          "description": "客户端当前根绑定 DataValues.RBaseDamage 取索引1至3。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 90,
+            "3": 110
+          },
+          "name": "基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "kassadin_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T05:43:00.774558Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:01.677205Z",
+          "description": "客户端当前根绑定 DataValues.StackDamage 取索引1至3。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 35,
+            "2": 45,
+            "3": 55
+          },
+          "name": "每层额外基础伤害",
+          "parameterKey": "per_stack_base_damage",
+          "skillKey": "kassadin_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T05:43:01.677205Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:02.682391Z",
+          "description": "客户端当前根绑定 DataValues.APRatio 取索引1至3。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法强系数",
+          "parameterKey": "ap_ratio",
+          "skillKey": "kassadin_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:43:02.682391Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:03.658036Z",
+          "description": "客户端当前根绑定 DataValues.APStackRatio 取索引1至3。",
+          "fixedValue": 0.07,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层法强系数",
+          "parameterKey": "per_stack_ap_ratio",
+          "skillKey": "kassadin_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T05:43:03.658036Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:04.569714Z",
+          "description": "客户端当前根绑定 DataValues.RStackDuration 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+          "fixedValue": 15000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "连续施放窗口（毫秒）",
+          "parameterKey": "stack_duration_ms",
+          "skillKey": "kassadin_r",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T05:43:04.569714Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:05.52348Z",
+          "description": "客户端当前根绑定 DataValues.MaxStacks 取索引1至3。",
+          "fixedValue": 4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最多额外层数",
+          "parameterKey": "max_stacks",
+          "skillKey": "kassadin_r",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T05:43:05.52348Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:06.378233Z",
+          "description": "客户端当前根绑定 DataValues.RBaseCost 取索引1至3。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "首发法力成本",
+          "parameterKey": "base_mana_cost",
+          "skillKey": "kassadin_r",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T05:43:06.378233Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:07.251592Z",
+          "description": "角色使用法力不等于该节点取最大/当前/额外法力；本原节点口径未具名证明，必须外供实际值，不默认最大法力。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "原技能资源节点的已确认实际值",
+          "parameterKey": "confirmed_ability_resource_0_value",
+          "skillKey": "kassadin_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T05:43:07.251592Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:46.02266Z",
+          "description": "DDragon16.17.1 Kassadin.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 5000,
+            "2": 3500,
+            "3": 2000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "kassadin_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:46.02266Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:46.344557Z",
+          "description": "DDragon16.17.1 Kassadin.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。此40法力仅为零层数基础消耗，连续施放的层数倍率另行配置。",
+          "fixedValue": 40,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "kassadin_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:46.344557Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:08.134013Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.02,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "首发魔法伤害固定系数",
+          "parameterKey": "calculation_constant_1",
+          "skillKey": "kassadin_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T05:43:08.134013Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:09.10206Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层额外魔法伤害固定系数",
+          "parameterKey": "calculation_constant_2",
+          "skillKey": "kassadin_r",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T05:43:09.10206Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:10.04997Z",
+          "description": "只接受已确认的整数0至4，不默认满层或0层。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "本次施放前实际连续层数",
+          "parameterKey": "actual_prior_cast_stacks",
+          "skillKey": "kassadin_r",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T05:43:10.04997Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:10.964359Z",
+          "description": "只用于整数0至4翻倍成本的等价二元运算，不是未知输入默认值。",
+          "fixedValue": 0,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "有限层数算术常数0",
+          "parameterKey": "integer_0",
+          "skillKey": "kassadin_r",
+          "sortOrder": 140,
+          "updatedAt": "2026-09-09T05:43:10.964359Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:11.885753Z",
+          "description": "只用于整数0至4翻倍成本的等价二元运算，不是未知输入默认值。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "有限层数算术常数1",
+          "parameterKey": "integer_1",
+          "skillKey": "kassadin_r",
+          "sortOrder": 150,
+          "updatedAt": "2026-09-09T05:43:11.885753Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:12.753796Z",
+          "description": "只用于整数0至4翻倍成本的等价二元运算，不是未知输入默认值。",
+          "fixedValue": 2,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "有限层数算术常数2",
+          "parameterKey": "integer_2",
+          "skillKey": "kassadin_r",
+          "sortOrder": 160,
+          "updatedAt": "2026-09-09T05:43:12.753796Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:13.705785Z",
+          "description": "只用于整数0至4翻倍成本的等价二元运算，不是未知输入默认值。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "有限层数算术常数3",
+          "parameterKey": "integer_3",
+          "skillKey": "kassadin_r",
+          "sortOrder": 170,
+          "updatedAt": "2026-09-09T05:43:13.705785Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:14.510479Z",
+          "description": "只用于整数0至4翻倍成本的等价二元运算，不是未知输入默认值。",
+          "fixedValue": 4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "有限层数算术常数4",
+          "parameterKey": "integer_4",
+          "skillKey": "kassadin_r",
+          "sortOrder": 180,
+          "updatedAt": "2026-09-09T05:43:14.510479Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kassadin_r/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T05:43:15.325203Z",
+          "description": "资源节点口径未具名证明，用无默认实际输入保留0.02资源项；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "base_damage_amount",
+          "gameId": "lol",
+          "name": "首发魔法伤害",
+          "skillKey": "kassadin_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T05:43:15.325203Z"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:16.234674Z",
+          "description": "同一未知资源口径，显式0.01系数；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "per_stack_damage",
+          "gameId": "lol",
+          "name": "每层额外魔法伤害",
+          "skillKey": "kassadin_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:43:16.234674Z"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:17.122571Z",
+          "description": "首发基础加每层额外伤害乘真实此前层数；资源口径未知部分必须供值。",
+          "formulaKey": "actual_damage",
+          "gameId": "lol",
+          "name": "当前层数完整魔法伤害",
+          "skillKey": "kassadin_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T05:43:17.122571Z"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:18.143111Z",
+          "description": "仅整数层数0/1/2/3/4，分别40/80/160/320/640；当前公式不支持幂，用此有限域严格等价展开。非整数或越界不能传入。",
+          "formulaKey": "actual_mana_cost",
+          "gameId": "lol",
+          "name": "当前实际层数法力成本",
+          "skillKey": "kassadin_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T05:43:18.143111Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kassadin_r/effects",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T05:43:19.043925Z",
+          "description": "消耗动态公式而非固定40；实际层数及15秒窗口更新尚未接线。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "本次虚空行走实际法力消耗",
+          "resultCount": 1,
+          "skillKey": "kassadin_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T05:43:19.043925Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kassadin_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kassadin_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/kassadin_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ryze_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T05:43:19.986584Z",
+          "description": "客户端当前根绑定 DataValues.PercentManaIncrease 取索引1至1。",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "源法力增幅显示系数",
+          "parameterKey": "mana_gain_tooltip_coefficient",
+          "skillKey": "ryze_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T05:43:19.986584Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:20.986841Z",
+          "description": "当前原计算树显式常数；只用于此数学表达式。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "法力增幅百分比点固定系数",
+          "parameterKey": "calculation_constant_1",
+          "skillKey": "ryze_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:43:20.986841Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:21.856138Z",
+          "description": "百分比点除100。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "百分比点转比例",
+          "parameterKey": "percent_points_to_ratio",
+          "skillKey": "ryze_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T05:43:21.856138Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ryze_p/formulas",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T05:43:22.885771Z",
+          "description": "当前树为0.01×AP×10，正文再显示百分号；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+          "formulaKey": "mana_gain_percentage_points",
+          "gameId": "lol",
+          "name": "法力增幅百分比点",
+          "skillKey": "ryze_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T05:43:22.885771Z"
+        },
+        {
+          "createdAt": "2026-09-09T05:43:23.814974Z",
+          "description": "AP100时显示10%，实际比例0.1；不能把显示10当比例10。属性基数和反馈合并未连接。",
+          "formulaKey": "maximum_mana_bonus_ratio",
+          "gameId": "lol",
+          "name": "最大法力值增幅比例",
+          "skillKey": "ryze_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:43:23.814974Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/ryze_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ryze_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ryze_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/ryze_p/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "runtimeValidation": "未执行"
+}

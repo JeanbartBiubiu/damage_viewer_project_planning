@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T05:44:20.973Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/cassiopeia_e/formulas/small_unit_poison_heal",
+  "id": "small_unit_poison_heal",
+  "method": "POST",
+  "body": {
+    "formulaKey": "small_unit_poison_heal",
+    "name": "小兵及小型野怪目标自身恢复",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "small_unit_heal_ratio"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "poison_heal_ap_ratio"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "当前明确降低至四分之一；保留战前自身恢复依赖；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 50
+  }
+}

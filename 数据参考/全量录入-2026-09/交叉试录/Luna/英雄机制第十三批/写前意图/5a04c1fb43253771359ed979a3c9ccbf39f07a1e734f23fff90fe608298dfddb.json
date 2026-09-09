@@ -1,0 +1,29 @@
+{
+  "at": "2026-09-09T05:44:20.113Z",
+  "candidateFileSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+  "route": "/skills/cassiopeia_e/formulas/poison_heal",
+  "id": "poison_heal",
+  "method": "POST",
+  "body": {
+    "formulaKey": "poison_heal",
+    "name": "攻击中毒目标自身恢复量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "SOURCE",
+          "attributeKey": "ability_power",
+          "attributeValueKind": "TOTAL"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "poison_heal_ap_ratio"
+        }
+      ]
+    },
+    "description": "当前树仅AP乘逐级HealRatio，不凭旧知识添基础恢复；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 40
+  }
+}
