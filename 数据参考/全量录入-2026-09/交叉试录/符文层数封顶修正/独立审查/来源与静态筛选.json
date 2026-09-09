@@ -1,0 +1,575 @@
+{
+  "at": "2026-09-09T07:18:47.996Z",
+  "versions": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sourceFiles": [
+    {
+      "file": "API实录/符文客户端数值补证/perks-16.17.cdtb.bin.json.gz",
+      "compressedSha256": "141a289f8b83c543c108930675088ec1e5bd0f482799d2677a436f0ff9e65fac",
+      "rawSha256": "1427c70c4d1172198a1a9787362224c871a90cc4f66f3f769ef5830cbcd401b1"
+    },
+    {
+      "file": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "compressedSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "rawSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "file": "装备符文/官方原始资料/runesReforged-16.17.1-zh_CN.json",
+      "sha256": "a6330b50b15a735d5b33543d5485d5ce3abac6b6e310a2182f70327ee5484ab0"
+    }
+  ],
+  "candidateFiles": [
+    {
+      "file": "符文效果第一批/候选与边界.json",
+      "sha256": "0536707d23a90f95f3affe07f85b000c86f1b33cfe867d4600f4957059298177"
+    },
+    {
+      "file": "符文效果第二批/可审查请求.json",
+      "sha256": "45942778a468d2b1c9557ecd3c052ff9c54c514087b7659ae801c71b1d780095"
+    },
+    {
+      "file": "符文效果第三批/可审查候选.json",
+      "sha256": "0cd6c337bcdd6279b24d23313579c66da376fb5e5b6e41951aa5f7b2d74d5678"
+    },
+    {
+      "file": "符文效果第四批/可审查候选.json",
+      "sha256": "78f899001fd93c3b208bfbbb22d9408919c3ba8b6c17f53a1e5684924fddab73"
+    },
+    {
+      "file": "符文效果第五批/可审查候选.json",
+      "sha256": "f5f26d7af95018aa4021fbb4c8107211b0bd9fc04a5f684762b93800ee18a3fe"
+    }
+  ],
+  "staticMatches": [
+    {
+      "file": "符文效果第二批/可审查请求.json",
+      "path": "/requests/3/body",
+      "parameter": {
+        "parameterKey": "maximum_legend_stacks",
+        "name": "传奇层数上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "官方最大层数10",
+        "sortOrder": 10
+      }
+    },
+    {
+      "file": "符文效果第二批/可审查请求.json",
+      "path": "/requests/40/body",
+      "parameter": {
+        "parameterKey": "maximum_stacks",
+        "name": "推导的合法提升次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 10,
+        "levelValues": null,
+        "description": "250/25=10，不把它当已经拥有10层",
+        "sortOrder": 10
+      }
+    },
+    {
+      "file": "符文效果第二批/可审查请求.json",
+      "path": "/requests/85/body",
+      "parameter": {
+        "parameterKey": "maximum_legend_stacks",
+        "name": "传奇层数上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15,
+        "levelValues": null,
+        "description": "上限15",
+        "sortOrder": 10
+      }
+    },
+    {
+      "file": "符文效果第五批/可审查候选.json",
+      "path": "/proposals/1/parameters/1",
+      "parameter": {
+        "parameterKey": "max_stacks",
+        "name": "层数上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "file": "符文效果第五批/可审查候选.json",
+      "path": "/proposals/2/parameters/3",
+      "parameter": {
+        "parameterKey": "max_stacks",
+        "name": "最大层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 12,
+        "levelValues": null,
+        "description": "当前普通模式绑定数值。",
+        "sortOrder": 40
+      }
+    }
+  ],
+  "selected": [
+    {
+      "id": 9103,
+      "skillKey": "rune_9103_passive",
+      "sourcePath": "Perks/Styles/Precision/LegendBloodline",
+      "sourceObjectSha256": "b669cc49b39207c0badfab59ef8f0bc763b83a68fa6b898242ed35750dafa709",
+      "raw": {
+        "mPerkId": 9103,
+        "mPerkName": "LegendBloodline",
+        "mDisplayNameLocalizationKey": "perk_displayname_9103",
+        "mTooltipNameLocalizationKey": "perk_tooltip_9103",
+        "mShortDescLocalizationKey": "perk_short_desc_LegendBloodline",
+        "mLongDescLocalizationKey": "perk_long_desc_LegendBloodline",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_LegendTimeCompleted"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_percent100",
+        "mIconTextureName": "assets/perks/styles/precision/legendbloodline/legendbloodline.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Precision/LegendBloodline/LegendBloodline.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "LifeStealPerStack": 0.44999998807907104,
+              "LifeStealBase": 0,
+              "MaxLegendStacks": 15,
+              "{3e1fdd4a}": 100,
+              "{8fb410e2}": 100,
+              "{f6570baa}": 100,
+              "LargeMonsterKillValue": 25,
+              "MinionKillValue": 4,
+              "BonusHealth": 85
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mVFXResourceResolver": {
+          "__type": "ResourceResolver"
+        },
+        "__type": "Perk"
+      },
+      "bindings": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_9103",
+          "text": "传说：血统"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_LegendBloodline",
+          "text": "每层<i>传说</i>效果提供<scaleAD>@LifeStealPerStack.2@%生命偷取</scaleAD>(<statGood>最大层数：@MaxLegendStacks@</statGood>)。在满层<i>传说</i>后，提供<scaleHealth>@BonusHealth@最大生命值</scaleHealth>。<br><br>赚取<i>传说</i>层数进度的方式为：参与击杀英雄，参与击杀史诗级野怪、击杀大型野怪，击杀小兵。"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_9103",
+          "text": "{{perk_long_desc_LegendBloodline}}<br><hr><br>提供的生命偷取总和：<scaleAD>@f1*100@%</scaleAD> (<statGood>@f3@/@MaxLegendStacks@</statGood>){{ perk_legend_next_stack_@f4@ }}<br>"
+        }
+      },
+      "official": {
+        "id": 9103,
+        "key": "LegendBloodline",
+        "icon": "perk-images/Styles/Precision/LegendBloodline/LegendBloodline.png",
+        "name": "传说：血统",
+        "shortDesc": "<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>敌方英雄会永久提升<b>生命偷取</b>。直到达到上限。一旦达到上限，就会提升你的最大生命值。相对其它传说符文来说，前期更弱但后期更强。",
+        "longDesc": "每层<i>传说</i>效果提供<scaleAD>0.45%生命偷取</scaleAD>(<statGood>最大层数：15</statGood>)。在满层<i>传说</i>后，提供<scaleHealth>85最大生命值</scaleHealth>。<br><br>赚取<i>传说</i>层数进度的方式为：参与击杀英雄，参与击杀史诗级野怪、击杀大型野怪，击杀小兵。"
+      }
+    },
+    {
+      "id": 9104,
+      "skillKey": "rune_9104_passive",
+      "sourcePath": "Perks/Styles/Precision/LegendAlacrity",
+      "sourceObjectSha256": "10636562aa9a3943832caf6bbf56ba3b142b177a5d77f60af774e14621d657ab",
+      "raw": {
+        "mPerkId": 9104,
+        "mPerkName": "LegendAlacrity",
+        "mDisplayNameLocalizationKey": "perk_displayname_9104",
+        "mTooltipNameLocalizationKey": "perk_tooltip_9104",
+        "mShortDescLocalizationKey": "perk_short_desc_LegendHeroism",
+        "mLongDescLocalizationKey": "perk_long_desc_LegendHeroism",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_LegendTimeCompleted"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_percent100",
+        "mIconTextureName": "assets/perks/styles/precision/legendalacrity/legendalacrity.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Precision/LegendAlacrity/LegendAlacrity.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "AttackSpeedPerStack": 0.014999999664723873,
+              "AttackSpeedBase": 0.029999999329447746,
+              "MaxLegendStacks": 10,
+              "{3e1fdd4a}": 100,
+              "{8fb410e2}": 100,
+              "{f6570baa}": 100,
+              "LargeMonsterKillValue": 25,
+              "MinionKillValue": 4
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mDefault": true,
+        "__type": "Perk"
+      },
+      "bindings": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_9104",
+          "text": "传说：欢欣"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_LegendHeroism",
+          "text": "获得@AttackSpeedBase*100@%攻击速度，此外每层<i>传奇</i>效果额外提供@AttackSpeedPerStack*100@%攻击速度(<statGood>最大层数：@MaxLegendStacks@</statGood>)。<br><br>赚取<i>传奇</i>层数进度的方式为：参与击杀英雄，参与击杀史诗级野怪，击杀大型野怪，击杀小兵。"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_9104",
+          "text": "{{perk_long_desc_LegendHeroism}}<br><hr><br>总计增加的攻击速度：<scaleAD>@f1*100@%</scaleAD> (<statGood>@f3@ / @MaxLegendStacks@</statGood>){{ perk_legend_next_stack_@f4@ }}"
+        }
+      },
+      "official": {
+        "id": 9104,
+        "key": "LegendAlacrity",
+        "icon": "perk-images/Styles/Precision/LegendAlacrity/LegendAlacrity.png",
+        "name": "传说：欢欣",
+        "shortDesc": "<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Takedown'>参与击杀</lol-uikit-tooltipped-keyword>敌人将提供永久的<b>攻击速度</b>。",
+        "longDesc": "获得3%攻击速度，此外每层<i>传奇</i>效果额外提供1.5%攻击速度(<statGood>最大层数：10</statGood>)。<br><br>赚取<i>传奇</i>层数进度的方式为：参与击杀英雄，参与击杀史诗级野怪，击杀大型野怪，击杀小兵。"
+      }
+    },
+    {
+      "id": 8010,
+      "skillKey": "rune_8010_passive",
+      "sourcePath": "Perks/Styles/Precision/Conqueror",
+      "sourceObjectSha256": "c518745288bc82b9618ebaea81226c6e4a9a9d33b0b7a6119888ee75691654bd",
+      "raw": {
+        "mPerkId": 8010,
+        "mPerkName": "Conqueror",
+        "mDisplayNameLocalizationKey": "perk_displayname_Conqueror",
+        "mTooltipNameLocalizationKey": "perk_tooltip_Conqueror",
+        "mShortDescLocalizationKey": "perk_short_desc_Conqueror",
+        "mLongDescLocalizationKey": "perk_long_desc_Conqueror",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_Conqueror"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_total",
+        "mIconTextureName": "assets/perks/styles/precision/conqueror/conqueror.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Precision/Conqueror/Conqueror.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "MinAdaptivePerStack": 1.7999999523162842,
+              "MaxAdaptivePerStack": 4,
+              "MaxStacks": 12,
+              "BuffDuration": 5,
+              "TimeUntilNextStackFromSameSpell": 4,
+              "HealingPercent": 0.07999999821186066,
+              "RangedHealingPercent": 0.05000000074505806
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mBuffs": [
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/Conqueror/Conqueror.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_Conqueror_Stacking",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/Conqueror/ConquerorONH.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_Conqueror_ONH",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/Conqueror/ConquerorEnrage.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_Conqueror_Enrage",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          }
+        ],
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "Perks_Conqueror_Activate": "Perks/Styles/Precision/Conqueror/Particles/Perks_Conqueror_Activate",
+            "Perks_Conqueror_Buff": "Perks/Styles/Precision/Conqueror/Particles/Perks_Conqueror_Buff"
+          },
+          "__type": "ResourceResolver"
+        },
+        "mMajorChangePatchVersion": "9.4",
+        "__type": "Perk"
+      },
+      "bindings": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_Conqueror",
+          "text": "征服者"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_Conqueror",
+          "text": "普通攻击或伤害型技能在命中一名敌方英雄时会提供2层【征服者】效果，持续@BuffDuration@秒，每层效果提供@MinAdaptivePerStack@-@MaxAdaptivePerStack@<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>适应之力</font></lol-uikit-tooltipped-keyword>。至多可叠加@MaxStacks@次。远程英雄的每次普攻只会提供1层效果。<br><br>在叠满层数后，你对英雄造成的@HealingPercent*100@%伤害会转化为对自身的治疗效果(远程英雄的转化率为@RangedHealingPercent*100@%)。"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_Conqueror",
+          "text": "普通攻击或伤害型技能在命中一名敌方英雄时会提供2层【征服者】效果，持续@BuffDuration@秒，每层提供{{perk_substring_ConquerorAdaptive_@f4@}}。至多可叠加@MaxStacks@次。远程英雄的每次普攻只会提供1层效果。<br><br>在叠满层数后，你对英雄造成的@HealingPercent*100@%伤害会转化为对自身的治疗效果(远程英雄的转化率为@RangedHealingPercent*100@%)。<br><br>治疗量总和：@f1@"
+        }
+      },
+      "official": {
+        "id": 8010,
+        "key": "Conqueror",
+        "icon": "perk-images/Styles/Precision/Conqueror/Conqueror.png",
+        "name": "征服者",
+        "shortDesc": "在攻击敌方英雄时提供适应之力。在达到12层后，将你的一部分伤害转化为等额的治疗效果。",
+        "longDesc": "普通攻击或伤害型技能在命中一名敌方英雄时会提供2层【征服者】效果，持续5秒，每层效果提供1.8-4<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_Adaptive'><font color='#48C4B7'>适应之力</font></lol-uikit-tooltipped-keyword>。至多可叠加12次。远程英雄的每次普攻只会提供1层效果。<br><br>在叠满层数后，你对英雄造成的8%伤害会转化为对自身的治疗效果(远程英雄的转化率为5%)。"
+      }
+    },
+    {
+      "id": 8008,
+      "skillKey": "rune_8008_passive",
+      "sourcePath": "Perks/Styles/Precision/LethalTempo",
+      "sourceObjectSha256": "fc1df73c3b6016d4b7d3203a21c951b0d4159edf9e41ef10f7cd75ed0372e8a6",
+      "raw": {
+        "mPerkId": 8008,
+        "mPerkName": "LethalTempo",
+        "mDisplayNameLocalizationKey": "perk_displayname_LethalTempo",
+        "mTooltipNameLocalizationKey": "perk_tooltip_LethalTempo",
+        "mPingTextLocalizationKey": "perk_pingtip_LethalTempo",
+        "mShortDescLocalizationKey": "perk_short_desc_LethalTempo",
+        "mLongDescLocalizationKey": "perk_long_desc_LethalTempo",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_LethalTempo1"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_LethalTempo",
+        "mIconTextureName": "assets/perks/styles/precision/lethaltempo/lethaltempotemp.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Precision/LethalTempo/LethalTempo.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "Duration": 6,
+              "MaxStacks": 6,
+              "TTASPerStackMelee": 0.05999999865889549,
+              "PerfectlyTimedForgivance": 0.25,
+              "TTASPerStackRanged": 0.03999999910593033,
+              "TTMinNoteDamageMelee": 9,
+              "TTMaxNoteDamageMelee": 30,
+              "TTMinNoteDamageRanged": 6,
+              "TTMaxNoteDamageRanged": 24
+            },
+            "mCalculations": {
+              "NoteDamage": {
+                "mMultiplier": {
+                  "mSubparts": [
+                    {
+                      "mNumber": 1,
+                      "__type": "NumberCalculationPart"
+                    },
+                    {
+                      "mStat": 4,
+                      "mStatFormula": 2,
+                      "mCoefficient": 1,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                },
+                "mFormulaParts": [
+                  {
+                    "mStartValue": 9,
+                    "mEndValue": 30,
+                    "__type": "ByCharLevelInterpolationCalculationPart"
+                  }
+                ],
+                "mPrecision": 1,
+                "mRangedMultiplier": {
+                  "mNumber": 0.6669999957084656,
+                  "__type": "NumberCalculationPart"
+                },
+                "__type": "{e9a3c91d}"
+              },
+              "ASPerStack": {
+                "mFormulaParts": [
+                  {
+                    "mNumber": 0.05999999865889549,
+                    "__type": "NumberCalculationPart"
+                  }
+                ],
+                "mDisplayAsPercent": true,
+                "mPrecision": 1,
+                "mRangedMultiplier": {
+                  "mNumber": 0.800000011920929,
+                  "__type": "NumberCalculationPart"
+                },
+                "__type": "{e9a3c91d}"
+              }
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mBuffs": [
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Precision/LethalTempo/LethalTempo.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "Buff_LethalTempo_Tooltip",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          }
+        ],
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "{15da3293}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Stack_1",
+            "{16da3426}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Stack_2",
+            "{17da35b9}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Stack_3",
+            "{18da374c}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Stack_4",
+            "{19da38df}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Stack_5",
+            "{1ada3a72}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Stack_6",
+            "{6778e480}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Mis",
+            "{a70add4c}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Tar",
+            "{98d5ca69}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_PerfectMis",
+            "{95500436}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_Mis2",
+            "{f38d8d41}": "Perks/Styles/Precision/LethalTempo/Particles/Perks_LethalTempo_PerfectMis2"
+          },
+          "__type": "ResourceResolver"
+        },
+        "__type": "Perk"
+      },
+      "bindings": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_LethalTempo",
+          "text": "致命节奏"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_LethalTempo",
+          "text": "攻击一个敌方英雄会为你提供持续@Duration@秒的[@TTASPerStackMelee*100@%近战 || @TTASPerStackRanged*100@%远程]攻击速度，至多至@MaxStacks@层。在满层时，攻击还会附带[@TTMinNoteDamageMelee@ - @TTMaxNoteDamageMelee@近战 || @TTMinNoteDamageRanged@ - @TTMaxNoteDamageRanged@远程] <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'>额外自适应伤害，每1%额外攻击速度都会使其提升1%</lol-uikit-tooltipped-keyword>。"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_LethalTempo",
+          "text": "攻击一个敌方英雄会为你提供持续@Duration@秒的%i:scaleAS%@ASPerStack@攻击速度，至多至@MaxStacks@层。在满层时，攻击还会造成@NoteDamage@ (%i:scaleAS%) <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>额外自适应伤害</font></lol-uikit-tooltipped-keyword> %i:OnHit% <OnHit>攻击特效</OnHit>。<br><br>满层运转时间：@f1@秒<br>已造成的伤害：@f2@<br><br>这个符文还会追踪你在之前攻击一个英雄之后，在你的攻击就绪的@PerfectlyTimedForgivance.2@秒内对英雄们打出的普攻次数占比：@f3@% (@f4@ / @f5@)"
+        }
+      },
+      "official": {
+        "id": 8008,
+        "key": "LethalTempo",
+        "icon": "perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png",
+        "name": "致命节奏",
+        "shortDesc": "攻击一个敌方英雄会为你提供攻击速度，至多至6层。在满层时，攻击还会附带<lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'><font color='#48C4B7'>额外自适应伤害</font></lol-uikit-tooltipped-keyword>。",
+        "longDesc": "攻击一个敌方英雄会为你提供持续6秒的[6%近战 || 4%远程]攻击速度，至多至6层。在满层时，攻击还会附带[9 - 30近战 || 6 - 24远程] <lol-uikit-tooltipped-keyword key='LinkTooltip_Description_AdaptiveDmg'>额外自适应伤害，每1%额外攻击速度都会使其提升1%</lol-uikit-tooltipped-keyword>。"
+      }
+    },
+    {
+      "id": 8226,
+      "skillKey": "rune_8226_passive",
+      "sourcePath": "Perks/Styles/Sorcery/ManaflowBand",
+      "sourceObjectSha256": "4fce30fbe96a5bdc2450465506ad10306e0b05cbed9da7ec8fb3341422807278",
+      "raw": {
+        "mPerkId": 8226,
+        "mPerkName": "ManaflowBand",
+        "mDisplayNameLocalizationKey": "perk_displayname_8226",
+        "mTooltipNameLocalizationKey": "perk_tooltip_8226",
+        "mShortDescLocalizationKey": "perk_short_desc_8226",
+        "mLongDescLocalizationKey": "perk_long_desc_8226",
+        "mEndOfGameStatDescriptions": [
+          "perk_eog_stat_desc_ManaflowBand",
+          "perk_eog_stat_desc_ManaflowBand2"
+        ],
+        "mDisplayStatLocalizationKey": "perk_display_stat_total",
+        "mIconTextureName": "assets/perks/styles/sorcery/manaflowband/manaflowband.tex",
+        "mScript": {
+          "mSpellScriptName": "ASSETS/Perks/Styles/Sorcery/ManaflowBand/ManaflowBand.lua",
+          "mSpellScriptData": {
+            "mEffectAmount": {
+              "{2f748280}": 0.10000000149011612,
+              "Cooldown": 15,
+              "{2cde474e}": 0.4000000059604645,
+              "ManaIncrease": 25,
+              "MaxManaIncrease": 250,
+              "PercentManaRestore": 0.009999999776482582,
+              "PercentManaRestoreCooldown": 5
+            },
+            "__type": "PerkScriptData"
+          },
+          "__type": "PerkScript"
+        },
+        "mBuffs": [
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Sorcery/PotentialEnergy/PerkSorceryOutOfCombatCooldownBuff.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_ManaflowBandCD",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          },
+          {
+            "mBuffScriptName": "ASSETS/Perks/Styles/Sorcery/ManaflowBand/PerkManaflowBandBuff.lua",
+            "mBuffSpellObject": {
+              "mBuff": {
+                "mDescription": "buff_desc_ManaflowBand",
+                "__type": "BuffData"
+              },
+              "__type": "SpellObject"
+            },
+            "__type": "PerkBuff"
+          }
+        ],
+        "mVFXResourceResolver": {
+          "resourceMap": {
+            "Perks_ManaflowBand_Buff": "Perks/Styles/Sorcery/ManaflowBand/Particles/Perks_ManaflowBand_Buff",
+            "Perks_ManaflowBand_Cas": "Perks/Styles/Sorcery/ManaflowBand/Particles/Perks_ManaflowBand_Cas",
+            "Perks_ManaflowBand_Burst": "Perks/Styles/Sorcery/ManaflowBand/Particles/Perks_ManaflowBand_Burst",
+            "Perks_ManaflowBand_Completion": "Perks/Styles/Sorcery/ManaflowBand/Particles/Perks_ManaflowBand_Completion"
+          },
+          "__type": "ResourceResolver"
+        },
+        "mDefault": true,
+        "mMajorChangePatchVersion": "8.7",
+        "__type": "Perk"
+      },
+      "bindings": {
+        "mDisplayNameLocalizationKey": {
+          "sourceKey": "perk_displayname_8226",
+          "text": "法力流系带"
+        },
+        "mLongDescLocalizationKey": {
+          "sourceKey": "perk_long_desc_8226",
+          "text": "用一个技能命中一名敌方英雄时，可永久使你的最大法力值提升@ManaIncrease@，提升法力的上限为@MaxManaIncrease@法力。<br><br>在达到@MaxManaIncrease@额外法力值后，每@PercentManaRestoreCooldown@秒回复你@PercentManaRestore*100@%的已损失法力值。<br><br>冷却时间：@Cooldown.0@秒"
+        },
+        "mTooltipNameLocalizationKey": {
+          "sourceKey": "perk_tooltip_8226",
+          "text": "{{perk_long_desc_8226}}<br><hr><br>法力加成总和：@f1@<br>已回复的法力总和：@f2@"
+        }
+      },
+      "official": {
+        "id": 8226,
+        "key": "ManaflowBand",
+        "icon": "perk-images/Styles/Sorcery/ManaflowBand/ManaflowBand.png",
+        "name": "法力流系带",
+        "shortDesc": "用一个技能命中一名敌方英雄时，可永久使你的最大法力值提升25，提升法力的上限为250法力。<br><br>在达到250额外法力值后，每5秒回复你1%的已损失法力值。\t",
+        "longDesc": "用一个技能命中一名敌方英雄时，可永久使你的最大法力值提升25，提升法力的上限为250法力。<br><br>在达到250额外法力值后，每5秒回复你1%的已损失法力值。<br><br>冷却时间：15秒"
+      }
+    }
+  ],
+  "boundary": "指定9103/9104/8010；额外仅8008及8226。9923重置额外次数仅登记本地筛选，不扩为第六个实值对象。"
+}
