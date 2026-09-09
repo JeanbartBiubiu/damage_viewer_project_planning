@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T12:15:19.853Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/vladimir_r/parameters/base_damage",
+  "id": "base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "血之瘟疫基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 150,
+      "2": 250,
+      "3": 350
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3",
+    "sortOrder": 30
+  }
+}

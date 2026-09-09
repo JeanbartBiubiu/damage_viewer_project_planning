@@ -1,0 +1,587 @@
+{
+  "path": "C:/project/damage_viewer_project_planning/数据参考/全量录入-2026-09/装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+  "sha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "note": "仅保留当前角色根绑定主技能mLocKeys引用文本；动态键缺失时保留缺失事实，不借旧技能或其他英雄文案。",
+  "skills": {
+    "vladimir_p": {
+      "binding": "Characters/Vladimir/Spells/VladimirBloodGorgedAbility/VladimirBloodGorged",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VladimirP_Name",
+          "key": "spell_vladimirp_name",
+          "text": "血色契约"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VladimirP_Tooltip",
+          "key": "spell_vladimirp_tooltip",
+          "text": "弗拉基米尔的每<scaleHealth>@HPforAP@额外生命值</scaleHealth>为他提供<scaleAP>1法术强度</scaleAP>。他的每<scaleAP>1法术强度</scaleAP>也为他提供<scaleHealth>@APRatioBonusHP@最大生命值</scaleHealth>。<br><br><scaleAP>额外法术强度：@ApproximateAPBonusAvoidingRecursion@</scaleAP><br><scaleHealth>额外生命值：@ApproximateHPBonusAvoidingRecursion@</scaleHealth>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VladimirP_Summary",
+          "key": "spell_vladimirp_summary",
+          "text": "每30生命值加成给予弗拉基米尔1法术强度，每1法术强度给予弗拉基米尔1.6生命值（不会自我循环叠加）。"
+        },
+        "keyTooltipExtended": {
+          "sourceKey": "Spell_VladimirBloodGorged_TooltipExtended",
+          "key": "spell_vladimirbloodgorged_tooltipextended",
+          "text": "{{Spell_VladimirP_Tooltip}}<br><br><rules>这些加成不会循环叠加。</rules>"
+        }
+      }
+    },
+    "vladimir_q": {
+      "binding": "Characters/Vladimir/Spells/VladimirQAbility/VladimirQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VladimirQ_Name",
+          "key": "spell_vladimirq_name",
+          "text": "鲜血转换"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VladimirQ_Summary",
+          "key": "spell_vladimirq_summary",
+          "text": "弗拉基米尔从目标敌人身上偷取生命值。当弗拉基米尔的资源槽攒满后，鲜血转换将暂时获得增益，提升伤害和治疗效果。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VladimirQ_Tooltip",
+          "key": "spell_vladimirq_tooltip",
+          "text": "弗拉基米尔汲取目标的生命力，造成<magicDamage>@BaseDamageTooltip@魔法伤害</magicDamage>并回复<healing>@BaseHealTooltip@生命值</healing>。在使用2次这个技能后，弗拉基米尔会获得持续0.5秒的<speed>@MovementSpeedOnQ2@%移动速度</speed>，并强化这个技能的下一次使用，持续@FrenzyDuration@秒。<br><br>这个技能的强化版会转而造成<magicDamage>@EmpoweredDamageTooltip@魔法伤害</magicDamage>并回复额外的<healing>@EmpoweredHealTooltip@加上@EmpoweredHealPercentTooltip@已损失生命值</healing>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_VladimirQ_TooltipExtendedBelowLine",
+          "key": "spell_vladimirq_tooltipextendedbelowline",
+          "text": "<rules>对小兵的强化治疗效果降低至30%。</rules>"
+        }
+      }
+    },
+    "vladimir_w": {
+      "binding": "Characters/Vladimir/Spells/VladimirSanguinePoolAbility/VladimirSanguinePool",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VladimirSanguinePool_Name",
+          "key": "spell_vladimirsanguinepool_name",
+          "text": "血红之池"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VladimirSanguinePool_Summary",
+          "key": "spell_vladimirsanguinepool_summary",
+          "text": "弗拉基米尔潜入血泊之中，变得不可被选取，持续2秒。血泊上的敌人被减速，同时弗拉基米尔会从他们身上吸取生命。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VladimirSanguinePool_Tooltip",
+          "key": "spell_vladimirsanguinepool_tooltip",
+          "text": "弗拉基米尔化成一滩持续2秒的血池，获得<speed>@HasteBoost*100@%持续衰减的移动速度</speed>，持续@HasteDuration@秒，并进入<keyword>无法被选取</keyword>和<keyword>幽灵</keyword>状态，同时使血池中的敌人<status>减速</status>@MoveSpeedMod*-100@%。<br><br>弗拉基米尔在期间会持续造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，并且每命中一个敌人就会为弗拉基米尔回复<healing>@TotalHeal@生命值</healing>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_VladimirSanguinePool_Cost",
+          "key": "spell_vladimirsanguinepool_cost",
+          "text": "消耗<font color='#CC3300'>@HealthCost*100@%当前生命值(@f2@)</font>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_VladimirSanguinePool_TooltipExtendedBelowLine",
+          "key": "spell_vladimirsanguinepool_tooltipextendedbelowline",
+          "text": "<rules>这个技能可在<spellName>血之潮汐</spellName>的蓄力期间施放。<br>弗拉基米尔在血池中时无法攻击或使用其它技能。<br>对小兵的<healing>治疗效果</healing>的效能为@MinionHealingMod*100@%。<br>{{Reminder_Untargetable}}<br>{{Reminder_Ghosted}}</rules>"
+        }
+      }
+    },
+    "vladimir_e": {
+      "binding": "Characters/Vladimir/Spells/VladimirEAbility/VladimirE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VladimirE_Name",
+          "key": "spell_vladimire_name",
+          "text": "血之潮汐"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VladimirE_Summary",
+          "key": "spell_vladimire_summary",
+          "text": "弗拉基米尔消耗他的生命值来持续灌注一个蓄血库，蓄血库在释放时会对他身边的敌人造成伤害，但会被敌方单位所阻挡。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VladimirE_Tooltip",
+          "key": "spell_vladimire_tooltip",
+          "text": "<charge>开始蓄力：</charge>弗拉基米尔积攒一个蓄血库，至多消耗<font color='#CC3300'>@ChargeHealthTooltip@生命值</font>。在攒满后，弗拉基米尔会被<status>减速</status>20%。<br><br><release>释放：</release>弗拉基米尔对附近的敌人释放一股血弹激流，基于蓄力时间造成<magicDamage>@MinDamageTooltip@</magicDamage>至<magicDamage>@MaxDamageTooltip@魔法伤害</magicDamage>。如果这个技能蓄力了至少1秒，那么它还会对目标造成持续0.5秒的@SlowPercent@%<status>减速</status>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_VladimirE_Cost",
+          "key": "spell_vladimire_cost",
+          "text": "引导过程消耗<font color='#CC3300'>@MaxHealthCost@%最大生命值(@ChargeHealthTooltip@)</font>"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_VladimirE_TooltipExtendedBelowLine",
+          "key": "spell_vladimire_tooltipextendedbelowline",
+          "text": "<rules>这个技能会在@MaxChannelTime@秒后自动释放。<br>敌人可以被多个<br>血弹命中，但只会受到第一个血弹的伤害。</rules>"
+        }
+      }
+    },
+    "vladimir_r": {
+      "binding": "Characters/Vladimir/Spells/VladimirHemoplagueAbility/VladimirHemoplague",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_VladimirHemoplague_Name",
+          "key": "spell_vladimirhemoplague_name",
+          "text": "血之瘟疫"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_VladimirHemoplague_Summary",
+          "key": "spell_vladimirhemoplague_summary",
+          "text": "弗拉基米尔令一片区域感染上剧毒瘟疫，增加受感染敌人所受的伤害。在几秒后，血之瘟疫会对被感染的敌人造成魔法伤害，并根据命中的敌方英雄数来治疗弗拉基米尔。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_VladimirHemoplague_Tooltip",
+          "key": "spell_vladimirhemoplague_tooltip",
+          "text": "弗拉基米尔生成一个剧毒瘟疫，使他的目标们所受伤害(所有来源)提高@DamageAmp@%，持续@Duration@秒。在它消散后，弗拉基米尔对所有被感染的目标造成<magicDamage>@Damage@魔法伤害</magicDamage>。如果弗拉基米尔命中了一名敌方英雄，那么就会回复自身<healing>@Damage@生命值</healing>，此后每命中一名敌方英雄会回复自身额外的 <healing>@SecondaryHealingTooltip@生命值</healing>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        }
+      }
+    },
+    "swain_p": {
+      "binding": "Characters/Swain/Spells/SwainPassiveAbility/SwainPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "game_character_passiveName_Swain",
+          "key": "game_character_passivename_swain",
+          "text": "狂食鸦群"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SwainPassive_Tooltip2",
+          "key": "spell_swainpassive_tooltip2",
+          "text": "斯维因可从<spellName>帝国视界</spellName>、<spellName>永不复行</spellName>和敌方英雄的阵亡之中收集<font color='#FF3F3F' size='18'>魂屑</font>。<font color='#FF3F3F' size='18'>魂屑</font>回复<healing>@PassiveHealPercent@最大生命值</healing>并且为斯维因永久提供<healing>@HealthIncrement@最大生命值</healing>。<br><br>已收集的魂屑数量：@f1@<br>已获得的生命值总和：<scaleHealth>@MaxHealthGained@</scaleHealth>"
+        }
+      }
+    },
+    "swain_q": {
+      "binding": "Characters/Swain/Spells/SwainQAbility/SwainQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SwainQ_Name",
+          "key": "spell_swainq_name",
+          "text": "解脱之触"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SwainQ_Summary",
+          "key": "spell_swainq_summary",
+          "text": "斯维因释放多道恶魔之力，这种力量可以穿透命中的目标。被一道以上的恶魔之力所命中的敌人，会受到基于恶魔之力数量的更多伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SwainQ_Tooltip",
+          "key": "spell_swainq_tooltip",
+          "text": "斯维因释放5道恶魔之力，造成<magicDamage>@InitialDamage@魔法伤害</magicDamage>，第一道之后的每道恶魔之力造成<magicDamage>@ExtraBoltDamage@魔法伤害</magicDamage>(最大伤害为<magicDamage>@MaxDamage@魔法伤害</magicDamage>)。"
+        }
+      }
+    },
+    "swain_w": {
+      "binding": "Characters/Swain/Spells/SwainWAbility/SwainW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SwainW_Name",
+          "key": "spell_swainw_name",
+          "text": "帝国视界"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SwainW_Summary",
+          "key": "spell_swainw_summary",
+          "text": "斯维因睁开恶魔之眼来对敌人造成伤害和减速效果。在命中敌方英雄时会使该英雄显形，并为斯维因提供一片魂屑。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SwainW_Tooltip",
+          "key": "spell_swainw_tooltip",
+          "text": "斯维因睁开一只恶魔之眼，来使一个位置显形1.5秒，然后造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@Slow*-100@%<status>减速</status>。<br><br>被命中的英雄会为斯维因提供一片<font color='#FF3F3F' size='18'>魂屑</font>并显形@RevealDuration@秒。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SwainW_TooltipExtendedBelowLine",
+          "key": "spell_swainw_tooltipextendedbelowline",
+          "text": "<rules>对小兵转而造成<magicDamage>@MinionDamage@伤害</magicDamage>。</rules>"
+        }
+      }
+    },
+    "swain_e": {
+      "binding": "Characters/Swain/Spells/SwainEAbility/SwainE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SwainE_Name",
+          "key": "spell_swaine_name",
+          "text": "永不复行"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SwainE_Summary",
+          "key": "spell_swaine_summary",
+          "text": "斯维因释放一道恶魔之手向前击出。手臂随后会返回至斯维因处，并禁锢它命中的敌人。斯维因之后可以选择将所有被禁锢的英雄们拉拽得更靠近他。这个技能在【恶魔升华】期间会有一个更短的冷却时间。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SwainE_Tooltip",
+          "key": "spell_swaine_tooltip",
+          "text": "斯维因发射一道会折返的恶魔能量波，在命中的第一个敌人身上引爆，对一个区域内的敌人造成<magicDamage>@SecondaryDamage@魔法伤害</magicDamage>和@RootDuration@秒<status>禁锢</status>。<br><br>用这个技能<status>禁锢</status>一名英雄后，可使斯维因再次施放这个技能来拉拽所有被<spellName>永不复行</spellName><status>禁锢</status>的英雄们，并且每个被他拉拽的英雄将为他提供一个<font color='#FF3F3F' size='18'>魂屑</font>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SwainE_TooltipExtended",
+          "key": "spell_swaine_tooltipextended",
+          "text": "<rules><spellName>永不复行</spellName>会暂时提供被禁锢英雄们的视野。</rules>"
+        }
+      }
+    },
+    "swain_r": {
+      "binding": "Characters/Swain/Spells/SwainRAbility/SwainR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_SwainR_Name",
+          "key": "spell_swainr_name",
+          "text": "恶魔升华"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_SwainR_Summary",
+          "key": "spell_swainr_summary",
+          "text": "斯维因变身为恶魔并从附近的敌方英雄、小兵和中立野怪身上汲取生命值。斯维因能施放【恶魔耀光】来用一道魂焰新星残害并减速附近的敌人们。这个形态可以在斯维因汲取敌方英雄时无限持续。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_SwainR_Tooltip",
+          "key": "spell_swainr_tooltip",
+          "text": "斯维因使体内的恶魔解脱，每秒造成<magicDamage>@DamageCalc@魔法伤害</magicDamage>并从附近的敌人们身上汲取<healing>@HealingCalc@生命值</healing>。他的恶魔能量会持续消耗，但可通过汲取敌方英雄来无限期地充能并且会在参与击杀英雄后完全回复。<br><br>在@DemonflareCastDelay@秒后以及之后的每@DemonflareCooldownTooltip@秒，斯维因能够在变身状态下施放<spellName>恶魔耀光</spellName>来对敌人们造成<magicDamage>@DemonflareDamageTotal@魔法伤害</magicDamage>和在@DemonflareSlowDuration@秒里持续衰减的@DemonflareSlowAmount*100@%<status>减速</status>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_SwainR_TooltipExtendedBelowLine",
+          "key": "spell_swainr_tooltipextendedbelowline",
+          "text": "<rules>对非英雄单位的治疗效果降低至<healing>@MinionMonsterHealReduction*100@%</healing>。<br>每秒消耗@DemonPowerDegen@恶魔能量。在@AmpTime@秒后，每秒消耗的恶魔能量提升至@DegenAmpAmount@。<br>在汲取英雄时，每秒回复@DemonPowerRegen@恶魔能量。</rules>"
+        }
+      }
+    },
+    "rumble_p": {
+      "binding": "Characters/Rumble/Spells/RumbleHeatSystemAbility/RumbleHeatSystem",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RumbleHeatSystem_Name",
+          "key": "spell_rumbleheatsystem_name",
+          "text": "机械重组"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RumbleHeatSystem_Summary",
+          "key": "spell_rumbleheatsystem_summary",
+          "text": "兰博的技能都能使其获得热量。当兰博的热量达到50%时，他会处于危险温度状态，所有基础技能都会获得额外效果。当热量达到100%时，他会进入过热状态，获得额外的攻击速度并让他的普通攻击造成额外伤害，但也会让他在数秒内无法施放技能。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RumbleHeatSystem_Tooltip",
+          "key": "spell_rumbleheatsystem_tooltip",
+          "text": "兰博的技能生成<keywordMajor>热量</keywordMajor>。在<keywordMajor>@DangerZoneHeat@热量</keywordMajor>以上时，他会进入<keywordMajor>危险温度</keywordMajor>，使他的基础技能可以获得额外效果。当他到达<keywordMajor>@OverheatingHeat@热量</keywordMajor>时，他会进入持续@OverheatDuration@秒的过热状态。<br><br>在过热状态下，兰博会<status>沉默</status>自身，但会获得<attackSpeed>@OverheatAS@攻击速度</attackSpeed>并使他的攻击造成额外的<magicDamage>@TotalBaseDamage@外加@OverheatPercBonusDamage*100@%最大生命值的魔法伤害</magicDamage>。<br><br><rules>对野怪的百分比伤害的上限为@MonsterCapScaling@。</rules>"
+        }
+      }
+    },
+    "rumble_q": {
+      "binding": "Characters/Rumble/Spells/RumbleFlameThrowerAbility/RumbleFlameThrower",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RumbleFlameThrower_Name",
+          "key": "spell_rumbleflamethrower_name",
+          "text": "纵火盛宴"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RumbleFlameThrower_Summary",
+          "key": "spell_rumbleflamethrower_summary",
+          "text": "兰博朝敌人放火，每秒对前方锥形范围内的敌人造成伤害，持续3秒。在危险温度时，兰博增加对其造成的伤害。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RumbleFlameThrower_Tooltip",
+          "key": "spell_rumbleflamethrower_tooltip",
+          "text": "兰博点燃他的火焰喷射器，在@FlamespitterDuration@秒里持续造成共<magicDamage>@FlatDamage@外加@HealthDamage*100@%最大生命值的魔法伤害</magicDamage>，对小兵降低至<attention>@MinionMod*100@%</attention>。<br><br><keywordMajor>危险温度：</keywordMajor>提升至<magicDamage>@EmpoweredDamage@外加@EmpoweredHealth@最大生命值的魔法伤害</magicDamage>。<br><br><rules>对野怪的百分比伤害的上限为@MonsterCap@。</rules>"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_RumbleFlameThrower_Cost",
+          "key": "spell_rumbleflamethrower_cost",
+          "text": "@InitialHeatCost@热量"
+        }
+      }
+    },
+    "rumble_w": {
+      "binding": "Characters/Rumble/Spells/RumbleShieldAbility/RumbleShield",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RumbleShield_Name",
+          "key": "spell_rumbleshield_name",
+          "text": "破碎护盾"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RumbleShield_Summary",
+          "key": "spell_rumbleshield_summary",
+          "text": "兰博制造一个护盾，保护自己免受伤害，并短时间内增加移动速度。在危险温度时，兰博增加护盾强度和速度加成。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RumbleShield_Tooltip",
+          "key": "spell_rumbleshield_tooltip",
+          "text": "兰博开启一道屏障，获得持续@ShieldDuration.1@秒的<shield>@TotalShield@护盾值</shield>和持续@MoveSpeedDuration@秒的<speed>@MoveSpeed*100@%移动速度</speed>。<br><br><keywordMajor>危险温度：</keywordMajor>屏障转而提供<shield>@EmpoweredShield@护盾值</shield>和<speed>@EmpoweredMS@移动速度</speed>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_RumbleShield_Cost",
+          "key": "spell_rumbleshield_cost",
+          "text": "@HeatCost@热量"
+        }
+      }
+    },
+    "rumble_e": {
+      "binding": "Characters/Rumble/Spells/RumbleGrenadeAbility/RumbleGrenade",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RumbleGrenade_Name",
+          "key": "spell_rumblegrenade_name",
+          "text": "电子鱼叉"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RumbleGrenade_Summary",
+          "key": "spell_rumblegrenade_summary",
+          "text": "兰博发射一把鱼叉，对敌人造成魔法伤害、减速效果和魔法抗性击碎效果。兰博可同时持有2发鱼叉。在危险温度时，兰博增加其伤害和减速百分比。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RumbleGrenade_Tooltip",
+          "key": "spell_rumblegrenade_tooltip",
+          "text": "兰博发射一柄电子鱼叉，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>、持续@SlowDuration@秒的@BaseSlowAmount@%<status>减速</status>、以及持续@ShredDuration@秒的@PercMagicPen*100@%<scaleMR>魔抗</scaleMR>击碎效果。<br><br>命中一名已被此技能<status>减速</status>的敌人时，会将<status>减速</status>提升至@EmpoweredSlowAmount@%并使敌人的<scaleMR>魔抗</scaleMR>降低@EnhancedMagicPen*100@%。<br><br><keywordMajor>危险温度：</keywordMajor>鱼叉转而造成<magicDamage>@EmpDamage@魔法伤害</magicDamage>并且<status>减速</status>和<scaleMR>魔抗击碎</scaleMR>效果提升50%。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_RumbleGrenade_Cost",
+          "key": "spell_rumblegrenade_cost",
+          "text": " @FirstCastHeatCost@ 热量"
+        },
+        "keyCooldown": {
+          "sourceKey": "Spell_RumbleGrenade_Cooldown",
+          "key": "spell_rumblegrenade_cooldown",
+          "text": "@AmmoRechargeTime@秒充能时间(最大充能数：@MaxAmmo@)"
+        }
+      }
+    },
+    "rumble_r": {
+      "binding": "Characters/Rumble/Spells/RumbleCarpetBombAbility/RumbleCarpetBomb",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_RumbleCarpetBomb_Name",
+          "key": "spell_rumblecarpetbomb_name",
+          "text": "恒温灼烧"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_RumbleCarpetBomb_Summary",
+          "key": "spell_rumblecarpetbomb_summary",
+          "text": "兰博朝目标区域发射火箭，形成一堵火焰之墙，对范围内的敌人造成伤害并减速。"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_RumbleCarpetBomb_Tooltip",
+          "key": "spell_rumblecarpetbomb_tooltip",
+          "text": "兰博发射一列火箭，生成一道持续@TrailDuration@秒的燃烧小径，造成@SlowAmount@%<status>减速</status>并每秒造成<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>。<br><br>兰博可以在施放这个技能时，通过点击并拖拽来控制燃烧小径的方向。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_Cost_NoCost",
+          "key": "spell_cost_nocost",
+          "text": "无消耗"
+        }
+      }
+    },
+    "aurelionsol_p": {
+      "binding": "Characters/AurelionSol/Spells/AurelionSolPassiveAbility/AurelionSolPassive",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_AurelionSolPassive_Name",
+          "key": "spell_aurelionsolpassive_name",
+          "text": "星海焕然"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_AurelionSolPassive_Tooltip",
+          "key": "spell_aurelionsolpassive_tooltip",
+          "text": "奥瑞利安·索尔的伤害型技能会将敌人们化为<font color='#3458eb'>星尘</font>，星尘可用来永久增强他的每个技能。<li><spellName>{{Spell_AurelionSolQ_Name}}</spellName>：爆发造成额外的<magicDamage>@QPassiveScaling@最大生命值的魔法伤害</magicDamage></li><li><spellName>{{Spell_AurelionSolW_Name}}</spellName>：@f2.1@%距离提升。</li><li><spellName>{{Spell_AurelionSolE_Name}}</spellName>：@f3.1@%区域提升和<scaleHealth>@EPassiveScalingExecute@</scaleHealth>额外处决阈值。</li><li><spellName>{{Spell_AurelionSolR1_Name}}和{{Spell_AurelionSolR2_Name}}</spellName>：@f4.1@%区域提升。</li><br><rules>奥瑞利安·索尔已获取的<font color='#3458eb'>星尘</font>数量：<font color='#3458eb'>@f1@</font></rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_AurelionSolPassive_Summary",
+          "key": "spell_aurelionsolpassive_summary",
+          "text": "奥瑞利安·索尔的伤害型技能会将敌人们化为<font color='#3458eb'>星尘</font>，星尘可用来永久增强他的每个技能。 "
+        }
+      }
+    },
+    "aurelionsol_q": {
+      "binding": "Characters/AurelionSol/Spells/AurelionSolQAbility/AurelionSolQ",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_AurelionSolQ_Name",
+          "key": "spell_aurelionsolq_name",
+          "text": "星河冲荡"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_AurelionSolQ_Tooltip",
+          "key": "spell_aurelionsolq_tooltip",
+          "text": "奥瑞利安·索尔喷吐星焰，至多持续@MaxChannelDuration@秒，每秒对首个命中的敌人造成<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>并对附近的敌人们造成@AOEModifier*100@%此伤害。<br><br>对相同敌人每进行一整秒的吐息，就会造成一次爆发性的<magicDamage>@BurstDamage@魔法伤害</magicDamage>外加<magicDamage>@BurstBonusTrueDamageToChamps@最大生命值的魔法伤害</magicDamage>，并且如果这个敌人是英雄，还会吸收<font color='#3458eb'>@QMassStolen@星尘</font>。"
+        },
+        "keyCost": {
+          "sourceKey": "Spell_AurelionSolQ1_Cost",
+          "key": "spell_aurelionsolq1_cost",
+          "text": "每秒@ManaCostPerSecond@法力"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_AurelionSolQ_TooltipExtendedBelowLine",
+          "key": "spell_aurelionsolq_tooltipextendedbelowline",
+          "text": "<rules>这个技能的距离是@LevelBasedRangeScaling@。<br>在施放这个技能的0.25秒内将其取消，会使这个技能锁定1秒。<br>每次施放的最小法力消耗为@ManaCostPerSecond@。<br>百分比伤害对野怪的上限为<magicDamage>@MonsterDamageCap@魔法伤害</magicDamage>。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_AurelionSolQ_Summary",
+          "key": "spell_aurelionsolq_summary",
+          "text": "奥瑞利安·索尔引导他的龙息若干秒，伤害首个命中的敌人并对附近的敌人们造成削减过的溅射伤害。龙息在一个敌人身上每直接引导一秒就会造成额外伤害，这个伤害可通过已收集的【星尘】来提升。如果目标是一名英雄，那么这个技能还会收集【星尘】。"
+        }
+      }
+    },
+    "aurelionsol_w": {
+      "binding": "Characters/AurelionSol/Spells/AurelionSolWAbility/AurelionSolW",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_AurelionSolW_Name",
+          "key": "spell_aurelionsolw_name",
+          "text": "星穹流丽"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_AurelionSolW_Tooltip",
+          "key": "spell_aurelionsolw_tooltip",
+          "text": "奥瑞利安·索尔向一个方向飞行。在飞行时，<spellName>{{Spell_AurelionSolQ_Name}}</spellName>没有冷却时间，没有最大引导时长，并且它的固定伤害提升@TrueDamageBonus*100@%。<br><br>参与击杀那些在@ResetWindow@秒内被你造成过伤害的英雄后，会返还这个技能@TooltipTakedownCooldownMultiplier@%的冷却时间。<br><br><recast>再次施放：</recast>提前结束飞行。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_AurelionSolW_TooltipExtendedBelowLine",
+          "key": "spell_aurelionsolw_tooltipextendedbelowline",
+          "text": "<rules>在飞行时施放<spellName>{{Spell_AurelionSolQ_Name}}</spellName>会使飞行速度降低50%。<br>飞行速度是@DashSpeed@。</rules>"
+        },
+        "keySummary": {
+          "sourceKey": "game_spell_description_AurelionSolW",
+          "key": "game_spell_description_aurelionsolw",
+          "text": "奥瑞利安 · 索尔沿着目标方向飞越地形。在这个状态下，他可以施放其它技能。飞行期间，星河冲荡没有冷却时间，也没有最长蓄力时间，并且造成的伤害会提升。<br><br>如果有敌方英雄因为奥瑞利安 · 索尔近期造成的伤害阵亡，星穹流丽的冷却时间会缩短。<br><br>星尘会提升星穹流丽的最大飞行距离。"
+        }
+      }
+    },
+    "aurelionsol_e": {
+      "binding": "Characters/AurelionSol/Spells/AurelionSolEAbility/AurelionSolE",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_AurelionSolE_Name",
+          "key": "spell_aurelionsole_name",
+          "text": "星芒凝汇"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_AurelionSolE_Tooltip",
+          "key": "spell_aurelionsole_tooltip",
+          "text": "奥瑞利安·索尔召唤一个黑洞，对敌人们每秒造成<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>并缓慢地将他们<status>拉拽</status>向黑洞的中心，持续@Duration@秒。黑洞中心的敌人一旦低于<scaleHealth>@CurrentExecutionThreshold@%最大生命值</scaleHealth>就会立刻阵亡。<br><br>每有一名敌人在黑洞中阵亡，以及一名敌方英雄在黑洞中每被困住一秒，黑洞就会吸收<font color='#3458eb'>星尘</font>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_AurelionSolE_TooltipExtendedBelowLine",
+          "key": "spell_aurelionsole_tooltipextendedbelowline",
+          "text": "<rules>这个技能的施放距离为@LevelBasedRangeScaling@。<br>黑洞中的线上小兵和野怪拥有<speed>0移动速度</speed>。<br>史诗级野怪无法被处决。<br>英雄们每秒提供<font color='#3458eb'>@ChampionMassPerSecond@星尘</font>。<br>阵亡于黑洞中的单位们提供的<font color='#3458eb'>星尘</font>：<li>英雄：<font color='#3458eb'>@ChampionCountBonus@星尘</font></li><li>史诗级野怪：<font color='#3458eb'>@EpicMonsterCountBonus@星尘</font></li><li>大型野怪：<font color='#3458eb'>@LargeMonsterCountBonus@星尘</font></li><li>攻城小兵：<font color='#3458eb'>@LargeMinionCountBonus@星尘</font></li><li>小兵和小型野怪：<font color='#3458eb'>@MinionMassDeath@星尘</font></li></rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_AurelionSolE_Summary",
+          "key": "spell_aurelionsole_summary",
+          "text": "奥瑞利安·索尔召唤一个黑洞，对敌人们造成伤害并缓慢地将他们拉拽向黑洞的中心。每有一名敌人在黑洞中阵亡，以及一名敌方英雄在黑洞中每被困住一秒，这个技能都会提供【星尘】。黑洞的中心会处决低于一定百分比最大生命值的敌人。【星尘】会提升【星芒凝汇】的区域以及处决阈值。"
+        }
+      }
+    },
+    "aurelionsol_r": {
+      "binding": "Characters/AurelionSol/Spells/AurelionSolRAbility/AurelionSolR",
+      "keys": {
+        "keyName": {
+          "sourceKey": "Spell_AurelionSolR_Name",
+          "key": "spell_aurelionsolr_name",
+          "text": "星天落瀑"
+        },
+        "keyTooltip": {
+          "sourceKey": "Spell_AurelionSolR_Tooltip",
+          "key": "spell_aurelionsolr_tooltip",
+          "text": "奥瑞利安·索尔从诸天摘取一颗巨型星星并将其砸入大地中，对敌人造成<magicDamage>@MaxDamageTooltip@魔法伤害</magicDamage>、@StunDuration@秒<status>晕眩</status>并且每命中一名英雄就会吸收<font color='#3458eb'>@MassStolen@星尘</font>。<br><br>收集<font color='#3458eb'>@CalamityStacks@星尘</font>时会使下一个<spellName>{{Spell_AurelionSolR1_Name}}</spellName>转变为<spellName>{{Spell_AurelionSolR2_Name}}</spellName>。<br><br><spellName>{{Spell_AurelionSolR2_Name}}</spellName>：奥瑞利安·索尔从宇宙中拖来一个星座的怒火，在一个更大的区域造成<magicDamage>@R2Damage@魔法伤害</magicDamage>，对命中的敌人们造成@StunDuration@秒<status>击飞</status>，并释放一道巨型冲击波，对英雄和史诗级野怪造成<magicDamage>@ShockwaveDamage@魔法伤害</magicDamage>并对命中的所有敌人造成持续1秒的@ShockwaveSlow*100@%<status>减速</status>。"
+        },
+        "keyTooltipExtendedBelowLine": {
+          "sourceKey": "Spell_AurelionSolR_TooltipExtendedBelowLine",
+          "key": "spell_aurelionsolr_tooltipextendedbelowline",
+          "text": "<rules>已收集的用于激活<spellName>{{Spell_AurelionSolR2_Name}}</spellName>的<font color='#3458eb'>星尘</font>数量：<font color='#3458eb'>@f1@/@CalamityStacks@。</font></rules>"
+        },
+        "keySummary": {
+          "sourceKey": "Spell_AurelionSolR_Summary",
+          "key": "spell_aurelionsolr_summary",
+          "text": "星落：奥瑞利安 · 索尔召唤一颗星辰坠落地面。这次冲击造成魔法伤害并眩晕敌人，并且每命中一个敌方英雄还会提供星尘。收集足够的星尘后，奥瑞利安·索尔的下一次星落将会升级为天瀑。<br><br>天瀑：奥瑞利安 · 索尔从诸天拽下一颗巨大的星辰撞击地面，拥有提升过的冲击范围和提升过的伤害，并且会对敌人们造成击飞而非晕眩。随后会有一道冲击波从冲击范围的边缘散播出去，对命中的敌人们造成伤害和减速。星尘会提升【星落】和【天瀑】的冲击范围。"
+        }
+      }
+    }
+  },
+  "entries": {
+    "spell_vladimirp_name": "血色契约",
+    "spell_vladimirp_tooltip": "弗拉基米尔的每<scaleHealth>@HPforAP@额外生命值</scaleHealth>为他提供<scaleAP>1法术强度</scaleAP>。他的每<scaleAP>1法术强度</scaleAP>也为他提供<scaleHealth>@APRatioBonusHP@最大生命值</scaleHealth>。<br><br><scaleAP>额外法术强度：@ApproximateAPBonusAvoidingRecursion@</scaleAP><br><scaleHealth>额外生命值：@ApproximateHPBonusAvoidingRecursion@</scaleHealth>",
+    "spell_vladimirp_summary": "每30生命值加成给予弗拉基米尔1法术强度，每1法术强度给予弗拉基米尔1.6生命值（不会自我循环叠加）。",
+    "spell_vladimirbloodgorged_tooltipextended": "{{Spell_VladimirP_Tooltip}}<br><br><rules>这些加成不会循环叠加。</rules>",
+    "spell_vladimirq_name": "鲜血转换",
+    "spell_vladimirq_summary": "弗拉基米尔从目标敌人身上偷取生命值。当弗拉基米尔的资源槽攒满后，鲜血转换将暂时获得增益，提升伤害和治疗效果。",
+    "spell_vladimirq_tooltip": "弗拉基米尔汲取目标的生命力，造成<magicDamage>@BaseDamageTooltip@魔法伤害</magicDamage>并回复<healing>@BaseHealTooltip@生命值</healing>。在使用2次这个技能后，弗拉基米尔会获得持续0.5秒的<speed>@MovementSpeedOnQ2@%移动速度</speed>，并强化这个技能的下一次使用，持续@FrenzyDuration@秒。<br><br>这个技能的强化版会转而造成<magicDamage>@EmpoweredDamageTooltip@魔法伤害</magicDamage>并回复额外的<healing>@EmpoweredHealTooltip@加上@EmpoweredHealPercentTooltip@已损失生命值</healing>。",
+    "spell_cost_nocost": "无消耗",
+    "spell_vladimirq_tooltipextendedbelowline": "<rules>对小兵的强化治疗效果降低至30%。</rules>",
+    "spell_vladimirsanguinepool_name": "血红之池",
+    "spell_vladimirsanguinepool_summary": "弗拉基米尔潜入血泊之中，变得不可被选取，持续2秒。血泊上的敌人被减速，同时弗拉基米尔会从他们身上吸取生命。",
+    "spell_vladimirsanguinepool_tooltip": "弗拉基米尔化成一滩持续2秒的血池，获得<speed>@HasteBoost*100@%持续衰减的移动速度</speed>，持续@HasteDuration@秒，并进入<keyword>无法被选取</keyword>和<keyword>幽灵</keyword>状态，同时使血池中的敌人<status>减速</status>@MoveSpeedMod*-100@%。<br><br>弗拉基米尔在期间会持续造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>，并且每命中一个敌人就会为弗拉基米尔回复<healing>@TotalHeal@生命值</healing>。",
+    "spell_vladimirsanguinepool_cost": "消耗<font color='#CC3300'>@HealthCost*100@%当前生命值(@f2@)</font>",
+    "spell_vladimirsanguinepool_tooltipextendedbelowline": "<rules>这个技能可在<spellName>血之潮汐</spellName>的蓄力期间施放。<br>弗拉基米尔在血池中时无法攻击或使用其它技能。<br>对小兵的<healing>治疗效果</healing>的效能为@MinionHealingMod*100@%。<br>{{Reminder_Untargetable}}<br>{{Reminder_Ghosted}}</rules>",
+    "spell_vladimire_name": "血之潮汐",
+    "spell_vladimire_summary": "弗拉基米尔消耗他的生命值来持续灌注一个蓄血库，蓄血库在释放时会对他身边的敌人造成伤害，但会被敌方单位所阻挡。",
+    "spell_vladimire_tooltip": "<charge>开始蓄力：</charge>弗拉基米尔积攒一个蓄血库，至多消耗<font color='#CC3300'>@ChargeHealthTooltip@生命值</font>。在攒满后，弗拉基米尔会被<status>减速</status>20%。<br><br><release>释放：</release>弗拉基米尔对附近的敌人释放一股血弹激流，基于蓄力时间造成<magicDamage>@MinDamageTooltip@</magicDamage>至<magicDamage>@MaxDamageTooltip@魔法伤害</magicDamage>。如果这个技能蓄力了至少1秒，那么它还会对目标造成持续0.5秒的@SlowPercent@%<status>减速</status>。",
+    "spell_vladimire_cost": "引导过程消耗<font color='#CC3300'>@MaxHealthCost@%最大生命值(@ChargeHealthTooltip@)</font>",
+    "spell_vladimire_tooltipextendedbelowline": "<rules>这个技能会在@MaxChannelTime@秒后自动释放。<br>敌人可以被多个<br>血弹命中，但只会受到第一个血弹的伤害。</rules>",
+    "spell_vladimirhemoplague_name": "血之瘟疫",
+    "spell_vladimirhemoplague_summary": "弗拉基米尔令一片区域感染上剧毒瘟疫，增加受感染敌人所受的伤害。在几秒后，血之瘟疫会对被感染的敌人造成魔法伤害，并根据命中的敌方英雄数来治疗弗拉基米尔。",
+    "spell_vladimirhemoplague_tooltip": "弗拉基米尔生成一个剧毒瘟疫，使他的目标们所受伤害(所有来源)提高@DamageAmp@%，持续@Duration@秒。在它消散后，弗拉基米尔对所有被感染的目标造成<magicDamage>@Damage@魔法伤害</magicDamage>。如果弗拉基米尔命中了一名敌方英雄，那么就会回复自身<healing>@Damage@生命值</healing>，此后每命中一名敌方英雄会回复自身额外的 <healing>@SecondaryHealingTooltip@生命值</healing>。",
+    "game_character_passivename_swain": "狂食鸦群",
+    "spell_swainpassive_tooltip2": "斯维因可从<spellName>帝国视界</spellName>、<spellName>永不复行</spellName>和敌方英雄的阵亡之中收集<font color='#FF3F3F' size='18'>魂屑</font>。<font color='#FF3F3F' size='18'>魂屑</font>回复<healing>@PassiveHealPercent@最大生命值</healing>并且为斯维因永久提供<healing>@HealthIncrement@最大生命值</healing>。<br><br>已收集的魂屑数量：@f1@<br>已获得的生命值总和：<scaleHealth>@MaxHealthGained@</scaleHealth>",
+    "spell_swainq_name": "解脱之触",
+    "spell_swainq_summary": "斯维因释放多道恶魔之力，这种力量可以穿透命中的目标。被一道以上的恶魔之力所命中的敌人，会受到基于恶魔之力数量的更多伤害。",
+    "spell_swainq_tooltip": "斯维因释放5道恶魔之力，造成<magicDamage>@InitialDamage@魔法伤害</magicDamage>，第一道之后的每道恶魔之力造成<magicDamage>@ExtraBoltDamage@魔法伤害</magicDamage>(最大伤害为<magicDamage>@MaxDamage@魔法伤害</magicDamage>)。",
+    "spell_swainw_name": "帝国视界",
+    "spell_swainw_summary": "斯维因睁开恶魔之眼来对敌人造成伤害和减速效果。在命中敌方英雄时会使该英雄显形，并为斯维因提供一片魂屑。",
+    "spell_swainw_tooltip": "斯维因睁开一只恶魔之眼，来使一个位置显形1.5秒，然后造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>和持续@SlowDuration@秒的@Slow*-100@%<status>减速</status>。<br><br>被命中的英雄会为斯维因提供一片<font color='#FF3F3F' size='18'>魂屑</font>并显形@RevealDuration@秒。",
+    "spell_swainw_tooltipextendedbelowline": "<rules>对小兵转而造成<magicDamage>@MinionDamage@伤害</magicDamage>。</rules>",
+    "spell_swaine_name": "永不复行",
+    "spell_swaine_summary": "斯维因释放一道恶魔之手向前击出。手臂随后会返回至斯维因处，并禁锢它命中的敌人。斯维因之后可以选择将所有被禁锢的英雄们拉拽得更靠近他。这个技能在【恶魔升华】期间会有一个更短的冷却时间。",
+    "spell_swaine_tooltip": "斯维因发射一道会折返的恶魔能量波，在命中的第一个敌人身上引爆，对一个区域内的敌人造成<magicDamage>@SecondaryDamage@魔法伤害</magicDamage>和@RootDuration@秒<status>禁锢</status>。<br><br>用这个技能<status>禁锢</status>一名英雄后，可使斯维因再次施放这个技能来拉拽所有被<spellName>永不复行</spellName><status>禁锢</status>的英雄们，并且每个被他拉拽的英雄将为他提供一个<font color='#FF3F3F' size='18'>魂屑</font>。",
+    "spell_swaine_tooltipextended": "<rules><spellName>永不复行</spellName>会暂时提供被禁锢英雄们的视野。</rules>",
+    "spell_swainr_name": "恶魔升华",
+    "spell_swainr_summary": "斯维因变身为恶魔并从附近的敌方英雄、小兵和中立野怪身上汲取生命值。斯维因能施放【恶魔耀光】来用一道魂焰新星残害并减速附近的敌人们。这个形态可以在斯维因汲取敌方英雄时无限持续。",
+    "spell_swainr_tooltip": "斯维因使体内的恶魔解脱，每秒造成<magicDamage>@DamageCalc@魔法伤害</magicDamage>并从附近的敌人们身上汲取<healing>@HealingCalc@生命值</healing>。他的恶魔能量会持续消耗，但可通过汲取敌方英雄来无限期地充能并且会在参与击杀英雄后完全回复。<br><br>在@DemonflareCastDelay@秒后以及之后的每@DemonflareCooldownTooltip@秒，斯维因能够在变身状态下施放<spellName>恶魔耀光</spellName>来对敌人们造成<magicDamage>@DemonflareDamageTotal@魔法伤害</magicDamage>和在@DemonflareSlowDuration@秒里持续衰减的@DemonflareSlowAmount*100@%<status>减速</status>。",
+    "spell_swainr_tooltipextendedbelowline": "<rules>对非英雄单位的治疗效果降低至<healing>@MinionMonsterHealReduction*100@%</healing>。<br>每秒消耗@DemonPowerDegen@恶魔能量。在@AmpTime@秒后，每秒消耗的恶魔能量提升至@DegenAmpAmount@。<br>在汲取英雄时，每秒回复@DemonPowerRegen@恶魔能量。</rules>",
+    "spell_rumbleheatsystem_name": "机械重组",
+    "spell_rumbleheatsystem_summary": "兰博的技能都能使其获得热量。当兰博的热量达到50%时，他会处于危险温度状态，所有基础技能都会获得额外效果。当热量达到100%时，他会进入过热状态，获得额外的攻击速度并让他的普通攻击造成额外伤害，但也会让他在数秒内无法施放技能。",
+    "spell_rumbleheatsystem_tooltip": "兰博的技能生成<keywordMajor>热量</keywordMajor>。在<keywordMajor>@DangerZoneHeat@热量</keywordMajor>以上时，他会进入<keywordMajor>危险温度</keywordMajor>，使他的基础技能可以获得额外效果。当他到达<keywordMajor>@OverheatingHeat@热量</keywordMajor>时，他会进入持续@OverheatDuration@秒的过热状态。<br><br>在过热状态下，兰博会<status>沉默</status>自身，但会获得<attackSpeed>@OverheatAS@攻击速度</attackSpeed>并使他的攻击造成额外的<magicDamage>@TotalBaseDamage@外加@OverheatPercBonusDamage*100@%最大生命值的魔法伤害</magicDamage>。<br><br><rules>对野怪的百分比伤害的上限为@MonsterCapScaling@。</rules>",
+    "spell_rumbleflamethrower_name": "纵火盛宴",
+    "spell_rumbleflamethrower_summary": "兰博朝敌人放火，每秒对前方锥形范围内的敌人造成伤害，持续3秒。在危险温度时，兰博增加对其造成的伤害。",
+    "spell_rumbleflamethrower_tooltip": "兰博点燃他的火焰喷射器，在@FlamespitterDuration@秒里持续造成共<magicDamage>@FlatDamage@外加@HealthDamage*100@%最大生命值的魔法伤害</magicDamage>，对小兵降低至<attention>@MinionMod*100@%</attention>。<br><br><keywordMajor>危险温度：</keywordMajor>提升至<magicDamage>@EmpoweredDamage@外加@EmpoweredHealth@最大生命值的魔法伤害</magicDamage>。<br><br><rules>对野怪的百分比伤害的上限为@MonsterCap@。</rules>",
+    "spell_rumbleflamethrower_cost": "@InitialHeatCost@热量",
+    "spell_rumbleshield_name": "破碎护盾",
+    "spell_rumbleshield_summary": "兰博制造一个护盾，保护自己免受伤害，并短时间内增加移动速度。在危险温度时，兰博增加护盾强度和速度加成。",
+    "spell_rumbleshield_tooltip": "兰博开启一道屏障，获得持续@ShieldDuration.1@秒的<shield>@TotalShield@护盾值</shield>和持续@MoveSpeedDuration@秒的<speed>@MoveSpeed*100@%移动速度</speed>。<br><br><keywordMajor>危险温度：</keywordMajor>屏障转而提供<shield>@EmpoweredShield@护盾值</shield>和<speed>@EmpoweredMS@移动速度</speed>。",
+    "spell_rumbleshield_cost": "@HeatCost@热量",
+    "spell_rumblegrenade_name": "电子鱼叉",
+    "spell_rumblegrenade_summary": "兰博发射一把鱼叉，对敌人造成魔法伤害、减速效果和魔法抗性击碎效果。兰博可同时持有2发鱼叉。在危险温度时，兰博增加其伤害和减速百分比。",
+    "spell_rumblegrenade_tooltip": "兰博发射一柄电子鱼叉，造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>、持续@SlowDuration@秒的@BaseSlowAmount@%<status>减速</status>、以及持续@ShredDuration@秒的@PercMagicPen*100@%<scaleMR>魔抗</scaleMR>击碎效果。<br><br>命中一名已被此技能<status>减速</status>的敌人时，会将<status>减速</status>提升至@EmpoweredSlowAmount@%并使敌人的<scaleMR>魔抗</scaleMR>降低@EnhancedMagicPen*100@%。<br><br><keywordMajor>危险温度：</keywordMajor>鱼叉转而造成<magicDamage>@EmpDamage@魔法伤害</magicDamage>并且<status>减速</status>和<scaleMR>魔抗击碎</scaleMR>效果提升50%。",
+    "spell_rumblegrenade_cost": " @FirstCastHeatCost@ 热量",
+    "spell_rumblegrenade_cooldown": "@AmmoRechargeTime@秒充能时间(最大充能数：@MaxAmmo@)",
+    "spell_rumblecarpetbomb_name": "恒温灼烧",
+    "spell_rumblecarpetbomb_summary": "兰博朝目标区域发射火箭，形成一堵火焰之墙，对范围内的敌人造成伤害并减速。",
+    "spell_rumblecarpetbomb_tooltip": "兰博发射一列火箭，生成一道持续@TrailDuration@秒的燃烧小径，造成@SlowAmount@%<status>减速</status>并每秒造成<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>。<br><br>兰博可以在施放这个技能时，通过点击并拖拽来控制燃烧小径的方向。",
+    "spell_aurelionsolpassive_name": "星海焕然",
+    "spell_aurelionsolpassive_tooltip": "奥瑞利安·索尔的伤害型技能会将敌人们化为<font color='#3458eb'>星尘</font>，星尘可用来永久增强他的每个技能。<li><spellName>{{Spell_AurelionSolQ_Name}}</spellName>：爆发造成额外的<magicDamage>@QPassiveScaling@最大生命值的魔法伤害</magicDamage></li><li><spellName>{{Spell_AurelionSolW_Name}}</spellName>：@f2.1@%距离提升。</li><li><spellName>{{Spell_AurelionSolE_Name}}</spellName>：@f3.1@%区域提升和<scaleHealth>@EPassiveScalingExecute@</scaleHealth>额外处决阈值。</li><li><spellName>{{Spell_AurelionSolR1_Name}}和{{Spell_AurelionSolR2_Name}}</spellName>：@f4.1@%区域提升。</li><br><rules>奥瑞利安·索尔已获取的<font color='#3458eb'>星尘</font>数量：<font color='#3458eb'>@f1@</font></rules>",
+    "spell_aurelionsolpassive_summary": "奥瑞利安·索尔的伤害型技能会将敌人们化为<font color='#3458eb'>星尘</font>，星尘可用来永久增强他的每个技能。 ",
+    "spell_aurelionsolq_name": "星河冲荡",
+    "spell_aurelionsolq_tooltip": "奥瑞利安·索尔喷吐星焰，至多持续@MaxChannelDuration@秒，每秒对首个命中的敌人造成<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>并对附近的敌人们造成@AOEModifier*100@%此伤害。<br><br>对相同敌人每进行一整秒的吐息，就会造成一次爆发性的<magicDamage>@BurstDamage@魔法伤害</magicDamage>外加<magicDamage>@BurstBonusTrueDamageToChamps@最大生命值的魔法伤害</magicDamage>，并且如果这个敌人是英雄，还会吸收<font color='#3458eb'>@QMassStolen@星尘</font>。",
+    "spell_aurelionsolq1_cost": "每秒@ManaCostPerSecond@法力",
+    "spell_aurelionsolq_tooltipextendedbelowline": "<rules>这个技能的距离是@LevelBasedRangeScaling@。<br>在施放这个技能的0.25秒内将其取消，会使这个技能锁定1秒。<br>每次施放的最小法力消耗为@ManaCostPerSecond@。<br>百分比伤害对野怪的上限为<magicDamage>@MonsterDamageCap@魔法伤害</magicDamage>。</rules>",
+    "spell_aurelionsolq_summary": "奥瑞利安·索尔引导他的龙息若干秒，伤害首个命中的敌人并对附近的敌人们造成削减过的溅射伤害。龙息在一个敌人身上每直接引导一秒就会造成额外伤害，这个伤害可通过已收集的【星尘】来提升。如果目标是一名英雄，那么这个技能还会收集【星尘】。",
+    "spell_aurelionsolw_name": "星穹流丽",
+    "spell_aurelionsolw_tooltip": "奥瑞利安·索尔向一个方向飞行。在飞行时，<spellName>{{Spell_AurelionSolQ_Name}}</spellName>没有冷却时间，没有最大引导时长，并且它的固定伤害提升@TrueDamageBonus*100@%。<br><br>参与击杀那些在@ResetWindow@秒内被你造成过伤害的英雄后，会返还这个技能@TooltipTakedownCooldownMultiplier@%的冷却时间。<br><br><recast>再次施放：</recast>提前结束飞行。",
+    "spell_aurelionsolw_tooltipextendedbelowline": "<rules>在飞行时施放<spellName>{{Spell_AurelionSolQ_Name}}</spellName>会使飞行速度降低50%。<br>飞行速度是@DashSpeed@。</rules>",
+    "game_spell_description_aurelionsolw": "奥瑞利安 · 索尔沿着目标方向飞越地形。在这个状态下，他可以施放其它技能。飞行期间，星河冲荡没有冷却时间，也没有最长蓄力时间，并且造成的伤害会提升。<br><br>如果有敌方英雄因为奥瑞利安 · 索尔近期造成的伤害阵亡，星穹流丽的冷却时间会缩短。<br><br>星尘会提升星穹流丽的最大飞行距离。",
+    "spell_aurelionsole_name": "星芒凝汇",
+    "spell_aurelionsole_tooltip": "奥瑞利安·索尔召唤一个黑洞，对敌人们每秒造成<magicDamage>@DamagePerSecond@魔法伤害</magicDamage>并缓慢地将他们<status>拉拽</status>向黑洞的中心，持续@Duration@秒。黑洞中心的敌人一旦低于<scaleHealth>@CurrentExecutionThreshold@%最大生命值</scaleHealth>就会立刻阵亡。<br><br>每有一名敌人在黑洞中阵亡，以及一名敌方英雄在黑洞中每被困住一秒，黑洞就会吸收<font color='#3458eb'>星尘</font>。",
+    "spell_aurelionsole_tooltipextendedbelowline": "<rules>这个技能的施放距离为@LevelBasedRangeScaling@。<br>黑洞中的线上小兵和野怪拥有<speed>0移动速度</speed>。<br>史诗级野怪无法被处决。<br>英雄们每秒提供<font color='#3458eb'>@ChampionMassPerSecond@星尘</font>。<br>阵亡于黑洞中的单位们提供的<font color='#3458eb'>星尘</font>：<li>英雄：<font color='#3458eb'>@ChampionCountBonus@星尘</font></li><li>史诗级野怪：<font color='#3458eb'>@EpicMonsterCountBonus@星尘</font></li><li>大型野怪：<font color='#3458eb'>@LargeMonsterCountBonus@星尘</font></li><li>攻城小兵：<font color='#3458eb'>@LargeMinionCountBonus@星尘</font></li><li>小兵和小型野怪：<font color='#3458eb'>@MinionMassDeath@星尘</font></li></rules>",
+    "spell_aurelionsole_summary": "奥瑞利安·索尔召唤一个黑洞，对敌人们造成伤害并缓慢地将他们拉拽向黑洞的中心。每有一名敌人在黑洞中阵亡，以及一名敌方英雄在黑洞中每被困住一秒，这个技能都会提供【星尘】。黑洞的中心会处决低于一定百分比最大生命值的敌人。【星尘】会提升【星芒凝汇】的区域以及处决阈值。",
+    "spell_aurelionsolr_name": "星天落瀑",
+    "spell_aurelionsolr_tooltip": "奥瑞利安·索尔从诸天摘取一颗巨型星星并将其砸入大地中，对敌人造成<magicDamage>@MaxDamageTooltip@魔法伤害</magicDamage>、@StunDuration@秒<status>晕眩</status>并且每命中一名英雄就会吸收<font color='#3458eb'>@MassStolen@星尘</font>。<br><br>收集<font color='#3458eb'>@CalamityStacks@星尘</font>时会使下一个<spellName>{{Spell_AurelionSolR1_Name}}</spellName>转变为<spellName>{{Spell_AurelionSolR2_Name}}</spellName>。<br><br><spellName>{{Spell_AurelionSolR2_Name}}</spellName>：奥瑞利安·索尔从宇宙中拖来一个星座的怒火，在一个更大的区域造成<magicDamage>@R2Damage@魔法伤害</magicDamage>，对命中的敌人们造成@StunDuration@秒<status>击飞</status>，并释放一道巨型冲击波，对英雄和史诗级野怪造成<magicDamage>@ShockwaveDamage@魔法伤害</magicDamage>并对命中的所有敌人造成持续1秒的@ShockwaveSlow*100@%<status>减速</status>。",
+    "spell_aurelionsolr_tooltipextendedbelowline": "<rules>已收集的用于激活<spellName>{{Spell_AurelionSolR2_Name}}</spellName>的<font color='#3458eb'>星尘</font>数量：<font color='#3458eb'>@f1@/@CalamityStacks@。</font></rules>",
+    "spell_aurelionsolr_summary": "星落：奥瑞利安 · 索尔召唤一颗星辰坠落地面。这次冲击造成魔法伤害并眩晕敌人，并且每命中一个敌方英雄还会提供星尘。收集足够的星尘后，奥瑞利安·索尔的下一次星落将会升级为天瀑。<br><br>天瀑：奥瑞利安 · 索尔从诸天拽下一颗巨大的星辰撞击地面，拥有提升过的冲击范围和提升过的伤害，并且会对敌人们造成击飞而非晕眩。随后会有一道冲击波从冲击范围的边缘散播出去，对命中的敌人们造成伤害和减速。星尘会提升【星落】和【天瀑】的冲击范围。"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T12:16:34.985Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/rumble_p/formulas/overheat_attack_flat_damage",
+  "id": "overheat_attack_flat_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "overheat_attack_flat_damage",
+    "name": "过热攻击平伤组成",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "overheat_attack_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "overheat_attack_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalBaseDamage = 等级基础项 + 0.25×法强；这里仅表示平伤组成，正文另有4%目标最大生命值伤害，不创建DAMAGE结果。",
+    "sortOrder": 10
+  }
+}

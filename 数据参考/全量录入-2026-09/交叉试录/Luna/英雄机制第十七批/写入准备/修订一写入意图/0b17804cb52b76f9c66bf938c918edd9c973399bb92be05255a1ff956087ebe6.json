@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T12:15:32.734Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/swain_p/formulas/soul_heal_amount",
+  "id": "soul_heal_amount",
+  "method": "POST",
+  "body": {
+    "formulaKey": "soul_heal_amount",
+    "name": "魂屑回复生命量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "soul_heal_ratio"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "source_max_health_for_soul"
+        }
+      ]
+    },
+    "description": "PassiveHealCalculated = 6%×来源最大生命值；不创建瞬时治疗结果。",
+    "sortOrder": 20
+  }
+}

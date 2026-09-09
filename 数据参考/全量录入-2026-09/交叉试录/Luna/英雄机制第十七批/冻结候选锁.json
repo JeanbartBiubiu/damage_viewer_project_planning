@@ -1,0 +1,82 @@
+{
+  "at": "2026-09-09T11:15:29.466Z",
+  "status": "候选已冻结，等待主负责人审查；不是实录",
+  "source": "client16.17/official16.17.1",
+  "sourceBuild": "16.17.8104348+branch.releases-16-17.content.release",
+  "candidateFileSha256": "7a09c5e2597c819aa38c7ac0901e047c2709cfcdb1be6310ebafe9ff926cc14a",
+  "candidatePlanSha256": "f468bb9ea7b6e093b87955e669728b8bb0e54ea5ccf62c8fe6b69a57299b78e2",
+  "candidateVersionFileSha256": "9e7199de5dbff29db310adef3e1142a0ddf303200534591c3ad4162f3131bd11",
+  "writePlanFileSha256": "6d814ca7279c280d7d92e84057cd1d8fa938697b7074d3f955eff1a651974545",
+  "independentMathFileSha256": "2a444537d5c733ed02eb0617fb87240b1d4e0a361b5ac106ca1002ae98df5163",
+  "readOnlyFileSha256": "ba50c2f11595df9c64d95345b4af156f9e468656b3bcdb8634558048bad8b62c",
+  "counts": {
+    "parameters": 228,
+    "formulas": 47,
+    "effects": 14,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "totalNewRequests": 267,
+  "reusedPublicParameters": 22,
+  "api": {
+    "readOnlyRequests": 53,
+    "successfulReadOnlyRequests": 53,
+    "failures": 0,
+    "businessWrites": 0
+  },
+  "independentMath": {
+    "total": 489,
+    "passed": 489,
+    "failed": 0
+  },
+  "protectedReadOnly": {
+    "publicParameterDetails": 22,
+    "characters": 4,
+    "characterSkillRelations": 4,
+    "representativeImages": 20,
+    "catalogs": 3,
+    "apiWrites": 0
+  },
+  "sourceHashes": [
+    {
+      "id": "Vladimir",
+      "clientSha256": "6417376f7de2a253a42585a60b48f05b951f17d68f92f9f8b4182952a5af8147",
+      "officialSha256": "b6f1848c17d57deb50b6084eee7bc154ae2c3e5f588a889ede865318c45f0d23"
+    },
+    {
+      "id": "Swain",
+      "clientSha256": "02d529b9d242100cd968da8300be5e241c5afbce3937b8c97d97fe1a649a313b",
+      "officialSha256": "543c939c76a1b0c63595c3ad3b0cc13fb99400583a09d613cf7c11ddfd13c73a"
+    },
+    {
+      "id": "Rumble",
+      "clientSha256": "786bc00715678d541ecdfcc91138decb2718ed4e1f14bd6becadc8b5f6273472",
+      "officialSha256": "56b0ab88264c05e4180c81eeed3b0bab913079faa379f3d14f4e6d41c1babea3"
+    },
+    {
+      "id": "AurelionSol",
+      "clientSha256": "8d59b9548b7b0e7f863ed2c78781b6710c7f97c55cbe2ebcb2a78bc6791bcce7",
+      "officialSha256": "9b14944c4135d278230cfdc0a00edfc9323fe8641fc7a3e0c24f05cb1e2c1d65"
+    }
+  ],
+  "lockedFiles": {
+    "README.md": "418f332e5edf83a728a0388ab6bf3a71289b85caf6d8db4bcfdbfa7a5e816fbb",
+    "范围与来源说明.md": "f012505da3c4fd9bf9bf7c67571ed23574c60eeeff12dbceb7678e74984e80cf",
+    "体验报告.md": "782eaf9e57e61bde951738aebc9ff6ac80505e57fbbaf7766190f76a36d427c8",
+    "候选.mjs": "e96ccde0de4bc6927535fcb7ab6e2b77217ce7ddf41039acd162cb6cd128b57d",
+    "英雄组成.mjs": "6f05c0b4c34a7938ced878e2d0e187d00933326e31a80dfae1b0a06fb322187e",
+    "生成候选.mjs": "46c1d9864b790a4de474443a0e27d033126f10bca4ccdc97fa922bc9fefc6ed5",
+    "生成写前计划.mjs": "e6fc61fd0cf44b5d850bf75b34c6e83a95768e3170e933d774fc40e0f57dac05",
+    "独立源值与算例.mjs": "83857cf48a344338dfae2058fa1407225eff9936c671a957766ffbb676d18708",
+    "生成冻结锁.mjs": "8b09bbd2ec3dfa856ce0d449fbbf3f1c8838ecb6032fd79271d48248b62e578d",
+    "完整候选.json": "7a09c5e2597c819aa38c7ac0901e047c2709cfcdb1be6310ebafe9ff926cc14a",
+    "候选版本.json": "9e7199de5dbff29db310adef3e1142a0ddf303200534591c3ad4162f3131bd11",
+    "写前计划.json": "6d814ca7279c280d7d92e84057cd1d8fa938697b7074d3f955eff1a651974545",
+    "独立源值与算例.json": "2a444537d5c733ed02eb0617fb87240b1d4e0a361b5ac106ca1002ae98df5163",
+    "只读保护与公共参数.json": "ba50c2f11595df9c64d95345b4af156f9e468656b3bcdb8634558048bad8b62c",
+    "当前候选状态.json": "cd220a06d05ee7e95540744e77d0df36e5e770ac369604c485a43c360155dc96",
+    "来源冻结/来源与哈希汇总.json": "d165df65d12e638825a9e5dd594b79fbc4b9a6391a863b6640749567f40fb1fc"
+  },
+  "policy": "冻结后禁止覆盖候选、计划和证据；如需修订，另存修订版并由主负责人协调。"
+}

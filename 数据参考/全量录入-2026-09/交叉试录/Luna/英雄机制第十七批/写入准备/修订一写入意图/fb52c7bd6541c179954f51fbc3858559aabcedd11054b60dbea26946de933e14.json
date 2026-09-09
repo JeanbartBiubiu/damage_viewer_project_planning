@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T12:16:52.721Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/rumble_w/parameters/base_shield",
+  "id": "base_shield",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_shield",
+    "name": "破碎护盾基础值",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 25,
+      "2": 55,
+      "3": 85,
+      "4": 115,
+      "5": 145
+    },
+    "description": "客户端当前根绑定 DataValues.BaseShield 取索引1至5",
+    "sortOrder": 40
+  }
+}

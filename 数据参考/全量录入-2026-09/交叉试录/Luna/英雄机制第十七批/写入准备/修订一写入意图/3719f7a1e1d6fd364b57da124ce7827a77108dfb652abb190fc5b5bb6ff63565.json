@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T12:15:54.960Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/swain_e/parameters/secondary_damage_base",
+  "id": "secondary_damage_base",
+  "method": "POST",
+  "body": {
+    "parameterKey": "secondary_damage_base",
+    "name": "永不复行爆炸基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 90,
+      "2": 130,
+      "3": 170,
+      "4": 210,
+      "5": 250
+    },
+    "description": "客户端当前根绑定 DataValues.E2Damage 取索引1至5",
+    "sortOrder": 40
+  }
+}

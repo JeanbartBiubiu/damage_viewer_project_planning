@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T12:15:01.698Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/vladimir_w/formulas/pool_heal",
+  "id": "pool_heal",
+  "method": "POST",
+  "body": {
+    "formulaKey": "pool_heal",
+    "name": "血池持续总回复量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "vamp_ratio"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_health_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalHeal = VampPercent×TotalDamage；正文 TotalHeal 为持续期间回复总量，不推断每个节拍或每次命中分配，不创建瞬时治疗结果。",
+    "sortOrder": 20
+  }
+}

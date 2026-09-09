@@ -1,0 +1,687 @@
+{
+  "at": "2026-09-09T12:20:02.986Z",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "mode": "独立全量GET后的实际表达式数学核算；不发送接口请求",
+  "runDir": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十七批\\独立回读\\2026-09-09T12-19-28-348Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "source": "client16.17/official16.17.1",
+  "sourceBuild": "16.17.8104348+branch.releases-16-17.content.release",
+  "checks": 19,
+  "failedChecks": 0,
+  "failures": [],
+  "actualExpressionHashes": {
+    "vladimir_p/ability_power_from_bonus_health": "d499c0a38abd202a2a149e568d5ae92deed0510c805282d249343afc84f7cbd0",
+    "vladimir_p/bonus_health_from_ability_power": "2d3c7dd0167da94952c8de58ea45cd44e37724cef398daac038c788256d6ae8e",
+    "vladimir_q/base_damage": "f3c627865a0a67a8dd343789094dc6408536db20bced7ddaf4f48a98a50aceca",
+    "vladimir_q/base_heal": "b2f8b9c2d6a2c5e534ac595bce2611c6b503e10aaad5ad2ba91a301e459e4ed5",
+    "vladimir_q/empowered_damage": "14a8f8bbc6549f4a7b3a8fe63dd9dc1716dc9904fa6b34523861f8d042cde534",
+    "vladimir_q/empowered_heal": "3d773c232002943fd024e0e330b208e61bf924a08efbaa76bc701696d8c37b4b",
+    "vladimir_w/pool_damage": "ba188275d94e189425d69bd7e970a04b9bd9ac494b0bf39205a09d2735c591c4",
+    "vladimir_w/pool_heal": "71d510172be4f7183e81607d26c7658208436666282333a5932463de3fec9bbf",
+    "vladimir_w/health_cost": "810ac1451a16934def6552986d63afac6da6376b487d0a3ee473a83a6cf8ba80",
+    "vladimir_e/min_damage": "f626ed1f4fa75f82055aa0465b01384d9c5777c40fa022236bc9572f2aea8bac",
+    "vladimir_e/max_damage": "42a4bb9c93ed573a5cb60ab40b50eaaebea45401227d0f1e829afc59a692dbe8",
+    "vladimir_e/charge_health_cost": "512e99faa5ff13802b2d25b1efe0c77fda5c2fd8d7afa0f33cc582344a94f018",
+    "vladimir_r/damage": "f3c627865a0a67a8dd343789094dc6408536db20bced7ddaf4f48a98a50aceca",
+    "vladimir_r/first_champion_heal": "bea69245892133367f1299b6696801d9241c24e4c8ba0e724931876bb4be53d9",
+    "swain_p/soul_bonus_max_health": "1d3cc928489319ea9352963a46c162d0d834b0491509c89cc5c7784c3175fded",
+    "swain_p/soul_heal_amount": "298973211302b1024289f15e38fce3af76ac9cfb73477c86b35f632041b9581c",
+    "swain_q/initial_damage": "98d264ae938e4f865c5e6b3b46f24029e60a9332bb4ddded26b644591fa806e1",
+    "swain_q/extra_bolt_damage": "35b87dee94c5881c40b08c081198ba45767d34dcb2b784405f65b3c22519b6c1",
+    "swain_q/max_damage": "b5056c0829c3dda56965e3499ca53fc9390ff6369fea86d01e4131e7490c20e6",
+    "swain_w/damage": "a15a55facb9a1e13ff5ad6e8610d8a4a5e389f1384e36154a0e1779425a2baaa",
+    "swain_e/secondary_damage": "3fafacd35ce6ad8bfe146bd764956ad252af5a8136a024be47ffff25385ad8b8",
+    "swain_r/damage_per_second": "dd8656ceb64daafeb2f626fed36d36d3594bb9d26fb0d4ff2d5b2037115c79bd",
+    "swain_r/healing_per_second": "4baf4743c44ac7607107dd46f27301b83d6280bd0466dda85552f9133cd86c82",
+    "swain_r/demonflare_damage": "fea78e06f6be158c9e333b19c803138de3146216a296fceada8ba80bb777f114",
+    "rumble_p/overheat_attack_flat_damage": "8cb4741cb0c73064dd6549302f23726653dd7c1690ee8a8d40296abf0f464290",
+    "rumble_p/overheat_attack_max_health_damage": "a6b034f72539ec7cb72e7304c87359843c6c30ccfcf71c270a5b70b681f10001",
+    "rumble_q/flat_damage": "a15a55facb9a1e13ff5ad6e8610d8a4a5e389f1384e36154a0e1779425a2baaa",
+    "rumble_q/empowered_damage": "0e1fb02ec541555a50826074a7bb22c7ed1cc0728ee83426a01a1412bf74d171",
+    "rumble_q/empowered_health_damage_ratio": "ba5d51b55c9ea19e385cee8a3e26bb876a960014fb6ef66892e7ff1530b1497e",
+    "rumble_w/shield_amount": "38529447f2d449d225742a9b0bd6b354df5249c525ef1df9d4b8b40092f09d58",
+    "rumble_w/empowered_shield_amount": "f761a84afdc3998c04e3745b98afad59dfa23b2d7c663b1ee0bc1441c6d4ec35",
+    "rumble_w/empowered_move_speed_ratio": "72375226c50a50608dc544cb333c3cf612dc843ad8a34d9c13af8c25b2219399",
+    "rumble_e/damage": "a15a55facb9a1e13ff5ad6e8610d8a4a5e389f1384e36154a0e1779425a2baaa",
+    "rumble_e/empowered_damage": "b258b605824ce3b4f635674bf86154b81619561c20609d4933ff200d4b358e7b",
+    "rumble_r/damage_per_second": "3a30a01e6c07e2c698ec3f4b22a72da41f4fbfc33dabd01957d559b20abb24cb",
+    "aurelionsol_p/q_bonus_max_health_damage_ratio": "cee7b53cb24e8a726e650bf0dafc9fe4d327ea6c733263f0f94935d8904f2d5f",
+    "aurelionsol_p/e_execute_threshold_ratio": "68b3b410253eb55162826ac30000ef713b2706bad553eb4879d30f27808fd40c",
+    "aurelionsol_q/damage_per_second": "dd8656ceb64daafeb2f626fed36d36d3594bb9d26fb0d4ff2d5b2037115c79bd",
+    "aurelionsol_q/burst_damage": "175660c52ee79122885cc999e95d9668756becacca85f232786daf85e35eb25e",
+    "aurelionsol_q/bonus_max_health_magic_damage_ratio": "6d9da61f1031262752caeb34aea302d816059dd9699372ceefaa0890052779ba",
+    "aurelionsol_q/bonus_max_health_magic_damage_amount": "a8b505db69c70c2e24bdf19293fd8617c12522a4083287ebaf87ae17565cefd0",
+    "aurelionsol_w/dash_speed": "704dc5c6c8539435d0ec368d4aa36cedf5638cb5be47445f63f66381ad553572",
+    "aurelionsol_e/damage_per_second": "dd8656ceb64daafeb2f626fed36d36d3594bb9d26fb0d4ff2d5b2037115c79bd",
+    "aurelionsol_e/current_execute_threshold_ratio": "68b3b410253eb55162826ac30000ef713b2706bad553eb4879d30f27808fd40c",
+    "aurelionsol_r/damage": "a15a55facb9a1e13ff5ad6e8610d8a4a5e389f1384e36154a0e1779425a2baaa",
+    "aurelionsol_r/skies_descend_damage": "09a3a7583a1c476c30bd39c84ec2fe0c2f67f44d573cc508cf6617a8959f9595",
+    "aurelionsol_r/shockwave_damage": "4554bbbd66ff4f5a4e1f7d0bc8b2aceefd03ef93eea4cc663918fc2d02bb1257"
+  },
+  "formulas": {
+    "total": 47,
+    "actualStored": 47,
+    "checks": [
+      {
+        "key": "vladimir_p/ability_power_from_bonus_health",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 10,
+        "error": null
+      },
+      {
+        "key": "vladimir_p/bonus_health_from_ability_power",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 160,
+        "error": null
+      },
+      {
+        "key": "vladimir_q/base_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 140,
+        "error": null
+      },
+      {
+        "key": "vladimir_q/base_heal",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 55,
+        "error": null
+      },
+      {
+        "key": "vladimir_q/empowered_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 259,
+        "error": null
+      },
+      {
+        "key": "vladimir_q/empowered_heal",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 145,
+        "error": null
+      },
+      {
+        "key": "vladimir_w/pool_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 125,
+        "error": null
+      },
+      {
+        "key": "vladimir_w/pool_heal",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 37.5,
+        "error": null
+      },
+      {
+        "key": "vladimir_w/health_cost",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 120,
+        "error": null
+      },
+      {
+        "key": "vladimir_e/min_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 95,
+        "error": null
+      },
+      {
+        "key": "vladimir_e/max_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 260,
+        "error": null
+      },
+      {
+        "key": "vladimir_e/charge_health_cost",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 160,
+        "error": null
+      },
+      {
+        "key": "vladimir_r/damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 220,
+        "error": null
+      },
+      {
+        "key": "vladimir_r/first_champion_heal",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 220,
+        "error": null
+      },
+      {
+        "key": "swain_p/soul_bonus_max_health",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 60,
+        "error": null
+      },
+      {
+        "key": "swain_p/soul_heal_amount",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 120,
+        "error": null
+      },
+      {
+        "key": "swain_q/initial_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 105,
+        "error": null
+      },
+      {
+        "key": "swain_q/extra_bolt_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 26.25,
+        "error": null
+      },
+      {
+        "key": "swain_q/max_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 210,
+        "error": null
+      },
+      {
+        "key": "swain_w/damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 130,
+        "error": null
+      },
+      {
+        "key": "swain_e/secondary_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 160,
+        "error": null
+      },
+      {
+        "key": "swain_r/damage_per_second",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 19,
+        "error": null
+      },
+      {
+        "key": "swain_r/healing_per_second",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 24.5,
+        "error": null
+      },
+      {
+        "key": "swain_r/demonflare_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 190,
+        "error": null
+      },
+      {
+        "key": "rumble_p/overheat_attack_flat_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 45,
+        "error": null
+      },
+      {
+        "key": "rumble_p/overheat_attack_max_health_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 40,
+        "error": null
+      },
+      {
+        "key": "rumble_q/flat_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 155,
+        "error": null
+      },
+      {
+        "key": "rumble_q/empowered_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 232.5,
+        "error": null
+      },
+      {
+        "key": "rumble_q/empowered_health_damage_ratio",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 0.09,
+        "error": null
+      },
+      {
+        "key": "rumble_w/shield_amount",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 75,
+        "error": null
+      },
+      {
+        "key": "rumble_w/empowered_shield_amount",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 112.5,
+        "error": null
+      },
+      {
+        "key": "rumble_w/empowered_move_speed_ratio",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 0.15000000000000002,
+        "error": null
+      },
+      {
+        "key": "rumble_e/damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 105,
+        "error": null
+      },
+      {
+        "key": "rumble_e/empowered_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 157.5,
+        "error": null
+      },
+      {
+        "key": "rumble_r/damage_per_second",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 155,
+        "error": null
+      },
+      {
+        "key": "aurelionsol_p/q_bonus_max_health_damage_ratio",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 0.0031,
+        "error": null
+      },
+      {
+        "key": "aurelionsol_p/e_execute_threshold_ratio",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 0.0526,
+        "error": null
+      },
+      {
+        "key": "aurelionsol_q/damage_per_second",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 100,
+        "error": null
+      },
+      {
+        "key": "aurelionsol_q/burst_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 90,
+        "error": null
+      },
+      {
+        "key": "aurelionsol_q/bonus_max_health_magic_damage_ratio",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 0.0031,
+        "error": null
+      },
+      {
+        "key": "aurelionsol_q/bonus_max_health_magic_damage_amount",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 15.5,
+        "error": null
+      },
+      {
+        "key": "aurelionsol_w/dash_speed",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 360,
+        "error": null
+      },
+      {
+        "key": "aurelionsol_e/damage_per_second",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 22,
+        "error": null
+      },
+      {
+        "key": "aurelionsol_e/current_execute_threshold_ratio",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 0.0526,
+        "error": null
+      },
+      {
+        "key": "aurelionsol_r/damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 225,
+        "error": null
+      },
+      {
+        "key": "aurelionsol_r/skies_descend_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 281.25,
+        "error": null
+      },
+      {
+        "key": "aurelionsol_r/shockwave_damage",
+        "passed": true,
+        "status": "PASSED",
+        "actualValue": 202.5,
+        "error": null
+      }
+    ],
+    "inputRejections": []
+  },
+  "examples": [
+    {
+      "skillKey": "vladimir_p",
+      "formulaKey": "ability_power_from_bonus_health",
+      "expected": 10,
+      "actual": 10,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "vladimir_p",
+      "formulaKey": "bonus_health_from_ability_power",
+      "expected": 160,
+      "actual": 160,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "vladimir_q",
+      "formulaKey": "base_damage",
+      "expected": 140,
+      "actual": 140,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "vladimir_w",
+      "formulaKey": "pool_damage",
+      "expected": 125,
+      "actual": 125,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "vladimir_e",
+      "formulaKey": "min_damage",
+      "expected": 95,
+      "actual": 95,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "vladimir_r",
+      "formulaKey": "damage",
+      "expected": 220,
+      "actual": 220,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "swain_p",
+      "formulaKey": "soul_bonus_max_health",
+      "expected": 60,
+      "actual": 60,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "swain_p",
+      "formulaKey": "soul_heal_amount",
+      "expected": 120,
+      "actual": 120,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "swain_q",
+      "formulaKey": "initial_damage",
+      "expected": 105,
+      "actual": 105,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "swain_w",
+      "formulaKey": "damage",
+      "expected": 130,
+      "actual": 130,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "swain_e",
+      "formulaKey": "secondary_damage",
+      "expected": 160,
+      "actual": 160,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "swain_r",
+      "formulaKey": "damage_per_second",
+      "expected": 19,
+      "actual": 19,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "swain_r",
+      "formulaKey": "healing_per_second",
+      "expected": 24.5,
+      "actual": 24.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "rumble_p",
+      "formulaKey": "overheat_attack_flat_damage",
+      "expected": 45,
+      "actual": 45,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "rumble_p",
+      "formulaKey": "overheat_attack_max_health_damage",
+      "expected": 40,
+      "actual": 40,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "rumble_q",
+      "formulaKey": "flat_damage",
+      "expected": 155,
+      "actual": 155,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "rumble_w",
+      "formulaKey": "shield_amount",
+      "expected": 75,
+      "actual": 75,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "rumble_e",
+      "formulaKey": "damage",
+      "expected": 105,
+      "actual": 105,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "rumble_r",
+      "formulaKey": "damage_per_second",
+      "expected": 155,
+      "actual": 155,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "aurelionsol_p",
+      "formulaKey": "q_bonus_max_health_damage_ratio",
+      "expected": 0.0031,
+      "actual": 0.0031,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "aurelionsol_p",
+      "formulaKey": "e_execute_threshold_ratio",
+      "expected": 0.0526,
+      "actual": 0.0526,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "aurelionsol_q",
+      "formulaKey": "damage_per_second",
+      "expected": 100,
+      "actual": 100,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "aurelionsol_q",
+      "formulaKey": "bonus_max_health_magic_damage_amount",
+      "expected": 15.5,
+      "actual": 15.5,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "aurelionsol_w",
+      "formulaKey": "dash_speed",
+      "expected": 360,
+      "actual": 360,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "aurelionsol_e",
+      "formulaKey": "damage_per_second",
+      "expected": 22,
+      "actual": 22,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "aurelionsol_e",
+      "formulaKey": "current_execute_threshold_ratio",
+      "expected": 0.0526,
+      "actual": 0.0526,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "aurelionsol_r",
+      "formulaKey": "damage",
+      "expected": 225,
+      "actual": 225,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "aurelionsol_r",
+      "formulaKey": "skies_descend_damage",
+      "expected": 281.25,
+      "actual": 281.25,
+      "passed": true,
+      "error": null
+    },
+    {
+      "skillKey": "aurelionsol_r",
+      "formulaKey": "shockwave_damage",
+      "expected": 202.5,
+      "actual": 202.5,
+      "passed": true,
+      "error": null
+    }
+  ],
+  "boundaries": [
+    {
+      "name": "奥瑞利安·索尔P处决0星尘为0.05比例",
+      "passed": true,
+      "detail": 0.05
+    },
+    {
+      "name": "奥瑞利安·索尔P处决100星尘为0.076比例",
+      "passed": true,
+      "detail": 0.076
+    },
+    {
+      "name": "奥瑞利安·索尔E处决0星尘为0.05比例",
+      "passed": true,
+      "detail": 0.05
+    },
+    {
+      "name": "奥瑞利安·索尔E处决100星尘为0.076比例",
+      "passed": true,
+      "detail": 0.076
+    }
+  ],
+  "negativeControls": [
+    {
+      "name": "范围外RumbleQ小兵伤害公式不存在",
+      "rejected": true,
+      "error": "实际公式表达式缺失 rumble_q/minion_damage"
+    },
+    {
+      "name": "范围外SwainW显形时长公式不存在",
+      "rejected": true,
+      "error": "实际参数缺失 swain_w/reveal_duration_ms"
+    }
+  ],
+  "sourceHeroes": [
+    "Vladimir",
+    "Swain",
+    "Rumble",
+    "AurelionSol"
+  ],
+  "actualReadback": {
+    "calls": 457,
+    "methods": {
+      "GET": 457
+    },
+    "statuses": {
+      "200": 457
+    },
+    "lists": 120,
+    "details": 285,
+    "protectionConflicts": 0,
+    "listConflicts": 0,
+    "componentConflicts": 0
+  },
+  "apiWrites": 0,
+  "businessWrites": 0
+}

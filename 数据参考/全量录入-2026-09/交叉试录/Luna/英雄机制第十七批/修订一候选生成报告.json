@@ -1,0 +1,1293 @@
+{
+  "generatedAt": "2026-09-09T11:41:34.263Z",
+  "baseCandidateSha256": "7a09c5e2597c819aa38c7ac0901e047c2709cfcdb1be6310ebafe9ff926cc14a",
+  "revisedCandidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "counts": {
+    "parameters": 224,
+    "formulas": 47,
+    "effects": 14,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newCounts": {
+    "parameters": 202,
+    "formulas": 47,
+    "effects": 14,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedPublicParameters": 22,
+  "changes": [
+    {
+      "path": "skills.rumble_w.write.effects.shield.lifecycle.durationValue",
+      "kind": "shape",
+      "old": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "shield_duration_ms"
+      },
+      "new": {
+        "kind": "PARAMETER",
+        "parameterKey": "shield_duration_ms"
+      }
+    },
+    {
+      "path": "skills.rumble_w.write.effects.empowered_shield.lifecycle.durationValue",
+      "kind": "shape",
+      "old": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "shield_duration_ms"
+      },
+      "new": {
+        "kind": "PARAMETER",
+        "parameterKey": "shield_duration_ms"
+      }
+    },
+    {
+      "path": "skills.rumble_w.write.effects.move_speed.lifecycle.durationValue",
+      "kind": "shape",
+      "old": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "move_speed_duration_ms"
+      },
+      "new": {
+        "kind": "PARAMETER",
+        "parameterKey": "move_speed_duration_ms"
+      }
+    },
+    {
+      "path": "skills.rumble_w.write.effects.empowered_move_speed.lifecycle.durationValue",
+      "kind": "shape",
+      "old": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "move_speed_duration_ms"
+      },
+      "new": {
+        "kind": "PARAMETER",
+        "parameterKey": "move_speed_duration_ms"
+      }
+    },
+    {
+      "path": "skills.vladimir_w",
+      "kind": "rename-and-description",
+      "old": {
+        "baseName": "血池每次伤害基础值",
+        "vampName": "每次命中生命回复比例",
+        "damageName": "血池每次命中魔法伤害",
+        "damageDescription": "TotalDamage = BaseDamage + BonusHealthRatio×来源额外生命值；保留单次数学量，不创建周期伤害。",
+        "healName": "血池每次命中生命回复",
+        "healDescription": "TotalHeal = VampPercent×TotalDamage；不创建瞬时治疗结果。"
+      },
+      "new": {
+        "baseName": "血池持续总伤害基础值",
+        "vampName": "血池持续总回复比例",
+        "damageName": "血池持续总魔法伤害量",
+        "damageDescription": "TotalDamage = BaseDamage + BonusHealthRatio×来源额外生命值；正文 TotalDamage 为持续期间总魔法伤害量，不表示每个节拍或每次命中。",
+        "healName": "血池持续总回复量",
+        "healDescription": "TotalHeal = VampPercent×TotalDamage；正文 TotalHeal 为持续期间回复总量，不推断每个节拍或每次命中分配，不创建瞬时治疗结果。"
+      }
+    },
+    {
+      "path": "skills.vladimir_w.pending[不可被选取、幽灵与持续节拍].reason",
+      "kind": "description",
+      "old": "不可被选取属于1v1相关系统待接；纯碰撞幽灵效果、持续伤害和每命中一个敌人的回复需要状态、周期和命中事件。本候选只保留持续时间、单次量和资源代价。",
+      "new": "不可被选取属于1v1相关系统待接；纯碰撞幽灵效果、持续伤害和持续期间总回复量的事件分配需要状态、周期和命中事件。正文以TotalDamage/TotalHeal描述持续期间总量，未证明每个节拍或每次命中分配。本候选只保留持续时间、总量数学和资源代价。"
+    },
+    {
+      "path": "skills.vladimir_q.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "小兵强化治疗支路（empowered_minion_heal_ratio/MinionHealPercent）",
+        "reason": "当前绑定扩展正文和 DataValues.MinionHealPercent 指向小兵强化治疗分支；本轮保留正常单一英雄收益，移出可写参数和公式。"
+      }
+    },
+    {
+      "path": "skills.vladimir_q.proofs[DataValues.MinionHealPercent]",
+      "kind": "proof",
+      "old": {
+        "source": "DataValues.MinionHealPercent",
+        "raw": [
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35
+        ],
+        "semantic": "原始数据字段完整留源；当前候选没有独立数值消费，不按字段名猜测含义。",
+        "sourcePending": true
+      },
+      "new": {
+        "source": "DataValues.MinionHealPercent",
+        "raw": [
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35
+        ],
+        "semantic": "小兵强化治疗支路属于本轮范围外；原始值留源，不生成专用参数或公式。",
+        "sourcePending": true,
+        "excluded": true
+      }
+    },
+    {
+      "path": "skills.vladimir_w.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "小兵治疗效能支路（MinionHealingMod）",
+        "reason": "DataValues.MinionHealingMod 是小兵治疗效能比例；本轮只保留正常单一英雄的持续总回复量。"
+      }
+    },
+    {
+      "path": "skills.vladimir_r.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "额外英雄命中回复比例（VampPercentAdditionalChamp）",
+        "reason": "额外英雄命中回复属于本轮多目标分摊外支路；本轮只保留首个英雄回复数学。"
+      }
+    },
+    {
+      "path": "skills.vladimir_r.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "额外英雄命中回复计算树（SecondaryHealingTooltip）",
+        "reason": "SecondaryHealingTooltip 是额外英雄命中回复树；本轮留在来源证据，不生成多目标专用公式。"
+      }
+    },
+    {
+      "path": "skills.vladimir_r.proofs[DataValues.VampPercentAdditionalChamp]",
+      "kind": "proof",
+      "old": {
+        "source": "DataValues.VampPercentAdditionalChamp",
+        "raw": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "excluded": true,
+        "semantic": "额外英雄命中回复属于本轮多目标外支路；保留首个英雄回复数学，不为额外命中新增专用参数。"
+      },
+      "new": {
+        "source": "DataValues.VampPercentAdditionalChamp",
+        "raw": [
+          40,
+          40,
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "excluded": true,
+        "semantic": "额外英雄命中回复属于本轮多目标外支路；保留首个英雄回复数学，不为额外命中新增专用参数。"
+      }
+    },
+    {
+      "path": "skills.vladimir_r.proofs[mSpellCalculations.SecondaryHealingTooltip]",
+      "kind": "proof",
+      "old": {
+        "source": "mSpellCalculations.SecondaryHealingTooltip",
+        "raw": {
+          "mMultiplier": {
+            "mNumber": 0.4000000059604645,
+            "__type": "NumberCalculationPart"
+          },
+          "mModifiedGameCalculation": "Damage",
+          "__type": "GameCalculationModified"
+        },
+        "semantic": "额外英雄命中回复计算树保留来源；本轮不创建多目标专用公式。",
+        "excluded": true
+      },
+      "new": {
+        "source": "mSpellCalculations.SecondaryHealingTooltip",
+        "raw": {
+          "mMultiplier": {
+            "mNumber": 0.4000000059604645,
+            "__type": "NumberCalculationPart"
+          },
+          "mModifiedGameCalculation": "Damage",
+          "__type": "GameCalculationModified"
+        },
+        "semantic": "额外英雄命中回复计算树保留来源；本轮不创建多目标专用公式。",
+        "excluded": true
+      }
+    },
+    {
+      "path": "skills.swain_w.write.parameters.reveal_duration_ms",
+      "kind": "removed",
+      "old": {
+        "parameterKey": "reveal_duration_ms",
+        "name": "显形持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.RevealDuration 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+        "sortOrder": 80
+      },
+      "new": null
+    },
+    {
+      "path": "skills.swain_w.proofs[reveal_duration_ms]",
+      "kind": "proof",
+      "old": {
+        "parameterKey": "reveal_duration_ms",
+        "source": "DataValues.RevealDuration",
+        "raw": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "offset": 1,
+        "values": [
+          6000,
+          6000,
+          6000,
+          6000,
+          6000
+        ],
+        "scale": 1000
+      },
+      "new": {
+        "source": "DataValues.RevealDuration",
+        "raw": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          6,
+          6
+        ],
+        "offset": 1,
+        "values": [
+          6000,
+          6000,
+          6000,
+          6000,
+          6000
+        ],
+        "scale": 1000,
+        "excluded": true,
+        "semantic": "显形持续时间属于本轮纯视野支路；原始字段留源，不生成参数。"
+      }
+    },
+    {
+      "path": "skills.swain_w.proofs[DataValues.RevealDuration].parameterKey",
+      "kind": "removed",
+      "old": "reveal_duration_ms",
+      "new": null
+    },
+    {
+      "path": "skills.swain_w.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "显形持续时间参数（reveal_duration_ms/RevealDuration）",
+        "reason": "显形持续时间属于本轮纯视野支路；移出可写参数，原始来源证据保留。"
+      }
+    },
+    {
+      "path": "skills.swain_w.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "小兵伤害比例参数（MinionMod）",
+        "reason": "小兵伤害属于本轮兵线专用外支路；本轮只保留正常单一英雄命中数学。"
+      }
+    },
+    {
+      "path": "skills.swain_w.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "小兵伤害计算树（MinionDamage）",
+        "reason": "MinionDamage 是小兵专用计算树；本轮留在来源证据，不生成小兵公式。"
+      }
+    },
+    {
+      "path": "skills.swain_w.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "纯显形视野半径（VisionRadius）",
+        "reason": "纯显形视野属于本轮纯视觉/视野边界；不生成专用参数。"
+      }
+    },
+    {
+      "path": "skills.swain_w.proofs[DataValues.MinionMod]",
+      "kind": "proof",
+      "old": {
+        "source": "DataValues.MinionMod",
+        "raw": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "excluded": true,
+        "semantic": "小兵伤害属于本轮范围外支路；本候选只保留正常单一英雄命中数学。"
+      },
+      "new": {
+        "source": "DataValues.MinionMod",
+        "raw": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "excluded": true,
+        "semantic": "小兵伤害属于本轮范围外支路；本候选只保留正常单一英雄命中数学。"
+      }
+    },
+    {
+      "path": "skills.swain_w.proofs[mSpellCalculations.MinionDamage]",
+      "kind": "proof",
+      "old": {
+        "source": "mSpellCalculations.MinionDamage",
+        "raw": {
+          "mMultiplier": {
+            "mDataValue": "MinionMod",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "TotalDamage",
+          "__type": "GameCalculationModified"
+        },
+        "semantic": "小兵伤害计算树保留来源；本轮不创建小兵专用公式。",
+        "excluded": true
+      },
+      "new": {
+        "source": "mSpellCalculations.MinionDamage",
+        "raw": {
+          "mMultiplier": {
+            "mDataValue": "MinionMod",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "TotalDamage",
+          "__type": "GameCalculationModified"
+        },
+        "semantic": "小兵伤害计算树保留来源；本轮不创建小兵专用公式。",
+        "excluded": true
+      }
+    },
+    {
+      "path": "skills.swain_w.proofs[DataValues.VisionRadius]",
+      "kind": "proof",
+      "old": {
+        "source": "DataValues.VisionRadius",
+        "raw": [
+          420,
+          420,
+          420,
+          420,
+          420,
+          420,
+          420
+        ],
+        "excluded": true,
+        "semantic": "视野半径属于本轮纯显形视野外支路；不生成专用参数。"
+      },
+      "new": {
+        "source": "DataValues.VisionRadius",
+        "raw": [
+          420,
+          420,
+          420,
+          420,
+          420,
+          420,
+          420
+        ],
+        "excluded": true,
+        "semantic": "视野半径属于本轮纯显形视野外支路；不生成专用参数。"
+      }
+    },
+    {
+      "path": "skills.swain_r.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "小兵/野怪治疗比例（MinionMonsterHealReduction）",
+        "reason": "非英雄目标治疗比例属于本轮兵野治疗外支路；本轮只保留正常单一英雄回复数学。"
+      }
+    },
+    {
+      "path": "skills.swain_r.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "小兵/野怪治疗计算树（MinionMonsterHeal）",
+        "reason": "MinionMonsterHeal 是兵野治疗专用计算树；本轮留在来源证据，不生成兵野治疗公式。"
+      }
+    },
+    {
+      "path": "skills.swain_r.proofs[DataValues.MinionMonsterHealReduction]",
+      "kind": "proof",
+      "old": {
+        "source": "DataValues.MinionMonsterHealReduction",
+        "raw": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "excluded": true,
+        "semantic": "非英雄目标治疗比例属于本轮兵野治疗外支路；本候选只保留正常单一英雄回复数学。"
+      },
+      "new": {
+        "source": "DataValues.MinionMonsterHealReduction",
+        "raw": [
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612,
+          0.10000000149011612
+        ],
+        "excluded": true,
+        "semantic": "非英雄目标治疗比例属于本轮兵野治疗外支路；本候选只保留正常单一英雄回复数学。"
+      }
+    },
+    {
+      "path": "skills.swain_r.proofs[mSpellCalculations.MinionMonsterHeal]",
+      "kind": "proof",
+      "old": {
+        "source": "mSpellCalculations.MinionMonsterHeal",
+        "raw": {
+          "mMultiplier": {
+            "mDataValue": "MinionMonsterHealReduction",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "HealingCalc",
+          "__type": "GameCalculationModified"
+        },
+        "semantic": "非英雄目标回复计算树保留来源；本轮不创建兵野治疗公式。",
+        "excluded": true
+      },
+      "new": {
+        "source": "mSpellCalculations.MinionMonsterHeal",
+        "raw": {
+          "mMultiplier": {
+            "mDataValue": "MinionMonsterHealReduction",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "HealingCalc",
+          "__type": "GameCalculationModified"
+        },
+        "semantic": "非英雄目标回复计算树保留来源；本轮不创建兵野治疗公式。",
+        "excluded": true
+      }
+    },
+    {
+      "path": "skills.rumble_p.excluded",
+      "kind": "moved-to-pending",
+      "old": {
+        "component": "自我沉默和自动过热攻击",
+        "reason": "需要热量状态、触发和普攻事件，本批只保留热量数值及独立攻击数学量。"
+      },
+      "new": null
+    },
+    {
+      "path": "skills.rumble_p.pending",
+      "kind": "pending",
+      "old": null,
+      "new": {
+        "kind": "系统",
+        "component": "自我沉默和自动过热攻击",
+        "reason": "自我沉默和自动过热攻击属于1v1相关系统行为，需要热量状态、触发和普攻事件接入；本批只保留明确热量数值和过热攻击的独立平伤/最大生命值组成。"
+      }
+    },
+    {
+      "path": "skills.rumble_p.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "野怪伤害上限（MonsterCap/MonsterCapScaling）",
+        "reason": "过热攻击野怪伤害上限属于本轮野怪专用外支路；原始参数和计算树留在来源证据，不生成野怪专用组成。"
+      }
+    },
+    {
+      "path": "skills.rumble_p.write.parameters.overheat_bonus_damage_ratio",
+      "kind": "clarify",
+      "old": {
+        "name": "过热额外伤害比例",
+        "description": "客户端当前根绑定 DataValues.OverheatPercBonusDamage 取索引1至1"
+      },
+      "new": {
+        "name": "过热攻击最大生命值伤害比例",
+        "description": "正文明确过热攻击另有4%目标最大生命值伤害；客户端当前根绑定 DataValues.OverheatPercBonusDamage 取索引1至1。"
+      }
+    },
+    {
+      "path": "skills.rumble_p.write.parameters.overheat_attack_base_damage",
+      "kind": "clarify",
+      "old": {
+        "name": "过热攻击额外基础伤害（实际值外供）",
+        "description": "客户端只提供等级插值节点；未知等级不猜线性。"
+      },
+      "new": {
+        "name": "过热攻击基础平伤输入（实际值外供）",
+        "description": "客户端只提供等级插值节点；用于 TotalBaseDamage 平伤组成，未知等级不猜线性。"
+      }
+    },
+    {
+      "path": "skills.rumble_p.write.parameters",
+      "kind": "added",
+      "old": null,
+      "new": {
+        "parameterKey": "target_max_health_for_overheat_attack",
+        "name": "过热攻击目标最大生命值输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "正文4%最大生命值伤害所需的目标最大生命值外供输入；缺少运行时输入不得默认0。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "path": "skills.rumble_p.write.formulas.overheat_attack_damage",
+      "kind": "renamed",
+      "old": {
+        "formulaKey": "overheat_attack_damage",
+        "name": "过热攻击额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "overheat_attack_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "overheat_attack_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalBaseDamage = 等级基础项 + 0.25×法强；过热触发条件不在公式中自动推导。",
+        "sortOrder": 10
+      },
+      "new": {
+        "formulaKey": "overheat_attack_flat_damage",
+        "name": "过热攻击平伤组成",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "overheat_attack_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "overheat_attack_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalBaseDamage = 等级基础项 + 0.25×法强；这里仅表示平伤组成，正文另有4%目标最大生命值伤害，不创建DAMAGE结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "path": "skills.rumble_p.write.formulas",
+      "kind": "added",
+      "old": null,
+      "new": {
+        "formulaKey": "overheat_attack_max_health_damage",
+        "name": "过热攻击最大生命值伤害组成",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "overheat_bonus_damage_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "target_max_health_for_overheat_attack"
+            }
+          ]
+        },
+        "description": "OverheatPercBonusDamage×目标最大生命值；这是正文4%最大生命值伤害的独立组成，目标输入缺失不默认0，不创建DAMAGE结果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "path": "skills.rumble_p.pending",
+      "kind": "replace",
+      "old": {
+        "kind": "来源",
+        "component": "伤害结果：overheat_attack_damage",
+        "reason": "只保存本技能独立数学量；没有完整命中、护盾、暴击、吸血与结果资格证据，不创建DAMAGE或自动命中。"
+      },
+      "new": [
+        {
+          "kind": "来源",
+          "component": "伤害结果：overheat_attack_flat_damage",
+          "reason": "只保存过热攻击平伤组成；没有完整命中、护盾、暴击、吸血与结果资格证据，不创建DAMAGE或自动命中。"
+        },
+        {
+          "kind": "来源",
+          "component": "伤害结果：overheat_attack_max_health_damage",
+          "reason": "只保存过热攻击最大生命值伤害组成；目标最大生命值由运行时输入提供且无默认，没有完整结果资格证据，不创建DAMAGE或自动命中。"
+        }
+      ]
+    },
+    {
+      "path": "skills.rumble_p.proofs",
+      "kind": "added",
+      "old": null,
+      "new": {
+        "parameterKey": "target_max_health_for_overheat_attack",
+        "source": "运行输入.target_max_health_for_overheat_attack",
+        "values": null,
+        "sourcePending": true,
+        "semantic": "正文4%最大生命值伤害需要真实目标最大生命值；候选只声明无默认外供输入。"
+      }
+    },
+    {
+      "path": "skills.rumble_q.write.parameters.minion_damage_ratio",
+      "kind": "removed",
+      "old": {
+        "parameterKey": "minion_damage_ratio",
+        "name": "小兵伤害比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.MinionMod 取索引1至5",
+        "sortOrder": 40
+      },
+      "new": null
+    },
+    {
+      "path": "skills.rumble_q.write.formulas.minion_damage",
+      "kind": "removed",
+      "old": {
+        "formulaKey": "minion_damage",
+        "name": "纵火盛宴小兵每次魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minion_damage_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MinionDamage = MinionMod×FlatDamage；保留明确小兵目标分支。",
+        "sortOrder": 20
+      },
+      "new": null
+    },
+    {
+      "path": "skills.rumble_q.pending",
+      "kind": "removed",
+      "old": {
+        "kind": "来源",
+        "component": "伤害结果：minion_damage",
+        "reason": "只保存本技能独立数学量；没有完整命中、护盾、暴击、吸血与结果资格证据，不创建DAMAGE或自动命中。"
+      },
+      "new": null
+    },
+    {
+      "path": "skills.rumble_q.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "小兵伤害比例参数（minion_damage_ratio/MinionMod）",
+        "reason": "小兵伤害属于本轮兵线专用外支路；移出可写参数，原始来源证据保留。"
+      }
+    },
+    {
+      "path": "skills.rumble_q.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "小兵伤害计算树（minion_damage）",
+        "reason": "MinionDamage 是小兵专用计算树；本轮不生成小兵公式。"
+      }
+    },
+    {
+      "path": "skills.rumble_q.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "野怪伤害上限计算树（MonsterCap）",
+        "reason": "野怪伤害上限属于本轮野怪专用外支路；本轮只保留单一英雄平伤和最大生命值比例组成。"
+      }
+    },
+    {
+      "path": "skills.rumble_q.proofs[minion_damage_ratio]",
+      "kind": "proof",
+      "old": {
+        "parameterKey": "minion_damage_ratio",
+        "source": "DataValues.MinionMod",
+        "raw": [
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071
+        ],
+        "offset": 1,
+        "values": [
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "scale": 1
+      },
+      "new": {
+        "parameterKey": "minion_damage_ratio",
+        "source": "DataValues.MinionMod",
+        "raw": [
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071,
+          0.699999988079071
+        ],
+        "offset": 1,
+        "values": [
+          0.7,
+          0.7,
+          0.7,
+          0.7,
+          0.7
+        ],
+        "scale": 1,
+        "excluded": true,
+        "semantic": "小兵伤害比例属于本轮范围外兵线支路；原始值留源，不生成参数。"
+      }
+    },
+    {
+      "path": "skills.rumble_q.proofs[mSpellCalculations.MinionDamage]",
+      "kind": "proof",
+      "old": {
+        "source": "mSpellCalculations.MinionDamage",
+        "raw": {
+          "mMultiplier": {
+            "mDataValue": "MinionMod",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "FlatDamage",
+          "__type": "GameCalculationModified"
+        },
+        "semantic": "纵火盛宴小兵分支已内联比例。"
+      },
+      "new": {
+        "source": "mSpellCalculations.MinionDamage",
+        "raw": {
+          "mMultiplier": {
+            "mDataValue": "MinionMod",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "FlatDamage",
+          "__type": "GameCalculationModified"
+        },
+        "semantic": "小兵伤害计算树属于本轮范围外兵线支路；原始树留源，不生成公式。",
+        "excluded": true
+      }
+    },
+    {
+      "path": "skills.rumble_q.proofs[mSpellCalculations.MonsterCap]",
+      "kind": "proof",
+      "old": {
+        "source": "mSpellCalculations.MonsterCap",
+        "raw": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 65,
+              "mEndValue": 300,
+              "mScaleByStatProgressionMultiplier": true,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "semantic": "纵火盛宴野怪伤害上限计算树保留来源；本轮不创建野怪专用参数。",
+        "excluded": true
+      },
+      "new": {
+        "source": "mSpellCalculations.MonsterCap",
+        "raw": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 65,
+              "mEndValue": 300,
+              "mScaleByStatProgressionMultiplier": true,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "semantic": "纵火盛宴野怪伤害上限计算树保留来源；本轮不创建野怪专用参数。",
+        "excluded": true
+      }
+    },
+    {
+      "path": "skills.rumble_q.write.formulas",
+      "kind": "clarify",
+      "old": {
+        "flatName": "纵火盛宴每次基础魔法伤害",
+        "flatDescription": "FlatDamage = BaseDamage + APRatio×法强；不创建周期伤害结果。",
+        "empoweredName": "危险温度纵火盛宴每次魔法伤害",
+        "empoweredDescription": "EmpoweredDamage = OverheatMulti×FlatDamage；危险温度资格待接线。",
+        "ratioName": "危险温度最大生命伤害比例",
+        "ratioDescription": "EmpoweredHealth = OverheatMulti×HealthDamage；只保留比例。"
+      },
+      "new": {
+        "flatName": "纵火盛宴平伤组成",
+        "flatDescription": "FlatDamage = BaseDamage + APRatio×法强；这是平伤组成，最大生命值伤害比例由 max_health_damage_ratio 另行表示，不是完整每秒或总伤害。",
+        "empoweredName": "危险温度纵火盛宴平伤组成",
+        "empoweredDescription": "EmpoweredFlatDamage = OverheatMulti×FlatDamage；这是平伤组成，最大生命值伤害比例由 empowered_health_damage_ratio 另行表示；危险温度资格待接线。",
+        "ratioName": "危险温度最大生命伤害比例组成",
+        "ratioDescription": "EmpoweredMaxHealthDamageRatio = OverheatMulti×HealthDamageRatio；仅表示最大生命值伤害比例，不含平伤，目标事件和伤害结果待接线。"
+      }
+    },
+    {
+      "path": "skills.rumble_q.write.parameters.burn_duration_ms",
+      "kind": "normalized",
+      "old": {
+        "parameterKey": "burn_duration_ms",
+        "name": "灼烧持续（毫秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 600.000024,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BurnDuration 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+        "sortOrder": 130
+      },
+      "new": {
+        "parameterKey": "burn_duration_ms",
+        "name": "灼烧持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 600,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.BurnDuration 取索引1至5；0.6000000238秒换算后的600毫秒，已将浮点噪声归一化为600。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "path": "skills.rumble_q.proofs[burn_duration_ms]",
+      "kind": "proof",
+      "old": {
+        "parameterKey": "burn_duration_ms",
+        "source": "DataValues.BurnDuration",
+        "raw": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "offset": 1,
+        "values": [
+          600.000024,
+          600.000024,
+          600.000024,
+          600.000024,
+          600.000024
+        ],
+        "scale": 1000
+      },
+      "new": {
+        "parameterKey": "burn_duration_ms",
+        "source": "DataValues.BurnDuration",
+        "raw": [
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579,
+          0.6000000238418579
+        ],
+        "offset": 1,
+        "values": [
+          600,
+          600,
+          600,
+          600,
+          600
+        ],
+        "scale": 1000,
+        "normalizedFloatNoise": true,
+        "normalization": "浮点噪声归一化为600毫秒",
+        "semantic": "原始0.6000000238秒换算约600毫秒；候选规范为整数600毫秒，保留原始浮点值。"
+      }
+    },
+    {
+      "path": "skills.aurelionsol_e.write.parameters.non_champion_gravity",
+      "kind": "removed",
+      "old": {
+        "parameterKey": "non_champion_gravity",
+        "name": "非英雄目标引力",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 300,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.NonChampGravity 取索引1至5",
+        "sortOrder": 120
+      },
+      "new": null
+    },
+    {
+      "path": "skills.aurelionsol_e.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "非英雄目标引力参数（non_champion_gravity/NonChampGravity）",
+        "reason": "非英雄目标引力属于本轮兵野专用效果支路；原始值留源，不生成参数。小兵和野怪死亡带来的星尘进度仍按已有参数保留。"
+      }
+    },
+    {
+      "path": "skills.aurelionsol_e.proofs[non_champion_gravity]",
+      "kind": "proof",
+      "old": {
+        "parameterKey": "non_champion_gravity",
+        "source": "DataValues.NonChampGravity",
+        "raw": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "offset": 1,
+        "values": [
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "scale": 1
+      },
+      "new": {
+        "parameterKey": "non_champion_gravity",
+        "source": "DataValues.NonChampGravity",
+        "raw": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "offset": 1,
+        "values": [
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "scale": 1,
+        "excluded": true,
+        "semantic": "非英雄目标引力属于本轮范围外兵野支路；原始值留源，不生成参数。"
+      }
+    },
+    {
+      "path": "skills.aurelionsol_e.pending[星尘吸收、引力、面积与处决].reason",
+      "kind": "description",
+      "old": "英雄命中、单位死亡、引力、范围目标和处决资格尚未接线；含ResultModifier的面积树修饰语义未核，金币经验、纯视觉、多目标分摊和独立召唤不进入本候选。",
+      "new": "英雄命中、单位死亡、引力、范围目标和处决资格尚未接线；非英雄目标引力属于本轮兵野专用外支路；含ResultModifier的面积树修饰语义未核，金币经验、纯视觉、多目标分摊和独立召唤不进入本候选。"
+    },
+    {
+      "path": "skills.aurelionsol_q.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "附近额外目标伤害比例（AOEModifier）",
+        "reason": "附近敌人范围伤害比例属于本轮多目标分摊外支路；本轮只保留单一英雄命中数学。"
+      }
+    },
+    {
+      "path": "skills.aurelionsol_q.excluded",
+      "kind": "excluded",
+      "old": null,
+      "new": {
+        "component": "野怪伤害上限（MonsterDamageCap）",
+        "reason": "野怪百分比伤害上限属于本轮兵野专用外支路；本轮只保留单一英雄命中数学。"
+      }
+    },
+    {
+      "path": "skills.aurelionsol_q.proofs[DataValues.AOEModifier]",
+      "kind": "proof",
+      "old": {
+        "source": "DataValues.AOEModifier",
+        "raw": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "excluded": true,
+        "semantic": "附近敌人范围伤害比例属于本轮多目标分摊外支路；本候选只保留首个单一敌人命中数学。"
+      },
+      "new": {
+        "source": "DataValues.AOEModifier",
+        "raw": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "excluded": true,
+        "semantic": "附近敌人范围伤害比例属于本轮多目标分摊外支路；本候选只保留首个单一敌人命中数学。"
+      }
+    },
+    {
+      "path": "skills.aurelionsol_q.proofs[DataValues.MonsterDamageCap]",
+      "kind": "proof",
+      "old": {
+        "source": "DataValues.MonsterDamageCap",
+        "raw": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "excluded": true,
+        "semantic": "野怪百分比伤害上限属于本轮兵野专用外支路；本候选只保留单一英雄命中数学。"
+      },
+      "new": {
+        "source": "DataValues.MonsterDamageCap",
+        "raw": [
+          300,
+          300,
+          300,
+          300,
+          300,
+          300,
+          300
+        ],
+        "excluded": true,
+        "semantic": "野怪百分比伤害上限属于本轮兵野专用外支路；本候选只保留单一英雄命中数学。"
+      }
+    },
+    {
+      "path": "skills.aurelionsol_w.write.parameters.fake_cast_time_ms",
+      "kind": "removed",
+      "old": {
+        "parameterKey": "fake_cast_time_ms",
+        "name": "伪施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 375,
+        "levelValues": null,
+        "description": "客户端当前根绑定 DataValues.FakeCastTime 取索引1至5；单位秒转毫秒；按来源单位换算为系统比例或毫秒",
+        "sortOrder": 100
+      },
+      "new": null
+    },
+    {
+      "path": "skills.aurelionsol_w.proofs[DataValues.FakeCastTime]",
+      "kind": "proof",
+      "old": {
+        "parameterKey": "fake_cast_time_ms",
+        "source": "DataValues.FakeCastTime",
+        "raw": [
+          0.375,
+          0.375,
+          0.375,
+          0.375,
+          0.375,
+          0.375,
+          0.375
+        ],
+        "offset": 1,
+        "values": [
+          375,
+          375,
+          375,
+          375,
+          375
+        ],
+        "scale": 1000
+      },
+      "new": {
+        "source": "DataValues.FakeCastTime",
+        "raw": [
+          0.375,
+          0.375,
+          0.375,
+          0.375,
+          0.375,
+          0.375,
+          0.375
+        ],
+        "offset": 1,
+        "values": [
+          375,
+          375,
+          375,
+          375,
+          375
+        ],
+        "scale": 1000,
+        "sourcePending": true,
+        "semantic": "DataValues.FakeCastTime 原始值为375毫秒，但用途未证；本轮移除重复内部参数，只留来源待核。"
+      }
+    },
+    {
+      "path": "skills.aurelionsol_w.proofs[DataValues.FakeCastTime].parameterKey",
+      "kind": "removed",
+      "old": "fake_cast_time_ms",
+      "new": null
+    },
+    {
+      "path": "skills.aurelionsol_w.pending",
+      "kind": "pending",
+      "old": null,
+      "new": {
+        "kind": "来源",
+        "component": "伪施法时间用途（FakeCastTime）",
+        "reason": "当前已有375毫秒原始字段，但用途未证；本轮不生成重复内部参数，保留来源待核。"
+      }
+    },
+    {
+      "path": "skills.aurelionsol_r.write.parameters.stardust_count",
+      "kind": "removed",
+      "old": {
+        "parameterKey": "stardust_count",
+        "name": "R计算用星尘数量",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "R范围和升级资格依赖星尘进度；实际数量外供，不自动累积。",
+        "sortOrder": 150
+      },
+      "new": null
+    },
+    {
+      "path": "skills.aurelionsol_r.proofs",
+      "kind": "added",
+      "old": null,
+      "new": {
+        "source": "运行输入.stardust_count",
+        "raw": null,
+        "values": null,
+        "sourcePending": true,
+        "semantic": "R星尘数量在当前候选没有几何公式消费者；只留来源待补，不生成运行参数。"
+      }
+    },
+    {
+      "path": "skills.aurelionsol_r.pending",
+      "kind": "pending",
+      "old": null,
+      "new": {
+        "kind": "来源",
+        "component": "R星尘数量输入（stardust_count）",
+        "reason": "当前候选已移除没有消费者的R星尘运行参数；原始星尘资格/升级来源留待后续核对。"
+      }
+    }
+  ],
+  "apiWrites": 0
+}

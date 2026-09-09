@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T12:18:02.436Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/aurelionsol_q/effects/mana_per_second",
+  "id": "mana_per_second",
+  "method": "POST",
+  "body": {
+    "effectKey": "mana_per_second",
+    "name": "星河冲荡每秒法力消耗",
+    "description": "只记录每秒资源量；周期扣除、引导资格和中断时点尚未接线，不由一次施放自动扣除。",
+    "sortOrder": 10,
+    "lifecycle": null,
+    "results": [
+      {
+        "resultKey": "resource",
+        "name": "星河冲荡每秒法力消耗",
+        "resultType": "RESOURCE_CHANGE",
+        "target": "SOURCE",
+        "description": null,
+        "sortOrder": 10,
+        "lifecycleBehavior": null,
+        "spellShieldBlockScope": null,
+        "valueRule": {
+          "value": {
+            "kind": "PARAMETER",
+            "parameterKey": "mana_cost_per_second"
+          },
+          "fixedMultiplier": 1,
+          "fixedMinValue": 0,
+          "fixedMaxValue": null
+        },
+        "detail": {
+          "attributeKey": "mana",
+          "operation": "CONSUME"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T12:17:04.419Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/rumble_w/formulas/empowered_move_speed_ratio",
+  "id": "empowered_move_speed_ratio",
+  "method": "POST",
+  "body": {
+    "formulaKey": "empowered_move_speed_ratio",
+    "name": "危险温度破碎护盾移速比例",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "empowered_move_speed_multiplier"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "move_speed_ratio"
+        }
+      ]
+    },
+    "description": "EmpoweredMS = 1.5×普通移速比例。",
+    "sortOrder": 30
+  }
+}

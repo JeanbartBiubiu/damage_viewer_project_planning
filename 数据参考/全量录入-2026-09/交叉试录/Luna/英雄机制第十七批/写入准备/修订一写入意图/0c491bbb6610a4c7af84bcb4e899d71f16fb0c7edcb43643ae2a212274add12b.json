@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T12:17:45.649Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/aurelionsol_q/parameters/mana_cost_per_second",
+  "id": "mana_cost_per_second",
+  "method": "POST",
+  "body": {
+    "parameterKey": "mana_cost_per_second",
+    "name": "每秒法力消耗",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 30,
+      "2": 35,
+      "3": 40,
+      "4": 45,
+      "5": 50
+    },
+    "description": "客户端当前根绑定 DataValues.ManaCostPerSecond 取索引1至5",
+    "sortOrder": 70
+  }
+}

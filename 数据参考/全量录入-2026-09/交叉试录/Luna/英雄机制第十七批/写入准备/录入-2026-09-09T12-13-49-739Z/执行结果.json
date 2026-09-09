@@ -1,0 +1,2233 @@
+{
+  "at": "2026-09-09T12:13:49.741Z",
+  "runId": "2026-09-09T12-13-49-739Z",
+  "mode": "只读预检",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateFile": "修订一候选.json",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "candidatePlanSha256": "92712a5aea2836a4e1fc1d0ecec4d22beb29bae9bd3414570fb12b391727ece1",
+  "planFileSha256": "7b1b6a62bafaefb8b0d78272300ec281beed0baa5397be902b7685a687254718",
+  "freezeSha256": "baee05b688db36f42cfce7fd8e2376e5e93c64888b0ecebc96cfa9752fbec258",
+  "fullProtectionSha256": "cff6dd7a97ed589f57fcee22052814496dcab6f1f5492bf7e18626d379a2d457",
+  "source": "client16.17/official16.17.1",
+  "expected": {
+    "catalogs": 4,
+    "characters": 4,
+    "relations": 4,
+    "subjects": 20,
+    "images": 20,
+    "lists": 120,
+    "protectedDetails": 22,
+    "candidateDetails": 285,
+    "newComponents": 263,
+    "exactPostCount": 263
+  },
+  "candidateCounts": {
+    "total": 285,
+    "new": 263,
+    "reused": 22
+  },
+  "staticChecks": [
+    {
+      "name": "修订一候选文件冻结",
+      "passed": true,
+      "detail": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7"
+    },
+    {
+      "name": "修订一写前计划文件冻结",
+      "passed": true,
+      "detail": "7b1b6a62bafaefb8b0d78272300ec281beed0baa5397be902b7685a687254718"
+    },
+    {
+      "name": "修订一冻结锁冻结",
+      "passed": true,
+      "detail": "baee05b688db36f42cfce7fd8e2376e5e93c64888b0ecebc96cfa9752fbec258"
+    },
+    {
+      "name": "旧只读文件冻结",
+      "passed": true,
+      "detail": "ba50c2f11595df9c64d95345b4af156f9e468656b3bcdb8634558048bad8b62c"
+    },
+    {
+      "name": "完整保护文件冻结",
+      "passed": true,
+      "detail": "cff6dd7a97ed589f57fcee22052814496dcab6f1f5492bf7e18626d379a2d457"
+    },
+    {
+      "name": "候选计划散列关联",
+      "passed": true,
+      "detail": {
+        "candidate": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+        "plan": "92712a5aea2836a4e1fc1d0ecec4d22beb29bae9bd3414570fb12b391727ece1",
+        "freeze": "92712a5aea2836a4e1fc1d0ecec4d22beb29bae9bd3414570fb12b391727ece1"
+      }
+    },
+    {
+      "name": "候选保持20个固定技能位",
+      "passed": true,
+      "detail": [
+        "vladimir_p",
+        "vladimir_q",
+        "vladimir_w",
+        "vladimir_e",
+        "vladimir_r",
+        "swain_p",
+        "swain_q",
+        "swain_w",
+        "swain_e",
+        "swain_r",
+        "rumble_p",
+        "rumble_q",
+        "rumble_w",
+        "rumble_e",
+        "rumble_r",
+        "aurelionsol_p",
+        "aurelionsol_q",
+        "aurelionsol_w",
+        "aurelionsol_e",
+        "aurelionsol_r"
+      ]
+    },
+    {
+      "name": "候选只含参数公式效果",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选零业务写入标记",
+      "passed": true,
+      "detail": {
+        "candidate": 0,
+        "baseline": 0
+      }
+    },
+    {
+      "name": "完整保护是194次全GET",
+      "passed": true,
+      "detail": {
+        "catalogs": 4,
+        "characters": 4,
+        "relations": 4,
+        "subjects": 20,
+        "images": 20,
+        "lists": 120,
+        "details": 22,
+        "publicParameterDetails": 22,
+        "expectedPublicParameterDetails": 22,
+        "expectedCandidateDetails": 285,
+        "expectedNewComponents": 263,
+        "currentExpectedExistingDetails": 22,
+        "requests": 194,
+        "statusCounts": {
+          "200": 194
+        },
+        "failures": 0,
+        "apiWrites": 0,
+        "businessWrites": 0,
+        "methodCounts": {
+          "GET": 194
+        },
+        "expectedRequestFormula": "4共享目录+4角色+4关系+20技能主体+20图片+120列表+当前列表全部详情",
+        "listItemDetailCount": 22
+      }
+    },
+    {
+      "name": "完整保护覆盖对象数量",
+      "passed": true,
+      "detail": {
+        "catalogs": 4,
+        "characters": 4,
+        "relations": 4,
+        "subjects": 20,
+        "images": 20,
+        "lists": 120,
+        "details": 22,
+        "publicParameterDetails": 22,
+        "expectedPublicParameterDetails": 22,
+        "expectedCandidateDetails": 285,
+        "expectedNewComponents": 263,
+        "currentExpectedExistingDetails": 22,
+        "requests": 194,
+        "statusCounts": {
+          "200": 194
+        },
+        "failures": 0,
+        "apiWrites": 0,
+        "businessWrites": 0,
+        "methodCounts": {
+          "GET": 194
+        },
+        "expectedRequestFormula": "4共享目录+4角色+4关系+20技能主体+20图片+120列表+当前列表全部详情",
+        "listItemDetailCount": 22
+      }
+    },
+    {
+      "name": "完整保护没有冲突",
+      "passed": true,
+      "detail": {
+        "protection": [],
+        "lists": [],
+        "components": []
+      }
+    },
+    {
+      "name": "候选总组成恰为285",
+      "passed": true,
+      "detail": 285
+    },
+    {
+      "name": "复用公共参数恰为22",
+      "passed": true,
+      "detail": 22
+    },
+    {
+      "name": "新增组成恰为263",
+      "passed": true,
+      "detail": 263
+    },
+    {
+      "name": "计划恰为263条POST",
+      "passed": true,
+      "detail": {
+        "requestCount": 263,
+        "entries": 263
+      }
+    },
+    {
+      "name": "计划键唯一且覆盖新增",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "计划对象等于候选 vladimir_p/parameters/bonus_health_required_per_ability_power",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_p/parameters/bonus_health_per_ability_power",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_p/parameters/source_bonus_health_before_passive",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_p/parameters/source_ability_power_before_passive",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_p/formulas/ability_power_from_bonus_health",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_p/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_p/formulas/bonus_health_from_ability_power",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_p/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/base_heal",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/heal_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/damage_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/empowered_damage_bonus_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/empowered_window_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/q2_move_speed_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/missing_health_for_empowered_heal",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/one",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/empowered_heal_base",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/empowered_missing_health_base_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/empowered_missing_health_per_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/parameters/q2_move_speed_percent_points",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/formulas/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/formulas/base_heal",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/formulas/empowered_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_q/formulas/empowered_heal",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/parameters/bonus_health_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/parameters/health_cost_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/parameters/enemy_slow_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/parameters/vamp_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/parameters/self_move_speed_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/parameters/haste_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/parameters/pool_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/parameters/source_current_hp_for_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/formulas/pool_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/formulas/pool_heal",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/formulas/health_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_w/effects/health_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_w/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/parameters/min_damage_base",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/parameters/max_damage_base",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/parameters/slow_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/parameters/max_health_cost_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/parameters/max_health_damage_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/parameters/max_channel_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/parameters/max_damage_ramp_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/parameters/min_damage_health_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/parameters/min_damage_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/parameters/max_damage_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/parameters/source_max_health_for_charge",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/formulas/min_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/formulas/max_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/formulas/charge_health_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_e/effects/max_health_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_e/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_r/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_r/parameters/damage_amp_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_r/parameters/damage_amp_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_r/parameters/first_champion_heal_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_r/parameters/damage_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_r/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 vladimir_r/formulas/first_champion_heal",
+      "passed": true,
+      "detail": {
+        "route": "/skills/vladimir_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_p/parameters/soul_collection_range",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_p/parameters/max_health_per_soul",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_p/parameters/soul_heal_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_p/parameters/soul_shard_count",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_p/parameters/source_max_health_for_soul",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_p/formulas/soul_bonus_max_health",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_p/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_p/formulas/soul_heal_amount",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_p/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_q/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_q/parameters/first_bolt_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_q/parameters/extra_bolt_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_q/parameters/bolt_boundary_range",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_q/parameters/max_damage_multiplier",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_q/parameters/bolt_count",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_q/formulas/initial_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_q/formulas/extra_bolt_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_q/formulas/max_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_q/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_q/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_w/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_w/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_w/parameters/slow_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_w/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_w/parameters/effect_radius",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_w/parameters/soul_shard_per_champion_hit",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_w/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_w/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_w/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_w/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_e/parameters/secondary_damage_base",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_e/parameters/secondary_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_e/parameters/root_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_e/parameters/pull_distance",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_e/parameters/cooldown_refund_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_e/parameters/explosion_radius",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_e/parameters/soul_shard_per_pulled_champion",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_e/formulas/secondary_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_e/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_e/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/damage_per_second_base",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/damage_per_second_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/heal_per_second_base",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/heal_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/heal_bonus_health_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/demon_power_max",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/demon_power_degen_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/demon_power_regen_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/demonflare_base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/demonflare_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/demonflare_slow_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/demonflare_slow_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/demonflare_amp_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/demon_power_degen_amp",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/demonflare_cast_delay_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/demonflare_cast_limit",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/damage_tick_interval_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/demonflare_cooldown_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/parameters/source_bonus_health_for_swain_r",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/formulas/damage_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/formulas/healing_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/formulas/demonflare_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 swain_r/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/swain_r/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_p/parameters/overheat_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_p/parameters/danger_zone_heat",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_p/parameters/overheating_heat",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_p/parameters/overheat_bonus_damage_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_p/parameters/heat_decay_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_p/parameters/overheat_attack_base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_p/parameters/overheat_attack_speed_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_p/parameters/overheat_attack_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_p/parameters/target_max_health_for_overheat_attack",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_p/formulas/overheat_attack_flat_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_p/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_p/formulas/overheat_attack_max_health_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_p/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/parameters/max_health_damage_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/parameters/overheat_damage_multiplier",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/parameters/flamespitter_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/parameters/debuff_tick_count",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/parameters/tick_interval_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/parameters/total_tick_count",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/parameters/initial_heat_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/parameters/burn_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/formulas/flat_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/formulas/empowered_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_q/formulas/empowered_health_damage_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/parameters/heat_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/parameters/base_shield",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/parameters/health_shield_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/parameters/move_speed_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/parameters/shield_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/parameters/shield_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/parameters/move_speed_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/parameters/empowered_shield_multiplier",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/parameters/empowered_move_speed_multiplier",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/parameters/source_health_for_shield",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/formulas/shield_amount",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/formulas/empowered_shield_amount",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/formulas/empowered_move_speed_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/effects/shield",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/effects/empowered_shield",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/effects/move_speed",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_w/effects/empowered_move_speed",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_w/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/parameters/cooldown_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/parameters/first_cast_heat_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/parameters/magic_penetration_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/parameters/enhanced_magic_penetration_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/parameters/magic_resistance_shred_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/parameters/slow_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/parameters/enhanced_slow_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/parameters/empowered_damage_multiplier",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_e/formulas/empowered_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_r/parameters/missile_count",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_r/parameters/trail_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_r/parameters/tick_interval_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_r/parameters/slow_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_r/parameters/damage_per_second_base",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_r/parameters/max_burn_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_r/parameters/burn_linger_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_r/parameters/damage_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 rumble_r/formulas/damage_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/rumble_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_p/parameters/q_bonus_max_health_damage_ratio_per_stardust",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_p/parameters/execute_base_threshold_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_p/parameters/execute_growth_per_stardust_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_p/parameters/stardust_count",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_p/formulas/q_bonus_max_health_damage_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_p/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_p/formulas/e_execute_threshold_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_p/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/beam_rotation_degree_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/beam_width",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/max_channel_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/burst_after_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/mana_cost_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/damage_per_second_base",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/damage_per_second_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/burst_base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/burst_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/beam_segment_count",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/w_proc_cooldown_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/q_mass_stolen",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/distance_per_mass",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/bonus_max_health_damage_ratio_per_stardust",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/stardust_count",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/target_max_health",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/parameters/level_based_range",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/formulas/damage_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/formulas/burst_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/formulas/bonus_max_health_magic_damage_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/formulas/bonus_max_health_magic_damage_amount",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_q/effects/mana_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_q/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_w/parameters/q_damage_bonus_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_w/parameters/base_dash_speed",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_w/parameters/base_cruise_speed",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_w/parameters/distance_per_stardust",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_w/parameters/reset_window_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_w/parameters/takedown_cooldown_refund_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_w/parameters/e_cast_range_override",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_w/parameters/dash_speed_stat",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_w/formulas/dash_speed",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_w/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_w/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_w/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/champion_mass_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/minion_mass_on_death",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/large_minion_mass_bonus",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/large_monster_mass_bonus",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/champion_mass_bonus",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/epic_monster_mass_bonus",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/starting_radius",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/starting_inner_radius",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/starting_gravity",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/damage_per_second_base",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/damage_per_second_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/execute_base_threshold_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/execute_growth_per_stardust_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/stardust_count",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/parameters/level_based_range",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/formulas/damage_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/formulas/current_execute_threshold_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_e/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_e/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/parameters/calamity_stardust_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/parameters/starting_radius",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/parameters/skies_descend_radius",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/parameters/calamity_size_multiplier",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/parameters/mass_stolen",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/parameters/stun_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/parameters/r2_damage_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/parameters/shockwave_damage_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/parameters/shockwave_slow_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/formulas/skies_descend_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/formulas/shockwave_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 aurelionsol_r/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/aurelionsol_r/effects"
+      }
+    },
+    {
+      "name": "完整保护明细正好为22个复用参数",
+      "passed": true,
+      "detail": {
+        "details": 22,
+        "reuseKeys": 22
+      }
+    },
+    {
+      "name": "复用参数值保持 vladimir_q/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 vladimir_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 vladimir_e/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 vladimir_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 swain_q/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 swain_q/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 swain_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 swain_w/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 swain_e/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 swain_e/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 swain_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 swain_r/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 rumble_q/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 rumble_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 rumble_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 aurelionsol_q/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 aurelionsol_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 aurelionsol_w/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 aurelionsol_e/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 aurelionsol_e/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 aurelionsol_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "复用参数值保持 aurelionsol_r/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选结构和目录引用有效",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "候选没有即时伤害或直接治疗",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选没有过程状态规则",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "staticFailures": [],
+  "apiWrites": 0,
+  "calls": {
+    "total": 194,
+    "methods": {
+      "GET": 194
+    },
+    "statuses": {
+      "200": 194
+    }
+  },
+  "writeEvents": 0,
+  "success": true,
+  "errors": [],
+  "preflight": {
+    "pass": true,
+    "protectionConflicts": 0,
+    "catalogReferences": 49,
+    "catalogConflicts": 0,
+    "requiredCatalogChecks": [
+      {
+        "catalog": "attributes",
+        "key": "mana",
+        "status": "ENABLED",
+        "passed": true
+      },
+      {
+        "catalog": "attributes",
+        "key": "move_speed_percent",
+        "status": "ENABLED",
+        "passed": true
+      },
+      {
+        "catalog": "modifier-zones",
+        "key": "attribute_flat_add",
+        "status": "ENABLED",
+        "passed": true
+      }
+    ],
+    "conflicts": 0,
+    "counts": {
+      "lists": 120,
+      "details": 22,
+      "existing": 22,
+      "missing": 263
+    },
+    "missingByKind": {
+      "parameters": 202,
+      "formulas": 47,
+      "effects": 14,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    }
+  },
+  "next": "主负责人审查后，设置 HERO17_APPLY_CONFIRM=CONFIRM_HERO17_COMPONENT_POSTS，再以 --apply 执行一次；当前未发送POST。",
+  "finishedAt": "2026-09-09T12:14:00.773Z"
+}

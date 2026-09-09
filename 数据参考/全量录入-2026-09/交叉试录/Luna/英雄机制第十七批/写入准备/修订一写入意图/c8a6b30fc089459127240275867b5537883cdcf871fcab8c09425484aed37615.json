@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T12:18:50.385Z",
+  "candidateSha256": "76ff9761638e3f10d147f662204bbb94656f10ee0edafbc39dcd97d8d37babd7",
+  "route": "/skills/aurelionsol_r/formulas/shockwave_damage",
+  "id": "shockwave_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "shockwave_damage",
+    "name": "天穹陨落冲击波魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "shockwave_damage_ratio"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "ShockwaveDamage = ShockwaveDamageRatio×基础星天落瀑伤害；不创建伤害结果。",
+    "sortOrder": 30
+  }
+}
