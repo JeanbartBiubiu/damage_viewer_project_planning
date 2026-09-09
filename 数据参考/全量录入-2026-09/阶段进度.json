@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T15:50:53.052Z",
+  "generatedAt": "2026-09-09T16:21:10.847Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -2917,6 +2917,52 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第二十五批/修订一/页面验收.json",
         "commit": "70ed3fb3510b3cf03a063b8f54679e6f445ceba4"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroTwentySixthBatch": {
+      "skills": [
+        "alistar_p",
+        "alistar_q",
+        "alistar_w",
+        "alistar_e",
+        "alistar_r",
+        "blitzcrank_p",
+        "blitzcrank_q",
+        "blitzcrank_w",
+        "blitzcrank_e",
+        "blitzcrank_r"
+      ],
+      "parameters": 70,
+      "formulas": 10,
+      "effects": 11,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "reusedParameters": 13,
+      "created": 78,
+      "independentGets": 179,
+      "additionalMathGets": 78,
+      "independentFormulaChecks": 10,
+      "independentSourceCases": 20,
+      "independentMissingRejects": 10,
+      "representativePages": 3,
+      "pageGets": 14,
+      "pageMathCases": 7,
+      "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+      "planSha256": "36ab18f7ce88561d0db035c6e20b5b30d7e364f4fa7585814266c561e386a3ba",
+      "executor": "Cursor连接失败后主负责人接手来源，Luna Max候选及独立回读，主负责人保存和页面验收",
+      "status": "明确组成已保存并完成独立回读、实际公式核算和代表页面；未知资源基准与事件接线继续处理",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十六批/当前实录状态.json",
+        "sha256": "1c2604d69cc4a7acb1a60b9a2fa77fdfc6c182aa68a2ecde40bcb9965fa22d7b",
+        "commit": "6ff3ead0a653b80b6d034d1c43d3dd1842d1f45a"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第二十六批/修订一/页面验收.json",
+        "commit": "6ff3ead0a653b80b6d034d1c43d3dd1842d1f45a"
       },
       "runtimeValidation": "未执行"
     }
