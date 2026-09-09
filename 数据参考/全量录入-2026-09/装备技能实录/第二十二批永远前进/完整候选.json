@@ -1,0 +1,53 @@
+{
+  "at": "2026-09-09T10:43:18.183Z",
+  "version": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "build": "16.17.8104348"
+  },
+  "objects": [
+    {
+      "equipmentKey": "item_3176",
+      "skillKey": "item_3176_passive",
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3176_passive",
+          "name": "永远前进·诺克萨斯的同步",
+          "description": "当前16.17绑定说明脱离战斗时获得8%总移动速度。保留战前和脱战后的自身移速相关数值；已有携带直接属性只读复用。中路任务完成的商店文字已绑定，但确切取得流程仍待核对。传送和强化回城的纯位置移动分支按本轮范围跳过；脱战判定及移速修正入口未接。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "out_of_combat_total_move_speed_ratio",
+            "name": "脱离战斗总移动速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.08,
+            "levelValues": null,
+            "description": "当前Item_3176_Tooltip绑定MoveSpeedMultiplier*100，原值0.07999999821186066规范为0.08；不是固定8点移速。脱战等待秒数未知，不补零，不创建自动生效效果。",
+            "sortOrder": 10
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3176",
+          "skillKey": "item_3176_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3176"
+        }
+      }
+    }
+  ],
+  "businessWrites": 0
+}

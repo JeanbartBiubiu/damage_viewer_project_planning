@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T10:38:46.424Z",
+  "generatedAt": "2026-09-09T10:47:23.225Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -89,7 +89,7 @@
     "status": "181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理"
   },
   "images": {
-    "objectUses": 1402,
+    "objectUses": 1403,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
@@ -101,7 +101,7 @@
     ],
     "additionalRuneGeneratedFormUses": 4,
     "additionalRuneGeneratedFormEvidence": "API实录/符文生成装备第一批/独立最终回读.json",
-    "additionalEquipmentSkillRepresentativeReuses": 135,
+    "additionalEquipmentSkillRepresentativeReuses": 136,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/护盾消费纠错/批次复核.json",
@@ -124,7 +124,8 @@
       "装备技能实录/第十八批剩余自身效果/页面验收.json",
       "装备技能实录/第十九批自身与范围主动/页面验收.json",
       "装备技能实录/第二十一批明朗鞋与视界专注/当前实录状态.json",
-      "装备技能实录/第二十批升级鞋/当前实录状态.json"
+      "装备技能实录/第二十批升级鞋/当前实录状态.json",
+      "装备技能实录/第二十二批永远前进/当前实录状态.json"
     ],
     "status": "原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3279,
@@ -2193,6 +2194,48 @@
       "runtimeValidation": "未执行",
       "evidence": "装备技能实录/第二十批升级鞋/当前实录状态.json",
       "browserEvidence": "装备技能实录/第二十批升级鞋/页面验收.json"
+    },
+    "equipmentTwentySecondBatch": {
+      "at": "2026-09-09T10:47:23.223Z",
+      "equipmentKeys": [
+        "item_3176"
+      ],
+      "skillKeys": [
+        "item_3176_passive"
+      ],
+      "counts": {
+        "skills": 1,
+        "parameters": 2,
+        "formulas": 0,
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0,
+        "relations": 1,
+        "representativeImages": 1
+      },
+      "successfulWrites": 5,
+      "rejectedWrites": 0,
+      "unknownWrites": 0,
+      "independentGETs": 17,
+      "sourceValueChecks": 2,
+      "representativePages": 1,
+      "pageGETs": 4,
+      "candidateSha256": "abbb05267a91cc4d22b44cc883cf077bc76d68eb48072cb98ed0c40ecb24f2ac",
+      "planSha256": "e6a6b12e4d3152932516a8a662d6c81ea8dea76a2daca97802ba56fc312e82b6",
+      "sourceVersion": "16.17 / 16.17.1 / 16.17.8104348",
+      "status": "明确参数保存、独立回读及页面通过；取得方式、固定移速组合与脱战判定继续核对",
+      "pending": [
+        "中路任务取得方式与具体要求",
+        "主体55移速和说明45移速的组合及适用条件",
+        "脱战判定、等待时长和移速修正入口"
+      ],
+      "excluded": [
+        "纯位置移动的传送与强化回城"
+      ],
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/第二十二批永远前进/当前实录状态.json",
+      "browserEvidence": "装备技能实录/第二十二批永远前进/页面验收.json"
     }
   },
   "runtimeValidation": "未执行"

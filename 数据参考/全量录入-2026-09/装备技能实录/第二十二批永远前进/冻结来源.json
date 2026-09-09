@@ -1,0 +1,162 @@
+{
+  "at": "2026-09-09T10:43:18.184Z",
+  "version": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "build": "16.17.8104348"
+  },
+  "sourceFiles": [
+    {
+      "key": "officialItem",
+      "relativePath": "装备符文/官方原始资料/item-16.17.1-zh_CN.json",
+      "format": "JSON",
+      "role": "官方16.17.1装备说明、直接属性和图片键",
+      "bytes": 691131,
+      "modifiedAt": "2026-09-06T14:10:07.953Z",
+      "sha256": "aff335136e1dc3429655efc763460b9a55630ce8ba27522654070a6beb239973"
+    },
+    {
+      "key": "clientItemList",
+      "relativePath": "装备效果补证/客户端原始资料/items-16.17-zh_CN.json.gz",
+      "format": "gzip JSON",
+      "role": "客户端16.17装备列表和中文动态说明旁证",
+      "bytes": 96301,
+      "modifiedAt": "2026-09-06T14:59:31.906Z",
+      "sha256": "f4ed06bce504288345ed7761ea1a12612ef5afd6400ebb1f27290204e1f24e20"
+    },
+    {
+      "key": "clientItems",
+      "relativePath": "装备效果补证/客户端原始资料/items-16.17.cdtb.bin.json.gz",
+      "format": "gzip JSON",
+      "role": "客户端16.17装备对象、数据值和计算树主证",
+      "bytes": 1577238,
+      "modifiedAt": "2026-09-06T15:00:14.328Z",
+      "sha256": "3df60e1c7aceddf7b32bf918a94a4470332364b9a7549e8f61bad5bfe8c692a7"
+    },
+    {
+      "key": "clientStringTable",
+      "relativePath": "装备效果补证/客户端原始资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "format": "gzip JSON",
+      "role": "客户端16.17中文绑定说明文件；本批保存绑定键和装备列表原文，不把未解析键当成数值证据",
+      "bytes": 8350124,
+      "modifiedAt": "2026-09-06T15:08:11.306Z",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    }
+  ],
+  "item": {
+    "equipmentKey": "item_3176",
+    "root": {
+      "mDisplayName": "Item_3176_Name",
+      "itemID": 3176,
+      "maxStack": 1,
+      "mItemGroups": [
+        "Items/ItemGroups/Default",
+        "{9a360488}",
+        "Items/ItemGroups/Boots",
+        "Items/ItemGroups/BootsWithoutActives"
+      ],
+      "mRequiredBuffCurrencyName": "Feats_SpecialQuestBootBuff",
+      "mCanBeSold": true,
+      "epicness": 7,
+      "recipeItemLinks": [
+        "Items/3013"
+      ],
+      "mDataValues": [
+        {
+          "mName": "MSBonus",
+          "mValue": 45,
+          "__type": "ItemDataValue"
+        },
+        {
+          "mName": "MoveSpeedMultiplier",
+          "mValue": 0.07999999821186066,
+          "__type": "ItemDataValue"
+        }
+      ],
+      "mItemCalculations": {
+        "{5e4a31e2}": {
+          "mFormulaParts": [
+            {
+              "mBuffName": "{35c412b6}",
+              "mCoefficient": 1,
+              "__type": "BuffCounterByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "mFlatMovementSpeedMod": 55,
+      "mCategories": [
+        "Boots"
+      ],
+      "LastMajorChangeMajorPatchVersion": 13,
+      "LastMajorChangeMinorPatchVersion": 16,
+      "mItemDataClient": {
+        "mTooltipData": {
+          "mObjectName": "3176",
+          "mFormat": "{32559c50}",
+          "EnableExtendedTooltip": false,
+          "mLocKeys": {
+            "keyName": "Item_3176_Name",
+            "keyTooltip": "Item_3176_Tooltip",
+            "keyShopOnlyText": "Item_3172_ShopOnlyText",
+            "keyFlavorText": "Item_3176_FlavorText"
+          },
+          "mLists": {
+            "Stats": {
+              "Elements": [
+                {
+                  "type": "MoveSpeed",
+                  "__type": "TooltipInstanceListElement"
+                }
+              ],
+              "__type": "TooltipInstanceList"
+            }
+          },
+          "__type": "TooltipInstanceItem"
+        },
+        "mDescription": "GeneratedTip_Item_3176_Description",
+        "mDynamicTooltip": "GeneratedTip_Item_3176_TooltipInventory",
+        "mShopTooltip": "GeneratedTip_Item_3176_TooltipShop",
+        "inventoryIcon": "assets/items/icons2d/boots_tier3_syncronisedsouls_64.dds",
+        "InventoryIconSmall": "ASSETS/Items/Icons2D/AutoAtlas/SmallIcons/boots_tier3_syncronisedsouls_44_360.png",
+        "InventoryIconLarge": "ASSETS/Items/Icons2D/AutoAtlas/LargeIcons/boots_tier3_syncronisedsouls_88_360.png",
+        "epicness": 0,
+        "__type": "ItemDataClient"
+      },
+      "__type": "ItemData"
+    },
+    "spellObjects": {},
+    "bindings": [
+      {
+        "path": "mItemDataClient.mTooltipData.mLocKeys.keyName",
+        "key": "Item_3176_Name",
+        "text": "永远前进"
+      },
+      {
+        "path": "mItemDataClient.mTooltipData.mLocKeys.keyTooltip",
+        "key": "Item_3176_Tooltip",
+        "text": "<passive>无所不在</passive><br>获得一个新的主动效果：传送。<br><br><passive>虚空生物</passive><br>获得强化回城<br><br><passive>诺克萨斯的同步</passive><br>获得<speed>@MSBonus@移动速度</speed>和脱离战斗时<speed>@MoveSpeedMultiplier*100@%总移动速度</speed>。"
+      },
+      {
+        "path": "mItemDataClient.mTooltipData.mLocKeys.keyShopOnlyText",
+        "key": "Item_3172_ShopOnlyText",
+        "text": "<rules><font color = '#FF0000'>(仅中路)锁定至任务完成为止</font></rules>"
+      },
+      {
+        "path": "mItemDataClient.mTooltipData.mLocKeys.keyFlavorText",
+        "key": "Item_3176_FlavorText",
+        "text": "“诺克萨斯帝国将会永存……日臻完善。”"
+      }
+    ]
+  },
+  "pending": [
+    "当前取得流程及中路任务具体要求",
+    "脱离战斗判定与移速修正"
+  ],
+  "excluded": [
+    "传送的位置变化",
+    "强化回城的位置变化"
+  ],
+  "businessWrites": 0
+}

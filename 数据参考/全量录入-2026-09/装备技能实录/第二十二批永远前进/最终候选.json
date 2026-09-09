@@ -1,0 +1,63 @@
+{
+  "at": "2026-09-09T10:43:18.183Z",
+  "version": {
+    "client": "16.17",
+    "official": "16.17.1",
+    "build": "16.17.8104348"
+  },
+  "objects": [
+    {
+      "equipmentKey": "item_3176",
+      "skillKey": "item_3176_passive",
+      "apiPayload": {
+        "skill": {
+          "skillKey": "item_3176_passive",
+          "name": "永远前进·诺克萨斯的同步",
+          "description": "当前16.17绑定说明的诺克萨斯同步为45点移动速度，并在脱离战斗时获得8%总移动速度；与主体已录55直接移速分开记录，固定移速组合和脱战判定仍待核对，不自动重复叠加或覆盖。中路任务完成的商店文字已绑定，但确切取得流程仍待核对。传送和强化回城的纯位置移动分支按本轮范围跳过。",
+          "maxLevel": 1,
+          "status": "ENABLED",
+          "sortOrder": 0,
+          "skillCategoryKeys": [
+            "passive"
+          ]
+        },
+        "parameters": [
+          {
+            "parameterKey": "out_of_combat_total_move_speed_ratio",
+            "name": "脱离战斗总移动速度比例",
+            "valueType": "DECIMAL",
+            "valueMode": "FIXED",
+            "fixedValue": 0.08,
+            "levelValues": null,
+            "description": "当前Item_3176_Tooltip绑定MoveSpeedMultiplier*100，原值0.07999999821186066规范为0.08；不是固定8点移速。脱战等待秒数未知，不补零，不创建自动生效效果。",
+            "sortOrder": 10
+          },
+          {
+            "parameterKey": "synchrony_move_speed",
+            "name": "诺克萨斯同步固定移速",
+            "valueType": "INTEGER",
+            "valueMode": "FIXED",
+            "fixedValue": 45,
+            "levelValues": null,
+            "description": "当前Item_3176_Tooltip正文绑定MSBonus=45；主体直接属性为55，二者不是同一个来源字段。本项只存说明中的数值，组合关系与适用条件待核，不重复创建永久移速效果。",
+            "sortOrder": 20
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internalStates": [],
+        "triggerRules": [],
+        "relation": {
+          "equipmentKey": "item_3176",
+          "skillKey": "item_3176_passive",
+          "sortOrder": 10
+        },
+        "representativeImage": {
+          "imageKey": "item_3176"
+        }
+      }
+    }
+  ],
+  "businessWrites": 0
+}
