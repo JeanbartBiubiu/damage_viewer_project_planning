@@ -1,0 +1,23 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "method": "POST",
+    "route": "/skills/akshan_p/parameters",
+    "detailRoute": "/skills/akshan_p/parameters/move_speed_base_min",
+    "skillKey": "akshan_p",
+    "kind": "parameters",
+    "stableKey": "move_speed_base_min",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_base_min",
+      "name": "取消射击移动速度角色等级下限",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 20,
+      "levelValues": null,
+      "description": "当前MS为角色等级插值20至75；只保留端点，未知中间曲线使用运行输入。",
+      "sortOrder": 60
+    }
+  }
+}

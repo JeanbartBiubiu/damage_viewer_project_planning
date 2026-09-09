@@ -1,0 +1,77 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "method": "POST",
+    "route": "/skills/akshan_e/formulas",
+    "detailRoute": "/skills/akshan_e/formulas/shot_physical_damage",
+    "skillKey": "akshan_e",
+    "kind": "formulas",
+    "stableKey": "shot_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "shot_physical_damage",
+      "name": "骄行荡寇单发物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shot_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "total_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_multiplier_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "extra_attack_speed_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "bonus_attack_speed_percent",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前DamageToDeal=(BaseDamage+0.25×来源总攻击力)×(1+0.3×额外攻击速度)；逐发公式，不创建伤害结果。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 215,
+  "intent": {
+    "sequence": 216,
+    "method": "POST",
+    "route": "/skills/briar_w/parameters",
+    "detailRoute": "/skills/briar_w/parameters/attack_heal_damage_ratio",
+    "skillKey": "briar_w",
+    "kind": "parameters",
+    "stableKey": "attack_heal_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_heal_damage_ratio",
+      "name": "噬击已造成伤害治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.24000001,
+        "2": 0.28,
+        "3": 0.31999999,
+        "4": 0.36000001,
+        "5": 0.40000001
+      },
+      "description": "当前AttackHealPercent技能等级1至5为24%/28%/32%/36%/40%，按比例保存。",
+      "sortOrder": 110
+    }
+  }
+}

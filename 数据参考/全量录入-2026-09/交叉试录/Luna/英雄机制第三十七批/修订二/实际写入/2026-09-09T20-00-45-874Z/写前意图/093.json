@@ -1,0 +1,45 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 93,
+    "method": "POST",
+    "route": "/skills/ambessa_p/formulas",
+    "detailRoute": "/skills/ambessa_p/formulas/on_hit_physical_damage",
+    "skillKey": "ambessa_p",
+    "kind": "formulas",
+    "stableKey": "on_hit_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "on_hit_physical_damage",
+      "name": "龙犬诡步强化攻击物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "on_hit_base_damage_at_character_level"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "on_hit_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Calc_OnHit_Damage_Flat=角色等级基础值+0.25×来源额外攻击力；中间等级基础值运行提供。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 87,
+    "method": "POST",
+    "route": "/skills/ambessa_p/parameters",
+    "detailRoute": "/skills/ambessa_p/parameters/on_hit_base_damage_at_character_level",
+    "skillKey": "ambessa_p",
+    "kind": "parameters",
+    "stableKey": "on_hit_base_damage_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "on_hit_base_damage_at_character_level",
+      "name": "龙犬诡步强化攻击角色等级基础伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前Calc_OnHit_Damage_Flat的角色等级中间插值未证；运行层提供实际基础值，无默认。",
+      "sortOrder": 140
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 111,
+    "method": "POST",
+    "route": "/skills/ambessa_w/parameters",
+    "detailRoute": "/skills/ambessa_w/parameters/guard_window_ms",
+    "skillKey": "ambessa_w",
+    "kind": "parameters",
+    "stableKey": "guard_window_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "guard_window_ms",
+      "name": "铁令防守姿势持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "当前Buff_Duration=0.5秒，转换为500毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

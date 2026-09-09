@@ -1,0 +1,45 @@
+{
+  "i": 108,
+  "intent": {
+    "sequence": 109,
+    "method": "POST",
+    "route": "/skills/ambessa_q/formulas",
+    "detailRoute": "/skills/ambessa_q/formulas/damage_2_max_health_ratio",
+    "skillKey": "ambessa_q",
+    "kind": "formulas",
+    "stableKey": "damage_2_max_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_2_max_health_ratio",
+      "name": "裂斩目标最大生命伤害比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_2_max_health_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_2_max_health_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Calc_Damage_2_Percent_Max=基础百分比+0.0004×来源额外攻击力，mDisplayAsPercent为真；目标最大生命由正文目标口径提供。",
+      "sortOrder": 40
+    }
+  }
+}

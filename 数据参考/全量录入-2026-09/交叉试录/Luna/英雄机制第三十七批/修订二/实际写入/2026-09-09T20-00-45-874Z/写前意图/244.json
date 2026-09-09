@@ -1,0 +1,23 @@
+{
+  "i": 243,
+  "intent": {
+    "sequence": 244,
+    "method": "POST",
+    "route": "/skills/briar_r/parameters",
+    "detailRoute": "/skills/briar_r/parameters/resist_total_ad_ratio",
+    "skillKey": "briar_r",
+    "kind": "parameters",
+    "stableKey": "resist_total_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "resist_total_ad_ratio",
+      "name": "毙除强化血莽总攻击力双抗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "当前TotalResists的mStat=2且未给formula，按同版窄证取来源总攻击力。",
+      "sortOrder": 100
+    }
+  }
+}

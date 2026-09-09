@@ -1,0 +1,23 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "method": "POST",
+    "route": "/skills/akshan_e/parameters",
+    "detailRoute": "/skills/akshan_e/parameters/critical_damage_mod_ratio",
+    "skillKey": "akshan_e",
+    "kind": "parameters",
+    "stableKey": "critical_damage_mod_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_damage_mod_ratio",
+      "name": "骄行荡寇暴击伤害修正系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "当前CriticalCalc的CritDamageMod=0.5；当前树明确将其乘入mStat9-1，不映射成现有属性。",
+      "sortOrder": 80
+    }
+  }
+}

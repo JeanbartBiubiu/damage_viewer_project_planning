@@ -1,0 +1,27 @@
+{
+  "i": 242,
+  "intent": {
+    "sequence": 243,
+    "method": "POST",
+    "route": "/skills/briar_r/parameters",
+    "detailRoute": "/skills/briar_r/parameters/lifesteal_ratio",
+    "skillKey": "briar_r",
+    "kind": "parameters",
+    "stableKey": "lifesteal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "lifesteal_ratio",
+      "name": "毙除强化血莽生命偷取比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.1,
+        "2": 0.15000001,
+        "3": 0.2
+      },
+      "description": "当前LifestealPercent技能等级1至3为10%/15%/20%，按比例保存。",
+      "sortOrder": 90
+    }
+  }
+}

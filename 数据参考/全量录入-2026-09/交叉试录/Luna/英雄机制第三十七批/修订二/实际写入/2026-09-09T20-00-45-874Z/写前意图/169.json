@@ -1,0 +1,23 @@
+{
+  "i": 168,
+  "intent": {
+    "sequence": 169,
+    "method": "POST",
+    "route": "/skills/aurora_e/parameters",
+    "detailRoute": "/skills/aurora_e/parameters/self_knockback_distance",
+    "skillKey": "aurora_e",
+    "kind": "parameters",
+    "stableKey": "self_knockback_distance",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_knockback_distance",
+      "name": "怪奇喷涌自身后跳距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前SelfKnockBackDistance=250；自身位移资格保留。",
+      "sortOrder": 60
+    }
+  }
+}

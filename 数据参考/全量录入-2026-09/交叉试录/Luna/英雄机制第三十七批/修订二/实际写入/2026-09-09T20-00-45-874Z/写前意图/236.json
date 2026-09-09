@@ -1,0 +1,35 @@
+{
+  "i": 235,
+  "intent": {
+    "sequence": 236,
+    "method": "POST",
+    "route": "/skills/briar_e/formulas",
+    "detailRoute": "/skills/briar_e/formulas/max_health_heal_value",
+    "skillKey": "briar_e",
+    "kind": "formulas",
+    "stableKey": "max_health_heal_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "max_health_heal_value",
+      "name": "惊吼蓄力最大生命治疗值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_health_heal_ratio"
+          }
+        ]
+      },
+      "description": "当前PercentMaxHPHeal为mStat12×HealHPPercent；按主负责人同版窄证将无选择器mStat12读取为来源总生命，治疗事件另行接线。",
+      "sortOrder": 30
+    }
+  }
+}

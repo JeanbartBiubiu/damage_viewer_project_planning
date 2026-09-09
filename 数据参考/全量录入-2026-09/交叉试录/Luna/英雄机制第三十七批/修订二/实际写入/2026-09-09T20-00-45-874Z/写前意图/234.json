@@ -1,0 +1,67 @@
+{
+  "i": 233,
+  "intent": {
+    "sequence": 234,
+    "method": "POST",
+    "route": "/skills/briar_e/formulas",
+    "detailRoute": "/skills/briar_e/formulas/max_magic_damage",
+    "skillKey": "briar_e",
+    "kind": "formulas",
+    "stableKey": "max_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "max_magic_damage",
+      "name": "惊吼满蓄单一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "max_damage_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Damage=MaxBaseDamage+1.0×来源额外攻击力+1.0×来源法强；蓄力下限和中间曲线不编。",
+      "sortOrder": 10
+    }
+  }
+}

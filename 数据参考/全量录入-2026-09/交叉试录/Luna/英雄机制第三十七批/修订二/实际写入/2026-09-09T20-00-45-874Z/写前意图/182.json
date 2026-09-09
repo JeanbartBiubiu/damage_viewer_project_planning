@@ -1,0 +1,23 @@
+{
+  "i": 181,
+  "intent": {
+    "sequence": 182,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/bleed_duration_ms",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "bleed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bleed_duration_ms",
+      "name": "猩红诅咒流血总时长（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前BleedDuration=5秒，转换为5000毫秒；与秒口径分开，避免总量公式乘毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

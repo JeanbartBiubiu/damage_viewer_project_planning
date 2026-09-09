@@ -1,0 +1,23 @@
+{
+  "i": 60,
+  "intent": {
+    "sequence": 61,
+    "method": "POST",
+    "route": "/skills/akshan_r/parameters",
+    "detailRoute": "/skills/akshan_r/parameters/critical_damage_effectiveness_ratio",
+    "skillKey": "akshan_r",
+    "kind": "parameters",
+    "stableKey": "critical_damage_effectiveness_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_damage_effectiveness_ratio",
+      "name": "恩怨相抵暴击伤害修正系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.30000001,
+      "levelValues": null,
+      "description": "当前DamagePerBulletWithCrit的mMultiplier明确消费CritDamageMod=0.3；不把mStat8/9映射成现有属性。",
+      "sortOrder": 30
+    }
+  }
+}

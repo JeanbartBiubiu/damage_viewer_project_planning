@@ -1,0 +1,23 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "method": "POST",
+    "route": "/skills/akshan_r/parameters",
+    "detailRoute": "/skills/akshan_r/parameters/critical_stat_offset",
+    "skillKey": "akshan_r",
+    "kind": "parameters",
+    "stableKey": "critical_stat_offset",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "critical_stat_offset",
+      "name": "恩怨相抵暴击属性减一偏移",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": -1,
+      "levelValues": null,
+      "description": "当前DamagePerBulletWithCrit明确计算mStat9-1；用显式偏移保留原树。",
+      "sortOrder": 38
+    }
+  }
+}

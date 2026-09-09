@@ -1,0 +1,1370 @@
+{
+  "at": "2026-09-09T18:58:11.254Z",
+  "sourceBindingSha256": "2a49a2cb4cebed3945d8ccea7352ba128b007cd01a18a812d478e0a767275905",
+  "akshanW": {
+    "currentGameModeInteger": 1,
+    "selectedTextKey": "spell_akshanw_tooltip_1",
+    "expandedText": "<spellPassive>被动</spellPassive>：敌方英雄在击杀了阿克尚的友方英雄时，会被标记为<keywordMajor>恶人</keywordMajor>，持续@VengeanceDuration@秒。当阿克尚参与击杀了一名<keywordMajor>恶人</keywordMajor>且他在其死前@RecentlyDamagedWindow@秒内对其造成过伤害时，他会获得@GoldReward@金币，复活被击杀的友方英雄，并移除所有其它的<keywordMajor>恶人</keywordMajor>标记。<br><br><spellActive>主动</spellActive>：阿克尚进入<keywordStealth>伪装状态</keywordStealth>，持续@WallGracePeriod@秒，在墙体附近或草丛中时可无限持续。在以这种方式获取的<keywordStealth>伪装状态</keywordStealth>下，阿克尚在朝着<keywordMajor>恶人</keywordMajor>移动时还会获得<speed>@MSValue@移动速度</speed>和<scaleMana>@MissingManaRegen*100@%已损失法力值回复</scaleMana>。",
+    "values": [
+      {
+        "name": "VengeanceDuration",
+        "values": [
+          60,
+          60,
+          60,
+          60,
+          60,
+          60,
+          60
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "MSValue",
+        "values": [
+          70,
+          80,
+          90,
+          100,
+          110,
+          120,
+          130
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "ShredValue",
+        "values": [
+          12.5,
+          15,
+          17.5,
+          20,
+          22.5,
+          25,
+          27.5
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "DeathTimer",
+        "values": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "PassiveSecondAutoRatio",
+        "values": [
+          0.4000000059604645,
+          0.46000000834465027,
+          0.5199999809265137,
+          0.5799999833106995,
+          0.6399999856948853,
+          0.699999988079071,
+          0.7599999904632568
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "WallGracePeriod",
+        "values": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "MissingManaRegen",
+        "values": [
+          0.11999999731779099,
+          0.11999999731779099,
+          0.11999999731779099,
+          0.11999999731779099,
+          0.11999999731779099,
+          0.11999999731779099,
+          0.11999999731779099
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "GoldReward",
+        "values": [
+          100,
+          100,
+          100,
+          100,
+          100,
+          100,
+          100
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "RecentlyDamagedWindow",
+        "values": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "VFXTrailSpeed",
+        "values": [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "PassiveWallRange",
+        "values": [
+          175,
+          175,
+          175,
+          175,
+          175,
+          175,
+          175
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "StealthDetectionRange",
+        "values": [
+          800,
+          800,
+          800,
+          800,
+          800,
+          800,
+          800
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "GameModeInteger",
+        "values": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "__type": "SpellDataValue"
+      },
+      {
+        "name": "ReviveHealthPercent",
+        "values": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "__type": "SpellDataValue"
+      }
+    ],
+    "calcs": {
+      "SecondAutoDamage": {
+        "mFormulaParts": [
+          {
+            "mStat": 2,
+            "mDataValue": "PassiveSecondAutoRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "GameCalculation"
+      }
+    }
+  },
+  "auroraE": {
+    "slot": "E",
+    "skillKey": "aurora_e",
+    "binding": "Characters/Aurora/Spells/AuroraEAbility/AuroraE",
+    "object": {
+      "ObjectName": "AuroraE",
+      "objectPath": "Characters/Aurora/Spells/AuroraEAbility/AuroraE",
+      "mScriptName": "AuroraE",
+      "mSpell": {
+        "flags": 4194304,
+        "mAffectsTypeFlags": 6154,
+        "mSpellTags": [
+          "Trait_DamageAbility",
+          "Trait_Target_Directional",
+          "Trait_Ranged_Piercing",
+          "Trait_Melee_SmallWindup",
+          "Trait_AoE"
+        ],
+        "DataValues": [
+          {
+            "name": "BaseDamage",
+            "values": [
+              30,
+              70,
+              110,
+              150,
+              190,
+              230,
+              270
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "SlowPercent",
+            "values": [
+              -0.800000011920929,
+              -0.800000011920929,
+              -0.800000011920929,
+              -0.800000011920929,
+              -0.800000011920929,
+              -0.800000011920929,
+              -0.800000011920929
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "SelfKnockBackDistance",
+            "values": [
+              250,
+              250,
+              250,
+              250,
+              250,
+              250,
+              250
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "AoELength",
+            "values": [
+              825,
+              825,
+              825,
+              825,
+              825,
+              825,
+              825
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "AoEWidth",
+            "values": [
+              175,
+              175,
+              175,
+              175,
+              175,
+              175,
+              175
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "SlowDecay",
+            "values": [
+              0.8500000238418579,
+              0.8500000238418579,
+              0.8500000238418579,
+              0.8500000238418579,
+              0.8500000238418579,
+              0.8500000238418579,
+              0.8500000238418579
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "SlowDuration",
+            "values": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "__type": "SpellDataValue"
+          }
+        ],
+        "mSpellCalculations": {
+          "DamageCalc": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "BaseDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mCoefficient": 0.699999988079071,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mAnimationName": "Spell3",
+        "mImgIconName": [
+          "ASSETS/Characters/Aurora/HUD/Icons2D/AuroraE.dds"
+        ],
+        "mCastTime": 0.3499999940395355,
+        "spellCastTime": 0,
+        "spellTotalTime": 0,
+        "cooldownTime": [
+          15,
+          15,
+          14,
+          13,
+          12,
+          11,
+          10
+        ],
+        "Cooldown": {
+          "values": [
+            15,
+            15,
+            14,
+            13,
+            12,
+            11,
+            10
+          ],
+          "__type": "{0a0eddc9}"
+        },
+        "canCastOrQueueWhileCasting": true,
+        "mCantCancelWhileWindingUp": true,
+        "useAnimatorFramerate": true,
+        "bHaveHitEffect": true,
+        "mTurnSpeedScalar": 10,
+        "mIgnoreRangeCheck": true,
+        "castRange": [
+          825,
+          825,
+          825,
+          825,
+          825,
+          825,
+          825
+        ],
+        "castRangeValues": {
+          "values": [
+            825,
+            825,
+            825,
+            825,
+            825,
+            825,
+            825
+          ],
+          "{0a3e0478}": 825,
+          "__type": "{0a0eddc9}"
+        },
+        "luaOnMissileUpdateDistanceInterval": 51,
+        "mMissileEffectKey": "{2c3a2b25}",
+        "mLineWidth": 80,
+        "mHitEffectKey": "Aurora_E_tarPT",
+        "mana": [
+          80,
+          80,
+          80,
+          80,
+          80,
+          80
+        ],
+        "manaValues": {
+          "values": [
+            80,
+            80,
+            80,
+            80,
+            80,
+            80
+          ],
+          "{0a3e0478}": 80,
+          "__type": "{630af303}"
+        },
+        "selectionPriority": 1,
+        "mTargetingTypeData": {
+          "__type": "Direction"
+        },
+        "mCastingBreaksStealth": true,
+        "mClientData": {
+          "mTooltipData": {
+            "mObjectName": "AuroraE",
+            "mFormat": "{d7c27163}",
+            "mLocKeys": {
+              "keyName": "Spell_AuroraE_Name",
+              "keyTooltip": "Spell_AuroraE_Tooltip",
+              "keySummary": "Spell_Aurora_E_Summary"
+            },
+            "mLists": {
+              "LevelUp": {
+                "levelCount": 5,
+                "Elements": [
+                  {
+                    "type": "Cooldown",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "BaseDamage",
+                    "nameOverride": "Spell_ListType_Damage",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceSpell"
+          },
+          "__type": "SpellDataResourceClient"
+        },
+        "__type": "SpellDataResource"
+      },
+      "mBuff": {
+        "mDescription": "buff_desc_AuroraE",
+        "__type": "BuffData"
+      },
+      "BotData": {
+        "DamageTag": 1,
+        "{6d548702}": {
+          "mFormulaParts": [
+            {
+              "mSpellCalculationKey": "DamageCalc",
+              "__type": "{f3cbe7b2}"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "{ec17e271}": [
+          {
+            "EffectTag": 1,
+            "EffectCalculation": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "SlowDuration",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "__type": "{b09016f6}"
+          }
+        ],
+        "{38382c53}": [
+          {
+            "{e38f54f7}": 8192,
+            "__type": "{150d1b92}"
+          }
+        ],
+        "__type": "BotsSpellData"
+      },
+      "__type": "SpellObject"
+    },
+    "currentTexts": {
+      "keyName": {
+        "sourceKey": "Spell_AuroraE_Name",
+        "text": "怪奇喷涌"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_AuroraE_Tooltip",
+        "text": "打开界域之窗，施放出一道灵魂魔法洪流，对区域内的所有敌人造成<magicDamage>@DamageCalc@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowPercent*-100@%<status>减速</status>（减速效果持续衰减）。<br><br>施放该技能后，阿萝拉会向后位移一小段距离。<br><br>"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_Aurora_E_Summary",
+        "text": "阿萝拉打开界域之窗，施放出一道灵魂魔法洪流，让双界汇聚，放出一道灵物魔法震波，对敌人造成伤害和减速，然后阿萝拉也会向后跳到安全处。"
+      }
+    }
+  },
+  "briarP": {
+    "slot": "P",
+    "skillKey": "briar_p",
+    "binding": "{cf6ed5a6}",
+    "object": {
+      "ObjectName": "BriarP",
+      "objectPath": "{cf6ed5a6}",
+      "mScriptName": "BriarP",
+      "mSpell": {
+        "DataValues": [
+          {
+            "name": "BleedDuration",
+            "values": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "BleedTickRate",
+            "values": [
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5,
+              0.5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "HealPercent",
+            "values": [
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "HealShieldPerMissingHPPercent",
+            "values": [
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645,
+              0.4000000059604645
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "CurrentHealthPercentCost",
+            "values": [
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806,
+              0.05000000074505806
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "BleedPercentAdd",
+            "values": [
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25,
+              0.25
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "MaxBleedStacks",
+            "values": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "PercentOfBleedHealedOnKill",
+            "values": [
+              1.25,
+              1.25,
+              1.25,
+              1.25,
+              1.25,
+              1.25,
+              1.25
+            ],
+            "__type": "SpellDataValue"
+          }
+        ],
+        "DataValuesModeOverride": {
+          "cherry": {
+            "SpellDataValues": [
+              {
+                "name": "HealShieldPerMissingHPPercent",
+                "values": [
+                  0.3499999940395355,
+                  0.3499999940395355,
+                  0.3499999940395355,
+                  0.3499999940395355,
+                  0.3499999940395355,
+                  0.3499999940395355,
+                  0.3499999940395355
+                ],
+                "__type": "SpellDataValue"
+              }
+            ],
+            "__type": "SpellDataValueVector"
+          }
+        },
+        "mSpellCalculations": {
+          "{15da76ad}": {
+            "mFormulaParts": [
+              {
+                "mStartValue": 2,
+                "mEndValue": 10,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              },
+              {
+                "mStat": 2,
+                "mStatFormula": 2,
+                "mCoefficient": 0.10000000149011612,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "{f06e5a79}": {
+            "mMultiplier": {
+              "mNumber": 3,
+              "__type": "NumberCalculationPart"
+            },
+            "tooltipOnly": true,
+            "mModifiedGameCalculation": "{15da76ad}",
+            "__type": "GameCalculationModified"
+          },
+          "BleedDamageOverDurationTooltip": {
+            "mMultiplier": {
+              "mDataValue": "BleedDuration",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            "tooltipOnly": true,
+            "mModifiedGameCalculation": "{15da76ad}",
+            "__type": "GameCalculationModified"
+          },
+          "BleedMaxDamageOverDurationTooltip": {
+            "mMultiplier": {
+              "mPart1": {
+                "mDataValue": "BleedDuration",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mPart2": {
+                "mNumber": 2,
+                "__type": "NumberCalculationPart"
+              },
+              "__type": "ProductOfSubPartsCalculationPart"
+            },
+            "tooltipOnly": true,
+            "mModifiedGameCalculation": "{15da76ad}",
+            "__type": "GameCalculationModified"
+          },
+          "{b38f3487}": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "HealShieldPerMissingHPPercent",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mStat": 12,
+                "mStatFormula": 2,
+                "mCoefficient": 0.0002500000118743628,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "TotalHealPerMissingHPPercentTooltip": {
+            "mMultiplier": {
+              "mNumber": 100,
+              "__type": "NumberCalculationPart"
+            },
+            "tooltipOnly": true,
+            "mModifiedGameCalculation": "{b38f3487}",
+            "__type": "GameCalculationModified"
+          }
+        },
+        "mImgIconName": [
+          "ASSETS/Characters/Briar/HUD/Icons2D/BriarP.dds"
+        ],
+        "castRange": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "castRangeValues": {
+          "values": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "{0a3e0478}": 0,
+          "__type": "{0a0eddc9}"
+        },
+        "mFloatVarsDecimals": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "mClientData": {
+          "mTooltipData": {
+            "mObjectName": "BriarP",
+            "mFormat": "{476ec0b8}",
+            "mLocKeys": {
+              "keyName": "Spell_BriarP_Name",
+              "keyTooltip": "Spell_BriarP_Tooltip",
+              "keyTooltipExtended": "Spell_BriarP_TooltipExtended",
+              "keySummary": "Spell_BriarP_Summary"
+            },
+            "__type": "TooltipInstanceSpell"
+          },
+          "__type": "SpellDataResourceClient"
+        },
+        "__type": "SpellDataResource"
+      },
+      "__type": "SpellObject"
+    },
+    "currentTexts": {
+      "keyName": {
+        "sourceKey": "Spell_BriarP_Name",
+        "text": "猩红诅咒"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_BriarP_Tooltip",
+        "text": "贝蕾亚的攻击和技能会施加一层持续@BleedDuration@秒的流血效果，至多可叠加至@MaxBleedStacks@层。流血效果基于层数造成<physicalDamage>@BleedDamageOverDurationTooltip@至@BleedMaxDamageOverDurationTooltip@物理伤害</physicalDamage>，并且<healing>为贝蕾亚提供相当于@HealPercent*100@%折前伤害的治疗效果</healing>。<br><br>贝蕾亚基于她的已损失生命值获得至多<health>@TotalHealPerMissingHPPercentTooltip@%</health><healing>治疗效果</healing>提升。她没有基础生命值回复，并且她的技能会消耗<font color='#CC3300'>@CurrentHealthPercentCost*100@%当前生命值</font>来施放。<br>"
+      },
+      "keyTooltipExtended": {
+        "sourceKey": "Spell_BriarP_TooltipExtended",
+        "text": "{{ Spell_BriarP_Tooltip }}<br><rules>在一名流血中的敌人阵亡时，贝蕾亚获得相当于@PercentOfBleedHealedOnKill*100@%剩余流血伤害的<healing>治疗效果</healing>。</rules>"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_BriarP_Summary",
+        "text": "贝蕾亚的攻击与技能会造成可叠加的流血效果，同时基于这个效果的伤害治疗自身。她永远处于饥饿状态，会根据自己的已损失生命值获得更高的治疗，但缺乏自带的生命回复。"
+      }
+    }
+  },
+  "briarW": {
+    "slot": "W",
+    "skillKey": "briar_w",
+    "binding": "Characters/Briar/Spells/BriarWAbility/BriarW",
+    "object": {
+      "ObjectName": "BriarW",
+      "objectPath": "Characters/Briar/Spells/BriarWAbility/BriarW",
+      "mScriptName": "BriarW",
+      "mSpell": {
+        "flags": 4,
+        "mAffectsTypeFlags": 20490,
+        "mRequiredUnitTags": {
+          "mObjectTagList": [
+            "{ea595ca6}"
+          ],
+          "__type": "ObjectTags"
+        },
+        "mAlternateName": "BriarR",
+        "mSpellTags": [
+          "PositiveEffect_MoveBlock",
+          "PositiveEffect_EmpowerAttack",
+          "Trait_AttackReset",
+          "Trait_PlayerSelectedDashDirection",
+          "Trait_DamageAbility",
+          "Trait_ActiveHeal",
+          "Trait_AttackBuff_Duration",
+          "Trait_Strike",
+          "Trait_SignatureSpell",
+          "Trait_AoE"
+        ],
+        "DataValues": [
+          {
+            "name": "TauntRange",
+            "values": [
+              1000,
+              1000,
+              1000,
+              1000,
+              1000,
+              1000,
+              1000
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "MinDashDistance",
+            "values": [
+              75,
+              75,
+              75,
+              75,
+              75,
+              75,
+              75
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "MaxDashDistance",
+            "values": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "MaxRangeOverWalls",
+            "values": [
+              650,
+              650,
+              650,
+              650,
+              650,
+              650,
+              650
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "DashSpeed",
+            "values": [
+              1200,
+              1200,
+              1200,
+              1200,
+              1200,
+              1200,
+              1200
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "BerserkDuration",
+            "values": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "BerserkAS",
+            "values": [
+              0.44999998807907104,
+              0.550000011920929,
+              0.6499999761581421,
+              0.75,
+              0.8500000238418579,
+              0.949999988079071,
+              1.0499999523162842
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "BerserkMS",
+            "values": [
+              0.15000000596046448,
+              0.23999999463558197,
+              0.33000001311302185,
+              0.41999998688697815,
+              0.5099999904632568,
+              0.6000000238418579,
+              0.6899999976158142
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "AttackBonusDamage",
+            "values": [
+              -10,
+              5,
+              20,
+              35,
+              50,
+              65,
+              80
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "AttackPercentMissingHealth",
+            "values": [
+              9,
+              9,
+              9,
+              9,
+              9,
+              9,
+              9
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "AttackHealPercent",
+            "values": [
+              0.20000000298023224,
+              0.24000000953674316,
+              0.2800000011920929,
+              0.3199999928474426,
+              0.36000001430511475,
+              0.4000000059604645,
+              0.4399999976158142
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "MaxMonsterDamage",
+            "values": [
+              400,
+              400,
+              400,
+              400,
+              400,
+              400,
+              400
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "AoEAttackRadius",
+            "values": [
+              275,
+              275,
+              275,
+              275,
+              275,
+              275,
+              275
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "AoEAttackDamagePercent",
+            "values": [
+              0.5,
+              0.6000000238418579,
+              0.699999988079071,
+              0.800000011920929,
+              0.8999999761581421,
+              1,
+              1.100000023841858
+            ],
+            "__type": "SpellDataValue"
+          },
+          {
+            "name": "MonsterAndMinionPercentMod",
+            "values": [
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612,
+              0.10000000149011612
+            ],
+            "__type": "SpellDataValue"
+          }
+        ],
+        "DataValuesModeOverride": {
+          "cherry": {
+            "SpellDataValues": [
+              {
+                "name": "BerserkAS",
+                "values": [
+                  0.4000000059604645,
+                  0.5,
+                  0.6000000238418579,
+                  0.699999988079071,
+                  0.800000011920929,
+                  0.8999999761581421,
+                  1
+                ],
+                "__type": "SpellDataValue"
+              }
+            ],
+            "__type": "SpellDataValueVector"
+          }
+        },
+        "mSpellCalculations": {
+          "TotalAttackBonusDamage": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "AttackBonusDamage",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mStat": 2,
+                "mCoefficient": 1.0499999523162842,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "TotalAoEDamage": {
+            "mFormulaParts": [
+              {
+                "mStat": 2,
+                "mDataValue": "AoEAttackDamagePercent",
+                "__type": "StatByNamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "TotalAttackPercentMissingHealth": {
+            "mFormulaParts": [
+              {
+                "mDataValue": "AttackPercentMissingHealth",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              {
+                "mStat": 2,
+                "mStatFormula": 2,
+                "mCoefficient": 0.02500000037252903,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          },
+          "AttackMaxHPHeal": {
+            "mFormulaParts": [
+              {
+                "mStat": 12,
+                "mCoefficient": 0.05000000074505806,
+                "__type": "StatByCoefficientCalculationPart"
+              }
+            ],
+            "__type": "GameCalculation"
+          }
+        },
+        "mAnimationName": "Spell2",
+        "mImgIconName": [
+          "ASSETS/Characters/Briar/HUD/Icons2D/BriarW.dds",
+          "ASSETS/Characters/Briar/HUD/Icons2D/BriarW2.dds",
+          "ASSETS/Characters/Briar/HUD/Icons2D/BriarWBuff.dds"
+        ],
+        "cooldownTime": [
+          14,
+          14,
+          13,
+          12,
+          11,
+          10,
+          10
+        ],
+        "Cooldown": {
+          "values": [
+            14,
+            14,
+            13,
+            12,
+            11,
+            10,
+            10
+          ],
+          "__type": "{0a0eddc9}"
+        },
+        "mCantCancelWhileWindingUp": true,
+        "mCantCancelWhileChanneling": true,
+        "cantCastWhileRooted": true,
+        "mProjectTargetToCastRange": true,
+        "mIgnoreRangeCheck": true,
+        "mDoesNotConsumeCooldown": true,
+        "castRange": [
+          350,
+          350,
+          350,
+          350,
+          350,
+          350,
+          350
+        ],
+        "castRangeValues": {
+          "values": [
+            350,
+            350,
+            350,
+            350,
+            350,
+            350,
+            350
+          ],
+          "{0a3e0478}": 350,
+          "__type": "{0a0eddc9}"
+        },
+        "castRadius": [
+          675,
+          675,
+          675,
+          675,
+          675,
+          675,
+          675
+        ],
+        "castRadiusSecondary": [
+          400,
+          400,
+          400,
+          400,
+          400,
+          400,
+          400
+        ],
+        "castConeDistance": 100,
+        "castFrame": 4.619999885559082,
+        "missileSpeed": 0,
+        "mFloatVarsDecimals": [
+          0,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ],
+        "selectionPriority": 1,
+        "mTargetingTypeData": {
+          "__type": "Direction"
+        },
+        "SpellEventToAudioEventSuffix": {
+          "12": "Play_sfx_Briar_BriarW_OnCast"
+        },
+        "mSpellCooldownOrSealedQueueThreshold": 0.5,
+        "mCastingBreaksStealth": true,
+        "mClientData": {
+          "mTooltipData": {
+            "mObjectName": "BriarW",
+            "mFormat": "{d7c27163}",
+            "mLocKeys": {
+              "keyName": "Spell_BriarW_Name",
+              "keyTooltip": "Spell_BriarW_Tooltip",
+              "keyCost": "Spell_BriarP_Cost",
+              "keyTooltipExtendedBelowLine": "Spell_BriarW_TooltipExtendedBelowLine",
+              "keySummary": "Spell_BriarW_Summary"
+            },
+            "mLists": {
+              "LevelUp": {
+                "levelCount": 5,
+                "Elements": [
+                  {
+                    "type": "BerserkAS",
+                    "multiplier": 100,
+                    "nameOverride": "Spell_ListType_AttackSpeed",
+                    "Style": 1,
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "BerserkMS",
+                    "multiplier": 100,
+                    "nameOverride": "Spell_ListType_MovementSpeed",
+                    "Style": 1,
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AoEAttackDamagePercent",
+                    "multiplier": 100,
+                    "nameOverride": "Spell_BriarW_AreaDamage",
+                    "Style": 1,
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AttackBonusDamage",
+                    "nameOverride": "Spell_ListType_Damage",
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "AttackHealPercent",
+                    "multiplier": 100,
+                    "nameOverride": "Spell_ListType_Healing",
+                    "Style": 1,
+                    "__type": "TooltipInstanceListElement"
+                  },
+                  {
+                    "type": "Cooldown",
+                    "nameOverride": "Spell_ListType_Cooldown",
+                    "__type": "TooltipInstanceListElement"
+                  }
+                ],
+                "__type": "TooltipInstanceList"
+              }
+            },
+            "__type": "TooltipInstanceSpell"
+          },
+          "mTargeterDefinitions": [
+            {
+              "endLocator": {
+                "basePosition": 3,
+                "__type": "DrawablePositionLocator"
+              },
+              "fallbackDirection": 3,
+              "lineStopsAtEndPosition": true,
+              "lineWidth": {
+                "mPerLevelValues": [
+                  50,
+                  50,
+                  50,
+                  50,
+                  50,
+                  50
+                ],
+                "mValueType": 2,
+                "__type": "FloatPerSpellLevel"
+              },
+              "__type": "TargeterDefinitionLine"
+            },
+            {
+              "centerLocator": {
+                "basePosition": 3,
+                "__type": "DrawablePositionLocator"
+              },
+              "overrideRadius": {
+                "mPerLevelValues": [
+                  1000,
+                  1000,
+                  1000,
+                  1000,
+                  1000,
+                  1000
+                ],
+                "mValueType": 2,
+                "__type": "FloatPerSpellLevel"
+              },
+              "textureRadiusOverrideName": "assets/spells/textures/circularrangeindicator.tex",
+              "__type": "TargeterDefinitionAoe"
+            }
+          ],
+          "__type": "SpellDataResourceClient"
+        },
+        "__type": "SpellDataResource"
+      },
+      "BotData": {
+        "DamageTag": 0,
+        "{6d548702}": {
+          "__type": "GameCalculation"
+        },
+        "{ec17e271}": [
+          {
+            "EffectTag": 128,
+            "EffectCalculation": {
+              "__type": "GameCalculation"
+            },
+            "__type": "{b09016f6}"
+          },
+          {
+            "EffectTag": 2,
+            "EffectCalculation": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BerserkDuration",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "__type": "{b09016f6}"
+          }
+        ],
+        "{38382c53}": [
+          {
+            "{e38f54f7}": 2048,
+            "__type": "{150d1b92}"
+          },
+          {
+            "{e38f54f7}": 2048,
+            "__type": "{150d1b92}"
+          },
+          {
+            "{0717e686}": false,
+            "__type": "{150d1b92}"
+          }
+        ],
+        "__type": "BotsSpellData"
+      },
+      "__type": "SpellObject"
+    },
+    "currentTexts": {
+      "keyName": {
+        "sourceKey": "Spell_BriarW_Name",
+        "text": "血莽 / 噬击"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_BriarW_Tooltip",
+        "text": "贝蕾亚跳跃并进入一种<keywordMajor>血莽</keywordMajor>状态，自我嘲讽至相距最近的那个敌人，持续@BerserkDuration@秒，优先以英雄为目标。在<keywordMajor>血莽</keywordMajor>状态下，她获得<attackSpeed>@BerserkAS*100@%攻击速度</attackSpeed>和<speed>@BerserkMS*100@%移动速度</speed>，并且她的攻击会对目标四周的敌人们造成<physicalDamage>@TotalAoEDamage@物理伤害</physicalDamage>。<br><br>贝蕾亚可以<recast>再次施放</recast>这个技能来强化她的下一次攻击。这次攻击造成<physicalDamage>@TotalAttackBonusDamage@ + @TotalAttackPercentMissingHealth@%已损失生命值的物理伤害</physicalDamage>并<healing>为贝蕾亚提供@AttackMaxHPHeal@+@AttackHealPercent*100@%已造成伤害值的治疗效果</healing>。<br>"
+      },
+      "keyCost": {
+        "sourceKey": "Spell_BriarP_Cost",
+        "text": "消耗<font color='#CC3300'>@Spell.BriarP:CurrentHealthPercentCost*100@%当前生命值</font>"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_BriarW_TooltipExtendedBelowLine",
+        "text": "<rules>噬咬会对小兵和野怪造成@MonsterAndMinionPercentMod*100@%提升伤害(至多为@MaxMonsterDamage@已损失生命值伤害)。<br>这个技能不会移除或替代<spellName>{{Spell_BriarR_Name}}</spellName>的强化版<keywordMajor>血莽</keywordMajor>。</rules>"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_BriarW_Summary",
+        "text": "贝蕾亚向前跳跃并击碎她的囚枷，进入一种【血莽】状态来使她无休止地追击相距最近的那个敌人（优先以英雄为目标）。在【血莽】状态下，她的攻击速度和移动速度获得提升，并且她的攻击会在她目标四周的一个区域内造成伤害。<br><br>贝蕾亚可以在【血莽】状态下再次激活这个技能，来让她的下一次攻击噬咬她的目标，造成基于目标已损失生命值的额外伤害，并且基于她造成的伤害来为她提供治疗效果。"
+      }
+    }
+  },
+  "apiWrites": 0
+}

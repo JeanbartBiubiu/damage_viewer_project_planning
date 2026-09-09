@@ -1,0 +1,23 @@
+{
+  "i": 131,
+  "intent": {
+    "sequence": 132,
+    "method": "POST",
+    "route": "/skills/ambessa_r/parameters",
+    "detailRoute": "/skills/ambessa_r/parameters/stun_duration_ms",
+    "skillKey": "ambessa_r",
+    "kind": "parameters",
+    "stableKey": "stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_duration_ms",
+      "name": "公开处刑晕眩持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 400,
+      "levelValues": null,
+      "description": "当前Stun_Duration=0.4秒，转换为400毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "i": 31,
+  "intent": {
+    "sequence": 32,
+    "method": "POST",
+    "route": "/skills/akshan_p/formulas",
+    "detailRoute": "/skills/akshan_p/formulas/cancelled_second_attack_move_speed",
+    "skillKey": "akshan_p",
+    "kind": "formulas",
+    "stableKey": "cancelled_second_attack_move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "cancelled_second_attack_move_speed",
+      "name": "取消额外射击后的移动速度",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_base_at_character_level"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "move_speed_multiplier_base"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "bonus_attack_speed_percent",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前ASModdedMS=MS×(1+额外攻击速度)；mStat=4/formula=2按额外攻击速度属性读取。",
+      "sortOrder": 40
+    }
+  }
+}

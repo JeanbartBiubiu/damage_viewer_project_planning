@@ -1,0 +1,29 @@
+{
+  "i": 210,
+  "intent": {
+    "sequence": 211,
+    "method": "POST",
+    "route": "/skills/briar_w/parameters",
+    "detailRoute": "/skills/briar_w/parameters/empowered_attack_base_damage",
+    "skillKey": "briar_w",
+    "kind": "parameters",
+    "stableKey": "empowered_attack_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_attack_base_damage",
+      "name": "噬击基础额外物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 5,
+        "2": 20,
+        "3": 35,
+        "4": 50,
+        "5": 65
+      },
+      "description": "当前AttackBonusDamage技能等级1至5为5/20/35/50/65；索引0为旧占位-10。",
+      "sortOrder": 40
+    }
+  }
+}

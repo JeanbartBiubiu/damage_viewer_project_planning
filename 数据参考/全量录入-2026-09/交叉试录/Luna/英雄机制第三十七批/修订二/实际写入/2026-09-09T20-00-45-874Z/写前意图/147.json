@@ -1,0 +1,45 @@
+{
+  "i": 146,
+  "intent": {
+    "sequence": 147,
+    "method": "POST",
+    "route": "/skills/aurora_p/formulas",
+    "detailRoute": "/skills/aurora_p/formulas/proc_damage_ratio",
+    "skillKey": "aurora_p",
+    "kind": "formulas",
+    "stableKey": "proc_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "proc_damage_ratio",
+      "name": "驱灵奇术单一敌人最大生命伤害比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "max_health_damage_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "max_health_damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前ProcDamage=1%+0.00027×来源法强，结果乘目标最大生命；目标资格和三次命中由事件层提供。",
+      "sortOrder": 10
+    }
+  }
+}

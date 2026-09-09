@@ -1,0 +1,23 @@
+{
+  "i": 188,
+  "intent": {
+    "sequence": 189,
+    "method": "POST",
+    "route": "/skills/briar_p/parameters",
+    "detailRoute": "/skills/briar_p/parameters/bleed_full_stack_multiplier",
+    "skillKey": "briar_p",
+    "kind": "parameters",
+    "stableKey": "bleed_full_stack_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bleed_full_stack_multiplier",
+      "name": "猩红诅咒满层流血倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前BleedMaxDamageOverDurationTooltip在总量上乘2；不使用未消费BleedPercentAdd编叠层公式。",
+      "sortOrder": 90
+    }
+  }
+}

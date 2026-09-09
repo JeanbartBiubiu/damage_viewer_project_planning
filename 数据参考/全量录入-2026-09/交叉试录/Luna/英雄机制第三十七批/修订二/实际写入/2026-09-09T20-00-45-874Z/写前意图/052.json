@@ -1,0 +1,23 @@
+{
+  "i": 51,
+  "intent": {
+    "sequence": 52,
+    "method": "POST",
+    "route": "/skills/akshan_e/parameters",
+    "detailRoute": "/skills/akshan_e/parameters/attack_frequency_source_value",
+    "skillKey": "akshan_e",
+    "kind": "parameters",
+    "stableKey": "attack_frequency_source_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_frequency_source_value",
+      "name": "骄行荡寇攻击频率原始值",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "当前DataValues.AttackFrequency=0.2；当前正文未给时间单位，只保存无单位原始值，不换算毫秒或推导发数。",
+      "sortOrder": 60
+    }
+  }
+}

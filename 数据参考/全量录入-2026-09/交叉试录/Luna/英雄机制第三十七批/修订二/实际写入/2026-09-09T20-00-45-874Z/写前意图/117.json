@@ -1,0 +1,29 @@
+{
+  "i": 116,
+  "intent": {
+    "sequence": 117,
+    "method": "POST",
+    "route": "/skills/ambessa_w/parameters",
+    "detailRoute": "/skills/ambessa_w/parameters/base_damage",
+    "skillKey": "ambessa_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "铁令低伤害基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 75,
+        "3": 100,
+        "4": 125,
+        "5": 150
+      },
+      "description": "当前BaseDamage技能等级1至5为50/75/100/125/150。",
+      "sortOrder": 80
+    }
+  }
+}

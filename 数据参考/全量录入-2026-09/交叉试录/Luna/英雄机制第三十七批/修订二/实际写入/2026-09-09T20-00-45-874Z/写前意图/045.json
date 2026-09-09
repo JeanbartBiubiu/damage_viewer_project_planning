@@ -1,0 +1,23 @@
+{
+  "i": 44,
+  "intent": {
+    "sequence": 45,
+    "method": "POST",
+    "route": "/skills/akshan_w/parameters",
+    "detailRoute": "/skills/akshan_w/parameters/wall_grace_period_ms",
+    "skillKey": "akshan_w",
+    "kind": "parameters",
+    "stableKey": "wall_grace_period_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wall_grace_period_ms",
+      "name": "离开墙体或草丛后的伪装宽限时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "当前WallGracePeriod=2秒，转换为2000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

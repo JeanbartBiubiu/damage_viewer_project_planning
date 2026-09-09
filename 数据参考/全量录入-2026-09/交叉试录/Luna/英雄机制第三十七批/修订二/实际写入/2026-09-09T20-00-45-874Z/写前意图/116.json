@@ -1,0 +1,23 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 116,
+    "method": "POST",
+    "route": "/skills/ambessa_w/parameters",
+    "detailRoute": "/skills/ambessa_w/parameters/shield_bonus_ad_ratio",
+    "skillKey": "ambessa_w",
+    "kind": "parameters",
+    "stableKey": "shield_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_bonus_ad_ratio",
+      "name": "铁令护盾额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.5,
+      "levelValues": null,
+      "description": "当前Calc_Shield第二项mStat=2、mStatFormula=2、系数1.5，读取来源额外攻击力。",
+      "sortOrder": 70
+    }
+  }
+}

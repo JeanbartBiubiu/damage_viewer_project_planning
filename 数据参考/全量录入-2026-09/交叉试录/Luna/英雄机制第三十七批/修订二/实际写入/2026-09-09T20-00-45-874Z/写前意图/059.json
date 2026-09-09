@@ -1,0 +1,27 @@
+{
+  "i": 58,
+  "intent": {
+    "sequence": 59,
+    "method": "POST",
+    "route": "/skills/akshan_r/parameters",
+    "detailRoute": "/skills/akshan_r/parameters/bonus_damage",
+    "skillKey": "akshan_r",
+    "kind": "parameters",
+    "stableKey": "bonus_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_damage",
+      "name": "恩怨相抵每颗子弹基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 35,
+        "3": 45
+      },
+      "description": "当前BonusDamage技能等级1至3为25/35/45；索引0为旧占位15。",
+      "sortOrder": 10
+    }
+  }
+}

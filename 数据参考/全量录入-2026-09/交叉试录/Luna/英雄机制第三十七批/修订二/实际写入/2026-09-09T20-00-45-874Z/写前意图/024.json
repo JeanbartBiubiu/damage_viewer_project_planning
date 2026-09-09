@@ -1,0 +1,23 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 24,
+    "method": "POST",
+    "route": "/skills/akshan_p/parameters",
+    "detailRoute": "/skills/akshan_p/parameters/passive_cooldown_base_ms",
+    "skillKey": "akshan_p",
+    "kind": "parameters",
+    "stableKey": "passive_cooldown_base_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_cooldown_base_ms",
+      "name": "三次命中护盾基础冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 16000,
+      "levelValues": null,
+      "description": "当前PassiveCooldown角色等级起点16秒，转换为16000毫秒。",
+      "sortOrder": 240
+    }
+  }
+}

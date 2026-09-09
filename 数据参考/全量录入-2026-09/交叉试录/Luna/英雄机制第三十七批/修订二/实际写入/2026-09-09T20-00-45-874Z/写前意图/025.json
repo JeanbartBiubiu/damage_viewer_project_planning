@@ -1,0 +1,23 @@
+{
+  "i": 24,
+  "intent": {
+    "sequence": 25,
+    "method": "POST",
+    "route": "/skills/akshan_p/parameters",
+    "detailRoute": "/skills/akshan_p/parameters/passive_cooldown_reduction_ms",
+    "skillKey": "akshan_p",
+    "kind": "parameters",
+    "stableKey": "passive_cooldown_reduction_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_cooldown_reduction_ms",
+      "name": "三次命中护盾每次冷却减少（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前6/11/16级各减少4秒；保存正的减少幅度。",
+      "sortOrder": 250
+    }
+  }
+}

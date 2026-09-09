@@ -1,0 +1,29 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 98,
+    "method": "POST",
+    "route": "/skills/ambessa_q/parameters",
+    "detailRoute": "/skills/ambessa_q/parameters/damage_1_base",
+    "skillKey": "ambessa_q",
+    "kind": "parameters",
+    "stableKey": "damage_1_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_1_base",
+      "name": "暗袭基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 60,
+        "3": 80,
+        "4": 100,
+        "5": 120
+      },
+      "description": "当前Damage_1_Base技能等级1至5为40/60/80/100/120。",
+      "sortOrder": 30
+    }
+  }
+}

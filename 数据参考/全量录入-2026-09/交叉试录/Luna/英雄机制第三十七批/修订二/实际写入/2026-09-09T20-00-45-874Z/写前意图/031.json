@@ -1,0 +1,45 @@
+{
+  "i": 30,
+  "intent": {
+    "sequence": 31,
+    "method": "POST",
+    "route": "/skills/akshan_p/formulas",
+    "detailRoute": "/skills/akshan_p/formulas/champion_shield_value",
+    "skillKey": "akshan_p",
+    "kind": "formulas",
+    "stableKey": "champion_shield_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "champion_shield_value",
+      "name": "英雄目标护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shield_base_at_character_level"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalShieldAmount=角色等级基础值+ShieldBADRatio×来源额外攻击力；护盾仅在英雄目标分支成立时应用。",
+      "sortOrder": 30
+    }
+  }
+}

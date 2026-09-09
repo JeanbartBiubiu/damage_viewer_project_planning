@@ -1,0 +1,29 @@
+{
+  "i": 230,
+  "intent": {
+    "sequence": 231,
+    "method": "POST",
+    "route": "/skills/briar_e/parameters",
+    "detailRoute": "/skills/briar_e/parameters/max_health_heal_ratio",
+    "skillKey": "briar_e",
+    "kind": "parameters",
+    "stableKey": "max_health_heal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_health_heal_ratio",
+      "name": "惊吼蓄力最大生命治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.1,
+        "2": 0.115,
+        "3": 0.13,
+        "4": 0.145,
+        "5": 0.16
+      },
+      "description": "当前HealHPPercent技能等级1至5为10%/11.5%/13%/14.5%/16%，按比例保存。",
+      "sortOrder": 100
+    }
+  }
+}

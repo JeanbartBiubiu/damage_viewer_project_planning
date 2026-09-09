@@ -1,0 +1,29 @@
+{
+  "i": 200,
+  "intent": {
+    "sequence": 201,
+    "method": "POST",
+    "route": "/skills/briar_q/parameters",
+    "detailRoute": "/skills/briar_q/parameters/base_damage",
+    "skillKey": "briar_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "冲头基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 85,
+        "3": 110,
+        "4": 135,
+        "5": 160
+      },
+      "description": "当前BaseDamage技能等级1至5为60/85/110/135/160；索引0为旧占位35。",
+      "sortOrder": 10
+    }
+  }
+}

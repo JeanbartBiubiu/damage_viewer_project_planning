@@ -1,0 +1,23 @@
+{
+  "i": 213,
+  "intent": {
+    "sequence": 214,
+    "method": "POST",
+    "route": "/skills/briar_w/parameters",
+    "detailRoute": "/skills/briar_w/parameters/empowered_attack_missing_health_bonus_ad_percent",
+    "skillKey": "briar_w",
+    "kind": "parameters",
+    "stableKey": "empowered_attack_missing_health_bonus_ad_percent",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_attack_missing_health_bonus_ad_percent",
+      "name": "噬击目标已损生命额外攻击力百分数系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.025,
+      "levelValues": null,
+      "description": "当前TotalAttackPercentMissingHealth第二项mStat=2、mStatFormula=2、系数0.025，结果继续按百分数点显示。",
+      "sortOrder": 70
+    }
+  }
+}

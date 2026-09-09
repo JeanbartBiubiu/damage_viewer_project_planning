@@ -1,0 +1,23 @@
+{
+  "i": 232,
+  "intent": {
+    "sequence": 233,
+    "method": "POST",
+    "route": "/skills/briar_e/parameters",
+    "detailRoute": "/skills/briar_e/parameters/channel_duration_ms",
+    "skillKey": "briar_e",
+    "kind": "parameters",
+    "stableKey": "channel_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "channel_duration_ms",
+      "name": "惊吼蓄力治疗窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前官方正文明确蓄力时在1秒内持续获得治疗；转换为1000毫秒。",
+      "sortOrder": 120
+    }
+  }
+}

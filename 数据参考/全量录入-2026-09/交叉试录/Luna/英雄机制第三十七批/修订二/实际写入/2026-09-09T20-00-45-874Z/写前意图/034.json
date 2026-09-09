@@ -1,0 +1,29 @@
+{
+  "i": 33,
+  "intent": {
+    "sequence": 34,
+    "method": "POST",
+    "route": "/skills/akshan_q/parameters",
+    "detailRoute": "/skills/akshan_q/parameters/base_damage",
+    "skillKey": "akshan_q",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "去而复还基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 45,
+        "2": 75,
+        "3": 105,
+        "4": 135,
+        "5": 165
+      },
+      "description": "当前DataValues.BaseDamage技能等级1至5为45/75/105/135/165；索引0为旧占位15。",
+      "sortOrder": 10
+    }
+  }
+}

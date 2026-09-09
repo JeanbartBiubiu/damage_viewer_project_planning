@@ -1,0 +1,23 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "method": "POST",
+    "route": "/skills/akshan_q/parameters",
+    "detailRoute": "/skills/akshan_q/parameters/haste_duration_ms",
+    "skillKey": "akshan_q",
+    "kind": "parameters",
+    "stableKey": "haste_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "haste_duration_ms",
+      "name": "命中英雄移动速度持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前HasteDuration=1秒，转换为1000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

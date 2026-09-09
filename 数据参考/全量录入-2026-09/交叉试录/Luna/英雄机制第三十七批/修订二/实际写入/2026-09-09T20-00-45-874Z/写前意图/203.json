@@ -1,0 +1,23 @@
+{
+  "i": 202,
+  "intent": {
+    "sequence": 203,
+    "method": "POST",
+    "route": "/skills/briar_q/parameters",
+    "detailRoute": "/skills/briar_q/parameters/bonus_ad_ratio",
+    "skillKey": "briar_q",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "冲头额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.80000001,
+      "levelValues": null,
+      "description": "当前TotalDamage第三项mStat=2、mStatFormula=2、系数0.8，读取来源额外攻击力。",
+      "sortOrder": 30
+    }
+  }
+}

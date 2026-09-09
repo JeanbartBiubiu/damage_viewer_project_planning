@@ -1,0 +1,23 @@
+{
+  "i": 130,
+  "intent": {
+    "sequence": 131,
+    "method": "POST",
+    "route": "/skills/ambessa_r/parameters",
+    "detailRoute": "/skills/ambessa_r/parameters/suppress_duration_ms",
+    "skillKey": "ambessa_r",
+    "kind": "parameters",
+    "stableKey": "suppress_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "suppress_duration_ms",
+      "name": "公开处刑压制持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 750,
+      "levelValues": null,
+      "description": "当前Suppress_Duration=0.75秒，转换为750毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 229,
+  "intent": {
+    "sequence": 230,
+    "method": "POST",
+    "route": "/skills/briar_e/parameters",
+    "detailRoute": "/skills/briar_e/parameters/damage_reduction_percent_points",
+    "skillKey": "briar_e",
+    "kind": "parameters",
+    "stableKey": "damage_reduction_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_reduction_percent_points",
+      "name": "惊吼蓄力伤害减免百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 35,
+      "levelValues": null,
+      "description": "当前DRPercent=35，正文直接接百分号，保存35百分数点。",
+      "sortOrder": 90
+    }
+  }
+}

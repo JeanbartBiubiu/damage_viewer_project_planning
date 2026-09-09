@@ -1,0 +1,45 @@
+{
+  "i": 179,
+  "intent": {
+    "sequence": 180,
+    "method": "POST",
+    "route": "/skills/aurora_r/formulas",
+    "detailRoute": "/skills/aurora_r/formulas/magic_damage",
+    "skillKey": "aurora_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "双界合一单一敌人冲击波魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前DamageCalc=BaseDamage+0.7×来源法强；只表达冲击波单一敌人伤害。",
+      "sortOrder": 10
+    }
+  }
+}

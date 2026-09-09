@@ -1,0 +1,23 @@
+{
+  "i": 20,
+  "intent": {
+    "sequence": 21,
+    "method": "POST",
+    "route": "/skills/akshan_p/parameters",
+    "detailRoute": "/skills/akshan_p/parameters/shield_base_at_character_level",
+    "skillKey": "akshan_p",
+    "kind": "parameters",
+    "stableKey": "shield_base_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base_at_character_level",
+      "name": "英雄目标护盾角色等级基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前TotalShieldAmount角色等级插值中间曲线未证；运行层提供实际角色等级基础值，无默认。",
+      "sortOrder": 210
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 48,
+  "intent": {
+    "sequence": 49,
+    "method": "POST",
+    "route": "/skills/akshan_e/parameters",
+    "detailRoute": "/skills/akshan_e/parameters/damage_multiplier_base",
+    "skillKey": "akshan_e",
+    "kind": "parameters",
+    "stableKey": "damage_multiplier_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_multiplier_base",
+      "name": "骄行荡寇伤害基础倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前DamageToDeal倍率树含Number=1，再乘1+0.3×额外攻击速度。",
+      "sortOrder": 35
+    }
+  }
+}

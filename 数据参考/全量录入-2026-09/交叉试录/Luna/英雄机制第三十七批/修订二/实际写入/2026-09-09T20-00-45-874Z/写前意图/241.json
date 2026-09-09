@@ -1,0 +1,23 @@
+{
+  "i": 240,
+  "intent": {
+    "sequence": 241,
+    "method": "POST",
+    "route": "/skills/briar_r/parameters",
+    "detailRoute": "/skills/briar_r/parameters/max_dash_speed",
+    "skillKey": "briar_r",
+    "kind": "parameters",
+    "stableKey": "max_dash_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_dash_speed",
+      "name": "毙除最大冲刺速度",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前MaxDashSpeed=5000；只保存位移来源值。",
+      "sortOrder": 70
+    }
+  }
+}

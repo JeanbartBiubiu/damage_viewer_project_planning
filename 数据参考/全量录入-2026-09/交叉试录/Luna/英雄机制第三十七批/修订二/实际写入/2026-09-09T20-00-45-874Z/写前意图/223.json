@@ -1,0 +1,29 @@
+{
+  "i": 222,
+  "intent": {
+    "sequence": 223,
+    "method": "POST",
+    "route": "/skills/briar_e/parameters",
+    "detailRoute": "/skills/briar_e/parameters/wall_hit_base_damage",
+    "skillKey": "briar_e",
+    "kind": "parameters",
+    "stableKey": "wall_hit_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wall_hit_base_damage",
+      "name": "惊吼撞墙基础额外魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 140,
+        "2": 215,
+        "3": 290,
+        "4": 365,
+        "5": 440
+      },
+      "description": "当前WallHitBaseDamage取技能等级1至5的原始数组；不把索引0旧占位带入候选。",
+      "sortOrder": 20
+    }
+  }
+}

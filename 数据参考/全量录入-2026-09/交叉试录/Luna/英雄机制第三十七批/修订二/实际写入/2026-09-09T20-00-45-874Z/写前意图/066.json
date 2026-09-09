@@ -1,0 +1,23 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "method": "POST",
+    "route": "/skills/akshan_r/parameters",
+    "detailRoute": "/skills/akshan_r/parameters/max_increase_multiplier",
+    "skillKey": "akshan_r",
+    "kind": "parameters",
+    "stableKey": "max_increase_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_increase_multiplier",
+      "name": "恩怨相抵已损生命最高伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前MaxDamagePerBullet将DamagePerBulletWithCrit乘3。",
+      "sortOrder": 40
+    }
+  }
+}

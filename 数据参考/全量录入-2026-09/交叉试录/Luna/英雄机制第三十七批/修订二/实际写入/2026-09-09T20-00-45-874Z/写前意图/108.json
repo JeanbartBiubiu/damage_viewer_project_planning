@@ -1,0 +1,45 @@
+{
+  "i": 107,
+  "intent": {
+    "sequence": 108,
+    "method": "POST",
+    "route": "/skills/ambessa_q/formulas",
+    "detailRoute": "/skills/ambessa_q/formulas/damage_2_first_physical_damage",
+    "skillKey": "ambessa_q",
+    "kind": "formulas",
+    "stableKey": "damage_2_first_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_2_first_physical_damage",
+      "name": "裂斩首个单一敌人基础物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_2_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_2_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Calc_Damage_2_Max=Damage_2_Base+0.9×来源额外攻击力；目标最大生命比例另行保存。",
+      "sortOrder": 30
+    }
+  }
+}
