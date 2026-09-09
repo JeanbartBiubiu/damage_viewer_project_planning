@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T02:40:30.171Z",
+  "generatedAt": "2026-09-09T03:08:15.425Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -1096,7 +1096,7 @@
         "kalista_e",
         "kalista_r"
       ],
-      "parameters": 111,
+      "parameters": 106,
       "formulas": 24,
       "effects": 16,
       "processes": 0,
@@ -1107,7 +1107,7 @@
       "arithmeticCases": 46,
       "invariantChecks": 314,
       "independentBusinessFields": 1828,
-      "status": "部分录入；151组成独立回读、三代表页面和20项页面后GET通过；未解码来源、合法时序和触发继续补录",
+      "status": "部分录入；原151组成及原创建/复用数为历史证据；属性回补后现为106参数、24公式、16效果。来源和时序缺口继续处理。",
       "executor": "Codex候选与执行，Cursor独立审查，主负责人纠错核对与页面验收",
       "cursorRunId": "run-96eb9496-3277-4982-8caa-93fb743b9ebe",
       "runtimeValidation": "未执行",
@@ -1115,6 +1115,12 @@
         "worktree": "C:/project/damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第八批/页面验收.json",
         "commit": "03ba9afd"
+      },
+      "originalParameterCount": 111,
+      "laterCorrectionEvidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/公式属性回补第一批/最终独立核对.json",
+        "commit": "4dd9d05c"
       }
     },
     "equipmentFifteenthBatch": {
@@ -1132,7 +1138,7 @@
         "item_6699_passive",
         "item_4646_passive"
       ],
-      "parameters": 50,
+      "parameters": 45,
       "formulas": 12,
       "effects": 0,
       "processes": 0,
@@ -1140,10 +1146,45 @@
       "triggerRules": 0,
       "equipmentRelations": 12,
       "representativeImageReuses": 12,
-      "status": "部分录入；98项写后同值，独立全量回读与31算例、3个代表页面通过；事件及时序仍待配置。缺省属性有后续补证，原批次冻结。",
+      "status": "部分录入；原98写入为历史证据；属性回补后现为45参数、12公式、12技能主体及挂载/代表图。事件与时序仍待配置。",
       "evidence": "装备技能实录/第十五批伤害装备/独立全量回读.json",
       "browserEvidence": "装备技能实录/第十五批伤害装备/页面验收.json",
       "candidateSha256": "8eef5d285f2ee624db477c9519e7aa94c4cb7c61f1a24ff227daa084931947be",
+      "runtimeValidation": "未执行",
+      "originalParameterCount": 50,
+      "laterCorrectionEvidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/公式属性回补第一批/最终独立核对.json",
+        "commit": "4dd9d05c"
+      }
+    },
+    "formulaAttributeBackfillFirst": {
+      "skills": [
+        "caitlyn_p",
+        "jhin_w",
+        "jhin_r",
+        "kalista_e",
+        "item_2503_passive",
+        "item_3118_passive",
+        "item_3152_active",
+        "item_6655_passive",
+        "item_4646_passive"
+      ],
+      "updatedFormulas": 14,
+      "updatedParameterNamesOrDescriptions": 11,
+      "updatedSkillDescriptions": 5,
+      "removedTemporaryInputs": 10,
+      "newObjects": 0,
+      "newImageRelations": 0,
+      "independentFinalGets": 49,
+      "actualFormulaCases": 42,
+      "representativePages": 2,
+      "status": "已完成本次属性引用回补；不代表完整技能或战斗完成",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/公式属性回补第一批/最终独立核对.json",
+        "commit": "4dd9d05c"
+      },
       "runtimeValidation": "未执行"
     }
   },
