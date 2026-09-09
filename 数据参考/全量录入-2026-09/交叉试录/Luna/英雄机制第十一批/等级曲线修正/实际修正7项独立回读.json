@@ -1,0 +1,2372 @@
+{
+  "generatedAt": "2026-09-09T05:23:18.001Z",
+  "pass": true,
+  "requestSha256": "922f213e781fea8ab8cec893f8cec096382cfaca2cd2e7518958a8e7df636599",
+  "expectedRequestSha256": "922f213e781fea8ab8cec893f8cec096382cfaca2cd2e7518958a8e7df636599",
+  "candidateHistoricalSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "targetRoutes": [
+    "/skills/irelia_p/parameters/single_stack_attack_speed_percent",
+    "/skills/irelia_w/parameters/final_physical_reduction_percent",
+    "/skills/fiora_p/parameters/passive_heal_amount",
+    "/skills/gwen_p/parameters/heal_cap_level",
+    "/skills/camille_p/parameters/passive_cooldown_seconds",
+    "/skills/camille_p/parameters/shield_level_ratio",
+    "/skills/gwen_p/formulas/passive_heal_amount"
+  ],
+  "checks": [
+    {
+      "name": "最终修正请求文件散列正确",
+      "pass": true,
+      "detail": {
+        "actual": "922f213e781fea8ab8cec893f8cec096382cfaca2cd2e7518958a8e7df636599",
+        "expected": "922f213e781fea8ab8cec893f8cec096382cfaca2cd2e7518958a8e7df636599"
+      }
+    },
+    {
+      "name": "实际结果引用最终请求散列",
+      "pass": true,
+      "detail": {
+        "actual": "922f213e781fea8ab8cec893f8cec096382cfaca2cd2e7518958a8e7df636599",
+        "expected": "922f213e781fea8ab8cec893f8cec096382cfaca2cd2e7518958a8e7df636599"
+      }
+    },
+    {
+      "name": "最终请求保留历史候选散列",
+      "pass": true,
+      "detail": {
+        "actual": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+        "expected": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83"
+      }
+    },
+    {
+      "name": "本次请求没有夹带其他业务写入",
+      "pass": true,
+      "detail": 0
+    },
+    {
+      "name": "实际结果明确成功",
+      "pass": true,
+      "detail": {
+        "success": true,
+        "updates": 7,
+        "gets": 424,
+        "fullProtectionGets": 403,
+        "parametersToRuntime": 6,
+        "formulasCorrected": 1,
+        "otherComponentsProtected": 228,
+        "mathCases": 3,
+        "missingInputRejected": true
+      }
+    },
+    {
+      "name": "/skills/irelia_p/parameters/single_stack_attack_speed_percent写入状态为200",
+      "pass": true,
+      "detail": {
+        "request": {
+          "method": "PUT",
+          "route": "/skills/irelia_p/parameters/single_stack_attack_speed_percent",
+          "before": {
+            "createdAt": "2026-09-09T04:53:29.802274Z",
+            "description": "当前计算树角色等级端点线性插值，取1至18级；未扩展未给出的等级或特殊模式。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 10,
+              "2": 10.882353,
+              "3": 11.764706,
+              "4": 12.647059,
+              "5": 13.529412,
+              "6": 14.411765,
+              "7": 15.294118,
+              "8": 16.176471,
+              "9": 17.058824,
+              "10": 17.941176,
+              "11": 18.823529,
+              "12": 19.705882,
+              "13": 20.588235,
+              "14": 21.470588,
+              "15": 22.352941,
+              "16": 23.235294,
+              "17": 24.117647,
+              "18": 25
+            },
+            "name": "每层攻击速度（百分比点）",
+            "parameterKey": "single_stack_attack_speed_percent",
+            "skillKey": "irelia_p",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-09T04:53:29.802274Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          "body": {
+            "description": "当前等级实际每层额外攻速百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+            "fixedValue": null,
+            "levelValues": null,
+            "name": "每层攻击速度（百分比点）",
+            "sortOrder": 60,
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          },
+          "proofs": [
+            {
+              "parameterKey": "single_stack_attack_speed_percent",
+              "source": "mSpellCalculations角色等级线性插值",
+              "raw": {
+                "mStartValue": 10,
+                "mEndValue": 25,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              },
+              "values": [
+                10,
+                10.882353,
+                11.764706,
+                12.647059,
+                13.529412,
+                14.411765,
+                15.294118,
+                16.176471,
+                17.058824,
+                17.941176,
+                18.823529,
+                19.705882,
+                20.588235,
+                21.470588,
+                22.352941,
+                23.235294,
+                24.117647,
+                25
+              ],
+              "scale": 1
+            }
+          ]
+        },
+        "write": {
+          "route": "/skills/irelia_p/parameters/single_stack_attack_speed_percent",
+          "method": "PUT",
+          "status": 200,
+          "after": {
+            "createdAt": "2026-09-09T04:53:29.802274Z",
+            "description": "当前等级实际每层额外攻速百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "每层攻击速度（百分比点）",
+            "parameterKey": "single_stack_attack_speed_percent",
+            "skillKey": "irelia_p",
+            "sortOrder": 60,
+            "updatedAt": "2026-09-09T05:16:59.200665Z",
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          }
+        }
+      }
+    },
+    {
+      "name": "/skills/irelia_p/parameters/single_stack_attack_speed_percent存在最终成功GET",
+      "pass": true,
+      "detail": {
+        "method": "GET",
+        "route": "/skills/irelia_p/parameters/single_stack_attack_speed_percent",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T04:53:29.802274Z",
+          "description": "当前等级实际每层额外攻速百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层攻击速度（百分比点）",
+          "parameterKey": "single_stack_attack_speed_percent",
+          "skillKey": "irelia_p",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T05:16:59.200665Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/irelia_p/parameters/single_stack_attack_speed_percent写后GET与写入回显完全一致",
+      "pass": true,
+      "detail": {
+        "writeAfter": {
+          "createdAt": "2026-09-09T04:53:29.802274Z",
+          "description": "当前等级实际每层额外攻速百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层攻击速度（百分比点）",
+          "parameterKey": "single_stack_attack_speed_percent",
+          "skillKey": "irelia_p",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T05:16:59.200665Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "finalRead": {
+          "createdAt": "2026-09-09T04:53:29.802274Z",
+          "description": "当前等级实际每层额外攻速百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层攻击速度（百分比点）",
+          "parameterKey": "single_stack_attack_speed_percent",
+          "skillKey": "irelia_p",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T05:16:59.200665Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/irelia_p/parameters/single_stack_attack_speed_percent请求字段全部持久化",
+      "pass": true,
+      "detail": {
+        "body": {
+          "description": "当前等级实际每层额外攻速百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "levelValues": null,
+          "name": "每层攻击速度（百分比点）",
+          "sortOrder": 60,
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T04:53:29.802274Z",
+          "description": "当前等级实际每层额外攻速百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层攻击速度（百分比点）",
+          "parameterKey": "single_stack_attack_speed_percent",
+          "skillKey": "irelia_p",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T05:16:59.200665Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/irelia_p/parameters/single_stack_attack_speed_percent身份字段gameId未被改动",
+      "pass": true,
+      "detail": {
+        "before": "lol",
+        "after": "lol"
+      }
+    },
+    {
+      "name": "/skills/irelia_p/parameters/single_stack_attack_speed_percent身份字段skillKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "irelia_p",
+        "after": "irelia_p"
+      }
+    },
+    {
+      "name": "/skills/irelia_p/parameters/single_stack_attack_speed_percent身份字段parameterKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "single_stack_attack_speed_percent",
+        "after": "single_stack_attack_speed_percent"
+      }
+    },
+    {
+      "name": "/skills/irelia_p/parameters/single_stack_attack_speed_percent身份字段name未被改动",
+      "pass": true,
+      "detail": {
+        "before": "每层攻击速度（百分比点）",
+        "after": "每层攻击速度（百分比点）"
+      }
+    },
+    {
+      "name": "/skills/irelia_p/parameters/single_stack_attack_speed_percent身份字段sortOrder未被改动",
+      "pass": true,
+      "detail": {
+        "before": 60,
+        "after": 60
+      }
+    },
+    {
+      "name": "/skills/irelia_p/parameters/single_stack_attack_speed_percent身份字段valueType未被改动",
+      "pass": true,
+      "detail": {
+        "before": "DECIMAL",
+        "after": "DECIMAL"
+      }
+    },
+    {
+      "name": "/skills/irelia_w/parameters/final_physical_reduction_percent写入状态为200",
+      "pass": true,
+      "detail": {
+        "request": {
+          "method": "PUT",
+          "route": "/skills/irelia_w/parameters/final_physical_reduction_percent",
+          "before": {
+            "createdAt": "2026-09-09T04:53:45.834145Z",
+            "description": "当前计算树角色等级端点线性插值，取1至18级；未扩展未给出的等级或特殊模式。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 40,
+              "2": 41.764706,
+              "3": 43.529412,
+              "4": 45.294118,
+              "5": 47.058824,
+              "6": 48.823529,
+              "7": 50.588235,
+              "8": 52.352941,
+              "9": 54.117647,
+              "10": 55.882353,
+              "11": 57.647059,
+              "12": 59.411765,
+              "13": 61.176471,
+              "14": 62.941176,
+              "15": 64.705882,
+              "16": 66.470588,
+              "17": 68.235294,
+              "18": 70
+            },
+            "name": "蓄力期间物理减伤（百分比点）",
+            "parameterKey": "final_physical_reduction_percent",
+            "skillKey": "irelia_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-09T04:53:45.834145Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          "body": {
+            "description": "当前等级实际蓄力期间物理减伤百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+            "fixedValue": null,
+            "levelValues": null,
+            "name": "蓄力期间物理减伤（百分比点）",
+            "sortOrder": 110,
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          },
+          "proofs": [
+            {
+              "parameterKey": "final_physical_reduction_percent",
+              "source": "mSpellCalculations角色等级线性插值",
+              "raw": {
+                "mStartValue": 40,
+                "mEndValue": 70,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              },
+              "values": [
+                40,
+                41.764706,
+                43.529412,
+                45.294118,
+                47.058824,
+                48.823529,
+                50.588235,
+                52.352941,
+                54.117647,
+                55.882353,
+                57.647059,
+                59.411765,
+                61.176471,
+                62.941176,
+                64.705882,
+                66.470588,
+                68.235294,
+                70
+              ],
+              "scale": 1
+            }
+          ]
+        },
+        "write": {
+          "route": "/skills/irelia_w/parameters/final_physical_reduction_percent",
+          "method": "PUT",
+          "status": 200,
+          "after": {
+            "createdAt": "2026-09-09T04:53:45.834145Z",
+            "description": "当前等级实际蓄力期间物理减伤百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "蓄力期间物理减伤（百分比点）",
+            "parameterKey": "final_physical_reduction_percent",
+            "skillKey": "irelia_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-09T05:17:00.084676Z",
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          }
+        }
+      }
+    },
+    {
+      "name": "/skills/irelia_w/parameters/final_physical_reduction_percent存在最终成功GET",
+      "pass": true,
+      "detail": {
+        "method": "GET",
+        "route": "/skills/irelia_w/parameters/final_physical_reduction_percent",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T04:53:45.834145Z",
+          "description": "当前等级实际蓄力期间物理减伤百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "蓄力期间物理减伤（百分比点）",
+          "parameterKey": "final_physical_reduction_percent",
+          "skillKey": "irelia_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T05:17:00.084676Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/irelia_w/parameters/final_physical_reduction_percent写后GET与写入回显完全一致",
+      "pass": true,
+      "detail": {
+        "writeAfter": {
+          "createdAt": "2026-09-09T04:53:45.834145Z",
+          "description": "当前等级实际蓄力期间物理减伤百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "蓄力期间物理减伤（百分比点）",
+          "parameterKey": "final_physical_reduction_percent",
+          "skillKey": "irelia_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T05:17:00.084676Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "finalRead": {
+          "createdAt": "2026-09-09T04:53:45.834145Z",
+          "description": "当前等级实际蓄力期间物理减伤百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "蓄力期间物理减伤（百分比点）",
+          "parameterKey": "final_physical_reduction_percent",
+          "skillKey": "irelia_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T05:17:00.084676Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/irelia_w/parameters/final_physical_reduction_percent请求字段全部持久化",
+      "pass": true,
+      "detail": {
+        "body": {
+          "description": "当前等级实际蓄力期间物理减伤百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "levelValues": null,
+          "name": "蓄力期间物理减伤（百分比点）",
+          "sortOrder": 110,
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T04:53:45.834145Z",
+          "description": "当前等级实际蓄力期间物理减伤百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "蓄力期间物理减伤（百分比点）",
+          "parameterKey": "final_physical_reduction_percent",
+          "skillKey": "irelia_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T05:17:00.084676Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/irelia_w/parameters/final_physical_reduction_percent身份字段gameId未被改动",
+      "pass": true,
+      "detail": {
+        "before": "lol",
+        "after": "lol"
+      }
+    },
+    {
+      "name": "/skills/irelia_w/parameters/final_physical_reduction_percent身份字段skillKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "irelia_w",
+        "after": "irelia_w"
+      }
+    },
+    {
+      "name": "/skills/irelia_w/parameters/final_physical_reduction_percent身份字段parameterKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "final_physical_reduction_percent",
+        "after": "final_physical_reduction_percent"
+      }
+    },
+    {
+      "name": "/skills/irelia_w/parameters/final_physical_reduction_percent身份字段name未被改动",
+      "pass": true,
+      "detail": {
+        "before": "蓄力期间物理减伤（百分比点）",
+        "after": "蓄力期间物理减伤（百分比点）"
+      }
+    },
+    {
+      "name": "/skills/irelia_w/parameters/final_physical_reduction_percent身份字段sortOrder未被改动",
+      "pass": true,
+      "detail": {
+        "before": 110,
+        "after": 110
+      }
+    },
+    {
+      "name": "/skills/irelia_w/parameters/final_physical_reduction_percent身份字段valueType未被改动",
+      "pass": true,
+      "detail": {
+        "before": "DECIMAL",
+        "after": "DECIMAL"
+      }
+    },
+    {
+      "name": "/skills/fiora_p/parameters/passive_heal_amount写入状态为200",
+      "pass": true,
+      "detail": {
+        "request": {
+          "method": "PUT",
+          "route": "/skills/fiora_p/parameters/passive_heal_amount",
+          "before": {
+            "createdAt": "2026-09-09T04:54:18.517356Z",
+            "description": "当前计算树角色等级端点线性插值，取1至18级；未扩展未给出的等级或特殊模式。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 35,
+              "2": 38.823529,
+              "3": 42.647059,
+              "4": 46.470588,
+              "5": 50.294118,
+              "6": 54.117647,
+              "7": 57.941176,
+              "8": 61.764706,
+              "9": 65.588235,
+              "10": 69.411765,
+              "11": 73.235294,
+              "12": 77.058824,
+              "13": 80.882353,
+              "14": 84.705882,
+              "15": 88.529412,
+              "16": 92.352941,
+              "17": 96.176471,
+              "18": 100
+            },
+            "name": "破绽命中治疗量",
+            "parameterKey": "passive_heal_amount",
+            "skillKey": "fiora_p",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-09T04:54:18.517356Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          "body": {
+            "description": "当前等级实际破绽命中治疗生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+            "fixedValue": null,
+            "levelValues": null,
+            "name": "破绽命中治疗量",
+            "sortOrder": 40,
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          },
+          "proofs": [
+            {
+              "parameterKey": "passive_heal_amount",
+              "source": "mSpellCalculations角色等级线性插值",
+              "raw": {
+                "mStartValue": 35,
+                "mEndValue": 100,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              },
+              "values": [
+                35,
+                38.823529,
+                42.647059,
+                46.470588,
+                50.294118,
+                54.117647,
+                57.941176,
+                61.764706,
+                65.588235,
+                69.411765,
+                73.235294,
+                77.058824,
+                80.882353,
+                84.705882,
+                88.529412,
+                92.352941,
+                96.176471,
+                100
+              ],
+              "scale": 1
+            }
+          ]
+        },
+        "write": {
+          "route": "/skills/fiora_p/parameters/passive_heal_amount",
+          "method": "PUT",
+          "status": 200,
+          "after": {
+            "createdAt": "2026-09-09T04:54:18.517356Z",
+            "description": "当前等级实际破绽命中治疗生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "破绽命中治疗量",
+            "parameterKey": "passive_heal_amount",
+            "skillKey": "fiora_p",
+            "sortOrder": 40,
+            "updatedAt": "2026-09-09T05:17:01.005589Z",
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          }
+        }
+      }
+    },
+    {
+      "name": "/skills/fiora_p/parameters/passive_heal_amount存在最终成功GET",
+      "pass": true,
+      "detail": {
+        "method": "GET",
+        "route": "/skills/fiora_p/parameters/passive_heal_amount",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T04:54:18.517356Z",
+          "description": "当前等级实际破绽命中治疗生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "破绽命中治疗量",
+          "parameterKey": "passive_heal_amount",
+          "skillKey": "fiora_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T05:17:01.005589Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/fiora_p/parameters/passive_heal_amount写后GET与写入回显完全一致",
+      "pass": true,
+      "detail": {
+        "writeAfter": {
+          "createdAt": "2026-09-09T04:54:18.517356Z",
+          "description": "当前等级实际破绽命中治疗生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "破绽命中治疗量",
+          "parameterKey": "passive_heal_amount",
+          "skillKey": "fiora_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T05:17:01.005589Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "finalRead": {
+          "createdAt": "2026-09-09T04:54:18.517356Z",
+          "description": "当前等级实际破绽命中治疗生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "破绽命中治疗量",
+          "parameterKey": "passive_heal_amount",
+          "skillKey": "fiora_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T05:17:01.005589Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/fiora_p/parameters/passive_heal_amount请求字段全部持久化",
+      "pass": true,
+      "detail": {
+        "body": {
+          "description": "当前等级实际破绽命中治疗生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "levelValues": null,
+          "name": "破绽命中治疗量",
+          "sortOrder": 40,
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T04:54:18.517356Z",
+          "description": "当前等级实际破绽命中治疗生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "破绽命中治疗量",
+          "parameterKey": "passive_heal_amount",
+          "skillKey": "fiora_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T05:17:01.005589Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/fiora_p/parameters/passive_heal_amount身份字段gameId未被改动",
+      "pass": true,
+      "detail": {
+        "before": "lol",
+        "after": "lol"
+      }
+    },
+    {
+      "name": "/skills/fiora_p/parameters/passive_heal_amount身份字段skillKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "fiora_p",
+        "after": "fiora_p"
+      }
+    },
+    {
+      "name": "/skills/fiora_p/parameters/passive_heal_amount身份字段parameterKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "passive_heal_amount",
+        "after": "passive_heal_amount"
+      }
+    },
+    {
+      "name": "/skills/fiora_p/parameters/passive_heal_amount身份字段name未被改动",
+      "pass": true,
+      "detail": {
+        "before": "破绽命中治疗量",
+        "after": "破绽命中治疗量"
+      }
+    },
+    {
+      "name": "/skills/fiora_p/parameters/passive_heal_amount身份字段sortOrder未被改动",
+      "pass": true,
+      "detail": {
+        "before": 40,
+        "after": 40
+      }
+    },
+    {
+      "name": "/skills/fiora_p/parameters/passive_heal_amount身份字段valueType未被改动",
+      "pass": true,
+      "detail": {
+        "before": "DECIMAL",
+        "after": "DECIMAL"
+      }
+    },
+    {
+      "name": "/skills/gwen_p/parameters/heal_cap_level写入状态为200",
+      "pass": true,
+      "detail": {
+        "request": {
+          "method": "PUT",
+          "route": "/skills/gwen_p/parameters/heal_cap_level",
+          "before": {
+            "createdAt": "2026-09-09T04:55:45.258729Z",
+            "description": "当前计算树角色等级端点线性插值，取1至18级；未扩展未给出的等级或特殊模式。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 12,
+              "2": 13.647059,
+              "3": 15.294118,
+              "4": 16.941176,
+              "5": 18.588235,
+              "6": 20.235294,
+              "7": 21.882353,
+              "8": 23.529412,
+              "9": 25.176471,
+              "10": 26.823529,
+              "11": 28.470588,
+              "12": 30.117647,
+              "13": 31.764706,
+              "14": 33.411765,
+              "15": 35.058824,
+              "16": 36.705882,
+              "17": 38.352941,
+              "18": 40
+            },
+            "name": "被动治疗等级上限",
+            "parameterKey": "heal_cap_level",
+            "skillKey": "gwen_p",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T04:55:45.258729Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          "body": {
+            "description": "当前等级实际治疗上限等级基础生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+            "fixedValue": null,
+            "levelValues": null,
+            "name": "被动治疗等级上限",
+            "sortOrder": 50,
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          },
+          "proofs": [
+            {
+              "parameterKey": "heal_cap_level",
+              "source": "mSpellCalculations角色等级线性插值",
+              "raw": {
+                "mStartValue": 12,
+                "mEndValue": 40,
+                "__type": "ByCharLevelInterpolationCalculationPart"
+              },
+              "values": [
+                12,
+                13.647059,
+                15.294118,
+                16.941176,
+                18.588235,
+                20.235294,
+                21.882353,
+                23.529412,
+                25.176471,
+                26.823529,
+                28.470588,
+                30.117647,
+                31.764706,
+                33.411765,
+                35.058824,
+                36.705882,
+                38.352941,
+                40
+              ],
+              "scale": 1
+            }
+          ]
+        },
+        "write": {
+          "route": "/skills/gwen_p/parameters/heal_cap_level",
+          "method": "PUT",
+          "status": 200,
+          "after": {
+            "createdAt": "2026-09-09T04:55:45.258729Z",
+            "description": "当前等级实际治疗上限等级基础生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "被动治疗等级上限",
+            "parameterKey": "heal_cap_level",
+            "skillKey": "gwen_p",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T05:17:01.870871Z",
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          }
+        }
+      }
+    },
+    {
+      "name": "/skills/gwen_p/parameters/heal_cap_level存在最终成功GET",
+      "pass": true,
+      "detail": {
+        "method": "GET",
+        "route": "/skills/gwen_p/parameters/heal_cap_level",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T04:55:45.258729Z",
+          "description": "当前等级实际治疗上限等级基础生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "被动治疗等级上限",
+          "parameterKey": "heal_cap_level",
+          "skillKey": "gwen_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:17:01.870871Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/gwen_p/parameters/heal_cap_level写后GET与写入回显完全一致",
+      "pass": true,
+      "detail": {
+        "writeAfter": {
+          "createdAt": "2026-09-09T04:55:45.258729Z",
+          "description": "当前等级实际治疗上限等级基础生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "被动治疗等级上限",
+          "parameterKey": "heal_cap_level",
+          "skillKey": "gwen_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:17:01.870871Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "finalRead": {
+          "createdAt": "2026-09-09T04:55:45.258729Z",
+          "description": "当前等级实际治疗上限等级基础生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "被动治疗等级上限",
+          "parameterKey": "heal_cap_level",
+          "skillKey": "gwen_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:17:01.870871Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/gwen_p/parameters/heal_cap_level请求字段全部持久化",
+      "pass": true,
+      "detail": {
+        "body": {
+          "description": "当前等级实际治疗上限等级基础生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "levelValues": null,
+          "name": "被动治疗等级上限",
+          "sortOrder": 50,
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T04:55:45.258729Z",
+          "description": "当前等级实际治疗上限等级基础生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "被动治疗等级上限",
+          "parameterKey": "heal_cap_level",
+          "skillKey": "gwen_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:17:01.870871Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/gwen_p/parameters/heal_cap_level身份字段gameId未被改动",
+      "pass": true,
+      "detail": {
+        "before": "lol",
+        "after": "lol"
+      }
+    },
+    {
+      "name": "/skills/gwen_p/parameters/heal_cap_level身份字段skillKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "gwen_p",
+        "after": "gwen_p"
+      }
+    },
+    {
+      "name": "/skills/gwen_p/parameters/heal_cap_level身份字段parameterKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "heal_cap_level",
+        "after": "heal_cap_level"
+      }
+    },
+    {
+      "name": "/skills/gwen_p/parameters/heal_cap_level身份字段name未被改动",
+      "pass": true,
+      "detail": {
+        "before": "被动治疗等级上限",
+        "after": "被动治疗等级上限"
+      }
+    },
+    {
+      "name": "/skills/gwen_p/parameters/heal_cap_level身份字段sortOrder未被改动",
+      "pass": true,
+      "detail": {
+        "before": 50,
+        "after": 50
+      }
+    },
+    {
+      "name": "/skills/gwen_p/parameters/heal_cap_level身份字段valueType未被改动",
+      "pass": true,
+      "detail": {
+        "before": "DECIMAL",
+        "after": "DECIMAL"
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/passive_cooldown_seconds写入状态为200",
+      "pass": true,
+      "detail": {
+        "request": {
+          "method": "PUT",
+          "route": "/skills/camille_p/parameters/passive_cooldown_seconds",
+          "before": {
+            "createdAt": "2026-09-09T04:54:57.329715Z",
+            "description": "当前计算树角色等级断点/逐级增量，取1至18级；每个断点只按原字段给出的生效方式计算。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 14,
+              "2": 14,
+              "3": 14,
+              "4": 14,
+              "5": 14,
+              "6": 14,
+              "7": 11,
+              "8": 11,
+              "9": 11,
+              "10": 11,
+              "11": 11,
+              "12": 11,
+              "13": 8,
+              "14": 8,
+              "15": 8,
+              "16": 8,
+              "17": 8,
+              "18": 8
+            },
+            "name": "适应性防御被动冷却（秒）",
+            "parameterKey": "passive_cooldown_seconds",
+            "skillKey": "camille_p",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T04:54:57.329715Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "INTEGER"
+          },
+          "body": {
+            "description": "当前等级实际被动冷却秒数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+            "fixedValue": null,
+            "levelValues": null,
+            "name": "适应性防御被动冷却（秒）",
+            "sortOrder": 20,
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "INTEGER"
+          },
+          "proofs": [
+            {
+              "parameterKey": "passive_cooldown_seconds",
+              "source": "mSpellCalculations角色等级断点",
+              "raw": {
+                "mLevel1Value": 14,
+                "mBreakpoints": [
+                  {
+                    "mLevel": 7,
+                    "mAdditionalBonusAtThisLevel": -3,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 13,
+                    "mAdditionalBonusAtThisLevel": -3,
+                    "__type": "Breakpoint"
+                  }
+                ],
+                "__type": "ByCharLevelBreakpointsCalculationPart"
+              },
+              "values": [
+                14,
+                14,
+                14,
+                14,
+                14,
+                14,
+                11,
+                11,
+                11,
+                11,
+                11,
+                11,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "scale": 1
+            }
+          ]
+        },
+        "write": {
+          "route": "/skills/camille_p/parameters/passive_cooldown_seconds",
+          "method": "PUT",
+          "status": 200,
+          "after": {
+            "createdAt": "2026-09-09T04:54:57.329715Z",
+            "description": "当前等级实际被动冷却秒数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "适应性防御被动冷却（秒）",
+            "parameterKey": "passive_cooldown_seconds",
+            "skillKey": "camille_p",
+            "sortOrder": 20,
+            "updatedAt": "2026-09-09T05:17:02.917001Z",
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "INTEGER"
+          }
+        }
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/passive_cooldown_seconds存在最终成功GET",
+      "pass": true,
+      "detail": {
+        "method": "GET",
+        "route": "/skills/camille_p/parameters/passive_cooldown_seconds",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T04:54:57.329715Z",
+          "description": "当前等级实际被动冷却秒数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "适应性防御被动冷却（秒）",
+          "parameterKey": "passive_cooldown_seconds",
+          "skillKey": "camille_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:17:02.917001Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/passive_cooldown_seconds写后GET与写入回显完全一致",
+      "pass": true,
+      "detail": {
+        "writeAfter": {
+          "createdAt": "2026-09-09T04:54:57.329715Z",
+          "description": "当前等级实际被动冷却秒数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "适应性防御被动冷却（秒）",
+          "parameterKey": "passive_cooldown_seconds",
+          "skillKey": "camille_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:17:02.917001Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        "finalRead": {
+          "createdAt": "2026-09-09T04:54:57.329715Z",
+          "description": "当前等级实际被动冷却秒数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "适应性防御被动冷却（秒）",
+          "parameterKey": "passive_cooldown_seconds",
+          "skillKey": "camille_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:17:02.917001Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/passive_cooldown_seconds请求字段全部持久化",
+      "pass": true,
+      "detail": {
+        "body": {
+          "description": "当前等级实际被动冷却秒数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "levelValues": null,
+          "name": "适应性防御被动冷却（秒）",
+          "sortOrder": 20,
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        "data": {
+          "createdAt": "2026-09-09T04:54:57.329715Z",
+          "description": "当前等级实际被动冷却秒数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "适应性防御被动冷却（秒）",
+          "parameterKey": "passive_cooldown_seconds",
+          "skillKey": "camille_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:17:02.917001Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        }
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/passive_cooldown_seconds身份字段gameId未被改动",
+      "pass": true,
+      "detail": {
+        "before": "lol",
+        "after": "lol"
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/passive_cooldown_seconds身份字段skillKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "camille_p",
+        "after": "camille_p"
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/passive_cooldown_seconds身份字段parameterKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "passive_cooldown_seconds",
+        "after": "passive_cooldown_seconds"
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/passive_cooldown_seconds身份字段name未被改动",
+      "pass": true,
+      "detail": {
+        "before": "适应性防御被动冷却（秒）",
+        "after": "适应性防御被动冷却（秒）"
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/passive_cooldown_seconds身份字段sortOrder未被改动",
+      "pass": true,
+      "detail": {
+        "before": 20,
+        "after": 20
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/passive_cooldown_seconds身份字段valueType未被改动",
+      "pass": true,
+      "detail": {
+        "before": "INTEGER",
+        "after": "INTEGER"
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/shield_level_ratio写入状态为200",
+      "pass": true,
+      "detail": {
+        "request": {
+          "method": "PUT",
+          "route": "/skills/camille_p/parameters/shield_level_ratio",
+          "before": {
+            "createdAt": "2026-09-09T04:54:58.253437Z",
+            "description": "当前计算树角色等级断点/逐级增量，取1至18级；每个断点只按原字段给出的生效方式计算。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 0.1,
+              "2": 0.1,
+              "3": 0.1,
+              "4": 0.1,
+              "5": 0.1,
+              "6": 0.1,
+              "7": 0.15,
+              "8": 0.15,
+              "9": 0.15,
+              "10": 0.15,
+              "11": 0.15,
+              "12": 0.15,
+              "13": 0.2,
+              "14": 0.2,
+              "15": 0.2,
+              "16": 0.2,
+              "17": 0.2,
+              "18": 0.2
+            },
+            "name": "护盾比例等级值",
+            "parameterKey": "shield_level_ratio",
+            "skillKey": "camille_p",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T04:54:58.253437Z",
+            "valueMode": "CHARACTER_LEVEL",
+            "valueType": "DECIMAL"
+          },
+          "body": {
+            "description": "当前等级实际护盾比例小数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+            "fixedValue": null,
+            "levelValues": null,
+            "name": "护盾比例等级值",
+            "sortOrder": 30,
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          },
+          "proofs": [
+            {
+              "parameterKey": "shield_level_ratio",
+              "source": "mSpellCalculations角色等级断点",
+              "raw": {
+                "mLevel1Value": 0.10000000149011612,
+                "mBreakpoints": [
+                  {
+                    "mLevel": 7,
+                    "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 13,
+                    "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                    "__type": "Breakpoint"
+                  },
+                  {
+                    "mLevel": 19,
+                    "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                    "__type": "Breakpoint"
+                  }
+                ],
+                "__type": "ByCharLevelBreakpointsCalculationPart"
+              },
+              "values": [
+                0.1,
+                0.1,
+                0.1,
+                0.1,
+                0.1,
+                0.1,
+                0.15,
+                0.15,
+                0.15,
+                0.15,
+                0.15,
+                0.15,
+                0.2,
+                0.2,
+                0.2,
+                0.2,
+                0.2,
+                0.2
+              ],
+              "scale": 1
+            }
+          ]
+        },
+        "write": {
+          "route": "/skills/camille_p/parameters/shield_level_ratio",
+          "method": "PUT",
+          "status": 200,
+          "after": {
+            "createdAt": "2026-09-09T04:54:58.253437Z",
+            "description": "当前等级实际护盾比例小数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "护盾比例等级值",
+            "parameterKey": "shield_level_ratio",
+            "skillKey": "camille_p",
+            "sortOrder": 30,
+            "updatedAt": "2026-09-09T05:17:03.838346Z",
+            "valueMode": "RUNTIME_INPUT",
+            "valueType": "DECIMAL"
+          }
+        }
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/shield_level_ratio存在最终成功GET",
+      "pass": true,
+      "detail": {
+        "method": "GET",
+        "route": "/skills/camille_p/parameters/shield_level_ratio",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T04:54:58.253437Z",
+          "description": "当前等级实际护盾比例小数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾比例等级值",
+          "parameterKey": "shield_level_ratio",
+          "skillKey": "camille_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T05:17:03.838346Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/shield_level_ratio写后GET与写入回显完全一致",
+      "pass": true,
+      "detail": {
+        "writeAfter": {
+          "createdAt": "2026-09-09T04:54:58.253437Z",
+          "description": "当前等级实际护盾比例小数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾比例等级值",
+          "parameterKey": "shield_level_ratio",
+          "skillKey": "camille_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T05:17:03.838346Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "finalRead": {
+          "createdAt": "2026-09-09T04:54:58.253437Z",
+          "description": "当前等级实际护盾比例小数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾比例等级值",
+          "parameterKey": "shield_level_ratio",
+          "skillKey": "camille_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T05:17:03.838346Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/shield_level_ratio请求字段全部持久化",
+      "pass": true,
+      "detail": {
+        "body": {
+          "description": "当前等级实际护盾比例小数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "levelValues": null,
+          "name": "护盾比例等级值",
+          "sortOrder": 30,
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        "data": {
+          "createdAt": "2026-09-09T04:54:58.253437Z",
+          "description": "当前等级实际护盾比例小数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾比例等级值",
+          "parameterKey": "shield_level_ratio",
+          "skillKey": "camille_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T05:17:03.838346Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/shield_level_ratio身份字段gameId未被改动",
+      "pass": true,
+      "detail": {
+        "before": "lol",
+        "after": "lol"
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/shield_level_ratio身份字段skillKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "camille_p",
+        "after": "camille_p"
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/shield_level_ratio身份字段parameterKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "shield_level_ratio",
+        "after": "shield_level_ratio"
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/shield_level_ratio身份字段name未被改动",
+      "pass": true,
+      "detail": {
+        "before": "护盾比例等级值",
+        "after": "护盾比例等级值"
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/shield_level_ratio身份字段sortOrder未被改动",
+      "pass": true,
+      "detail": {
+        "before": 30,
+        "after": 30
+      }
+    },
+    {
+      "name": "/skills/camille_p/parameters/shield_level_ratio身份字段valueType未被改动",
+      "pass": true,
+      "detail": {
+        "before": "DECIMAL",
+        "after": "DECIMAL"
+      }
+    },
+    {
+      "name": "/skills/gwen_p/formulas/passive_heal_amount写入状态为200",
+      "pass": true,
+      "detail": {
+        "request": {
+          "method": "PUT",
+          "route": "/skills/gwen_p/formulas/passive_heal_amount",
+          "before": {
+            "createdAt": "2026-09-09T04:55:51.853862Z",
+            "description": "被动自我治疗=HealingPercent×对英雄实际额外伤害；HealCap作为独立上限参数。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "healing_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_passive_hero_damage"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            "formulaKey": "passive_heal_amount",
+            "gameId": "lol",
+            "name": "千穿百孔对英雄自我治疗",
+            "skillKey": "gwen_p",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T04:55:51.853862Z"
+          },
+          "body": {
+            "description": "自身治疗取较小值：0.67×本次被动对英雄实际结算伤害，与当前等级治疗上限基础值+0.07×施法者总法术强度。当前绑定说明明确至多至HealCap；等级基础值计算时传入，无默认曲线。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operation": "MIN",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "healing_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_passive_hero_damage"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "heal_cap_level"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "heal_cap_ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ]
+            },
+            "name": "千穿百孔对英雄自我治疗",
+            "sortOrder": 50
+          },
+          "source": "格温当前被动绑定文本 @HealingPercent@ 伤害值，至多至 @healcap@；同根HealCap树=等级项+0.07法强。"
+        },
+        "write": {
+          "route": "/skills/gwen_p/formulas/passive_heal_amount",
+          "method": "PUT",
+          "status": 200,
+          "after": {
+            "createdAt": "2026-09-09T04:55:51.853862Z",
+            "description": "自身治疗取较小值：0.67×本次被动对英雄实际结算伤害，与当前等级治疗上限基础值+0.07×施法者总法术强度。当前绑定说明明确至多至HealCap；等级基础值计算时传入，无默认曲线。",
+            "expression": {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "healing_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_passive_hero_damage"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "heal_cap_level"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "heal_cap_ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MIN"
+            },
+            "formulaKey": "passive_heal_amount",
+            "gameId": "lol",
+            "name": "千穿百孔对英雄自我治疗",
+            "skillKey": "gwen_p",
+            "sortOrder": 50,
+            "updatedAt": "2026-09-09T05:17:04.627705Z"
+          }
+        }
+      }
+    },
+    {
+      "name": "/skills/gwen_p/formulas/passive_heal_amount存在最终成功GET",
+      "pass": true,
+      "detail": {
+        "method": "GET",
+        "route": "/skills/gwen_p/formulas/passive_heal_amount",
+        "status": 200,
+        "data": {
+          "createdAt": "2026-09-09T04:55:51.853862Z",
+          "description": "自身治疗取较小值：0.67×本次被动对英雄实际结算伤害，与当前等级治疗上限基础值+0.07×施法者总法术强度。当前绑定说明明确至多至HealCap；等级基础值计算时传入，无默认曲线。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_passive_hero_damage"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_cap_level"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "heal_cap_ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              }
+            ],
+            "operation": "MIN"
+          },
+          "formulaKey": "passive_heal_amount",
+          "gameId": "lol",
+          "name": "千穿百孔对英雄自我治疗",
+          "skillKey": "gwen_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:17:04.627705Z"
+        }
+      }
+    },
+    {
+      "name": "/skills/gwen_p/formulas/passive_heal_amount写后GET与写入回显完全一致",
+      "pass": true,
+      "detail": {
+        "writeAfter": {
+          "createdAt": "2026-09-09T04:55:51.853862Z",
+          "description": "自身治疗取较小值：0.67×本次被动对英雄实际结算伤害，与当前等级治疗上限基础值+0.07×施法者总法术强度。当前绑定说明明确至多至HealCap；等级基础值计算时传入，无默认曲线。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_passive_hero_damage"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_cap_level"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "heal_cap_ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              }
+            ],
+            "operation": "MIN"
+          },
+          "formulaKey": "passive_heal_amount",
+          "gameId": "lol",
+          "name": "千穿百孔对英雄自我治疗",
+          "skillKey": "gwen_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:17:04.627705Z"
+        },
+        "finalRead": {
+          "createdAt": "2026-09-09T04:55:51.853862Z",
+          "description": "自身治疗取较小值：0.67×本次被动对英雄实际结算伤害，与当前等级治疗上限基础值+0.07×施法者总法术强度。当前绑定说明明确至多至HealCap；等级基础值计算时传入，无默认曲线。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_passive_hero_damage"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_cap_level"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "heal_cap_ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              }
+            ],
+            "operation": "MIN"
+          },
+          "formulaKey": "passive_heal_amount",
+          "gameId": "lol",
+          "name": "千穿百孔对英雄自我治疗",
+          "skillKey": "gwen_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:17:04.627705Z"
+        }
+      }
+    },
+    {
+      "name": "/skills/gwen_p/formulas/passive_heal_amount请求字段全部持久化",
+      "pass": true,
+      "detail": {
+        "body": {
+          "description": "自身治疗取较小值：0.67×本次被动对英雄实际结算伤害，与当前等级治疗上限基础值+0.07×施法者总法术强度。当前绑定说明明确至多至HealCap；等级基础值计算时传入，无默认曲线。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MIN",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_passive_hero_damage"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_cap_level"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "heal_cap_ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              }
+            ]
+          },
+          "name": "千穿百孔对英雄自我治疗",
+          "sortOrder": 50
+        },
+        "data": {
+          "createdAt": "2026-09-09T04:55:51.853862Z",
+          "description": "自身治疗取较小值：0.67×本次被动对英雄实际结算伤害，与当前等级治疗上限基础值+0.07×施法者总法术强度。当前绑定说明明确至多至HealCap；等级基础值计算时传入，无默认曲线。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_passive_hero_damage"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_cap_level"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "heal_cap_ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              }
+            ],
+            "operation": "MIN"
+          },
+          "formulaKey": "passive_heal_amount",
+          "gameId": "lol",
+          "name": "千穿百孔对英雄自我治疗",
+          "skillKey": "gwen_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:17:04.627705Z"
+        }
+      }
+    },
+    {
+      "name": "/skills/gwen_p/formulas/passive_heal_amount身份字段gameId未被改动",
+      "pass": true,
+      "detail": {
+        "before": "lol",
+        "after": "lol"
+      }
+    },
+    {
+      "name": "/skills/gwen_p/formulas/passive_heal_amount身份字段skillKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "gwen_p",
+        "after": "gwen_p"
+      }
+    },
+    {
+      "name": "/skills/gwen_p/formulas/passive_heal_amount身份字段formulaKey未被改动",
+      "pass": true,
+      "detail": {
+        "before": "passive_heal_amount",
+        "after": "passive_heal_amount"
+      }
+    },
+    {
+      "name": "/skills/gwen_p/formulas/passive_heal_amount身份字段name未被改动",
+      "pass": true,
+      "detail": {
+        "before": "千穿百孔对英雄自我治疗",
+        "after": "千穿百孔对英雄自我治疗"
+      }
+    },
+    {
+      "name": "/skills/gwen_p/formulas/passive_heal_amount身份字段sortOrder未被改动",
+      "pass": true,
+      "detail": {
+        "before": 50,
+        "after": 50
+      }
+    },
+    {
+      "name": "7条修正路由互不重复且全部命中",
+      "pass": true,
+      "detail": [
+        "/skills/irelia_p/parameters/single_stack_attack_speed_percent",
+        "/skills/irelia_w/parameters/final_physical_reduction_percent",
+        "/skills/fiora_p/parameters/passive_heal_amount",
+        "/skills/gwen_p/parameters/heal_cap_level",
+        "/skills/camille_p/parameters/passive_cooldown_seconds",
+        "/skills/camille_p/parameters/shield_level_ratio",
+        "/skills/gwen_p/formulas/passive_heal_amount"
+      ]
+    },
+    {
+      "name": "6个等级不确定参数均为运行时输入且无默认值",
+      "pass": true,
+      "detail": [
+        {
+          "createdAt": "2026-09-09T04:53:29.802274Z",
+          "description": "当前等级实际每层额外攻速百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层攻击速度（百分比点）",
+          "parameterKey": "single_stack_attack_speed_percent",
+          "skillKey": "irelia_p",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T05:16:59.200665Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T04:53:45.834145Z",
+          "description": "当前等级实际蓄力期间物理减伤百分比点，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "蓄力期间物理减伤（百分比点）",
+          "parameterKey": "final_physical_reduction_percent",
+          "skillKey": "irelia_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T05:17:00.084676Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T04:54:18.517356Z",
+          "description": "当前等级实际破绽命中治疗生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "破绽命中治疗量",
+          "parameterKey": "passive_heal_amount",
+          "skillKey": "fiora_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T05:17:01.005589Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T04:55:45.258729Z",
+          "description": "当前等级实际治疗上限等级基础生命点数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "被动治疗等级上限",
+          "parameterKey": "heal_cap_level",
+          "skillKey": "gwen_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:17:01.870871Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T04:54:57.329715Z",
+          "description": "当前等级实际被动冷却秒数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "适应性防御被动冷却（秒）",
+          "parameterKey": "passive_cooldown_seconds",
+          "skillKey": "camille_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T05:17:02.917001Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T04:54:58.253437Z",
+          "description": "当前等级实际护盾比例小数，计算时传入，无默认值。客户端16.17保留等级端点或断点原树，但尚无等级算法、边界与取整证据，撤销未经证明的18级展开；未知不填0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾比例等级值",
+          "parameterKey": "shield_level_ratio",
+          "skillKey": "camille_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T05:17:03.838346Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "name": "格温治疗公式实际GET为比例乘实际伤害与上限的MIN",
+      "pass": true,
+      "detail": {
+        "nodeType": "OPERATION",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "healing_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_passive_hero_damage"
+              }
+            ],
+            "operation": "MULTIPLY"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_cap_level"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_cap_ap_ratio"
+                  },
+                  {
+                    "attributeKey": "ability_power",
+                    "attributeOwner": "SOURCE",
+                    "attributeValueKind": "TOTAL",
+                    "nodeType": "ATTRIBUTE"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              }
+            ],
+            "operation": "ADD"
+          }
+        ],
+        "operation": "MIN"
+      }
+    },
+    {
+      "name": "格温公式请求字段与实际GET一致",
+      "pass": true,
+      "detail": {
+        "body": {
+          "description": "自身治疗取较小值：0.67×本次被动对英雄实际结算伤害，与当前等级治疗上限基础值+0.07×施法者总法术强度。当前绑定说明明确至多至HealCap；等级基础值计算时传入，无默认曲线。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "MIN",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_passive_hero_damage"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_cap_level"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "heal_cap_ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              }
+            ]
+          },
+          "name": "千穿百孔对英雄自我治疗",
+          "sortOrder": 50
+        },
+        "data": {
+          "createdAt": "2026-09-09T04:55:51.853862Z",
+          "description": "自身治疗取较小值：0.67×本次被动对英雄实际结算伤害，与当前等级治疗上限基础值+0.07×施法者总法术强度。当前绑定说明明确至多至HealCap；等级基础值计算时传入，无默认曲线。",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "healing_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_passive_hero_damage"
+                  }
+                ],
+                "operation": "MULTIPLY"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "heal_cap_level"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "heal_cap_ap_ratio"
+                      },
+                      {
+                        "attributeKey": "ability_power",
+                        "attributeOwner": "SOURCE",
+                        "attributeValueKind": "TOTAL",
+                        "nodeType": "ATTRIBUTE"
+                      }
+                    ],
+                    "operation": "MULTIPLY"
+                  }
+                ],
+                "operation": "ADD"
+              }
+            ],
+            "operation": "MIN"
+          },
+          "formulaKey": "passive_heal_amount",
+          "gameId": "lol",
+          "name": "千穿百孔对英雄自我治疗",
+          "skillKey": "gwen_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T05:17:04.627705Z"
+        }
+      }
+    },
+    {
+      "name": "独立算例：实际治疗低于上限",
+      "pass": true,
+      "detail": {
+        "name": "实际治疗低于上限",
+        "inputs": {
+          "healing_ratio": 0.67,
+          "actual_passive_hero_damage": 10,
+          "heal_cap_level": 30,
+          "heal_cap_ap_ratio": 0.07,
+          "SOURCE.ability_power.TOTAL": 100
+        },
+        "expected": 6.7,
+        "actual": 6.7,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例：实际治疗高于上限",
+      "pass": true,
+      "detail": {
+        "name": "实际治疗高于上限",
+        "inputs": {
+          "healing_ratio": 0.67,
+          "actual_passive_hero_damage": 100,
+          "heal_cap_level": 30,
+          "heal_cap_ap_ratio": 0.07,
+          "SOURCE.ability_power.TOTAL": 100
+        },
+        "expected": 37,
+        "actual": 37,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例：较高等级上限下未超过",
+      "pass": true,
+      "detail": {
+        "name": "较高等级上限下未超过",
+        "inputs": {
+          "healing_ratio": 0.67,
+          "actual_passive_hero_damage": 100,
+          "heal_cap_level": 70,
+          "heal_cap_ap_ratio": 0.07,
+          "SOURCE.ability_power.TOTAL": 100
+        },
+        "expected": 67,
+        "actual": 67,
+        "pass": true
+      }
+    },
+    {
+      "name": "缺少heal_cap_level时拒绝计算",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "issues": [],
+  "summary": {
+    "targetWrites": 7,
+    "resultReads": 424,
+    "fullProtectionGets": 403,
+    "runtimeParameters": 6,
+    "formulaCorrections": 1,
+    "independentMathCases": [
+      {
+        "name": "实际治疗低于上限",
+        "inputs": {
+          "healing_ratio": 0.67,
+          "actual_passive_hero_damage": 10,
+          "heal_cap_level": 30,
+          "heal_cap_ap_ratio": 0.07,
+          "SOURCE.ability_power.TOTAL": 100
+        },
+        "expected": 6.7,
+        "actual": 6.7,
+        "pass": true
+      },
+      {
+        "name": "实际治疗高于上限",
+        "inputs": {
+          "healing_ratio": 0.67,
+          "actual_passive_hero_damage": 100,
+          "heal_cap_level": 30,
+          "heal_cap_ap_ratio": 0.07,
+          "SOURCE.ability_power.TOTAL": 100
+        },
+        "expected": 37,
+        "actual": 37,
+        "pass": true
+      },
+      {
+        "name": "较高等级上限下未超过",
+        "inputs": {
+          "healing_ratio": 0.67,
+          "actual_passive_hero_damage": 100,
+          "heal_cap_level": 70,
+          "heal_cap_ap_ratio": 0.07,
+          "SOURCE.ability_power.TOTAL": 100
+        },
+        "expected": 67,
+        "actual": 67,
+        "pass": true
+      }
+    ],
+    "missingInputRejected": true,
+    "businessWrites": 0
+  },
+  "evidence": {
+    "requestFile": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十一批\\等级曲线修正\\最终修正请求.json",
+    "resultFile": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十一批\\等级曲线修正\\实际修正结果.json",
+    "boundary": "只读审查已完成的API结果快照；本脚本未调用业务接口，未修改业务数据，未运行战斗或页面。"
+  }
+}

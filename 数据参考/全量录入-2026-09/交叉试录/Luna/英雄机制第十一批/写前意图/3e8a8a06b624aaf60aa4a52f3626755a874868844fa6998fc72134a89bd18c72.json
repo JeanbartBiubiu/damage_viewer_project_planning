@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T04:55:12.034Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_q/formulas/empowered_true_damage_portion",
+  "id": "empowered_true_damage_portion",
+  "method": "POST",
+  "body": {
+    "formulaKey": "empowered_true_damage_portion",
+    "name": "精准礼仪第二段真实伤害转换部分",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "current_damage_conversion_ratio"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "empowered_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "total_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "真实伤害部分=当前转换比例×第二段额外物理伤害；比例值不在本批猜等级。",
+    "sortOrder": 30
+  }
+}

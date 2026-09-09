@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T04:56:19.635Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_r/parameters/base_damage",
+  "id": "base_damage",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "每针基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 30,
+      "2": 50,
+      "3": 70
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+    "sortOrder": 50
+  }
+}

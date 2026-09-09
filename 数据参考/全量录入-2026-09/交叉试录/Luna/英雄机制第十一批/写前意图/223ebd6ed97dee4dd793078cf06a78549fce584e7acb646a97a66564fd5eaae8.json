@@ -1,0 +1,61 @@
+{
+  "at": "2026-09-09T04:55:49.071Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_p/formulas/passive_magic_damage",
+  "id": "passive_magic_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "passive_magic_damage",
+    "name": "千穿百孔对英雄额外魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_to_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_base_damage_percent"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "passive_ap_damage_percent_per_ap"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "TARGET",
+          "attributeKey": "hp",
+          "attributeValueKind": "TOTAL"
+        }
+      ]
+    },
+    "description": "攻击附带目标最大生命比例的额外魔法伤害；表达式内联PercentHealth1000Cuts与匿名比例树。",
+    "sortOrder": 30
+  }
+}

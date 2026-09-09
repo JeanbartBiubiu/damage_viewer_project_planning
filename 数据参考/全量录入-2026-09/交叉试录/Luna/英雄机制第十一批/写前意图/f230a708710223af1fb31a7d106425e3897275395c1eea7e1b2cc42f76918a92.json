@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T04:55:09.244Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_q/parameters/current_damage_conversion_ratio",
+  "id": "current_damage_conversion_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "current_damage_conversion_ratio",
+    "name": "当前等级真实伤害转换比例",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "DamageConversionPercentage包含未给增量的17级断点；只接受已由运行时/后续数据核出的当前比例，不补插值。",
+    "sortOrder": 130
+  }
+}

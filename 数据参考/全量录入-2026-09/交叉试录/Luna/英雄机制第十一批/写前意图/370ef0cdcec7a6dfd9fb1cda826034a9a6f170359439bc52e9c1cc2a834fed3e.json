@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T04:54:40.345Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/fiora_e/parameters/attack_speed_ratio",
+  "id": "attack_speed_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "attack_speed_ratio",
+    "name": "强化攻击额外攻击速度比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.5,
+      "2": 0.6,
+      "3": 0.7,
+      "4": 0.8,
+      "5": 0.9
+    },
+    "description": "客户端当前根绑定 DataValues.ASPercent 取索引1至5。",
+    "sortOrder": 70
+  }
+}

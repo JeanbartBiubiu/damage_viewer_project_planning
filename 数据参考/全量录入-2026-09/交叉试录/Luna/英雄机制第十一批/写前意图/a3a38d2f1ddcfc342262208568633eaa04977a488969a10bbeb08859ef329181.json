@@ -1,0 +1,27 @@
+{
+  "at": "2026-09-09T04:54:59.239Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_p/formulas/shield_amount",
+  "id": "shield_amount",
+  "method": "POST",
+  "body": {
+    "formulaKey": "shield_amount",
+    "name": "适应性防御护盾值",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "shield_level_ratio"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "shield_stat_value"
+        }
+      ]
+    },
+    "description": "护盾值=等级断点比例×运行时mStat12属性值；来源文本与具体属性绑定仍待系统核对。",
+    "sortOrder": 10
+  }
+}

@@ -1,0 +1,3528 @@
+{
+  "generatedAt": "2026-09-09T03:18:53.440Z",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整计算树保留在本批证据。资料来自规划树固定客户端16.17与官方16.17.1，不以名称相似对象替代根绑定。",
+  "heroes": [
+    {
+      "id": "Irelia",
+      "chineseName": "刀锋舞者",
+      "rootPath": "Characters/Irelia/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Irelia.json.gz",
+        "sha256": "3690c80214c9b7a467df867e7cb38b875171cecb91256d339371dc80e5583d76",
+        "compressedSha256": "f135c64b1d57b225edc38977c52525aa974f57e1cae0ed63e2e1d48e73fc7b28",
+        "byteSize": 48830,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/irelia/irelia.bin.json",
+        "fetchedAt": "2026-09-06T14:26:19.808Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Irelia.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Irelia.json",
+        "fetchedAt": "2026-09-06T14:12:47.476Z",
+        "byteSize": 15459,
+        "sha256": "609b71e3e675c1a18b10c76310fc3f46253f5a003c5538d8e0fbdb1a5ad053a2"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "irelia_p",
+          "binding": "Characters/Irelia/Spells/IreliaPassiveAbility/IreliaPassive",
+          "name": "艾欧尼亚热诚",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null,
+          "officialDescription": "当艾瑞莉娅用技能命中敌人时，她会获得可叠加的攻击速度加成。这个效果在满层时还会为艾瑞莉娅提供攻击附伤。",
+          "officialTooltip": null,
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BuffDuration",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxStacks",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "OnHitStructureMod",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "OnHitBaseDamage",
+              "values": [
+                10,
+                10,
+                10,
+                10,
+                10,
+                10,
+                10
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "OnHitPerLevel",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "SingleStackAS": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 10,
+                  "mEndValue": 25,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            },
+            "OnHitBonus": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "{91d404a5}": "OnHitBaseDamage",
+                  "{b2cd0eb0}": "OnHitPerLevel",
+                  "__type": "{b22609db}"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 0.20000000298023224,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "irelia_q",
+          "binding": "Characters/Irelia/Spells/IreliaQAbility/IreliaQ",
+          "name": "利刃冲击",
+          "maxrank": 5,
+          "officialCooldown": [
+            10,
+            9,
+            8,
+            7,
+            6
+          ],
+          "officialCost": [
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "艾瑞莉娅向前突进以打击她的目标，并治疗自身。如果目标被标记或死于利刃冲击，那么它的冷却时间会刷新。",
+          "officialTooltip": "艾瑞莉娅冲向一名敌人，造成<physicalDamage>{{ championdamage }}物理伤害</physicalDamage>并回复自身 <healing>{{ healamount }}生命值</healing>。如果敌人阵亡或者<keywordMajor>重心不稳</keywordMajor>，那么会刷新冷却时间。<br /><br />对小兵造成{{ miniondamage }}伤害。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            10,
+            10,
+            9,
+            8,
+            7,
+            6,
+            5
+          ],
+          "mana": [
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "manaValues": {
+            "values": [
+              15,
+              15,
+              15,
+              15,
+              15,
+              15
+            ],
+            "{0a3e0478}": 15,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                -15,
+                5,
+                25,
+                45,
+                65,
+                85,
+                105
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DashSpeedBonus",
+              "values": [
+                0,
+                1400,
+                1400,
+                1400,
+                1400,
+                1400,
+                1400
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HealTADCoefficient",
+              "values": [
+                0.07999999821186066,
+                0.09000000357627869,
+                0.10000000149011612,
+                0.10999999940395355,
+                0.11999999731779099,
+                0.12999999523162842,
+                0.14000000059604645
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "ChampionDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.800000011920929,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MinionDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mLevel1Value": 50,
+                  "mInitialBonusPerLevel": 11,
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.800000011920929,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "HealAmount": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mDataValue": "HealTADCoefficient",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "irelia_w",
+          "binding": "Characters/Irelia/Spells/IreliaWAbility/IreliaW",
+          "name": "距破之舞",
+          "maxrank": 5,
+          "officialCooldown": [
+            20,
+            18,
+            16,
+            14,
+            12
+          ],
+          "officialCost": [
+            70,
+            75,
+            80,
+            85,
+            90
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "艾瑞莉娅开始蓄力以进行一次打击，蓄力越久则打击造成的伤害越多。在蓄力期间她所受的物理伤害降低。",
+          "officialTooltip": "<charge>开始蓄力：</charge>艾瑞莉娅进入防御姿态，至多持续{{ maxduration }}秒，变得无法行动但使所受的物理伤害降低{{ finalphysicaldr }}%、所受的魔法伤害降低{{ finalmagicdr }}%。<br /><br /><release>释放：</release>艾瑞莉娅放出她的刀锋，造成<physicalDamage>{{ mindamagecalc }}物理伤害</physicalDamage>，基于蓄力时间至多提升至<physicalDamage>{{ maxdamagecalc }}</physicalDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            20,
+            20,
+            18,
+            16,
+            14,
+            12,
+            10
+          ],
+          "mana": [
+            70,
+            75,
+            80,
+            85,
+            90,
+            90
+          ],
+          "manaValues": {
+            "values": [
+              70,
+              75,
+              80,
+              85,
+              90,
+              90
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0,
+          "mCastTime": null,
+          "mChannelDuration": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "dataValues": [
+            {
+              "name": "BasePhysicalDR",
+              "values": [
+                0,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxDuration",
+              "values": [
+                0,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinDamage",
+              "values": [
+                0,
+                10,
+                20,
+                30,
+                40,
+                50,
+                60
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxDamage",
+              "values": [
+                0,
+                30,
+                60,
+                90,
+                120,
+                150,
+                180
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxBonusRatio",
+              "values": [
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ChargeTimeForMax",
+              "values": [
+                0,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MRReductionAmount",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "FinalPhysicalDR": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 40,
+                  "mEndValue": 70,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.07999999821186066,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MinDamageCalc": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MinDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mCoefficient": 0.4000000059604645,
+                  "__type": "StatByCoefficientCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.5,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxDamageCalc": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MaxDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mCoefficient": 1.2000000476837158,
+                  "__type": "StatByCoefficientCalculationPart"
+                },
+                {
+                  "mCoefficient": 1.5,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "FinalMagicDR": {
+              "mMultiplier": {
+                "mDataValue": "MRReductionAmount",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "FinalPhysicalDR",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "irelia_e",
+          "binding": "Characters/Irelia/Spells/IreliaEAbility/IreliaE",
+          "name": "比翼双刃",
+          "maxrank": 5,
+          "officialCooldown": [
+            16,
+            14.5,
+            13,
+            11.5,
+            10
+          ],
+          "officialCost": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "艾瑞莉娅放出两柄相互聚拢的利刃。利刃之间被击中的敌人会受到伤害、晕眩效果并被标记。",
+          "officialTooltip": "艾瑞莉娅扔出一把刀锋至地上，并且至多可在{{ buffduration }}秒里<recast>再次施放</recast>。<br /><br /><recast>再次施放：</recast>艾瑞莉娅扔出第二把刀锋，随后两把刀锋会朝着彼此飞行，对沿途的敌人造成{{ stunduration }}秒<status>晕眩</status>和<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。英雄和大型野怪会进入<keywordMajor>重心不稳</keywordMajor>状态，持续{{ markduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            16,
+            16,
+            14.5,
+            13,
+            11.5,
+            10,
+            10
+          ],
+          "mana": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "{0a3e0478}": 50,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                70,
+                110,
+                150,
+                190,
+                230,
+                270
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "StunDuration",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RevTime",
+              "values": [
+                0,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BuffDuration",
+              "values": [
+                0,
+                3.5,
+                3.5,
+                3.5,
+                3.5,
+                3.5,
+                3.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CDBetweenCast",
+              "values": [
+                0,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25,
+                0.25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MaxRange",
+              "values": [
+                0,
+                775,
+                775,
+                775,
+                775,
+                775,
+                775
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinRange",
+              "values": [
+                0,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MarkDuration",
+              "values": [
+                0,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "irelia_r",
+          "binding": "Characters/Irelia/Spells/IreliaRAbility/IreliaR",
+          "name": "先锋之刃",
+          "maxrank": 3,
+          "officialCooldown": [
+            125,
+            105,
+            85
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "艾瑞莉娅发射庞大数量的利刃，它们会在命中一名敌方英雄时向外爆开。被利刃命中的敌人会受到伤害并被标记。然后利刃会形成一道刃墙，在敌人穿过时造成伤害、和减速效果。",
+          "officialTooltip": "艾瑞莉娅发射出一阵刀锋弹幕，造成<magicDamage>{{ missiledamage }}魔法伤害</magicDamage>并对英雄和大型野怪施加持续{{ markduration }}秒的<keywordMajor>重心不稳</keywordMajor>。刀锋弹幕会在命中第一个英雄后绽放成一个持续{{ zoneduration }}秒的牢笼。牢笼造成<magicDamage>{{ zonedamage }}魔法伤害</magicDamage>和持续{{ ccduration }}秒的{{ slowamount }}%<status>减速</status>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            125,
+            125,
+            105,
+            85,
+            0,
+            0,
+            0
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.4000000059604645,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseMissileDamage",
+              "values": [
+                50,
+                125,
+                200,
+                275,
+                350,
+                425,
+                500
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseZoneDamage",
+              "values": [
+                50,
+                125,
+                200,
+                275,
+                350,
+                425,
+                500
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CCDuration",
+              "values": [
+                0,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowAmount",
+              "values": [
+                0,
+                90,
+                90,
+                90,
+                90,
+                90,
+                90
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MarkDuration",
+              "values": [
+                0,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ZoneDuration",
+              "values": [
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5,
+                2.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CooldownAmount",
+              "values": [
+                0,
+                0.5,
+                1,
+                1.5,
+                2,
+                2.5,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "MissileDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseMissileDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ZoneDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseZoneDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Fiora",
+      "chineseName": "无双剑姬",
+      "rootPath": "Characters/Fiora/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Fiora.json.gz",
+        "sha256": "1a5623425ab022eed88ce3da18995e627a33e90cf810f0bac50a0f563e16fa51",
+        "compressedSha256": "ac0bc9a74bbf8ba76e3b3198269f34d9b8b7c89255bd2b85f0e2147ab914336a",
+        "byteSize": 46235,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/fiora/fiora.bin.json",
+        "fetchedAt": "2026-09-06T14:26:17.052Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Fiora.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Fiora.json",
+        "fetchedAt": "2026-09-06T14:12:46.542Z",
+        "byteSize": 19035,
+        "sha256": "212601130bfe3723ffeb58f8818e5c5466395c41f9c32e76c30761f67f509688"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "fiora_p",
+          "binding": "Characters/Fiora/Spells/FioraPassiveAbility/FioraPassive",
+          "name": "决斗之舞",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null,
+          "officialDescription": "菲奥娜已在这名英雄身上发现了一处<keywordMajor>破绽</keywordMajor>。如果她命中了这处<keywordMajor>破绽</keywordMajor>，她就会<healing>回复生命值</healing>并获得<speed>移动速度</speed>。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "PassiveDamageADRatio",
+              "values": [
+                0.00039999998989515007,
+                0.00039999998989515007,
+                0.00039999998989515007,
+                0.00039999998989515007,
+                0.00039999998989515007,
+                0.00039999998989515007,
+                0.00039999998989515007
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "PassiveDamageBase",
+              "values": [
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MovementSpeedDuration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "PassiveHealAmount": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 35,
+                  "mEndValue": 100,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "PassiveDamageTotal": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "PassiveDamageBase",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "PassiveDamageADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 1,
+              "__type": "GameCalculation"
+            },
+            "RDamageTotal": {
+              "mMultiplier": {
+                "mNumber": 4,
+                "__type": "NumberCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mModifiedGameCalculation": "PassiveDamageTotal",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "fiora_q",
+          "binding": "Characters/Fiora/Spells/FioraQAbility/FioraQ",
+          "name": "破空斩",
+          "maxrank": 5,
+          "officialCooldown": [
+            13,
+            11.25,
+            9.5,
+            7.75,
+            6
+          ],
+          "officialCost": [
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "菲奥娜向一个方向冲刺，并刺击一个附近的敌人，造成物理伤害并施加攻击特效。",
+          "officialTooltip": "菲奥娜向一个方向进行突刺并刺击相距最近的敌人、守卫或建筑物，造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>。这次打击会优先攻击<keywordMajor>破绽</keywordMajor>和将被此打击击杀的单位。<br /><br />如果菲奥娜命中了一个敌人，那么这个技能的冷却时间就会缩短{{ cdrefundpercent*100 }}%。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            13,
+            13,
+            11.25,
+            9.5,
+            7.75,
+            6,
+            6
+          ],
+          "mana": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "manaValues": {
+            "values": [
+              20,
+              20,
+              20,
+              20,
+              20,
+              20
+            ],
+            "{0a3e0478}": 20,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": -0.375,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "Damage",
+              "values": [
+                60,
+                70,
+                80,
+                90,
+                100,
+                110,
+                120
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "bADRatio",
+              "values": [
+                0.8500000238418579,
+                0.8999999761581421,
+                0.949999988079071,
+                1,
+                1.0499999523162842,
+                1.100000023841858,
+                1.149999976158142
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CDRefundPercent",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "Damage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mSubpart": {
+                    "mDataValue": "BADRatio",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "fiora_w",
+          "binding": "Characters/Fiora/Spells/FioraWAbility/FioraW",
+          "name": "劳伦特心眼刀",
+          "maxrank": 5,
+          "officialCooldown": [
+            24,
+            22,
+            20,
+            18,
+            16
+          ],
+          "officialCost": [
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "菲奥娜在短时间内对所有即将到来的伤害和限制效果进行招架，然后朝着一个方向进行刺击。这个刺击会减速命中的第一个敌方英雄，如果菲奥娜用这个技能格挡掉一个禁锢类效果，那么刺击会造成晕眩效果而非减速效果。",
+          "officialTooltip": "菲奥娜招架即将到来的所有伤害、限制效果和有害效果，持续{{ parryduration }}秒，然后刺击。刺击会对命中的第一个敌方英雄造成<magicDamage>{{ stabdamage }}魔法伤害</magicDamage>，并<status>减速</status>目标的{{ msslowpercent*-100 }}%<speed>移动速度</speed><attackSpeed>和{{ attackslowpercent*-100 }}%攻击速度</attackSpeed>，持续{{ ccduration }}秒。如果菲奥娜招架掉一个<status>定身</status>效果，那么被刺击的敌人会被<status>晕眩</status>而非<status>减速</status>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            26,
+            24,
+            22,
+            20,
+            18,
+            16,
+            14
+          ],
+          "mana": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "{0a3e0478}": 50,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.009999999776482582,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                70,
+                110,
+                150,
+                190,
+                230,
+                270,
+                310
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ParryDuration",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CCDuration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MSSlowPercent",
+              "values": [
+                -0.5,
+                -0.5,
+                -0.5,
+                -0.5,
+                -0.5,
+                -0.5,
+                -0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SmallBlockPercent",
+              "values": [
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746,
+                0.029999999329447746
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BigBlockPercent",
+              "values": [
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AttackSlowPercent",
+              "values": [
+                -0.25,
+                -0.25,
+                -0.25,
+                -0.25,
+                -0.25,
+                -0.25,
+                -0.25
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "StabDamage": {
+              "tooltipOnly": true,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 1,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "fiora_e",
+          "binding": "Characters/Fiora/Spells/FioraEAbility/FioraE",
+          "name": "夺命连刺",
+          "maxrank": 5,
+          "officialCooldown": [
+            11,
+            10,
+            9,
+            8,
+            7
+          ],
+          "officialCost": [
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "菲奥娜的下两次攻击将获得攻击速度加成。第一次攻击会使目标减速，而第二次攻击必定会产生暴击。",
+          "officialTooltip": "菲奥娜的下两次攻击获得<attackSpeed>{{ aspercent*100 }}%攻击速度</attackSpeed>。第一次攻击造成持续{{ slowduration }}秒的{{ slowpercent*-100 }}%<status>减速</status>。第二次攻击必定会产生暴击，造成<physicalDamage>{{ attacktwopercenttad*100 }}%伤害</physicalDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            11,
+            11,
+            10,
+            9,
+            8,
+            7,
+            7
+          ],
+          "mana": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "manaValues": {
+            "values": [
+              40,
+              40,
+              40,
+              40,
+              40,
+              40
+            ],
+            "{0a3e0478}": 40,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BuffDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowPercent",
+              "values": [
+                -0.30000001192092896,
+                -0.30000001192092896,
+                -0.30000001192092896,
+                -0.30000001192092896,
+                -0.30000001192092896,
+                -0.30000001192092896,
+                -0.30000001192092896
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ASPercent",
+              "values": [
+                0.4000000059604645,
+                0.5,
+                0.6000000238418579,
+                0.699999988079071,
+                0.800000011920929,
+                0.8999999761581421,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AttackOnePercentTAD",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "AttackTwoPercentTAD",
+              "values": [
+                1.5,
+                1.600000023841858,
+                1.7000000476837158,
+                1.7999999523162842,
+                1.899999976158142,
+                2,
+                2.0999999046325684
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {}
+        },
+        {
+          "slot": "R",
+          "skillKey": "fiora_r",
+          "binding": "Characters/Fiora/Spells/FioraRAbility/FioraR",
+          "name": "无双挑战",
+          "maxrank": 3,
+          "officialCooldown": [
+            110,
+            90,
+            70
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "菲奥娜显示出一个敌方英雄身上的所有四处破绽，并在目标附近时获得移动速度加成。如果菲奥娜命中了所有四处破绽，或者目标在死前至少被命中了一处破绽，那么菲奥娜和范围内的友军就会在接下来的几秒里持续获得治疗效果。",
+          "officialTooltip": "<spellPassive>被动：</spellPassive><spellName>决斗之舞</spellName><speed>移动速度</speed>加成提升至{{ percentms*100 }}%。<br /><br /><spellActive>主动</spellActive>：菲奥娜标出一名英雄身上的全部四处<keywordMajor>破绽</keywordMajor>，最多可造成<trueDamage>{{ spell.fiorapassive:rdamagetotal }}最大生命值的真实伤害</trueDamage>并在目标附近时获得<spellName>决斗之舞</spellName>的<speed>移动速度加成</speed>。<br /><br />如果菲奥娜在{{ markduration }}秒内命中了全部四处<keywordMajor>破绽</keywordMajor>，或者在目标死前至少命中一处，那么菲奥娜就会为周围的友方英雄每秒回复<healing>{{ healpersecondcalc }}生命值</healing>，持续{{ healduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            10,
+            110,
+            90,
+            70,
+            10,
+            10,
+            10
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            0,
+            0,
+            0
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              0,
+              0,
+              0
+            ],
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "MarkDuration",
+              "values": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "PassiveAS",
+              "values": [
+                0.20000000298023224,
+                0.30000001192092896,
+                0.4000000059604645,
+                0.5,
+                0.6000000238418579,
+                0.699999988079071,
+                0.800000011920929
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "PercentMS",
+              "values": [
+                0.20000000298023224,
+                0.30000001192092896,
+                0.4000000059604645,
+                0.5,
+                0.6000000238418579,
+                0.699999988079071,
+                0.800000011920929
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MSRingRadius",
+              "values": [
+                500,
+                500,
+                500,
+                500,
+                500,
+                500,
+                500
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HealDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HealPerSecond",
+              "values": [
+                50,
+                75,
+                100,
+                125,
+                150,
+                175,
+                200
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HealRingRadius",
+              "values": [
+                550,
+                550,
+                550,
+                550,
+                550,
+                550,
+                550
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinHealDuration",
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "HealDurationExtension",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Ratio",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "HealPerSecondCalc": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "HealPerSecond",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mCoefficient": 0.6000000238418579,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Camille",
+      "chineseName": "青钢影",
+      "rootPath": "Characters/Camille/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Camille.json.gz",
+        "sha256": "3f6bfb9db980faa31c3733101cdaebf0b066cae2bb9b5c4f3b3b6bdb5219dea9",
+        "compressedSha256": "1fa9dbd1b9338d283f0d5e655eb437181c9b3bff35a687dc69bc0e66cf48250b",
+        "byteSize": 68197,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/camille/camille.bin.json",
+        "fetchedAt": "2026-09-06T14:26:14.442Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Camille.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Camille.json",
+        "fetchedAt": "2026-09-06T14:12:45.696Z",
+        "byteSize": 14452,
+        "sha256": "b9650ff2bbf0add8107854832bfa5c7df16f6ad4c88b6c5fd5720e120ecacdda"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "camille_p",
+          "binding": "Characters/Camille/Spells/CamillePassiveAbility/CamillePassive",
+          "name": "适应性防御",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null,
+          "officialDescription": "对敌方英雄发起的普攻会基于该英雄的伤害类型（物理或魔法）提供一层专门吸收该类型伤害的护盾，护盾的生命值相当于卡蜜尔的一部分最大生命值，持续一小段时间。",
+          "officialTooltip": null,
+          "cooldownTime": null,
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "ShieldDuration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "PassiveCooldown": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 14,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 7,
+                      "mAdditionalBonusAtThisLevel": -3,
+                      "__type": "Breakpoint"
+                    },
+                    {
+                      "mLevel": 13,
+                      "mAdditionalBonusAtThisLevel": -3,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ShieldAmount": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mStat": 12,
+                  "mSubpart": {
+                    "mLevel1Value": 0.10000000149011612,
+                    "mBreakpoints": [
+                      {
+                        "mLevel": 7,
+                        "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 13,
+                        "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                        "__type": "Breakpoint"
+                      },
+                      {
+                        "mLevel": 19,
+                        "mAdditionalBonusAtThisLevel": 0.05000000074505806,
+                        "__type": "Breakpoint"
+                      }
+                    ],
+                    "__type": "ByCharLevelBreakpointsCalculationPart"
+                  },
+                  "__type": "StatBySubPartCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "camille_q",
+          "binding": "Characters/Camille/Spells/CamilleQAbility/CamilleQ",
+          "name": "精准礼仪",
+          "maxrank": 5,
+          "officialCooldown": [
+            9,
+            8,
+            7,
+            6,
+            5
+          ],
+          "officialCost": [
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "卡蜜尔的下一次普通攻击会斩击敌人，造成额外物理伤害，并为自身提供短暂的爆发性移动速度加成。这个技能可以在释放后的短时间内再次施放，并且如果两次释放之间存在一定的间隔，那么第二段攻击会造成显著的额外伤害。",
+          "officialTooltip": "卡蜜尔的下次攻击造成额外的<physicalDamage>{{ bonusdamage }}物理伤害</physicalDamage>并为她提供<speed>{{ msbonus*100 }}%移动速度</speed>，持续{{ msduration }}秒。这个技能可以在接下来的{{ qtotalrecasttime }}秒里无消耗地<recast>再次施放</recast>。<br /><br />如果<recast>再次施放</recast>的攻击与第一段攻击相距至少{{ qrampuptime }}秒，那么额外伤害会提升至<physicalDamage>{{ empoweredbonusdamage }}</physicalDamage>，并且该次攻击的{{ damageconversionpercentage }}伤害转化为<trueDamage>真实伤害</trueDamage>。<br /><br /><rules>这个技能会在造成伤害时触发技能特效。</rules>{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            9,
+            9,
+            8,
+            7,
+            6,
+            5,
+            5
+          ],
+          "mana": [
+            25,
+            25,
+            25,
+            25,
+            25,
+            25
+          ],
+          "manaValues": {
+            "values": [
+              25,
+              25,
+              25,
+              25,
+              25,
+              25
+            ],
+            "{0a3e0478}": 25,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.25,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "QRampUpTime",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BonusAARange",
+              "values": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TADRatio",
+              "values": [
+                0.15000000596046448,
+                0.20000000298023224,
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355,
+                0.4000000059604645,
+                0.44999998807907104
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MSBonus",
+              "values": [
+                0.20000000298023224,
+                0.25,
+                0.30000001192092896,
+                0.3499999940395355,
+                0.4000000059604645,
+                0.44999998807907104,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MSDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "QEmpoweredAmp",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "Q2Duration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "QTotalRecastTime",
+              "values": [
+                3.5,
+                3.5,
+                3.5,
+                3.5,
+                3.5,
+                3.5,
+                3.5
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "DamageConversionPercentage": {
+              "mFormulaParts": [
+                {
+                  "mLevel1Value": 0.4000000059604645,
+                  "mInitialBonusPerLevel": 0.03999999910593033,
+                  "mBreakpoints": [
+                    {
+                      "mLevel": 17,
+                      "__type": "Breakpoint"
+                    }
+                  ],
+                  "__type": "ByCharLevelBreakpointsCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "BonusDamage": {
+              "mFormulaParts": [
+                {
+                  "mStat": 2,
+                  "mDataValue": "tADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "EmpoweredBonusDamage": {
+              "mMultiplier": {
+                "mDataValue": "QEmpoweredAmp",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mModifiedGameCalculation": "BonusDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "camille_w",
+          "binding": "Characters/Camille/Spells/CamilleWAbility/CamilleW",
+          "name": "战术横扫",
+          "maxrank": 5,
+          "officialCooldown": [
+            12,
+            11.5,
+            11,
+            10.5,
+            10
+          ],
+          "officialCost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "卡蜜尔在短暂延迟后引爆一个锥形范围，并造成伤害。外沿的敌人会被减速并且受到额外伤害，同时还会治疗卡蜜尔。",
+          "officialTooltip": "卡蜜尔蓄力然后切割，造成<physicalDamage>{{ basedamagetotal }}物理伤害</physicalDamage>。<br /><br />被外沿命中的敌人会被<status>减速</status>{{ slowpercentage }}%，减速效果会在{{ slowduration }}秒里持续衰减，并会受到额外的<physicalDamage>{{ outeredgetooltip }}最大生命值的物理伤害</physicalDamage>。卡蜜尔会回复<healing>对敌方英雄们的{{ outerconehealingratio }}%实际额外伤害值的生命值</healing>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            15,
+            15,
+            14,
+            13,
+            12,
+            11,
+            11
+          ],
+          "mana": [
+            50,
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "manaValues": {
+            "values": [
+              50,
+              55,
+              60,
+              65,
+              70,
+              75
+            ],
+            "{0a3e0478}": 50,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "BaseDamage",
+              "values": [
+                35,
+                60,
+                85,
+                110,
+                135,
+                160,
+                185
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BADRatio",
+              "values": [
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579,
+                0.6000000238418579
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowDuration",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ChargeDuration",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowPercentage",
+              "values": [
+                80,
+                80,
+                80,
+                80,
+                80,
+                80,
+                80
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "OuterConeMaxHPDamage",
+              "values": [
+                0.06499999761581421,
+                0.07000000029802322,
+                0.07500000298023224,
+                0.07999999821186066,
+                0.08500000089406967,
+                0.09000000357627869,
+                0.0949999988079071
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ADRequiredFor1PercentDamage",
+              "values": [
+                40,
+                40,
+                40,
+                40,
+                40,
+                40,
+                40
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ADRequiredTooltipOnly",
+              "values": [
+                0.0002500000118743628,
+                0.0002500000118743628,
+                0.0002500000118743628,
+                0.0002500000118743628,
+                0.0002500000118743628,
+                0.0002500000118743628,
+                0.0002500000118743628
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MonsterDamageReduction",
+              "values": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "OuterConeHealingRatio",
+              "values": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BlastLength",
+              "values": [
+                650,
+                650,
+                650,
+                650,
+                650,
+                650,
+                650
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ConeAngle",
+              "values": [
+                35,
+                35,
+                35,
+                35,
+                35,
+                35,
+                35
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "OuterEdgeTooltip": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "OuterConeMaxHPDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "ADRequiredTooltipOnly",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "BaseDamageTotal": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "BADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MonsterHealthDamageCap": {
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mNumber": 300,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "camille_e",
+          "binding": "Characters/Camille/Spells/CamilleEAbility/CamilleE",
+          "name": "钩索",
+          "maxrank": 5,
+          "officialCooldown": [
+            16,
+            15,
+            14,
+            13,
+            12
+          ],
+          "officialCost": [
+            70,
+            70,
+            70,
+            70,
+            70
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "卡蜜尔将她自己拉向一个墙体，然后跳下并在落地时击飞敌方英雄。",
+          "officialTooltip": "卡蜜尔发射一个可附着在地形上的钩索，并将卡蜜尔拉到钩索处，并使此技能可以在1秒内<recast>再次施放</recast>。<br /><br /><recast>再次施放：</recast>卡蜜尔从墙体上进行冲刺，与命中的第一个敌方英雄进行碰撞。在着陆时，她获得持续 {{ asduration }}秒的<attackSpeed>{{ asbuff*100 }}%攻击速度</attackSpeed>，对附近的敌人们造成<physicalDamage>{{ totaldamage }}物理伤害</physicalDamage>，并对附近的敌方英雄们造成{{ knockupduration }}秒<status>晕眩</status>。朝着敌方英雄冲刺时，冲刺距离翻倍。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            16,
+            16,
+            15,
+            14,
+            13,
+            12,
+            12
+          ],
+          "mana": [
+            70,
+            70,
+            70,
+            70,
+            70,
+            70
+          ],
+          "manaValues": {
+            "values": [
+              70,
+              70,
+              70,
+              70,
+              70,
+              70
+            ],
+            "{0a3e0478}": 70,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": null,
+          "mCastTime": 0.25,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "EMinionMonsterGhostDuration",
+              "values": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "KnockupDuration",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ASBuff",
+              "values": [
+                0.3499999940395355,
+                0.4000000059604645,
+                0.44999998807907104,
+                0.5,
+                0.550000011920929,
+                0.6000000238418579,
+                0.6499999761581421
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                30,
+                60,
+                90,
+                120,
+                150,
+                180,
+                210
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DashSpeed",
+              "values": [
+                1050,
+                1050,
+                1050,
+                1050,
+                1050,
+                1050,
+                1050
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ASDuration",
+              "values": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "WallHangDuration",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "E2LongDashRange",
+              "values": [
+                800,
+                800,
+                800,
+                800,
+                800,
+                800,
+                800
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "E2ShortDashRange",
+              "values": [
+                400,
+                400,
+                400,
+                400,
+                400,
+                400,
+                400
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ECollisionRange",
+              "values": [
+                130,
+                130,
+                130,
+                130,
+                130,
+                130,
+                130
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BADRatio",
+              "values": [
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mStat": 2,
+                  "mStatFormula": 2,
+                  "mDataValue": "BADRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "camille_r",
+          "binding": "Characters/Camille/Spells/CamilleRAbility/CamilleR",
+          "name": "海克斯最后通牒",
+          "maxrank": 3,
+          "officialCooldown": [
+            140,
+            115,
+            90
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "卡蜜尔冲向目标英雄，并将该英雄锚定在区域中。她对目标英雄发起的普攻还会造成额外的魔法伤害。",
+          "officialTooltip": "卡蜜尔暂时变得无法被选取，并且跳向一个敌方英雄，打断引导状态并将该英雄锁定在一个区域内，并且该英雄怎样都无法逃出这个区域，持续{{ rduration }}秒。其它敌人会被<status>震开</status>。她的攻击会对目标敌人造成额外的<magicDamage>{{ rpercentcurrenthpdamage }}%当前生命值的魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            140,
+            140,
+            115,
+            90,
+            0,
+            0,
+            70
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": null,
+          "mCastTime": 0.25,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "RPercentCurrentHPDamage",
+              "values": [
+                2,
+                4,
+                6,
+                8,
+                10,
+                12,
+                14
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ROnHitDamage",
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RDuration",
+              "values": [
+                1.75,
+                2.5,
+                3.25,
+                4,
+                4.75,
+                5.5,
+                6.25
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RCircleRadius",
+              "values": [
+                425,
+                425,
+                425,
+                425,
+                425,
+                425,
+                425
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {}
+        }
+      ]
+    },
+    {
+      "id": "Gwen",
+      "chineseName": "灵罗娃娃",
+      "rootPath": "Characters/Gwen/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Gwen.json.gz",
+        "sha256": "f19c4a5ea57ac5d5ec3d2ee3f9e6d0af26e9bfdb00581efccc545298cedc6cc5",
+        "compressedSha256": "c2714fc4a1993e211be8cc3728c631a0e2cda41af052371d59c8658440fe58a5",
+        "byteSize": 63516,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/gwen/gwen.bin.json",
+        "fetchedAt": "2026-09-06T14:26:19.002Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Gwen.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Gwen.json",
+        "fetchedAt": "2026-09-06T14:12:46.877Z",
+        "byteSize": 14933,
+        "sha256": "7f61d0d5adaced63622da690fd699e9f9d28906b2cdf50845c878551fb89b4ee"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "gwen_p",
+          "binding": "Characters/Gwen/Spells/GwenPAbility/GwenP",
+          "name": "千穿百孔",
+          "maxrank": 1,
+          "officialCooldown": null,
+          "officialCost": null,
+          "officialResource": null,
+          "officialDescription": "格温的攻击会造成基于目标生命值的额外魔法伤害。她自身会获得治疗效果，数额相当于这个效果对英雄造成的一部分伤害值。",
+          "officialTooltip": null,
+          "cooldownTime": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "mana": null,
+          "manaValues": null,
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "ExecuteThreshold",
+              "values": [
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645,
+                0.4000000059604645
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "HealingPercent": {
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mNumber": 0.6700000166893005,
+                  "__type": "NumberCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "{540bce84}": {
+              "{72c5c2a8}": 1,
+              "mFormulaParts": [
+                {
+                  "mNumber": 1,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.006000000052154064,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "mPrecision": 2,
+              "__type": "GameCalculation"
+            },
+            "HealCap": {
+              "mFormulaParts": [
+                {
+                  "mStartValue": 12,
+                  "mEndValue": 40,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.07000000029802322,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "PercentHealth1000Cuts": {
+              "mMultiplier": {
+                "mNumber": 0.009999999776482582,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "{540bce84}",
+              "__type": "GameCalculationModified"
+            },
+            "MonsterDamageCap": {
+              "mFormulaParts": [
+                {
+                  "mNumber": 3,
+                  "__type": "NumberCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.05000000074505806,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "PassiveMaxQTooltip": {
+              "mMultiplier": {
+                "mNumber": 0.05999999865889549,
+                "__type": "NumberCalculationPart"
+              },
+              "mExpandedTooltipCalculationDisplay": 6,
+              "mModifiedGameCalculation": "{540bce84}",
+              "__type": "GameCalculationModified"
+            },
+            "PassiveMaxRTooltip": {
+              "mMultiplier": {
+                "mNumber": 0.09000000357627869,
+                "__type": "NumberCalculationPart"
+              },
+              "mExpandedTooltipCalculationDisplay": 6,
+              "mModifiedGameCalculation": "{540bce84}",
+              "__type": "GameCalculationModified"
+            },
+            "{4197830d}": {
+              "mMultiplier": {
+                "mNumber": 0.029999999329447746,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "{540bce84}",
+              "__type": "GameCalculationModified"
+            },
+            "{4097817a}": {
+              "mMultiplier": {
+                "mNumber": 0.05000000074505806,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "{540bce84}",
+              "__type": "GameCalculationModified"
+            },
+            "{5bade13c}": {
+              "mFormulaParts": [
+                {
+                  "mBuffName": "{9d0c98ec}",
+                  "mCoefficient": 1,
+                  "__type": "BuffCounterByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "ExecuteDamage": {
+              "{72c5c2a8}": 1,
+              "mFormulaParts": [
+                {
+                  "mStartValue": 8,
+                  "mEndValue": 30,
+                  "__type": "ByCharLevelInterpolationCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "gwen_q",
+          "binding": "Characters/Gwen/Spells/GwenQAbility/GwenQ",
+          "name": "快刀剪乱",
+          "maxrank": 5,
+          "officialCooldown": [
+            6.5,
+            5.75,
+            5,
+            4.25,
+            3.5
+          ],
+          "officialCost": [
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "格温在一个锥形区域剪切她的剪刀至多6次，来造成魔法伤害。格温的每次剪切会对中心区域的敌人造成真实伤害并对它们施加她的被动技能。",
+          "officialTooltip": "<spellPassive>被动</spellPassive>：格温的每次攻击在命中敌人时会获得1层充能， (最大4层，持续{{ buffduration }}秒)。<br /><br /><spellActive>主动</spellActive>：消耗全部充能。格温进行(1+充能层数)次剪切，每次剪切造成<magicDamage>{{ miniswipedamage }}魔法伤害</magicDamage>，然后进行最终剪切来造成<magicDamage>{{ finalswipedamage }}魔法伤害</magicDamage>。<br /><br />对每次剪切的中心区域的敌人们造成的伤害将有{{ truedamageconversion*100 }}%转化为<trueDamage>真实伤害</trueDamage>，并对其施加<spellName>千穿百孔</spellName>。<br /><rules><br />对小兵造成{{ minionmod*100 }}%伤害。<br />低于{{ executethreshold*100 }}%生命值的小兵们会受到{{ executebonus }}%额外伤害而非削减过的伤害。</rules>{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            6.5,
+            6.5,
+            5.75,
+            5,
+            4.25,
+            3.5,
+            3.5
+          ],
+          "mana": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "manaValues": {
+            "values": [
+              40,
+              40,
+              40,
+              40,
+              40,
+              40
+            ],
+            "{0a3e0478}": 40,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0.25,
+          "mCastTime": 0.5,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "InitialArcLength",
+              "values": [
+                475,
+                475,
+                475,
+                475,
+                475,
+                475,
+                475
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SwipeDamageBase",
+              "values": [
+                35,
+                60,
+                85,
+                110,
+                135,
+                160,
+                185
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MiniDamageRatio",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "APRatio",
+              "values": [
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355,
+                0.3499999940395355
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BuffDuration",
+              "values": [
+                6,
+                6,
+                6,
+                6,
+                6,
+                6,
+                6
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MiniSwipeBaseDamage",
+              "values": [
+                6,
+                10,
+                14,
+                18,
+                22,
+                26,
+                30
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "TrueDamageConversion",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ExecuteBonus",
+              "values": [
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MinionMod",
+              "values": [
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929,
+                0.800000011920929
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ExecuteThreshold",
+              "values": [
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224,
+                0.20000000298023224
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "MiniSwipeAPRatio",
+              "values": [
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806,
+                0.05000000074505806
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "FinalSwipeDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "SwipeDamageBase",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "APRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MiniSwipeDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "MiniSwipeBaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mDataValue": "MiniSwipeAPRatio",
+                  "__type": "StatByNamedDataValueCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxDamage": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mExpandedTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mSubparts": [
+                    {
+                      "mSubparts": [
+                        {
+                          "mDataValue": "SwipeDamageBase",
+                          "__type": "NamedDataValueCalculationPart"
+                        },
+                        {
+                          "mDataValue": "APRatio",
+                          "__type": "StatByNamedDataValueCalculationPart"
+                        }
+                      ],
+                      "__type": "SumOfSubPartsCalculationPart"
+                    },
+                    {
+                      "mPart1": {
+                        "mDataValue": "MiniSwipeAPRatio",
+                        "__type": "StatByNamedDataValueCalculationPart"
+                      },
+                      "mPart2": {
+                        "mNumber": 5,
+                        "__type": "NumberCalculationPart"
+                      },
+                      "__type": "ProductOfSubPartsCalculationPart"
+                    },
+                    {
+                      "mPart1": {
+                        "mDataValue": "MiniSwipeBaseDamage",
+                        "__type": "NamedDataValueCalculationPart"
+                      },
+                      "mPart2": {
+                        "mNumber": 5,
+                        "__type": "NumberCalculationPart"
+                      },
+                      "__type": "ProductOfSubPartsCalculationPart"
+                    }
+                  ],
+                  "__type": "SumOfSubPartsCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "gwen_w",
+          "binding": "Characters/Gwen/Spells/GwenWAbility/GwenW",
+          "name": "丝缕缠流",
+          "maxrank": 5,
+          "officialCooldown": [
+            22,
+            21,
+            20,
+            19,
+            18
+          ],
+          "officialCost": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "格温召唤圣霭来保护她免受圣霭外敌人的进攻。她只会被进入圣霭内的敌人们选为目标。",
+          "officialTooltip": "格温召唤圣霭结界，使她对结界之外的所有敌人(防御塔除外)来说处于无法被选取状态，持续{{ zoneduration }}秒或直到她离开结界为止。在结界中，格温获得{{ totalresists }}<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。<br /><br />格温可以<recast>再次施放</recast>这个技能，来将结界召唤到她所在的位置，但只有1次机会。格温在第一次尝试离开结界时会自动进行<recast>再次施放</recast>。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            22,
+            22,
+            21,
+            20,
+            19,
+            18,
+            18
+          ],
+          "mana": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "manaValues": {
+            "values": [
+              60,
+              60,
+              60,
+              60,
+              60,
+              60
+            ],
+            "{0a3e0478}": 60,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "ZONE_VARS",
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ZoneDuration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ZoneRadius",
+              "values": [
+                370,
+                370,
+                370,
+                370,
+                370,
+                370,
+                370
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ZonePullSpeed",
+              "values": [
+                2000,
+                2000,
+                2000,
+                2000,
+                2000,
+                2000,
+                2000
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "PullOffset",
+              "values": [
+                75,
+                75,
+                75,
+                75,
+                75,
+                75,
+                75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "ZoneWallOffset",
+              "values": [
+                -100,
+                -100,
+                -100,
+                -100,
+                -100,
+                -100,
+                -100
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "NewDashCooldown",
+              "values": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "RecastDelay",
+              "values": [
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5,
+                0.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseResists",
+              "values": [
+                20,
+                22,
+                24,
+                26,
+                28,
+                30,
+                32
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DashTargetForgiveness",
+              "values": [
+                125,
+                125,
+                125,
+                125,
+                125,
+                125,
+                125
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalResists": {
+              "mSimpleTooltipCalculationDisplay": 6,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseResists",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.07000000029802322,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "gwen_e",
+          "binding": "Characters/Gwen/Spells/GwenEAbility/GwenE",
+          "name": "断续疾走",
+          "maxrank": 5,
+          "officialCooldown": [
+            13,
+            12.5,
+            12,
+            11.5,
+            11
+          ],
+          "officialCost": [
+            35,
+            35,
+            35,
+            35,
+            35
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "格温冲刺一小段距离然后获得攻击速度、攻击距离和魔法伤害<OnHit>攻击特效</OnHit>，持续若干秒。如果她在此期间命中了一个敌人，那么这个技能的冷却时间会获得部分返还。",
+          "officialTooltip": "格温冲刺并强化她的攻击{{ buffduration }}秒。<br /><br />强化攻击获得<attackSpeed>{{ bonusattackspeed }}攻击速度</attackSpeed>，<magicDamage>{{ onhitdamage }}附加魔法伤害</magicDamage>%i:OnHit% <OnHit>攻击特效</OnHit>，{{ bonusattackrange }}攻击距离，并且首次攻击在命中一名敌人时会返还此技能{{ cdrefund*100 }}%冷却时间。{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            13,
+            13,
+            12.5,
+            12,
+            11.5,
+            11,
+            11
+          ],
+          "mana": [
+            35,
+            35,
+            35,
+            35,
+            35,
+            35
+          ],
+          "manaValues": {
+            "values": [
+              35,
+              35,
+              35,
+              35,
+              35,
+              35
+            ],
+            "{0a3e0478}": 35,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": null,
+          "mCastTime": null,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "DashRange",
+              "values": [
+                350,
+                350,
+                350,
+                350,
+                350,
+                350,
+                350
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "DashSpeed",
+              "values": [
+                800,
+                800,
+                800,
+                800,
+                800,
+                800,
+                800
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "WallCheatDistance",
+              "values": [
+                100,
+                100,
+                100,
+                100,
+                100,
+                100,
+                100
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BuffDuration",
+              "values": [
+                4,
+                4,
+                4,
+                4,
+                4,
+                4,
+                4
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseAttackSpeed",
+              "values": [
+                17.5,
+                30,
+                42.5,
+                55,
+                67.5,
+                80,
+                92.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "CDRefund",
+              "values": [
+                0.15000000596046448,
+                0.25,
+                0.3499999940395355,
+                0.44999998807907104,
+                0.550000011920929,
+                0.6499999761581421,
+                0.75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BonusAttackRange",
+              "values": [
+                75,
+                75,
+                75,
+                75,
+                75,
+                75,
+                75
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "BonusAttackSpeed": {
+              "mMultiplier": {
+                "mNumber": 0.009999999776482582,
+                "__type": "NumberCalculationPart"
+              },
+              "mSimpleTooltipCalculationDisplay": 5,
+              "mExpandedTooltipCalculationDisplay": 5,
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseAttackSpeed",
+                  "__type": "NamedDataValueCalculationPart"
+                }
+              ],
+              "mDisplayAsPercent": true,
+              "__type": "GameCalculation"
+            },
+            "OnHitDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.20000000298023224,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "gwen_r",
+          "binding": "Characters/Gwen/Spells/GwenRAbility/GwenR",
+          "name": "引针簇射",
+          "maxrank": 3,
+          "officialCooldown": [
+            120,
+            100,
+            80
+          ],
+          "officialCost": [
+            100,
+            100,
+            100
+          ],
+          "officialResource": "{{ cost }} {{ abilityresourcename }}",
+          "officialDescription": "格温掷出一根针来对命中的敌人们造成减速、魔法伤害，并对命中的英雄们施加【千穿百孔】。<br><br>这个技能至多可进行2段再次施放，每一段再次施放都会投掷更多的针，并造成更多伤害。 ",
+          "officialTooltip": "<spellActive>第一段施放：</spellActive>掷出一根针来对命中的所有敌人造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>，以及持续{{ debuffduration }}秒的{{ initialslow*-100 }}%<status>减速</status>，并施加<spellName>千穿百孔</spellName>。格温可以在6秒内<recast>再次施放</recast>这个技能至多2次(每次施放之间的冷却时间为{{ lockouttime }}秒)。<br /><br /><recast>第二段施放：</recast>发射3根针来造成<magicDamage>{{ totaldamage3 }}魔法伤害</magicDamage><br /><recast>第三段施放：</recast>发射5根针来造成<magicDamage>{{ totaldamage5 }}魔法伤害</magicDamage>{{ spellmodifierdescriptionappend }}",
+          "cooldownTime": [
+            10,
+            120,
+            100,
+            80,
+            8.5,
+            8,
+            7.5
+          ],
+          "mana": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "manaValues": {
+            "values": [
+              100,
+              100,
+              100,
+              100,
+              100,
+              100
+            ],
+            "{0a3e0478}": 100,
+            "__type": "{630af303}"
+          },
+          "spellCastTime": 0,
+          "mCastTime": 0.25,
+          "mChannelDuration": null,
+          "dataValues": [
+            {
+              "name": "DebuffDuration",
+              "values": [
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5,
+                1.5
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SlowAmount",
+              "values": [
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448,
+                0.15000000596046448
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "BaseDamage",
+              "values": [
+                10,
+                30,
+                50,
+                70,
+                90,
+                110,
+                130
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "InitialSlow",
+              "values": [
+                -0.30000001192092896,
+                -0.4000000059604645,
+                -0.5,
+                -0.6000000238418579,
+                -0.699999988079071,
+                -0.800000011920929,
+                -0.8999999761581421
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "SubsequentSlow",
+              "values": [
+                -0.10000000149011612,
+                -0.15000000596046448,
+                -0.20000000298023224,
+                -0.25,
+                -0.30000001192092896,
+                -0.3499999940395355,
+                -0.4000000059604645
+              ],
+              "__type": "SpellDataValue"
+            },
+            {
+              "name": "LockoutTime",
+              "values": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "__type": "SpellDataValue"
+            }
+          ],
+          "calculations": {
+            "TotalDamage": {
+              "mFormulaParts": [
+                {
+                  "mDataValue": "BaseDamage",
+                  "__type": "NamedDataValueCalculationPart"
+                },
+                {
+                  "mCoefficient": 0.10000000149011612,
+                  "__type": "StatByCoefficientCalculationPart"
+                }
+              ],
+              "__type": "GameCalculation"
+            },
+            "MaxDamage": {
+              "mMultiplier": {
+                "mNumber": 9,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            },
+            "TotalDamage3": {
+              "mMultiplier": {
+                "mNumber": 3,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            },
+            "TotalDamage5": {
+              "mMultiplier": {
+                "mNumber": 5,
+                "__type": "NumberCalculationPart"
+              },
+              "mModifiedGameCalculation": "TotalDamage",
+              "__type": "GameCalculationModified"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

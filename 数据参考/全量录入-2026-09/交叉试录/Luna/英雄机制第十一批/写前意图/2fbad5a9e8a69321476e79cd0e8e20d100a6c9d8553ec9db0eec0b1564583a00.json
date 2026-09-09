@@ -1,0 +1,51 @@
+{
+  "at": "2026-09-09T04:55:25.995Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_w/formulas/outer_damage",
+  "id": "outer_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "outer_damage",
+    "name": "战术横扫外沿额外物理伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "outer_max_hp_damage_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "outer_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "TARGET",
+          "attributeKey": "hp",
+          "attributeValueKind": "TOTAL"
+        }
+      ]
+    },
+    "description": "外沿额外伤害=外沿最大生命伤害比例×敌方英雄最大生命；表达式内联外沿比例，外沿命中位置由空间事件提供。",
+    "sortOrder": 30
+  }
+}

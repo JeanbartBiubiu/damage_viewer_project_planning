@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:54:12.504Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/irelia_r/formulas/missile_damage",
+  "id": "missile_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "missile_damage",
+    "name": "先锋之刃弹幕魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_missile_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ability_power_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "MissileDamage=BaseMissileDamage+APRatio×法强。",
+    "sortOrder": 10
+  }
+}

@@ -1,0 +1,7160 @@
+{
+  "generatedAt": "2026-09-09T04:59:37.899Z",
+  "pass": true,
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "candidateObjectSha256": "32550e330bafe6d0783f38bcbbf62656aed3ac70d2b5bd9a2d53cd9d92e583a1",
+  "runDir": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十一批\\执行记录\\2026-09-09T04-53-12-060Z",
+  "finalSnapshot": {
+    "file": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Luna\\英雄机制第十一批\\执行记录\\2026-09-09T04-53-12-060Z\\最终全量组件现值.json",
+    "sha256": "d186d0d9a8b13b1518877cb59198f1142d3cf1a5d9b404deb041d46d195ba527",
+    "details": 235,
+    "allStatus200": true
+  },
+  "actualCounts": {
+    "subjects": 20,
+    "lists": 120,
+    "details": 235,
+    "parameters": 175,
+    "formulas": 44,
+    "effects": 16,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "apply": {
+    "apiWrites": 206,
+    "preflight": {
+      "protectionConflicts": [],
+      "catalogReferenceCount": 63,
+      "componentCounts": {
+        "lists": 120,
+        "details": 29,
+        "existing": 29,
+        "missing": 206
+      },
+      "missingByKind": {
+        "parameters": 146,
+        "formulas": 44,
+        "effects": 16,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "conflicts": 0,
+      "pass": true
+    },
+    "apply": {
+      "confirmed": 206,
+      "postCount": 206,
+      "failedSkills": [],
+      "events": 412,
+      "pass": true
+    },
+    "final": {
+      "counts": {
+        "totalDetails": 235,
+        "successfulDetails": 235,
+        "expectedTotal": 235,
+        "missing": 0,
+        "conflicts": 0,
+        "byKind": {
+          "parameters": 175,
+          "formulas": 44,
+          "effects": 16,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "protectionDrift": 0
+      },
+      "protectionDrift": [],
+      "pass": true
+    }
+  },
+  "checks": [
+    {
+      "name": "实际详情总数235",
+      "pass": true,
+      "detail": 235
+    },
+    {
+      "name": "实际参数175",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际公式44",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际效果16",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际未生成过程状态触发规则",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 irelia_p",
+      "pass": true,
+      "detail": {
+        "expected": 8,
+        "actual": 8
+      }
+    },
+    {
+      "name": "实际parameters稳定键 irelia_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_p/parameters/stack_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_p/parameters/stack_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_p/parameters/max_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_p/parameters/max_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_p/parameters/structure_on_hit_multiplier",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_p/parameters/structure_on_hit_multiplier",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_p/parameters/on_hit_base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_p/parameters/on_hit_base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_p/parameters/on_hit_per_level",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_p/parameters/on_hit_per_level",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_p/parameters/single_stack_attack_speed_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_p/parameters/single_stack_attack_speed_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_p/parameters/on_hit_bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_p/parameters/on_hit_bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_p/parameters/on_hit_level_component",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_p/parameters/on_hit_level_component",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 irelia_p",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际formulas稳定键 irelia_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_p/formulas/on_hit_bonus_magic_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_p/formulas/on_hit_bonus_magic_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 irelia_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际effects稳定键 irelia_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 irelia_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 irelia_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 irelia_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 irelia_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 irelia_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 irelia_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 irelia_q",
+      "pass": true,
+      "detail": {
+        "expected": 5,
+        "actual": 5
+      }
+    },
+    {
+      "name": "实际parameters稳定键 irelia_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_q/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_q/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_q/parameters/heal_total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_q/parameters/heal_total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_q/parameters/total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_q/parameters/total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 irelia_q",
+      "pass": true,
+      "detail": {
+        "expected": 2,
+        "actual": 2
+      }
+    },
+    {
+      "name": "实际formulas稳定键 irelia_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_q/formulas/champion_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_q/formulas/champion_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_q/formulas/heal_amount",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_q/formulas/heal_amount",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 irelia_q",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 irelia_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_q/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_q/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 irelia_q",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 irelia_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 irelia_q",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 irelia_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 irelia_q",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 irelia_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 irelia_w",
+      "pass": true,
+      "detail": {
+        "expected": 16,
+        "actual": 16
+      }
+    },
+    {
+      "name": "实际parameters稳定键 irelia_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/channel_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/channel_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/max_channel_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/max_channel_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/min_damage_base",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/min_damage_base",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/max_damage_base",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/max_damage_base",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/max_bonus_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/max_bonus_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/charge_time_for_max_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/charge_time_for_max_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/magic_reduction_multiplier",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/magic_reduction_multiplier",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/final_physical_reduction_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/final_physical_reduction_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/physical_reduction_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/physical_reduction_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/min_damage_total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/min_damage_total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/min_damage_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/min_damage_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/max_damage_total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/max_damage_total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/parameters/max_damage_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/parameters/max_damage_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 irelia_w",
+      "pass": true,
+      "detail": {
+        "expected": 4,
+        "actual": 4
+      }
+    },
+    {
+      "name": "实际formulas稳定键 irelia_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/formulas/final_physical_reduction_percent_with_ap",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/formulas/final_physical_reduction_percent_with_ap",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/formulas/min_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/formulas/min_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/formulas/max_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/formulas/max_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/formulas/final_magic_reduction_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/formulas/final_magic_reduction_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 irelia_w",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 irelia_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_w/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_w/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 irelia_w",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 irelia_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 irelia_w",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 irelia_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 irelia_w",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 irelia_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 irelia_e",
+      "pass": true,
+      "detail": {
+        "expected": 10,
+        "actual": 10
+      }
+    },
+    {
+      "name": "实际parameters稳定键 irelia_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_e/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_e/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_e/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_e/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_e/parameters/stun_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_e/parameters/stun_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_e/parameters/recast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_e/parameters/recast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_e/parameters/recast_window_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_e/parameters/recast_window_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_e/parameters/cooldown_between_cast_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_e/parameters/cooldown_between_cast_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_e/parameters/mark_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_e/parameters/mark_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_e/parameters/ability_power_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_e/parameters/ability_power_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 irelia_e",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际formulas稳定键 irelia_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_e/formulas/total_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_e/formulas/total_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 irelia_e",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 irelia_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_e/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_e/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 irelia_e",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 irelia_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 irelia_e",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 irelia_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 irelia_e",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 irelia_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 irelia_r",
+      "pass": true,
+      "detail": {
+        "expected": 11,
+        "actual": 11
+      }
+    },
+    {
+      "name": "实际parameters稳定键 irelia_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/parameters/base_missile_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/parameters/base_missile_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/parameters/base_zone_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/parameters/base_zone_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/parameters/slow_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/parameters/slow_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/parameters/slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/parameters/slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/parameters/mark_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/parameters/mark_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/parameters/zone_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/parameters/zone_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/parameters/cooldown_reduction_amount",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/parameters/cooldown_reduction_amount",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/parameters/ability_power_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/parameters/ability_power_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 irelia_r",
+      "pass": true,
+      "detail": {
+        "expected": 2,
+        "actual": 2
+      }
+    },
+    {
+      "name": "实际formulas稳定键 irelia_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/formulas/missile_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/formulas/missile_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/formulas/zone_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/formulas/zone_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 irelia_r",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 irelia_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 irelia_r/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 irelia_r/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 irelia_r",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 irelia_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 irelia_r",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 irelia_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 irelia_r",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 irelia_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 fiora_p",
+      "pass": true,
+      "detail": {
+        "expected": 5,
+        "actual": 5
+      }
+    },
+    {
+      "name": "实际parameters稳定键 fiora_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_p/parameters/passive_bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_p/parameters/passive_bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_p/parameters/passive_base_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_p/parameters/passive_base_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_p/parameters/movement_speed_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_p/parameters/movement_speed_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_p/parameters/passive_heal_amount",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_p/parameters/passive_heal_amount",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_p/parameters/r_vital_count",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_p/parameters/r_vital_count",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 fiora_p",
+      "pass": true,
+      "detail": {
+        "expected": 3,
+        "actual": 3
+      }
+    },
+    {
+      "name": "实际formulas稳定键 fiora_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_p/formulas/passive_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_p/formulas/passive_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_p/formulas/passive_vital_true_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_p/formulas/passive_vital_true_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_p/formulas/r_vital_true_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_p/formulas/r_vital_true_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 fiora_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际effects稳定键 fiora_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 fiora_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 fiora_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 fiora_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 fiora_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 fiora_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 fiora_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 fiora_q",
+      "pass": true,
+      "detail": {
+        "expected": 5,
+        "actual": 5
+      }
+    },
+    {
+      "name": "实际parameters稳定键 fiora_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_q/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_q/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_q/parameters/bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_q/parameters/bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_q/parameters/cooldown_refund_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_q/parameters/cooldown_refund_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 fiora_q",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际formulas稳定键 fiora_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_q/formulas/total_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_q/formulas/total_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 fiora_q",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 fiora_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_q/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_q/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 fiora_q",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 fiora_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 fiora_q",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 fiora_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 fiora_q",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 fiora_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 fiora_w",
+      "pass": true,
+      "detail": {
+        "expected": 10,
+        "actual": 10
+      }
+    },
+    {
+      "name": "实际parameters稳定键 fiora_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_w/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_w/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_w/parameters/parry_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_w/parameters/parry_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_w/parameters/debuff_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_w/parameters/debuff_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_w/parameters/move_slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_w/parameters/move_slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_w/parameters/small_block_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_w/parameters/small_block_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_w/parameters/big_block_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_w/parameters/big_block_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_w/parameters/attack_slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_w/parameters/attack_slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_w/parameters/stab_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_w/parameters/stab_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 fiora_w",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际formulas稳定键 fiora_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_w/formulas/stab_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_w/formulas/stab_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 fiora_w",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 fiora_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_w/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_w/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 fiora_w",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 fiora_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 fiora_w",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 fiora_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 fiora_w",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 fiora_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 fiora_e",
+      "pass": true,
+      "detail": {
+        "expected": 9,
+        "actual": 9
+      }
+    },
+    {
+      "name": "实际parameters稳定键 fiora_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_e/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_e/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_e/parameters/buff_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_e/parameters/buff_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_e/parameters/slow_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_e/parameters/slow_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_e/parameters/slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_e/parameters/slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_e/parameters/attack_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_e/parameters/attack_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_e/parameters/first_attack_total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_e/parameters/first_attack_total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_e/parameters/second_attack_total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_e/parameters/second_attack_total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 fiora_e",
+      "pass": true,
+      "detail": {
+        "expected": 2,
+        "actual": 2
+      }
+    },
+    {
+      "name": "实际formulas稳定键 fiora_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_e/formulas/first_attack_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_e/formulas/first_attack_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_e/formulas/second_attack_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_e/formulas/second_attack_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 fiora_e",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 fiora_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_e/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_e/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 fiora_e",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 fiora_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 fiora_e",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 fiora_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 fiora_e",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 fiora_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 fiora_r",
+      "pass": true,
+      "detail": {
+        "expected": 10,
+        "actual": 10
+      }
+    },
+    {
+      "name": "实际parameters稳定键 fiora_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/parameters/mark_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/parameters/mark_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/parameters/move_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/parameters/move_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/parameters/healing_source_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/parameters/healing_source_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/parameters/healing_base_per_second",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/parameters/healing_base_per_second",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/parameters/healing_bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/parameters/healing_bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/parameters/r_vital_count",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/parameters/r_vital_count",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/parameters/passive_vital_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/parameters/passive_vital_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 fiora_r",
+      "pass": true,
+      "detail": {
+        "expected": 2,
+        "actual": 2
+      }
+    },
+    {
+      "name": "实际formulas稳定键 fiora_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/formulas/self_healing_per_second",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/formulas/self_healing_per_second",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/formulas/r_vital_true_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/formulas/r_vital_true_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 fiora_r",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 fiora_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 fiora_r/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 fiora_r/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 fiora_r",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 fiora_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 fiora_r",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 fiora_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 fiora_r",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 fiora_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 camille_p",
+      "pass": true,
+      "detail": {
+        "expected": 4,
+        "actual": 4
+      }
+    },
+    {
+      "name": "实际parameters稳定键 camille_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_p/parameters/shield_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_p/parameters/shield_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_p/parameters/passive_cooldown_seconds",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_p/parameters/passive_cooldown_seconds",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_p/parameters/shield_level_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_p/parameters/shield_level_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_p/parameters/shield_stat_value",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_p/parameters/shield_stat_value",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 camille_p",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际formulas稳定键 camille_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_p/formulas/shield_amount",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_p/formulas/shield_amount",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 camille_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际effects稳定键 camille_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 camille_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 camille_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 camille_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 camille_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 camille_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 camille_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 camille_q",
+      "pass": true,
+      "detail": {
+        "expected": 13,
+        "actual": 13
+      }
+    },
+    {
+      "name": "实际parameters稳定键 camille_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/q_ramp_up_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/q_ramp_up_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/move_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/move_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/move_speed_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/move_speed_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/empowered_damage_multiplier",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/empowered_damage_multiplier",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/second_attack_window_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/second_attack_window_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/recast_window_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/recast_window_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/damage_conversion_level1_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/damage_conversion_level1_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/damage_conversion_per_level_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/damage_conversion_per_level_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/parameters/current_damage_conversion_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/parameters/current_damage_conversion_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 camille_q",
+      "pass": true,
+      "detail": {
+        "expected": 3,
+        "actual": 3
+      }
+    },
+    {
+      "name": "实际formulas稳定键 camille_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/formulas/bonus_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/formulas/bonus_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/formulas/empowered_bonus_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/formulas/empowered_bonus_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/formulas/empowered_true_damage_portion",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/formulas/empowered_true_damage_portion",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 camille_q",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 camille_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_q/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_q/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 camille_q",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 camille_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 camille_q",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 camille_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 camille_q",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 camille_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 camille_w",
+      "pass": true,
+      "detail": {
+        "expected": 13,
+        "actual": 13
+      }
+    },
+    {
+      "name": "实际parameters稳定键 camille_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/slow_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/slow_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/charge_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/charge_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/outer_max_hp_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/outer_max_hp_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/bonus_ad_per_one_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/bonus_ad_per_one_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/outer_bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/outer_bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/outer_healing_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/outer_healing_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/parameters/actual_outer_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/parameters/actual_outer_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 camille_w",
+      "pass": true,
+      "detail": {
+        "expected": 4,
+        "actual": 4
+      }
+    },
+    {
+      "name": "实际formulas稳定键 camille_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/formulas/outer_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/formulas/outer_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/formulas/base_damage_total",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/formulas/base_damage_total",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/formulas/outer_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/formulas/outer_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/formulas/outer_heal_amount",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/formulas/outer_heal_amount",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 camille_w",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 camille_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_w/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_w/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 camille_w",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 camille_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 camille_w",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 camille_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 camille_w",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 camille_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 camille_e",
+      "pass": true,
+      "detail": {
+        "expected": 8,
+        "actual": 8
+      }
+    },
+    {
+      "name": "实际parameters稳定键 camille_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_e/parameters/knockup_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_e/parameters/knockup_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_e/parameters/attack_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_e/parameters/attack_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_e/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_e/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_e/parameters/attack_speed_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_e/parameters/attack_speed_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_e/parameters/wall_hang_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_e/parameters/wall_hang_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_e/parameters/bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_e/parameters/bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 camille_e",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际formulas稳定键 camille_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_e/formulas/total_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_e/formulas/total_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 camille_e",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 camille_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_e/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_e/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 camille_e",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 camille_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 camille_e",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 camille_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 camille_e",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 camille_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 camille_r",
+      "pass": true,
+      "detail": {
+        "expected": 5,
+        "actual": 5
+      }
+    },
+    {
+      "name": "实际parameters稳定键 camille_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_r/parameters/current_hp_damage_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_r/parameters/current_hp_damage_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_r/parameters/duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_r/parameters/duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_r/parameters/percent_to_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_r/parameters/percent_to_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 camille_r",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际formulas稳定键 camille_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_r/formulas/on_hit_magic_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_r/formulas/on_hit_magic_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 camille_r",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 camille_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 camille_r/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 camille_r/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 camille_r",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 camille_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 camille_r",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 camille_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 camille_r",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 camille_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 gwen_p",
+      "pass": true,
+      "detail": {
+        "expected": 7,
+        "actual": 7
+      }
+    },
+    {
+      "name": "实际parameters稳定键 gwen_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_p/parameters/healing_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_p/parameters/healing_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_p/parameters/passive_base_damage_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_p/parameters/passive_base_damage_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_p/parameters/passive_ap_damage_percent_per_ap",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_p/parameters/passive_ap_damage_percent_per_ap",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_p/parameters/percent_to_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_p/parameters/percent_to_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_p/parameters/heal_cap_level",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_p/parameters/heal_cap_level",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_p/parameters/heal_cap_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_p/parameters/heal_cap_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_p/parameters/actual_passive_hero_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_p/parameters/actual_passive_hero_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 gwen_p",
+      "pass": true,
+      "detail": {
+        "expected": 5,
+        "actual": 5
+      }
+    },
+    {
+      "name": "实际formulas稳定键 gwen_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_p/formulas/passive_damage_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_p/formulas/passive_damage_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_p/formulas/passive_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_p/formulas/passive_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_p/formulas/passive_magic_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_p/formulas/passive_magic_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_p/formulas/heal_cap",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_p/formulas/heal_cap",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_p/formulas/passive_heal_amount",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_p/formulas/passive_heal_amount",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 gwen_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际effects稳定键 gwen_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 gwen_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 gwen_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 gwen_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 gwen_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 gwen_p",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 gwen_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 gwen_q",
+      "pass": true,
+      "detail": {
+        "expected": 9,
+        "actual": 9
+      }
+    },
+    {
+      "name": "实际parameters稳定键 gwen_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/parameters/final_swipe_base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/parameters/final_swipe_base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/parameters/final_swipe_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/parameters/final_swipe_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/parameters/charge_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/parameters/charge_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/parameters/mini_swipe_base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/parameters/mini_swipe_base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/parameters/center_true_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/parameters/center_true_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/parameters/mini_swipe_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/parameters/mini_swipe_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/parameters/max_mini_swipe_count",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/parameters/max_mini_swipe_count",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 gwen_q",
+      "pass": true,
+      "detail": {
+        "expected": 3,
+        "actual": 3
+      }
+    },
+    {
+      "name": "实际formulas稳定键 gwen_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/formulas/final_swipe_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/formulas/final_swipe_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/formulas/mini_swipe_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/formulas/mini_swipe_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/formulas/max_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/formulas/max_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 gwen_q",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 gwen_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_q/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_q/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 gwen_q",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 gwen_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 gwen_q",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 gwen_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 gwen_q",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 gwen_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 gwen_w",
+      "pass": true,
+      "detail": {
+        "expected": 7,
+        "actual": 7
+      }
+    },
+    {
+      "name": "实际parameters稳定键 gwen_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_w/parameters/zone_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_w/parameters/zone_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_w/parameters/recast_cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_w/parameters/recast_cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_w/parameters/recast_delay_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_w/parameters/recast_delay_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_w/parameters/base_resists",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_w/parameters/base_resists",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_w/parameters/resists_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_w/parameters/resists_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 gwen_w",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际formulas稳定键 gwen_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_w/formulas/total_resists",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_w/formulas/total_resists",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 gwen_w",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 gwen_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_w/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_w/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 gwen_w",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 gwen_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 gwen_w",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 gwen_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 gwen_w",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 gwen_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 gwen_e",
+      "pass": true,
+      "detail": {
+        "expected": 8,
+        "actual": 8
+      }
+    },
+    {
+      "name": "实际parameters稳定键 gwen_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_e/parameters/buff_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_e/parameters/buff_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_e/parameters/base_attack_speed_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_e/parameters/base_attack_speed_percent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_e/parameters/cooldown_refund_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_e/parameters/cooldown_refund_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_e/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_e/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_e/parameters/percent_to_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_e/parameters/percent_to_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_e/parameters/on_hit_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_e/parameters/on_hit_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 gwen_e",
+      "pass": true,
+      "detail": {
+        "expected": 2,
+        "actual": 2
+      }
+    },
+    {
+      "name": "实际formulas稳定键 gwen_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_e/formulas/bonus_attack_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_e/formulas/bonus_attack_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_e/formulas/on_hit_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_e/formulas/on_hit_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 gwen_e",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 gwen_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_e/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_e/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 gwen_e",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 gwen_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 gwen_e",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 gwen_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 gwen_e",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 gwen_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际parameters计数 gwen_r",
+      "pass": true,
+      "detail": {
+        "expected": 12,
+        "actual": 12
+      }
+    },
+    {
+      "name": "实际parameters稳定键 gwen_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/parameters/slow_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/parameters/slow_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/parameters/slow_amount_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/parameters/slow_amount_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/parameters/initial_slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/parameters/initial_slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/parameters/subsequent_slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/parameters/subsequent_slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/parameters/recast_lockout_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/parameters/recast_lockout_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/parameters/ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/parameters/ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/parameters/three_needles",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/parameters/three_needles",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/parameters/five_needles",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/parameters/five_needles",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/parameters/nine_needles",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/parameters/nine_needles",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际formulas计数 gwen_r",
+      "pass": true,
+      "detail": {
+        "expected": 4,
+        "actual": 4
+      }
+    },
+    {
+      "name": "实际formulas稳定键 gwen_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/formulas/total_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/formulas/total_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/formulas/total_damage_3",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/formulas/total_damage_3",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/formulas/total_damage_5",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/formulas/total_damage_5",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/formulas/max_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/formulas/max_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际effects计数 gwen_r",
+      "pass": true,
+      "detail": {
+        "expected": 1,
+        "actual": 1
+      }
+    },
+    {
+      "name": "实际effects稳定键 gwen_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情存在 gwen_r/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际详情字段 gwen_r/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际processes计数 gwen_r",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际processes稳定键 gwen_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际internalStates计数 gwen_r",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际internalStates稳定键 gwen_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "实际triggerRules计数 gwen_r",
+      "pass": true,
+      "detail": {
+        "expected": 0,
+        "actual": 0
+      }
+    },
+    {
+      "name": "实际triggerRules稳定键 gwen_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "历史29参数全部被保护复用",
+      "pass": true,
+      "detail": [
+        "irelia_q/parameters/cooldown_ms",
+        "irelia_q/parameters/mana_cost",
+        "irelia_w/parameters/cooldown_ms",
+        "irelia_w/parameters/mana_cost",
+        "irelia_e/parameters/mana_cost",
+        "irelia_r/parameters/cooldown_ms",
+        "irelia_r/parameters/mana_cost",
+        "fiora_q/parameters/cooldown_ms",
+        "fiora_q/parameters/mana_cost",
+        "fiora_w/parameters/cooldown_ms",
+        "fiora_w/parameters/mana_cost",
+        "fiora_e/parameters/cooldown_ms",
+        "fiora_e/parameters/mana_cost",
+        "fiora_r/parameters/cooldown_ms",
+        "fiora_r/parameters/mana_cost",
+        "camille_q/parameters/cooldown_ms",
+        "camille_q/parameters/mana_cost",
+        "camille_w/parameters/cooldown_ms",
+        "camille_w/parameters/mana_cost",
+        "camille_e/parameters/cooldown_ms",
+        "camille_e/parameters/mana_cost",
+        "camille_r/parameters/cooldown_ms",
+        "camille_r/parameters/mana_cost",
+        "gwen_q/parameters/cooldown_ms",
+        "gwen_q/parameters/mana_cost",
+        "gwen_w/parameters/mana_cost",
+        "gwen_e/parameters/cooldown_ms",
+        "gwen_e/parameters/mana_cost",
+        "gwen_r/parameters/mana_cost"
+      ]
+    },
+    {
+      "name": "实际公式全部有限 irelia_p",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 irelia_q",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 irelia_w",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 irelia_e",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 irelia_r",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 fiora_p",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 fiora_q",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 fiora_w",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 fiora_e",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 fiora_r",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 camille_p",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 camille_q",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 camille_w",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 camille_e",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 camille_r",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 gwen_p",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 gwen_q",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 gwen_w",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 gwen_e",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "实际公式全部有限 gwen_r",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "独立算例 艾瑞莉娅Q英雄伤害",
+      "pass": true,
+      "detail": {
+        "name": "艾瑞莉娅Q英雄伤害",
+        "skillKey": "irelia_q",
+        "formulaKey": "champion_damage",
+        "rank": 3,
+        "level": 9,
+        "inputs": {
+          "attributes": {
+            "SOURCE.attack_damage.BONUS": 120,
+            "SOURCE.attack_damage.TOTAL": 300,
+            "SOURCE.ability_power.TOTAL": 100,
+            "TARGET.hp.TOTAL": 1800,
+            "TARGET.hp.CURRENT": 1200
+          },
+          "runtime": {}
+        },
+        "actual": 285,
+        "expected": 285,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例 艾瑞莉娅Q自我治疗",
+      "pass": true,
+      "detail": {
+        "name": "艾瑞莉娅Q自我治疗",
+        "skillKey": "irelia_q",
+        "formulaKey": "heal_amount",
+        "rank": 3,
+        "level": 9,
+        "inputs": {
+          "attributes": {
+            "SOURCE.attack_damage.BONUS": 120,
+            "SOURCE.attack_damage.TOTAL": 300,
+            "SOURCE.ability_power.TOTAL": 100,
+            "TARGET.hp.TOTAL": 1800,
+            "TARGET.hp.CURRENT": 1200
+          },
+          "runtime": {}
+        },
+        "actual": 33,
+        "expected": 33,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例 艾瑞莉娅W满蓄力魔法减伤",
+      "pass": true,
+      "detail": {
+        "name": "艾瑞莉娅W满蓄力魔法减伤",
+        "skillKey": "irelia_w",
+        "formulaKey": "final_magic_reduction_percent",
+        "rank": 5,
+        "level": 18,
+        "inputs": {
+          "attributes": {
+            "SOURCE.attack_damage.BONUS": 120,
+            "SOURCE.attack_damage.TOTAL": 300,
+            "SOURCE.ability_power.TOTAL": 100,
+            "TARGET.hp.TOTAL": 1800,
+            "TARGET.hp.CURRENT": 1200
+          },
+          "runtime": {}
+        },
+        "actual": 39,
+        "expected": 39,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例 菲奥娜R一级每秒自身治疗（额外攻击力100）",
+      "pass": true,
+      "detail": {
+        "name": "菲奥娜R一级每秒自身治疗（额外攻击力100）",
+        "skillKey": "fiora_r",
+        "formulaKey": "self_healing_per_second",
+        "rank": 1,
+        "level": 1,
+        "inputs": {
+          "attributes": {
+            "SOURCE.attack_damage.BONUS": 100,
+            "SOURCE.attack_damage.TOTAL": 300,
+            "SOURCE.ability_power.TOTAL": 100,
+            "TARGET.hp.TOTAL": 1800,
+            "TARGET.hp.CURRENT": 1200
+          },
+          "runtime": {
+            "passive_vital_damage_ratio": 0.04
+          }
+        },
+        "actual": 135,
+        "expected": 135,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例 菲奥娜R二级每秒自身治疗（额外攻击力100）",
+      "pass": true,
+      "detail": {
+        "name": "菲奥娜R二级每秒自身治疗（额外攻击力100）",
+        "skillKey": "fiora_r",
+        "formulaKey": "self_healing_per_second",
+        "rank": 2,
+        "level": 1,
+        "inputs": {
+          "attributes": {
+            "SOURCE.attack_damage.BONUS": 100,
+            "SOURCE.attack_damage.TOTAL": 300,
+            "SOURCE.ability_power.TOTAL": 100,
+            "TARGET.hp.TOTAL": 1800,
+            "TARGET.hp.CURRENT": 1200
+          },
+          "runtime": {
+            "passive_vital_damage_ratio": 0.04
+          }
+        },
+        "actual": 160,
+        "expected": 160,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例 菲奥娜R三级每秒自身治疗（额外攻击力100）",
+      "pass": true,
+      "detail": {
+        "name": "菲奥娜R三级每秒自身治疗（额外攻击力100）",
+        "skillKey": "fiora_r",
+        "formulaKey": "self_healing_per_second",
+        "rank": 3,
+        "level": 1,
+        "inputs": {
+          "attributes": {
+            "SOURCE.attack_damage.BONUS": 100,
+            "SOURCE.attack_damage.TOTAL": 300,
+            "SOURCE.ability_power.TOTAL": 100,
+            "TARGET.hp.TOTAL": 1800,
+            "TARGET.hp.CURRENT": 1200
+          },
+          "runtime": {
+            "passive_vital_damage_ratio": 0.04
+          }
+        },
+        "actual": 185,
+        "expected": 185,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例 菲奥娜R四处破绽真实伤害",
+      "pass": true,
+      "detail": {
+        "name": "菲奥娜R四处破绽真实伤害",
+        "skillKey": "fiora_r",
+        "formulaKey": "r_vital_true_damage",
+        "rank": 3,
+        "level": 1,
+        "inputs": {
+          "attributes": {
+            "SOURCE.attack_damage.BONUS": 120,
+            "SOURCE.attack_damage.TOTAL": 300,
+            "SOURCE.ability_power.TOTAL": 100,
+            "TARGET.hp.TOTAL": 1800,
+            "TARGET.hp.CURRENT": 1200
+          },
+          "runtime": {
+            "passive_vital_damage_ratio": 0.04
+          }
+        },
+        "actual": 288,
+        "expected": 288,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例 卡蜜尔Q第二段额外伤害",
+      "pass": true,
+      "detail": {
+        "name": "卡蜜尔Q第二段额外伤害",
+        "skillKey": "camille_q",
+        "formulaKey": "empowered_bonus_damage",
+        "rank": 5,
+        "level": 9,
+        "inputs": {
+          "attributes": {
+            "SOURCE.attack_damage.BONUS": 120,
+            "SOURCE.attack_damage.TOTAL": 300,
+            "SOURCE.ability_power.TOTAL": 100,
+            "TARGET.hp.TOTAL": 1800,
+            "TARGET.hp.CURRENT": 1200
+          },
+          "runtime": {
+            "current_damage_conversion_ratio": 0.6
+          }
+        },
+        "actual": 240,
+        "expected": 240,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例 卡蜜尔W外沿伤害",
+      "pass": true,
+      "detail": {
+        "name": "卡蜜尔W外沿伤害",
+        "skillKey": "camille_w",
+        "formulaKey": "outer_damage",
+        "rank": 5,
+        "level": 9,
+        "inputs": {
+          "attributes": {
+            "SOURCE.attack_damage.BONUS": 120,
+            "SOURCE.attack_damage.TOTAL": 300,
+            "SOURCE.ability_power.TOTAL": 100,
+            "TARGET.hp.TOTAL": 1800,
+            "TARGET.hp.CURRENT": 1200
+          },
+          "runtime": {
+            "actual_outer_damage": 100
+          }
+        },
+        "actual": 216,
+        "expected": 216,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例 格温P对英雄实际伤害治疗",
+      "pass": true,
+      "detail": {
+        "name": "格温P对英雄实际伤害治疗",
+        "skillKey": "gwen_p",
+        "formulaKey": "passive_heal_amount",
+        "rank": 1,
+        "level": 9,
+        "inputs": {
+          "attributes": {
+            "SOURCE.attack_damage.BONUS": 120,
+            "SOURCE.attack_damage.TOTAL": 300,
+            "SOURCE.ability_power.TOTAL": 100,
+            "TARGET.hp.TOTAL": 1800,
+            "TARGET.hp.CURRENT": 1200
+          },
+          "runtime": {
+            "actual_passive_hero_damage": 100
+          }
+        },
+        "actual": 67,
+        "expected": 67,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例 格温W双抗总和",
+      "pass": true,
+      "detail": {
+        "name": "格温W双抗总和",
+        "skillKey": "gwen_w",
+        "formulaKey": "total_resists",
+        "rank": 5,
+        "level": 9,
+        "inputs": {
+          "attributes": {
+            "SOURCE.attack_damage.BONUS": 120,
+            "SOURCE.attack_damage.TOTAL": 300,
+            "SOURCE.ability_power.TOTAL": 100,
+            "TARGET.hp.TOTAL": 1800,
+            "TARGET.hp.CURRENT": 1200
+          },
+          "runtime": {}
+        },
+        "actual": 37,
+        "expected": 37,
+        "pass": true
+      }
+    },
+    {
+      "name": "独立算例 格温R九针最大伤害",
+      "pass": true,
+      "detail": {
+        "name": "格温R九针最大伤害",
+        "skillKey": "gwen_r",
+        "formulaKey": "max_damage",
+        "rank": 3,
+        "level": 9,
+        "inputs": {
+          "attributes": {
+            "SOURCE.attack_damage.BONUS": 120,
+            "SOURCE.attack_damage.TOTAL": 300,
+            "SOURCE.ability_power.TOTAL": 100,
+            "TARGET.hp.TOTAL": 1800,
+            "TARGET.hp.CURRENT": 1200
+          },
+          "runtime": {}
+        },
+        "actual": 720,
+        "expected": 720,
+        "pass": true
+      }
+    }
+  ],
+  "formulaRuns": [
+    {
+      "skillKey": "irelia_p",
+      "runs": [
+        {
+          "formulaKey": "on_hit_bonus_magic_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 37,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_bonus_magic_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 37,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_bonus_magic_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 37,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "irelia_q",
+      "runs": [
+        {
+          "formulaKey": "champion_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 245,
+          "finite": true
+        },
+        {
+          "formulaKey": "heal_amount",
+          "rank": 1,
+          "level": 1,
+          "value": 27,
+          "finite": true
+        },
+        {
+          "formulaKey": "champion_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 245,
+          "finite": true
+        },
+        {
+          "formulaKey": "heal_amount",
+          "rank": 1,
+          "level": 9,
+          "value": 27,
+          "finite": true
+        },
+        {
+          "formulaKey": "champion_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 245,
+          "finite": true
+        },
+        {
+          "formulaKey": "heal_amount",
+          "rank": 1,
+          "level": 18,
+          "value": 27,
+          "finite": true
+        },
+        {
+          "formulaKey": "champion_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 285,
+          "finite": true
+        },
+        {
+          "formulaKey": "heal_amount",
+          "rank": 3,
+          "level": 1,
+          "value": 33,
+          "finite": true
+        },
+        {
+          "formulaKey": "champion_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 285,
+          "finite": true
+        },
+        {
+          "formulaKey": "heal_amount",
+          "rank": 3,
+          "level": 9,
+          "value": 33,
+          "finite": true
+        },
+        {
+          "formulaKey": "champion_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 285,
+          "finite": true
+        },
+        {
+          "formulaKey": "heal_amount",
+          "rank": 3,
+          "level": 18,
+          "value": 33,
+          "finite": true
+        },
+        {
+          "formulaKey": "champion_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 325,
+          "finite": true
+        },
+        {
+          "formulaKey": "heal_amount",
+          "rank": 5,
+          "level": 1,
+          "value": 39,
+          "finite": true
+        },
+        {
+          "formulaKey": "champion_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 325,
+          "finite": true
+        },
+        {
+          "formulaKey": "heal_amount",
+          "rank": 5,
+          "level": 9,
+          "value": 39,
+          "finite": true
+        },
+        {
+          "formulaKey": "champion_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 325,
+          "finite": true
+        },
+        {
+          "formulaKey": "heal_amount",
+          "rank": 5,
+          "level": 18,
+          "value": 39,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "irelia_w",
+      "runs": [
+        {
+          "formulaKey": "final_magic_reduction_percent",
+          "rank": 1,
+          "level": 1,
+          "value": 24,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_physical_reduction_percent_with_ap",
+          "rank": 1,
+          "level": 1,
+          "value": 48,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 540,
+          "finite": true
+        },
+        {
+          "formulaKey": "min_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_magic_reduction_percent",
+          "rank": 1,
+          "level": 9,
+          "value": 31.058824,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_physical_reduction_percent_with_ap",
+          "rank": 1,
+          "level": 9,
+          "value": 62.117647,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 540,
+          "finite": true
+        },
+        {
+          "formulaKey": "min_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_magic_reduction_percent",
+          "rank": 1,
+          "level": 18,
+          "value": 39,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_physical_reduction_percent_with_ap",
+          "rank": 1,
+          "level": 18,
+          "value": 78,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 540,
+          "finite": true
+        },
+        {
+          "formulaKey": "min_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_magic_reduction_percent",
+          "rank": 3,
+          "level": 1,
+          "value": 24,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_physical_reduction_percent_with_ap",
+          "rank": 3,
+          "level": 1,
+          "value": 48,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 600,
+          "finite": true
+        },
+        {
+          "formulaKey": "min_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 200,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_magic_reduction_percent",
+          "rank": 3,
+          "level": 9,
+          "value": 31.058824,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_physical_reduction_percent_with_ap",
+          "rank": 3,
+          "level": 9,
+          "value": 62.117647,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 600,
+          "finite": true
+        },
+        {
+          "formulaKey": "min_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 200,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_magic_reduction_percent",
+          "rank": 3,
+          "level": 18,
+          "value": 39,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_physical_reduction_percent_with_ap",
+          "rank": 3,
+          "level": 18,
+          "value": 78,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 600,
+          "finite": true
+        },
+        {
+          "formulaKey": "min_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 200,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_magic_reduction_percent",
+          "rank": 5,
+          "level": 1,
+          "value": 24,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_physical_reduction_percent_with_ap",
+          "rank": 5,
+          "level": 1,
+          "value": 48,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 660,
+          "finite": true
+        },
+        {
+          "formulaKey": "min_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 220,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_magic_reduction_percent",
+          "rank": 5,
+          "level": 9,
+          "value": 31.058824,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_physical_reduction_percent_with_ap",
+          "rank": 5,
+          "level": 9,
+          "value": 62.117647,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 660,
+          "finite": true
+        },
+        {
+          "formulaKey": "min_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 220,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_magic_reduction_percent",
+          "rank": 5,
+          "level": 18,
+          "value": 39,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_physical_reduction_percent_with_ap",
+          "rank": 5,
+          "level": 18,
+          "value": 78,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 660,
+          "finite": true
+        },
+        {
+          "formulaKey": "min_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 220,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "irelia_e",
+      "runs": [
+        {
+          "formulaKey": "total_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 170,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 170,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 170,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 250,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 250,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 250,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 330,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 330,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 330,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "irelia_r",
+      "runs": [
+        {
+          "formulaKey": "missile_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 225,
+          "finite": true
+        },
+        {
+          "formulaKey": "zone_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 225,
+          "finite": true
+        },
+        {
+          "formulaKey": "missile_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 225,
+          "finite": true
+        },
+        {
+          "formulaKey": "zone_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 225,
+          "finite": true
+        },
+        {
+          "formulaKey": "missile_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 225,
+          "finite": true
+        },
+        {
+          "formulaKey": "zone_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 225,
+          "finite": true
+        },
+        {
+          "formulaKey": "missile_damage",
+          "rank": 2,
+          "level": 1,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "zone_damage",
+          "rank": 2,
+          "level": 1,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "missile_damage",
+          "rank": 2,
+          "level": 9,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "zone_damage",
+          "rank": 2,
+          "level": 9,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "missile_damage",
+          "rank": 2,
+          "level": 18,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "zone_damage",
+          "rank": 2,
+          "level": 18,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "missile_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 375,
+          "finite": true
+        },
+        {
+          "formulaKey": "zone_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 375,
+          "finite": true
+        },
+        {
+          "formulaKey": "missile_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 375,
+          "finite": true
+        },
+        {
+          "formulaKey": "zone_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 375,
+          "finite": true
+        },
+        {
+          "formulaKey": "missile_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 375,
+          "finite": true
+        },
+        {
+          "formulaKey": "zone_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 375,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "fiora_p",
+      "runs": [
+        {
+          "formulaKey": "passive_damage_ratio",
+          "rank": 1,
+          "level": 1,
+          "value": 0.078,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_vital_true_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 140.4,
+          "finite": true
+        },
+        {
+          "formulaKey": "r_vital_true_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 561.6,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_damage_ratio",
+          "rank": 1,
+          "level": 9,
+          "value": 0.078,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_vital_true_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 140.4,
+          "finite": true
+        },
+        {
+          "formulaKey": "r_vital_true_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 561.6,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_damage_ratio",
+          "rank": 1,
+          "level": 18,
+          "value": 0.078,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_vital_true_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 140.4,
+          "finite": true
+        },
+        {
+          "formulaKey": "r_vital_true_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 561.6,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "fiora_q",
+      "runs": [
+        {
+          "formulaKey": "total_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 178,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 178,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 178,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 210,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 210,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 210,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 242,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 242,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 242,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "fiora_w",
+      "runs": [
+        {
+          "formulaKey": "stab_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 210,
+          "finite": true
+        },
+        {
+          "formulaKey": "stab_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 210,
+          "finite": true
+        },
+        {
+          "formulaKey": "stab_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 210,
+          "finite": true
+        },
+        {
+          "formulaKey": "stab_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 290,
+          "finite": true
+        },
+        {
+          "formulaKey": "stab_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 290,
+          "finite": true
+        },
+        {
+          "formulaKey": "stab_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 290,
+          "finite": true
+        },
+        {
+          "formulaKey": "stab_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 370,
+          "finite": true
+        },
+        {
+          "formulaKey": "stab_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 370,
+          "finite": true
+        },
+        {
+          "formulaKey": "stab_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 370,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "fiora_e",
+      "runs": [
+        {
+          "formulaKey": "first_attack_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "second_attack_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 480,
+          "finite": true
+        },
+        {
+          "formulaKey": "first_attack_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "second_attack_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 480,
+          "finite": true
+        },
+        {
+          "formulaKey": "first_attack_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "second_attack_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 480,
+          "finite": true
+        },
+        {
+          "formulaKey": "first_attack_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "second_attack_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 540,
+          "finite": true
+        },
+        {
+          "formulaKey": "first_attack_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "second_attack_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 540,
+          "finite": true
+        },
+        {
+          "formulaKey": "first_attack_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "second_attack_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 540,
+          "finite": true
+        },
+        {
+          "formulaKey": "first_attack_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "second_attack_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 600,
+          "finite": true
+        },
+        {
+          "formulaKey": "first_attack_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "second_attack_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 600,
+          "finite": true
+        },
+        {
+          "formulaKey": "first_attack_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "second_attack_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 600,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "fiora_r",
+      "runs": [
+        {
+          "formulaKey": "r_vital_true_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 288,
+          "finite": true
+        },
+        {
+          "formulaKey": "self_healing_per_second",
+          "rank": 1,
+          "level": 1,
+          "value": 147,
+          "finite": true
+        },
+        {
+          "formulaKey": "r_vital_true_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 288,
+          "finite": true
+        },
+        {
+          "formulaKey": "self_healing_per_second",
+          "rank": 1,
+          "level": 9,
+          "value": 147,
+          "finite": true
+        },
+        {
+          "formulaKey": "r_vital_true_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 288,
+          "finite": true
+        },
+        {
+          "formulaKey": "self_healing_per_second",
+          "rank": 1,
+          "level": 18,
+          "value": 147,
+          "finite": true
+        },
+        {
+          "formulaKey": "r_vital_true_damage",
+          "rank": 2,
+          "level": 1,
+          "value": 288,
+          "finite": true
+        },
+        {
+          "formulaKey": "self_healing_per_second",
+          "rank": 2,
+          "level": 1,
+          "value": 172,
+          "finite": true
+        },
+        {
+          "formulaKey": "r_vital_true_damage",
+          "rank": 2,
+          "level": 9,
+          "value": 288,
+          "finite": true
+        },
+        {
+          "formulaKey": "self_healing_per_second",
+          "rank": 2,
+          "level": 9,
+          "value": 172,
+          "finite": true
+        },
+        {
+          "formulaKey": "r_vital_true_damage",
+          "rank": 2,
+          "level": 18,
+          "value": 288,
+          "finite": true
+        },
+        {
+          "formulaKey": "self_healing_per_second",
+          "rank": 2,
+          "level": 18,
+          "value": 172,
+          "finite": true
+        },
+        {
+          "formulaKey": "r_vital_true_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 288,
+          "finite": true
+        },
+        {
+          "formulaKey": "self_healing_per_second",
+          "rank": 3,
+          "level": 1,
+          "value": 197,
+          "finite": true
+        },
+        {
+          "formulaKey": "r_vital_true_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 288,
+          "finite": true
+        },
+        {
+          "formulaKey": "self_healing_per_second",
+          "rank": 3,
+          "level": 9,
+          "value": 197,
+          "finite": true
+        },
+        {
+          "formulaKey": "r_vital_true_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 288,
+          "finite": true
+        },
+        {
+          "formulaKey": "self_healing_per_second",
+          "rank": 3,
+          "level": 18,
+          "value": 197,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "camille_p",
+      "runs": [
+        {
+          "formulaKey": "shield_amount",
+          "rank": 1,
+          "level": 1,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "shield_amount",
+          "rank": 1,
+          "level": 9,
+          "value": 270,
+          "finite": true
+        },
+        {
+          "formulaKey": "shield_amount",
+          "rank": 1,
+          "level": 18,
+          "value": 360,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "camille_q",
+      "runs": [
+        {
+          "formulaKey": "bonus_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 60,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_bonus_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 120,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_true_damage_portion",
+          "rank": 1,
+          "level": 1,
+          "value": 72,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 60,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_bonus_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 120,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_true_damage_portion",
+          "rank": 1,
+          "level": 9,
+          "value": 72,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 60,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_bonus_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 120,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_true_damage_portion",
+          "rank": 1,
+          "level": 18,
+          "value": 72,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 90,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_bonus_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_true_damage_portion",
+          "rank": 3,
+          "level": 1,
+          "value": 108,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 90,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_bonus_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_true_damage_portion",
+          "rank": 3,
+          "level": 9,
+          "value": 108,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 90,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_bonus_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_true_damage_portion",
+          "rank": 3,
+          "level": 18,
+          "value": 108,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 120,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_bonus_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 240,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_true_damage_portion",
+          "rank": 5,
+          "level": 1,
+          "value": 144,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 120,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_bonus_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 240,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_true_damage_portion",
+          "rank": 5,
+          "level": 9,
+          "value": 144,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 120,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_bonus_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 240,
+          "finite": true
+        },
+        {
+          "formulaKey": "empowered_true_damage_portion",
+          "rank": 5,
+          "level": 18,
+          "value": 144,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "camille_w",
+      "runs": [
+        {
+          "formulaKey": "base_damage_total",
+          "rank": 1,
+          "level": 1,
+          "value": 132,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage_ratio",
+          "rank": 1,
+          "level": 1,
+          "value": 0.1,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_heal_amount",
+          "rank": 1,
+          "level": 1,
+          "value": 100,
+          "finite": true
+        },
+        {
+          "formulaKey": "base_damage_total",
+          "rank": 1,
+          "level": 9,
+          "value": 132,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage_ratio",
+          "rank": 1,
+          "level": 9,
+          "value": 0.1,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_heal_amount",
+          "rank": 1,
+          "level": 9,
+          "value": 100,
+          "finite": true
+        },
+        {
+          "formulaKey": "base_damage_total",
+          "rank": 1,
+          "level": 18,
+          "value": 132,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage_ratio",
+          "rank": 1,
+          "level": 18,
+          "value": 0.1,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_heal_amount",
+          "rank": 1,
+          "level": 18,
+          "value": 100,
+          "finite": true
+        },
+        {
+          "formulaKey": "base_damage_total",
+          "rank": 3,
+          "level": 1,
+          "value": 182,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 198,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage_ratio",
+          "rank": 3,
+          "level": 1,
+          "value": 0.11,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_heal_amount",
+          "rank": 3,
+          "level": 1,
+          "value": 100,
+          "finite": true
+        },
+        {
+          "formulaKey": "base_damage_total",
+          "rank": 3,
+          "level": 9,
+          "value": 182,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 198,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage_ratio",
+          "rank": 3,
+          "level": 9,
+          "value": 0.11,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_heal_amount",
+          "rank": 3,
+          "level": 9,
+          "value": 100,
+          "finite": true
+        },
+        {
+          "formulaKey": "base_damage_total",
+          "rank": 3,
+          "level": 18,
+          "value": 182,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 198,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage_ratio",
+          "rank": 3,
+          "level": 18,
+          "value": 0.11,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_heal_amount",
+          "rank": 3,
+          "level": 18,
+          "value": 100,
+          "finite": true
+        },
+        {
+          "formulaKey": "base_damage_total",
+          "rank": 5,
+          "level": 1,
+          "value": 232,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 216,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage_ratio",
+          "rank": 5,
+          "level": 1,
+          "value": 0.12,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_heal_amount",
+          "rank": 5,
+          "level": 1,
+          "value": 100,
+          "finite": true
+        },
+        {
+          "formulaKey": "base_damage_total",
+          "rank": 5,
+          "level": 9,
+          "value": 232,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 216,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage_ratio",
+          "rank": 5,
+          "level": 9,
+          "value": 0.12,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_heal_amount",
+          "rank": 5,
+          "level": 9,
+          "value": 100,
+          "finite": true
+        },
+        {
+          "formulaKey": "base_damage_total",
+          "rank": 5,
+          "level": 18,
+          "value": 232,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 216,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_damage_ratio",
+          "rank": 5,
+          "level": 18,
+          "value": 0.12,
+          "finite": true
+        },
+        {
+          "formulaKey": "outer_heal_amount",
+          "rank": 5,
+          "level": 18,
+          "value": 100,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "camille_e",
+      "runs": [
+        {
+          "formulaKey": "total_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 150,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 150,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 150,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 210,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 210,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 210,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 270,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 270,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 270,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "camille_r",
+      "runs": [
+        {
+          "formulaKey": "on_hit_magic_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 48,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_magic_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 48,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_magic_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 48,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_magic_damage",
+          "rank": 2,
+          "level": 1,
+          "value": 72,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_magic_damage",
+          "rank": 2,
+          "level": 9,
+          "value": 72,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_magic_damage",
+          "rank": 2,
+          "level": 18,
+          "value": 72,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_magic_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 96,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_magic_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 96,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_magic_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 96,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "gwen_p",
+      "runs": [
+        {
+          "formulaKey": "heal_cap",
+          "rank": 1,
+          "level": 1,
+          "value": 19,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_damage_percent",
+          "rank": 1,
+          "level": 1,
+          "value": 1.6,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_damage_ratio",
+          "rank": 1,
+          "level": 1,
+          "value": 0.016,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_heal_amount",
+          "rank": 1,
+          "level": 1,
+          "value": 67,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_magic_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 28.8,
+          "finite": true
+        },
+        {
+          "formulaKey": "heal_cap",
+          "rank": 1,
+          "level": 9,
+          "value": 32.176471,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_damage_percent",
+          "rank": 1,
+          "level": 9,
+          "value": 1.6,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_damage_ratio",
+          "rank": 1,
+          "level": 9,
+          "value": 0.016,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_heal_amount",
+          "rank": 1,
+          "level": 9,
+          "value": 67,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_magic_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 28.8,
+          "finite": true
+        },
+        {
+          "formulaKey": "heal_cap",
+          "rank": 1,
+          "level": 18,
+          "value": 47,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_damage_percent",
+          "rank": 1,
+          "level": 18,
+          "value": 1.6,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_damage_ratio",
+          "rank": 1,
+          "level": 18,
+          "value": 0.016,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_heal_amount",
+          "rank": 1,
+          "level": 18,
+          "value": 67,
+          "finite": true
+        },
+        {
+          "formulaKey": "passive_magic_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 28.8,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "gwen_q",
+      "runs": [
+        {
+          "formulaKey": "final_swipe_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 95,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 170,
+          "finite": true
+        },
+        {
+          "formulaKey": "mini_swipe_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 15,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_swipe_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 95,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 170,
+          "finite": true
+        },
+        {
+          "formulaKey": "mini_swipe_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 15,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_swipe_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 95,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 170,
+          "finite": true
+        },
+        {
+          "formulaKey": "mini_swipe_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 15,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_swipe_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 145,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 260,
+          "finite": true
+        },
+        {
+          "formulaKey": "mini_swipe_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 23,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_swipe_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 145,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 260,
+          "finite": true
+        },
+        {
+          "formulaKey": "mini_swipe_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 23,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_swipe_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 145,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 260,
+          "finite": true
+        },
+        {
+          "formulaKey": "mini_swipe_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 23,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_swipe_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 195,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 350,
+          "finite": true
+        },
+        {
+          "formulaKey": "mini_swipe_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 31,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_swipe_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 195,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 350,
+          "finite": true
+        },
+        {
+          "formulaKey": "mini_swipe_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 31,
+          "finite": true
+        },
+        {
+          "formulaKey": "final_swipe_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 195,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 350,
+          "finite": true
+        },
+        {
+          "formulaKey": "mini_swipe_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 31,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "gwen_w",
+      "runs": [
+        {
+          "formulaKey": "total_resists",
+          "rank": 1,
+          "level": 1,
+          "value": 29,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_resists",
+          "rank": 1,
+          "level": 9,
+          "value": 29,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_resists",
+          "rank": 1,
+          "level": 18,
+          "value": 29,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_resists",
+          "rank": 3,
+          "level": 1,
+          "value": 33,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_resists",
+          "rank": 3,
+          "level": 9,
+          "value": 33,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_resists",
+          "rank": 3,
+          "level": 18,
+          "value": 33,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_resists",
+          "rank": 5,
+          "level": 1,
+          "value": 37,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_resists",
+          "rank": 5,
+          "level": 9,
+          "value": 37,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_resists",
+          "rank": 5,
+          "level": 18,
+          "value": 37,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "gwen_e",
+      "runs": [
+        {
+          "formulaKey": "bonus_attack_speed_ratio",
+          "rank": 1,
+          "level": 1,
+          "value": 0.3,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 35,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_attack_speed_ratio",
+          "rank": 1,
+          "level": 9,
+          "value": 0.3,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 35,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_attack_speed_ratio",
+          "rank": 1,
+          "level": 18,
+          "value": 0.3,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 35,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_attack_speed_ratio",
+          "rank": 3,
+          "level": 1,
+          "value": 0.55,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 35,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_attack_speed_ratio",
+          "rank": 3,
+          "level": 9,
+          "value": 0.55,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 35,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_attack_speed_ratio",
+          "rank": 3,
+          "level": 18,
+          "value": 0.55,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 35,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_attack_speed_ratio",
+          "rank": 5,
+          "level": 1,
+          "value": 0.8,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_damage",
+          "rank": 5,
+          "level": 1,
+          "value": 35,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_attack_speed_ratio",
+          "rank": 5,
+          "level": 9,
+          "value": 0.8,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_damage",
+          "rank": 5,
+          "level": 9,
+          "value": 35,
+          "finite": true
+        },
+        {
+          "formulaKey": "bonus_attack_speed_ratio",
+          "rank": 5,
+          "level": 18,
+          "value": 0.8,
+          "finite": true
+        },
+        {
+          "formulaKey": "on_hit_damage",
+          "rank": 5,
+          "level": 18,
+          "value": 35,
+          "finite": true
+        }
+      ]
+    },
+    {
+      "skillKey": "gwen_r",
+      "runs": [
+        {
+          "formulaKey": "max_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 360,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 1,
+          "level": 1,
+          "value": 40,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_3",
+          "rank": 1,
+          "level": 1,
+          "value": 120,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_5",
+          "rank": 1,
+          "level": 1,
+          "value": 200,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 360,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 1,
+          "level": 9,
+          "value": 40,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_3",
+          "rank": 1,
+          "level": 9,
+          "value": 120,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_5",
+          "rank": 1,
+          "level": 9,
+          "value": 200,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 360,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 1,
+          "level": 18,
+          "value": 40,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_3",
+          "rank": 1,
+          "level": 18,
+          "value": 120,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_5",
+          "rank": 1,
+          "level": 18,
+          "value": 200,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 2,
+          "level": 1,
+          "value": 540,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 2,
+          "level": 1,
+          "value": 60,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_3",
+          "rank": 2,
+          "level": 1,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_5",
+          "rank": 2,
+          "level": 1,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 2,
+          "level": 9,
+          "value": 540,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 2,
+          "level": 9,
+          "value": 60,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_3",
+          "rank": 2,
+          "level": 9,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_5",
+          "rank": 2,
+          "level": 9,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 2,
+          "level": 18,
+          "value": 540,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 2,
+          "level": 18,
+          "value": 60,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_3",
+          "rank": 2,
+          "level": 18,
+          "value": 180,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_5",
+          "rank": 2,
+          "level": 18,
+          "value": 300,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 720,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 3,
+          "level": 1,
+          "value": 80,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_3",
+          "rank": 3,
+          "level": 1,
+          "value": 240,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_5",
+          "rank": 3,
+          "level": 1,
+          "value": 400,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 720,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 3,
+          "level": 9,
+          "value": 80,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_3",
+          "rank": 3,
+          "level": 9,
+          "value": 240,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_5",
+          "rank": 3,
+          "level": 9,
+          "value": 400,
+          "finite": true
+        },
+        {
+          "formulaKey": "max_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 720,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage",
+          "rank": 3,
+          "level": 18,
+          "value": 80,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_3",
+          "rank": 3,
+          "level": 18,
+          "value": 240,
+          "finite": true
+        },
+        {
+          "formulaKey": "total_damage_5",
+          "rank": 3,
+          "level": 18,
+          "value": 400,
+          "finite": true
+        }
+      ]
+    }
+  ],
+  "arithmeticCases": [
+    {
+      "name": "艾瑞莉娅Q英雄伤害",
+      "skillKey": "irelia_q",
+      "formulaKey": "champion_damage",
+      "rank": 3,
+      "level": 9,
+      "inputs": {
+        "attributes": {
+          "SOURCE.attack_damage.BONUS": 120,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 1800,
+          "TARGET.hp.CURRENT": 1200
+        },
+        "runtime": {}
+      },
+      "actual": 285,
+      "expected": 285,
+      "pass": true
+    },
+    {
+      "name": "艾瑞莉娅Q自我治疗",
+      "skillKey": "irelia_q",
+      "formulaKey": "heal_amount",
+      "rank": 3,
+      "level": 9,
+      "inputs": {
+        "attributes": {
+          "SOURCE.attack_damage.BONUS": 120,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 1800,
+          "TARGET.hp.CURRENT": 1200
+        },
+        "runtime": {}
+      },
+      "actual": 33,
+      "expected": 33,
+      "pass": true
+    },
+    {
+      "name": "艾瑞莉娅W满蓄力魔法减伤",
+      "skillKey": "irelia_w",
+      "formulaKey": "final_magic_reduction_percent",
+      "rank": 5,
+      "level": 18,
+      "inputs": {
+        "attributes": {
+          "SOURCE.attack_damage.BONUS": 120,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 1800,
+          "TARGET.hp.CURRENT": 1200
+        },
+        "runtime": {}
+      },
+      "actual": 39,
+      "expected": 39,
+      "pass": true
+    },
+    {
+      "name": "菲奥娜R一级每秒自身治疗（额外攻击力100）",
+      "skillKey": "fiora_r",
+      "formulaKey": "self_healing_per_second",
+      "rank": 1,
+      "level": 1,
+      "inputs": {
+        "attributes": {
+          "SOURCE.attack_damage.BONUS": 100,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 1800,
+          "TARGET.hp.CURRENT": 1200
+        },
+        "runtime": {
+          "passive_vital_damage_ratio": 0.04
+        }
+      },
+      "actual": 135,
+      "expected": 135,
+      "pass": true
+    },
+    {
+      "name": "菲奥娜R二级每秒自身治疗（额外攻击力100）",
+      "skillKey": "fiora_r",
+      "formulaKey": "self_healing_per_second",
+      "rank": 2,
+      "level": 1,
+      "inputs": {
+        "attributes": {
+          "SOURCE.attack_damage.BONUS": 100,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 1800,
+          "TARGET.hp.CURRENT": 1200
+        },
+        "runtime": {
+          "passive_vital_damage_ratio": 0.04
+        }
+      },
+      "actual": 160,
+      "expected": 160,
+      "pass": true
+    },
+    {
+      "name": "菲奥娜R三级每秒自身治疗（额外攻击力100）",
+      "skillKey": "fiora_r",
+      "formulaKey": "self_healing_per_second",
+      "rank": 3,
+      "level": 1,
+      "inputs": {
+        "attributes": {
+          "SOURCE.attack_damage.BONUS": 100,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 1800,
+          "TARGET.hp.CURRENT": 1200
+        },
+        "runtime": {
+          "passive_vital_damage_ratio": 0.04
+        }
+      },
+      "actual": 185,
+      "expected": 185,
+      "pass": true
+    },
+    {
+      "name": "菲奥娜R四处破绽真实伤害",
+      "skillKey": "fiora_r",
+      "formulaKey": "r_vital_true_damage",
+      "rank": 3,
+      "level": 1,
+      "inputs": {
+        "attributes": {
+          "SOURCE.attack_damage.BONUS": 120,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 1800,
+          "TARGET.hp.CURRENT": 1200
+        },
+        "runtime": {
+          "passive_vital_damage_ratio": 0.04
+        }
+      },
+      "actual": 288,
+      "expected": 288,
+      "pass": true
+    },
+    {
+      "name": "卡蜜尔Q第二段额外伤害",
+      "skillKey": "camille_q",
+      "formulaKey": "empowered_bonus_damage",
+      "rank": 5,
+      "level": 9,
+      "inputs": {
+        "attributes": {
+          "SOURCE.attack_damage.BONUS": 120,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 1800,
+          "TARGET.hp.CURRENT": 1200
+        },
+        "runtime": {
+          "current_damage_conversion_ratio": 0.6
+        }
+      },
+      "actual": 240,
+      "expected": 240,
+      "pass": true
+    },
+    {
+      "name": "卡蜜尔W外沿伤害",
+      "skillKey": "camille_w",
+      "formulaKey": "outer_damage",
+      "rank": 5,
+      "level": 9,
+      "inputs": {
+        "attributes": {
+          "SOURCE.attack_damage.BONUS": 120,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 1800,
+          "TARGET.hp.CURRENT": 1200
+        },
+        "runtime": {
+          "actual_outer_damage": 100
+        }
+      },
+      "actual": 216,
+      "expected": 216,
+      "pass": true
+    },
+    {
+      "name": "格温P对英雄实际伤害治疗",
+      "skillKey": "gwen_p",
+      "formulaKey": "passive_heal_amount",
+      "rank": 1,
+      "level": 9,
+      "inputs": {
+        "attributes": {
+          "SOURCE.attack_damage.BONUS": 120,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 1800,
+          "TARGET.hp.CURRENT": 1200
+        },
+        "runtime": {
+          "actual_passive_hero_damage": 100
+        }
+      },
+      "actual": 67,
+      "expected": 67,
+      "pass": true
+    },
+    {
+      "name": "格温W双抗总和",
+      "skillKey": "gwen_w",
+      "formulaKey": "total_resists",
+      "rank": 5,
+      "level": 9,
+      "inputs": {
+        "attributes": {
+          "SOURCE.attack_damage.BONUS": 120,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 1800,
+          "TARGET.hp.CURRENT": 1200
+        },
+        "runtime": {}
+      },
+      "actual": 37,
+      "expected": 37,
+      "pass": true
+    },
+    {
+      "name": "格温R九针最大伤害",
+      "skillKey": "gwen_r",
+      "formulaKey": "max_damage",
+      "rank": 3,
+      "level": 9,
+      "inputs": {
+        "attributes": {
+          "SOURCE.attack_damage.BONUS": 120,
+          "SOURCE.attack_damage.TOTAL": 300,
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 1800,
+          "TARGET.hp.CURRENT": 1200
+        },
+        "runtime": {}
+      },
+      "actual": 720,
+      "expected": 720,
+      "pass": true
+    }
+  ],
+  "failures": [],
+  "boundary": "实际管理接口写入与完整详情数学核对；运行时输入、触发资格、时序和战斗页面仍未宣称接通。菲奥娜R的5000毫秒是来源说明字段，不据此宣称实际自动持续5秒。"
+}

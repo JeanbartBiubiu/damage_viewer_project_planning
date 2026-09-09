@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:55:24.117Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_w/formulas/outer_damage_ratio",
+  "id": "outer_damage_ratio",
+  "method": "POST",
+  "body": {
+    "formulaKey": "outer_damage_ratio",
+    "name": "战术横扫外沿最大生命伤害比例",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "outer_max_hp_damage_ratio"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "outer_bonus_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BONUS"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "OuterEdgeTooltip=OuterConeMaxHPDamage+ADRequiredTooltipOnly×额外攻击力。",
+    "sortOrder": 10
+  }
+}

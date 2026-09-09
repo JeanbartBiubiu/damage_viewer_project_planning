@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T04:53:33.647Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/irelia_q/parameters/heal_total_ad_ratio",
+  "id": "heal_total_ad_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "heal_total_ad_ratio",
+    "name": "自我治疗总攻击力比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.09,
+      "2": 0.1,
+      "3": 0.11,
+      "4": 0.12,
+      "5": 0.13
+    },
+    "description": "客户端当前根绑定 DataValues.HealTADCoefficient 取索引1至5。",
+    "sortOrder": 40
+  }
+}

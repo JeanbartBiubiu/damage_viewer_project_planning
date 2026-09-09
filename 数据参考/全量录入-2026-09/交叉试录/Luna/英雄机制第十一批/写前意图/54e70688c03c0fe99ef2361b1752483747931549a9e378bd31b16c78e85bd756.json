@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T04:53:53.303Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/irelia_w/formulas/final_magic_reduction_percent",
+  "id": "final_magic_reduction_percent",
+  "method": "POST",
+  "body": {
+    "formulaKey": "final_magic_reduction_percent",
+    "name": "蓄力期间魔法减伤（百分比点）",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "magic_reduction_multiplier"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "final_physical_reduction_percent"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "physical_reduction_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "FinalMagicDR直接乘FinalPhysicalDR；表达式内联等级插值与法强项，保留百分比点单位。",
+    "sortOrder": 40
+  }
+}

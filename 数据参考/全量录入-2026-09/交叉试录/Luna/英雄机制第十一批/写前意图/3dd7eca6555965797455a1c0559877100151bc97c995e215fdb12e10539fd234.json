@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:53:50.437Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/irelia_w/formulas/final_physical_reduction_percent_with_ap",
+  "id": "final_physical_reduction_percent_with_ap",
+  "method": "POST",
+  "body": {
+    "formulaKey": "final_physical_reduction_percent_with_ap",
+    "name": "含法强的蓄力物理减伤（百分比点）",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "final_physical_reduction_percent"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "physical_reduction_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "FinalPhysicalDR=角色等级插值+0.08×法强；结果仍按原文百分比点表达。",
+    "sortOrder": 10
+  }
+}

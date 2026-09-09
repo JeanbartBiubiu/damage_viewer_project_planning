@@ -1,0 +1,29 @@
+{
+  "at": "2026-09-09T04:53:36.130Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/irelia_q/formulas/heal_amount",
+  "id": "heal_amount",
+  "method": "POST",
+  "body": {
+    "formulaKey": "heal_amount",
+    "name": "利刃冲击自我治疗",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "heal_total_ad_ratio"
+        },
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "SOURCE",
+          "attributeKey": "attack_damage",
+          "attributeValueKind": "TOTAL"
+        }
+      ]
+    },
+    "description": "HealAmount=HealTADCoefficient×总攻击力；官方原文明确回复自身生命值。",
+    "sortOrder": 20
+  }
+}

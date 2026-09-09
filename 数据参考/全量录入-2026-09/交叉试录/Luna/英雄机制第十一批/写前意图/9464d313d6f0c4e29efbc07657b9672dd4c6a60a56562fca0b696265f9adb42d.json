@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-09T04:55:44.457Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_p/parameters/heal_cap_level",
+  "id": "heal_cap_level",
+  "method": "POST",
+  "body": {
+    "parameterKey": "heal_cap_level",
+    "name": "被动治疗等级上限",
+    "valueType": "DECIMAL",
+    "valueMode": "CHARACTER_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 12,
+      "2": 13.647059,
+      "3": 15.294118,
+      "4": 16.941176,
+      "5": 18.588235,
+      "6": 20.235294,
+      "7": 21.882353,
+      "8": 23.529412,
+      "9": 25.176471,
+      "10": 26.823529,
+      "11": 28.470588,
+      "12": 30.117647,
+      "13": 31.764706,
+      "14": 33.411765,
+      "15": 35.058824,
+      "16": 36.705882,
+      "17": 38.352941,
+      "18": 40
+    },
+    "description": "当前计算树角色等级端点线性插值，取1至18级；未扩展未给出的等级或特殊模式。",
+    "sortOrder": 50
+  }
+}

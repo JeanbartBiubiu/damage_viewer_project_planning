@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:54:35.088Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/fiora_w/formulas/stab_damage",
+  "id": "stab_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "stab_damage",
+    "name": "劳伦特心眼刀刺击魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "stab_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "StabDamage=BaseDamage+1×法强。",
+    "sortOrder": 10
+  }
+}

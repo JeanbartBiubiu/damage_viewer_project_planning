@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T04:56:21.444Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/gwen_r/parameters/subsequent_slow_ratio",
+  "id": "subsequent_slow_ratio",
+  "method": "POST",
+  "body": {
+    "parameterKey": "subsequent_slow_ratio",
+    "name": "后续针重复命中减速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.15,
+      "2": 0.2,
+      "3": 0.25
+    },
+    "description": "客户端当前根绑定 DataValues.SubsequentSlow 取索引1至3；按来源显示单位换算为系统比例/毫秒。",
+    "sortOrder": 70
+  }
+}

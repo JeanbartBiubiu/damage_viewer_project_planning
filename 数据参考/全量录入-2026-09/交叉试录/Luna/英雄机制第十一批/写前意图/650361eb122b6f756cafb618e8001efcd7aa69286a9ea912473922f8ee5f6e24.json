@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:55:39.103Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_r/formulas/on_hit_magic_damage",
+  "id": "on_hit_magic_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "on_hit_magic_damage",
+    "name": "海克斯最后通牒目标当前生命额外魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_to_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "current_hp_damage_percent"
+            }
+          ]
+        },
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "TARGET",
+          "attributeKey": "hp",
+          "attributeValueKind": "CURRENT"
+        }
+      ]
+    },
+    "description": "额外魔法普攻伤害=RPercentCurrentHPDamage%×目标当前生命值；实际普攻事件负责消费。",
+    "sortOrder": 10
+  }
+}

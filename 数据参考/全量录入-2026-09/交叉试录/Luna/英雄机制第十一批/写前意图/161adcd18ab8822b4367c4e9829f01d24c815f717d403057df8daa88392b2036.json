@@ -1,0 +1,51 @@
+{
+  "at": "2026-09-09T04:54:20.323Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/fiora_p/formulas/passive_vital_true_damage",
+  "id": "passive_vital_true_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "passive_vital_true_damage",
+    "name": "破绽命中最大生命真实伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_base_damage_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "passive_bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeType": "ATTRIBUTE",
+          "attributeOwner": "TARGET",
+          "attributeKey": "hp",
+          "attributeValueKind": "TOTAL"
+        }
+      ]
+    },
+    "description": "将PassiveDamageTotal百分比作用于当前敌方英雄最大生命值；表达式内联被动比例，命中触发单独接线。",
+    "sortOrder": 20
+  }
+}

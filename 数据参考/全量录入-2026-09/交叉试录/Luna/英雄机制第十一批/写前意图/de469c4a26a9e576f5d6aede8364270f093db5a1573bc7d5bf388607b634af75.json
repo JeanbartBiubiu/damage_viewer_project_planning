@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T04:54:13.362Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/irelia_r/formulas/zone_damage",
+  "id": "zone_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "zone_damage",
+    "name": "先锋之刃刃墙魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_zone_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ability_power_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "ZoneDamage=BaseZoneDamage+APRatio×法强。",
+    "sortOrder": 20
+  }
+}

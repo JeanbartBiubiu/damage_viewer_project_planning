@@ -1,0 +1,36 @@
+{
+  "at": "2026-09-09T04:54:56.542Z",
+  "candidateFileSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+  "route": "/skills/camille_p/parameters/passive_cooldown_seconds",
+  "id": "passive_cooldown_seconds",
+  "method": "POST",
+  "body": {
+    "parameterKey": "passive_cooldown_seconds",
+    "name": "适应性防御被动冷却（秒）",
+    "valueType": "INTEGER",
+    "valueMode": "CHARACTER_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 14,
+      "2": 14,
+      "3": 14,
+      "4": 14,
+      "5": 14,
+      "6": 14,
+      "7": 11,
+      "8": 11,
+      "9": 11,
+      "10": 11,
+      "11": 11,
+      "12": 11,
+      "13": 8,
+      "14": 8,
+      "15": 8,
+      "16": 8,
+      "17": 8,
+      "18": 8
+    },
+    "description": "当前计算树角色等级断点/逐级增量，取1至18级；每个断点只按原字段给出的生效方式计算。",
+    "sortOrder": 20
+  }
+}
