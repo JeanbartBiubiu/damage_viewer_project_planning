@@ -1,0 +1,1159 @@
+{
+  "generatedAt": "2026-09-09T07:31:18.997Z",
+  "stage": "第十九批装备技能独立语义、数值和 Cursor 审查",
+  "verdict": "REVISE",
+  "candidateSha256": "79e35c56d222d1248433f310276a8e3a91784d884ff0075dc4d1837f0d623f71",
+  "sourceFreezeSha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+  "currentGETSha256": "ebe75831b1a118ff1abe34683fa9d30f588eacc6c8edbd0348787d73a1462773",
+  "independentResultSha256": "4d3e88eaefd5b4da851f6d34fe193c237f64c77d5a7f93d0f82dc821a3753673",
+  "scope": {
+    "equipmentCount": 7,
+    "skillCount": 8,
+    "parameterCount": 40,
+    "formulaCount": 11,
+    "excludedMechanismBearing": [
+      "item_3222",
+      "item_3085",
+      "item_3504"
+    ]
+  },
+  "cursor": {
+    "runtime": "sdk",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "runId": "run-5e78767c-a8e2-4a1e-a724-9fcd87b227da",
+    "requestId": "99347ebe-28a7-4d26-a8c5-5f30bb496c03",
+    "agentId": "agent-ed400dd5-7ff0-4bc4-99e3-2ee2326f6e95",
+    "resultStatus": "finished",
+    "durationMs": 445219,
+    "toolCallEvents": 140,
+    "completedTools": 70,
+    "failedTools": 0,
+    "tools": [
+      "glob",
+      "grep",
+      "read",
+      "shell"
+    ],
+    "settingSources": [
+      "project"
+    ],
+    "allowedPathSpecs": [
+      "参考资料"
+    ],
+    "writeAllowlistAudit": {
+      "kind": "audited-write-allowlist",
+      "osSandbox": false,
+      "auditAvailable": true,
+      "outsideScopeCount": 0,
+      "outsideScopePaths": [],
+      "runDeltaOutsideScopeCount": 0,
+      "runDeltaOutsideScopePaths": [],
+      "runDeltaCount": 0,
+      "failClosed": false
+    },
+    "git": {
+      "statusWorktreeBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear19-independent\\隔离审查副本\\.agents\\artifacts\\run\\git-status-worktree-before.txt",
+      "statusBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear19-independent\\隔离审查副本\\.agents\\artifacts\\run\\git-status-before.txt",
+      "allowedPathsDirtyBefore": false,
+      "signaturesBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear19-independent\\隔离审查副本\\.agents\\artifacts\\run\\path-signatures-before.json",
+      "pathSignaturesBefore": {},
+      "statusEntriesBeforeCount": 0,
+      "beforeAuditAvailable": true,
+      "statusWorktreeAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear19-independent\\隔离审查副本\\.agents\\artifacts\\run\\git-status-worktree-after.txt",
+      "statusAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear19-independent\\隔离审查副本\\.agents\\artifacts\\run\\git-status-after.txt",
+      "allowedPathsDirtyAfter": false,
+      "signaturesAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear19-independent\\隔离审查副本\\.agents\\artifacts\\run\\path-signatures-after.json",
+      "pathSignaturesAfter": {},
+      "runDelta": [],
+      "changeClassification": {
+        "afterState": {
+          "inScope": [],
+          "outsideScope": []
+        },
+        "runDelta": {
+          "inScope": [],
+          "outsideScope": []
+        }
+      },
+      "outsideScopePaths": [],
+      "runDeltaOutsideScopePaths": [],
+      "untrackedInScope": [],
+      "untrackedCapture": {
+        "mode": "metadata-only",
+        "files": [],
+        "skipped": []
+      },
+      "diffPatchScope": "allowed-paths",
+      "diffPatchFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear19-independent\\隔离审查副本\\.agents\\artifacts\\run\\diff.patch"
+    },
+    "rawFiles": {
+      "summary": {
+        "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear19-independent\\隔离审查副本\\.agents\\artifacts\\run\\summary.json",
+        "sha256": "a1d224deb22e49f6518e0d395dfae03eaa8d434ee9e6c98de155661dd18cbd46"
+      },
+      "events": {
+        "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear19-independent\\隔离审查副本\\.agents\\artifacts\\run\\events.jsonl",
+        "sha256": "00bf92d4f6b4e333811e405e8237bfeaf133b9b6283be476eb3faac7977a40c4"
+      },
+      "diff": {
+        "path": "C:\\project\\damage_web_dev\\.agents\\artifacts\\gear19-independent\\隔离审查副本\\.agents\\artifacts\\run\\diff.patch",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  },
+  "blockers": [
+    {
+      "id": "item_6664_passive.aura_range",
+      "severity": "实质修订",
+      "current": {
+        "parameterKeys": [
+          "damage_flat_per_tick",
+          "damage_scaling_ratio",
+          "source_mstat12_formula2_value",
+          "aura_duration_ms",
+          "ticks_per_second",
+          "champion_proc_multiplier",
+          "proc_aoe_radius",
+          "champion_proc_aoe_radius",
+          "trigger_cooldown_ms"
+        ],
+        "procAoE": 350,
+        "championProcAoE": 500
+      },
+      "source": {
+        "pointer": "/selectedRawObjects/item_6664/dataValues/Range",
+        "value": 325,
+        "related": {
+          "AuraDuration": 3,
+          "TicksPerSecond": 1
+        }
+      },
+      "minimumCorrection": "新增 aura_range，FIXED INTEGER 325，说明为献祭光环半径；保留350/500为触发脉冲半径。"
+    },
+    {
+      "id": "item_3222.scope-classification",
+      "severity": "范围边界修订",
+      "current": {
+        "boundaryEntry": {
+          "equipmentKey": "item_3222",
+          "name": "米凯尔的祝福",
+          "reason": "官方说明为一名友方英雄；客户端mAffectsTypeFlags=1且无SelfAoe目标类型，未证明施法者自身可成为目标，故不把友方净化/治疗硬纳入1V1。"
+        },
+        "sourceText": "<mainText><stats><attention>250</attention>生命值<br><attention>100%</attention>基础法力回复<br><attention> 12%</attention>治疗和护盾强度<br><attention>15</attention>技能急速</stats><br><br> <active>纯化</active> <br>移除一名友方英雄身上的所有控制类减益效果(<keyword>滞空</keyword>和<keyword>压制</keyword>除外)并为其回复<healing>100 - 250生命值</healing>。</mainText>",
+        "flags": 1
+      },
+      "evidence": "来源只证明一名友方英雄与旗标1；没有同版 SelfAoe 或明确第三方专属枚举。缺少自身证据不能等同范围外。",
+      "minimumCorrection": "将 3222 从已排除改为目标归属待补证，保留来源治疗/净化字段，不凭缺证补建当前技能。"
+    },
+    {
+      "id": "item_3107.friend-heal-scope",
+      "severity": "范围边界修订",
+      "current": {
+        "exclusion": {
+          "component": "友方单位治疗",
+          "reason": "当前候选只取当前敌方英雄结果；是否包含施法者自身没有同版目标旗标证明，友方治疗端保留来源。"
+        },
+        "sourceText": "<mainText><stats><attention>30</attention>法术强度<br><attention>15</attention>技能急速<br><attention>100%</attention>基础法力回复<br><attention>10%</attention>治疗和护盾强度</stats><br><br><active>干涉</active> <br>在2.5秒后，为友方单位们回复<healing>150 - 350生命值</healing>，并对敌方英雄们造成<trueDamage>10%最大生命值的真实伤害</trueDamage>。</mainText>"
+      },
+      "evidence": "来源明确友方单位治疗150-350且含等级插值，但没有同版目标枚举证明施法者不在友方单位中。",
+      "minimumCorrection": "将友方治疗从范围外改为目标资格待补证；保留150/350端点和未证插值，不创建默认 DIRECT_HEAL。"
+    },
+    {
+      "id": "item_3190.self-target-proof",
+      "severity": "语义说明修订",
+      "current": {
+        "selfClaim": true,
+        "targetType": "SelfAoe",
+        "affectsTypeFlags": 8193,
+        "description": "保留虔诚对施法者自身可受益的护盾端点、2.5秒衰减持续、850范围和90秒冷却。客户端目标类型SelfAoe及8193旗标支持自身在范围内；衰减曲线和应用资格尚未接线。"
+      },
+      "evidence": "SelfAoe 可证明施法原点/几何模型；8193 的位义未在本批冻结资料中给出同版枚举证明，因此不能据此断言自身必受护盾。",
+      "minimumCorrection": "保留850范围、290/360端点和运行时护盾输入；把“支持自身在范围内”改成“自身目标资格待补证”。"
+    },
+    {
+      "id": "item_3190.actual_self_shield_value",
+      "severity": "类型与语义修订",
+      "current": {
+        "parameterKey": "actual_self_shield_value",
+        "name": "当前施法者护盾值",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null
+      },
+      "evidence": "来源只有 ByCharLevelBreakpointsCalculationPart 和290/360端点，没有证明中间等级或衰减求值一定为整数；当前护盾值运行输入用 INTEGER 会在小数结果时丢值，字段说明又预先绑定施法者。",
+      "minimumCorrection": "保留稳定键 actual_self_shield_value，改 DECIMAL/RUNTIME_INPUT；名称和说明改为“当前合资格英雄基础护盾值”，不宣称 SelfAoe 已证明自身受益。"
+    }
+  ],
+  "advisories": [
+    {
+      "id": "item_3748.mStat12",
+      "finding": "本批仍保留 RUNTIME_INPUT 是安全的；外部窄补证显示该两个具名旧节点形状可进一步审查为 SOURCE.hp.TOTAL。",
+      "evidence": {
+        "hp12NarrowShape": true,
+        "hp12Proof": {
+          "available": true,
+          "sha256": "e9b045793114d8b81029545707c121028904d7a61e3dcc051c61ebda7dd1d52e",
+          "hasNarrowTotalHpRule": true
+        },
+        "nodes": [
+          {
+            "mStat": 12,
+            "mDataValue": "PrimaryTargetHPRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          {
+            "mStat": 12,
+            "mDataValue": "ActivePrimaryTargetHPRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ]
+      },
+      "boundary": "只适用于具名旧节点、mStat=12、公式默认0且无所有者切换；不扩到 StatByCoefficient、SubPart、mStat29 或 CURRENT/BONUS。"
+    },
+    {
+      "id": "write-before-protection",
+      "finding": "当前198装备 GET 只有主体基础字段，未单独提供直接属性或代表图 GET；候选 safeguards 中的保护声明不能当作已记录的 GET 证据。",
+      "evidence": {
+        "directGetRecorded": false,
+        "representativeGetRecorded": false,
+        "equipmentItemKeys": [
+          "createdAt",
+          "description",
+          "equipmentKey",
+          "gameId",
+          "name",
+          "updatedAt"
+        ]
+      },
+      "requiredBeforeBusinessWrite": "主负责人应在写前另取直接属性、原图和既有挂载/关系快照，不能只引用 safeguards 声明。"
+    }
+  ],
+  "arithmeticCases": [
+    {
+      "name": "3074 总攻击力 300",
+      "actual": 240,
+      "expected": 240,
+      "passed": true,
+      "evidence": {
+        "ratio": 0.8,
+        "totalAD": 300
+      }
+    },
+    {
+      "name": "3074 总攻击力 475",
+      "actual": 380,
+      "expected": 380,
+      "passed": true,
+      "evidence": {
+        "ratio": 0.8,
+        "totalAD": 475
+      }
+    },
+    {
+      "name": "3074 冷却 10 秒转毫秒",
+      "actual": 10000,
+      "expected": 10000,
+      "passed": true,
+      "evidence": {
+        "sourceSeconds": 10
+      }
+    },
+    {
+      "name": "3748 被动主目标近战 mStat12=1000",
+      "actual": 10,
+      "expected": 10,
+      "passed": true,
+      "evidence": {
+        "ratio": 0.01,
+        "mStat12": 1000
+      }
+    },
+    {
+      "name": "3748 被动主目标远程 mStat12=1000",
+      "actual": 5,
+      "expected": 5,
+      "passed": true,
+      "evidence": {
+        "ratio": 0.01,
+        "ranged": 0.5,
+        "mStat12": 1000
+      }
+    },
+    {
+      "name": "3748 刚斩主目标近战 mStat12=1250",
+      "actual": 50,
+      "expected": 50,
+      "passed": true,
+      "evidence": {
+        "ratio": 0.04,
+        "mStat12": 1250
+      }
+    },
+    {
+      "name": "3748 刚斩主目标远程 mStat12=1250",
+      "actual": 25,
+      "expected": 25,
+      "passed": true,
+      "evidence": {
+        "ratio": 0.04,
+        "ranged": 0.5,
+        "mStat12": 1250
+      }
+    },
+    {
+      "name": "6698 总攻击力 315",
+      "actual": 252,
+      "expected": 252,
+      "passed": true,
+      "evidence": {
+        "ratio": 0.8,
+        "totalAD": 315
+      }
+    },
+    {
+      "name": "3107 目标最大生命 2000",
+      "actual": 200,
+      "expected": 200,
+      "passed": true,
+      "evidence": {
+        "ratio": 0.1,
+        "targetMaxHealth": 2000
+      }
+    },
+    {
+      "name": "3107 目标最大生命 4175",
+      "actual": 417.5,
+      "expected": 417.5,
+      "passed": true,
+      "evidence": {
+        "ratio": 0.1,
+        "targetMaxHealth": 4175
+      }
+    },
+    {
+      "name": "3107 延迟 2.5 秒转毫秒",
+      "actual": 2500,
+      "expected": 2500,
+      "passed": true,
+      "evidence": {
+        "sourceSeconds": 2.5
+      }
+    },
+    {
+      "name": "6664 每次伤害 mStat12=1000",
+      "actual": 25,
+      "expected": 25,
+      "passed": true,
+      "evidence": {
+        "flat": 15,
+        "ratio": 0.01,
+        "mStat12Formula2": 1000
+      }
+    },
+    {
+      "name": "6664 每秒伤害 mStat12=1000",
+      "actual": 25,
+      "expected": 25,
+      "passed": true,
+      "evidence": {
+        "ticksPerSecond": 1,
+        "mStat12Formula2": 1000
+      }
+    },
+    {
+      "name": "6664 英雄触发每次伤害 mStat12=1000",
+      "actual": 100,
+      "expected": 100,
+      "passed": true,
+      "evidence": {
+        "championMultiplier": 4,
+        "mStat12Formula2": 1000
+      }
+    },
+    {
+      "name": "6664 每次伤害 mStat12=2000",
+      "actual": 35,
+      "expected": 35,
+      "passed": true,
+      "evidence": {
+        "flat": 15,
+        "ratio": 0.01,
+        "mStat12Formula2": 2000
+      }
+    },
+    {
+      "name": "6664 英雄触发每次伤害 mStat12=2000",
+      "actual": 140,
+      "expected": 140,
+      "passed": true,
+      "evidence": {
+        "championMultiplier": 4,
+        "mStat12Formula2": 2000
+      }
+    },
+    {
+      "name": "6664 持续 3 秒转毫秒",
+      "actual": 3000,
+      "expected": 3000,
+      "passed": true,
+      "evidence": {
+        "sourceSeconds": 3
+      }
+    },
+    {
+      "name": "6664 来源节拍",
+      "actual": 1,
+      "expected": 1,
+      "passed": true,
+      "evidence": {
+        "sourceTicksPerSecond": 1
+      }
+    },
+    {
+      "name": "6664 英雄触发倍率",
+      "actual": 4,
+      "expected": 4,
+      "passed": true,
+      "evidence": {
+        "sourceMultiplier": 4
+      }
+    },
+    {
+      "name": "8020 合资格魔法伤害 1000",
+      "actual": 120,
+      "expected": 120,
+      "passed": true,
+      "evidence": {
+        "ratio": 0.12,
+        "qualifiedDamage": 1000
+      }
+    },
+    {
+      "name": "8020 合资格魔法伤害 333",
+      "actual": 39.96,
+      "expected": 39.96,
+      "passed": true,
+      "evidence": {
+        "ratio": 0.12,
+        "qualifiedDamage": 333
+      }
+    }
+  ],
+  "negativeCases": [
+    {
+      "name": "3074 距离 451 超出 450 不满足范围",
+      "actual": false,
+      "expected": false,
+      "passed": true,
+      "evidence": {
+        "radius": 450,
+        "distance": 451
+      }
+    },
+    {
+      "name": "8020 距离 701 超出 700 不满足增幅范围",
+      "actual": false,
+      "expected": false,
+      "passed": true,
+      "evidence": {
+        "radius": 700,
+        "distance": 701
+      }
+    },
+    {
+      "name": "6664 距离 326 超出献祭光环 325",
+      "actual": false,
+      "expected": false,
+      "passed": true,
+      "evidence": {
+        "auraRange": 325,
+        "distance": 326
+      }
+    },
+    {
+      "name": "6664 触发脉冲半径 350 不能冒充光环 325",
+      "actual": false,
+      "expected": false,
+      "passed": true,
+      "evidence": {
+        "procAoE": 350,
+        "auraRange": 325
+      }
+    },
+    {
+      "name": "3748 缺 mStat12 时不自动填零",
+      "actual": false,
+      "expected": false,
+      "passed": true,
+      "evidence": {
+        "requiredRuntimeInput": "source_mstat12_value"
+      }
+    },
+    {
+      "name": "3107 缺目标最大生命时不自动填零",
+      "actual": false,
+      "expected": false,
+      "passed": true,
+      "evidence": {
+        "requiredRuntimeInput": "actual_target_max_health"
+      }
+    },
+    {
+      "name": "3222 缺 SelfAoe 不能推出第三方专属",
+      "actual": false,
+      "expected": false,
+      "passed": true,
+      "evidence": {
+        "flags": 1,
+        "sourceText": "一名友方英雄",
+        "conclusion": "目标归属未证，不能判定范围外"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "候选副本 SHA256 与冻结值一致",
+      "passed": true,
+      "evidence": {
+        "actual": "79e35c56d222d1248433f310276a8e3a91784d884ff0075dc4d1837f0d623f71",
+        "expected": "79e35c56d222d1248433f310276a8e3a91784d884ff0075dc4d1837f0d623f71"
+      }
+    },
+    {
+      "name": "来源副本 SHA256 与冻结值一致",
+      "passed": true,
+      "evidence": {
+        "actual": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+        "expected": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79"
+      }
+    },
+    {
+      "name": "只读 GET 副本 SHA256 与冻结值一致",
+      "passed": true,
+      "evidence": {
+        "actual": "ebe75831b1a118ff1abe34683fa9d30f588eacc6c8edbd0348787d73a1462773",
+        "expected": "ebe75831b1a118ff1abe34683fa9d30f588eacc6c8edbd0348787d73a1462773"
+      }
+    },
+    {
+      "name": "既有独立核算副本 SHA256 与冻结值一致",
+      "passed": true,
+      "evidence": {
+        "actual": "4d3e88eaefd5b4da851f6d34fe193c237f64c77d5a7f93d0f82dc821a3753673",
+        "expected": "4d3e88eaefd5b4da851f6d34fe193c237f64c77d5a7f93d0f82dc821a3753673"
+      }
+    },
+    {
+      "name": "冻结哈希记录与四个输入文件一致",
+      "passed": true,
+      "evidence": {
+        "frozenHash": {
+          "generatedAt": "2026-09-09T06:54:11.050Z",
+          "sourceFreezeSha256": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79",
+          "candidateSha256": "79e35c56d222d1248433f310276a8e3a91784d884ff0075dc4d1837f0d623f71",
+          "currentGETSha256": "ebe75831b1a118ff1abe34683fa9d30f588eacc6c8edbd0348787d73a1462773",
+          "independentResultSha256": "4d3e88eaefd5b4da851f6d34fe193c237f64c77d5a7f93d0f82dc821a3753673",
+          "currentGETRequests": 329,
+          "apiWrites": 0,
+          "noBusinessWrites": true,
+          "totals": {
+            "equipment": 7,
+            "skills": 8,
+            "parameters": 40,
+            "formulas": 11,
+            "effects": 0,
+            "processes": 0,
+            "internalStates": 0,
+            "triggerRules": 0,
+            "relations": 8,
+            "representativeImages": 8,
+            "components": 82
+          },
+          "candidatePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\完整候选.json",
+          "sourcePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\冻结来源.json"
+        }
+      }
+    },
+    {
+      "name": "候选七件装备与八个技能槽完整且无重复",
+      "passed": true,
+      "evidence": {
+        "equipmentKeys": [
+          "item_3074",
+          "item_3748",
+          "item_6698",
+          "item_3107",
+          "item_3190",
+          "item_6664",
+          "item_8020"
+        ],
+        "skillKeys": [
+          "item_3074_active",
+          "item_3748_passive",
+          "item_3748_active",
+          "item_6698_active",
+          "item_3107_active",
+          "item_3190_active",
+          "item_6664_passive",
+          "item_8020_passive"
+        ]
+      }
+    },
+    {
+      "name": "候选总数与冻结总数一致",
+      "passed": true,
+      "evidence": {
+        "totals": {
+          "equipment": 7,
+          "skills": 8,
+          "parameters": 40,
+          "formulas": 11,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0,
+          "relations": 8,
+          "representativeImages": 8,
+          "components": 82
+        }
+      }
+    },
+    {
+      "name": "每个技能载荷都有对应关系和代表图键",
+      "passed": true,
+      "evidence": {
+        "relationCount": 8,
+        "imageCount": 8
+      }
+    },
+    {
+      "name": "效果、过程、内部状态和触发规则均为空",
+      "passed": true,
+      "evidence": {
+        "effects": 0,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "item_3074 冻结原对象存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3074"
+      }
+    },
+    {
+      "name": "item_3748 冻结原对象存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3748"
+      }
+    },
+    {
+      "name": "item_6698 冻结原对象存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_6698"
+      }
+    },
+    {
+      "name": "item_3107 冻结原对象存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3107"
+      }
+    },
+    {
+      "name": "item_3190 冻结原对象存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3190"
+      }
+    },
+    {
+      "name": "item_6664 冻结原对象存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_6664"
+      }
+    },
+    {
+      "name": "item_8020 冻结原对象存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_8020"
+      }
+    },
+    {
+      "name": "item_3222 冻结原对象存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3222"
+      }
+    },
+    {
+      "name": "item_3085 冻结原对象存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3085"
+      }
+    },
+    {
+      "name": "item_3504 冻结原对象存在",
+      "passed": true,
+      "evidence": {
+        "equipmentKey": "item_3504"
+      }
+    },
+    {
+      "name": "3074 来源绑定与主动字段一致",
+      "passed": true,
+      "evidence": {
+        "source": "/mDataValues/ActiveADRatio,Radius,Cooldown,VampAmp; /Spells/3074Active/mSpell/mTargetingTypeData"
+      }
+    },
+    {
+      "name": "3748 主目标节点与主目标绑定一致",
+      "passed": true,
+      "evidence": {
+        "mStat": 12,
+        "primaryRatio": 0.009999999776482582,
+        "activeRatio": 0.03999999910593033
+      }
+    },
+    {
+      "name": "6698 来源主伤害与 Self 主动绑定一致",
+      "passed": true,
+      "evidence": {
+        "source": "/mDataValues/ActiveRadius,Cooldown; /mItemCalculations/SlashDamageBase; /Spells/6698Active/mSpell/mTargetingTypeData"
+      }
+    },
+    {
+      "name": "3107 敌方伤害绑定、范围、延迟与冷却值一致",
+      "passed": true,
+      "evidence": {
+        "friendBranch": "150-350",
+        "enemyRatio": 0.10000000149011612,
+        "delaySeconds": 2.5
+      }
+    },
+    {
+      "name": "3190 目标类型、旗标与端点来源一致但未伪造中间曲线",
+      "passed": true,
+      "evidence": {
+        "targetType": "SelfAoe",
+        "affectsFlags": 8193,
+        "endpoint": [
+          290,
+          360
+        ],
+        "durationSeconds": 2.5
+      }
+    },
+    {
+      "name": "6664 献祭计算树与触发支路值一致",
+      "passed": true,
+      "evidence": {
+        "range": 325,
+        "procAoE": 350,
+        "championProcAoE": 500,
+        "ticksPerSecond": 1
+      }
+    },
+    {
+      "name": "8020 附近敌方英雄增幅绑定一致",
+      "passed": true,
+      "evidence": {
+        "radius": 700,
+        "damageAmp": 0.11999999731779099
+      }
+    },
+    {
+      "name": "算例：3074 总攻击力 300",
+      "passed": true,
+      "evidence": {
+        "ratio": 0.8,
+        "totalAD": 300
+      }
+    },
+    {
+      "name": "算例：3074 总攻击力 475",
+      "passed": true,
+      "evidence": {
+        "ratio": 0.8,
+        "totalAD": 475
+      }
+    },
+    {
+      "name": "算例：3074 冷却 10 秒转毫秒",
+      "passed": true,
+      "evidence": {
+        "sourceSeconds": 10
+      }
+    },
+    {
+      "name": "算例：3748 被动主目标近战 mStat12=1000",
+      "passed": true,
+      "evidence": {
+        "ratio": 0.01,
+        "mStat12": 1000
+      }
+    },
+    {
+      "name": "算例：3748 被动主目标远程 mStat12=1000",
+      "passed": true,
+      "evidence": {
+        "ratio": 0.01,
+        "ranged": 0.5,
+        "mStat12": 1000
+      }
+    },
+    {
+      "name": "算例：3748 刚斩主目标近战 mStat12=1250",
+      "passed": true,
+      "evidence": {
+        "ratio": 0.04,
+        "mStat12": 1250
+      }
+    },
+    {
+      "name": "算例：3748 刚斩主目标远程 mStat12=1250",
+      "passed": true,
+      "evidence": {
+        "ratio": 0.04,
+        "ranged": 0.5,
+        "mStat12": 1250
+      }
+    },
+    {
+      "name": "算例：6698 总攻击力 315",
+      "passed": true,
+      "evidence": {
+        "ratio": 0.8,
+        "totalAD": 315
+      }
+    },
+    {
+      "name": "算例：3107 目标最大生命 2000",
+      "passed": true,
+      "evidence": {
+        "ratio": 0.1,
+        "targetMaxHealth": 2000
+      }
+    },
+    {
+      "name": "算例：3107 目标最大生命 4175",
+      "passed": true,
+      "evidence": {
+        "ratio": 0.1,
+        "targetMaxHealth": 4175
+      }
+    },
+    {
+      "name": "算例：3107 延迟 2.5 秒转毫秒",
+      "passed": true,
+      "evidence": {
+        "sourceSeconds": 2.5
+      }
+    },
+    {
+      "name": "算例：6664 每次伤害 mStat12=1000",
+      "passed": true,
+      "evidence": {
+        "flat": 15,
+        "ratio": 0.01,
+        "mStat12Formula2": 1000
+      }
+    },
+    {
+      "name": "算例：6664 每秒伤害 mStat12=1000",
+      "passed": true,
+      "evidence": {
+        "ticksPerSecond": 1,
+        "mStat12Formula2": 1000
+      }
+    },
+    {
+      "name": "算例：6664 英雄触发每次伤害 mStat12=1000",
+      "passed": true,
+      "evidence": {
+        "championMultiplier": 4,
+        "mStat12Formula2": 1000
+      }
+    },
+    {
+      "name": "算例：6664 每次伤害 mStat12=2000",
+      "passed": true,
+      "evidence": {
+        "flat": 15,
+        "ratio": 0.01,
+        "mStat12Formula2": 2000
+      }
+    },
+    {
+      "name": "算例：6664 英雄触发每次伤害 mStat12=2000",
+      "passed": true,
+      "evidence": {
+        "championMultiplier": 4,
+        "mStat12Formula2": 2000
+      }
+    },
+    {
+      "name": "算例：6664 持续 3 秒转毫秒",
+      "passed": true,
+      "evidence": {
+        "sourceSeconds": 3
+      }
+    },
+    {
+      "name": "算例：6664 来源节拍",
+      "passed": true,
+      "evidence": {
+        "sourceTicksPerSecond": 1
+      }
+    },
+    {
+      "name": "算例：6664 英雄触发倍率",
+      "passed": true,
+      "evidence": {
+        "sourceMultiplier": 4
+      }
+    },
+    {
+      "name": "算例：8020 合资格魔法伤害 1000",
+      "passed": true,
+      "evidence": {
+        "ratio": 0.12,
+        "qualifiedDamage": 1000
+      }
+    },
+    {
+      "name": "算例：8020 合资格魔法伤害 333",
+      "passed": true,
+      "evidence": {
+        "ratio": 0.12,
+        "qualifiedDamage": 333
+      }
+    },
+    {
+      "name": "负例：3074 距离 451 超出 450 不满足范围",
+      "passed": true,
+      "evidence": {
+        "radius": 450,
+        "distance": 451
+      }
+    },
+    {
+      "name": "负例：8020 距离 701 超出 700 不满足增幅范围",
+      "passed": true,
+      "evidence": {
+        "radius": 700,
+        "distance": 701
+      }
+    },
+    {
+      "name": "负例：6664 距离 326 超出献祭光环 325",
+      "passed": true,
+      "evidence": {
+        "auraRange": 325,
+        "distance": 326
+      }
+    },
+    {
+      "name": "负例：6664 触发脉冲半径 350 不能冒充光环 325",
+      "passed": true,
+      "evidence": {
+        "procAoE": 350,
+        "auraRange": 325
+      }
+    },
+    {
+      "name": "负例：3748 缺 mStat12 时不自动填零",
+      "passed": true,
+      "evidence": {
+        "requiredRuntimeInput": "source_mstat12_value"
+      }
+    },
+    {
+      "name": "负例：3107 缺目标最大生命时不自动填零",
+      "passed": true,
+      "evidence": {
+        "requiredRuntimeInput": "actual_target_max_health"
+      }
+    },
+    {
+      "name": "负例：3222 缺 SelfAoe 不能推出第三方专属",
+      "passed": true,
+      "evidence": {
+        "flags": 1,
+        "sourceText": "一名友方英雄",
+        "conclusion": "目标归属未证，不能判定范围外"
+      }
+    },
+    {
+      "name": "已检测到 6664 缺少献祭光环半径参数",
+      "passed": true,
+      "evidence": {
+        "missingAuraRange": true,
+        "sourceRange": 325
+      }
+    },
+    {
+      "name": "已检测到 3222 当前把目标归属缺证写成范围外",
+      "passed": true,
+      "evidence": {
+        "entryBoundary3222": {
+          "equipmentKey": "item_3222",
+          "name": "米凯尔的祝福",
+          "reason": "官方说明为一名友方英雄；客户端mAffectsTypeFlags=1且无SelfAoe目标类型，未证明施法者自身可成为目标，故不把友方净化/治疗硬纳入1V1。"
+        }
+      }
+    },
+    {
+      "name": "已检测到 3107 当前把友方治疗目标资格缺证写成范围外",
+      "passed": true,
+      "evidence": {
+        "current3107HealExclusion": {
+          "component": "友方单位治疗",
+          "reason": "当前候选只取当前敌方英雄结果；是否包含施法者自身没有同版目标旗标证明，友方治疗端保留来源。"
+        }
+      }
+    },
+    {
+      "name": "已检测到 3190 当前说明过度断言自身受益",
+      "passed": true,
+      "evidence": {
+        "selfClaim": true
+      }
+    },
+    {
+      "name": "已检测到 3190 护盾运行输入使用过窄整数类型",
+      "passed": true,
+      "evidence": {
+        "valueType": "INTEGER",
+        "expectedSaferType": "DECIMAL"
+      }
+    },
+    {
+      "name": "3748 两个具名主目标节点满足 HP12 窄审查形状",
+      "passed": true,
+      "evidence": {
+        "nodes": [
+          {
+            "mStat": 12,
+            "mDataValue": "PrimaryTargetHPRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          {
+            "mStat": 12,
+            "mDataValue": "ActivePrimaryTargetHPRatio",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ]
+      }
+    },
+    {
+      "name": "只读 GET 的198件目录、挂载数量和去重关系一致",
+      "passed": true,
+      "evidence": {
+        "summary": {
+          "equipmentCount": 198,
+          "mountedEquipmentCount": 108,
+          "unmountedEquipmentCount": 90,
+          "relationCount": 110,
+          "uniqueMountedSkillCount": 110,
+          "mountedSkillDetailsCount": 110,
+          "targetCount": 10,
+          "targetUnmountedCount": 10,
+          "getRequests": 329,
+          "apiWrites": 0
+        },
+        "relationPairs": 110,
+        "uniqueRelationPairs": 110
+      }
+    },
+    {
+      "name": "十件目标装备关系真实为0且技能 GET 均为404",
+      "passed": true,
+      "evidence": {
+        "targetEquipmentKeys": [
+          "item_3074",
+          "item_3748",
+          "item_6698",
+          "item_3107",
+          "item_3190",
+          "item_6664",
+          "item_8020",
+          "item_3222",
+          "item_3085",
+          "item_3504"
+        ],
+        "targetCount": 10
+      }
+    },
+    {
+      "name": "既有独立核算的公式/算例计数与本次独立算例一致",
+      "passed": true,
+      "evidence": {
+        "prior": {
+          "formulaCount": 11,
+          "arithmeticCaseCount": 21
+        },
+        "independent": 21
+      }
+    },
+    {
+      "name": "Cursor 实际运行完成且仅使用受限只读工具",
+      "passed": true,
+      "evidence": {
+        "runId": "run-5e78767c-a8e2-4a1e-a724-9fcd87b227da",
+        "toolCallEvents": 140,
+        "completedTools": 70,
+        "toolNames": [
+          "glob",
+          "read",
+          "shell",
+          "grep"
+        ]
+      }
+    },
+    {
+      "name": "Cursor 结论和运行差异与原始记录一致",
+      "passed": true,
+      "evidence": {
+        "resultStatus": "finished",
+        "summarySha256": "a1d224deb22e49f6518e0d395dfae03eaa8d434ee9e6c98de155661dd18cbd46",
+        "eventsSha256": "00bf92d4f6b4e333811e405e8237bfeaf133b9b6283be476eb3faac7977a40c4",
+        "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "diffBytes": 0
+      }
+    },
+    {
+      "name": "规划目录中的候选与来源仍为冻结 SHA",
+      "passed": true,
+      "evidence": {
+        "candidatePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\完整候选.json",
+        "sourcePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十九批自身与范围主动\\冻结来源.json",
+        "candidateHash": "79e35c56d222d1248433f310276a8e3a91784d884ff0075dc4d1837f0d623f71",
+        "sourceHash": "1ce775810bd1a252438386f6959dd8adf7a1de51224e3e055e3ffe8826ad7a79"
+      }
+    }
+  ],
+  "checkerFailures": [],
+  "noBusinessWrites": true,
+  "caveat": "这是冻结资料、只读 GET 和 Cursor 静态审查；没有业务写入、浏览器验收或战斗运行证据。"
+}

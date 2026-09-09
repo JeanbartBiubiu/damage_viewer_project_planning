@@ -1,0 +1,338 @@
+{
+  "at": "2026-09-09T09:44:16.726Z",
+  "mode": "--verify",
+  "passed": false,
+  "GETs": 15,
+  "writes": [],
+  "requests": [
+    {
+      "at": "2026-09-09T09:44:15.987Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:30:52.449174Z",
+        "description": "保留虔诚的护盾端点、2.5秒衰减持续、850范围和90秒冷却。SelfAoe只说明以自身为几何原点；8193没有同版目标枚举旁证，自身目标资格待补证。衰减曲线和应用资格尚未接线。 当前绑定扩展说明：20秒内后续虔诚护盾保留25%效果；自身目标资格仍待补证，名称不预先限定自身。",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "钢铁烈阳之匣·虔诚护盾",
+        "skillCategoryKeys": [],
+        "skillKey": "item_3190_active",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-09T09:44:03.52516Z"
+      }
+    },
+    {
+      "at": "2026-09-09T09:44:16.034Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T09:30:53.395597Z",
+          "description": "客户端ShieldMinTOOLTIP=290，官方与客户端中文均给出290-360端点。",
+          "fixedValue": 290,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虔诚护盾下限",
+          "parameterKey": "shield_min",
+          "skillKey": "item_3190_active",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T09:30:53.395597Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:54.418319Z",
+          "description": "客户端ShieldMaxTOOLTIP=360；不以端点猜等级断点。",
+          "fixedValue": 360,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虔诚护盾上限",
+          "parameterKey": "shield_max",
+          "skillKey": "item_3190_active",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T09:30:54.418319Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:55.432895Z",
+          "description": "ShieldAmount使用ByCharLevelBreakpoints；仅保存290/360端点，当前合资格英雄基础护盾值由运行时提供，不猜等级断点、衰减算法或自身目标资格。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前合资格英雄基础护盾值",
+          "parameterKey": "actual_self_shield_value",
+          "skillKey": "item_3190_active",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T09:30:55.432895Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:56.39898Z",
+          "description": "客户端ShieldDuration=2.5秒；衰减时间已保存，不创建周期过程。",
+          "fixedValue": 2500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虔诚护盾持续",
+          "parameterKey": "shield_duration_ms",
+          "skillKey": "item_3190_active",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T09:30:56.39898Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:57.445253Z",
+          "description": "客户端ShieldRange=850；SelfAoe说明支持施法者自身在范围内。",
+          "fixedValue": 850,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虔诚护盾范围",
+          "parameterKey": "shield_range",
+          "skillKey": "item_3190_active",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T09:30:57.445253Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:30:58.360567Z",
+          "description": "客户端根Cooldown=90秒；不采用主动对象的零值数组。",
+          "fixedValue": 90000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "虔诚冷却",
+          "parameterKey": "active_cooldown_ms",
+          "skillKey": "item_3190_active",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T09:30:58.360567Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:44:00.270276Z",
+          "description": "当前绑定扩展说明20秒；秒转换毫秒。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+          "fixedValue": 20000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "重复护盾判定时间窗",
+          "parameterKey": "repeated_shield_window_ms",
+          "skillKey": "item_3190_active",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T09:44:00.270276Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T09:44:01.379363Z",
+          "description": "当前绑定扩展说明后续护盾降为25%；是保留比例而非减去25%。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "重复护盾保留比例",
+          "parameterKey": "repeated_shield_ratio",
+          "skillKey": "item_3190_active",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T09:44:01.379363Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-09T09:44:16.094Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T09:44:16.144Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T09:44:16.190Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T09:44:16.241Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T09:44:16.297Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "at": "2026-09-09T09:44:16.380Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/parameters/shield_min",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:30:53.395597Z",
+        "description": "客户端ShieldMinTOOLTIP=290，官方与客户端中文均给出290-360端点。",
+        "fixedValue": 290,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虔诚护盾下限",
+        "parameterKey": "shield_min",
+        "skillKey": "item_3190_active",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T09:30:53.395597Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T09:44:16.427Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/parameters/shield_max",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:30:54.418319Z",
+        "description": "客户端ShieldMaxTOOLTIP=360；不以端点猜等级断点。",
+        "fixedValue": 360,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虔诚护盾上限",
+        "parameterKey": "shield_max",
+        "skillKey": "item_3190_active",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T09:30:54.418319Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T09:44:16.474Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/parameters/actual_self_shield_value",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:30:55.432895Z",
+        "description": "ShieldAmount使用ByCharLevelBreakpoints；仅保存290/360端点，当前合资格英雄基础护盾值由运行时提供，不猜等级断点、衰减算法或自身目标资格。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "当前合资格英雄基础护盾值",
+        "parameterKey": "actual_self_shield_value",
+        "skillKey": "item_3190_active",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T09:30:55.432895Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "at": "2026-09-09T09:44:16.518Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/parameters/shield_duration_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:30:56.39898Z",
+        "description": "客户端ShieldDuration=2.5秒；衰减时间已保存，不创建周期过程。",
+        "fixedValue": 2500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虔诚护盾持续",
+        "parameterKey": "shield_duration_ms",
+        "skillKey": "item_3190_active",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T09:30:56.39898Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T09:44:16.569Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/parameters/shield_range",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:30:57.445253Z",
+        "description": "客户端ShieldRange=850；SelfAoe说明支持施法者自身在范围内。",
+        "fixedValue": 850,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虔诚护盾范围",
+        "parameterKey": "shield_range",
+        "skillKey": "item_3190_active",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T09:30:57.445253Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T09:44:16.619Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/parameters/active_cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T09:30:58.360567Z",
+        "description": "客户端根Cooldown=90秒；不采用主动对象的零值数组。",
+        "fixedValue": 90000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "虔诚冷却",
+        "parameterKey": "active_cooldown_ms",
+        "skillKey": "item_3190_active",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T09:30:58.360567Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "at": "2026-09-09T09:44:16.675Z",
+      "method": "GET",
+      "route": "/skills/item_3190_active/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "item_3190",
+          "name": "item_3190"
+        }
+      }
+    },
+    {
+      "at": "2026-09-09T09:44:16.724Z",
+      "method": "GET",
+      "route": "/equipment-skill-relations?equipmentKey=item_3190",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "equipmentKey": "item_3190",
+            "equipmentName": "钢铁烈阳之匣",
+            "gameId": "lol",
+            "skillKey": "item_3190_active",
+            "skillName": "钢铁烈阳之匣·虔诚护盾",
+            "skillStatus": "ENABLED",
+            "sortOrder": 10
+          }
+        ],
+        "total": 1
+      }
+    }
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: /equipment-skill-relations?equipmentKey=item_3190\n+ actual - expected\n\n  {\n    items: [\n      {\n        equipmentKey: 'item_3190',\n        equipmentName: '钢铁烈阳之匣',\n+       skillName: '钢铁烈阳之匣·虔诚护盾',\n-       skillName: '钢铁烈阳之匣·虔诚自身护盾',\n        skillStatus: 'ENABLED',\n        sortOrder: 10\n      }\n    ],\n    total: 1\n",
+  "planSha256": "a0e659be4e7213185960b6da82303b2ff3c025e20989502c324ee6887b021f93",
+  "sourceSha256": "dafd07ed03e2edf565c2ab2e27695d5d182004e78ca4f3b50b5cdf10c319a625"
+}

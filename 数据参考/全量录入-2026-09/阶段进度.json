@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T08:46:39.489Z",
+  "generatedAt": "2026-09-09T09:50:00.460Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -89,7 +89,7 @@
     "status": "181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理"
   },
   "images": {
-    "objectUses": 1387,
+    "objectUses": 1395,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
@@ -101,7 +101,7 @@
     ],
     "additionalRuneGeneratedFormUses": 4,
     "additionalRuneGeneratedFormEvidence": "API实录/符文生成装备第一批/独立最终回读.json",
-    "additionalEquipmentSkillRepresentativeReuses": 120,
+    "additionalEquipmentSkillRepresentativeReuses": 128,
     "additionalEquipmentSkillEvidence": [
       "装备技能实录/Luna第一批/主负责人复核.json",
       "装备技能实录/Luna第二批/护盾消费纠错/批次复核.json",
@@ -121,7 +121,8 @@
       "装备技能实录/第十五批伤害装备/页面验收.json",
       "装备技能实录/第十六批成长与触发装备/页面验收.json",
       "装备技能实录/第十七批防御与状态装备/页面验收.json",
-      "装备技能实录/第十八批剩余自身效果/页面验收.json"
+      "装备技能实录/第十八批剩余自身效果/页面验收.json",
+      "装备技能实录/第十九批自身与范围主动/页面验收.json"
     ],
     "status": "原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验",
     "browserCacheRecords": 3279,
@@ -1988,6 +1989,57 @@
         "commit": "8b8d4a4f"
       },
       "runtimeValidation": "未执行"
+    },
+    "equipmentNineteenthBatch": {
+      "at": "2026-09-09T09:50:00.458Z",
+      "skills": [
+        "item_3074_active",
+        "item_3748_passive",
+        "item_3748_active",
+        "item_6698_active",
+        "item_3107_active",
+        "item_3190_active",
+        "item_6664_passive",
+        "item_8020_passive"
+      ],
+      "equipmentCount": 7,
+      "parameters": 45,
+      "formulas": 11,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "equipmentRelations": 8,
+      "representativeImageReuses": 8,
+      "initialWrites": 77,
+      "backfillWrites": 5,
+      "totalSuccessfulWrites": 82,
+      "historicalRejectedWrites": 1,
+      "unknownWrites": 0,
+      "initialIndependentGETs": 177,
+      "backfillIndependentGETs": 37,
+      "initialFormulaMath": {
+        "source": "业务接口逐项GET",
+        "positiveCases": 11,
+        "allPass": true
+      },
+      "representativePages": 4,
+      "pageGets": 19,
+      "sourceVersion": "16.17 / 16.17.1 / 16.17.8104348",
+      "candidateSha256": "be371ab2b79c2106f70880b94a2a894f93c4cf1d507634a37dc2c7d4078a7c1f",
+      "requestSha256": "d6eb2f55d83fcbd8276efb9ac5dbf89af47bc9d7ea3571fb4dba702b3163f345",
+      "backfillPlanSha256": "a0e659be4e7213185960b6da82303b2ff3c025e20989502c324ee6887b021f93",
+      "backfillReadbackSha256": "292ca217381771f046a50ced19e9e7df3434505e8fc5dcbfeac31b0825d7c32a",
+      "status": "保存、独立回读、11公式算术及4代表页面通过；目标资格、等级算法和触发仍按明确缺口继续处理",
+      "pending": [
+        "3222施法者自身净化/治疗资格",
+        "3107友方治疗自身资格、等级值和重复窗口",
+        "3190自身护盾资格、等级值和衰减应用",
+        "其余命中、周期、修正资格及触发尚未接线"
+      ],
+      "runtimeValidation": "未执行",
+      "evidence": "装备技能实录/第十九批自身与范围主动/当前实录状态.json",
+      "browserEvidence": "装备技能实录/第十九批自身与范围主动/页面验收.json"
     }
   },
   "runtimeValidation": "未执行"

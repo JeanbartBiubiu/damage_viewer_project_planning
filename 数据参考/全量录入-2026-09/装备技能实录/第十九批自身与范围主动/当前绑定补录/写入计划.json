@@ -1,0 +1,85 @@
+{
+  "at": "2026-09-09T09:42:21.272Z",
+  "baseCandidateSha256": "be371ab2b79c2106f70880b94a2a894f93c4cf1d507634a37dc2c7d4078a7c1f",
+  "sourceSha256": "dafd07ed03e2edf565c2ab2e27695d5d182004e78ca4f3b50b5cdf10c319a625",
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/item_3190_active/parameters",
+      "readRoute": "/skills/item_3190_active/parameters/repeated_shield_window_ms",
+      "body": {
+        "parameterKey": "repeated_shield_window_ms",
+        "name": "重复护盾判定时间窗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 20000,
+        "levelValues": null,
+        "description": "当前绑定扩展说明20秒；秒转换毫秒。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3190_active/parameters",
+      "readRoute": "/skills/item_3190_active/parameters/repeated_shield_ratio",
+      "body": {
+        "parameterKey": "repeated_shield_ratio",
+        "name": "重复护盾保留比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前绑定扩展说明后续护盾降为25%；是保留比例而非减去25%。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/item_3107_active/parameters",
+      "readRoute": "/skills/item_3107_active/parameters/repeated_effect_ratio",
+      "body": {
+        "parameterKey": "repeated_effect_ratio",
+        "name": "重复干预效果保留比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前绑定扩展说明后续效果降低50%；仅此数值，两种说法数值相同。 当前绑定扩展说明及数据值见本次来源；目标和重复资格尚未接事件。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3190_active",
+      "readRoute": "/skills/item_3190_active",
+      "body": {
+        "name": "钢铁烈阳之匣·虔诚护盾",
+        "description": "保留虔诚的护盾端点、2.5秒衰减持续、850范围和90秒冷却。SelfAoe只说明以自身为几何原点；8193没有同版目标枚举旁证，自身目标资格待补证。衰减曲线和应用资格尚未接线。 当前绑定扩展说明：20秒内后续虔诚护盾保留25%效果；自身目标资格仍待补证，名称不预先限定自身。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": []
+      }
+    },
+    {
+      "method": "PUT",
+      "route": "/skills/item_3107_active",
+      "readRoute": "/skills/item_3107_active",
+      "body": {
+        "name": "救赎·干涉敌方伤害",
+        "description": "保留干涉在2.5秒后对当前敌方英雄造成其最大生命值10%真实伤害的分支，同时保留友方治疗150/350端点和当前合资格友方英雄基础治疗运行时输入。友方治疗目标归属（含施法者自身）待补证；不创建治疗效果或中转公式。 当前绑定扩展说明：死亡期间也可主动使用；对相同目标的后续干涉效果降低50%。本次保存比例，重复时间窗和实际触发待核。",
+        "maxLevel": 1,
+        "status": "ENABLED",
+        "sortOrder": 0,
+        "skillCategoryKeys": []
+      }
+    }
+  ],
+  "counts": {
+    "POST": 3,
+    "PUT": 2,
+    "DELETE": 0
+  },
+  "businessWrites": 0,
+  "scope": "补齐当前绑定重复比例及时间窗，修正护盾标题和死亡可用说明；不接线未知目标资格、不新增运行时机制。"
+}
