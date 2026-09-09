@@ -1,0 +1,1584 @@
+{
+  "at": "2026-09-09T02:50:58.096Z",
+  "decision": "READY",
+  "planSha256": "e67f35dcb651387c13124c7c4f34bffd823fd91cab1330297da85a994700c43b",
+  "reviewedBoundary": "只批准本SHA的属性语义回补方案；执行工具尚未审查，删除必须用写后的实时六类详情作为闸门。",
+  "counts": {
+    "skills": 9,
+    "puts": 30,
+    "deletes": 10,
+    "formulaChanges": 14,
+    "nodeReplacements": 19,
+    "sourceNodes": 18,
+    "mathCases": 59,
+    "independentGets": 164
+  },
+  "sourceChecks": [
+    {
+      "skillKey": "caitlyn_p",
+      "path": "/HeadShotBonusDamage/mFormulaParts/0",
+      "nodeType": "StatBySubPartCalculationPart",
+      "rawStat": 2,
+      "rawFormula": null,
+      "mapped": "attack_damage",
+      "passed": true
+    },
+    {
+      "skillKey": "caitlyn_p",
+      "path": "/HeadShotMinionBonusDamage/mFormulaParts/0",
+      "nodeType": "StatBySubPartCalculationPart",
+      "rawStat": 2,
+      "rawFormula": null,
+      "mapped": "attack_damage",
+      "passed": true
+    },
+    {
+      "skillKey": "jhin_w",
+      "path": "/TotalDamage/mFormulaParts/1",
+      "nodeType": "StatByCoefficientCalculationPart",
+      "rawStat": 2,
+      "rawFormula": null,
+      "mapped": "attack_damage",
+      "passed": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "path": "/DamageCalc/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": 2,
+      "rawFormula": null,
+      "mapped": "attack_damage",
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "path": "/NormalDamage/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": 2,
+      "rawFormula": null,
+      "mapped": "attack_damage",
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "path": "/NormalDamage/mFormulaParts/2",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": null,
+      "rawFormula": null,
+      "mapped": "ability_power",
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "path": "/AdditionalDamage/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": 2,
+      "rawFormula": null,
+      "mapped": "attack_damage",
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "path": "/AdditionalDamage/mFormulaParts/2",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": null,
+      "rawFormula": null,
+      "mapped": "ability_power",
+      "passed": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "path": "/TotalSlowAmount/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": null,
+      "rawFormula": null,
+      "mapped": "ability_power",
+      "passed": true
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "path": "/BurnDamagePerSecondCalc/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": null,
+      "rawFormula": null,
+      "mapped": "ability_power",
+      "passed": true
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "path": "/MinionBurnCalc/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": null,
+      "rawFormula": null,
+      "mapped": "ability_power",
+      "passed": true
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "path": "/MonsterBurnCalc/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": null,
+      "rawFormula": null,
+      "mapped": "ability_power",
+      "passed": true
+    },
+    {
+      "skillKey": "item_3118_passive",
+      "path": "/{8e8f7a34}/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": null,
+      "rawFormula": null,
+      "mapped": "ability_power",
+      "passed": true
+    },
+    {
+      "skillKey": "item_3118_passive",
+      "path": "/GroundBurnDamagePerTickTooltipOnly/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": null,
+      "rawFormula": null,
+      "mapped": "ability_power",
+      "passed": true
+    },
+    {
+      "skillKey": "item_3152_active",
+      "path": "/FireboltDamage/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": null,
+      "rawFormula": null,
+      "mapped": "ability_power",
+      "passed": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "path": "/Damage/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": null,
+      "rawFormula": null,
+      "mapped": "ability_power",
+      "passed": true
+    },
+    {
+      "skillKey": "item_4646_passive",
+      "path": "/MeleeItemCalcValue/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": null,
+      "rawFormula": null,
+      "mapped": "ability_power",
+      "passed": true
+    },
+    {
+      "skillKey": "item_4646_passive",
+      "path": "/SquallDamage/mFormulaParts/1",
+      "nodeType": "StatByNamedDataValueCalculationPart",
+      "rawStat": null,
+      "rawFormula": null,
+      "mapped": "ability_power",
+      "passed": true
+    }
+  ],
+  "changes": [
+    {
+      "skillKey": "caitlyn_p",
+      "formulaKey": "headshot_bonus_damage",
+      "path": "/operands/0",
+      "parameterKey": "current_attack_damage_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "jhin_w",
+      "formulaKey": "damage",
+      "path": "/operands/1/operands/1",
+      "parameterKey": "current_attack_damage_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "base_damage",
+      "path": "/operands/1/operands/1",
+      "parameterKey": "current_attack_damage_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "maximum_damage",
+      "path": "/operands/0/operands/1/operands/1",
+      "parameterKey": "current_attack_damage_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "first_spear_damage",
+      "path": "/operands/0/operands/1/operands/1",
+      "parameterKey": "current_attack_damage_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "first_spear_damage",
+      "path": "/operands/1/operands/1",
+      "parameterKey": "current_other_stat_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "additional_spear_damage",
+      "path": "/operands/0/operands/1/operands/1",
+      "parameterKey": "current_attack_damage_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "additional_spear_damage",
+      "path": "/operands/1/operands/1",
+      "parameterKey": "current_other_stat_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "total_spear_damage",
+      "path": "/operands/0/operands/0/operands/1/operands/1",
+      "parameterKey": "current_attack_damage_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "total_spear_damage",
+      "path": "/operands/0/operands/1/operands/1",
+      "parameterKey": "current_other_stat_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "total_spear_damage",
+      "path": "/operands/1/operands/1/operands/0/operands/1/operands/1",
+      "parameterKey": "current_attack_damage_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "attack_damage",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "total_spear_damage",
+      "path": "/operands/1/operands/1/operands/1/operands/1",
+      "parameterKey": "current_other_stat_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "slow_ratio",
+      "path": "/operands/1/operands/1",
+      "parameterKey": "current_other_stat_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "formulaKey": "burn_damage_per_second",
+      "path": "/operands/1/operands/1",
+      "parameterKey": "burn_scaling_stat_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "item_3118_passive",
+      "formulaKey": "ground_burn_damage_value",
+      "path": "/operands/1/operands/1",
+      "parameterKey": "ground_damage_scaling_stat_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "item_3152_active",
+      "formulaKey": "firebolt_damage",
+      "path": "/operands/1/operands/1",
+      "parameterKey": "firebolt_scaling_stat_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "echo_damage",
+      "path": "/operands/1/operands/1",
+      "parameterKey": "echo_scaling_stat_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "single_target_max_damage",
+      "path": "/operands/0/operands/1/operands/1",
+      "parameterKey": "echo_scaling_stat_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "skillKey": "item_4646_passive",
+      "formulaKey": "squall_damage",
+      "path": "/operands/1/operands/1",
+      "parameterKey": "squall_scaling_stat_value",
+      "replacement": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    }
+  ],
+  "deletions": [
+    {
+      "skillKey": "caitlyn_p",
+      "key": "current_attack_damage_value",
+      "createdByOriginalBatch": true,
+      "postStatus": 201,
+      "independentGetStatus": 200,
+      "receiptAt": "2026-09-09T02:03:26.059Z",
+      "currentReferences": [
+        {
+          "kind": "formulas",
+          "id": "headshot_bonus_damage",
+          "path": "/expression/operands/0"
+        }
+      ],
+      "projectedRemainingReferences": [],
+      "deleteGate": "写后必须重新GET六类列表及全部详情，发现任何新引用均不得删除；本次只是写前投影"
+    },
+    {
+      "skillKey": "jhin_w",
+      "key": "current_attack_damage_value",
+      "createdByOriginalBatch": true,
+      "postStatus": 201,
+      "independentGetStatus": 200,
+      "receiptAt": "2026-09-09T02:04:07.027Z",
+      "currentReferences": [
+        {
+          "kind": "formulas",
+          "id": "damage",
+          "path": "/expression/operands/1/operands/1"
+        }
+      ],
+      "projectedRemainingReferences": [],
+      "deleteGate": "写后必须重新GET六类列表及全部详情，发现任何新引用均不得删除；本次只是写前投影"
+    },
+    {
+      "skillKey": "jhin_r",
+      "key": "current_attack_damage_value",
+      "createdByOriginalBatch": true,
+      "postStatus": 201,
+      "independentGetStatus": 200,
+      "receiptAt": "2026-09-09T02:04:14.602Z",
+      "currentReferences": [
+        {
+          "kind": "formulas",
+          "id": "base_damage",
+          "path": "/expression/operands/1/operands/1"
+        },
+        {
+          "kind": "formulas",
+          "id": "maximum_damage",
+          "path": "/expression/operands/0/operands/1/operands/1"
+        }
+      ],
+      "projectedRemainingReferences": [],
+      "deleteGate": "写后必须重新GET六类列表及全部详情，发现任何新引用均不得删除；本次只是写前投影"
+    },
+    {
+      "skillKey": "kalista_e",
+      "key": "current_attack_damage_value",
+      "createdByOriginalBatch": true,
+      "postStatus": 201,
+      "independentGetStatus": 200,
+      "receiptAt": "2026-09-09T02:04:54.235Z",
+      "currentReferences": [
+        {
+          "kind": "formulas",
+          "id": "first_spear_damage",
+          "path": "/expression/operands/0/operands/1/operands/1"
+        },
+        {
+          "kind": "formulas",
+          "id": "additional_spear_damage",
+          "path": "/expression/operands/0/operands/1/operands/1"
+        },
+        {
+          "kind": "formulas",
+          "id": "total_spear_damage",
+          "path": "/expression/operands/0/operands/0/operands/1/operands/1"
+        },
+        {
+          "kind": "formulas",
+          "id": "total_spear_damage",
+          "path": "/expression/operands/1/operands/1/operands/0/operands/1/operands/1"
+        }
+      ],
+      "projectedRemainingReferences": [],
+      "deleteGate": "写后必须重新GET六类列表及全部详情，发现任何新引用均不得删除；本次只是写前投影"
+    },
+    {
+      "skillKey": "kalista_e",
+      "key": "current_other_stat_value",
+      "createdByOriginalBatch": true,
+      "postStatus": 201,
+      "independentGetStatus": 200,
+      "receiptAt": "2026-09-09T02:04:55.042Z",
+      "currentReferences": [
+        {
+          "kind": "formulas",
+          "id": "first_spear_damage",
+          "path": "/expression/operands/1/operands/1"
+        },
+        {
+          "kind": "formulas",
+          "id": "additional_spear_damage",
+          "path": "/expression/operands/1/operands/1"
+        },
+        {
+          "kind": "formulas",
+          "id": "total_spear_damage",
+          "path": "/expression/operands/0/operands/1/operands/1"
+        },
+        {
+          "kind": "formulas",
+          "id": "total_spear_damage",
+          "path": "/expression/operands/1/operands/1/operands/1/operands/1"
+        },
+        {
+          "kind": "formulas",
+          "id": "slow_ratio",
+          "path": "/expression/operands/1/operands/1"
+        }
+      ],
+      "projectedRemainingReferences": [],
+      "deleteGate": "写后必须重新GET六类列表及全部详情，发现任何新引用均不得删除；本次只是写前投影"
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "key": "burn_scaling_stat_value",
+      "createdByOriginalBatch": true,
+      "postStatus": 201,
+      "independentGetStatus": 200,
+      "receiptAt": "2026-09-09T02:27:51.303Z",
+      "currentReferences": [
+        {
+          "kind": "formulas",
+          "id": "burn_damage_per_second",
+          "path": "/expression/operands/1/operands/1"
+        }
+      ],
+      "projectedRemainingReferences": [],
+      "deleteGate": "写后必须重新GET六类列表及全部详情，发现任何新引用均不得删除；本次只是写前投影"
+    },
+    {
+      "skillKey": "item_3118_passive",
+      "key": "ground_damage_scaling_stat_value",
+      "createdByOriginalBatch": true,
+      "postStatus": 201,
+      "independentGetStatus": 200,
+      "receiptAt": "2026-09-09T02:28:03.656Z",
+      "currentReferences": [
+        {
+          "kind": "formulas",
+          "id": "ground_burn_damage_value",
+          "path": "/expression/operands/1/operands/1"
+        }
+      ],
+      "projectedRemainingReferences": [],
+      "deleteGate": "写后必须重新GET六类列表及全部详情，发现任何新引用均不得删除；本次只是写前投影"
+    },
+    {
+      "skillKey": "item_3152_active",
+      "key": "firebolt_scaling_stat_value",
+      "createdByOriginalBatch": true,
+      "postStatus": 201,
+      "independentGetStatus": 200,
+      "receiptAt": "2026-09-09T02:28:10.127Z",
+      "currentReferences": [
+        {
+          "kind": "formulas",
+          "id": "firebolt_damage",
+          "path": "/expression/operands/1/operands/1"
+        }
+      ],
+      "projectedRemainingReferences": [],
+      "deleteGate": "写后必须重新GET六类列表及全部详情，发现任何新引用均不得删除；本次只是写前投影"
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "key": "echo_scaling_stat_value",
+      "createdByOriginalBatch": true,
+      "postStatus": 201,
+      "independentGetStatus": 200,
+      "receiptAt": "2026-09-09T02:28:21.075Z",
+      "currentReferences": [
+        {
+          "kind": "formulas",
+          "id": "echo_damage",
+          "path": "/expression/operands/1/operands/1"
+        },
+        {
+          "kind": "formulas",
+          "id": "single_target_max_damage",
+          "path": "/expression/operands/0/operands/1/operands/1"
+        }
+      ],
+      "projectedRemainingReferences": [],
+      "deleteGate": "写后必须重新GET六类列表及全部详情，发现任何新引用均不得删除；本次只是写前投影"
+    },
+    {
+      "skillKey": "item_4646_passive",
+      "key": "squall_scaling_stat_value",
+      "createdByOriginalBatch": true,
+      "postStatus": 201,
+      "independentGetStatus": 200,
+      "receiptAt": "2026-09-09T02:28:56.513Z",
+      "currentReferences": [
+        {
+          "kind": "formulas",
+          "id": "squall_damage",
+          "path": "/expression/operands/1/operands/1"
+        }
+      ],
+      "projectedRemainingReferences": [],
+      "deleteGate": "写后必须重新GET六类列表及全部详情，发现任何新引用均不得删除；本次只是写前投影"
+    }
+  ],
+  "math": [
+    {
+      "skillKey": "caitlyn_p",
+      "formulaKey": "headshot_bonus_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 175.99999999999997,
+      "after": 175.99999999999997,
+      "equivalent": true
+    },
+    {
+      "skillKey": "caitlyn_p",
+      "formulaKey": "headshot_bonus_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 80,
+      "after": 80,
+      "equivalent": true
+    },
+    {
+      "skillKey": "caitlyn_p",
+      "formulaKey": "headshot_bonus_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 910,
+      "after": 910,
+      "equivalent": true
+    },
+    {
+      "skillKey": "caitlyn_p",
+      "formulaKey": "headshot_bonus_damage",
+      "wrongMapping": "误用额外AD",
+      "right": 175.99999999999997,
+      "wrong": 61.599999999999994,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "jhin_w",
+      "formulaKey": "damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 170,
+      "after": 170,
+      "equivalent": true
+    },
+    {
+      "skillKey": "jhin_w",
+      "formulaKey": "damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 110,
+      "after": 110,
+      "equivalent": true
+    },
+    {
+      "skillKey": "jhin_w",
+      "formulaKey": "damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 385,
+      "after": 385,
+      "equivalent": true
+    },
+    {
+      "skillKey": "jhin_w",
+      "formulaKey": "damage",
+      "wrongMapping": "误用额外AD",
+      "right": 170,
+      "wrong": 105,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "base_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 114,
+      "after": 114,
+      "equivalent": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "base_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 84,
+      "after": 84,
+      "equivalent": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "base_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 279.5,
+      "after": 279.5,
+      "equivalent": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "base_damage",
+      "wrongMapping": "误用额外AD",
+      "right": 114,
+      "wrong": 81.5,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "maximum_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 456,
+      "after": 456,
+      "equivalent": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "maximum_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 336,
+      "after": 336,
+      "equivalent": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "maximum_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 1118,
+      "after": 1118,
+      "equivalent": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "formulaKey": "maximum_damage",
+      "wrongMapping": "误用额外AD",
+      "right": 456,
+      "wrong": 326,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "first_spear_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 340,
+      "after": 340,
+      "equivalent": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "first_spear_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 61,
+      "after": 61,
+      "equivalent": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "first_spear_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 875,
+      "after": 875,
+      "equivalent": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "first_spear_damage",
+      "wrongMapping": "误用额外AD",
+      "right": 340,
+      "wrong": 249,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "first_spear_damage",
+      "wrongMapping": "误把AP读作AD",
+      "right": 340,
+      "wrong": 275,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "additional_spear_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 197,
+      "after": 197,
+      "equivalent": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "additional_spear_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 23,
+      "after": 23,
+      "equivalent": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "additional_spear_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 660,
+      "after": 660,
+      "equivalent": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "additional_spear_damage",
+      "wrongMapping": "误用额外AD",
+      "right": 197,
+      "wrong": 171,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "additional_spear_damage",
+      "wrongMapping": "误把AP读作AD",
+      "right": 197,
+      "wrong": 147,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "total_spear_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 734,
+      "after": 734,
+      "equivalent": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "total_spear_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 61,
+      "after": 61,
+      "equivalent": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "total_spear_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 3515,
+      "after": 3515,
+      "equivalent": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "total_spear_damage",
+      "wrongMapping": "误用额外AD",
+      "right": 734,
+      "wrong": 591,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "total_spear_damage",
+      "wrongMapping": "误把AP读作AD",
+      "right": 734,
+      "wrong": 569,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "slow_ratio",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 0.25,
+      "after": 0.25,
+      "equivalent": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "slow_ratio",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 0.1,
+      "after": 0.1,
+      "equivalent": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "slow_ratio",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 0.87,
+      "after": 0.87,
+      "equivalent": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "formulaKey": "slow_ratio",
+      "wrongMapping": "误把AP读作AD",
+      "right": 0.25,
+      "wrong": 0.2,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "formulaKey": "burn_damage_per_second",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 26,
+      "after": 26,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "formulaKey": "burn_damage_per_second",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 20,
+      "after": 20,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "formulaKey": "burn_damage_per_second",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 38,
+      "after": 38,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "formulaKey": "burn_damage_per_second",
+      "wrongMapping": "误把AP读作AD",
+      "right": 26,
+      "wrong": 24,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "item_3118_passive",
+      "formulaKey": "ground_burn_damage_value",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 75,
+      "after": 75,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_3118_passive",
+      "formulaKey": "ground_burn_damage_value",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 60,
+      "after": 60,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_3118_passive",
+      "formulaKey": "ground_burn_damage_value",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 105,
+      "after": 105,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_3118_passive",
+      "formulaKey": "ground_burn_damage_value",
+      "wrongMapping": "误把AP读作AD",
+      "right": 75,
+      "wrong": 70,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "item_3152_active",
+      "formulaKey": "firebolt_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 130,
+      "after": 130,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_3152_active",
+      "formulaKey": "firebolt_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 100,
+      "after": 100,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_3152_active",
+      "formulaKey": "firebolt_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 190,
+      "after": 190,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_3152_active",
+      "formulaKey": "firebolt_damage",
+      "wrongMapping": "误把AP读作AD",
+      "right": 130,
+      "wrong": 120,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "echo_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 90,
+      "after": 90,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "echo_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 75,
+      "after": 75,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "echo_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 120,
+      "after": 120,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "echo_damage",
+      "wrongMapping": "误把AP读作AD",
+      "right": 90,
+      "wrong": 85,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "single_target_max_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 180,
+      "after": 180,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "single_target_max_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 150,
+      "after": 150,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "single_target_max_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 240,
+      "after": 240,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "formulaKey": "single_target_max_damage",
+      "wrongMapping": "误把AP读作AD",
+      "right": 180,
+      "wrong": 170,
+      "distinguishes": true
+    },
+    {
+      "skillKey": "item_4646_passive",
+      "formulaKey": "squall_damage",
+      "inputs": {
+        "ad": 200,
+        "bonus": 70,
+        "ap": 300,
+        "crit": 0.2,
+        "critBonus": 0.4,
+        "levelRatio": 0.6,
+        "spears": 2,
+        "rank": 1
+      },
+      "before": 155,
+      "after": 155,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_4646_passive",
+      "formulaKey": "squall_damage",
+      "inputs": {
+        "ad": 80,
+        "bonus": 20,
+        "ap": 0,
+        "crit": 0,
+        "critBonus": 0,
+        "levelRatio": 1,
+        "spears": 0,
+        "rank": 1
+      },
+      "before": 125,
+      "after": 125,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_4646_passive",
+      "formulaKey": "squall_damage",
+      "inputs": {
+        "ad": 350,
+        "bonus": 190,
+        "ap": 900,
+        "crit": 1,
+        "critBonus": 0.6,
+        "levelRatio": 1,
+        "spears": 4,
+        "rank": "max"
+      },
+      "before": 215,
+      "after": 215,
+      "equivalent": true
+    },
+    {
+      "skillKey": "item_4646_passive",
+      "formulaKey": "squall_damage",
+      "wrongMapping": "误把AP读作AD",
+      "right": 155,
+      "wrong": 145,
+      "distinguishes": true
+    }
+  ],
+  "preserved": [
+    {
+      "skillKey": "caitlyn_p",
+      "unchangedCollections": [
+        "effects",
+        "processes",
+        "internal-states",
+        "trigger-rules"
+      ],
+      "imageUnchanged": true
+    },
+    {
+      "skillKey": "jhin_w",
+      "unchangedCollections": [
+        "effects",
+        "processes",
+        "internal-states",
+        "trigger-rules"
+      ],
+      "imageUnchanged": true
+    },
+    {
+      "skillKey": "jhin_r",
+      "unchangedCollections": [
+        "effects",
+        "processes",
+        "internal-states",
+        "trigger-rules"
+      ],
+      "imageUnchanged": true
+    },
+    {
+      "skillKey": "kalista_e",
+      "unchangedCollections": [
+        "effects",
+        "processes",
+        "internal-states",
+        "trigger-rules"
+      ],
+      "imageUnchanged": true
+    },
+    {
+      "skillKey": "item_2503_passive",
+      "unchangedCollections": [
+        "effects",
+        "processes",
+        "internal-states",
+        "trigger-rules"
+      ],
+      "imageUnchanged": true
+    },
+    {
+      "skillKey": "item_3118_passive",
+      "unchangedCollections": [
+        "effects",
+        "processes",
+        "internal-states",
+        "trigger-rules"
+      ],
+      "imageUnchanged": true
+    },
+    {
+      "skillKey": "item_3152_active",
+      "unchangedCollections": [
+        "effects",
+        "processes",
+        "internal-states",
+        "trigger-rules"
+      ],
+      "imageUnchanged": true
+    },
+    {
+      "skillKey": "item_6655_passive",
+      "unchangedCollections": [
+        "effects",
+        "processes",
+        "internal-states",
+        "trigger-rules"
+      ],
+      "imageUnchanged": true
+    },
+    {
+      "skillKey": "item_4646_passive",
+      "unchangedCollections": [
+        "effects",
+        "processes",
+        "internal-states",
+        "trigger-rules"
+      ],
+      "imageUnchanged": true
+    }
+  ],
+  "findings": [],
+  "executionRequirements": [
+    "技能主体PUT只发送after中除skillKey外字段；比较before/after及GET仍保留原稳定键。",
+    "所有30项PUT均写后GET相等；未知响应先GET，不直接重放。",
+    "所有引用修改完成后，再独立GET各技能六类列表和每项详情，任何待删参数引用不为0就禁止删除。",
+    "10条DELETE仅精确父技能路径及原批新增临时参数，且删除前当前正文仍等于原值；任意现值不同停止该对象。",
+    "不得修改等级曲线、其他未知输入、固定数值、伤害结果、触发、图片或挂载。"
+  ],
+  "contractEvidence": [
+    "技能参数与公式管理详细设计.md:326 参数仅同技能引用",
+    "条件事件与动态输入供值管理详细设计.md:37 动作只给同技能运行参数供值"
+  ],
+  "businessWrites": 0
+}
