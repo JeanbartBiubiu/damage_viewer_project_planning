@@ -1,0 +1,637 @@
+{
+  "at": "2026-09-09T05:34:43.881Z",
+  "mode": "从实际全量GET组成计算依赖，未执行战斗或写入",
+  "snapshotSha256": "d6f0f7a2178fc79dd8e9b1aa2649c2125427c8c2d3f3f9c0fae1a5c5f966aa7f",
+  "dependencies": [
+    {
+      "skillKey": "annie_e",
+      "parameterKey": "move_speed_ratio",
+      "directReferences": [],
+      "transitiveReferences": [],
+      "affectedFormulas": [],
+      "affectedEffects": [],
+      "affectedProcesses": [],
+      "affectedRules": [],
+      "inputStatus": "当前技能内无已存规则或过程自动消费此参数；独立公式/效果求值仍须显式供值",
+      "missingValuePolicy": "没有实际输入时不得按0、旧等级表或端点代入；本轮未验证后端/战斗宿主如何报缺值。"
+    },
+    {
+      "skillKey": "brand_p",
+      "parameterKey": "explosion_base_max_hp_ratio",
+      "directReferences": [
+        {
+          "kind": "formulas",
+          "key": "explosion",
+          "paths": [
+            "$.expression.operands.0.operands.0.parameterKey"
+          ]
+        }
+      ],
+      "transitiveReferences": [
+        {
+          "kind": "formulas",
+          "key": "explosion",
+          "matches": [
+            {
+              "kind": "parameters",
+              "key": "explosion_base_max_hp_ratio",
+              "path": "$.expression.operands.0.operands.0.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "blaze_explosion",
+          "matches": [
+            {
+              "kind": "formulas",
+              "key": "explosion",
+              "path": "$.results.0.valueRule.value.formulaKey"
+            }
+          ]
+        }
+      ],
+      "affectedFormulas": [
+        "explosion"
+      ],
+      "affectedEffects": [
+        "blaze_explosion"
+      ],
+      "affectedProcesses": [],
+      "affectedRules": [],
+      "inputStatus": "当前技能内无已存规则或过程自动消费此参数；独立公式/效果求值仍须显式供值",
+      "missingValuePolicy": "没有实际输入时不得按0、旧等级表或端点代入；本轮未验证后端/战斗宿主如何报缺值。"
+    },
+    {
+      "skillKey": "ahri_p",
+      "parameterKey": "champion_base_heal",
+      "directReferences": [
+        {
+          "kind": "formulas",
+          "key": "champion_heal",
+          "paths": [
+            "$.expression.operands.0.parameterKey"
+          ]
+        }
+      ],
+      "transitiveReferences": [
+        {
+          "kind": "formulas",
+          "key": "champion_heal",
+          "matches": [
+            {
+              "kind": "parameters",
+              "key": "champion_base_heal",
+              "path": "$.expression.operands.0.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "champion_soul_heal",
+          "matches": [
+            {
+              "kind": "formulas",
+              "key": "champion_heal",
+              "path": "$.results.0.valueRule.value.formulaKey"
+            }
+          ]
+        }
+      ],
+      "affectedFormulas": [
+        "champion_heal"
+      ],
+      "affectedEffects": [
+        "champion_soul_heal"
+      ],
+      "affectedProcesses": [],
+      "affectedRules": [],
+      "inputStatus": "当前技能内无已存规则或过程自动消费此参数；独立公式/效果求值仍须显式供值",
+      "missingValuePolicy": "没有实际输入时不得按0、旧等级表或端点代入；本轮未验证后端/战斗宿主如何报缺值。"
+    },
+    {
+      "skillKey": "darius_p",
+      "parameterKey": "bleed_base_total",
+      "directReferences": [
+        {
+          "kind": "formulas",
+          "key": "bleed_total_per_stack",
+          "paths": [
+            "$.expression.operands.0.parameterKey"
+          ]
+        }
+      ],
+      "transitiveReferences": [
+        {
+          "kind": "formulas",
+          "key": "bleed_total_per_stack",
+          "matches": [
+            {
+              "kind": "parameters",
+              "key": "bleed_base_total",
+              "path": "$.expression.operands.0.parameterKey"
+            }
+          ]
+        }
+      ],
+      "affectedFormulas": [
+        "bleed_total_per_stack"
+      ],
+      "affectedEffects": [],
+      "affectedProcesses": [],
+      "affectedRules": [],
+      "inputStatus": "当前技能内无已存规则或过程自动消费此参数；独立公式/效果求值仍须显式供值",
+      "missingValuePolicy": "没有实际输入时不得按0、旧等级表或端点代入；本轮未验证后端/战斗宿主如何报缺值。"
+    },
+    {
+      "skillKey": "darius_p",
+      "parameterKey": "noxian_might_bonus_ad",
+      "directReferences": [
+        {
+          "kind": "effects",
+          "key": "noxian_might",
+          "paths": [
+            "$.results.0.valueRule.value.parameterKey"
+          ]
+        }
+      ],
+      "transitiveReferences": [
+        {
+          "kind": "effects",
+          "key": "noxian_might",
+          "matches": [
+            {
+              "kind": "parameters",
+              "key": "noxian_might_bonus_ad",
+              "path": "$.results.0.valueRule.value.parameterKey"
+            }
+          ]
+        }
+      ],
+      "affectedFormulas": [],
+      "affectedEffects": [
+        "noxian_might"
+      ],
+      "affectedProcesses": [],
+      "affectedRules": [],
+      "inputStatus": "当前技能内无已存规则或过程自动消费此参数；独立公式/效果求值仍须显式供值",
+      "missingValuePolicy": "没有实际输入时不得按0、旧等级表或端点代入；本轮未验证后端/战斗宿主如何报缺值。"
+    },
+    {
+      "skillKey": "diana_p",
+      "parameterKey": "cleave_base_damage",
+      "directReferences": [
+        {
+          "kind": "formulas",
+          "key": "cleave_damage",
+          "paths": [
+            "$.expression.operands.0.parameterKey"
+          ]
+        }
+      ],
+      "transitiveReferences": [
+        {
+          "kind": "formulas",
+          "key": "cleave_damage",
+          "matches": [
+            {
+              "kind": "parameters",
+              "key": "cleave_base_damage",
+              "path": "$.expression.operands.0.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "cleave_damage",
+          "matches": [
+            {
+              "kind": "formulas",
+              "key": "cleave_damage",
+              "path": "$.results.0.valueRule.value.formulaKey"
+            }
+          ]
+        }
+      ],
+      "affectedFormulas": [
+        "cleave_damage"
+      ],
+      "affectedEffects": [
+        "cleave_damage"
+      ],
+      "affectedProcesses": [],
+      "affectedRules": [],
+      "inputStatus": "当前技能内无已存规则或过程自动消费此参数；独立公式/效果求值仍须显式供值",
+      "missingValuePolicy": "没有实际输入时不得按0、旧等级表或端点代入；本轮未验证后端/战斗宿主如何报缺值。"
+    },
+    {
+      "skillKey": "diana_p",
+      "parameterKey": "passive_attack_speed_ratio",
+      "directReferences": [
+        {
+          "kind": "formulas",
+          "key": "additional_attack_speed",
+          "paths": [
+            "$.expression.operands.0.parameterKey"
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "passive_attack_speed",
+          "paths": [
+            "$.results.0.valueRule.value.parameterKey"
+          ]
+        }
+      ],
+      "transitiveReferences": [
+        {
+          "kind": "formulas",
+          "key": "additional_attack_speed",
+          "matches": [
+            {
+              "kind": "parameters",
+              "key": "passive_attack_speed_ratio",
+              "path": "$.expression.operands.0.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "passive_attack_speed",
+          "matches": [
+            {
+              "kind": "parameters",
+              "key": "passive_attack_speed_ratio",
+              "path": "$.results.0.valueRule.value.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "cast_attack_speed",
+          "matches": [
+            {
+              "kind": "formulas",
+              "key": "additional_attack_speed",
+              "path": "$.results.0.valueRule.value.formulaKey"
+            }
+          ]
+        },
+        {
+          "kind": "trigger-rules",
+          "key": "initialize_passive_attack_speed",
+          "matches": [
+            {
+              "kind": "effects",
+              "key": "passive_attack_speed",
+              "path": "$.actions.0.detail.effectKey"
+            }
+          ]
+        },
+        {
+          "kind": "trigger-rules",
+          "key": "after_q_attack_speed",
+          "matches": [
+            {
+              "kind": "effects",
+              "key": "cast_attack_speed",
+              "path": "$.actions.0.detail.effectKey"
+            }
+          ]
+        },
+        {
+          "kind": "trigger-rules",
+          "key": "after_w_attack_speed",
+          "matches": [
+            {
+              "kind": "effects",
+              "key": "cast_attack_speed",
+              "path": "$.actions.0.detail.effectKey"
+            }
+          ]
+        },
+        {
+          "kind": "trigger-rules",
+          "key": "after_e_attack_speed",
+          "matches": [
+            {
+              "kind": "effects",
+              "key": "cast_attack_speed",
+              "path": "$.actions.0.detail.effectKey"
+            }
+          ]
+        },
+        {
+          "kind": "trigger-rules",
+          "key": "after_r_attack_speed",
+          "matches": [
+            {
+              "kind": "effects",
+              "key": "cast_attack_speed",
+              "path": "$.actions.0.detail.effectKey"
+            }
+          ]
+        }
+      ],
+      "affectedFormulas": [
+        "additional_attack_speed"
+      ],
+      "affectedEffects": [
+        "passive_attack_speed",
+        "cast_attack_speed"
+      ],
+      "affectedProcesses": [],
+      "affectedRules": [
+        {
+          "ruleKey": "initialize_passive_attack_speed",
+          "name": "初始化月银之刃常态攻速",
+          "eventSource": {
+            "detail": {},
+            "eventType": "SOURCE_INITIALIZED"
+          },
+          "isInitialization": true,
+          "actions": [
+            {
+              "actionKey": "passive_attack_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "passive_attack_speed"
+              },
+              "runtimeInputBindings": []
+            }
+          ],
+          "requiresNewInput": true
+        },
+        {
+          "ruleKey": "after_q_attack_speed",
+          "name": "施放Q后强化攻速",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "diana_q",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "isInitialization": false,
+          "actions": [
+            {
+              "actionKey": "cast_attack_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "cast_attack_speed"
+              },
+              "runtimeInputBindings": []
+            }
+          ],
+          "requiresNewInput": true
+        },
+        {
+          "ruleKey": "after_w_attack_speed",
+          "name": "施放W后强化攻速",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "diana_w",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "isInitialization": false,
+          "actions": [
+            {
+              "actionKey": "cast_attack_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "cast_attack_speed"
+              },
+              "runtimeInputBindings": []
+            }
+          ],
+          "requiresNewInput": true
+        },
+        {
+          "ruleKey": "after_e_attack_speed",
+          "name": "施放E后强化攻速",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "diana_e",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "isInitialization": false,
+          "actions": [
+            {
+              "actionKey": "cast_attack_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "cast_attack_speed"
+              },
+              "runtimeInputBindings": []
+            }
+          ],
+          "requiresNewInput": true
+        },
+        {
+          "ruleKey": "after_r_attack_speed",
+          "name": "施放R后强化攻速",
+          "eventSource": {
+            "detail": {
+              "sourceSkillKey": "diana_r",
+              "useKind": "ACTIVE"
+            },
+            "eventType": "SKILL_USED"
+          },
+          "isInitialization": false,
+          "actions": [
+            {
+              "actionKey": "cast_attack_speed",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "cast_attack_speed"
+              },
+              "runtimeInputBindings": []
+            }
+          ],
+          "requiresNewInput": true
+        }
+      ],
+      "inputStatus": "既有自动规则依赖新增实际输入，当前绑定为空；仅改参数不能宣称原自动配置仍完整",
+      "missingValuePolicy": "没有实际输入时不得按0、旧等级表或端点代入；本轮未验证后端/战斗宿主如何报缺值。"
+    },
+    {
+      "skillKey": "trundle_p",
+      "parameterKey": "dead_enemy_hp_heal_ratio",
+      "directReferences": [
+        {
+          "kind": "formulas",
+          "key": "tribute_heal",
+          "paths": [
+            "$.expression.operands.0.parameterKey"
+          ]
+        }
+      ],
+      "transitiveReferences": [
+        {
+          "kind": "formulas",
+          "key": "tribute_heal",
+          "matches": [
+            {
+              "kind": "parameters",
+              "key": "dead_enemy_hp_heal_ratio",
+              "path": "$.expression.operands.0.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "kings_tribute",
+          "matches": [
+            {
+              "kind": "formulas",
+              "key": "tribute_heal",
+              "path": "$.results.0.valueRule.value.formulaKey"
+            }
+          ]
+        }
+      ],
+      "affectedFormulas": [
+        "tribute_heal"
+      ],
+      "affectedEffects": [
+        "kings_tribute"
+      ],
+      "affectedProcesses": [],
+      "affectedRules": [],
+      "inputStatus": "当前技能内无已存规则或过程自动消费此参数；独立公式/效果求值仍须显式供值",
+      "missingValuePolicy": "没有实际输入时不得按0、旧等级表或端点代入；本轮未验证后端/战斗宿主如何报缺值。"
+    },
+    {
+      "skillKey": "warwick_p",
+      "parameterKey": "on_hit_base",
+      "directReferences": [
+        {
+          "kind": "formulas",
+          "key": "on_hit_damage",
+          "paths": [
+            "$.expression.operands.0.operands.0.parameterKey"
+          ]
+        }
+      ],
+      "transitiveReferences": [
+        {
+          "kind": "formulas",
+          "key": "on_hit_damage",
+          "matches": [
+            {
+              "kind": "parameters",
+              "key": "on_hit_base",
+              "path": "$.expression.operands.0.operands.0.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "on_hit_damage",
+          "matches": [
+            {
+              "kind": "formulas",
+              "key": "on_hit_damage",
+              "path": "$.results.0.valueRule.value.formulaKey"
+            }
+          ]
+        },
+        {
+          "kind": "trigger-rules",
+          "key": "basic_attack_hit",
+          "matches": [
+            {
+              "kind": "effects",
+              "key": "on_hit_damage",
+              "path": "$.actions.0.detail.effectKey"
+            }
+          ]
+        }
+      ],
+      "affectedFormulas": [
+        "on_hit_damage"
+      ],
+      "affectedEffects": [
+        "on_hit_damage"
+      ],
+      "affectedProcesses": [],
+      "affectedRules": [
+        {
+          "ruleKey": "basic_attack_hit",
+          "name": "普通攻击实际命中附带血之饥渴",
+          "eventSource": {
+            "detail": {},
+            "eventType": "BASIC_ATTACK_HIT"
+          },
+          "isInitialization": false,
+          "actions": [
+            {
+              "actionKey": "on_hit_damage",
+              "actionType": "EXECUTE_EFFECT",
+              "detail": {
+                "effectKey": "on_hit_damage"
+              },
+              "runtimeInputBindings": []
+            }
+          ],
+          "requiresNewInput": true
+        }
+      ],
+      "inputStatus": "既有自动规则依赖新增实际输入，当前绑定为空；仅改参数不能宣称原自动配置仍完整",
+      "missingValuePolicy": "没有实际输入时不得按0、旧等级表或端点代入；本轮未验证后端/战斗宿主如何报缺值。"
+    },
+    {
+      "skillKey": "garen_p",
+      "parameterKey": "regen_ratio_per_5s",
+      "directReferences": [
+        {
+          "kind": "formulas",
+          "key": "regen_per_5s",
+          "paths": [
+            "$.expression.operands.1.parameterKey"
+          ]
+        }
+      ],
+      "transitiveReferences": [
+        {
+          "kind": "formulas",
+          "key": "regen_per_5s",
+          "matches": [
+            {
+              "kind": "parameters",
+              "key": "regen_ratio_per_5s",
+              "path": "$.expression.operands.1.parameterKey"
+            }
+          ]
+        },
+        {
+          "kind": "effects",
+          "key": "perseverance_regen",
+          "matches": [
+            {
+              "kind": "formulas",
+              "key": "regen_per_5s",
+              "path": "$.results.0.valueRule.value.formulaKey"
+            }
+          ]
+        }
+      ],
+      "affectedFormulas": [
+        "regen_per_5s"
+      ],
+      "affectedEffects": [
+        "perseverance_regen"
+      ],
+      "affectedProcesses": [],
+      "affectedRules": [],
+      "inputStatus": "当前技能内无已存规则或过程自动消费此参数；独立公式/效果求值仍须显式供值",
+      "missingValuePolicy": "没有实际输入时不得按0、旧等级表或端点代入；本轮未验证后端/战斗宿主如何报缺值。"
+    }
+  ],
+  "automaticRuleCount": 6,
+  "initializationRuleCount": 1
+}
