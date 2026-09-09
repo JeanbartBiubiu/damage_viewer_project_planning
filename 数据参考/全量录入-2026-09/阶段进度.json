@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T04:07:12.456Z",
+  "generatedAt": "2026-09-09T04:40:01.042Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -1336,6 +1336,66 @@
       "browserEvidence": "API实录/符文效果第四批/页面验收.json",
       "finalSha256": "babcff78cd3b9bbc8dfe4b775b48358a6a548ce6a494f66f01f8ede80ec9e83c",
       "runtimeValidation": "未执行"
+    },
+    "heroTenthBatch": {
+      "skills": [
+        "graves_p",
+        "graves_q",
+        "graves_w",
+        "graves_e",
+        "graves_r",
+        "jinx_p",
+        "jinx_q",
+        "jinx_w",
+        "jinx_e",
+        "jinx_r",
+        "varus_p",
+        "varus_q",
+        "varus_w",
+        "varus_e",
+        "varus_r",
+        "kogmaw_p",
+        "kogmaw_q",
+        "kogmaw_w",
+        "kogmaw_e",
+        "kogmaw_r"
+      ],
+      "parameters": 170,
+      "formulas": 49,
+      "effects": 21,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "created": 213,
+      "createdByKind": {
+        "parameters": 143,
+        "formulas": 49,
+        "effects": 21
+      },
+      "reusedPublicParameters": 27,
+      "readbackGets": 408,
+      "independentBusinessFields": 2821,
+      "invariantChecks": 1359,
+      "sourceMathCases": 122,
+      "manualMathCases": 28,
+      "rootReviewChecks": 9,
+      "rootMathCases": 10,
+      "representativePages": 3,
+      "pageGets": 31,
+      "status": "四英雄20槽确定数值和独立自身效果已录；实际213次新增与独立408GET通过，三个页面及31追加GET通过。未证等级、资格及时序继续补，不标为完整战斗机制。",
+      "executor": "Cursor实际运行失败后Luna Max接手候选与写入；主负责人独立复核、页面及提交",
+      "runtimeValidation": "未执行",
+      "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第十批/最终实录结果.json",
+        "commit": "eb9df345"
+      },
+      "browserEvidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第十批/页面验收.json",
+        "commit": "eb9df345"
+      }
     }
   },
   "runtimeValidation": "未执行"
