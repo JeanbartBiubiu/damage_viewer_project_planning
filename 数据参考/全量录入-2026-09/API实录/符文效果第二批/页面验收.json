@@ -1,0 +1,457 @@
+{
+  "at": "2026-09-09T01:50:48.764Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "frontendCommit": "ad0e3a4d",
+  "backendCommit": "4809f105",
+  "browserChecks": [
+    "超然左侧图片可见；参数表逐格显示1-4级0、5-7级5、8-18级10急速",
+    "超然效果详情为施法者、持续生效、到当前时点重新读取、整个实例共享数值，属性ability_haste",
+    "不灭左侧图片可见，效果列表只有近战不灭治疗/远程不灭治疗；远程详情为直接治疗、施法者及远程治疗公式",
+    "黑暗收割左侧图片可见，confirmed_souls列在计算时传入，类型整数；没有固定初始层数"
+  ],
+  "writesThisVerification": 0,
+  "checks": [
+    {
+      "route": "/skills/rune_8210_passive/parameters/level_ability_haste",
+      "status": 200,
+      "matched": true,
+      "actual": {
+        "createdAt": "2026-09-09T01:35:05.007407Z",
+        "description": "明确断点：5级+5、8级再+5；不是从等级端点插值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 0,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 5,
+          "6": 5,
+          "7": 5,
+          "8": 10,
+          "9": 10,
+          "10": 10,
+          "11": 10,
+          "12": 10,
+          "13": 10,
+          "14": 10,
+          "15": 10,
+          "16": 10,
+          "17": 10,
+          "18": 10
+        },
+        "name": "超然等级技能急速",
+        "parameterKey": "level_ability_haste",
+        "skillKey": "rune_8210_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:05.007407Z",
+        "valueMode": "CHARACTER_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8210_passive/effects/level_ability_haste",
+      "status": 200,
+      "matched": true,
+      "actual": {
+        "createdAt": "2026-09-09T01:35:06.541653Z",
+        "description": "仅包含本候选注明的独立属性组成，触发按候选边界另行核对。",
+        "effectKey": "level_ability_haste",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": null,
+          "expiryMode": "EXPLICIT_ONLY",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": null,
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "超然等级急速",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "ability_haste",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": null,
+              "stackValueMode": "SHARED",
+              "valueReadMode": "MOMENT_EVALUATION"
+            },
+            "name": "超然等级急速",
+            "resultKey": "attribute_bonus",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "level_ability_haste"
+              }
+            }
+          }
+        ],
+        "skillKey": "rune_8210_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:06.541653Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8210_passive/trigger-rules/initialize_level_ability_haste",
+      "status": 200,
+      "matched": true,
+      "actual": {
+        "actions": [
+          {
+            "actionKey": "execute_level_ability_haste",
+            "actionType": "EXECUTE_EFFECT",
+            "detail": {
+              "effectKey": "level_ability_haste"
+            },
+            "name": "建立超然等级急速",
+            "resultModifiers": [],
+            "runtimeInputBindings": [],
+            "sortOrder": 10,
+            "targetContext": "EVENT_SOURCE"
+          }
+        ],
+        "conditionGroups": [],
+        "description": "只初始化此来源明确无条件的属性组成，未包含其他有条件分支。",
+        "eventSource": {
+          "detail": {},
+          "eventType": "SOURCE_INITIALIZED"
+        },
+        "maxTriggersPerProcess": null,
+        "name": "初始化超然等级急速",
+        "perTargetCooldown": null,
+        "ruleKey": "initialize_level_ability_haste",
+        "sortOrder": 10
+      }
+    },
+    {
+      "route": "/rune-skill-relations?runeKey=rune_8210&skillKey=rune_8210_passive",
+      "status": 200,
+      "matched": true,
+      "actual": {
+        "items": [
+          {
+            "gameId": "lol",
+            "runeKey": "rune_8210",
+            "runeName": "超然",
+            "skillKey": "rune_8210_passive",
+            "skillName": "符文·超然",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "route": "/skills/rune_8437_passive/formulas/melee_heal",
+      "status": 200,
+      "matched": true,
+      "actual": {
+        "createdAt": "2026-09-09T01:35:39.208279Z",
+        "description": "仅选择一个来源类型分支；无自适应转换",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "attributeKey": "hp",
+              "attributeOwner": "SOURCE",
+              "attributeValueKind": "TOTAL",
+              "nodeType": "ATTRIBUTE"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "maximum_health_heal_ratio"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "melee_heal",
+        "gameId": "lol",
+        "name": "近战不灭治疗",
+        "skillKey": "rune_8437_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:39.208279Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8437_passive/formulas/ranged_heal",
+      "status": 200,
+      "matched": true,
+      "actual": {
+        "createdAt": "2026-09-09T01:35:39.877037Z",
+        "description": "仅选择一个来源类型分支；无自适应转换",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "attributeKey": "hp",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "maximum_health_heal_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ranged_efficiency"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "ranged_heal",
+        "gameId": "lol",
+        "name": "远程不灭治疗",
+        "skillKey": "rune_8437_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:39.877037Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8437_passive/effects/melee_heal",
+      "status": 200,
+      "matched": true,
+      "actual": {
+        "createdAt": "2026-09-09T01:35:40.561209Z",
+        "description": "独立数值结果；没有自动初始化或命中/击杀触发规则。",
+        "effectKey": "melee_heal",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "近战不灭治疗",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "近战不灭治疗",
+            "resultKey": "result",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "melee_heal",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "rune_8437_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:40.561209Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8437_passive/effects/ranged_heal",
+      "status": 200,
+      "matched": true,
+      "actual": {
+        "createdAt": "2026-09-09T01:35:41.28551Z",
+        "description": "独立数值结果；没有自动初始化或命中/击杀触发规则。",
+        "effectKey": "ranged_heal",
+        "gameId": "lol",
+        "lifecycle": null,
+        "name": "远程不灭治疗",
+        "results": [
+          {
+            "description": null,
+            "detail": {},
+            "lifecycleBehavior": null,
+            "name": "远程不灭治疗",
+            "resultKey": "result",
+            "resultType": "DIRECT_HEAL",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "ranged_heal",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "rune_8437_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:35:41.28551Z"
+      }
+    },
+    {
+      "route": "/skills/rune_8128_passive/parameters/confirmed_souls",
+      "status": 200,
+      "matched": true,
+      "actual": {
+        "createdAt": "2026-09-09T01:36:07.117725Z",
+        "description": "必须由已核实灵魂状态绑定，不设默认数值，不在本批伪造生产规则。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "已确认灵魂数量输入",
+        "parameterKey": "confirmed_souls",
+        "skillKey": "rune_8128_passive",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T01:36:07.117725Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/rune_8128_passive/formulas/harvest_damage",
+      "status": 200,
+      "matched": true,
+      "actual": {
+        "createdAt": "2026-09-09T01:36:07.865391Z",
+        "description": "运行输入尚未绑定，只保存可审查公式，不用于持续动态读取",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_per_soul"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "confirmed_souls"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_attack_damage_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ability_power_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "harvest_damage",
+        "gameId": "lol",
+        "name": "黑暗收割伤害数值",
+        "skillKey": "rune_8128_passive",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T01:36:07.865391Z"
+      }
+    },
+    {
+      "route": "/rune-skill-relations?runeKey=rune_8128&skillKey=rune_8128_passive",
+      "status": 200,
+      "matched": true,
+      "actual": {
+        "items": [
+          {
+            "gameId": "lol",
+            "runeKey": "rune_8128",
+            "runeName": "黑暗收割",
+            "skillKey": "rune_8128_passive",
+            "skillName": "符文·黑暗收割",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          }
+        ],
+        "total": 1
+      }
+    },
+    {
+      "route": "/skills/rune_8210_passive/representative-image",
+      "status": 200,
+      "matched": true,
+      "imageKey": "rune_8210"
+    },
+    {
+      "route": "/skills/rune_8437_passive/representative-image",
+      "status": 200,
+      "matched": true,
+      "imageKey": "rune_8437"
+    },
+    {
+      "route": "/skills/rune_8128_passive/representative-image",
+      "status": 200,
+      "matched": true,
+      "imageKey": "rune_8128"
+    }
+  ],
+  "boundary": "代表页面及写后字段核对，不表示条件全部接通或战斗运行",
+  "independentGetCount": 14
+}
