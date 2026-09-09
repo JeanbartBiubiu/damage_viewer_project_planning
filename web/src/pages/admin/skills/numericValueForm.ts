@@ -63,6 +63,13 @@ export function numericValuesIn(value: unknown): NumericValue[] {
   return [];
 }
 
+export function usesNumericValueKind(value: unknown, kind: NumericValue['kind']): boolean {
+  if (!value || typeof value !== 'object') return false;
+  // 草稿刚切换来源时引用键仍可为空，目录恢复入口不能依赖完整取值校验。
+  if ('kind' in value && value.kind === kind) return true;
+  return Object.values(value).some((item) => usesNumericValueKind(item, kind));
+}
+
 export function numericIssuePath(path: string): string {
   return path.replace(/((?:^|\.)(?:value|\w+Value))\.(?:kind|value|parameterKey|formulaKey)$/, '$1');
 }

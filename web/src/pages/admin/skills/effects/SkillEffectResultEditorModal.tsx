@@ -1,5 +1,5 @@
 import { numericFormulaKey } from '../../../../types/numericValue';
-import { numericValuesIn } from '../numericValueForm';
+import { usesNumericValueKind } from '../numericValueForm';
 import type { SkillParameter } from '../../../../types/skillParameter';
 import { NumericValueField } from '../NumericValueField';
 import {
@@ -153,6 +153,7 @@ type SkillEffectResultEditorModalProps = {
   parametersLoadState?: 'ready' | 'failed';
   formulas: ReadonlyArray<Pick<SkillFormulaSummary, 'formulaKey' | 'name'>>;
   formulasLoadState?: 'ready' | 'failed';
+  onRetryFormulas: () => void;
   parentSkill: Skill;
   parentDraft: SkillEffectDraft;
   effectSummaries: ReadonlyArray<Pick<SkillEffectSummary, 'effectKey' | 'name' | 'lifecycleEnabled'>>;
@@ -327,6 +328,7 @@ export function SkillEffectResultEditorModal({
   parametersLoadState,
   formulas,
   formulasLoadState,
+  onRetryFormulas,
   parentSkill,
   parentDraft,
   effectSummaries,
@@ -834,7 +836,7 @@ export function SkillEffectResultEditorModal({
     statusOptions
   ]);
 
-  const needsFormulas = numericValuesIn(draft).some((value) => value.kind === 'FORMULA');
+  const needsFormulas = usesNumericValueKind(draft, 'FORMULA');
   const requiredCatalogLoading = useMemo(() => {
     if (needsFormulas && formulasLoadState !== 'ready' && formulasLoadState !== 'failed') {
       return formulasLoadState === undefined;
@@ -1088,6 +1090,7 @@ export function SkillEffectResultEditorModal({
   };
 
   const retryNeededCatalog = () => {
+    if (needsFormulas) onRetryFormulas();
     if (
       draft.resultType === 'DAMAGE'
       || draft.resultType === 'NORMAL_SHIELD'

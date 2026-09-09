@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { fixedValue, formulaValue, isNumericValue, parameterValue } from '../../../types/numericValue';
 import type { SkillParameter } from '../../../types/skillParameter';
-import { numericIssuePath, numericValueError, numericValueSummary, staticChargeRangeIsValid } from './numericValueForm';
+import { numericIssuePath, numericValueError, numericValueSummary, numericValuesIn, staticChargeRangeIsValid, usesNumericValueKind } from './numericValueForm';
 import { createEmptyInternalStateDraft, validateSkillInternalStateDraft } from './processes/internalStateForm';
 import { createEmptyProcessDraft, createEmptyStepDraft, validateSkillProcessDraft } from './processes/processForm';
 import { createEmptyEffectDraft, createEmptyResultDraft, validateSkillEffectDraft } from './effects/effectForm';
@@ -16,6 +16,13 @@ const parameter = (overrides: Partial<SkillParameter> = {}): SkillParameter => (
 });
 
 describe('三种取值的严格形状与静态边界', () => {
+  it('空公式草稿仍需要公式目录，但不冒充可保存取值', () => {
+    const draft = { results: [{ detail: { multiplierValue: { kind: 'FORMULA', formulaKey: '' } } }] };
+    expect(usesNumericValueKind(draft, 'FORMULA')).toBe(true);
+    expect(numericValuesIn(draft)).toEqual([]);
+    expect(usesNumericValueKind({ initialValue: fixedValue(0), maxValue: null }, 'FORMULA')).toBe(false);
+    expect(usesNumericValueKind({ value: parameterValue('amount') }, 'FORMULA')).toBe(false);
+  });
   it.each([
     'damage', { kind: 'FIXED', value: '0' }, { kind: 'FIXED', value: 0, formulaKey: 'damage' },
     { kind: 'PARAMETER', parameterKey: 'amount', value: 2 }, { kind: 'FORMULA', formulaKey: 'damage', parameterKey: 'amount' },
