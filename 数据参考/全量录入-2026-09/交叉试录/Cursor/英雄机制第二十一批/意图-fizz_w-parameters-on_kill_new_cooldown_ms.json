@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:47.073Z",
+  "method": "POST",
+  "skillKey": "fizz_w",
+  "kind": "parameters",
+  "stableKey": "on_kill_new_cooldown_ms",
+  "route": "/skills/fizz_w/parameters",
+  "readRoute": "/skills/fizz_w/parameters/on_kill_new_cooldown_ms",
+  "body": {
+    "parameterKey": "on_kill_new_cooldown_ms",
+    "name": "击杀后冷却（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 1000,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.OnKillNewCooldown 取索引1至5，原值1秒转毫秒。缩短冷却事件未接线。",
+    "sortOrder": 160
+  }
+}

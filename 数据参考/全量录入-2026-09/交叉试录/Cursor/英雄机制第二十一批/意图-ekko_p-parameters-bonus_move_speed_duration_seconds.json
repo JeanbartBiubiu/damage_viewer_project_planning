@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:36:22.911Z",
+  "method": "POST",
+  "skillKey": "ekko_p",
+  "kind": "parameters",
+  "stableKey": "bonus_move_speed_duration_seconds",
+  "route": "/skills/ekko_p/parameters",
+  "readRoute": "/skills/ekko_p/parameters/bonus_move_speed_duration_seconds",
+  "body": {
+    "parameterKey": "bonus_move_speed_duration_seconds",
+    "name": "爆发移动速度持续（秒，实际值外供）",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "SpeedDuration 为角色等级断点：mLevel1Value=2，6/11级各 mAdditionalBonusAtThisLevel=0.5。求值循环未证，不换算成毫秒表，不默认0。",
+    "sortOrder": 70
+  }
+}

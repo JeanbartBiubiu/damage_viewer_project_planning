@@ -1,0 +1,966 @@
+{
+  "formulaCount": 21,
+  "positiveCases": 42,
+  "missingInputRejections": 25,
+  "boundaryCases": 11,
+  "totalChecks": 78,
+  "resourceEffects": 8,
+  "passed": true,
+  "reports": [
+    {
+      "skillKey": "ekko_p",
+      "formulaKey": "three_hit_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 110,
+      "sourceExpected": 110.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_p",
+      "formulaKey": "three_hit_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 259.4,
+      "sourceExpected": 259.4000020623207,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_p",
+      "formulaKey": "three_hit_damage",
+      "missingInput": "char_level_base_damage",
+      "rejected": true
+    },
+    {
+      "skillKey": "ekko_p",
+      "formulaKey": "three_hit_damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "ekko_q",
+      "formulaKey": "initial_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 110,
+      "sourceExpected": 110.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_q",
+      "formulaKey": "initial_damage",
+      "inputs": {
+        "rank": 5,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 191.9,
+      "sourceExpected": 191.9000020623207,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_q",
+      "formulaKey": "initial_damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "ekko_q",
+      "formulaKey": "recall_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 100,
+      "sourceExpected": 100.00000238418579,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_q",
+      "formulaKey": "recall_damage",
+      "inputs": {
+        "rank": 5,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 243.8,
+      "sourceExpected": 243.80000412464142,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_q",
+      "formulaKey": "recall_damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "missing_health_damage_ratio",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 0.06,
+      "sourceExpected": 0.059999997988343254,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "missing_health_damage_ratio",
+      "inputs": {
+        "rank": 5,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 0.0819,
+      "sourceExpected": 0.08189999700933698,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "missing_health_damage_ratio",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "total_shield",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 250,
+      "sourceExpected": 250,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "total_shield",
+      "inputs": {
+        "rank": 5,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 439.5,
+      "sourceExpected": 439.5,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "total_shield",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "eligible_on_hit_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 15,
+      "sourceExpected": 15,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "eligible_on_hit_damage",
+      "inputs": {
+        "rank": 5,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 81.9,
+      "sourceExpected": 81.89999700933697,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "eligible_on_hit_damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "eligible_on_hit_damage",
+      "missingInput": "target_missing_health_for_on_hit",
+      "rejected": true
+    },
+    {
+      "skillKey": "ekko_e",
+      "formulaKey": "damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 90,
+      "sourceExpected": 90.00000059604645,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_e",
+      "formulaKey": "damage",
+      "inputs": {
+        "rank": 5,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 219.2,
+      "sourceExpected": 219.20000103116035,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_e",
+      "formulaKey": "damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 375,
+      "sourceExpected": 375,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "damage",
+      "inputs": {
+        "rank": 3,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 802.75,
+      "sourceExpected": 802.75,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "total_base_heal",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 160,
+      "sourceExpected": 160.0000023841858,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "total_base_heal",
+      "inputs": {
+        "rank": 3,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 303.8,
+      "sourceExpected": 303.8000041246414,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "total_base_heal",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "history_amplified_heal",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 304,
+      "sourceExpected": 304.000004529953,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "history_amplified_heal",
+      "inputs": {
+        "rank": 3,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 1215.2,
+      "sourceExpected": 1215.2000164985657,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "history_amplified_heal",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "history_amplified_heal",
+      "missingInput": "past_missing_health_percent_points",
+      "rejected": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "damage_reduction",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 5,
+      "sourceExpected": 4.999999977648258,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "damage_reduction",
+      "inputs": {
+        "rank": 1,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 5.73,
+      "sourceExpected": 5.729999961331487,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "damage_reduction",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "capped_damage_reduction",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 4,
+      "sourceExpected": 4,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "capped_damage_reduction",
+      "inputs": {
+        "rank": 1,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 5.73,
+      "sourceExpected": 5.729999961331487,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "capped_damage_reduction",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "capped_damage_reduction",
+      "missingInput": "damage_before_this_reduction",
+      "rejected": true
+    },
+    {
+      "skillKey": "fizz_q",
+      "formulaKey": "magic_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 65,
+      "sourceExpected": 65.0000011920929,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_q",
+      "formulaKey": "magic_damage",
+      "inputs": {
+        "rank": 5,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 165.15,
+      "sourceExpected": 165.1500020623207,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_q",
+      "formulaKey": "magic_damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "fizz_q",
+      "formulaKey": "physical_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 200,
+      "sourceExpected": 200,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_q",
+      "formulaKey": "physical_damage",
+      "inputs": {
+        "rank": 5,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 287,
+      "sourceExpected": 287,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_q",
+      "formulaKey": "physical_damage",
+      "missingInput": "totalAD",
+      "rejected": true
+    },
+    {
+      "skillKey": "fizz_w",
+      "formulaKey": "dot_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 55,
+      "sourceExpected": 55,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_w",
+      "formulaKey": "dot_damage",
+      "inputs": {
+        "rank": 5,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 133.25,
+      "sourceExpected": 133.25,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_w",
+      "formulaKey": "dot_damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "fizz_w",
+      "formulaKey": "active_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 95,
+      "sourceExpected": 94.9999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_w",
+      "formulaKey": "active_damage",
+      "inputs": {
+        "rank": 5,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 227.85000000000002,
+      "sourceExpected": 227.8499979376793,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_w",
+      "formulaKey": "active_damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "fizz_w",
+      "formulaKey": "on_hit_buff_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 50,
+      "sourceExpected": 50.000001192092896,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_w",
+      "formulaKey": "on_hit_buff_damage",
+      "inputs": {
+        "rank": 5,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 91.9,
+      "sourceExpected": 91.90000206232071,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_w",
+      "formulaKey": "on_hit_buff_damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "fizz_e",
+      "formulaKey": "damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 175,
+      "sourceExpected": 174.9999988079071,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_e",
+      "formulaKey": "damage",
+      "inputs": {
+        "rank": 5,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 444.35,
+      "sourceExpected": 444.3499979376793,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_e",
+      "formulaKey": "damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "fizz_r",
+      "formulaKey": "small_shark_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 240,
+      "sourceExpected": 240.0000023841858,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_r",
+      "formulaKey": "small_shark_damage",
+      "inputs": {
+        "rank": 3,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 523.8,
+      "sourceExpected": 523.8000041246414,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_r",
+      "formulaKey": "small_shark_damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "fizz_r",
+      "formulaKey": "mid_shark_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 300,
+      "sourceExpected": 300.00000298023224,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_r",
+      "formulaKey": "mid_shark_damage",
+      "inputs": {
+        "rank": 3,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 654.75,
+      "sourceExpected": 654.7500051558018,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_r",
+      "formulaKey": "mid_shark_damage",
+      "missingInput": "AP",
+      "rejected": true
+    },
+    {
+      "skillKey": "fizz_r",
+      "formulaKey": "big_shark_damage",
+      "inputs": {
+        "rank": 1,
+        "AP": 100,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "char_level_base_damage": 30,
+        "damage_before_this_reduction": 8,
+        "target_missing_health_for_on_hit": 50,
+        "past_missing_health_percent_points": 30
+      },
+      "actual": 360,
+      "sourceExpected": 360.0000035762787,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_r",
+      "formulaKey": "big_shark_damage",
+      "inputs": {
+        "rank": 3,
+        "AP": 173,
+        "totalAD": 287,
+        "bonusAD": 91,
+        "char_level_base_damage": 121,
+        "damage_before_this_reduction": 100,
+        "target_missing_health_for_on_hit": 1000,
+        "past_missing_health_percent_points": 100
+      },
+      "actual": 785.6999999999999,
+      "sourceExpected": 785.7000061869621,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_r",
+      "formulaKey": "big_shark_damage",
+      "missingInput": "AP",
+      "rejected": true
+    }
+  ],
+  "boundaryChecks": [
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "capped_damage_reduction",
+      "input": 0,
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "capped_damage_reduction",
+      "input": 8,
+      "actual": 4,
+      "expected": 4,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "capped_damage_reduction",
+      "input": 10,
+      "actual": 5,
+      "expected": 5,
+      "passed": true
+    },
+    {
+      "skillKey": "fizz_p",
+      "formulaKey": "capped_damage_reduction",
+      "input": 100,
+      "actual": 5,
+      "expected": 5,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "eligible_on_hit_damage",
+      "input": 0,
+      "actual": 15,
+      "expected": 15,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "eligible_on_hit_damage",
+      "input": 200,
+      "actual": 15,
+      "expected": 15,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "eligible_on_hit_damage",
+      "input": 250,
+      "actual": 15,
+      "expected": 15,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_w",
+      "formulaKey": "eligible_on_hit_damage",
+      "input": 300,
+      "actual": 18,
+      "expected": 18,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "history_amplified_heal",
+      "input": 0,
+      "actual": 160,
+      "expected": 160,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "history_amplified_heal",
+      "input": 30,
+      "actual": 304,
+      "expected": 304,
+      "passed": true
+    },
+    {
+      "skillKey": "ekko_r",
+      "formulaKey": "history_amplified_heal",
+      "input": 100,
+      "actual": 640,
+      "expected": 640,
+      "passed": true
+    }
+  ],
+  "sourceBoundary": "等级基础实值为明确外供输入，未展开未知曲线；基于当前根树和文字的数学核对，不表示游戏执行。"
+}

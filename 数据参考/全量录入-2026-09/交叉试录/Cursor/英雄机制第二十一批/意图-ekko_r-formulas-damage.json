@@ -1,0 +1,41 @@
+{
+  "at": "2026-09-09T12:37:16.685Z",
+  "method": "POST",
+  "skillKey": "ekko_r",
+  "kind": "formulas",
+  "stableKey": "damage",
+  "route": "/skills/ekko_r/formulas",
+  "readRoute": "/skills/ekko_r/formulas/damage",
+  "body": {
+    "formulaKey": "damage",
+    "name": "到达范围魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalDamage = Damage + 1.75×来源总法强。到达事件未接线。",
+    "sortOrder": 10
+  }
+}

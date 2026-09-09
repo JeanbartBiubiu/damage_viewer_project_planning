@@ -1,0 +1,51 @@
+{
+  "at": "2026-09-09T12:38:18.707Z",
+  "method": "POST",
+  "skillKey": "fizz_r",
+  "kind": "formulas",
+  "stableKey": "mid_shark_damage",
+  "route": "/skills/fizz_r/formulas",
+  "readRoute": "/skills/fizz_r/formulas/mid_shark_damage",
+  "body": {
+    "formulaKey": "mid_shark_damage",
+    "name": "中鲨鱼魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "mid_damage_multiplier"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "small_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "small_ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "匿名 {262c3c02} = MidDamageMulti × SmallSharkDamage。中距分支单独核对。",
+    "sortOrder": 20
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:38:03.500Z",
+  "method": "POST",
+  "skillKey": "fizz_r",
+  "kind": "parameters",
+  "stableKey": "cast_time_ms",
+  "route": "/skills/fizz_r/parameters",
+  "readRoute": "/skills/fizz_r/parameters/cast_time_ms",
+  "body": {
+    "parameterKey": "cast_time_ms",
+    "name": "施法时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 250,
+    "levelValues": null,
+    "description": "当前根 spellCastTime 与 mCastTime 均为0.25，同值。子节点 FizzRMissile/FizzRHop 为0.25与约0.251，不把子节点差用于本根。",
+    "sortOrder": 20
+  }
+}

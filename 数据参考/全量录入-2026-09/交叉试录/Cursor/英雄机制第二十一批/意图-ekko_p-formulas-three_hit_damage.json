@@ -1,0 +1,51 @@
+{
+  "at": "2026-09-09T12:36:24.508Z",
+  "method": "POST",
+  "skillKey": "ekko_p",
+  "kind": "formulas",
+  "stableKey": "three_hit_damage",
+  "route": "/skills/ekko_p/formulas",
+  "readRoute": "/skills/ekko_p/formulas/three_hit_damage",
+  "body": {
+    "formulaKey": "three_hit_damage",
+    "name": "三次命中额外魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "modes_multiplier"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "char_level_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "ThreeHitDamage = ModesMultiplier ×（角色等级断点外供 + 0.8×来源总法强）。含 mMultiplier。不是减伤后实伤，也不把第三次命中写成可运行触发。",
+    "sortOrder": 10
+  }
+}

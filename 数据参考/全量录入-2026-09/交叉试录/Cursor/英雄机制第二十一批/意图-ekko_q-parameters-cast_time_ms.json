@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:36:26.204Z",
+  "method": "POST",
+  "skillKey": "ekko_q",
+  "kind": "parameters",
+  "stableKey": "cast_time_ms",
+  "route": "/skills/ekko_q/parameters",
+  "readRoute": "/skills/ekko_q/parameters/cast_time_ms",
+  "body": {
+    "parameterKey": "cast_time_ms",
+    "name": "施法时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 250,
+    "levelValues": null,
+    "description": "当前根 spellCastTime=0.25，无冲突的 mCastTime。仅保存根字段，不表示往程或返程命中发生在施法结束。",
+    "sortOrder": 20
+  }
+}

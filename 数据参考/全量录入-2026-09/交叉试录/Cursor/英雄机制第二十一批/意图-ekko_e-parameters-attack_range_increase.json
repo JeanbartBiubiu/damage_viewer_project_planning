@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:01.980Z",
+  "method": "POST",
+  "skillKey": "ekko_e",
+  "kind": "parameters",
+  "stableKey": "attack_range_increase",
+  "route": "/skills/ekko_e/parameters",
+  "readRoute": "/skills/ekko_e/parameters/attack_range_increase",
+  "body": {
+    "parameterKey": "attack_range_increase",
+    "name": "攻击距离增加",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 300,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.AttackRangeIncrease 取索引1至5。",
+    "sortOrder": 70
+  }
+}

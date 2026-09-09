@@ -1,0 +1,25 @@
+{
+  "at": "2026-09-09T12:37:28.735Z",
+  "method": "POST",
+  "skillKey": "fizz_q",
+  "kind": "parameters",
+  "stableKey": "magic_base_damage",
+  "route": "/skills/fizz_q/parameters",
+  "readRoute": "/skills/fizz_q/parameters/magic_base_damage",
+  "body": {
+    "parameterKey": "magic_base_damage",
+    "name": "额外基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 10,
+      "2": 25,
+      "3": 40,
+      "4": 55,
+      "5": 70
+    },
+    "description": "QDamage 使用 EffectValueCalculationPart mEffectIndex=1，对应 mEffectAmount[0] 取索引1至5。根无 DataValues。",
+    "sortOrder": 30
+  }
+}

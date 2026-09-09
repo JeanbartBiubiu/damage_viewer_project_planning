@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:38:16.737Z",
+  "method": "POST",
+  "skillKey": "fizz_r",
+  "kind": "parameters",
+  "stableKey": "maximum_slow_percent_points",
+  "route": "/skills/fizz_r/parameters",
+  "readRoute": "/skills/fizz_r/parameters/maximum_slow_percent_points",
+  "body": {
+    "parameterKey": "maximum_slow_percent_points",
+    "name": "最大减速百分数点",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 80,
+    "levelValues": null,
+    "description": "当前根正文明确40%到80%，只保存端点，不默认最大。",
+    "sortOrder": 170
+  }
+}

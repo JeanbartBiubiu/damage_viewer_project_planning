@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:36:40.160Z",
+  "method": "POST",
+  "skillKey": "ekko_w",
+  "kind": "parameters",
+  "stableKey": "on_hit_base",
+  "route": "/skills/ekko_w/parameters",
+  "readRoute": "/skills/ekko_w/parameters/on_hit_base",
+  "body": {
+    "parameterKey": "on_hit_base",
+    "name": "已损失生命伤害基础点数",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 3,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.BaseOnHitDamage 取索引1至5。进入 MissingHealthPercent 后再乘 0.01。",
+    "sortOrder": 40
+  }
+}

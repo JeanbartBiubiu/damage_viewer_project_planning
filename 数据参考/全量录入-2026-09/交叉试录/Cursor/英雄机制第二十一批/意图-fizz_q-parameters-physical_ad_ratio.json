@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:30.771Z",
+  "method": "POST",
+  "skillKey": "fizz_q",
+  "kind": "parameters",
+  "stableKey": "physical_ad_ratio",
+  "route": "/skills/fizz_q/parameters",
+  "readRoute": "/skills/fizz_q/parameters/physical_ad_ratio",
+  "body": {
+    "parameterKey": "physical_ad_ratio",
+    "name": "物理伤害总攻击力倍率",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 1,
+    "levelValues": null,
+    "description": "TotalDamage tooltipOnly：StatByCoefficient 显式 mStat=2、mCoefficient=1，mStatFormula 省略按构造为0。同版本 mStat2 省略公式对应来源总攻击力，不能套额外攻击力。",
+    "sortOrder": 50
+  }
+}

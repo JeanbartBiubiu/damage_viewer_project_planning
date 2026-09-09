@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:37:40.756Z",
+  "method": "POST",
+  "skillKey": "fizz_w",
+  "kind": "parameters",
+  "stableKey": "active_ap_ratio",
+  "route": "/skills/fizz_w/parameters",
+  "readRoute": "/skills/fizz_w/parameters/active_ap_ratio",
+  "body": {
+    "parameterKey": "active_ap_ratio",
+    "name": "强化攻击法强倍率",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.45,
+    "levelValues": null,
+    "description": "ActiveDamage 的 StatByNamedDataValue 绑定 ActiveRatio 原始 0.44999998807907104，归一为0.45。省略选择器，窄口径来源总法强。",
+    "sortOrder": 80
+  }
+}

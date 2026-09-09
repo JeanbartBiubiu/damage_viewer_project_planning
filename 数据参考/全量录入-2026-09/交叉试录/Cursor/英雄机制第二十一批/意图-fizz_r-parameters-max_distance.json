@@ -1,0 +1,19 @@
+{
+  "at": "2026-09-09T12:38:10.724Z",
+  "method": "POST",
+  "skillKey": "fizz_r",
+  "kind": "parameters",
+  "stableKey": "max_distance",
+  "route": "/skills/fizz_r/parameters",
+  "readRoute": "/skills/fizz_r/parameters/max_distance",
+  "body": {
+    "parameterKey": "max_distance",
+    "name": "小鱼最大飞行距离",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 1300,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.MaxDistance 取索引1至3。飞行距离本身不是伤害默认最大。",
+    "sortOrder": 90
+  }
+}
