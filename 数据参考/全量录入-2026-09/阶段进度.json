@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T06:03:29.692Z",
+  "generatedAt": "2026-09-09T06:17:23.316Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -1604,6 +1604,77 @@
       "evidence": "API实录/符文效果第五批/实际录入结果.json",
       "browserEvidence": "API实录/符文效果第五批/页面验收.json",
       "finalSha256": "1b03784e003fa63675b4665eac66f772b93f770dffd8c0b128888a3043384f44",
+      "runtimeValidation": "未执行"
+    },
+    "heroThirteenthBatch": {
+      "heroes": [
+        "Akali",
+        "Kassadin",
+        "Ryze",
+        "Cassiopeia"
+      ],
+      "skills": [
+        "akali_p",
+        "akali_q",
+        "akali_w",
+        "akali_e",
+        "akali_r",
+        "kassadin_p",
+        "kassadin_q",
+        "kassadin_w",
+        "kassadin_e",
+        "kassadin_r",
+        "ryze_p",
+        "ryze_q",
+        "ryze_w",
+        "ryze_e",
+        "ryze_r",
+        "cassiopeia_p",
+        "cassiopeia_q",
+        "cassiopeia_w",
+        "cassiopeia_e",
+        "cassiopeia_r"
+      ],
+      "parameters": 145,
+      "formulas": 37,
+      "effects": 20,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "total": 202,
+      "created": 174,
+      "createdByKind": {
+        "parameters": 117,
+        "formulas": 37,
+        "effects": 20
+      },
+      "reusedPublicParameters": 28,
+      "independentGets": 370,
+      "independentFullFields": 2530,
+      "actualMathGets": 182,
+      "actualMathChecks": 1186,
+      "sourceCases": 100,
+      "manualCases": 57,
+      "rootRepresentativePages": 3,
+      "rootPageGets": 21,
+      "cursorReview": {
+        "verdict": "READY",
+        "runId": "run-8c312425-eacb-4527-aba2-82b72f4a89ac",
+        "readOnlyAudit": true,
+        "completedTools": 86
+      },
+      "candidateSha256": "247eeb25c0f1c0b5448fabd16512d9c7b2632660fc08f3cd67bac0d9335c5ff0",
+      "currentStatus": "202确定组成已保存，174新增；独立完整回读、数学与三个页面通过，未知输入及事件资格继续补，不计完整运行。",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十三批/当前实录状态.json",
+        "commit": "c3e29d18"
+      },
+      "browserEvidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十三批/页面验收.json",
+        "commit": "c3e29d18"
+      },
       "runtimeValidation": "未执行"
     }
   },
