@@ -1,0 +1,3308 @@
+{
+  "schema": "符文基础资料第一批/接口录入/安全写入报告",
+  "runId": "20260908184644965",
+  "mode": "read-only",
+  "gameId": "lol",
+  "baseUrl": "http://127.0.0.1:8080/api/admin/games/lol",
+  "frozenCandidateSha256": "3998e7f3dd49dcbbb29fd257f022202139d077c11c8131f50f63362874f6895d",
+  "startedAt": "2026-09-08T18:46:44.968Z",
+  "updatedAt": "2026-09-08T18:46:52.585Z",
+  "staticVerification": {
+    "status": "passed",
+    "originalCandidateSha256": "3998e7f3dd49dcbbb29fd257f022202139d077c11c8131f50f63362874f6895d",
+    "inputChecks": [
+      {
+        "name": "freeze",
+        "file": "API实录/符文基础资料第一批/冻结来源.json",
+        "sha256": "944b7c0cc6976ebaec7ced735c7db0fb1d6cc8050c7d5dfdfdac874397089523",
+        "byteSize": 1837
+      },
+      {
+        "name": "groups",
+        "file": "API实录/符文基础资料第一批/分组请求.json",
+        "sha256": "ae98ec4d87b6c8c371bf5252299bc2cbd8374178945722bd74dbe7e15b19ce8f",
+        "byteSize": 5068
+      },
+      {
+        "name": "runeRequests",
+        "file": "API实录/符文基础资料第一批/符文请求.json",
+        "sha256": "55d4a35b90c7e9bf19a3924f402b4346436f05a02550b72bce5c95c80e0d458d",
+        "byteSize": 21014
+      },
+      {
+        "name": "candidate",
+        "file": "API实录/符文基础资料第一批/候选与来源.json",
+        "sha256": "3998e7f3dd49dcbbb29fd257f022202139d077c11c8131f50f63362874f6895d",
+        "byteSize": 118811
+      },
+      {
+        "name": "imageCandidates",
+        "file": "API实录/符文基础资料第一批/图片候选.json",
+        "sha256": "5ccf902e31d5514c5112294accbea13d05440c73484c72b050603a5fe153724e",
+        "byteSize": 124017
+      },
+      {
+        "name": "imageRecords",
+        "file": "API实录/符文基础资料第一批/页面图片记录.json",
+        "sha256": "f3a5b52f6570a7a19fe92db9aa3fe25e9f1b7231c26048c4e2e7acc546a57bc1",
+        "byteSize": 36972
+      },
+      {
+        "name": "pageSeed",
+        "file": "API实录/符文基础资料第一批/页面种子.json",
+        "sha256": "bb575881b081b5aecc96f168bba7386e22981726f41e96d6defebe29f014decf",
+        "byteSize": 1432
+      }
+    ],
+    "sourceChecks": [
+      {
+        "file": "装备符文/官方原始资料/runesReforged-16.17.1-zh_CN.json",
+        "sha256": "a6330b50b15a735d5b33543d5485d5ce3abac6b6e310a2182f70327ee5484ab0",
+        "byteSize": 36166
+      },
+      {
+        "file": "装备符文/客户端提取资料/perks-16.17-zh_CN.json",
+        "sha256": "be0bb4eedde39f3a8e1dc245f9b4382379d87674c2fdc62b2650b6af4d9f565b",
+        "byteSize": 102473
+      },
+      {
+        "file": "装备符文/客户端提取资料/perkstyles-16.17-zh_CN.json",
+        "sha256": "cb1beb46339ba533102c87938ff394a107860a13291fb579e86c18a193c4062e",
+        "byteSize": 17581
+      },
+      {
+        "file": "装备符文/资料清单.json",
+        "sha256": "383cb3659584df510457051555d49e7b4aad61efbfb9916414b9cc34e4b2ba7a",
+        "byteSize": 2814
+      },
+      {
+        "file": "装备符文/补充资料清单.json",
+        "sha256": "8b12f65eb08b19990df1f1af64e30c048ed1091d8f8be8e3aafe7aa09757eefc",
+        "byteSize": 1052
+      },
+      {
+        "file": "装备符文/符文待录清单.json",
+        "sha256": "fa24d0ef27877f91867fb6f80171e16373961bba8a4831f1eb37eee86a04f3ee",
+        "byteSize": 127664
+      },
+      {
+        "file": "装备符文/符文属性碎片核对.json",
+        "sha256": "9e52c59220c765f2532592e963800e39e9a937627b9406af736f024ac3e58812",
+        "byteSize": 9883
+      }
+    ],
+    "imageChecks": [
+      {
+        "targetKey": "rune_8112",
+        "sha256": "4d2dc1a4d8e746e00ce081843b65c87217f4a1a44473a561e3167085fdeaf7ea",
+        "byteSize": 8134,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8128",
+        "sha256": "fd6aab7a7594b7d0ed1e188f56d8ba4d322e0598445f2b83c5385dea1935fe23",
+        "byteSize": 7768,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_9923",
+        "sha256": "7fa28bb7cbd29bc4a872ef77378d27a143327666d86713208648cad906ac4f40",
+        "byteSize": 6901,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8126",
+        "sha256": "d799cccc710228dcfa050f2f8ebc92b0ef4a4589cc25f8858b6f29f646506bfc",
+        "byteSize": 5840,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8139",
+        "sha256": "9b3fb3c6e641105e648cc4a03f7f23d375fc14630cdbdba0a49b409e8fe5ec22",
+        "byteSize": 4831,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8143",
+        "sha256": "5a508a944adf738d6ca20dbc6e94c23cde1cf5f2f41b205221c254ead09eb468",
+        "byteSize": 4817,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8137",
+        "sha256": "ef5538c699cbd933760fde4cac19434223cdc87d2648d5ffd6c1d13f3bdcbab1",
+        "byteSize": 4898,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8140",
+        "sha256": "ecfc364cea5b61c1293425d7225589e0892c0e467e8171553488b7bcc8dac680",
+        "byteSize": 5277,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8141",
+        "sha256": "772c80f1a224c2a00f6b2ff90d31a947db7e162dc26b8a11549429e44e441c51",
+        "byteSize": 5181,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8135",
+        "sha256": "f5d87cb6dce5e8f95988025b11ec6a1c3be181c0f4dea1aba04183e8b92861f7",
+        "byteSize": 5448,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8105",
+        "sha256": "433fbeafe4d34a0b22b5facb87bbfcefcb0a70feb1c308b5b343ea512967017d",
+        "byteSize": 5171,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8106",
+        "sha256": "555a18a0c6825468a6e6f21068729f732cb22cf53a2bb3c9b24421f335700f58",
+        "byteSize": 9195,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8351",
+        "sha256": "781e2fa810f2fc26f2a7dd9b855f4ac9cb2f929c74fa90c82e3712780fc24a9b",
+        "byteSize": 8472,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8360",
+        "sha256": "0fade011bd0dc5a35a14488d0436ef93fece47f89277e82f26819ddf6158e769",
+        "byteSize": 8178,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8369",
+        "sha256": "bb9d5448d8081d6172136db1efd85e988f1997286c03d9875728785e4eb6cb05",
+        "byteSize": 8970,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8306",
+        "sha256": "eeefb37df3118377e43b8e3543ae89041243aaf606b64a81349d9b291f1a0235",
+        "byteSize": 5057,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8304",
+        "sha256": "39fdbf40730671e005b268769bde5a7fc940db0a5f7fc989e9f6e7d70b6b2f24",
+        "byteSize": 4960,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8321",
+        "sha256": "a197de8fe74c107432018dfa6e2b4bdc342ee5dac612142d2e75a4a4fb216b25",
+        "byteSize": 7833,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8313",
+        "sha256": "adbf780a06c036cb184f94f091f9bb96dfd45feef067dfa5af3d0fbd3976f0d1",
+        "byteSize": 5846,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8352",
+        "sha256": "9ee65bec134abce9a32335a7800385485566ecb16e21d48b3b564a1cb24d7d10",
+        "byteSize": 8978,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8345",
+        "sha256": "7d90763c807b91bc42bc1605552dd6b74782cedc9c2c011fa90f5bde08b8d2e4",
+        "byteSize": 4743,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8347",
+        "sha256": "c573e47ee7ffd340ce8f803f00f21d37557b3c540bb862df893be18d465643cc",
+        "byteSize": 4753,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8410",
+        "sha256": "97aa55a012239846d704da6fd5a683027e7b5e857fa901af31b39df0019dea2f",
+        "byteSize": 5166,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8316",
+        "sha256": "7338db67bfb74b468413e0f143fe1dcb8079dfbe3e9270af7c42b71e8bf63f3f",
+        "byteSize": 6883,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8005",
+        "sha256": "c8868b607faa77ffc2e4151339a071e87dee02e35b05b7bd19c828a257fab4d8",
+        "byteSize": 9788,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8008",
+        "sha256": "c216669684617e7036da4f4da8ba9078cde725f4b584f68b338ab0c380e78f96",
+        "byteSize": 7017,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8021",
+        "sha256": "d2b478bad9d0e6c5d43afa18d4470bde07a5b6be36f74743b31e63b4bffefa61",
+        "byteSize": 8113,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8010",
+        "sha256": "e1276b21da28141ac2cf121252e0b24614e183c81f0ee582e5bda5e600bdb515",
+        "byteSize": 7362,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_9101",
+        "sha256": "6ecca4f898aa43c8eee97f9a902b176c55cc5e50617ea16a9a9243de4e966d14",
+        "byteSize": 7039,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_9111",
+        "sha256": "9d366091b3e727fcdea4e2cb077cd417c8e34fc08da9d553f82f68576686c466",
+        "byteSize": 4044,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8009",
+        "sha256": "c410787670d5ac5d1f14f502e06b50e86d7317d848d2fe17cb3fe4ebecce53e4",
+        "byteSize": 4617,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_9104",
+        "sha256": "7fe029a2bf8deef5c2b3708f0f6f635c041eb5267e0fc6930b6b8754a91d2da2",
+        "byteSize": 5100,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_9105",
+        "sha256": "e601b6fe18f5dc61cf4d09e97a81e270a7d72f5dc591f806b0539a65cfb76c03",
+        "byteSize": 6670,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_9103",
+        "sha256": "adf3b2efe6d003d858615d9156fc9e41a90a3fd47473e032e15baf9a7db54022",
+        "byteSize": 4413,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8014",
+        "sha256": "c9d4ad612b7be7d12b1bc889d8f142014163b95245dcdc8d9d6f18f23411f066",
+        "byteSize": 4506,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8017",
+        "sha256": "bb10ed47b0e80dacfc2357497545203b81c59b065f7a719227901c81187c87eb",
+        "byteSize": 4776,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8299",
+        "sha256": "0f19ebd38793fec1e2412707f343421649adc6ce0ab390fd51acf7d979e5421a",
+        "byteSize": 4753,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8437",
+        "sha256": "8ad2f79b57c6724db9b73efc034a8446282261e18dbc77d2d2f5f8ac8c43c4ca",
+        "byteSize": 8258,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8439",
+        "sha256": "1943b2e462efa2c4f470d69113b9992d7f3c5679e8d8d8645d7c8799c59fb1c0",
+        "byteSize": 8162,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8465",
+        "sha256": "5dc407aff24f9084550c2446ed16f9f18ceeae84280352f7a923718d4b633c80",
+        "byteSize": 8282,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8446",
+        "sha256": "a901bc340bbb23d7c02803574a559a3644eab71ca5bbab77c98cbe86da5fd23f",
+        "byteSize": 4966,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8463",
+        "sha256": "2a8e259d096b0e5f825766a6d0c09616c870725ed8b231268f171290c446a489",
+        "byteSize": 4272,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8401",
+        "sha256": "d8b68d3f35cb8ef8d613d109c2c07923a984ab4fdb7786ad03a7c30623baaab1",
+        "byteSize": 5470,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8429",
+        "sha256": "870ea820f6302bdf994bce8a7f71f2f2ed144a0e36805eddd04b6f33d17e2f96",
+        "byteSize": 5212,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8444",
+        "sha256": "84d65ebfddf92fc6ed70aafb0d90f2221134aa6dd3cc8e6e34bb961ef6d38171",
+        "byteSize": 3847,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8473",
+        "sha256": "680ad73618e465a218c8450aaa2fc90416f217f70dd1492b23ac99ace8cf633b",
+        "byteSize": 8596,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8451",
+        "sha256": "1c719c04fc4991b95d38c690bc8da68d3a4e072eedd9a6e084f7a0a4737019b6",
+        "byteSize": 5664,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8453",
+        "sha256": "7cacddda7223256e21f150c21d2c4ef795fc84effc46dcfb90dd0fa7ffac064b",
+        "byteSize": 4824,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8242",
+        "sha256": "8b7cb9747eafd7fac3b448e294df054a6121aa9105928e48be0d7784a47ff940",
+        "byteSize": 4500,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8214",
+        "sha256": "1f7969384bf6d91791a1437bffbb0d3d0723e7c954dea53adedbbe568f1d602f",
+        "byteSize": 8037,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8229",
+        "sha256": "a4b79d7d4c97198fd3dc1bd65e8891b3c8d726f39837955cec6d6d8f50c01782",
+        "byteSize": 8237,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8230",
+        "sha256": "4c13d3bfc5adbb12a27d29ea53106560b79accf6e0111373ee933df27dd6875c",
+        "byteSize": 10870,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8992",
+        "sha256": "710e7f7305b7d1b3f61e90f343302a9dce783247bf69bbc8e2076de876a0ef76",
+        "byteSize": 10225,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8224",
+        "sha256": "902b932617bfbb15e862e790ad0e2a5206a9cbe7ebb40a2d2b5fcd9ae5598027",
+        "byteSize": 5890,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8226",
+        "sha256": "745e86b2f17b14ac89698634b16a97d08bfcc90531591c5f28193152189bf9ad",
+        "byteSize": 5381,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8275",
+        "sha256": "8a3035c50ea7b74771ee4974f1183cb4e68d27562521721dc3b1c66fb91c764a",
+        "byteSize": 8947,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8210",
+        "sha256": "06cffe6a0f310b14ca54cc4542de73b18f7f346d1b3fbdd7f2e7cd79f96e9f38",
+        "byteSize": 5658,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8234",
+        "sha256": "d30d65b7f421763ec44b079568cafd34b0bc4f67a7a28985f80f56de4174f9e6",
+        "byteSize": 5968,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8233",
+        "sha256": "d8f5fc217855566fe555e5adce9e3204a82fa5fa3e4bda2a40b9d5c5aafc3095",
+        "byteSize": 4481,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8237",
+        "sha256": "05da57d2fcf177893fb5a6784489845c7df168d0f68409108b70023556220789",
+        "byteSize": 4917,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8232",
+        "sha256": "be31735d21af8ddcbd18d40b7230d900259f2f2ab0543950ec3cc395ecebb809",
+        "byteSize": 4492,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_8236",
+        "sha256": "c9843d1b98a4f6919cdc20d1ab961d853ea55dce71b399937a863bd96ae0191e",
+        "byteSize": 4890,
+        "width": 64,
+        "height": 64
+      },
+      {
+        "targetKey": "rune_5008",
+        "sha256": "098ae91bfa5beec8d3b1a7bb5cc1f0923710c071ed4c6edee06db986aa848952",
+        "byteSize": 365,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "targetKey": "rune_5005",
+        "sha256": "ece281b890cd37e2307cd05a525f473e208cbd2a91ea45b5341225d961363ee3",
+        "byteSize": 304,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "targetKey": "rune_5007",
+        "sha256": "8059506d8d886338a4b4dbc160745cd3fa3bc257a63bbd0fad7cd8d746d05f8f",
+        "byteSize": 493,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "targetKey": "rune_5010",
+        "sha256": "47cc8897552a102361a264cb193ddfe9b33cb8a674e4a4ee6aee83915de4a5ca",
+        "byteSize": 481,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "targetKey": "rune_5001",
+        "sha256": "a49670fe6f10d23dfa2b9bd0fe55024b89c67213ba0de6091beb65af90cec6a2",
+        "byteSize": 183,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "targetKey": "rune_5011",
+        "sha256": "e37476b286dcfcc0e0d7ad3066cad7055e75321a89dfe291c9e6425ec59c21b2",
+        "byteSize": 420,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "targetKey": "rune_5013",
+        "sha256": "78e77ffdb247215d15419354e5ad88601a1987a40e293a58da0bc6321498b03d",
+        "byteSize": 197,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "targetKey": "rune_path_8100",
+        "sha256": "627e3490d9769b09289ee10b6ec6e1a8eb3a9174e2b5c01aec3bfd2e593edadc",
+        "byteSize": 867,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "targetKey": "rune_path_8300",
+        "sha256": "6e769e07ad88b7234ca5e37abc7fa3efc8281244e06e1877949c0e35da83ec4b",
+        "byteSize": 1230,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "targetKey": "rune_path_8000",
+        "sha256": "822204712a42ed91eebe238227f858c9ba647b8c9794b81e9560e3d655235e81",
+        "byteSize": 800,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "targetKey": "rune_path_8400",
+        "sha256": "d58399d8021b8a524e49e30418101e63deca545eabca7f01d0ec812296babe52",
+        "byteSize": 623,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "targetKey": "rune_path_8200",
+        "sha256": "d34b03cfcc6e1365291acf43b7e43b5feb05e521d7bfac33085ffd677566371c",
+        "byteSize": 684,
+        "width": 32,
+        "height": 32
+      }
+    ],
+    "counts": {
+      "runes": 69,
+      "paths": 6,
+      "slots": 23,
+      "positions": 71,
+      "images": 74
+    }
+  },
+  "liveLists": {
+    "runeCount": 2,
+    "pathCount": 2,
+    "runeKeys": [
+      "rune_8005",
+      "rune_5008"
+    ],
+    "pathKeys": [
+      "rune_path_8000",
+      "rune_shards"
+    ]
+  },
+  "protectedExisting": {
+    "runeKeys": [
+      "rune_8005",
+      "rune_5008"
+    ],
+    "pathKeys": [
+      "rune_path_8000",
+      "rune_shards"
+    ],
+    "extraRuneKeys": [],
+    "extraPathKeys": []
+  },
+  "summary": {
+    "runes": {
+      "target": 69,
+      "reused": 2,
+      "created": 0,
+      "planned": 67,
+      "conflict": 0,
+      "failed": 0
+    },
+    "paths": {
+      "target": 6,
+      "reused": 0,
+      "created": 0,
+      "updated": 0,
+      "planned": 6,
+      "conflict": 0,
+      "failed": 0
+    },
+    "images": {
+      "target": 74,
+      "reused": 2,
+      "created": 0,
+      "planned": 72,
+      "conflict": 0,
+      "failed": 0
+    },
+    "relations": {
+      "target": 74,
+      "reused": 2,
+      "set": 0,
+      "planned": 72,
+      "conflict": 0,
+      "failed": 0
+    }
+  },
+  "operations": [
+    {
+      "at": "2026-09-08T18:46:45.155Z",
+      "stage": "runes",
+      "target": "rune:rune_8112",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8112",
+        "name": "电刑",
+        "description": "在3秒内用3个独立的攻击或技能命中一位英雄时，会造成额外的自适应伤害。\n\n伤害值：70 - 240 (+0.1额外攻击力，+0.05法术强度)。\n冷却时间：20秒\n\n“我们曾称呼他们为“雷霆领主”，是因为他们的闪电招来了灾祸。”",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.197Z",
+      "stage": "runes",
+      "target": "rune:rune_8128",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8128",
+        "name": "黑暗收割",
+        "description": "伤害一名生命值低于50%的英雄时会造成自适应伤害并收割该英雄的灵魂，并将黑暗收割的伤害永久提升11。\n\n黑暗收割伤害：30 (+11伤害x灵魂数) (+0.1额外攻击力) (+0.05法术强度)\n冷却时间：35秒(参与击杀时重置到1.0秒)",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.230Z",
+      "stage": "runes",
+      "target": "rune:rune_9923",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_9923",
+        "name": "丛刃",
+        "description": "在攻击敌方英雄时，提供90%(远程英雄为60%)攻击速度和额外真实伤害给至多3次攻击。\n\n每次攻击的间隔不能超过3秒，否则这个效果就会结束。\n\n冷却时间：10秒。\n攻击特效伤害：2 - 20 (+0.12额外攻击力，+0.1法术强度)伤害。\n\n被重置的攻击会使攻击次数上限提升1。\n允许你暂时溢出你的攻击速度上限。",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.270Z",
+      "stage": "runes",
+      "target": "rune:rune_8126",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8126",
+        "name": "恶意中伤",
+        "description": "对移动或行动受损的敌人造成10~45额外真实伤害(基于等级)。\n\n冷却时间：4秒\n会在移动受损之后触发伤害。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.314Z",
+      "stage": "runes",
+      "target": "rune:rune_8139",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8139",
+        "name": "血之滋味",
+        "description": "在你伤害一名敌方英雄时为你提供治疗效果。\n治疗效果：16-40 (+0.1额外攻击力，+0.05法术强度)生命值(基于等级)\n\n冷却时间：20秒",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.347Z",
+      "stage": "runes",
+      "target": "rune:rune_8143",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8143",
+        "name": "猛然冲击",
+        "description": "在使用一次突进、跃击、闪烁、传送效果或离开潜行状态后的4秒内，用普攻和技能对敌方英雄造成伤害时会基于等级造成额外的20 - 80真实伤害。\n\n冷却时间：10秒",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.384Z",
+      "stage": "runes",
+      "target": "rune:rune_8137",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8137",
+        "name": "第六感",
+        "description": "自动感知一个附近未被追踪且未被看见的守卫，并将其报给全队。\n\n11级：还会使这个守卫显形10秒。\n这个效果有250秒冷却时间。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.422Z",
+      "stage": "runes",
+      "target": "rune:rune_8140",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8140",
+        "name": "可怖纪念品",
+        "description": "在参与击杀英雄时获得1个纪念品，至多至18个。\n\n获得基于已收集纪念品数量的6饰品急速。在那些不存在视野饰品的游戏模式中，会转而获得3召唤师技能急速。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.451Z",
+      "stage": "runes",
+      "target": "rune:rune_8141",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8141",
+        "name": "深入守卫",
+        "description": "你在敌方野区布置的守卫处于深入状态。深入守卫获得+1额外生命值并+[30 - 45]秒额外持续时长 (对饰品侦察守卫则+[45 - 150]秒)。\n\n9级：布置在河道中的守卫也会处于深入状态。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.505Z",
+      "stage": "runes",
+      "target": "rune:rune_8135",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8135",
+        "name": "寻宝猎人",
+        "description": "在你下次获得一层赏金猎人效果时提供额外的50金币。每层赏金猎人效果都会使提供的金币数额提升20金币，至多为130金币。\n\n你首次参与击杀每位独特的敌方英雄时，都会赚取一层赏金猎人效果。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.540Z",
+      "stage": "runes",
+      "target": "rune:rune_8105",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8105",
+        "name": "无情猎手",
+        "description": "提供额外的非战斗状态移动速度，数额相当于8x赏金猎人层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层赏金猎人效果。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.576Z",
+      "stage": "runes",
+      "target": "rune:rune_8106",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8106",
+        "name": "终极猎人",
+        "description": "你的终极技能获得技能急速，数额相当于6+5x赏金猎人层数。你首次参与击杀每位独特的敌方英雄时，都会赚取一层赏金猎人效果。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.616Z",
+      "stage": "runes",
+      "target": "rune:rune_8351",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8351",
+        "name": "冰川增幅",
+        "description": "定身一名敌方英雄时会引发3道冰川射线朝着你和其他附近的英雄散发，来生成持续3(+定身效果时长)秒的霜冻地带，使敌人们减速20%(+90%每100%治疗和护盾强度)(+6%每100法术强度) (+7%每100额外攻击力)，并使敌人们对你队友（不包括你自己）造成的伤害降低15%。\n\n冷却时间：25秒",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.652Z",
+      "stage": "runes",
+      "target": "rune:rune_8360",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8360",
+        "name": "启封的秘籍",
+        "description": "将你的一个已装备的召唤师技能置换成一个新的、单次使用的召唤师技能。你所置换的每个独特的召唤师技能都会使你的置换冷却时间永久降低25秒（初始置换冷却时间为@f3@秒）。\n\n你的首次置换将在6分钟时变为可用状态。\n\n召唤师技能仅可在非战斗状态下置换。\n在使用一个已置换的召唤师技能后，你必须置换3次以上才能再次选择第一个召唤师技能。\n【惩戒】伤害会在置换2次召唤师技能后提升。",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.690Z",
+      "stage": "runes",
+      "target": "rune:rune_8369",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8369",
+        "name": "先攻",
+        "description": "在进入与英雄战斗的0.25秒内，对一名敌方英雄进行的攻击或技能将提供10金币和先攻效果，持续3秒，来使你对英雄们造成7%额外伤害，并提供50% (远程英雄为35%)该额外伤害值的金币。\n\n冷却时间：25 - 15秒",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.732Z",
+      "stage": "runes",
+      "target": "rune:rune_8306",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8306",
+        "name": "海克斯科技闪现罗网",
+        "description": "当【闪现】尚未冷却完毕时，它会被替换为海克斯闪现。\n\n海克斯闪现：引导2秒后闪烁到一个新位置。\n\n冷却时间：20秒。在你进入与英雄战斗的状态时，会有一个为期10秒的冷却时间。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.830Z",
+      "stage": "runes",
+      "target": "rune:rune_8304",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8304",
+        "name": "神奇之鞋",
+        "description": "你在12分钟时获得免费的有点神奇之鞋，但你在之前不能购买鞋子。你每参与一次击杀，就会使获得鞋子的时间点提前45秒。\n\n有点神奇之鞋可为你提供额外的10移动速度。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.871Z",
+      "stage": "runes",
+      "target": "rune:rune_8321",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8321",
+        "name": "返现",
+        "description": "在你购买传说级装备时返还7.5%金币。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.924Z",
+      "stage": "runes",
+      "target": "rune:rune_8313",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8313",
+        "name": "三重补药",
+        "description": "在达到3级时，获得一瓶【贪财合剂】。\n在达到6级时，获得一瓶【原力合剂】。\n在达到9级时，获得一瓶【技能合剂】。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.964Z",
+      "stage": "runes",
+      "target": "rune:rune_8352",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8352",
+        "name": "时间扭曲补药",
+        "description": "在享用一瓶药水时，会即时提供其40%的生命回复额度。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:45.997Z",
+      "stage": "runes",
+      "target": "rune:rune_8345",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8345",
+        "name": "饼干配送",
+        "description": "饼干配送：每过2分钟获得一个永续意志夹心饼干，直到6分钟。\n\n饼干可回复20+你的2%最大生命值，基于已损失生命值获得提升，至多可提升100%。消耗或出售一块饼干，都会为你永久提供30最大生命值。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.025Z",
+      "stage": "runes",
+      "target": "rune:rune_8347",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8347",
+        "name": "星界洞悉",
+        "description": "+18召唤师技能急速\n+10装备急速",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.057Z",
+      "stage": "runes",
+      "target": "rune:rune_8410",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8410",
+        "name": "行近速率",
+        "description": "朝着附近移动受损的敌方英雄移动时，将获得7.5%移动速度加成。朝着任一被你施加了移动受损的敌方英雄移动时，这个加成将提升至15%移动速度。\n\n来自友军控制效果的激活距离：1000",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.095Z",
+      "stage": "runes",
+      "target": "rune:rune_8316",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8316",
+        "name": "多面手",
+        "description": "每从装备中获得一种不同属性，就会获得一层【多面手】。每层为你提供1技能急速。\n\n在5层和10层时相应获得8或20额外适应之力。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.132Z",
+      "stage": "runes",
+      "target": "rune:rune_8005",
+      "action": "reuse",
+      "result": "same-value",
+      "current": {
+        "runeKey": "rune_8005",
+        "name": "强攻",
+        "description": "用3次连续的普攻击中一名敌方英雄时，将造成40 - 160的额外自适应伤害(基于等级)并使你造成的伤害增幅8%，持续到你离开与英雄的战斗状态为止。",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.170Z",
+      "stage": "runes",
+      "target": "rune:rune_8008",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8008",
+        "name": "致命节奏",
+        "description": "攻击一个敌方英雄会为你提供持续6秒的[6%近战 || 4%远程]攻击速度，至多至6层。在满层时，攻击还会附带[9 - 30近战 || 6 - 24远程] 额外自适应伤害，每1%额外攻击速度都会使其提升1%。",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.220Z",
+      "stage": "runes",
+      "target": "rune:rune_8021",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8021",
+        "name": "迅捷步法",
+        "description": "攻击和移动会积攒能量层数。在100层时，你的下次攻击会充盈能量。\n\n充盈能量的攻击会为你治疗15 - 160 (+0.1额外攻击力，+0.05法术强度)生命值并为你提供持续1秒的20%移动速度加成。\n\n对远程英雄来说，治疗效果只有60%效能并且移动速度只有75%效能。对抗小兵时的所有治疗效果只有15%效能。",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.260Z",
+      "stage": "runes",
+      "target": "rune:rune_8010",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8010",
+        "name": "征服者",
+        "description": "普通攻击或伤害型技能在命中一名敌方英雄时会提供2层【征服者】效果，持续5秒，每层效果提供1.8-4适应之力。至多可叠加12次。远程英雄的每次普攻只会提供1层效果。\n\n在叠满层数后，你对英雄造成的8%伤害会转化为对自身的治疗效果(远程英雄的转化率为5%)。",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.292Z",
+      "stage": "runes",
+      "target": "rune:rune_9101",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_9101",
+        "name": "吸收生命力",
+        "description": "击杀目标后回复你@HealAmount@生命值。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.329Z",
+      "stage": "runes",
+      "target": "rune:rune_9111",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_9111",
+        "name": "凯旋",
+        "description": "参与击杀会回复你5%已损失生命值，你2.5%最大生命值，并提供额外的20金币。\n\n\n“最危险的游戏带来最伟大的荣光。”\n—诺克萨斯清算人",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.369Z",
+      "stage": "runes",
+      "target": "rune:rune_8009",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8009",
+        "name": "气定神闲",
+        "description": "对一个敌方英雄造成伤害时会回复6-50(远程为80%)法力值或6能量值。\n\n参与击杀后会回复你15%的最大法力值或最大能量值。\n\n伤害回复的冷却时间：8秒",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.397Z",
+      "stage": "runes",
+      "target": "rune:rune_9104",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_9104",
+        "name": "传说：欢欣",
+        "description": "获得3%攻击速度，此外每层传奇效果额外提供1.5%攻击速度(最大层数：10)。\n\n赚取传奇层数进度的方式为：参与击杀英雄，参与击杀史诗级野怪，击杀大型野怪，击杀小兵。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.455Z",
+      "stage": "runes",
+      "target": "rune:rune_9105",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_9105",
+        "name": "传说：急速",
+        "description": "每层传说效果提供1.5基础技能急速(最大层数：10)。\n\n赚取传说层数进度的方式为：参与击杀英雄，参与击杀史诗级野怪，击杀大型野怪，击杀小兵。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.492Z",
+      "stage": "runes",
+      "target": "rune:rune_9103",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_9103",
+        "name": "传说：血统",
+        "description": "每层传说效果提供0.45%生命偷取(最大层数：15)。在满层传说后，提供85最大生命值。\n\n赚取传说层数进度的方式为：参与击杀英雄，参与击杀史诗级野怪、击杀大型野怪，击杀小兵。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.529Z",
+      "stage": "runes",
+      "target": "rune:rune_8014",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8014",
+        "name": "致命一击",
+        "description": "对生命值低于40%的英雄多造成8%伤害。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.578Z",
+      "stage": "runes",
+      "target": "rune:rune_8017",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8017",
+        "name": "砍倒",
+        "description": "对生命值多于60%的英雄多造成8%伤害。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.631Z",
+      "stage": "runes",
+      "target": "rune:rune_8299",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8299",
+        "name": "坚毅不倒",
+        "description": "当你的生命值低于60%时，对英雄多造成5% -11%伤害。最大伤害会在30%生命值时提供。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.670Z",
+      "stage": "runes",
+      "target": "rune:rune_8437",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8437",
+        "name": "不灭之握",
+        "description": "在战斗中每过4秒，你对一个英雄发起的下一次普攻将会：造成相当于你3.5%最大生命值的额外魔法伤害治疗你1.3%的最大生命值你的生命值永久提升5\n远程英雄：伤害、治疗效果和提升的永久生命值的效能为40%。",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.715Z",
+      "stage": "runes",
+      "target": "rune:rune_8439",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8439",
+        "name": "余震",
+        "description": "在定身住一名敌方英雄后，使你的护甲和魔法抗性提升，数额为45+你75%的额外双抗，持续2.5秒。随后会爆炸，对附近的敌人造成魔法伤害。\n\n伤害值：25 - 120 (+你8%的额外生命值)\n冷却时间：20秒\n\n来自余震的双抗加成封顶值：80-150(基于等级)",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.745Z",
+      "stage": "runes",
+      "target": "rune:rune_8465",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8465",
+        "name": "守护者",
+        "description": "守护距离你350码内的友军，以及被你选为技能目标的友军2.5秒。当守护持续时，如果你或该友军在守护持续期间承受的伤害超过一定数额，那么你们两个都会获得一层持续1.5秒的护盾。\n\n冷却时间：75 ~40秒\n护盾值：40~150+你20%法术强度+你6%额外生命值。\n触发阈值：50~165折后伤害。",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.773Z",
+      "stage": "runes",
+      "target": "rune:rune_8446",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8446",
+        "name": "爆破",
+        "description": "你对防御塔的第三次攻击造成[85 (+28%最大生命值) 近战 || 50 (+20%最大生命值) 远程]额外物理伤害。\n\n冷却时间：30秒",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.802Z",
+      "stage": "runes",
+      "target": "rune:rune_8463",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8463",
+        "name": "生命源泉",
+        "description": "干扰敌方英雄的移动可为你和附近生命值最低的友方英雄回复@BaseHeal@生命值。\n\n远程英雄的使用效能为70%。\n\n冷却时间：20秒",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.847Z",
+      "stage": "runes",
+      "target": "rune:rune_8401",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8401",
+        "name": "护盾猛击",
+        "description": "在你获得一个新的护盾时，你的下一次对英雄发起的普攻造成5 - 30(+2.5%额外生命值)(+15.0%新护盾值)额外自适应伤害。\n\n在护盾消散后，你最多有2秒的时间来使用这个效果。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.890Z",
+      "stage": "runes",
+      "target": "rune:rune_8429",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8429",
+        "name": "调节",
+        "description": "在12分钟后获得+8护甲和+8魔抗，并使你的护甲和魔抗提升3%。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.939Z",
+      "stage": "runes",
+      "target": "rune:rune_8444",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8444",
+        "name": "复苏之风",
+        "description": "在你受到来自一名敌方英雄伤害之后，你会在10秒里持续回复生命值，总额相当于你4%已损失生命值。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:46.984Z",
+      "stage": "runes",
+      "target": "rune:rune_8473",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8473",
+        "name": "骸骨镀层",
+        "description": "在承受来自一名敌方英雄的伤害后，你所受的下3次来自英雄的技能或攻击将少造成30-60伤害(基于等级)。\n\n持续时长：1.5秒\n冷却时间：55秒",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.032Z",
+      "stage": "runes",
+      "target": "rune:rune_8451",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8451",
+        "name": "过度生长",
+        "description": "你附近每有8个野怪或小兵死亡，就会使你永久获得3最大生命值。\n\n在你吸收了120个野怪或小兵时，提供一个额外的3.5%最大生命值。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.124Z",
+      "stage": "runes",
+      "target": "rune:rune_8453",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8453",
+        "name": "复苏",
+        "description": "获得5%治疗和护盾强度。\n\n你对低于40%生命值的目标施放或获得的治疗效果和护盾效果会增强10%。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.160Z",
+      "stage": "runes",
+      "target": "rune:rune_8242",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8242",
+        "name": "坚定",
+        "description": "在被控制时和之后的2秒里获得10护甲和魔法抗性。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.197Z",
+      "stage": "runes",
+      "target": "rune:rune_8214",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8214",
+        "name": "召唤：艾黎",
+        "description": "用攻击或技能对敌方英雄造成伤害时，会向其派出艾黎，来造成10 - 50(基于等级)(+0.05法术强度) (+0.1额外攻击力)伤害。\n\n在用技能强化或保护友方英雄时，会向其派出艾黎，为其提供护盾，护盾生命值为20 - 100(基于等级)(+0.05法术强度)(+0.1额外攻击力)。\n\n艾黎在回到你的位置前无法被再次派出。",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.227Z",
+      "stage": "runes",
+      "target": "rune:rune_8229",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8229",
+        "name": "奥术彗星",
+        "description": "用一个技能对一名英雄造成伤害时，会召唤一颗彗星落入其位置处，基于距离造成额外伤害。\n\n自适应伤害：15 - 100基于等级 (+0.05法术强度和+0.1额外攻击力)\n冷却时间：20 - 8秒\n\n伤害增幅最大值为100%，在750距离处达成。",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.255Z",
+      "stage": "runes",
+      "target": "rune:rune_8230",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8230",
+        "name": "风暴掠袭者的狂涌",
+        "description": "在3秒内对一个英雄造成相当于其25%最大生命值的伤害时，提供持续4秒的48%移动速度和50%减速抗性。移动速度加成对远程英雄的效能为75%。\n冷却时间：20秒 - 10秒",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.286Z",
+      "stage": "runes",
+      "target": "rune:rune_8992",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8992",
+        "name": "冥火之触",
+        "description": "用一个技能对一名英雄造成伤害时，会灼烧其造成每秒3 - 12 基于等级 (+2.5%法术强度) (+7%额外攻击力)魔法伤害。在灼烧3秒之后，如果该目标仍在着火状态，则这个灼烧的伤害提升75%。\n\n持续时长：\n单体目标技能：4秒\n群体目标技能：2秒\n持续伤害技能：1秒",
+        "category": "KEYSTONE"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.319Z",
+      "stage": "runes",
+      "target": "rune:rune_8224",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8224",
+        "name": "公理秘术",
+        "description": "你的终极技能的伤害、治疗和护盾提升12%。\n(群体伤害的提升幅度会降低至8%)\n\n参与击杀一名敌方英雄后，会使你的终极技能的当前冷却时间缩短7%。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.356Z",
+      "stage": "runes",
+      "target": "rune:rune_8226",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8226",
+        "name": "法力流系带",
+        "description": "用一个技能命中一名敌方英雄时，可永久使你的最大法力值提升25，提升法力的上限为250法力。\n\n在达到250额外法力值后，每5秒回复你1%的已损失法力值。\n\n冷却时间：15秒",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.407Z",
+      "stage": "runes",
+      "target": "rune:rune_8275",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8275",
+        "name": "灵光披风",
+        "description": "在你施放一个召唤师技能后，为你提供一个移动速度提升，持续2秒，并允许你无视单位的碰撞体积。\n\n提升：15% - 45%移动速度，基于召唤师技能的冷却时间(该召唤师技能的冷却时间越长，则提供的移动速度加成越多)。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.455Z",
+      "stage": "runes",
+      "target": "rune:rune_8210",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8210",
+        "name": "超然",
+        "description": "在到达以下等级时提供加成：\n5级：+5技能急速\n8级：+5技能急速\n11级：在参与击杀敌方英雄后，基础技能的剩余冷却时间缩短20%。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.484Z",
+      "stage": "runes",
+      "target": "rune:rune_8234",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8234",
+        "name": "迅捷",
+        "description": "你身上的所有移动加成的效能提升7%并提供1%移动速度。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.524Z",
+      "stage": "runes",
+      "target": "rune:rune_8233",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8233",
+        "name": "绝对专注",
+        "description": "在高于70%生命值时，获得一个自动适应的加成，18攻击力或30法术强度(基于等级)\n\n在1级时提供1.8攻击力或3法术强度。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.561Z",
+      "stage": "runes",
+      "target": "rune:rune_8237",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8237",
+        "name": "焦灼",
+        "description": "你的下一个伤害型技能在命中时会使敌方英雄燃烧，在1秒后造成20 - 40额外魔法伤害（基于等级）。\n\n冷却时间：10秒",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.609Z",
+      "stage": "runes",
+      "target": "rune:rune_8232",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8232",
+        "name": "水上行走",
+        "description": "在河道时，获得10移动速度并获得13 - 30适应之力(基于等级)。\n\n愿你如奔腾的河流一样迅捷，如受惊的峡谷迅捷蟹一样机敏。",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.657Z",
+      "stage": "runes",
+      "target": "rune:rune_8236",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_8236",
+        "name": "风暴聚集",
+        "description": "每10分钟获得法术强度或攻击力，自动适应。\n\n10分钟: + 8法术强度 或 5攻击力\n20分钟: + 24法术强度 或 14攻击力\n30分钟: + 48法术强度 或 29攻击力\n40分钟: + 80法术强度 或 48攻击力\n50分钟: + 120法术强度 或 72攻击力\n60分钟: + 168法术强度 或 101攻击力\n以此类推……",
+        "category": "MINOR"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.728Z",
+      "stage": "runes",
+      "target": "rune:rune_5008",
+      "action": "reuse",
+      "result": "same-value",
+      "current": {
+        "runeKey": "rune_5008",
+        "name": "适应之力",
+        "description": "+9 适应之力",
+        "category": "SHARD"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.773Z",
+      "stage": "runes",
+      "target": "rune:rune_5005",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_5005",
+        "name": "攻击速度",
+        "description": "+10%攻击速度",
+        "category": "SHARD"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.823Z",
+      "stage": "runes",
+      "target": "rune:rune_5007",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_5007",
+        "name": "技能急速",
+        "description": "+8技能急速",
+        "category": "SHARD"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.870Z",
+      "stage": "runes",
+      "target": "rune:rune_5010",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_5010",
+        "name": "移动速度",
+        "description": "+2.5% 移动速度",
+        "category": "SHARD"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.919Z",
+      "stage": "runes",
+      "target": "rune:rune_5001",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_5001",
+        "name": "成长生命值",
+        "description": "+10-180生命值(基于等级)",
+        "category": "SHARD"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:47.961Z",
+      "stage": "runes",
+      "target": "rune:rune_5011",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_5011",
+        "name": "生命值",
+        "description": "+65生命值",
+        "category": "SHARD"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.006Z",
+      "stage": "runes",
+      "target": "rune:rune_5013",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "runeKey": "rune_5013",
+        "name": "韧性和减速抗性",
+        "description": "+15%韧性和减速抗性",
+        "category": "SHARD"
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.046Z",
+      "stage": "paths",
+      "target": "path:rune_path_8100",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "pathKey": "rune_path_8100",
+        "name": "主宰",
+        "description": "爆发伤害和近身手段",
+        "kind": "RUNE_PATH",
+        "sortOrder": 0,
+        "slots": [
+          {
+            "name": "基石",
+            "category": "KEYSTONE",
+            "runeKeys": [
+              "rune_8112",
+              "rune_8128",
+              "rune_9923"
+            ]
+          },
+          {
+            "name": "预谋",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8126",
+              "rune_8139",
+              "rune_8143"
+            ]
+          },
+          {
+            "name": "追踪",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8137",
+              "rune_8140",
+              "rune_8141"
+            ]
+          },
+          {
+            "name": "狩猎",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8135",
+              "rune_8105",
+              "rune_8106"
+            ]
+          }
+        ]
+      },
+      "dependencies": [
+        "rune_8112",
+        "rune_8128",
+        "rune_9923",
+        "rune_8126",
+        "rune_8139",
+        "rune_8143",
+        "rune_8137",
+        "rune_8140",
+        "rune_8141",
+        "rune_8135",
+        "rune_8105",
+        "rune_8106"
+      ]
+    },
+    {
+      "at": "2026-09-08T18:46:48.082Z",
+      "stage": "paths",
+      "target": "path:rune_path_8300",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "pathKey": "rune_path_8300",
+        "name": "启迪",
+        "description": "创造性的工具并扭转常规",
+        "kind": "RUNE_PATH",
+        "sortOrder": 1,
+        "slots": [
+          {
+            "name": "基石",
+            "category": "KEYSTONE",
+            "runeKeys": [
+              "rune_8351",
+              "rune_8360",
+              "rune_8369"
+            ]
+          },
+          {
+            "name": "巧具",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8306",
+              "rune_8304",
+              "rune_8321"
+            ]
+          },
+          {
+            "name": "未来",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8313",
+              "rune_8352",
+              "rune_8345"
+            ]
+          },
+          {
+            "name": "超越",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8347",
+              "rune_8410",
+              "rune_8316"
+            ]
+          }
+        ]
+      },
+      "dependencies": [
+        "rune_8351",
+        "rune_8360",
+        "rune_8369",
+        "rune_8306",
+        "rune_8304",
+        "rune_8321",
+        "rune_8313",
+        "rune_8352",
+        "rune_8345",
+        "rune_8347",
+        "rune_8410",
+        "rune_8316"
+      ]
+    },
+    {
+      "at": "2026-09-08T18:46:48.117Z",
+      "stage": "paths",
+      "target": "path:rune_path_8000",
+      "action": "update",
+      "result": "planned-read-only-partial-exact",
+      "expectedFinal": {
+        "pathKey": "rune_path_8000",
+        "name": "精密",
+        "description": "强化攻击和持续伤害",
+        "kind": "RUNE_PATH",
+        "sortOrder": 2,
+        "slots": [
+          {
+            "name": "基石",
+            "category": "KEYSTONE",
+            "runeKeys": [
+              "rune_8005",
+              "rune_8008",
+              "rune_8021",
+              "rune_8010"
+            ]
+          },
+          {
+            "name": "英武",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_9101",
+              "rune_9111",
+              "rune_8009"
+            ]
+          },
+          {
+            "name": "传说",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_9104",
+              "rune_9105",
+              "rune_9103"
+            ]
+          },
+          {
+            "name": "战斗",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8014",
+              "rune_8017",
+              "rune_8299"
+            ]
+          }
+        ]
+      },
+      "currentPartial": {
+        "pathKey": "rune_path_8000",
+        "name": "精密",
+        "description": "强化攻击和持续伤害",
+        "kind": "RUNE_PATH",
+        "sortOrder": 2,
+        "slots": [
+          {
+            "name": "基石",
+            "category": "KEYSTONE",
+            "runeKeys": [
+              "rune_8005"
+            ]
+          }
+        ]
+      },
+      "dependencies": [
+        "rune_8008",
+        "rune_8021",
+        "rune_8010",
+        "rune_9101",
+        "rune_9111",
+        "rune_8009",
+        "rune_9104",
+        "rune_9105",
+        "rune_9103",
+        "rune_8014",
+        "rune_8017",
+        "rune_8299"
+      ]
+    },
+    {
+      "at": "2026-09-08T18:46:48.171Z",
+      "stage": "paths",
+      "target": "path:rune_path_8400",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "pathKey": "rune_path_8400",
+        "name": "坚决",
+        "description": "耐久和控制",
+        "kind": "RUNE_PATH",
+        "sortOrder": 3,
+        "slots": [
+          {
+            "name": "基石",
+            "category": "KEYSTONE",
+            "runeKeys": [
+              "rune_8437",
+              "rune_8439",
+              "rune_8465"
+            ]
+          },
+          {
+            "name": "蛮力",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8446",
+              "rune_8463",
+              "rune_8401"
+            ]
+          },
+          {
+            "name": "抵抗",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8429",
+              "rune_8444",
+              "rune_8473"
+            ]
+          },
+          {
+            "name": "生机",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8451",
+              "rune_8453",
+              "rune_8242"
+            ]
+          }
+        ]
+      },
+      "dependencies": [
+        "rune_8437",
+        "rune_8439",
+        "rune_8465",
+        "rune_8446",
+        "rune_8463",
+        "rune_8401",
+        "rune_8429",
+        "rune_8444",
+        "rune_8473",
+        "rune_8451",
+        "rune_8453",
+        "rune_8242"
+      ]
+    },
+    {
+      "at": "2026-09-08T18:46:48.205Z",
+      "stage": "paths",
+      "target": "path:rune_path_8200",
+      "action": "create",
+      "result": "planned-read-only",
+      "body": {
+        "pathKey": "rune_path_8200",
+        "name": "巫术",
+        "description": "强化技能和资源控制",
+        "kind": "RUNE_PATH",
+        "sortOrder": 4,
+        "slots": [
+          {
+            "name": "基石",
+            "category": "KEYSTONE",
+            "runeKeys": [
+              "rune_8214",
+              "rune_8229",
+              "rune_8230",
+              "rune_8992"
+            ]
+          },
+          {
+            "name": "宝物",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8224",
+              "rune_8226",
+              "rune_8275"
+            ]
+          },
+          {
+            "name": "卓越",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8210",
+              "rune_8234",
+              "rune_8233"
+            ]
+          },
+          {
+            "name": "威能",
+            "category": "MINOR",
+            "runeKeys": [
+              "rune_8237",
+              "rune_8232",
+              "rune_8236"
+            ]
+          }
+        ]
+      },
+      "dependencies": [
+        "rune_8214",
+        "rune_8229",
+        "rune_8230",
+        "rune_8992",
+        "rune_8224",
+        "rune_8226",
+        "rune_8275",
+        "rune_8210",
+        "rune_8234",
+        "rune_8233",
+        "rune_8237",
+        "rune_8232",
+        "rune_8236"
+      ]
+    },
+    {
+      "at": "2026-09-08T18:46:48.250Z",
+      "stage": "paths",
+      "target": "path:rune_shards",
+      "action": "update",
+      "result": "planned-read-only-partial-exact",
+      "expectedFinal": {
+        "pathKey": "rune_shards",
+        "name": "属性碎片",
+        "description": null,
+        "kind": "SHARD_GROUP",
+        "sortOrder": 5,
+        "slots": [
+          {
+            "name": "进攻",
+            "category": "SHARD",
+            "runeKeys": [
+              "rune_5008",
+              "rune_5005",
+              "rune_5007"
+            ]
+          },
+          {
+            "name": "灵活",
+            "category": "SHARD",
+            "runeKeys": [
+              "rune_5008",
+              "rune_5010",
+              "rune_5001"
+            ]
+          },
+          {
+            "name": "防御",
+            "category": "SHARD",
+            "runeKeys": [
+              "rune_5011",
+              "rune_5013",
+              "rune_5001"
+            ]
+          }
+        ]
+      },
+      "currentPartial": {
+        "pathKey": "rune_shards",
+        "name": "属性碎片",
+        "description": null,
+        "kind": "SHARD_GROUP",
+        "sortOrder": 5,
+        "slots": [
+          {
+            "name": "进攻",
+            "category": "SHARD",
+            "runeKeys": [
+              "rune_5008"
+            ]
+          },
+          {
+            "name": "灵活",
+            "category": "SHARD",
+            "runeKeys": [
+              "rune_5008"
+            ]
+          }
+        ]
+      },
+      "dependencies": [
+        "rune_5005",
+        "rune_5007",
+        "rune_5010",
+        "rune_5001",
+        "rune_5011",
+        "rune_5013"
+      ]
+    },
+    {
+      "at": "2026-09-08T18:46:48.304Z",
+      "stage": "images",
+      "target": "rune:rune_8112",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8112"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.405Z",
+      "stage": "images",
+      "target": "rune:rune_8128",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8128"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.465Z",
+      "stage": "images",
+      "target": "rune:rune_9923",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_9923"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.509Z",
+      "stage": "images",
+      "target": "rune:rune_8126",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8126"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.556Z",
+      "stage": "images",
+      "target": "rune:rune_8139",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8139"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.599Z",
+      "stage": "images",
+      "target": "rune:rune_8143",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8143"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.648Z",
+      "stage": "images",
+      "target": "rune:rune_8137",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8137"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.718Z",
+      "stage": "images",
+      "target": "rune:rune_8140",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8140"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.765Z",
+      "stage": "images",
+      "target": "rune:rune_8141",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8141"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.815Z",
+      "stage": "images",
+      "target": "rune:rune_8135",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8135"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.875Z",
+      "stage": "images",
+      "target": "rune:rune_8105",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8105"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:48.933Z",
+      "stage": "images",
+      "target": "rune:rune_8106",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8106"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.013Z",
+      "stage": "images",
+      "target": "rune:rune_8351",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8351"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.058Z",
+      "stage": "images",
+      "target": "rune:rune_8360",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8360"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.094Z",
+      "stage": "images",
+      "target": "rune:rune_8369",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8369"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.145Z",
+      "stage": "images",
+      "target": "rune:rune_8306",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8306"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.203Z",
+      "stage": "images",
+      "target": "rune:rune_8304",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8304"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.257Z",
+      "stage": "images",
+      "target": "rune:rune_8321",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8321"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.323Z",
+      "stage": "images",
+      "target": "rune:rune_8313",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8313"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.360Z",
+      "stage": "images",
+      "target": "rune:rune_8352",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8352"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.404Z",
+      "stage": "images",
+      "target": "rune:rune_8345",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8345"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.455Z",
+      "stage": "images",
+      "target": "rune:rune_8347",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8347"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.514Z",
+      "stage": "images",
+      "target": "rune:rune_8410",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8410"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.560Z",
+      "stage": "images",
+      "target": "rune:rune_8316",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8316"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.830Z",
+      "stage": "images",
+      "target": "rune:rune_8005",
+      "action": "reuse-relation",
+      "result": "same-content",
+      "image": {
+        "imageKey": "image_bba88a8f-14ef-492a-a6ef-44c6e8be886f",
+        "name": "强攻代表图片_bba88a8f-14ef-492a-a6ef-44c6e8be886f",
+        "enabled": true,
+        "mimeType": "image/png",
+        "byteSize": 9788,
+        "width": 64,
+        "height": 64
+      },
+      "imageKeyAcceptedByPageCheck": true,
+      "usages": {
+        "runeCount": 1,
+        "pathCount": 0,
+        "found": true
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.893Z",
+      "stage": "images",
+      "target": "rune:rune_8008",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8008"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.946Z",
+      "stage": "images",
+      "target": "rune:rune_8021",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8021"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:49.994Z",
+      "stage": "images",
+      "target": "rune:rune_8010",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8010"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.049Z",
+      "stage": "images",
+      "target": "rune:rune_9101",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_9101"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.105Z",
+      "stage": "images",
+      "target": "rune:rune_9111",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_9111"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.151Z",
+      "stage": "images",
+      "target": "rune:rune_8009",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8009"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.206Z",
+      "stage": "images",
+      "target": "rune:rune_9104",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_9104"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.237Z",
+      "stage": "images",
+      "target": "rune:rune_9105",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_9105"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.314Z",
+      "stage": "images",
+      "target": "rune:rune_9103",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_9103"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.360Z",
+      "stage": "images",
+      "target": "rune:rune_8014",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8014"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.413Z",
+      "stage": "images",
+      "target": "rune:rune_8017",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8017"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.469Z",
+      "stage": "images",
+      "target": "rune:rune_8299",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8299"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.524Z",
+      "stage": "images",
+      "target": "rune:rune_8437",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8437"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.559Z",
+      "stage": "images",
+      "target": "rune:rune_8439",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8439"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.622Z",
+      "stage": "images",
+      "target": "rune:rune_8465",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8465"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.664Z",
+      "stage": "images",
+      "target": "rune:rune_8446",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8446"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.725Z",
+      "stage": "images",
+      "target": "rune:rune_8463",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8463"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.774Z",
+      "stage": "images",
+      "target": "rune:rune_8401",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8401"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.844Z",
+      "stage": "images",
+      "target": "rune:rune_8429",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8429"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:50.963Z",
+      "stage": "images",
+      "target": "rune:rune_8444",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8444"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.019Z",
+      "stage": "images",
+      "target": "rune:rune_8473",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8473"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.072Z",
+      "stage": "images",
+      "target": "rune:rune_8451",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8451"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.112Z",
+      "stage": "images",
+      "target": "rune:rune_8453",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8453"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.153Z",
+      "stage": "images",
+      "target": "rune:rune_8242",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8242"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.193Z",
+      "stage": "images",
+      "target": "rune:rune_8214",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8214"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.259Z",
+      "stage": "images",
+      "target": "rune:rune_8229",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8229"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.306Z",
+      "stage": "images",
+      "target": "rune:rune_8230",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8230"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.362Z",
+      "stage": "images",
+      "target": "rune:rune_8992",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8992"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.413Z",
+      "stage": "images",
+      "target": "rune:rune_8224",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8224"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.458Z",
+      "stage": "images",
+      "target": "rune:rune_8226",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8226"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.514Z",
+      "stage": "images",
+      "target": "rune:rune_8275",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8275"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.592Z",
+      "stage": "images",
+      "target": "rune:rune_8210",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8210"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.648Z",
+      "stage": "images",
+      "target": "rune:rune_8234",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8234"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.690Z",
+      "stage": "images",
+      "target": "rune:rune_8233",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8233"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.742Z",
+      "stage": "images",
+      "target": "rune:rune_8237",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8237"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.787Z",
+      "stage": "images",
+      "target": "rune:rune_8232",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8232"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.829Z",
+      "stage": "images",
+      "target": "rune:rune_8236",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_8236"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:51.913Z",
+      "stage": "images",
+      "target": "rune:rune_5008",
+      "action": "create-image-and-relation",
+      "result": "planned-read-only",
+      "imageKey": "rune_5008",
+      "imageName": "符文·适应之力",
+      "preparedSha256": "098ae91bfa5beec8d3b1a7bb5cc1f0923710c071ed4c6edee06db986aa848952",
+      "byteSize": 365,
+      "width": 32,
+      "height": 32
+    },
+    {
+      "at": "2026-09-08T18:46:51.964Z",
+      "stage": "images",
+      "target": "rune:rune_5005",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_5005"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:52.007Z",
+      "stage": "images",
+      "target": "rune:rune_5007",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_5007"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:52.057Z",
+      "stage": "images",
+      "target": "rune:rune_5010",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_5010"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:52.111Z",
+      "stage": "images",
+      "target": "rune:rune_5001",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_5001"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:52.152Z",
+      "stage": "images",
+      "target": "rune:rune_5011",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_5011"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:52.254Z",
+      "stage": "images",
+      "target": "rune:rune_5013",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_NOT_FOUND",
+          "details": {
+            "runeKey": "rune_5013"
+          },
+          "message": "符文不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:52.301Z",
+      "stage": "images",
+      "target": "runePath:rune_path_8100",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_PATH_NOT_FOUND",
+          "details": {
+            "pathKey": "rune_path_8100"
+          },
+          "message": "符文分组不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:52.357Z",
+      "stage": "images",
+      "target": "runePath:rune_path_8300",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_PATH_NOT_FOUND",
+          "details": {
+            "pathKey": "rune_path_8300"
+          },
+          "message": "符文分组不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:52.490Z",
+      "stage": "images",
+      "target": "runePath:rune_path_8000",
+      "action": "reuse-relation",
+      "result": "same-content",
+      "image": {
+        "imageKey": "image_6a4b2d5e-4ed9-4a41-bfa1-a90a9c86c034",
+        "name": "精密代表图片_6a4b2d5e-4ed9-4a41-bfa1-a90a9c86c034",
+        "enabled": true,
+        "mimeType": "image/png",
+        "byteSize": 800,
+        "width": 32,
+        "height": 32
+      },
+      "imageKeyAcceptedByPageCheck": true,
+      "usages": {
+        "runeCount": 0,
+        "pathCount": 1,
+        "found": true
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:52.536Z",
+      "stage": "images",
+      "target": "runePath:rune_path_8400",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_PATH_NOT_FOUND",
+          "details": {
+            "pathKey": "rune_path_8400"
+          },
+          "message": "符文分组不存在"
+        }
+      }
+    },
+    {
+      "at": "2026-09-08T18:46:52.584Z",
+      "stage": "images",
+      "target": "runePath:rune_path_8200",
+      "action": "read-relation",
+      "result": "planned-dependency-not-created",
+      "status": 404,
+      "response": {
+        "error": {
+          "code": "404.RUNE_PATH_NOT_FOUND",
+          "details": {
+            "pathKey": "rune_path_8200"
+          },
+          "message": "符文分组不存在"
+        }
+      }
+    }
+  ],
+  "failures": [],
+  "final": {
+    "completedAt": "2026-09-08T18:46:52.585Z",
+    "mode": "read-only",
+    "summary": {
+      "runes": {
+        "target": 69,
+        "reused": 2,
+        "created": 0,
+        "planned": 67,
+        "conflict": 0,
+        "failed": 0
+      },
+      "paths": {
+        "target": 6,
+        "reused": 0,
+        "created": 0,
+        "updated": 0,
+        "planned": 6,
+        "conflict": 0,
+        "failed": 0
+      },
+      "images": {
+        "target": 74,
+        "reused": 2,
+        "created": 0,
+        "planned": 72,
+        "conflict": 0,
+        "failed": 0
+      },
+      "relations": {
+        "target": 74,
+        "reused": 2,
+        "set": 0,
+        "planned": 72,
+        "conflict": 0,
+        "failed": 0
+      }
+    },
+    "failureCount": 0
+  }
+}

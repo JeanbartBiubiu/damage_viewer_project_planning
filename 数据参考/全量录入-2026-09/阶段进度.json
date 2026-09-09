@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T18:45:15.129Z",
+  "generatedAt": "2026-09-09T01:02:11.767Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -89,7 +89,7 @@
     "status": "181件普通装备、13件特殊形态、4件符文生成装备主体共198；3176当前取得途径未确认。完整机制、其他范围继续处理"
   },
   "images": {
-    "objectUses": 1224,
+    "objectUses": 1298,
     "baselineObjectUses": 1207,
     "heroes": 171,
     "skills": 855,
@@ -120,18 +120,31 @@
       "装备技能实录/Luna第十批/第三组/页面验收.json"
     ],
     "status": "原1207个主体代表图历史证据保留，另13个特殊形态与4个符文生成装备代表图已回读；后者新增3张图并同步缓存。装备技能代表图按批单列，不宣称全部对象已整体重验",
-    "browserCacheRecords": 3205,
+    "browserCacheRecords": 3279,
     "browserReadFailures": 0,
-    "browserCacheEvidence": "API实录/符文生成装备第一批/页面验收.json",
+    "browserCacheEvidence": "API实录/符文基础资料第一批/页面验收.json",
     "evidence": [
       "API实录/图片/full-relation-verification.json",
       "API实录/装备图片/代表图关系最终核对.json",
       "API实录/页面验收-2026-09-07.md"
-    ]
+    ],
+    "runeIdentityUses": 69,
+    "runePathUses": 5,
+    "runeEvidence": "API实录/符文基础资料第一批/页面验收.json"
   },
   "runes": {
-    "status": "资料已准备，缺少独立管理入口，尚未录入",
-    "evidence": "装备符文/符文待录清单.json"
+    "metadata": 69,
+    "keystones": 17,
+    "minor": 45,
+    "uniqueShards": 7,
+    "paths": 6,
+    "slots": 23,
+    "positions": 71,
+    "representativeImages": 74,
+    "status": "身份、完整布局和代表图已录入并独立回读；真实页面与缓存验收通过，技能机制继续逐项补录",
+    "evidence": "API实录/符文基础资料第一批/接口录入/独立核对汇总-20260909005419486.json",
+    "browserEvidence": "API实录/符文基础资料第一批/页面验收.json",
+    "runtimeValidation": "未执行"
   },
   "deferred": [
     "斗魂竞技场海克斯",
