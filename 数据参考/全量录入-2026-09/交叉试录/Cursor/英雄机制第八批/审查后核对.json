@@ -1,0 +1,1342 @@
+{
+  "generatedAt": "2026-09-09T01:51:01.703Z",
+  "boundary": "只核本地冻结来源、历史副本、候选结构和独立算术；无API调用、数据库、浏览器或战斗执行。",
+  "executor": "Codex执行代理纠错；原Cursor前十生成未完成，Cursor本轮只读审查已完成PRE1版REVISE，修正后尚待主负责人复核。",
+  "historyCount": 29,
+  "cursorReview": {
+    "checkedAt": "2026-09-09T01:44:28.477Z",
+    "runId": "run-96eb9496-3277-4982-8caa-93fb743b9ebe",
+    "resultStatus": "finished",
+    "requestedModel": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "planRevision": "HERO8-CANDIDATE-20260909-PRE1",
+    "verdict": "REVISE",
+    "fileDelta": 0,
+    "unchangedSeeds": 29,
+    "eventRows": 3785,
+    "toolStarts": 57,
+    "tools": [
+      "glob",
+      "read",
+      "shell",
+      "grep"
+    ],
+    "shellStarts": 9,
+    "allShellCommandsManuallyReviewed": "9个命令均为node只读文件、摘要与内存计算，没有调用生成器或持久写函数",
+    "truncatedTools": 0,
+    "existingOutOfScope": [
+      ".gitignore在启动前已存在且本次无变化"
+    ],
+    "durationMs": 559751,
+    "bodyLocation": "summary.json.assistantText",
+    "boundary": "只读审查旧候选，结论REVISE，不表示最终候选已放行"
+  },
+  "sourceHashes": [
+    {
+      "hero": "Caitlyn",
+      "kind": "client",
+      "url": "https://raw.communitydragon.org/16.17/game/data/characters/caitlyn/caitlyn.bin.json",
+      "expected": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+      "actual": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+      "match": true
+    },
+    {
+      "hero": "Caitlyn",
+      "kind": "official",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Caitlyn.json",
+      "expected": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248",
+      "actual": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248",
+      "match": true
+    },
+    {
+      "hero": "Jhin",
+      "kind": "client",
+      "url": "https://raw.communitydragon.org/16.17/game/data/characters/jhin/jhin.bin.json",
+      "expected": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+      "actual": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+      "match": true
+    },
+    {
+      "hero": "Jhin",
+      "kind": "official",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jhin.json",
+      "expected": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15",
+      "actual": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15",
+      "match": true
+    },
+    {
+      "hero": "Draven",
+      "kind": "client",
+      "url": "https://raw.communitydragon.org/16.17/game/data/characters/draven/draven.bin.json",
+      "expected": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+      "actual": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+      "match": true
+    },
+    {
+      "hero": "Draven",
+      "kind": "official",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Draven.json",
+      "expected": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+      "actual": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+      "match": true
+    },
+    {
+      "hero": "Kalista",
+      "kind": "client",
+      "url": "https://raw.communitydragon.org/16.17/game/data/characters/kalista/kalista.bin.json",
+      "expected": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+      "actual": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+      "match": true
+    },
+    {
+      "hero": "Kalista",
+      "kind": "official",
+      "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kalista.json",
+      "expected": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+      "actual": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+      "match": true
+    }
+  ],
+  "batches": [
+    {
+      "file": "前十技能候选.json",
+      "sha256": "b6b7c2ff1d976d31a0875982429d40124d0cfa9bf4570c30cf2cec83794e52d2",
+      "before": {
+        "parameters": 66,
+        "formulas": 16,
+        "effects": 11,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 5
+      },
+      "after": {
+        "parameters": 64,
+        "formulas": 15,
+        "effects": 6,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "reusedPublicParameters": 12,
+      "arithmetic": 27,
+      "invariants": 161,
+      "sourceChecks": 5,
+      "disposition": {
+        "范围外": 11,
+        "来源待核": 20,
+        "系统缺口": 4,
+        "尚未接线": 8
+      },
+      "changes": [
+        {
+          "skillKey": "caitlyn_p",
+          "component": "parameters",
+          "removed": [],
+          "added": [
+            "current_attack_damage_value"
+          ],
+          "changed": [
+            "level_bonus_ratio"
+          ]
+        },
+        {
+          "skillKey": "caitlyn_p",
+          "component": "formulas",
+          "removed": [],
+          "added": [],
+          "changed": [
+            "headshot_bonus_damage"
+          ]
+        },
+        {
+          "skillKey": "caitlyn_q",
+          "component": "parameters",
+          "removed": [
+            "secondary_damage_ratio"
+          ],
+          "added": [],
+          "changed": [
+            "total_ad_ratio"
+          ]
+        },
+        {
+          "skillKey": "caitlyn_q",
+          "component": "formulas",
+          "removed": [
+            "secondary_damage"
+          ],
+          "added": [],
+          "changed": []
+        },
+        {
+          "skillKey": "caitlyn_q",
+          "component": "effects",
+          "removed": [
+            "initial_damage"
+          ],
+          "added": [],
+          "changed": []
+        },
+        {
+          "skillKey": "caitlyn_q",
+          "component": "triggerRules",
+          "removed": [
+            "actual_hit"
+          ],
+          "added": [],
+          "changed": []
+        },
+        {
+          "skillKey": "caitlyn_e",
+          "component": "effects",
+          "removed": [
+            "net_damage"
+          ],
+          "added": [],
+          "changed": []
+        },
+        {
+          "skillKey": "caitlyn_e",
+          "component": "triggerRules",
+          "removed": [
+            "actual_hit"
+          ],
+          "added": [],
+          "changed": []
+        },
+        {
+          "skillKey": "caitlyn_r",
+          "component": "parameters",
+          "removed": [
+            "total_ad_ratio"
+          ],
+          "added": [
+            "bonus_ad_ratio"
+          ],
+          "changed": []
+        },
+        {
+          "skillKey": "caitlyn_r",
+          "component": "formulas",
+          "removed": [],
+          "added": [],
+          "changed": [
+            "raw_damage",
+            "crit_damage_multiplier"
+          ]
+        },
+        {
+          "skillKey": "caitlyn_r",
+          "component": "effects",
+          "removed": [
+            "damage"
+          ],
+          "added": [],
+          "changed": []
+        },
+        {
+          "skillKey": "caitlyn_r",
+          "component": "triggerRules",
+          "removed": [
+            "actual_hit"
+          ],
+          "added": [],
+          "changed": []
+        },
+        {
+          "skillKey": "jhin_p",
+          "component": "parameters",
+          "removed": [],
+          "added": [],
+          "changed": [
+            "fourth_shot_execute_percent",
+            "level_attack_damage_percent"
+          ]
+        },
+        {
+          "skillKey": "jhin_p",
+          "component": "formulas",
+          "removed": [],
+          "added": [],
+          "changed": [
+            "fourth_shot_bonus_damage"
+          ]
+        },
+        {
+          "skillKey": "jhin_q",
+          "component": "parameters",
+          "removed": [
+            "kill_bounce_amp_ratio",
+            "bounce_count",
+            "bounce_range"
+          ],
+          "added": [],
+          "changed": [
+            "unresolved_scaling_coefficient",
+            "unresolved_scaling_attribute"
+          ]
+        },
+        {
+          "skillKey": "jhin_q",
+          "component": "effects",
+          "removed": [
+            "first_target_damage"
+          ],
+          "added": [],
+          "changed": []
+        },
+        {
+          "skillKey": "jhin_q",
+          "component": "triggerRules",
+          "removed": [
+            "actual_hit"
+          ],
+          "added": [],
+          "changed": []
+        },
+        {
+          "skillKey": "jhin_w",
+          "component": "parameters",
+          "removed": [
+            "minion_damage_ratio",
+            "total_ad_ratio"
+          ],
+          "added": [
+            "attack_damage_ratio",
+            "current_attack_damage_value"
+          ],
+          "changed": [
+            "spotting_duration_ms"
+          ]
+        },
+        {
+          "skillKey": "jhin_w",
+          "component": "formulas",
+          "removed": [],
+          "added": [],
+          "changed": [
+            "damage"
+          ]
+        },
+        {
+          "skillKey": "jhin_w",
+          "component": "effects",
+          "removed": [
+            "damage"
+          ],
+          "added": [],
+          "changed": []
+        },
+        {
+          "skillKey": "jhin_w",
+          "component": "triggerRules",
+          "removed": [
+            "actual_hit"
+          ],
+          "added": [],
+          "changed": []
+        },
+        {
+          "skillKey": "jhin_r",
+          "component": "parameters",
+          "removed": [
+            "total_ad_ratio"
+          ],
+          "added": [
+            "attack_damage_ratio",
+            "current_attack_damage_value"
+          ],
+          "changed": [
+            "one",
+            "shot_count"
+          ]
+        },
+        {
+          "skillKey": "jhin_r",
+          "component": "formulas",
+          "removed": [],
+          "added": [],
+          "changed": [
+            "base_damage"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "后十技能候选.json",
+      "sha256": "1c53cef13e9fa5ffdf64f6325210140d1459324b1e3fdc51a15dfc5cf760e2a8",
+      "before": {
+        "parameters": 49,
+        "formulas": 9,
+        "effects": 10,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "after": {
+        "parameters": 47,
+        "formulas": 9,
+        "effects": 10,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      },
+      "reusedPublicParameters": 11,
+      "arithmetic": 19,
+      "invariants": 153,
+      "sourceChecks": 5,
+      "disposition": {
+        "范围外": 14,
+        "来源待核": 17,
+        "系统缺口": 3,
+        "尚未接线": 10
+      },
+      "changes": [
+        {
+          "skillKey": "draven_r",
+          "component": "parameters",
+          "removed": [
+            "minimum_damage_ratio",
+            "damage_reduction_per_hit"
+          ],
+          "added": [],
+          "changed": [
+            "adoration_execute_coefficient",
+            "current_adoration_stacks"
+          ]
+        }
+      ]
+    }
+  ],
+  "scopeReviews": [
+    {
+      "skillKey": "caitlyn_q",
+      "removed": [
+        "secondary_damage_ratio",
+        "secondary_damage"
+      ],
+      "source": {
+        "sourceKey": "Spell_CaitlynPiltoverPeacemaker_Tooltip",
+        "key": "spell_caitlynpiltoverpeacemaker_tooltip",
+        "text": "凯特琳加速转动她的步枪来射出一颗穿刺弹，造成<physicalDamage>@InitialDamage@物理伤害</physicalDamage>。在子弹命中第一个单位后，它会绽开为一个更宽的弹体，造成<physicalDamage>@SecondaryDamage@物理伤害</physicalDamage>。<br><br>被<spellName>{{Spell_CaitlynYordleTrap_Name}}</spellName>显形的敌人总会受到全额伤害。"
+      },
+      "dependency": "唯一英雄作为首目标，无其他先前单位；W显形全额条件保留，不能重复给首目标加成。"
+    },
+    {
+      "skillKey": "jhin_q",
+      "removed": [
+        "bounce_count",
+        "bounce_range",
+        "kill_bounce_amp_ratio"
+      ],
+      "source": {
+        "sourceKey": "Spell_JhinQ_Tooltip",
+        "key": "spell_jhinq_tooltip",
+        "text": "烬扔出一颗手雷，手雷会造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，然后弹跳到附近的一个还未被此技能命中的目标上。<br><br>手雷最多可命中@TooltipMaxTargetsHit@个目标。手雷每击杀一个单位，它的后续弹跳伤害就会提升@PercentAmpOnKill*100@%。"
+      },
+      "dependency": "只弹到另一未命中目标；仅一名英雄不能反复弹跳，击杀只影响后续目标。不扩展前置小兵弹跳场景。"
+    },
+    {
+      "skillKey": "jhin_w",
+      "removed": [
+        "minion_damage_ratio"
+      ],
+      "source": {
+        "sourceKey": "Spell_JhinW_TooltipExtendedBelowLine",
+        "key": "spell_jhinw_tooltipextendedbelowline",
+        "text": "<rules>这个技能对小兵造成@MinionMod*100@%伤害。<br>踩中<spellName>万众倾倒</spellName>陷阱的英雄也能被禁锢。</rules>"
+      },
+      "dependency": "仅小兵修正；本烬伤害、E陷阱标记与P增速关系继续保留。"
+    },
+    {
+      "skillKey": "draven_r",
+      "removed": [
+        "minimum_damage_ratio",
+        "damage_reduction_per_hit"
+      ],
+      "source": {
+        "sourceKey": "Spell_DravenRCast_Tooltip",
+        "key": "spell_dravenrcast_tooltip",
+        "text": "德莱文猛掷出两把巨斧来造成<physicalDamage>@RCalculatedDamage@物理伤害</physicalDamage>。在命中一名英雄或<recast>再次施放</recast>之后，巨斧会掉转方向并返回德莱文处。巨斧每命中一个敌人就会降低@RDamageReductionPerHit*100@%伤害，最低降至@RMinDamagePercent@%。<br><br>如果<keywordMajor>{{ Spell_DravenRCast_Name }}</keywordMajor>使一名敌方英雄的生命值低于德莱文目前的@RPassiveStacksCoefficient*100@%<keywordMajor>{{Spell_DravenPassive_Name}}</keywordMajor>层数(@RPassiveTrueDamage@)，那么德莱文会将该英雄处决。"
+      },
+      "resetSource": {
+        "sourceKey": "Spell_DravenRCast_TooltipExtendedBelowLine",
+        "key": "spell_dravenrcast_tooltipextendedbelowline",
+        "text": "<rules>伤害衰减会在折返时重置。<br>此技能来自【被动-德莱文联盟】的处决次数：@f1@</rules>"
+      },
+      "dependency": "每方向只有唯一英雄，折返时衰减重置；同一英雄去回两次真实命中及伤后P层数处决仍需独立接线。"
+    },
+    {
+      "skillKey": "draven_p",
+      "removed": [],
+      "source": {
+        "sourceKey": "Spell_DravenPassive_Tooltip",
+        "key": "spell_dravenpassive_tooltip",
+        "text": "德莱文在每次击杀一个非英雄单位或防御塔、接住一把<keywordMajor>旋转飞斧</keywordMajor>时会获得@StackGain@层效果。<br><br>德莱文在击杀一名英雄后，会获得@PassiveGoldBase@+@PassiveGoldPerStack@x效果层数的金币。德莱文在阵亡时会损失@PercentOfStacksLost@%的层数。<br><br>已赚取的金币总和：<statTracking>@DravenPassiveGoldEarned@</statTracking><br>数额最高的奖励：<statTracking>@DravenPassiveHighestBounty@</statTracking>"
+      },
+      "dependency": "不模拟额外单位战斗，但非英雄/防御塔与接斧积累的当前崇拜仍影响R。保留战前输入，不默认为0；50%死亡扣层的奇数舍入未证。"
+    }
+  ],
+  "checks": [
+    {
+      "name": "初始清单严格29件",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "29件历史副本均未修改",
+      "match": true,
+      "detail": [
+        {
+          "path": "补充文本.mjs",
+          "expected": "6e99925048eb5d4625c4cf0a86515794369477f6a7cb0514029bf98d474c819b",
+          "actual": "6e99925048eb5d4625c4cf0a86515794369477f6a7cb0514029bf98d474c819b",
+          "match": true
+        },
+        {
+          "path": "补充文本证据.json",
+          "expected": "cd3c870ab5a2a704841d3857daaaaab3d4fa6d2fedfd3fc4a37591fbe3a8a431",
+          "actual": "cd3c870ab5a2a704841d3857daaaaab3d4fa6d2fedfd3fc4a37591fbe3a8a431",
+          "match": true
+        },
+        {
+          "path": "德莱文组成.mjs",
+          "expected": "f765e56a5faf055c891ed0f5260e1e1c45dcf2b0b2366d08354d1df33f73d1f1",
+          "actual": "f765e56a5faf055c891ed0f5260e1e1c45dcf2b0b2366d08354d1df33f73d1f1",
+          "match": true
+        },
+        {
+          "path": "短体验.md",
+          "expected": "cc5bc106fdfda7f992cbecb2f28883c0b162caccb6a3a7ea646816a9b8235f4c",
+          "actual": "cc5bc106fdfda7f992cbecb2f28883c0b162caccb6a3a7ea646816a9b8235f4c",
+          "match": true
+        },
+        {
+          "path": "根绑定与数值证据.json",
+          "expected": "4e4e413352c275f19fb146fd4e40fc6af7f94de58b8a4c80415c3032d7b8fe63",
+          "actual": "4e4e413352c275f19fb146fd4e40fc6af7f94de58b8a4c80415c3032d7b8fe63",
+          "match": true
+        },
+        {
+          "path": "核对根绑定.mjs",
+          "expected": "425fb5338ca1081bc4f77039fa70035620bc133a82508cc6ffbcb639eb06943e",
+          "actual": "425fb5338ca1081bc4f77039fa70035620bc133a82508cc6ffbcb639eb06943e",
+          "match": true
+        },
+        {
+          "path": "核对现值.mjs",
+          "expected": "983d7399879e48e434b42e2981ef588f4b8b98a8536bc3119d7c54f76bc79c0d",
+          "actual": "983d7399879e48e434b42e2981ef588f4b8b98a8536bc3119d7c54f76bc79c0d",
+          "match": true
+        },
+        {
+          "path": "后十技能版本.json",
+          "expected": "3d4b326b3dcc2180671e632300846e67c9f80f6234f48626cb7c2c9e8060d910",
+          "actual": "3d4b326b3dcc2180671e632300846e67c9f80f6234f48626cb7c2c9e8060d910",
+          "match": true
+        },
+        {
+          "path": "后十技能独立核算.json",
+          "expected": "7f2cd9dc287e7b0f9350ba4d32a8a337ddc4a0e314ddcb6c39262e5c218d7363",
+          "actual": "7f2cd9dc287e7b0f9350ba4d32a8a337ddc4a0e314ddcb6c39262e5c218d7363",
+          "match": true
+        },
+        {
+          "path": "后十技能独立核算.mjs",
+          "expected": "3f313a651c12b56e7eae615ea691a0c29422978aa8e0b242c380ed25a4b6283c",
+          "actual": "3f313a651c12b56e7eae615ea691a0c29422978aa8e0b242c380ed25a4b6283c",
+          "match": true
+        },
+        {
+          "path": "后十技能候选.json",
+          "expected": "7f5b6436f399b479f3a1d9bb1361f80917b317d90a55825b1fa1b403693d04bb",
+          "actual": "7f5b6436f399b479f3a1d9bb1361f80917b317d90a55825b1fa1b403693d04bb",
+          "match": true
+        },
+        {
+          "path": "后十技能审查说明.md",
+          "expected": "4e0efd043ce2a1065abaf379eb4c37e0b1e82f0eb883fe516cd3306849d19968",
+          "actual": "4e0efd043ce2a1065abaf379eb4c37e0b1e82f0eb883fe516cd3306849d19968",
+          "match": true
+        },
+        {
+          "path": "后十技能生成候选.mjs",
+          "expected": "d68af87adec6dd5376b2432c133cf829888e3a6d070df8c83300d001830fadc0",
+          "actual": "d68af87adec6dd5376b2432c133cf829888e3a6d070df8c83300d001830fadc0",
+          "match": true
+        },
+        {
+          "path": "后十来源补充.json",
+          "expected": "6f648207b746fb25e2705af79f27578a0433085c9b41bd1964be7d497e138a30",
+          "actual": "6f648207b746fb25e2705af79f27578a0433085c9b41bd1964be7d497e138a30",
+          "match": true
+        },
+        {
+          "path": "候选.mjs",
+          "expected": "582e3b6f82f2b3562c580423aca90915f07ca37c4ba61485183479300d7debce",
+          "actual": "582e3b6f82f2b3562c580423aca90915f07ca37c4ba61485183479300d7debce",
+          "match": true
+        },
+        {
+          "path": "烬组成.mjs",
+          "expected": "14cdb5a50cc5c70ae2cdc905b64d78488ca3de5bfdb88afaf4ca153f79ea6d1b",
+          "actual": "14cdb5a50cc5c70ae2cdc905b64d78488ca3de5bfdb88afaf4ca153f79ea6d1b",
+          "match": true
+        },
+        {
+          "path": "卡莉丝塔组成.mjs",
+          "expected": "ae5fde711e0b016cacb9c19c9904c96099938bcf89bf02ccdb47237b7396b20e",
+          "actual": "ae5fde711e0b016cacb9c19c9904c96099938bcf89bf02ccdb47237b7396b20e",
+          "match": true
+        },
+        {
+          "path": "凯特琳组成.mjs",
+          "expected": "e586fb1c1439a922af2456025f528f3b058a4fbe8db38175de31f05414687650",
+          "actual": "e586fb1c1439a922af2456025f528f3b058a4fbe8db38175de31f05414687650",
+          "match": true
+        },
+        {
+          "path": "目录现值.json",
+          "expected": "4dbf425d9742352026410b1388c10fa4cda64a4c9e085a8b1ff20a7756ffbe95",
+          "actual": "4dbf425d9742352026410b1388c10fa4cda64a4c9e085a8b1ff20a7756ffbe95",
+          "match": true
+        },
+        {
+          "path": "前十技能独立核算.json",
+          "expected": "0f5529fa1c14bac397316d14c650c877879455c9e0a4be021a1485107a35613d",
+          "actual": "0f5529fa1c14bac397316d14c650c877879455c9e0a4be021a1485107a35613d",
+          "match": true
+        },
+        {
+          "path": "前十技能独立核算.mjs",
+          "expected": "8bf4f094c363c25a5030836af41a21070f409be6a8b489a04e2091289a0a2516",
+          "actual": "8bf4f094c363c25a5030836af41a21070f409be6a8b489a04e2091289a0a2516",
+          "match": true
+        },
+        {
+          "path": "前十技能候选.json",
+          "expected": "dacd38819423c7df00ca342d6e6fead31c4a9ad3204da958061968aaf2ac8b42",
+          "actual": "dacd38819423c7df00ca342d6e6fead31c4a9ad3204da958061968aaf2ac8b42",
+          "match": true
+        },
+        {
+          "path": "前十技能审查说明.md",
+          "expected": "faadce1cdb77cfd95cbcd0e33f908ffd6d8fe18530d099d20c408db135e59c45",
+          "actual": "faadce1cdb77cfd95cbcd0e33f908ffd6d8fe18530d099d20c408db135e59c45",
+          "match": true
+        },
+        {
+          "path": "前十技能生成候选.mjs",
+          "expected": "09de770486c216f3ade826841c6e7e92a6c160b130af39d2b9836af2b0a349e0",
+          "actual": "09de770486c216f3ade826841c6e7e92a6c160b130af39d2b9836af2b0a349e0",
+          "match": true
+        },
+        {
+          "path": "写前现值.json",
+          "expected": "c2af1e32b466b5df683724c8da14b66cea1335bc662048644076eef12dd17837",
+          "actual": "c2af1e32b466b5df683724c8da14b66cea1335bc662048644076eef12dd17837",
+          "match": true
+        },
+        {
+          "path": "英雄工具.mjs",
+          "expected": "6e97dc55cd174cd6e7abdcf293e3b14a406810cb3bf92fe526a55656bb331a17",
+          "actual": "6e97dc55cd174cd6e7abdcf293e3b14a406810cb3bf92fe526a55656bb331a17",
+          "match": true
+        },
+        {
+          "path": "Cursor前十技能短体验.md",
+          "expected": "9aa784824af176edcd121ae2e3a565565c01ca56a944b851d98200fcfb263eb1",
+          "actual": "9aa784824af176edcd121ae2e3a565565c01ca56a944b851d98200fcfb263eb1",
+          "match": true
+        },
+        {
+          "path": "来源冻结/来源与哈希汇总.json",
+          "expected": "5cb3876dc3ced728bf34a983a5d2ef3eef0d042ed39fbf0340163140424b0187",
+          "actual": "5cb3876dc3ced728bf34a983a5d2ef3eef0d042ed39fbf0340163140424b0187",
+          "match": true
+        },
+        {
+          "path": "来源冻结/主技能数值展开.json",
+          "expected": "b88a925e7b4a13296bc37a9d3c5a4e73a4cdc1f9afc3ee1b55254f95a4a3e96b",
+          "actual": "b88a925e7b4a13296bc37a9d3c5a4e73a4cdc1f9afc3ee1b55254f95a4a3e96b",
+          "match": true
+        }
+      ]
+    },
+    {
+      "name": "原始冻结证据未修改 根绑定与数值证据.json",
+      "match": true,
+      "detail": {
+        "expected": "4e4e413352c275f19fb146fd4e40fc6af7f94de58b8a4c80415c3032d7b8fe63",
+        "actual": "4e4e413352c275f19fb146fd4e40fc6af7f94de58b8a4c80415c3032d7b8fe63"
+      }
+    },
+    {
+      "name": "原始冻结证据未修改 补充文本证据.json",
+      "match": true,
+      "detail": {
+        "expected": "cd3c870ab5a2a704841d3857daaaaab3d4fa6d2fedfd3fc4a37591fbe3a8a431",
+        "actual": "cd3c870ab5a2a704841d3857daaaaab3d4fa6d2fedfd3fc4a37591fbe3a8a431"
+      }
+    },
+    {
+      "name": "原始冻结证据未修改 后十来源补充.json",
+      "match": true,
+      "detail": {
+        "expected": "6f648207b746fb25e2705af79f27578a0433085c9b41bd1964be7d497e138a30",
+        "actual": "6f648207b746fb25e2705af79f27578a0433085c9b41bd1964be7d497e138a30"
+      }
+    },
+    {
+      "name": "原始冻结证据未修改 写前现值.json",
+      "match": true,
+      "detail": {
+        "expected": "c2af1e32b466b5df683724c8da14b66cea1335bc662048644076eef12dd17837",
+        "actual": "c2af1e32b466b5df683724c8da14b66cea1335bc662048644076eef12dd17837"
+      }
+    },
+    {
+      "name": "原始冻结证据未修改 目录现值.json",
+      "match": true,
+      "detail": {
+        "expected": "4dbf425d9742352026410b1388c10fa4cda64a4c9e085a8b1ff20a7756ffbe95",
+        "actual": "4dbf425d9742352026410b1388c10fa4cda64a4c9e085a8b1ff20a7756ffbe95"
+      }
+    },
+    {
+      "name": "原始冻结证据未修改 来源冻结/来源与哈希汇总.json",
+      "match": true,
+      "detail": {
+        "expected": "5cb3876dc3ced728bf34a983a5d2ef3eef0d042ed39fbf0340163140424b0187",
+        "actual": "5cb3876dc3ced728bf34a983a5d2ef3eef0d042ed39fbf0340163140424b0187"
+      }
+    },
+    {
+      "name": "原始冻结证据未修改 来源冻结/主技能数值展开.json",
+      "match": true,
+      "detail": {
+        "expected": "b88a925e7b4a13296bc37a9d3c5a4e73a4cdc1f9afc3ee1b55254f95a4a3e96b",
+        "actual": "b88a925e7b4a13296bc37a9d3c5a4e73a4cdc1f9afc3ee1b55254f95a4a3e96b"
+      }
+    },
+    {
+      "name": "Caitlyn client原文件SHA",
+      "match": true,
+      "detail": {
+        "hero": "Caitlyn",
+        "kind": "client",
+        "url": "https://raw.communitydragon.org/16.17/game/data/characters/caitlyn/caitlyn.bin.json",
+        "expected": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+        "actual": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+        "match": true
+      }
+    },
+    {
+      "name": "Caitlyn official原文件SHA",
+      "match": true,
+      "detail": {
+        "hero": "Caitlyn",
+        "kind": "official",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Caitlyn.json",
+        "expected": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248",
+        "actual": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248",
+        "match": true
+      }
+    },
+    {
+      "name": "caitlyn_p原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+        "slot": "P",
+        "rootBound": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassive",
+        "binding": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassive"
+      }
+    },
+    {
+      "name": "caitlyn_p完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassive"
+      }
+    },
+    {
+      "name": "caitlyn_q原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+        "slot": "Q",
+        "rootBound": "Characters/Caitlyn/Spells/CaitlynQAbility/CaitlynQ",
+        "binding": "Characters/Caitlyn/Spells/CaitlynQAbility/CaitlynQ"
+      }
+    },
+    {
+      "name": "caitlyn_q完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Caitlyn/Spells/CaitlynQAbility/CaitlynQ"
+      }
+    },
+    {
+      "name": "caitlyn_w原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+        "slot": "W",
+        "rootBound": "Characters/Caitlyn/Spells/CaitlynWAbility/CaitlynW",
+        "binding": "Characters/Caitlyn/Spells/CaitlynWAbility/CaitlynW"
+      }
+    },
+    {
+      "name": "caitlyn_w完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Caitlyn/Spells/CaitlynWAbility/CaitlynW"
+      }
+    },
+    {
+      "name": "caitlyn_e原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+        "slot": "E",
+        "rootBound": "Characters/Caitlyn/Spells/CaitlynEAbility/CaitlynE",
+        "binding": "Characters/Caitlyn/Spells/CaitlynEAbility/CaitlynE"
+      }
+    },
+    {
+      "name": "caitlyn_e完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Caitlyn/Spells/CaitlynEAbility/CaitlynE"
+      }
+    },
+    {
+      "name": "caitlyn_r原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+        "slot": "R",
+        "rootBound": "Characters/Caitlyn/Spells/CaitlynRAbility/CaitlynR",
+        "binding": "Characters/Caitlyn/Spells/CaitlynRAbility/CaitlynR"
+      }
+    },
+    {
+      "name": "caitlyn_r完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Caitlyn/Spells/CaitlynRAbility/CaitlynR"
+      }
+    },
+    {
+      "name": "Jhin client原文件SHA",
+      "match": true,
+      "detail": {
+        "hero": "Jhin",
+        "kind": "client",
+        "url": "https://raw.communitydragon.org/16.17/game/data/characters/jhin/jhin.bin.json",
+        "expected": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+        "actual": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+        "match": true
+      }
+    },
+    {
+      "name": "Jhin official原文件SHA",
+      "match": true,
+      "detail": {
+        "hero": "Jhin",
+        "kind": "official",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jhin.json",
+        "expected": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15",
+        "actual": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15",
+        "match": true
+      }
+    },
+    {
+      "name": "jhin_p原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Jhin/CharacterRecords/Root",
+        "slot": "P",
+        "rootBound": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive",
+        "binding": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive"
+      }
+    },
+    {
+      "name": "jhin_p完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive"
+      }
+    },
+    {
+      "name": "jhin_q原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Jhin/CharacterRecords/Root",
+        "slot": "Q",
+        "rootBound": "Characters/Jhin/Spells/JhinQAbility/JhinQ",
+        "binding": "Characters/Jhin/Spells/JhinQAbility/JhinQ"
+      }
+    },
+    {
+      "name": "jhin_q完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Jhin/Spells/JhinQAbility/JhinQ"
+      }
+    },
+    {
+      "name": "jhin_w原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Jhin/CharacterRecords/Root",
+        "slot": "W",
+        "rootBound": "Characters/Jhin/Spells/JhinWAbility/JhinW",
+        "binding": "Characters/Jhin/Spells/JhinWAbility/JhinW"
+      }
+    },
+    {
+      "name": "jhin_w完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Jhin/Spells/JhinWAbility/JhinW"
+      }
+    },
+    {
+      "name": "jhin_e原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Jhin/CharacterRecords/Root",
+        "slot": "E",
+        "rootBound": "Characters/Jhin/Spells/JhinEAbility/JhinE",
+        "binding": "Characters/Jhin/Spells/JhinEAbility/JhinE"
+      }
+    },
+    {
+      "name": "jhin_e完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Jhin/Spells/JhinEAbility/JhinE"
+      }
+    },
+    {
+      "name": "jhin_r原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Jhin/CharacterRecords/Root",
+        "slot": "R",
+        "rootBound": "Characters/Jhin/Spells/JhinRAbility/JhinR",
+        "binding": "Characters/Jhin/Spells/JhinRAbility/JhinR"
+      }
+    },
+    {
+      "name": "jhin_r完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Jhin/Spells/JhinRAbility/JhinR"
+      }
+    },
+    {
+      "name": "Draven client原文件SHA",
+      "match": true,
+      "detail": {
+        "hero": "Draven",
+        "kind": "client",
+        "url": "https://raw.communitydragon.org/16.17/game/data/characters/draven/draven.bin.json",
+        "expected": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+        "actual": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+        "match": true
+      }
+    },
+    {
+      "name": "Draven official原文件SHA",
+      "match": true,
+      "detail": {
+        "hero": "Draven",
+        "kind": "official",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Draven.json",
+        "expected": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+        "actual": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488",
+        "match": true
+      }
+    },
+    {
+      "name": "draven_p原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Draven/CharacterRecords/Root",
+        "slot": "P",
+        "rootBound": "Characters/Draven/Spells/DravenPassiveAbility/DravenPassive",
+        "binding": "Characters/Draven/Spells/DravenPassiveAbility/DravenPassive"
+      }
+    },
+    {
+      "name": "draven_p完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Draven/Spells/DravenPassiveAbility/DravenPassive"
+      }
+    },
+    {
+      "name": "draven_q原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Draven/CharacterRecords/Root",
+        "slot": "Q",
+        "rootBound": "Characters/Draven/Spells/DravenSpinningAbility/DravenSpinning",
+        "binding": "Characters/Draven/Spells/DravenSpinningAbility/DravenSpinning"
+      }
+    },
+    {
+      "name": "draven_q完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Draven/Spells/DravenSpinningAbility/DravenSpinning"
+      }
+    },
+    {
+      "name": "draven_w原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Draven/CharacterRecords/Root",
+        "slot": "W",
+        "rootBound": "Characters/Draven/Spells/DravenFuryAbility/DravenFury",
+        "binding": "Characters/Draven/Spells/DravenFuryAbility/DravenFury"
+      }
+    },
+    {
+      "name": "draven_w完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Draven/Spells/DravenFuryAbility/DravenFury"
+      }
+    },
+    {
+      "name": "draven_e原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Draven/CharacterRecords/Root",
+        "slot": "E",
+        "rootBound": "Characters/Draven/Spells/DravenDoubleShotAbility/DravenDoubleShot",
+        "binding": "Characters/Draven/Spells/DravenDoubleShotAbility/DravenDoubleShot"
+      }
+    },
+    {
+      "name": "draven_e完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Draven/Spells/DravenDoubleShotAbility/DravenDoubleShot"
+      }
+    },
+    {
+      "name": "draven_r原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Draven/CharacterRecords/Root",
+        "slot": "R",
+        "rootBound": "Characters/Draven/Spells/DravenRCastAbility/DravenRCast",
+        "binding": "Characters/Draven/Spells/DravenRCastAbility/DravenRCast"
+      }
+    },
+    {
+      "name": "draven_r完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Draven/Spells/DravenRCastAbility/DravenRCast"
+      }
+    },
+    {
+      "name": "Kalista client原文件SHA",
+      "match": true,
+      "detail": {
+        "hero": "Kalista",
+        "kind": "client",
+        "url": "https://raw.communitydragon.org/16.17/game/data/characters/kalista/kalista.bin.json",
+        "expected": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+        "actual": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+        "match": true
+      }
+    },
+    {
+      "name": "Kalista official原文件SHA",
+      "match": true,
+      "detail": {
+        "hero": "Kalista",
+        "kind": "official",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kalista.json",
+        "expected": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+        "actual": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84",
+        "match": true
+      }
+    },
+    {
+      "name": "kalista_p原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Kalista/CharacterRecords/Root",
+        "slot": "P",
+        "rootBound": "Characters/Kalista/Spells/KalistaPassiveBuffAbility/KalistaPassiveBuff",
+        "binding": "Characters/Kalista/Spells/KalistaPassiveBuffAbility/KalistaPassiveBuff"
+      }
+    },
+    {
+      "name": "kalista_p完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Kalista/Spells/KalistaPassiveBuffAbility/KalistaPassiveBuff"
+      }
+    },
+    {
+      "name": "kalista_q原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Kalista/CharacterRecords/Root",
+        "slot": "Q",
+        "rootBound": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot",
+        "binding": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot"
+      }
+    },
+    {
+      "name": "kalista_q完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot"
+      }
+    },
+    {
+      "name": "kalista_w原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Kalista/CharacterRecords/Root",
+        "slot": "W",
+        "rootBound": "Characters/Kalista/Spells/KalistaWAbility/KalistaW",
+        "binding": "Characters/Kalista/Spells/KalistaWAbility/KalistaW"
+      }
+    },
+    {
+      "name": "kalista_w完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Kalista/Spells/KalistaWAbility/KalistaW"
+      }
+    },
+    {
+      "name": "kalista_e原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Kalista/CharacterRecords/Root",
+        "slot": "E",
+        "rootBound": "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper",
+        "binding": "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper"
+      }
+    },
+    {
+      "name": "kalista_e完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper"
+      }
+    },
+    {
+      "name": "kalista_r原始角色根精确绑定",
+      "match": true,
+      "detail": {
+        "rootPath": "Characters/Kalista/CharacterRecords/Root",
+        "slot": "R",
+        "rootBound": "Characters/Kalista/Spells/KalistaRxAbility/KalistaRx",
+        "binding": "Characters/Kalista/Spells/KalistaRxAbility/KalistaRx"
+      }
+    },
+    {
+      "name": "kalista_r完整技能对象与原始文件相同",
+      "match": true,
+      "detail": {
+        "binding": "Characters/Kalista/Spells/KalistaRxAbility/KalistaRx"
+      }
+    },
+    {
+      "name": "当前中文表原文件SHA",
+      "match": true,
+      "detail": {
+        "expected": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+        "actual": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+      }
+    },
+    {
+      "name": "Cursor审计副本与主负责人原文件一致",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "Cursor审查正文精确摘录",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "Cursor审查只对应修改前版本",
+      "match": true,
+      "detail": {
+        "checkedAt": "2026-09-09T01:44:28.477Z",
+        "runId": "run-96eb9496-3277-4982-8caa-93fb743b9ebe",
+        "resultStatus": "finished",
+        "requestedModel": {
+          "id": "grok-4.6",
+          "params": [
+            {
+              "id": "effort",
+              "value": "high"
+            },
+            {
+              "id": "fast",
+              "value": "false"
+            }
+          ]
+        },
+        "planRevision": "HERO8-CANDIDATE-20260909-PRE1",
+        "verdict": "REVISE",
+        "fileDelta": 0,
+        "unchangedSeeds": 29,
+        "eventRows": 3785,
+        "toolStarts": 57,
+        "tools": [
+          "glob",
+          "read",
+          "shell",
+          "grep"
+        ],
+        "shellStarts": 9,
+        "allShellCommandsManuallyReviewed": "9个命令均为node只读文件、摘要与内存计算，没有调用生成器或持久写函数",
+        "truncatedTools": 0,
+        "existingOutOfScope": [
+          ".gitignore在启动前已存在且本次无变化"
+        ],
+        "durationMs": 559751,
+        "bodyLocation": "summary.json.assistantText",
+        "boundary": "只读审查旧候选，结论REVISE，不表示最终候选已放行"
+      }
+    },
+    {
+      "name": "Caitlyn R额外AD映射有独立具名依据",
+      "match": true,
+      "detail": {
+        "caitlynR": {
+          "mStat": 2,
+          "mStatFormula": 2,
+          "mDataValue": "RADRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        "caitlynW": {
+          "mStat": 2,
+          "mStatFormula": 2,
+          "mDataValue": "ADRatio",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        "dravenR": {
+          "mStat": 2,
+          "mStatFormula": 2,
+          "mDataValue": "RCoefficient",
+          "__type": "StatByNamedDataValueCalculationPart"
+        },
+        "bonusLabels": [
+          {
+            "path": "Characters/Draven/Spells/DravenRCastAbility/DravenRCast.mSpell.mClientData.mTooltipData.mLists.LevelUp.Elements.2",
+            "node": {
+              "type": "RCoefficient",
+              "multiplier": 100,
+              "nameOverride": "Spell_ListType_BonusADRatio",
+              "Style": 1,
+              "__type": "TooltipInstanceListElement"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "caitlyn_q保留总AD读取的同版本具名证据",
+      "match": true,
+      "detail": [
+        {
+          "path": "Characters/Caitlyn/Spells/CaitlynQAbility/CaitlynQ.mSpell.mClientData.mTooltipData.mLists.LevelUp.Elements.1",
+          "node": {
+            "type": "tADRatio",
+            "typeIndex": 5,
+            "multiplier": 100,
+            "nameOverride": "Spell_ListType_TotalADRatio",
+            "Style": 1,
+            "__type": "TooltipInstanceListElement"
+          }
+        }
+      ]
+    },
+    {
+      "name": "jhin_q保留总AD读取的同版本具名证据",
+      "match": true,
+      "detail": [
+        {
+          "path": "Characters/Jhin/Spells/JhinQAbility/JhinQ.mSpell.mClientData.mTooltipData.mLists.LevelUp.Elements.1",
+          "node": {
+            "type": "ADRatio",
+            "typeIndex": 3,
+            "multiplier": 100,
+            "nameOverride": "Spell_ListType_TotalADRatio",
+            "Style": 1,
+            "__type": "TooltipInstanceListElement"
+          }
+        }
+      ]
+    },
+    {
+      "name": "R1原始参数独立差异算例",
+      "match": true,
+      "detail": {
+        "base": 300,
+        "ratio": 1,
+        "totalAD": 200,
+        "bonusAD": 100,
+        "correct": 400,
+        "wrongTotalAD": 500
+      }
+    },
+    {
+      "name": "前十独算对应最终候选且0失败",
+      "match": true,
+      "detail": {
+        "candidateSha256": "b6b7c2ff1d976d31a0875982429d40124d0cfa9bf4570c30cf2cec83794e52d2",
+        "auditSha256": "b6b7c2ff1d976d31a0875982429d40124d0cfa9bf4570c30cf2cec83794e52d2",
+        "failures": []
+      }
+    },
+    {
+      "name": "前十无伤害/触发/过程待核资格绕过",
+      "match": true,
+      "detail": null
+    },
+    {
+      "name": "后十独算对应最终候选且0失败",
+      "match": true,
+      "detail": {
+        "candidateSha256": "1c53cef13e9fa5ffdf64f6325210140d1459324b1e3fdc51a15dfc5cf760e2a8",
+        "auditSha256": "1c53cef13e9fa5ffdf64f6325210140d1459324b1e3fdc51a15dfc5cf760e2a8",
+        "failures": []
+      }
+    },
+    {
+      "name": "后十无伤害/触发/过程待核资格绕过",
+      "match": true,
+      "detail": null
+    }
+  ],
+  "failures": []
+}

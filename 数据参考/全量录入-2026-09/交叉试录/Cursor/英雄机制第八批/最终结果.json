@@ -1,0 +1,261 @@
+{
+  "at": "2026-09-09T02:14:15.481Z",
+  "success": true,
+  "finalRequestSha256": "56dbefdb84857b820fe5278f6d82e226967c5f7edee828e37c8b937003b1af4b",
+  "approvedParts": [
+    {
+      "file": "前十技能候选.json",
+      "sha256": "b6b7c2ff1d976d31a0875982429d40124d0cfa9bf4570c30cf2cec83794e52d2"
+    },
+    {
+      "file": "后十技能候选.json",
+      "sha256": "1c53cef13e9fa5ffdf64f6325210140d1459324b1e3fdc51a15dfc5cf760e2a8"
+    }
+  ],
+  "approvedCorrection": {
+    "file": "接口拒绝修正候选.json",
+    "sha256": "32b97e90ec283c39831b2b9f6affaad8adc9526f3c40281c8ac4c2ce8f43cf5e"
+  },
+  "totals": {
+    "parameters": 111,
+    "formulas": 24,
+    "effects": 16,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newConfirmed": 128,
+  "reusedPublicParameters": 23,
+  "byHero": [
+    {
+      "hero": "caitlyn",
+      "components": 36,
+      "newConfirmed": 30,
+      "reused": 6
+    },
+    {
+      "hero": "jhin",
+      "components": 49,
+      "newConfirmed": 43,
+      "reused": 6
+    },
+    {
+      "hero": "draven",
+      "components": 37,
+      "newConfirmed": 29,
+      "reused": 8
+    },
+    {
+      "hero": "kalista",
+      "components": 29,
+      "newConfirmed": 26,
+      "reused": 3
+    }
+  ],
+  "independentReadback": {
+    "runId": "2026-09-09T02-12-36-522Z",
+    "subjects": 20,
+    "collections": 120,
+    "details": 151,
+    "fields": 1828,
+    "arithmetic": 46,
+    "invariants": 314,
+    "sourceChecks": 9,
+    "missing": 0,
+    "conflicts": 0,
+    "failures": 0
+  },
+  "protected": {
+    "subjects": 20,
+    "representativeImages": 20,
+    "characterSkillRelations": 4,
+    "publicParameters": [
+      {
+        "skillKey": "caitlyn_q",
+        "parameterKey": "cooldown_ms",
+        "match": true
+      },
+      {
+        "skillKey": "caitlyn_q",
+        "parameterKey": "mana_cost",
+        "match": true
+      },
+      {
+        "skillKey": "caitlyn_e",
+        "parameterKey": "cooldown_ms",
+        "match": true
+      },
+      {
+        "skillKey": "caitlyn_e",
+        "parameterKey": "mana_cost",
+        "match": true
+      },
+      {
+        "skillKey": "caitlyn_r",
+        "parameterKey": "cooldown_ms",
+        "match": true
+      },
+      {
+        "skillKey": "caitlyn_r",
+        "parameterKey": "mana_cost",
+        "match": true
+      },
+      {
+        "skillKey": "jhin_q",
+        "parameterKey": "cooldown_ms",
+        "match": true
+      },
+      {
+        "skillKey": "jhin_q",
+        "parameterKey": "mana_cost",
+        "match": true
+      },
+      {
+        "skillKey": "jhin_w",
+        "parameterKey": "cooldown_ms",
+        "match": true
+      },
+      {
+        "skillKey": "jhin_w",
+        "parameterKey": "mana_cost",
+        "match": true
+      },
+      {
+        "skillKey": "jhin_r",
+        "parameterKey": "cooldown_ms",
+        "match": true
+      },
+      {
+        "skillKey": "jhin_r",
+        "parameterKey": "mana_cost",
+        "match": true
+      },
+      {
+        "skillKey": "draven_q",
+        "parameterKey": "cooldown_ms",
+        "match": true
+      },
+      {
+        "skillKey": "draven_q",
+        "parameterKey": "mana_cost",
+        "match": true
+      },
+      {
+        "skillKey": "draven_w",
+        "parameterKey": "cooldown_ms",
+        "match": true
+      },
+      {
+        "skillKey": "draven_w",
+        "parameterKey": "mana_cost",
+        "match": true
+      },
+      {
+        "skillKey": "draven_e",
+        "parameterKey": "cooldown_ms",
+        "match": true
+      },
+      {
+        "skillKey": "draven_e",
+        "parameterKey": "mana_cost",
+        "match": true
+      },
+      {
+        "skillKey": "draven_r",
+        "parameterKey": "cooldown_ms",
+        "match": true
+      },
+      {
+        "skillKey": "draven_r",
+        "parameterKey": "mana_cost",
+        "match": true
+      },
+      {
+        "skillKey": "kalista_q",
+        "parameterKey": "cooldown_ms",
+        "match": true
+      },
+      {
+        "skillKey": "kalista_q",
+        "parameterKey": "mana_cost",
+        "match": true
+      },
+      {
+        "skillKey": "kalista_e",
+        "parameterKey": "mana_cost",
+        "match": true
+      }
+    ]
+  },
+  "historicalRejected": [
+    {
+      "runId": "2026-09-09T02-03-09-891Z",
+      "skillKey": "caitlyn_r",
+      "kind": "formulas",
+      "id": "damage",
+      "postStatus": 400,
+      "readbackStatus": 404,
+      "reason": "400.INVALID_BODY",
+      "resolved": true
+    },
+    {
+      "runId": "2026-09-09T02-03-09-891Z",
+      "skillKey": "jhin_r",
+      "kind": "formulas",
+      "id": "maximum_damage",
+      "postStatus": 400,
+      "readbackStatus": 404,
+      "reason": "400.INVALID_BODY",
+      "resolved": true
+    }
+  ],
+  "equivalence": {
+    "originalCases": 46,
+    "variationCases": 36,
+    "failures": 0
+  },
+  "journalLines": 262,
+  "runs": [
+    {
+      "runId": "2026-09-09T02-02-14-516Z",
+      "mode": "默认只读",
+      "planSha256": "7b3e82fca23a88529358f433d7d2f1f59b3bac14b17ddd35441dc69f5aac2f54",
+      "newConfirmed": 0,
+      "missing": 128,
+      "conflicts": 0,
+      "errors": []
+    },
+    {
+      "runId": "2026-09-09T02-03-09-891Z",
+      "mode": "显式仅创建缺项",
+      "planSha256": "7b3e82fca23a88529358f433d7d2f1f59b3bac14b17ddd35441dc69f5aac2f54",
+      "newConfirmed": 124,
+      "missing": 4,
+      "conflicts": 0,
+      "errors": [
+        {
+          "finalFailures": 4
+        }
+      ]
+    },
+    {
+      "runId": "2026-09-09T02-09-32-469Z",
+      "mode": "默认只读",
+      "planSha256": "56dbefdb84857b820fe5278f6d82e226967c5f7edee828e37c8b937003b1af4b",
+      "newConfirmed": 0,
+      "missing": 4,
+      "conflicts": 0,
+      "errors": []
+    },
+    {
+      "runId": "2026-09-09T02-10-23-967Z",
+      "mode": "显式仅创建缺项",
+      "planSha256": "56dbefdb84857b820fe5278f6d82e226967c5f7edee828e37c8b937003b1af4b",
+      "newConfirmed": 4,
+      "missing": 0,
+      "conflicts": 0,
+      "errors": []
+    }
+  ],
+  "boundary": "已通过真实管理API写入和独立GET全字段/实际公式核算；没有浏览器验收或战斗执行。本执行代理未改应用代码、服务、其他批次、共享进度或Git，主负责人后续页面验收和提交。"
+}

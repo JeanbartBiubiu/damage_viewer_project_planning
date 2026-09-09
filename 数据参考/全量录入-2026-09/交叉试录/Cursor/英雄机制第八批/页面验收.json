@@ -1,0 +1,576 @@
+{
+  "at": "2026-09-09T02:16:09.895Z",
+  "finalRequestSha256": "56dbefdb84857b820fe5278f6d82e226967c5f7edee828e37c8b937003b1af4b",
+  "browser": {
+    "url": "http://127.0.0.1:5173/#/skills",
+    "method": "主负责人操作实际管理页面查看，不保存草稿",
+    "observations": [
+      {
+        "skill": "caitlyn_r",
+        "verified": "代表图、300/475/650基础表、额外AD系数1、raw_damage引用施法者攻击力加成值，中文公式预览正确"
+      },
+      {
+        "skill": "draven_w",
+        "verified": "代表图、独立攻速效果、3秒攻速期限引用、来源实例/刷新全部时间/持续生效/施加时留存，与1.5秒移速分开"
+      },
+      {
+        "skill": "kalista_e",
+        "verified": "代表图、冷却10000/9500/9000/8500/8000，两个未解码属性小数输入与额外长矛整数输入单列计算时传入"
+      }
+    ],
+    "closedAllDialogs": true
+  },
+  "independentReads": 20,
+  "reads": [
+    {
+      "route": "/skills/caitlyn_r/formulas/raw_damage",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T02:03:42.008107Z",
+        "description": "300/475/650 +1.0额外攻击力；总AD200、额外AD100时R1为400。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "raw_damage",
+        "gameId": "lol",
+        "name": "让子弹飞未计暴击增幅伤害",
+        "skillKey": "caitlyn_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T02:03:42.008107Z"
+      }
+    },
+    {
+      "route": "/skills/caitlyn_r/formulas/crit_damage_multiplier",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T02:03:42.833052Z",
+        "description": "1 + 暴击几率×.3×（暴击倍率−1）；这是完整和式的确定性倍率，不再把R当随机普通暴击。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "one"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "attributeKey": "critical_strike_chance",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "crit_damage_scaling"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one"
+                    },
+                    {
+                      "attributeKey": "critical_strike_damage_bonus_percent",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "crit_damage_multiplier",
+        "gameId": "lol",
+        "name": "让子弹飞暴击几率增幅倍率",
+        "skillKey": "caitlyn_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:03:42.833052Z"
+      }
+    },
+    {
+      "route": "/skills/caitlyn_r/formulas/damage",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T02:10:42.885229Z",
+        "description": "完整RTotalDamage：基础和式先形成，再统一乘暴击几率增幅。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "attributeKey": "critical_strike_chance",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "crit_damage_scaling"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "one"
+                        },
+                        {
+                          "attributeKey": "critical_strike_damage_bonus_percent",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "ADD"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "damage",
+        "gameId": "lol",
+        "name": "让子弹飞完整物理伤害",
+        "skillKey": "caitlyn_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:10:42.885229Z"
+      }
+    },
+    {
+      "route": "/skills/caitlyn_r/parameters/bonus_ad_ratio",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T02:03:39.811917Z",
+        "description": "客户端当前根绑定 DataValues.RADRatio 取索引1至3。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "让子弹飞额外攻击力系数",
+        "parameterKey": "bonus_ad_ratio",
+        "skillKey": "caitlyn_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:03:39.811917Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/caitlyn_r/parameters/base_damage",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T02:03:39.051403Z",
+        "description": "客户端当前根绑定 DataValues.RBaseDamage 取索引1至3。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 300,
+          "2": 475,
+          "3": 650
+        },
+        "name": "让子弹飞基础物理伤害",
+        "parameterKey": "base_damage",
+        "skillKey": "caitlyn_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T02:03:39.051403Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/draven_w/effects/attack_speed_gain",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T02:04:27.550896Z",
+        "description": "本技能自身额外攻速增加20/25/30/35/40个百分点，持续3秒。与1.5秒移速衰减分开，不用移速结束提前移除攻速。本效果独立保存候选，实际施放与刷新接线另核。",
+        "effectKey": "attack_speed_gain",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "attack_speed_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "血性冲刺独立攻速加成",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "血性冲刺独立攻速加成",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_speed_gain_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "draven_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:04:27.550896Z"
+      }
+    },
+    {
+      "route": "/skills/draven_w/parameters/attack_speed_duration_ms",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T02:04:24.427253Z",
+        "description": "客户端当前根绑定 DataValues.Temp_ASDuration 取索引1至5。",
+        "fixedValue": 3000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "血性冲刺攻速持续（毫秒）",
+        "parameterKey": "attack_speed_duration_ms",
+        "skillKey": "draven_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T02:04:24.427253Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/cooldown_ms",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T02:04:44.173949Z",
+        "description": "客户端当前根绑定 DataValues.FakedCooldown 取索引1至5。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "kalista_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T02:04:44.173949Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/current_attack_damage_value",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T02:04:54.008068Z",
+        "description": "当前NormalDamage/AdditionalDamage明确mStat=2但省略mStatFormula；本批不依通用默认解码其取值种类。只有确认该节点的实际攻击力口径后才能绑定，不能用0代替。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次撕裂计算所需攻击力值",
+        "parameterKey": "current_attack_damage_value",
+        "skillKey": "kalista_e",
+        "sortOrder": 140,
+        "updatedAt": "2026-09-09T02:04:54.008068Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/current_other_stat_value",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T02:04:54.825778Z",
+        "description": "当前同型StatByNamedDataValue节点只给APRatio/AdditionalAPRatio/SlowAPRatio，不显式给mStat/mStatFormula；名字提示法强但不足以认定默认枚举。本批用同一未绑定输入保留原数学式，不能直接取AP或默认为0。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "本次撕裂未解码属性值",
+        "parameterKey": "current_other_stat_value",
+        "skillKey": "kalista_e",
+        "sortOrder": 150,
+        "updatedAt": "2026-09-09T02:04:54.825778Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/kalista_e/parameters/additional_spear_count",
+      "status": 200,
+      "actual": {
+        "createdAt": "2026-09-09T02:04:55.561413Z",
+        "description": "只有目标确有至少一根属于此卡莉丝塔的长矛时才能使用；非负整数表示实际总根数减1。零表示一根总量，不是无长矛。未构造初始层、254上限或状态供值。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "第一根之外实际长矛数量",
+        "parameterKey": "additional_spear_count",
+        "skillKey": "kalista_e",
+        "sortOrder": 160,
+        "updatedAt": "2026-09-09T02:04:55.561413Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/caitlyn_r/effects",
+      "status": 200,
+      "actual": [
+        {
+          "createdAt": "2026-09-09T02:10:43.642114Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "caitlyn_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T02:10:43.642114Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/caitlyn_r/trigger-rules",
+      "status": 200,
+      "actual": []
+    },
+    {
+      "route": "/skills/caitlyn_r/representative-image",
+      "status": 200,
+      "actual": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_caitlyn_r",
+          "name": "caitlyn_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/draven_w/effects",
+      "status": 200,
+      "actual": [
+        {
+          "createdAt": "2026-09-09T02:04:26.748433Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "draven_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T02:04:26.748433Z"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:27.550896Z",
+          "description": "本技能自身额外攻速增加20/25/30/35/40个百分点，持续3秒。与1.5秒移速衰减分开，不用移速结束提前移除攻速。本效果独立保存候选，实际施放与刷新接线另核。",
+          "effectKey": "attack_speed_gain",
+          "gameId": "lol",
+          "lifecycleEnabled": true,
+          "name": "血性冲刺独立攻速加成",
+          "resultCount": 1,
+          "skillKey": "draven_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T02:04:27.550896Z"
+        },
+        {
+          "createdAt": "2026-09-09T02:04:28.417069Z",
+          "description": "仅表达已发生接斧时重置本W，不是P任意加层都重置，也没有以命中事件假扮拾取。",
+          "effectKey": "catch_axe_cooldown_reset",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "接住旋转飞斧后W冷却重置",
+          "resultCount": 1,
+          "skillKey": "draven_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T02:04:28.417069Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/draven_w/trigger-rules",
+      "status": 200,
+      "actual": []
+    },
+    {
+      "route": "/skills/draven_w/representative-image",
+      "status": 200,
+      "actual": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_draven_w",
+          "name": "draven_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/kalista_e/effects",
+      "status": 200,
+      "actual": [
+        {
+          "createdAt": "2026-09-09T02:04:59.60119Z",
+          "description": "仅施放法力消耗；具体过程单独绑定。",
+          "effectKey": "mana_cost",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "施放法力消耗",
+          "resultCount": 1,
+          "skillKey": "kalista_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T02:04:59.60119Z"
+        },
+        {
+          "createdAt": "2026-09-09T02:05:00.388951Z",
+          "description": "10/15/20/25/30法力；仅在本次撕裂真实击杀至少一个目标时，由后续因果规则调用，本轮未绑定。",
+          "effectKey": "kill_mana_refund",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "撕裂实际击杀后法力返还",
+          "resultCount": 1,
+          "skillKey": "kalista_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T02:05:00.388951Z"
+        },
+        {
+          "createdAt": "2026-09-09T02:05:01.230652Z",
+          "description": "仅实际由本次撕裂击杀至少一个目标后的E重置；不连接任意英雄击杀事件。",
+          "effectKey": "kill_cooldown_reset",
+          "gameId": "lol",
+          "lifecycleEnabled": false,
+          "name": "撕裂实际击杀后本技能冷却重置",
+          "resultCount": 1,
+          "skillKey": "kalista_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T02:05:01.230652Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/kalista_e/trigger-rules",
+      "status": 200,
+      "actual": []
+    },
+    {
+      "route": "/skills/kalista_e/representative-image",
+      "status": 200,
+      "actual": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_kalista_e",
+          "name": "kalista_e"
+        }
+      }
+    }
+  ],
+  "success": true,
+  "runtimeValidation": "未执行"
+}
