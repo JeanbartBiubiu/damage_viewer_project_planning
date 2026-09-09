@@ -1,0 +1,71 @@
+{
+  "at": "2026-09-09T04:56:02.581Z",
+  "state": "候选完成，待主负责人独立审查；没有业务写入授权",
+  "apiWrites": 0,
+  "hashes": {
+    "冻结来源.json": "878fd1147a277282f6bacd04ecddafe55e980e729a67d4469b31b2ff93d492a7",
+    "写前主体核对.json": "329fc0791ddfde8c03ae08ad5fc515a6b8cbeb9f094adbf175ffa0be44118ac9",
+    "可审查候选.json": "f5f26d7af95018aa4021fbb4c8107211b0bd9fc04a5f684762b93800ee18a3fe",
+    "可审查请求.json": "5fd438535c6133e2fb65bfc6a8bcb8a2df1caecc6f6df9c1c5df04f577003a61",
+    "代表图复用候选.json": "19ba5827729a679a72acb5fb160849e7768409586533f75a3fc8ea91a3311abe",
+    "独立核算.json": "0b708dedcc3ffbf0eed0c5a8ade0de0ccbd5404dee60689ab9071e20168c5c2f",
+    "保护基线.json": "a691b54044b46fa01b56bcc8e639f9422b424a590a20101414bbb63be8324b8a",
+    "补充属性单位证据.json": "14b8dab9603228c43f856306e64db5e0410029aeaf86e7d6cda5bc91117699d0"
+  },
+  "counts": {
+    "skill": 12,
+    "parameter": 105,
+    "formula": 31,
+    "effect": 2,
+    "relation": 12,
+    "rule": 0,
+    "process": 0,
+    "internalState": 0
+  },
+  "contentRequests": 162,
+  "imageReuseRequests": 12,
+  "totalReviewableRequests": 174,
+  "readOnly": {
+    "requests": 80,
+    "http200": 68,
+    "http404": 12,
+    "identities": 69,
+    "layouts": 6,
+    "runeOwners": 12,
+    "existingTargetSkills": 0,
+    "sourceImages": 12
+  },
+  "arithmetic": {
+    "checks": 826,
+    "cases": 36,
+    "formulas": 31,
+    "pass": true
+  },
+  "revision": "8008最终使用bonus_attack_speed_percent；原attack_speed初稿及撤效中间态均留历史，未修改既有英雄批次",
+  "sourceConflicts": [
+    {
+      "id": 8008,
+      "kind": "远程每层攻速",
+      "rawCalculation": 0.047999999642372115,
+      "longText": 0.03999999910593033
+    },
+    {
+      "id": 8008,
+      "kind": "远程等级附伤两端点",
+      "rawCalculation": [
+        6.00299996137619,
+        20.009999871253967
+      ],
+      "longText": [
+        6,
+        24
+      ]
+    },
+    {
+      "id": 8236,
+      "kind": "首档AD",
+      "raw": 6,
+      "longText": 5
+    }
+  ]
+}
