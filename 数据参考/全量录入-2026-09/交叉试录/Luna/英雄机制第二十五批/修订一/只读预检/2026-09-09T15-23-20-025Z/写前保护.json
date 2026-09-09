@@ -1,0 +1,4477 @@
+{
+  "generatedAt": "2026-09-09T15:23:31.482Z",
+  "mode": "readonly",
+  "baselineRequests": [
+    {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    {
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/characters/champion_drmundo",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_drmundo",
+        "createdAt": "2026-09-06T17:08:58.633853Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "蒙多医生",
+        "updatedAt": "2026-09-06T17:08:58.633853Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_drmundo",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_drmundo",
+            "characterName": "蒙多医生",
+            "gameId": "lol",
+            "skillKey": "drmundo_p",
+            "skillName": "蒙多医生·想去哪就去哪",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_drmundo",
+            "characterName": "蒙多医生",
+            "gameId": "lol",
+            "skillKey": "drmundo_q",
+            "skillName": "蒙多医生·病毒屠刀",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_drmundo",
+            "characterName": "蒙多医生",
+            "gameId": "lol",
+            "skillKey": "drmundo_w",
+            "skillName": "蒙多医生·电击疗法",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_drmundo",
+            "characterName": "蒙多医生",
+            "gameId": "lol",
+            "skillKey": "drmundo_e",
+            "skillName": "蒙多医生·大力行医",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_drmundo",
+            "characterName": "蒙多医生",
+            "gameId": "lol",
+            "skillKey": "drmundo_r",
+            "skillName": "蒙多医生·极限剂量",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_tryndamere",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_tryndamere",
+        "createdAt": "2026-09-06T17:59:11.333201Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "泰达米尔",
+        "updatedAt": "2026-09-06T17:59:11.333201Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_tryndamere",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_tryndamere",
+            "characterName": "泰达米尔",
+            "gameId": "lol",
+            "skillKey": "tryndamere_p",
+            "skillName": "泰达米尔·战斗狂怒",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_tryndamere",
+            "characterName": "泰达米尔",
+            "gameId": "lol",
+            "skillKey": "tryndamere_q",
+            "skillName": "泰达米尔·嗜血杀戮",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_tryndamere",
+            "characterName": "泰达米尔",
+            "gameId": "lol",
+            "skillKey": "tryndamere_w",
+            "skillName": "泰达米尔·蔑视",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_tryndamere",
+            "characterName": "泰达米尔",
+            "gameId": "lol",
+            "skillKey": "tryndamere_e",
+            "skillName": "泰达米尔·旋风斩",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_tryndamere",
+            "characterName": "泰达米尔",
+            "gameId": "lol",
+            "skillKey": "tryndamere_r",
+            "skillName": "泰达米尔·无尽怒火",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/drmundo_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:11.187405Z",
+        "description": "蒙多医生抵抗他受到的第一个定身效果，但会失去生命值并在附近掉落一罐化学药剂。蒙多医生可移动到化学药剂上来拾取它，从而回复生命值并缩短这个技能的冷却时间。<br><br>蒙多医生也会显著提升生命回复。<br>（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "蒙多医生·想去哪就去哪",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "drmundo_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:11.187405Z"
+      }
+    },
+    {
+      "route": "/skills/drmundo_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_drmundo_p",
+          "name": "drmundo_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/drmundo_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:11.440433Z",
+        "description": "蒙多医生掷出一把沾染病菌的骨锯，对命中的第一个敌人造成基于其当前生命值的魔法伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蒙多医生·病毒屠刀",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "drmundo_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:11.440433Z"
+      }
+    },
+    {
+      "route": "/skills/drmundo_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_drmundo_q",
+          "name": "drmundo_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/drmundo_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:20.553377Z",
+          "description": "DDragon16.17.1 DrMundo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "drmundo_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:20.553377Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/drmundo_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:20.553377Z",
+        "description": "DDragon16.17.1 DrMundo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "drmundo_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:20.553377Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/drmundo_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:11.783439Z",
+        "description": "蒙多医生电击他自己，对附近的敌人们造成持续伤害并储存他受到的一部分伤害。在持续时间结束时或再次施放时，蒙多医生会对附近的敌人们造成一次爆发伤害。如果这个效果命中了一名敌人，那么蒙多医生会回复一部分已储存的伤害值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蒙多医生·电击疗法",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "drmundo_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:11.783439Z"
+      }
+    },
+    {
+      "route": "/skills/drmundo_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_drmundo_w",
+          "name": "drmundo_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/drmundo_w/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:12.056246Z",
+        "description": "被动 - 蒙多医生获得额外攻击力，数额会基于他的最大生命值而提升。<br><br>主动 - 蒙多医生用他的“医用”手提包猛砸一个敌人，造成基于他已损失生命值的额外伤害。如果这个敌人被击杀，那么还会被拍飞，对途经的所有敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蒙多医生·大力行医",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "drmundo_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:12.056246Z"
+      }
+    },
+    {
+      "route": "/skills/drmundo_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_drmundo_e",
+          "name": "drmundo_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/drmundo_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:20.842172Z",
+          "description": "DDragon16.17.1 DrMundo.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 8250,
+            "3": 7500,
+            "4": 6750,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "drmundo_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:20.842172Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/drmundo_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:20.842172Z",
+        "description": "DDragon16.17.1 DrMundo.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8250,
+          "3": 7500,
+          "4": 6750,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "drmundo_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:20.842172Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/drmundo_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:12.351112Z",
+        "description": "蒙多医生给自己注入化学药剂，立刻治疗他的一部分已损失生命值。随后他会获得移动速度并在一段长周期内持续回复自身一部分最大生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "蒙多医生·极限剂量",
+        "skillCategoryKeys": [],
+        "skillKey": "drmundo_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:12.351112Z"
+      }
+    },
+    {
+      "route": "/skills/drmundo_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_drmundo_r",
+          "name": "drmundo_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/drmundo_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:21.098378Z",
+          "description": "DDragon16.17.1 DrMundo.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 120000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "drmundo_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:21.098378Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/drmundo_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:21.098378Z",
+        "description": "DDragon16.17.1 DrMundo.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 120000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "drmundo_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:21.098378Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/drmundo_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/drmundo_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:43.192036Z",
+        "description": "泰达米尔每次攻击、暴击或击杀都能获得怒气。怒气被动地增加他的暴击几率，且可以通过释放嗜血杀戮来消耗。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "泰达米尔·战斗狂怒",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "tryndamere_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:43.192036Z"
+      }
+    },
+    {
+      "route": "/skills/tryndamere_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_tryndamere_p",
+          "name": "tryndamere_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/tryndamere_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:43.462324Z",
+        "description": "泰达米尔对战斗极度饥渴，他受伤程度越高，攻击力越强。他能通过释放【Q嗜血杀戮】消耗怒气并治疗自己。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泰达米尔·嗜血杀戮",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tryndamere_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:43.462324Z"
+      }
+    },
+    {
+      "route": "/skills/tryndamere_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_tryndamere_q",
+          "name": "tryndamere_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/tryndamere_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:16.47763Z",
+          "description": "DDragon16.17.1 Tryndamere.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "tryndamere_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:16.47763Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/tryndamere_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:16.47763Z",
+        "description": "DDragon16.17.1 Tryndamere.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "tryndamere_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:16.47763Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/tryndamere_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:43.714779Z",
+        "description": "泰达米尔嘲笑敌人，减少身边敌方英雄的攻击力。背对泰达米尔的敌人还会被减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泰达米尔·蔑视",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tryndamere_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:43.714779Z"
+      }
+    },
+    {
+      "route": "/skills/tryndamere_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_tryndamere_w",
+          "name": "tryndamere_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/tryndamere_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:16.919162Z",
+          "description": "DDragon16.17.1 Tryndamere.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 14000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "tryndamere_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:16.919162Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/tryndamere_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:16.919162Z",
+        "description": "DDragon16.17.1 Tryndamere.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 14000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "tryndamere_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:16.919162Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/tryndamere_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:44.031813Z",
+        "description": "泰达米尔挥舞大剑冲向目标，对冲锋路线上所有敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泰达米尔·旋风斩",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tryndamere_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:44.031813Z"
+      }
+    },
+    {
+      "route": "/skills/tryndamere_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_tryndamere_e",
+          "name": "tryndamere_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/tryndamere_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:17.353832Z",
+          "description": "DDragon16.17.1 Tryndamere.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11000,
+            "3": 10000,
+            "4": 9000,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "tryndamere_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:17.353832Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/tryndamere_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:17.353832Z",
+        "description": "DDragon16.17.1 Tryndamere.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "tryndamere_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:17.353832Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/tryndamere_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:44.273243Z",
+        "description": "泰达米尔是如此渴望战斗，以至于承受再多的伤害也不会死亡。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "泰达米尔·无尽怒火",
+        "skillCategoryKeys": [],
+        "skillKey": "tryndamere_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:44.273243Z"
+      }
+    },
+    {
+      "route": "/skills/tryndamere_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_tryndamere_r",
+          "name": "tryndamere_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/tryndamere_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:17.795032Z",
+          "description": "DDragon16.17.1 Tryndamere.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "tryndamere_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:17.795032Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/tryndamere_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:17.795032Z",
+        "description": "DDragon16.17.1 Tryndamere.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "tryndamere_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:17.795032Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/tryndamere_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/tryndamere_r/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "responses": [
+    {
+      "sequence": 1,
+      "method": "GET",
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      },
+      "finishedAt": "2026-09-09T15:23:20.091Z"
+    },
+    {
+      "sequence": 2,
+      "method": "GET",
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      },
+      "finishedAt": "2026-09-09T15:23:20.192Z"
+    },
+    {
+      "sequence": 3,
+      "method": "GET",
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      },
+      "finishedAt": "2026-09-09T15:23:20.231Z"
+    },
+    {
+      "sequence": 4,
+      "method": "GET",
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      },
+      "finishedAt": "2026-09-09T15:23:20.293Z"
+    },
+    {
+      "sequence": 5,
+      "method": "GET",
+      "route": "/characters/champion_drmundo",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_drmundo",
+        "createdAt": "2026-09-06T17:08:58.633853Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "蒙多医生",
+        "updatedAt": "2026-09-06T17:08:58.633853Z"
+      },
+      "finishedAt": "2026-09-09T15:23:20.341Z"
+    },
+    {
+      "sequence": 6,
+      "method": "GET",
+      "route": "/character-skill-relations?characterKey=champion_drmundo",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_drmundo",
+            "characterName": "蒙多医生",
+            "gameId": "lol",
+            "skillKey": "drmundo_p",
+            "skillName": "蒙多医生·想去哪就去哪",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_drmundo",
+            "characterName": "蒙多医生",
+            "gameId": "lol",
+            "skillKey": "drmundo_q",
+            "skillName": "蒙多医生·病毒屠刀",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_drmundo",
+            "characterName": "蒙多医生",
+            "gameId": "lol",
+            "skillKey": "drmundo_w",
+            "skillName": "蒙多医生·电击疗法",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_drmundo",
+            "characterName": "蒙多医生",
+            "gameId": "lol",
+            "skillKey": "drmundo_e",
+            "skillName": "蒙多医生·大力行医",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_drmundo",
+            "characterName": "蒙多医生",
+            "gameId": "lol",
+            "skillKey": "drmundo_r",
+            "skillName": "蒙多医生·极限剂量",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      },
+      "finishedAt": "2026-09-09T15:23:20.396Z"
+    },
+    {
+      "sequence": 7,
+      "method": "GET",
+      "route": "/characters/champion_tryndamere",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_tryndamere",
+        "createdAt": "2026-09-06T17:59:11.333201Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "泰达米尔",
+        "updatedAt": "2026-09-06T17:59:11.333201Z"
+      },
+      "finishedAt": "2026-09-09T15:23:20.439Z"
+    },
+    {
+      "sequence": 8,
+      "method": "GET",
+      "route": "/character-skill-relations?characterKey=champion_tryndamere",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_tryndamere",
+            "characterName": "泰达米尔",
+            "gameId": "lol",
+            "skillKey": "tryndamere_p",
+            "skillName": "泰达米尔·战斗狂怒",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_tryndamere",
+            "characterName": "泰达米尔",
+            "gameId": "lol",
+            "skillKey": "tryndamere_q",
+            "skillName": "泰达米尔·嗜血杀戮",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_tryndamere",
+            "characterName": "泰达米尔",
+            "gameId": "lol",
+            "skillKey": "tryndamere_w",
+            "skillName": "泰达米尔·蔑视",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_tryndamere",
+            "characterName": "泰达米尔",
+            "gameId": "lol",
+            "skillKey": "tryndamere_e",
+            "skillName": "泰达米尔·旋风斩",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_tryndamere",
+            "characterName": "泰达米尔",
+            "gameId": "lol",
+            "skillKey": "tryndamere_r",
+            "skillName": "泰达米尔·无尽怒火",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      },
+      "finishedAt": "2026-09-09T15:23:20.491Z"
+    },
+    {
+      "sequence": 9,
+      "method": "GET",
+      "route": "/skills/drmundo_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:11.187405Z",
+        "description": "蒙多医生抵抗他受到的第一个定身效果，但会失去生命值并在附近掉落一罐化学药剂。蒙多医生可移动到化学药剂上来拾取它，从而回复生命值并缩短这个技能的冷却时间。<br><br>蒙多医生也会显著提升生命回复。<br>（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "蒙多医生·想去哪就去哪",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "drmundo_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:11.187405Z"
+      },
+      "finishedAt": "2026-09-09T15:23:20.549Z"
+    },
+    {
+      "sequence": 10,
+      "method": "GET",
+      "route": "/skills/drmundo_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_drmundo_p",
+          "name": "drmundo_p"
+        }
+      },
+      "finishedAt": "2026-09-09T15:23:20.608Z"
+    },
+    {
+      "sequence": 11,
+      "method": "GET",
+      "route": "/skills/drmundo_p/parameters",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:20.670Z"
+    },
+    {
+      "sequence": 12,
+      "method": "GET",
+      "route": "/skills/drmundo_p/formulas",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:20.720Z"
+    },
+    {
+      "sequence": 13,
+      "method": "GET",
+      "route": "/skills/drmundo_p/effects",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:20.805Z"
+    },
+    {
+      "sequence": 14,
+      "method": "GET",
+      "route": "/skills/drmundo_p/processes",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:20.860Z"
+    },
+    {
+      "sequence": 15,
+      "method": "GET",
+      "route": "/skills/drmundo_p/internal-states",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:20.908Z"
+    },
+    {
+      "sequence": 16,
+      "method": "GET",
+      "route": "/skills/drmundo_p/trigger-rules",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:20.954Z"
+    },
+    {
+      "sequence": 17,
+      "method": "GET",
+      "route": "/skills/drmundo_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:11.440433Z",
+        "description": "蒙多医生掷出一把沾染病菌的骨锯，对命中的第一个敌人造成基于其当前生命值的魔法伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蒙多医生·病毒屠刀",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "drmundo_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:11.440433Z"
+      },
+      "finishedAt": "2026-09-09T15:23:21.022Z"
+    },
+    {
+      "sequence": 18,
+      "method": "GET",
+      "route": "/skills/drmundo_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_drmundo_q",
+          "name": "drmundo_q"
+        }
+      },
+      "finishedAt": "2026-09-09T15:23:21.079Z"
+    },
+    {
+      "sequence": 19,
+      "method": "GET",
+      "route": "/skills/drmundo_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:20.553377Z",
+          "description": "DDragon16.17.1 DrMundo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "drmundo_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:20.553377Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "finishedAt": "2026-09-09T15:23:21.123Z"
+    },
+    {
+      "sequence": 20,
+      "method": "GET",
+      "route": "/skills/drmundo_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:20.553377Z",
+        "description": "DDragon16.17.1 DrMundo.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "drmundo_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:20.553377Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "finishedAt": "2026-09-09T15:23:21.165Z"
+    },
+    {
+      "sequence": 21,
+      "method": "GET",
+      "route": "/skills/drmundo_q/formulas",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:21.231Z"
+    },
+    {
+      "sequence": 22,
+      "method": "GET",
+      "route": "/skills/drmundo_q/effects",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:21.284Z"
+    },
+    {
+      "sequence": 23,
+      "method": "GET",
+      "route": "/skills/drmundo_q/processes",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:21.329Z"
+    },
+    {
+      "sequence": 24,
+      "method": "GET",
+      "route": "/skills/drmundo_q/internal-states",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:21.367Z"
+    },
+    {
+      "sequence": 25,
+      "method": "GET",
+      "route": "/skills/drmundo_q/trigger-rules",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:21.470Z"
+    },
+    {
+      "sequence": 26,
+      "method": "GET",
+      "route": "/skills/drmundo_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:11.783439Z",
+        "description": "蒙多医生电击他自己，对附近的敌人们造成持续伤害并储存他受到的一部分伤害。在持续时间结束时或再次施放时，蒙多医生会对附近的敌人们造成一次爆发伤害。如果这个效果命中了一名敌人，那么蒙多医生会回复一部分已储存的伤害值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蒙多医生·电击疗法",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "drmundo_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:11.783439Z"
+      },
+      "finishedAt": "2026-09-09T15:23:21.533Z"
+    },
+    {
+      "sequence": 27,
+      "method": "GET",
+      "route": "/skills/drmundo_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_drmundo_w",
+          "name": "drmundo_w"
+        }
+      },
+      "finishedAt": "2026-09-09T15:23:21.589Z"
+    },
+    {
+      "sequence": 28,
+      "method": "GET",
+      "route": "/skills/drmundo_w/parameters",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:21.634Z"
+    },
+    {
+      "sequence": 29,
+      "method": "GET",
+      "route": "/skills/drmundo_w/formulas",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:21.674Z"
+    },
+    {
+      "sequence": 30,
+      "method": "GET",
+      "route": "/skills/drmundo_w/effects",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:21.723Z"
+    },
+    {
+      "sequence": 31,
+      "method": "GET",
+      "route": "/skills/drmundo_w/processes",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:21.779Z"
+    },
+    {
+      "sequence": 32,
+      "method": "GET",
+      "route": "/skills/drmundo_w/internal-states",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:21.849Z"
+    },
+    {
+      "sequence": 33,
+      "method": "GET",
+      "route": "/skills/drmundo_w/trigger-rules",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:21.896Z"
+    },
+    {
+      "sequence": 34,
+      "method": "GET",
+      "route": "/skills/drmundo_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:12.056246Z",
+        "description": "被动 - 蒙多医生获得额外攻击力，数额会基于他的最大生命值而提升。<br><br>主动 - 蒙多医生用他的“医用”手提包猛砸一个敌人，造成基于他已损失生命值的额外伤害。如果这个敌人被击杀，那么还会被拍飞，对途经的所有敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蒙多医生·大力行医",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "drmundo_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:12.056246Z"
+      },
+      "finishedAt": "2026-09-09T15:23:21.948Z"
+    },
+    {
+      "sequence": 35,
+      "method": "GET",
+      "route": "/skills/drmundo_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_drmundo_e",
+          "name": "drmundo_e"
+        }
+      },
+      "finishedAt": "2026-09-09T15:23:21.994Z"
+    },
+    {
+      "sequence": 36,
+      "method": "GET",
+      "route": "/skills/drmundo_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:20.842172Z",
+          "description": "DDragon16.17.1 DrMundo.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 8250,
+            "3": 7500,
+            "4": 6750,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "drmundo_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:20.842172Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "finishedAt": "2026-09-09T15:23:22.060Z"
+    },
+    {
+      "sequence": 37,
+      "method": "GET",
+      "route": "/skills/drmundo_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:20.842172Z",
+        "description": "DDragon16.17.1 DrMundo.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8250,
+          "3": 7500,
+          "4": 6750,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "drmundo_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:20.842172Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "finishedAt": "2026-09-09T15:23:22.128Z"
+    },
+    {
+      "sequence": 38,
+      "method": "GET",
+      "route": "/skills/drmundo_e/formulas",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:22.173Z"
+    },
+    {
+      "sequence": 39,
+      "method": "GET",
+      "route": "/skills/drmundo_e/effects",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:22.230Z"
+    },
+    {
+      "sequence": 40,
+      "method": "GET",
+      "route": "/skills/drmundo_e/processes",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:22.281Z"
+    },
+    {
+      "sequence": 41,
+      "method": "GET",
+      "route": "/skills/drmundo_e/internal-states",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:22.353Z"
+    },
+    {
+      "sequence": 42,
+      "method": "GET",
+      "route": "/skills/drmundo_e/trigger-rules",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:22.416Z"
+    },
+    {
+      "sequence": 43,
+      "method": "GET",
+      "route": "/skills/drmundo_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:12.351112Z",
+        "description": "蒙多医生给自己注入化学药剂，立刻治疗他的一部分已损失生命值。随后他会获得移动速度并在一段长周期内持续回复自身一部分最大生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "蒙多医生·极限剂量",
+        "skillCategoryKeys": [],
+        "skillKey": "drmundo_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:12.351112Z"
+      },
+      "finishedAt": "2026-09-09T15:23:22.474Z"
+    },
+    {
+      "sequence": 44,
+      "method": "GET",
+      "route": "/skills/drmundo_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_drmundo_r",
+          "name": "drmundo_r"
+        }
+      },
+      "finishedAt": "2026-09-09T15:23:22.519Z"
+    },
+    {
+      "sequence": 45,
+      "method": "GET",
+      "route": "/skills/drmundo_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:21.098378Z",
+          "description": "DDragon16.17.1 DrMundo.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 120000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "drmundo_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:21.098378Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "finishedAt": "2026-09-09T15:23:22.577Z"
+    },
+    {
+      "sequence": 46,
+      "method": "GET",
+      "route": "/skills/drmundo_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:21.098378Z",
+        "description": "DDragon16.17.1 DrMundo.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 120000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "drmundo_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:21.098378Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "finishedAt": "2026-09-09T15:23:22.628Z"
+    },
+    {
+      "sequence": 47,
+      "method": "GET",
+      "route": "/skills/drmundo_r/formulas",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:22.741Z"
+    },
+    {
+      "sequence": 48,
+      "method": "GET",
+      "route": "/skills/drmundo_r/effects",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:22.785Z"
+    },
+    {
+      "sequence": 49,
+      "method": "GET",
+      "route": "/skills/drmundo_r/processes",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:22.821Z"
+    },
+    {
+      "sequence": 50,
+      "method": "GET",
+      "route": "/skills/drmundo_r/internal-states",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:22.882Z"
+    },
+    {
+      "sequence": 51,
+      "method": "GET",
+      "route": "/skills/drmundo_r/trigger-rules",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:22.963Z"
+    },
+    {
+      "sequence": 52,
+      "method": "GET",
+      "route": "/skills/tryndamere_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:43.192036Z",
+        "description": "泰达米尔每次攻击、暴击或击杀都能获得怒气。怒气被动地增加他的暴击几率，且可以通过释放嗜血杀戮来消耗。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "泰达米尔·战斗狂怒",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "tryndamere_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:43.192036Z"
+      },
+      "finishedAt": "2026-09-09T15:23:23.022Z"
+    },
+    {
+      "sequence": 53,
+      "method": "GET",
+      "route": "/skills/tryndamere_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_tryndamere_p",
+          "name": "tryndamere_p"
+        }
+      },
+      "finishedAt": "2026-09-09T15:23:23.088Z"
+    },
+    {
+      "sequence": 54,
+      "method": "GET",
+      "route": "/skills/tryndamere_p/parameters",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:23.140Z"
+    },
+    {
+      "sequence": 55,
+      "method": "GET",
+      "route": "/skills/tryndamere_p/formulas",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:23.184Z"
+    },
+    {
+      "sequence": 56,
+      "method": "GET",
+      "route": "/skills/tryndamere_p/effects",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:23.230Z"
+    },
+    {
+      "sequence": 57,
+      "method": "GET",
+      "route": "/skills/tryndamere_p/processes",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:23.290Z"
+    },
+    {
+      "sequence": 58,
+      "method": "GET",
+      "route": "/skills/tryndamere_p/internal-states",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:23.365Z"
+    },
+    {
+      "sequence": 59,
+      "method": "GET",
+      "route": "/skills/tryndamere_p/trigger-rules",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:23.416Z"
+    },
+    {
+      "sequence": 60,
+      "method": "GET",
+      "route": "/skills/tryndamere_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:43.462324Z",
+        "description": "泰达米尔对战斗极度饥渴，他受伤程度越高，攻击力越强。他能通过释放【Q嗜血杀戮】消耗怒气并治疗自己。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泰达米尔·嗜血杀戮",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tryndamere_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:43.462324Z"
+      },
+      "finishedAt": "2026-09-09T15:23:23.466Z"
+    },
+    {
+      "sequence": 61,
+      "method": "GET",
+      "route": "/skills/tryndamere_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_tryndamere_q",
+          "name": "tryndamere_q"
+        }
+      },
+      "finishedAt": "2026-09-09T15:23:23.528Z"
+    },
+    {
+      "sequence": 62,
+      "method": "GET",
+      "route": "/skills/tryndamere_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:16.47763Z",
+          "description": "DDragon16.17.1 Tryndamere.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "tryndamere_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:16.47763Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "finishedAt": "2026-09-09T15:23:23.588Z"
+    },
+    {
+      "sequence": 63,
+      "method": "GET",
+      "route": "/skills/tryndamere_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:16.47763Z",
+        "description": "DDragon16.17.1 Tryndamere.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 12000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "tryndamere_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:16.47763Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "finishedAt": "2026-09-09T15:23:23.625Z"
+    },
+    {
+      "sequence": 64,
+      "method": "GET",
+      "route": "/skills/tryndamere_q/formulas",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:23.671Z"
+    },
+    {
+      "sequence": 65,
+      "method": "GET",
+      "route": "/skills/tryndamere_q/effects",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:23.728Z"
+    },
+    {
+      "sequence": 66,
+      "method": "GET",
+      "route": "/skills/tryndamere_q/processes",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:23.774Z"
+    },
+    {
+      "sequence": 67,
+      "method": "GET",
+      "route": "/skills/tryndamere_q/internal-states",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:23.827Z"
+    },
+    {
+      "sequence": 68,
+      "method": "GET",
+      "route": "/skills/tryndamere_q/trigger-rules",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:23.868Z"
+    },
+    {
+      "sequence": 69,
+      "method": "GET",
+      "route": "/skills/tryndamere_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:43.714779Z",
+        "description": "泰达米尔嘲笑敌人，减少身边敌方英雄的攻击力。背对泰达米尔的敌人还会被减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泰达米尔·蔑视",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tryndamere_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:43.714779Z"
+      },
+      "finishedAt": "2026-09-09T15:23:23.918Z"
+    },
+    {
+      "sequence": 70,
+      "method": "GET",
+      "route": "/skills/tryndamere_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_tryndamere_w",
+          "name": "tryndamere_w"
+        }
+      },
+      "finishedAt": "2026-09-09T15:23:24.016Z"
+    },
+    {
+      "sequence": 71,
+      "method": "GET",
+      "route": "/skills/tryndamere_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:16.919162Z",
+          "description": "DDragon16.17.1 Tryndamere.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 14000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "tryndamere_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:16.919162Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "finishedAt": "2026-09-09T15:23:24.052Z"
+    },
+    {
+      "sequence": 72,
+      "method": "GET",
+      "route": "/skills/tryndamere_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:16.919162Z",
+        "description": "DDragon16.17.1 Tryndamere.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 14000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "tryndamere_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:16.919162Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "finishedAt": "2026-09-09T15:23:24.098Z"
+    },
+    {
+      "sequence": 73,
+      "method": "GET",
+      "route": "/skills/tryndamere_w/formulas",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:24.150Z"
+    },
+    {
+      "sequence": 74,
+      "method": "GET",
+      "route": "/skills/tryndamere_w/effects",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:24.192Z"
+    },
+    {
+      "sequence": 75,
+      "method": "GET",
+      "route": "/skills/tryndamere_w/processes",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:24.239Z"
+    },
+    {
+      "sequence": 76,
+      "method": "GET",
+      "route": "/skills/tryndamere_w/internal-states",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:24.292Z"
+    },
+    {
+      "sequence": 77,
+      "method": "GET",
+      "route": "/skills/tryndamere_w/trigger-rules",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:24.353Z"
+    },
+    {
+      "sequence": 78,
+      "method": "GET",
+      "route": "/skills/tryndamere_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:44.031813Z",
+        "description": "泰达米尔挥舞大剑冲向目标，对冲锋路线上所有敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泰达米尔·旋风斩",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tryndamere_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:44.031813Z"
+      },
+      "finishedAt": "2026-09-09T15:23:24.401Z"
+    },
+    {
+      "sequence": 79,
+      "method": "GET",
+      "route": "/skills/tryndamere_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_tryndamere_e",
+          "name": "tryndamere_e"
+        }
+      },
+      "finishedAt": "2026-09-09T15:23:24.452Z"
+    },
+    {
+      "sequence": 80,
+      "method": "GET",
+      "route": "/skills/tryndamere_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:17.353832Z",
+          "description": "DDragon16.17.1 Tryndamere.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11000,
+            "3": 10000,
+            "4": 9000,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "tryndamere_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:17.353832Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "finishedAt": "2026-09-09T15:23:24.512Z"
+    },
+    {
+      "sequence": 81,
+      "method": "GET",
+      "route": "/skills/tryndamere_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:17.353832Z",
+        "description": "DDragon16.17.1 Tryndamere.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11000,
+          "3": 10000,
+          "4": 9000,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "tryndamere_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:17.353832Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "finishedAt": "2026-09-09T15:23:24.568Z"
+    },
+    {
+      "sequence": 82,
+      "method": "GET",
+      "route": "/skills/tryndamere_e/formulas",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:24.646Z"
+    },
+    {
+      "sequence": 83,
+      "method": "GET",
+      "route": "/skills/tryndamere_e/effects",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:24.695Z"
+    },
+    {
+      "sequence": 84,
+      "method": "GET",
+      "route": "/skills/tryndamere_e/processes",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:24.735Z"
+    },
+    {
+      "sequence": 85,
+      "method": "GET",
+      "route": "/skills/tryndamere_e/internal-states",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:24.791Z"
+    },
+    {
+      "sequence": 86,
+      "method": "GET",
+      "route": "/skills/tryndamere_e/trigger-rules",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:24.847Z"
+    },
+    {
+      "sequence": 87,
+      "method": "GET",
+      "route": "/skills/tryndamere_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:44.273243Z",
+        "description": "泰达米尔是如此渴望战斗，以至于承受再多的伤害也不会死亡。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "泰达米尔·无尽怒火",
+        "skillCategoryKeys": [],
+        "skillKey": "tryndamere_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:44.273243Z"
+      },
+      "finishedAt": "2026-09-09T15:23:24.903Z"
+    },
+    {
+      "sequence": 88,
+      "method": "GET",
+      "route": "/skills/tryndamere_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_tryndamere_r",
+          "name": "tryndamere_r"
+        }
+      },
+      "finishedAt": "2026-09-09T15:23:24.969Z"
+    },
+    {
+      "sequence": 89,
+      "method": "GET",
+      "route": "/skills/tryndamere_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:05:17.795032Z",
+          "description": "DDragon16.17.1 Tryndamere.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "tryndamere_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:17.795032Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "finishedAt": "2026-09-09T15:23:25.020Z"
+    },
+    {
+      "sequence": 90,
+      "method": "GET",
+      "route": "/skills/tryndamere_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:05:17.795032Z",
+        "description": "DDragon16.17.1 Tryndamere.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "tryndamere_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:05:17.795032Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "finishedAt": "2026-09-09T15:23:25.067Z"
+    },
+    {
+      "sequence": 91,
+      "method": "GET",
+      "route": "/skills/tryndamere_r/formulas",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:25.132Z"
+    },
+    {
+      "sequence": 92,
+      "method": "GET",
+      "route": "/skills/tryndamere_r/effects",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:25.174Z"
+    },
+    {
+      "sequence": 93,
+      "method": "GET",
+      "route": "/skills/tryndamere_r/processes",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:25.283Z"
+    },
+    {
+      "sequence": 94,
+      "method": "GET",
+      "route": "/skills/tryndamere_r/internal-states",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:25.332Z"
+    },
+    {
+      "sequence": 95,
+      "method": "GET",
+      "route": "/skills/tryndamere_r/trigger-rules",
+      "status": 200,
+      "data": [],
+      "finishedAt": "2026-09-09T15:23:25.382Z"
+    }
+  ],
+  "protection": {
+    "checked": 95,
+    "passed": 95,
+    "failures": [],
+    "records": [
+      {
+        "route": "/attributes",
+        "category": "目录",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skill-categories",
+        "category": "目录",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/modifier-zones",
+        "category": "目录",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/damage-types",
+        "category": "目录",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/characters/champion_drmundo",
+        "category": "角色",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/character-skill-relations?characterKey=champion_drmundo",
+        "category": "关系",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/characters/champion_tryndamere",
+        "category": "角色",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/character-skill-relations?characterKey=champion_tryndamere",
+        "category": "关系",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_p",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_p/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_p/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_p/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_p/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_p/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_p/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_p/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_q",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_q/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_q/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 1,
+        "actualCount": 1,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_q/parameters/cooldown_ms",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_q/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_q/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_q/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_q/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_q/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_w",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_w/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_w/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_w/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_w/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_w/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_w/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_w/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_e",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_e/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_e/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 1,
+        "actualCount": 1,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_e/parameters/cooldown_ms",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_e/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_e/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_e/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_e/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_e/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_r",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_r/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_r/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 1,
+        "actualCount": 1,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_r/parameters/cooldown_ms",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/drmundo_r/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_r/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_r/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_r/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/drmundo_r/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_p",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_p/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_p/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_p/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_p/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_p/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_p/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_p/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_q",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_q/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_q/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 1,
+        "actualCount": 1,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_q/parameters/cooldown_ms",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_q/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_q/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_q/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_q/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_q/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_w",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_w/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_w/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 1,
+        "actualCount": 1,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_w/parameters/cooldown_ms",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_w/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_w/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_w/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_w/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_w/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_e",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_e/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_e/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 1,
+        "actualCount": 1,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_e/parameters/cooldown_ms",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_e/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_e/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_e/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_e/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_e/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_r",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_r/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_r/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 1,
+        "actualCount": 1,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_r/parameters/cooldown_ms",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "diff": null
+      },
+      {
+        "route": "/skills/tryndamere_r/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_r/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_r/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_r/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      },
+      {
+        "route": "/skills/tryndamere_r/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "oldCount": 0,
+        "actualCount": 0,
+        "plannedCount": 0,
+        "unexpected": [],
+        "missingOld": [],
+        "duplicateKeys": [],
+        "oldDifferences": [],
+        "plannedDifferences": []
+      }
+    ],
+    "collectionCounts": {
+      "catalogs": 4,
+      "characters": 2,
+      "relations": 2,
+      "subjects": 10,
+      "images": 10,
+      "componentLists": 60,
+      "reusedDetails": 7
+    },
+    "after": false
+  },
+  "noApiCalls": true
+}

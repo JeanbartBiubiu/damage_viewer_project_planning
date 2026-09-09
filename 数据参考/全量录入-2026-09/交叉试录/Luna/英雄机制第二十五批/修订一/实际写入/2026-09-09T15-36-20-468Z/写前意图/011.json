@@ -1,0 +1,61 @@
+{
+  "sequence": 11,
+  "intent": {
+    "sequence": 11,
+    "method": "POST",
+    "route": "/skills/drmundo_p/effects",
+    "detailRoute": "/skills/drmundo_p/effects/health_cost",
+    "skillKey": "drmundo_p",
+    "kind": "effects",
+    "stableKey": "health_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "health_cost",
+      "name": "抵抗定身当前生命损失",
+      "description": "只定义当前生命损失这一非即时资源组成；定身抵抗触发与拾取时点仍待事件接线，不自动扣除。",
+      "sortOrder": 10,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "resource",
+          "name": "抵抗定身当前生命损失",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "health_loss_amount"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "hp",
+            "operation": "CONSUME"
+          }
+        }
+      ]
+    }
+  },
+  "before": {
+    "sequence": 235,
+    "method": "GET",
+    "route": "/skills/drmundo_p/effects/health_cost",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_EFFECT_NOT_FOUND",
+        "details": {
+          "effectKey": "health_cost"
+        },
+        "message": "技能效果不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:36:42.326Z"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "sequence": 101,
+  "intent": {
+    "sequence": 101,
+    "method": "POST",
+    "route": "/skills/tryndamere_e/parameters",
+    "detailRoute": "/skills/tryndamere_e/parameters/ad_ratio",
+    "skillKey": "tryndamere_e",
+    "kind": "parameters",
+    "stableKey": "ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ad_ratio",
+      "name": "旋风斩额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "客户端当前根绑定 DataValues.ADRatio=1；当前TotalDamage树mStat2/mStatFormula2按同版窄证为来源额外攻击力。",
+      "sortOrder": 20
+    }
+  },
+  "before": {
+    "sequence": 505,
+    "method": "GET",
+    "route": "/skills/tryndamere_e/parameters/ad_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "ad_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:38:20.155Z"
+  }
+}

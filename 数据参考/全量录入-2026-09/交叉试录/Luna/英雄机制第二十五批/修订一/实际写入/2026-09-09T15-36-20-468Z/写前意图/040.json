@@ -1,0 +1,49 @@
+{
+  "sequence": 40,
+  "intent": {
+    "sequence": 40,
+    "method": "POST",
+    "route": "/skills/drmundo_w/formulas",
+    "detailRoute": "/skills/drmundo_w/formulas/damage_per_second",
+    "skillKey": "drmundo_w",
+    "kind": "formulas",
+    "stableKey": "damage_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_per_second",
+      "name": "电击疗法每秒魔法伤害显示量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_per_tick"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ticks_per_second"
+          }
+        ]
+      },
+      "description": "当前正文明确DamagePerTick×4每秒；仅保存显示量，不宣称每秒事件、节拍间隔或实际命中次数。",
+      "sortOrder": 20
+    }
+  },
+  "before": {
+    "sequence": 322,
+    "method": "GET",
+    "route": "/skills/drmundo_w/formulas/damage_per_second",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "damage_per_second"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:13.491Z"
+  }
+}

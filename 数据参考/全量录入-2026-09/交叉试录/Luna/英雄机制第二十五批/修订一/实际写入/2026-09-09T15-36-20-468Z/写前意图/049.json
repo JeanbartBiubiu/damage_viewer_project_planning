@@ -1,0 +1,45 @@
+{
+  "sequence": 49,
+  "intent": {
+    "sequence": 49,
+    "method": "POST",
+    "route": "/skills/drmundo_e/parameters",
+    "detailRoute": "/skills/drmundo_e/parameters/flat_health_cost",
+    "skillKey": "drmundo_e",
+    "kind": "parameters",
+    "stableKey": "flat_health_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "flat_health_cost",
+      "name": "生命值消耗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 25,
+        "3": 40,
+        "4": 55,
+        "5": 70
+      },
+      "description": "客户端当前根绑定 DataValues.FlatHealthCost，等级1至5取索引1至5；保留正值生命代价。",
+      "sortOrder": 30
+    }
+  },
+  "before": {
+    "sequence": 349,
+    "method": "GET",
+    "route": "/skills/drmundo_e/parameters/flat_health_cost",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "flat_health_cost"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:23.082Z"
+  }
+}

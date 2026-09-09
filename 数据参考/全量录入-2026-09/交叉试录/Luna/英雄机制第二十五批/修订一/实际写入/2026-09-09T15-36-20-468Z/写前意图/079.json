@@ -1,0 +1,39 @@
+{
+  "sequence": 79,
+  "intent": {
+    "sequence": 79,
+    "method": "POST",
+    "route": "/skills/tryndamere_p/parameters",
+    "detailRoute": "/skills/tryndamere_p/parameters/fury_decay_per_second",
+    "skillKey": "tryndamere_p",
+    "kind": "parameters",
+    "stableKey": "fury_decay_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "fury_decay_per_second",
+      "name": "每秒怒气衰减",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5,
+      "levelValues": null,
+      "description": "当前根绑定正文明确每秒损失5怒气；保持次数/资源点数为INTEGER。",
+      "sortOrder": 50
+    }
+  },
+  "before": {
+    "sequence": 439,
+    "method": "GET",
+    "route": "/skills/tryndamere_p/parameters/fury_decay_per_second",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "fury_decay_per_second"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:56.224Z"
+  }
+}

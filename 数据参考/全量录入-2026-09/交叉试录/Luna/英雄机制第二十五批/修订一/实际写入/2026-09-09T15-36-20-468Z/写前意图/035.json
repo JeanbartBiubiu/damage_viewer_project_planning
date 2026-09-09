@@ -1,0 +1,39 @@
+{
+  "sequence": 35,
+  "intent": {
+    "sequence": 35,
+    "method": "POST",
+    "route": "/skills/drmundo_w/parameters",
+    "detailRoute": "/skills/drmundo_w/parameters/recast_bonus_health_ratio",
+    "skillKey": "drmundo_w",
+    "kind": "parameters",
+    "stableKey": "recast_bonus_health_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "recast_bonus_health_ratio",
+      "name": "重施放额外生命倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.07,
+      "levelValues": null,
+      "description": "当前W主对象 TotalDamage树为RecastBaseDamage+0.07×来源额外生命；不被旧重施放对象的旧树替代。",
+      "sortOrder": 130
+    }
+  },
+  "before": {
+    "sequence": 307,
+    "method": "GET",
+    "route": "/skills/drmundo_w/parameters/recast_bonus_health_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "recast_bonus_health_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:08.214Z"
+  }
+}

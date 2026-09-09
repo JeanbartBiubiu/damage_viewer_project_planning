@@ -1,0 +1,61 @@
+{
+  "sequence": 45,
+  "intent": {
+    "sequence": 45,
+    "method": "POST",
+    "route": "/skills/drmundo_w/formulas",
+    "detailRoute": "/skills/drmundo_w/formulas/recast_magic_damage",
+    "skillKey": "drmundo_w",
+    "kind": "formulas",
+    "stableKey": "recast_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "recast_magic_damage",
+      "name": "电击疗法重施放魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "recast_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "recast_bonus_health_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前W主对象TotalDamage=RecastBaseDamage+0.07×来源额外生命；不使用旧额外对象的旧FlatHeal/总AD树替代。",
+      "sortOrder": 70
+    }
+  },
+  "before": {
+    "sequence": 337,
+    "method": "GET",
+    "route": "/skills/drmundo_w/formulas/recast_magic_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "recast_magic_damage"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:18.866Z"
+  }
+}

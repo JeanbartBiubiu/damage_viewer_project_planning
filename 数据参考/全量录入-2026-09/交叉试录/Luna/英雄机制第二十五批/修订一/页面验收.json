@@ -1,0 +1,1075 @@
+{
+  "at": "2026-09-09T15:43:50.746Z",
+  "passed": true,
+  "browser": "Codex内置浏览器既有tab2，http://127.0.0.1:5173/#/skills，实际查询与打开参数/公式详情",
+  "observations": [
+    {
+      "skillKey": "drmundo_r",
+      "ui": "等级列表增幅0/0/0.05；最大生命增益公式完整乘无默认基准及MIN单敌封顶；恢复基准与增益基准分开。"
+    },
+    {
+      "skillKey": "drmundo_e",
+      "ui": "最高伤害端点1.4；公式预览为(基础+0.05施法者生命加成值)×最高端点，图片可见。"
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "ui": "实际消耗怒气位于计算时传入，公式基础治疗加每点怒气治疗乘实际消耗值，图片可见。"
+    }
+  ],
+  "representativePages": 3,
+  "GETs": 14,
+  "mathCases": 12,
+  "calls": [
+    {
+      "route": "/skills/drmundo_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:12.351112Z",
+        "description": "蒙多医生给自己注入化学药剂，立刻治疗他的一部分已损失生命值。随后他会获得移动速度并在一段长周期内持续回复自身一部分最大生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "蒙多医生·极限剂量",
+        "skillCategoryKeys": [],
+        "skillKey": "drmundo_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:12.351112Z"
+      }
+    },
+    {
+      "route": "/skills/drmundo_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_drmundo_r",
+          "name": "drmundo_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/drmundo_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:37:36.185528Z",
+          "description": "当前根spellCastTime=0.25秒；仅保存字段，不表示治疗发生在施法结束。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "drmundo_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:37:36.185528Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:37.267305Z",
+          "description": "客户端当前根绑定 DataValues.Duration=10秒；单位换算为10000毫秒。",
+          "fixedValue": 10000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "极限剂量持续（毫秒）",
+          "parameterKey": "duration_ms",
+          "skillKey": "drmundo_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T15:37:37.267305Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:38.412496Z",
+          "description": "客户端当前根绑定 DataValues.SpeedBoostAmount，等级1至3取索引1至3；正文以*100显示。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.15,
+            "2": 0.25,
+            "3": 0.35
+          },
+          "name": "移动速度增加比例",
+          "parameterKey": "speed_boost_ratio",
+          "skillKey": "drmundo_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T15:37:38.412496Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:39.490084Z",
+          "description": "客户端当前根绑定DataValues.MissingHealthHeal；正文以*100显示。该比例描述获得最大生命的量，不命名为普通直接治疗；正确应用阶段的实际已损失生命基准由无默认运行输入提供。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.15,
+            "2": 0.2,
+            "3": 0.25
+          },
+          "name": "按已损失生命获得最大生命比例",
+          "parameterKey": "missing_health_max_health_gain_ratio",
+          "skillKey": "drmundo_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T15:37:39.490084Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:40.723411Z",
+          "description": "客户端当前根绑定DataValues.MaxHealthHoT；正文以*100显示。该比例描述持续恢复总量的最大生命基准，正确应用阶段的实际最大生命基准由无默认运行输入提供。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.2,
+            "2": 0.4,
+            "3": 0.6
+          },
+          "name": "持续恢复最大生命比例",
+          "parameterKey": "max_health_regeneration_ratio",
+          "skillKey": "drmundo_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T15:37:40.723411Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:41.834661Z",
+          "description": "原始DataValues.BonusPerNearbyChampion=0.05；当前正文只在R等级3说明附近每个敌方英雄额外提升两项效果，因此按等级归一为[0,0,0.05]，正文比例*100显示。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0,
+            "2": 0,
+            "3": 0.05
+          },
+          "name": "按等级生效的附近敌方英雄效果增幅比例",
+          "parameterKey": "bonus_per_nearby_champion_ratio",
+          "skillKey": "drmundo_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T15:37:41.834661Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:43.017518Z",
+          "description": "三级正文的附近敌方英雄实际数量由运行时外供且无默认值；本轮1v1公式用MIN(实际数量,1)封顶，等级1/2通过增幅参数的0值自然不增加，不把输入伪设为0。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "合资格附近敌方英雄实际数量",
+          "parameterKey": "nearby_enemy_champion_count",
+          "skillKey": "drmundo_r",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T15:37:43.017518Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:44.148806Z",
+          "description": "获得最大生命比例的正确应用阶段实际已损失生命值由运行时外供；应用阶段未知，不设默认值，不由新增最大生命反推。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最大生命增益实际已损失生命基准",
+          "parameterKey": "missing_health_gain_basis",
+          "skillKey": "drmundo_r",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T15:37:44.148806Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:45.277196Z",
+          "description": "持续恢复比例的正确应用阶段实际最大生命值由运行时外供；应用阶段未知，不设默认值，不由本次最大生命增益反馈。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "持续恢复实际最大生命基准",
+          "parameterKey": "max_health_regeneration_basis",
+          "skillKey": "drmundo_r",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T15:37:45.277196Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:46.404356Z",
+          "description": "用于附近英雄治疗倍率的加法基准。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "单位倍率1",
+          "parameterKey": "unity",
+          "skillKey": "drmundo_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T15:37:46.404356Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:21.098378Z",
+          "description": "DDragon16.17.1 DrMundo.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 120000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "drmundo_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:21.098378Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/drmundo_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:12.056246Z",
+        "description": "被动 - 蒙多医生获得额外攻击力，数额会基于他的最大生命值而提升。<br><br>主动 - 蒙多医生用他的“医用”手提包猛砸一个敌人，造成基于他已损失生命值的额外伤害。如果这个敌人被击杀，那么还会被拍飞，对途经的所有敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "蒙多医生·大力行医",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "drmundo_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:12.056246Z"
+      }
+    },
+    {
+      "route": "/skills/drmundo_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_drmundo_e",
+          "name": "drmundo_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/drmundo_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:37:21.063088Z",
+          "description": "当前根spellCastTime=1秒且mCastTime=1秒；两字段一致，单位换算为1000毫秒。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "drmundo_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:37:21.063088Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:22.140315Z",
+          "description": "客户端当前根绑定 DataValues.AttackOverrideDuration=4秒；只记录下次攻击窗口。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化攻击窗口（毫秒）",
+          "parameterKey": "attack_override_duration_ms",
+          "skillKey": "drmundo_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T15:37:22.140315Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:23.138531Z",
+          "description": "客户端当前根绑定 DataValues.FlatHealthCost，等级1至5取索引1至5；保留正值生命代价。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10,
+            "2": 25,
+            "3": 40,
+            "4": 55,
+            "5": 70
+          },
+          "name": "生命值消耗",
+          "parameterKey": "flat_health_cost",
+          "skillKey": "drmundo_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T15:37:23.138531Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:24.19441Z",
+          "description": "客户端当前根绑定 DataValues.BaseDamage，等级1至5取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 5,
+            "2": 15,
+            "3": 25,
+            "4": 35,
+            "5": 45
+          },
+          "name": "额外物理伤害基础值",
+          "parameterKey": "base_damage",
+          "skillKey": "drmundo_e",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T15:37:24.19441Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:25.258521Z",
+          "description": "客户端当前根绑定 DataValues.BonusHealthRatio=0.05；当前AdditionalDamage树使用来源额外生命。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外生命倍率",
+          "parameterKey": "bonus_health_ratio",
+          "skillKey": "drmundo_e",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T15:37:25.258521Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:26.250974Z",
+          "description": "客户端当前根绑定 DataValues.MaxDamageAmp=1.4；这是最高端点，不是当前伤害倍率默认值。",
+          "fixedValue": 1.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最高伤害倍率端点",
+          "parameterKey": "max_damage_amp",
+          "skillKey": "drmundo_e",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T15:37:26.250974Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:27.351834Z",
+          "description": "客户端当前根绑定 DataValues.HealthToADRatio，等级1至5取索引1至5；当前PassiveBonusAD树另有0.01乘数。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 2,
+            "2": 2.3,
+            "3": 2.6,
+            "4": 2.9,
+            "5": 3.2
+          },
+          "name": "最大生命转攻击力倍率",
+          "parameterKey": "health_to_ad_ratio",
+          "skillKey": "drmundo_e",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T15:37:27.351834Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:29.498214Z",
+          "description": "当前PassiveBonusAD计算树直接给出Number(0.01)；与HealthToADRatio相乘。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "生命转攻击力根乘数",
+          "parameterKey": "health_to_ad_scale",
+          "skillKey": "drmundo_e",
+          "sortOrder": 85,
+          "updatedAt": "2026-09-09T15:37:29.498214Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:37:28.395927Z",
+          "description": "用于复刻MaxDamageAmpTooltip树中的减1操作；不是伤害倍率默认值。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "单位倍率1",
+          "parameterKey": "unity",
+          "skillKey": "drmundo_e",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T15:37:28.395927Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:20.842172Z",
+          "description": "DDragon16.17.1 DrMundo.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 8250,
+            "3": 7500,
+            "4": 6750,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "drmundo_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:20.842172Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/tryndamere_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:43.462324Z",
+        "description": "泰达米尔对战斗极度饥渴，他受伤程度越高，攻击力越强。他能通过释放【Q嗜血杀戮】消耗怒气并治疗自己。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "泰达米尔·嗜血杀戮",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "tryndamere_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:43.462324Z"
+      }
+    },
+    {
+      "route": "/skills/tryndamere_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_tryndamere_q",
+          "name": "tryndamere_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/tryndamere_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:38:00.639998Z",
+          "description": "客户端当前根绑定 DataValues.BaseHealing，等级1至5取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 40,
+            "3": 50,
+            "4": 60,
+            "5": 70
+          },
+          "name": "基础治疗",
+          "parameterKey": "base_healing",
+          "skillKey": "tryndamere_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:38:00.639998Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:38:01.737667Z",
+          "description": "客户端当前根绑定 DataValues.BonusHealPerFury，等级1至5取索引1至5；实际治疗按外供怒气。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.5,
+            "2": 0.95,
+            "3": 1.4,
+            "4": 1.85,
+            "5": 2.3
+          },
+          "name": "每点怒气额外治疗",
+          "parameterKey": "bonus_heal_per_fury",
+          "skillKey": "tryndamere_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T15:38:01.737667Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:38:03.067399Z",
+          "description": "客户端当前根绑定 DataValues.APRatio；当前BaseHeal树省略统计选择器，按同版窄证mStat0=法强。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础治疗法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "tryndamere_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T15:38:03.067399Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:38:04.178933Z",
+          "description": "客户端当前根绑定 DataValues.APRatioPerFury；当前HealPerFury树省略统计选择器，按同版窄证mStat0=法强。",
+          "fixedValue": 0.012,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每点怒气治疗法强倍率",
+          "parameterKey": "ap_ratio_per_fury",
+          "skillKey": "tryndamere_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T15:38:04.178933Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:38:05.444732Z",
+          "description": "客户端当前根绑定 DataValues.MaximumBonusAD，等级1至5取索引1至5；只记录最高端点。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20,
+            "2": 35,
+            "3": 50,
+            "4": 65,
+            "5": 80
+          },
+          "name": "最高额外攻击力",
+          "parameterKey": "maximum_bonus_attack_damage",
+          "skillKey": "tryndamere_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T15:38:05.444732Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:38:06.516779Z",
+          "description": "客户端当前根绑定 DataValues.RemainingHealthThreshold=0.1；中间已损失生命曲线未证，不线性展开。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "达到最高额外攻击力的剩余生命比例",
+          "parameterKey": "remaining_health_threshold_ratio",
+          "skillKey": "tryndamere_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T15:38:06.516779Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:38:07.635017Z",
+          "description": "Q主动实际消耗怒气由运行时提供且无默认值；不把MaximumHeal树的资源节点擅自映射为满怒。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "本次实际消耗怒气",
+          "parameterKey": "actual_fury_consumed",
+          "skillKey": "tryndamere_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T15:38:07.635017Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:05:16.47763Z",
+          "description": "DDragon16.17.1 Tryndamere.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 12000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "tryndamere_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:05:16.47763Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/drmundo_r/formulas/nearby_champion_effect_multiplier",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:37:47.51993Z",
+        "description": "只在R等级3时由bonus_per_nearby_champion_ratio提供增幅；附近数量是无默认实际输入，并在1v1内用MIN(数量,1)封顶。等级1/2的增幅参数为0，不另造输入0。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "unity"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_per_nearby_champion_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "nearby_enemy_champion_count"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "unity"
+                    }
+                  ],
+                  "operation": "MIN"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "nearby_champion_effect_multiplier",
+        "gameId": "lol",
+        "name": "三级附近英雄效果倍率",
+        "skillKey": "drmundo_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:37:47.51993Z"
+      }
+    },
+    {
+      "route": "/skills/drmundo_r/formulas/missing_health_max_health_gain_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:37:48.625891Z",
+        "description": "最大生命获得量=已损失生命比例×正确应用阶段的实际已损失生命基准×附近效果倍率；基准无默认，新增最大生命不反馈到本次基准，也不创建HP结果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missing_health_max_health_gain_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missing_health_gain_basis"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "unity"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_per_nearby_champion_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "nearby_enemy_champion_count"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "unity"
+                        }
+                      ],
+                      "operation": "MIN"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "missing_health_max_health_gain_amount",
+        "gameId": "lol",
+        "name": "极限剂量按已损失生命获得最大生命量",
+        "skillKey": "drmundo_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:37:48.625891Z"
+      }
+    },
+    {
+      "route": "/skills/drmundo_r/formulas/max_health_regeneration_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:37:49.741192Z",
+        "description": "持续恢复总量=最大生命恢复比例×正确应用阶段的实际最大生命基准×附近效果倍率；基准无默认，应用阶段未知，不创建周期或HP反馈。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_health_regeneration_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_health_regeneration_basis"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "unity"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_per_nearby_champion_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "nearby_enemy_champion_count"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "unity"
+                        }
+                      ],
+                      "operation": "MIN"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "max_health_regeneration_amount",
+        "gameId": "lol",
+        "name": "极限剂量持续恢复最大生命量",
+        "skillKey": "drmundo_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:37:49.741192Z"
+      }
+    },
+    {
+      "route": "/skills/drmundo_e/formulas/maximum_additional_damage_endpoint",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:37:32.972974Z",
+        "description": "当前MaxDamageAmpTooltip只证最高端点；本式明确为完整AdditionalDamage×1.4，即（BaseDamage+0.05×来源额外生命）×MaxDamageAmp。只记录端点，不生成已损失生命到端点的中间曲线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_health_ratio"
+                    },
+                    {
+                      "attributeKey": "hp",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_damage_amp"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "maximum_additional_damage_endpoint",
+        "gameId": "lol",
+        "name": "大力行医完整额外伤害最高端点",
+        "skillKey": "drmundo_e",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:37:32.972974Z"
+      }
+    },
+    {
+      "route": "/skills/tryndamere_q/formulas/active_heal_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:38:10.753732Z",
+        "description": "主动治疗=基础治疗项+实际消耗怒气×每怒气治疗项；实际怒气无默认，禁止用满怒替代。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_healing"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_heal_per_fury"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio_per_fury"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_fury_consumed"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "active_heal_amount",
+        "gameId": "lol",
+        "name": "嗜血杀戮按实际怒气治疗量",
+        "skillKey": "tryndamere_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:38:10.753732Z"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "missing_health_max_health_gain_amount",
+      "level": 1,
+      "inputs": {
+        "nearby_enemy_champion_count": 1,
+        "missing_health_gain_basis": 1000,
+        "max_health_regeneration_basis": 3000
+      },
+      "attrs": {},
+      "expected": 150,
+      "actual": 150,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "max_health_regeneration_amount",
+      "level": 1,
+      "inputs": {
+        "nearby_enemy_champion_count": 1,
+        "missing_health_gain_basis": 1000,
+        "max_health_regeneration_basis": 3000
+      },
+      "attrs": {},
+      "expected": 600,
+      "actual": 600,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "missing_health_max_health_gain_amount",
+      "level": 2,
+      "inputs": {
+        "nearby_enemy_champion_count": 1,
+        "missing_health_gain_basis": 1000,
+        "max_health_regeneration_basis": 3000
+      },
+      "attrs": {},
+      "expected": 200,
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "max_health_regeneration_amount",
+      "level": 2,
+      "inputs": {
+        "nearby_enemy_champion_count": 1,
+        "missing_health_gain_basis": 1000,
+        "max_health_regeneration_basis": 3000
+      },
+      "attrs": {},
+      "expected": 1200,
+      "actual": 1200,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "missing_health_max_health_gain_amount",
+      "level": 3,
+      "inputs": {
+        "nearby_enemy_champion_count": 1,
+        "missing_health_gain_basis": 1000,
+        "max_health_regeneration_basis": 3000
+      },
+      "attrs": {},
+      "expected": 262.5,
+      "actual": 262.5,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "max_health_regeneration_amount",
+      "level": 3,
+      "inputs": {
+        "nearby_enemy_champion_count": 1,
+        "missing_health_gain_basis": 1000,
+        "max_health_regeneration_basis": 3000
+      },
+      "attrs": {},
+      "expected": 1890,
+      "actual": 1890,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_r",
+      "formulaKey": "missing_health_max_health_gain_amount",
+      "level": 3,
+      "inputs": {
+        "nearby_enemy_champion_count": 7,
+        "missing_health_gain_basis": 1000
+      },
+      "attrs": {},
+      "expected": 262.5,
+      "actual": 262.5,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_e",
+      "formulaKey": "maximum_additional_damage_endpoint",
+      "level": 1,
+      "inputs": {},
+      "attrs": {
+        "SOURCE/hp/BONUS": 1000
+      },
+      "expected": 77,
+      "actual": 77,
+      "passed": true
+    },
+    {
+      "skillKey": "drmundo_e",
+      "formulaKey": "maximum_additional_damage_endpoint",
+      "level": 5,
+      "inputs": {},
+      "attrs": {
+        "SOURCE/hp/BONUS": 2000
+      },
+      "expected": 203,
+      "actual": 203,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "formulaKey": "active_heal_amount",
+      "level": 1,
+      "inputs": {
+        "actual_fury_consumed": 0
+      },
+      "attrs": {
+        "SOURCE/ability_power/TOTAL": 100
+      },
+      "expected": 60,
+      "actual": 60,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "formulaKey": "active_heal_amount",
+      "level": 1,
+      "inputs": {
+        "actual_fury_consumed": 50
+      },
+      "attrs": {
+        "SOURCE/ability_power/TOTAL": 100
+      },
+      "expected": 145,
+      "actual": 145,
+      "passed": true
+    },
+    {
+      "skillKey": "tryndamere_q",
+      "formulaKey": "active_heal_amount",
+      "level": 5,
+      "inputs": {
+        "actual_fury_consumed": 100
+      },
+      "attrs": {
+        "SOURCE/ability_power/TOTAL": 200
+      },
+      "expected": 600,
+      "actual": 600,
+      "passed": true
+    }
+  ],
+  "apiWrites": 0,
+  "runtimeValidation": "未执行",
+  "scriptSha256": "28b8b9169aa4f6b4ae98a51a9e1d41cd057202231e4ef2da198ba6112d18b99b"
+}

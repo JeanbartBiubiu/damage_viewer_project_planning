@@ -1,0 +1,84 @@
+{
+  "sequence": 60,
+  "intent": {
+    "sequence": 60,
+    "method": "POST",
+    "route": "/skills/drmundo_e/effects",
+    "detailRoute": "/skills/drmundo_e/effects/passive_bonus_attack_damage",
+    "skillKey": "drmundo_e",
+    "kind": "effects",
+    "stableKey": "passive_bonus_attack_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "passive_bonus_attack_damage",
+      "name": "大力行医被动额外攻击力",
+      "description": "独立定义当前根被动额外攻击力；不创建自动初始化或触发，应用时读取公式。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": null,
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "大力行医被动额外攻击力",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "passive_bonus_attack_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "attack_damage",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  },
+  "before": {
+    "sequence": 382,
+    "method": "GET",
+    "route": "/skills/drmundo_e/effects/passive_bonus_attack_damage",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_EFFECT_NOT_FOUND",
+        "details": {
+          "effectKey": "passive_bonus_attack_damage"
+        },
+        "message": "技能效果不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:35.066Z"
+  }
+}

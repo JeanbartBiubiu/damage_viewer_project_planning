@@ -1,0 +1,107 @@
+{
+  "generatedAt": "2026-09-09T15:15:10.917Z",
+  "status": "修订一与原25候选的精确语义差异，未调用业务接口",
+  "revision": "hero25-source-v1-candidate-revision-1",
+  "original": {
+    "candidateSha256": "138db432d3e380d7b46222916f84d3ee6101a3fd79dde77704d82675a52a1228",
+    "planSha256": "8edb06a5b9b16693d57eeb48f5d1ebf083adddb2eb68ac8719b6e474f30b4f77",
+    "sourceValuesSha256": "660c3c4b897e1c65a5bddc53560998254fca2c7d2fb9ccfc10e36907825d0342",
+    "manifestSha256": "d4da9c2e97323d9b6b6eeb4f5fc02142a723693f99d0177af7bcca817b832107"
+  },
+  "revised": {
+    "candidateSha256": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
+    "planSha256": "b22ce20986991a7bf2d3f0db372f2265e3b7f9098e30957722f62c3c112d4cb2",
+    "sourceValuesSha256": "f973c4092defc937e81465623d5525e3693d0d92c8f1b1d4f0052ff628288055",
+    "sourceManifestSha256": "cb6b0911c384a745112b9d880033ab3c0f376528a56d3a4a560e3eeb4f66755e"
+  },
+  "counts": {
+    "original": {
+      "parameters": 76,
+      "formulas": 23,
+      "effects": 10,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "revised": {
+      "parameters": 76,
+      "formulas": 23,
+      "effects": 10,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "candidateNewParameters": 76,
+    "currentParametersAfterSevenPublicReuse": 83,
+    "requestCount": 109
+  },
+  "changes": [
+    {
+      "scope": "drmundo_e",
+      "removedParameters": [
+        "max_missing_health_threshold_ratio"
+      ],
+      "replacedFormulas": [
+        {
+          "from": "maximum_damage_amplification_bonus_ratio",
+          "to": "maximum_additional_damage_endpoint"
+        }
+      ],
+      "reason": "70%缺血字面值与主正文语义冲突；1.4只作为完整额外伤害最高端点。"
+    },
+    {
+      "scope": "drmundo_r",
+      "removedParameters": [
+        "takedown_duration_extension_ms"
+      ],
+      "renamedParameters": [
+        {
+          "from": "missing_health_heal_ratio",
+          "to": "missing_health_max_health_gain_ratio"
+        },
+        {
+          "from": "max_health_hot_ratio",
+          "to": "max_health_regeneration_ratio"
+        }
+      ],
+      "addedParameters": [
+        "missing_health_gain_basis",
+        "max_health_regeneration_basis"
+      ],
+      "replacedFormulas": [
+        {
+          "from": "nearby_champion_heal_multiplier",
+          "to": "nearby_champion_effect_multiplier"
+        },
+        {
+          "from": "missing_health_heal_amount",
+          "to": "missing_health_max_health_gain_amount"
+        },
+        {
+          "from": "max_health_hot_total_amount",
+          "to": "max_health_regeneration_amount"
+        }
+      ],
+      "reason": "最大生命获得与持续恢复分别使用正确阶段的无默认外供基准；只在三级启用附近增幅并在1v1封顶。"
+    }
+  ],
+  "unchangedProtection": {
+    "skills": [
+      "drmundo_p",
+      "drmundo_q",
+      "drmundo_w",
+      "drmundo_e",
+      "drmundo_r",
+      "tryndamere_p",
+      "tryndamere_q",
+      "tryndamere_w",
+      "tryndamere_e",
+      "tryndamere_r"
+    ],
+    "subjects": 10,
+    "componentLists": 60,
+    "publicParameterReuse": 7,
+    "originalFilesPreserved": true
+  },
+  "noApiCalls": true
+}

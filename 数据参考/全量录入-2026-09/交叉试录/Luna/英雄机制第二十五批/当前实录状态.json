@@ -1,0 +1,96 @@
+{
+  "at": "2026-09-09T15:49:38.863Z",
+  "skills": [
+    "drmundo_p",
+    "drmundo_q",
+    "drmundo_w",
+    "drmundo_e",
+    "drmundo_r",
+    "tryndamere_p",
+    "tryndamere_q",
+    "tryndamere_w",
+    "tryndamere_e",
+    "tryndamere_r"
+  ],
+  "status": "明确组成已保存并完成独立回读和代表页面；等级求值、资源和事件接线继续处理",
+  "counts": {
+    "parameters": 83,
+    "formulas": 23,
+    "effects": 10,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newCounts": {
+    "parameters": 76,
+    "formulas": 23,
+    "effects": 10
+  },
+  "reusedParameters": 7,
+  "businessWrites": 109,
+  "candidateFileSha256": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
+  "writePlanSha256": "b22ce20986991a7bf2d3f0db372f2265e3b7f9098e30957722f62c3c112d4cb2",
+  "execution": {
+    "file": "修订一/实际写入/2026-09-09T15-36-20-468Z/执行结果.json",
+    "GETs": 626,
+    "successfulPOSTs": 109,
+    "rejectedPOSTs": 0,
+    "unknownPOSTs": 0,
+    "passed": true
+  },
+  "independentReadback": {
+    "file": "修订一/独立回读/2026-09-09T15-39-07-768Z/独立全量回读.json",
+    "GETs": 204,
+    "details": 116,
+    "protectedPaths": 95,
+    "lists": 60,
+    "catalogs": 4,
+    "subjects": 10,
+    "characters": 2,
+    "relations": 2,
+    "images": 10,
+    "passed": true
+  },
+  "strictMath": {
+    "file": "修订一/实际公式原始源值核对/2026-09-09T15-45-31-905Z/实际公式原始源值核对.json",
+    "actualFormulas": 23,
+    "formulaCases": 46,
+    "missingInputChecks": 23,
+    "runtimeInputRejects": 13,
+    "runtimeRejectsIncludedInMissingTotal": true,
+    "boundaryChecks": 15,
+    "additionalNetworkCalls": 0,
+    "passed": true
+  },
+  "browser": {
+    "file": "修订一/页面验收.json",
+    "representativePages": 3,
+    "GETs": 14,
+    "mathCases": 12,
+    "passed": true
+  },
+  "hashes": {
+    "修订一/完整候选.json": "85ce89e6cead0c7c6b243643ed75a829349d9c7260973643d089cfa6bbc28028",
+    "修订一/写前请求计划.json": "b22ce20986991a7bf2d3f0db372f2265e3b7f9098e30957722f62c3c112d4cb2",
+    "修订一/受保护写入器.mjs": "359bea39ec5bbe5e9fd1d83c4664b526d7341b102abb8c94a3e703ef0e9cfb47",
+    "修订一/独立回读-实际GET.mjs": "f55ee9727fc331c34b71a741c4658daf0d14ac57b35d2d81c30a7fcf476ca27b",
+    "修订一/实际公式原始源值核对.mjs": "810344433f56f91509030e140fd2624ef4bc242d21ee11dccaa644cd20b4972d",
+    "修订一/实际写入/2026-09-09T15-36-20-468Z/执行结果.json": "754c8c8ea5d77f26023d065efe365c7223b17088a26db0eba498c1fb4302eeea",
+    "修订一/独立回读/2026-09-09T15-39-07-768Z/独立全量回读.json": "b526938d279fdbc001ce92f397e817fa46737ee4b6efc06a64a0c61424e37544",
+    "修订一/实际公式原始源值核对/2026-09-09T15-45-31-905Z/实际公式原始源值核对.json": "37abb0759e302f9780308985528e9db798cef15566d301504bd2a13504bc91a7",
+    "修订一/页面验收.json": "2238956dac5fe8deacf1a0cb3ed1d56c9c8eb9b4507ca4ec221daa23834a9255"
+  },
+  "issues": [
+    "蒙多R附近英雄增幅仅3级生效；最大生命增益与持续恢复基准分开，无默认或反馈假设。",
+    "蒙多E完整附加伤害乘1.4只作最高端点；70%缺失生命的歧义字段与旧击杀延长字段不进入固定配置。",
+    "蒙多W灰色生命回复取实际伤害与存量，不能由抗性前公式猜实际存储量。",
+    "蛮王怒气相关数值保留真实外供整数，无默认满怒；当前怒气资源目录与消耗回复事件仍待接。",
+    "写入器初版只读报告noApiCalls表述不准确；实际有GET无业务写入，后续已改用noBusinessWrites；旧报告保留。",
+    "写入器锁取得失败时不得覆盖既有完成锁，本轮保存前已修正此异常路径。"
+  ],
+  "pending": [
+    "等级求值、灰色生命处理、消耗后的最小生命与不可死亡资格继续处理。",
+    "增益、控制、持续伤害、施放及命中事件尚未接线，不把API保存当作完整机制或战斗运行验收。"
+  ],
+  "runtimeValidation": "未执行"
+}

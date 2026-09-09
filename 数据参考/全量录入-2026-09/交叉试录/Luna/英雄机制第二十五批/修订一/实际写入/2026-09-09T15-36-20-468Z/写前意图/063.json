@@ -1,0 +1,43 @@
+{
+  "sequence": 63,
+  "intent": {
+    "sequence": 63,
+    "method": "POST",
+    "route": "/skills/drmundo_r/parameters",
+    "detailRoute": "/skills/drmundo_r/parameters/speed_boost_ratio",
+    "skillKey": "drmundo_r",
+    "kind": "parameters",
+    "stableKey": "speed_boost_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "speed_boost_ratio",
+      "name": "移动速度增加比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.15,
+        "2": 0.25,
+        "3": 0.35
+      },
+      "description": "客户端当前根绑定 DataValues.SpeedBoostAmount，等级1至3取索引1至3；正文以*100显示。",
+      "sortOrder": 30
+    }
+  },
+  "before": {
+    "sequence": 391,
+    "method": "GET",
+    "route": "/skills/drmundo_r/parameters/speed_boost_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "speed_boost_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:38.355Z"
+  }
+}

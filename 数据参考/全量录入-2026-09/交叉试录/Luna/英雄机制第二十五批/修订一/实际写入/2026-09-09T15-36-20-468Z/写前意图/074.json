@@ -1,0 +1,87 @@
+{
+  "sequence": 74,
+  "intent": {
+    "sequence": 74,
+    "method": "POST",
+    "route": "/skills/drmundo_r/effects",
+    "detailRoute": "/skills/drmundo_r/effects/speed_boost",
+    "skillKey": "drmundo_r",
+    "kind": "effects",
+    "stableKey": "speed_boost",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "speed_boost",
+      "name": "极限剂量自身移动速度",
+      "description": "正文明确自身获得持续10秒移动速度；只定义持续属性效果，施放触发待接线。",
+      "sortOrder": 10,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "极限剂量自身移动速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "speed_boost_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  },
+  "before": {
+    "sequence": 424,
+    "method": "GET",
+    "route": "/skills/drmundo_r/effects/speed_boost",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_EFFECT_NOT_FOUND",
+        "details": {
+          "effectKey": "speed_boost"
+        },
+        "message": "技能效果不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:50.715Z"
+  }
+}

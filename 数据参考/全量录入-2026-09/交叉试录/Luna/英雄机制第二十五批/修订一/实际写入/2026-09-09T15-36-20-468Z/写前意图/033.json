@@ -1,0 +1,39 @@
+{
+  "sequence": 33,
+  "intent": {
+    "sequence": 33,
+    "method": "POST",
+    "route": "/skills/drmundo_w/parameters",
+    "detailRoute": "/skills/drmundo_w/parameters/ticks_per_second",
+    "skillKey": "drmundo_w",
+    "kind": "parameters",
+    "stableKey": "ticks_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ticks_per_second",
+      "name": "正文每秒倍率",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4,
+      "levelValues": null,
+      "description": "当前正文明确 @DamagePerTick*4@ 每秒；这是显示计算倍率，保持次数为INTEGER，不表示实际tick数量或时长。",
+      "sortOrder": 110
+    }
+  },
+  "before": {
+    "sequence": 301,
+    "method": "GET",
+    "route": "/skills/drmundo_w/parameters/ticks_per_second",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "ticks_per_second"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "finishedAt": "2026-09-09T15:37:06.077Z"
+  }
+}
