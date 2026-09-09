@@ -1,0 +1,239 @@
+{
+  "generatedAt": "2026-09-09T03:58:59.775Z",
+  "sourceIndex": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\技能公共参数实录\\技能来源索引.json",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；完整计算树保留在本批证据。资料来自规划树固定客户端16.17与官方16.17.1，不以名称相似对象替代根绑定。",
+  "heroes": [
+    {
+      "id": "Twitch",
+      "chineseName": "瘟疫之源",
+      "rootPath": "Characters/Twitch/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Twitch.json.gz",
+        "sha256": "ce403a5dcc34779ad7ba2bf616297221553bc3dadecba4469b0ef4e90f505241",
+        "compressedSha256": "78a3de6a91ebb859c457415088aa23cce7f62a62c5ed0672b16bdd13c33c7f18",
+        "byteSize": 50705,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/twitch/twitch.bin.json",
+        "fetchedAt": "2026-09-06T14:26:43.283Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Twitch.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Twitch.json",
+        "fetchedAt": "2026-09-06T14:12:54.998Z",
+        "byteSize": 13726,
+        "sha256": "11bd82969c5af05144c3d5812864a319a69a5050d8f91abc38a2c21bac7b6b81"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "twitch_p",
+          "binding": "Characters/Twitch/Spells/TwitchDeadlyVenomMarkerAbility/TwitchDeadlyVenomMarker",
+          "name": "死亡毒液",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "twitch_q",
+          "binding": "Characters/Twitch/Spells/TwitchHideInShadowsAbility/TwitchHideInShadows",
+          "name": "埋伏",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "twitch_w",
+          "binding": "Characters/Twitch/Spells/TwitchVenomCaskAbility/TwitchVenomCask",
+          "name": "剧毒之桶",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "twitch_e",
+          "binding": "Characters/Twitch/Spells/TwitchExpungeAbility/TwitchExpunge",
+          "name": "毒性爆发",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "twitch_r",
+          "binding": "Characters/Twitch/Spells/TwitchFullAutomaticAbility/TwitchFullAutomatic",
+          "name": "火力全开",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Lucian",
+      "chineseName": "圣枪游侠",
+      "rootPath": "Characters/Lucian/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Lucian.json.gz",
+        "sha256": "95b833cdd71340870e4aaa72ff4a96c7da39ae8ee5e554c8770872c6b4263122",
+        "compressedSha256": "426dec7ac0ea042d36cbadfe5117bd1faba7cafc73bd0dc6ca0919bf9d736fad",
+        "byteSize": 63309,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/lucian/lucian.bin.json",
+        "fetchedAt": "2026-09-06T14:26:25.945Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Lucian.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Lucian.json",
+        "fetchedAt": "2026-09-06T14:12:49.247Z",
+        "byteSize": 15275,
+        "sha256": "a6b528e66b67e4558b91190704eb68bdfbc3c528b19b73f9e71f0f63eba8f3c0"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "lucian_p",
+          "binding": "Characters/Lucian/Spells/LucianPassiveAbility/LucianPassive",
+          "name": "圣光银弹",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "lucian_q",
+          "binding": "Characters/Lucian/Spells/LucianQAbility/LucianQ",
+          "name": "透体圣光",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "lucian_w",
+          "binding": "Characters/Lucian/Spells/LucianWAbility/LucianW",
+          "name": "热诚烈弹",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "lucian_e",
+          "binding": "Characters/Lucian/Spells/LucianEAbility/LucianE",
+          "name": "冷酷追击",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "lucian_r",
+          "binding": "Characters/Lucian/Spells/LucianRAbility/LucianR",
+          "name": "圣枪洗礼",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Sivir",
+      "chineseName": "战争女神",
+      "rootPath": "Characters/Sivir/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Sivir.json.gz",
+        "sha256": "907ed34214d296da277036ba3c96e73dfa1d4d7f9031aac76715073639a8bbee",
+        "compressedSha256": "f8048ba433c2931222180255fc86b1a202361539b69880e6d19e294ff4d8f445",
+        "byteSize": 96914,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/sivir/sivir.bin.json",
+        "fetchedAt": "2026-09-06T14:26:38.273Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Sivir.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Sivir.json",
+        "fetchedAt": "2026-09-06T14:12:55.663Z",
+        "byteSize": 15889,
+        "sha256": "6b4a17775c92eb58504c1239066d0f1dc8ba1064567632eb6bd5bcc47bdf807d"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "sivir_p",
+          "binding": "Characters/Sivir/Spells/SivirPassiveAbility/SivirPassive",
+          "name": "敏锐疾行",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "sivir_q",
+          "binding": "Characters/Sivir/Spells/SivirQAbility/SivirQ",
+          "name": "回旋之刃",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "sivir_w",
+          "binding": "Characters/Sivir/Spells/SivirWAbility/SivirW",
+          "name": "弹射",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "sivir_e",
+          "binding": "Characters/Sivir/Spells/SivirEAbility/SivirE",
+          "name": "法术护盾",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "sivir_r",
+          "binding": "Characters/Sivir/Spells/SivirRAbility/SivirR",
+          "name": "狩猎",
+          "maxrank": 3
+        }
+      ]
+    },
+    {
+      "id": "Tristana",
+      "chineseName": "麦林炮手",
+      "rootPath": "Characters/Tristana/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Tristana.json.gz",
+        "sha256": "c3122c601945305e0749b828b326315f0df50cea28f877142d64aab44d689831",
+        "compressedSha256": "83ac2a879e3c6ce2c08f4e3f81294acafa412fa59880cd9a8426df5474972494",
+        "byteSize": 40078,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/tristana/tristana.bin.json",
+        "fetchedAt": "2026-09-06T14:26:42.747Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Tristana.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Tristana.json",
+        "fetchedAt": "2026-09-06T14:12:54.661Z",
+        "byteSize": 15693,
+        "sha256": "84fb0ff7f6b1a921e6b13d3dfab5ac4ad48f32f012b9fb912e3bade1ed168b5a"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "tristana_p",
+          "binding": "Characters/Tristana/Spells/TristanaPassiveAbility/TristanaPassive",
+          "name": "瞄准",
+          "maxrank": 1
+        },
+        {
+          "slot": "Q",
+          "skillKey": "tristana_q",
+          "binding": "Characters/Tristana/Spells/TristanaQAbility/TristanaQ",
+          "name": "急速射击",
+          "maxrank": 5
+        },
+        {
+          "slot": "W",
+          "skillKey": "tristana_w",
+          "binding": "Characters/Tristana/Spells/TristanaWAbility/TristanaW",
+          "name": "火箭跳跃",
+          "maxrank": 5
+        },
+        {
+          "slot": "E",
+          "skillKey": "tristana_e",
+          "binding": "Characters/Tristana/Spells/TristanaEAbility/TristanaE",
+          "name": "爆炸火花",
+          "maxrank": 5
+        },
+        {
+          "slot": "R",
+          "skillKey": "tristana_r",
+          "binding": "Characters/Tristana/Spells/TristanaRAbility/TristanaR",
+          "name": "毁灭射击",
+          "maxrank": 3
+        }
+      ]
+    }
+  ]
+}
