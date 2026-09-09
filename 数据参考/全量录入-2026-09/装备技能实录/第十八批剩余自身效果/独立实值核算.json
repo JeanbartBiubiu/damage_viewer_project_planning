@@ -1,0 +1,217 @@
+{
+  "parameterCount": 52,
+  "formulaCount": 8,
+  "expectedParameterCount": 52,
+  "expectedFormulaCount": 8,
+  "componentMatches": true,
+  "decimalInput": {
+    "parameterKey": "actual_target_bonus_health",
+    "valueType": "DECIMAL",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "exampleInput": 1234.5,
+    "pass": true
+  },
+  "cases": [
+    {
+      "name": "3179 mStat29为0",
+      "equipmentKey": "item_3179",
+      "formulaKey": "nightstalker_true_damage",
+      "overrides": {
+        "actual_mstat29": 0
+      },
+      "attributes": {},
+      "expected": 50,
+      "actualValue": 50,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "3179 mStat29为123.4",
+      "equipmentKey": "item_3179",
+      "formulaKey": "nightstalker_true_damage",
+      "overrides": {
+        "actual_mstat29": 123.4
+      },
+      "attributes": {},
+      "expected": 235.1,
+      "actualValue": 235.10000000000002,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "3302额外攻击力200法强100",
+      "equipmentKey": "item_3302",
+      "formulaKey": "on_hit_magic_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:BONUS": 200,
+        "SOURCE:ability_power:TOTAL": 100
+      },
+      "expected": 60,
+      "actualValue": 60,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "3302不误用总攻击力",
+      "equipmentKey": "item_3302",
+      "formulaKey": "on_hit_magic_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:TOTAL": 200,
+        "SOURCE:attack_damage:BONUS": 0,
+        "SOURCE:ability_power:TOTAL": 100
+      },
+      "expected": 40,
+      "actualValue": 40,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "3302光明双抗每次攻击0.2",
+      "equipmentKey": "item_3302",
+      "formulaKey": "light_resistance_max",
+      "overrides": {
+        "actual_light_resistance_per_hit": 0.2
+      },
+      "attributes": {},
+      "expected": 0.6,
+      "actualValue": 0.6000000000000001,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "3302光明双抗每次攻击0.75",
+      "equipmentKey": "item_3302",
+      "formulaKey": "light_resistance_max",
+      "overrides": {
+        "actual_light_resistance_per_hit": 0.75
+      },
+      "attributes": {},
+      "expected": 2.25,
+      "actualValue": 2.25,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "3742基础攻击力120满层",
+      "equipmentKey": "item_3742",
+      "formulaKey": "max_bonus_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:BASE": 120
+      },
+      "expected": 160,
+      "actualValue": 160,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "3742无基础攻击力仍保留固定满层项",
+      "equipmentKey": "item_3742",
+      "formulaKey": "max_bonus_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:BASE": 0
+      },
+      "expected": 40,
+      "actualValue": 40,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "4645符合条件倍率",
+      "equipmentKey": "item_4645",
+      "formulaKey": "eligible_magic_true_damage_multiplier",
+      "overrides": {},
+      "attributes": {},
+      "expected": 1.2,
+      "actualValue": 1.2,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "6631总攻击力200",
+      "equipmentKey": "item_6631",
+      "formulaKey": "active_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:TOTAL": 200
+      },
+      "expected": 160,
+      "actualValue": 160,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "6631总攻击力0",
+      "equipmentKey": "item_6631",
+      "formulaKey": "active_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:TOTAL": 0
+      },
+      "expected": 0,
+      "actualValue": 0,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "6662基础攻击力100",
+      "equipmentKey": "item_6662",
+      "formulaKey": "spellblade_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:BASE": 100
+      },
+      "expected": 150,
+      "actualValue": 150,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "6662基础攻击力0",
+      "equipmentKey": "item_6662",
+      "formulaKey": "spellblade_damage",
+      "overrides": {},
+      "attributes": {
+        "SOURCE:attack_damage:BASE": 0
+      },
+      "expected": 0,
+      "actualValue": 0,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "6697击杀英雄0",
+      "equipmentKey": "item_6697",
+      "formulaKey": "bonus_attack_damage",
+      "overrides": {
+        "actual_killed_hero_count": 0
+      },
+      "attributes": {},
+      "expected": 12,
+      "actualValue": 12,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    },
+    {
+      "name": "6697击杀英雄5",
+      "equipmentKey": "item_6697",
+      "formulaKey": "bonus_attack_damage",
+      "overrides": {
+        "actual_killed_hero_count": 5
+      },
+      "attributes": {},
+      "expected": 27,
+      "actualValue": 27,
+      "pass": true,
+      "source": "最终90项独立GET的公式与参数详情"
+    }
+  ],
+  "passedCases": 15,
+  "caseCount": 15,
+  "allPass": true
+}
