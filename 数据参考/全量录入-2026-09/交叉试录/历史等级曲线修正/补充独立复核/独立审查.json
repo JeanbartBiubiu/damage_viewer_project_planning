@@ -1,0 +1,80 @@
+{
+  "at": "2026-09-09T06:16:56.030Z",
+  "verdict": "REVISE",
+  "reviewedPlanSha256": "50342518c542cc96aac3af2d78e1e27b3c1953a98577d64225562cf154443d45",
+  "businessWrites": 0,
+  "gets": 155,
+  "statusCounts": {
+    "200": 149,
+    "404": 6
+  },
+  "actualBaselineAllFieldsMatched": true,
+  "blocking": [
+    {
+      "route": "/skills/garen_p/effects/perseverance_regen",
+      "reason": "原MOMENT_EVALUATION持续效果经regen_per_5s引用待转RUNTIME_INPUT参数，必须保持原语义并撤除未证动态效果，不能改快照绕过。",
+      "preciseFix": "补充1个DELETE，排在4个参数PUT之前。先逐GET比完整before，无引用才删除，随后参数更新；保留现已确认12项，不重放。"
+    }
+  ],
+  "proposedFinal": {
+    "requests": 7,
+    "additionalDeletes": 3,
+    "remainingParameterUpdates": 4,
+    "originalComponents": 76,
+    "alreadyDeletedRules": 6,
+    "finalComponents": 67,
+    "changedParameters": 10,
+    "otherComponentsUnchanged": 57
+  },
+  "remainingChecks": [
+    {
+      "parameter": "diana_p/passive_attack_speed_ratio",
+      "verdict": "两个动态效果都删除后通过；任留一个均失败"
+    },
+    {
+      "parameter": "trundle_p/dead_enemy_hp_heal_ratio",
+      "verdict": "独立即时效果允许实际输入，无过程/自动规则，实际校验通过"
+    },
+    {
+      "parameter": "warwick_p/on_hit_base",
+      "verdict": "独立伤害结果允许实际输入，旧命中规则已404，实际校验通过"
+    },
+    {
+      "parameter": "garen_p/regen_ratio_per_5s",
+      "verdict": "当前仍被动态持续效果间接引用，原补充计划必拒绝；撤效果后通过"
+    }
+  ],
+  "validator": {
+    "realCurrentSourcesCompiled": true,
+    "offlineOnly": true,
+    "checks": 15,
+    "assertionsPassed": true,
+    "allEightSkillAggregatesChecked": true,
+    "originalSixRequestCounterexample": true,
+    "correctedSevenRequestPass": true
+  },
+  "deletionProtection": {
+    "currentEightSkillsExternalEffectReferences": 0,
+    "scope": "现行效果/结果/生命周期引用由local/child强制当前技能；跨技能SKILL事件不构成跨技能EFFECT引用。未扫855技能；服务最终按同游戏全量引用守卫复核。",
+    "threeImagesNull": true,
+    "behavior": "服务检查过程、触发规则和生命周期操作引用，提交前再次全游戏引用/数值检查，异常回滚；效果删除会清其图片关系但不删图字节。"
+  },
+  "files": {
+    "snapshotSha256": "8ffb72ec6db96ae6d433101201650003eb45c73fd99e5e37d45c0e97df47cf99",
+    "additionalGETSha256": "3659016cdfee3690244653d1fb3b546def50c775a41580bafeb732f8df40af30",
+    "backendCounterexamplesSha256": "513d6ab45fa42e8988d5c5f917e440c459b8119c95b28f54c43558b5427942b4",
+    "garenObjectSha256": "e2b6ff840073828711a09f48a209b861317340611c94d508ae6b7d79f906cf9c"
+  },
+  "sourceSha256": {
+    "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillNumericSemantics.java": "9e9deaff68f7a382451d9d8cb804bfc19edc4c84b153e4d659a91c34521ebff5",
+    "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/SkillObjectReferences.java": "ec351556f20526ea4c7a2c1f0a262ada6e69c381a72ac700096c8a59809d7410",
+    "server/data_manage/src/main/java/xyz/game/datamanage/support/authoring/GameConfigurationWriteGuard.java": "a9999bbf3391badbc165119efd82a1b5a4d33ad9beb8e7c4726cb6db90d2fe78",
+    "server/data_manage/src/main/java/xyz/game/datamanage/service/skilleffect/SkillEffectService.java": "9e475abd309ef77f07b067dbfe2d4728cbd06092d2fc78125737a3c3e1453b5a",
+    "server/data_manage/src/main/resources/mapper/skilleffect/SkillEffectMapper.xml": "6120f69f0e96114ef1a6d37da19ed25960b73e1901d1fae17aef0d8550af2d5f",
+    "server/data_manage/src/main/java/xyz/game/datamanage/service/skilltrigger/SkillTriggerRuleService.java": "3e1e210f0177a13675b31a55aeb6c647c8072b884d9ee6072b88dc454131b85b"
+  },
+  "notes": [
+    "审查未执行业务写。原计划SHA不修改；主负责人应冻结7请求新文件后核对最终SHA。",
+    "原始参数/公式说明仍提旧18级表或已删除规则，属于保留元数据文字；本次只按授权数值字段与最小撤除执行，不能把文字误认为自动动作仍存在。"
+  ]
+}

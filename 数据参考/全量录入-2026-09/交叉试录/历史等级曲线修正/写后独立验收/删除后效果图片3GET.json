@@ -1,0 +1,56 @@
+{
+  "at": "2026-09-09T06:26:41.180Z",
+  "reads": [
+    {
+      "route": "/skills/diana_p/effects/passive_attack_speed/representative-image",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "passive_attack_speed"
+          },
+          "message": "技能效果不存在"
+        }
+      },
+      "method": "GET",
+      "startedAt": "2026-09-09T06:26:41.181Z",
+      "finishedAt": "2026-09-09T06:26:41.320Z"
+    },
+    {
+      "route": "/skills/diana_p/effects/cast_attack_speed/representative-image",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "cast_attack_speed"
+          },
+          "message": "技能效果不存在"
+        }
+      },
+      "method": "GET",
+      "startedAt": "2026-09-09T06:26:41.320Z",
+      "finishedAt": "2026-09-09T06:26:41.402Z"
+    },
+    {
+      "route": "/skills/garen_p/effects/perseverance_regen/representative-image",
+      "status": 404,
+      "data": {
+        "error": {
+          "code": "404.SKILL_EFFECT_NOT_FOUND",
+          "details": {
+            "effectKey": "perseverance_regen"
+          },
+          "message": "技能效果不存在"
+        }
+      },
+      "method": "GET",
+      "startedAt": "2026-09-09T06:26:41.403Z",
+      "finishedAt": "2026-09-09T06:26:41.473Z"
+    }
+  ],
+  "errors": [],
+  "businessWrites": 0,
+  "correctedExpectation": "来源效果已删除，404.SKILL_EFFECT_NOT_FOUND是正确结果；效果仍存在但没有图才返回200 {image:null}。"
+}

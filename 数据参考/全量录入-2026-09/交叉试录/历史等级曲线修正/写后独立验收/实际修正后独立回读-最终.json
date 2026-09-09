@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T06:26:41.474Z",
+  "verdict": "PASS",
+  "planSha256": "fe7f22180b233579c1356b0492d689e344c3e2152cda591db6298250c2254cbe",
+  "source": "148原路由与4字典来自本轮新GET；图片追加3个新GET核正预期。原155GET和首次图片误预期记录保留不覆盖。",
+  "actualFreshGETs": 158,
+  "uniqueRoutes": 155,
+  "originalRoutesVerified": 148,
+  "details404": 9,
+  "updatedParameters": 10,
+  "runtimeInputWithoutDefaults": true,
+  "finalComponents": 67,
+  "otherComponentsUnchanged": 57,
+  "subjectsAndOriginalSkillImagesAndRelationsUnchanged": true,
+  "deletedEffectsImageEndpoints": {
+    "count": 3,
+    "status": 404,
+    "errorCode": "404.SKILL_EFFECT_NOT_FOUND",
+    "beforeDelete": {
+      "image": null
+    },
+    "sourceEvidence": "ImageRelationService.readCurrent先查图关系；有悬空关系走409.RELATION_DANGLING。无关系但来源效果不存在走404，不是200空图。"
+  },
+  "allOtherInitialChecksPassed": true,
+  "productionNumericValidation": true,
+  "productionReferenceValidation": true,
+  "noAutomaticProcessesOrRules": true,
+  "businessWrites": 0,
+  "runtimeExecution": false,
+  "evidence": {
+    "initialFreshReadSha256": "b0cce68328d3bb7216ddb66f160bf3ca15a36580ede31ec86412f7fa4103ac83",
+    "correctedThreeImageGETSha256": "505485d9c750c2ba603ca6281fbd66f307a5da13ef11c35a0edd1cd19693bb18",
+    "actualBackendValidationSha256": "20a739c261efa469df7ef6875c5a8d994088ade9d84fdcc721cf4b9d13ccba55"
+  },
+  "sourceHashes": {
+    "service/imagerelation/ImageRelationService.java": "d18712ceae2bb25791ffa5c02e741e4a789897a6b2483104a2c067fdeabb25b4",
+    "service/skilleffect/SkillEffectService.java": "9e475abd309ef77f07b067dbfe2d4728cbd06092d2fc78125737a3c3e1453b5a"
+  }
+}

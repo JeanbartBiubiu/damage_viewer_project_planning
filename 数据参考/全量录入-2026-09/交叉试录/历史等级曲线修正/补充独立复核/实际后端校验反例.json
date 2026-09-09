@@ -1,0 +1,119 @@
+{
+  "status" : "REVISE",
+  "checks" : [ {
+    "passed" : true,
+    "name" : "当前实值70组成通过现行校验",
+    "outcome" : "ACCEPTED"
+  }, {
+    "code" : "400.INVALID_SKILL_NUMERIC_VALUE",
+    "outcome" : "REJECTED_AS_EXPECTED",
+    "name" : "原补充6请求反例：Garen间接动态输入仍被拒绝",
+    "details" : {
+      "fieldIssues" : [ {
+        "code" : "RUNTIME_INPUT_FORBIDDEN",
+        "sourceType" : "EFFECT",
+        "sourceKey" : "perseverance_regen",
+        "field" : "results[0].valueRule.value",
+        "sourceSkillKey" : "garen_p"
+      } ]
+    },
+    "passed" : true
+  }, {
+    "passed" : true,
+    "name" : "最小再撤Garen动态效果后的67组成通过",
+    "outcome" : "ACCEPTED"
+  }, {
+    "passed" : true,
+    "name" : "逐参数独立检查 /skills/diana_p/parameters/passive_attack_speed_ratio",
+    "outcome" : "ACCEPTED"
+  }, {
+    "passed" : true,
+    "name" : "逐参数独立检查 /skills/trundle_p/parameters/dead_enemy_hp_heal_ratio",
+    "outcome" : "ACCEPTED"
+  }, {
+    "passed" : true,
+    "name" : "逐参数独立检查 /skills/warwick_p/parameters/on_hit_base",
+    "outcome" : "ACCEPTED"
+  }, {
+    "code" : "400.INVALID_SKILL_NUMERIC_VALUE",
+    "outcome" : "REJECTED_AS_EXPECTED",
+    "name" : "逐参数独立检查 /skills/garen_p/parameters/regen_ratio_per_5s",
+    "details" : {
+      "fieldIssues" : [ {
+        "code" : "RUNTIME_INPUT_FORBIDDEN",
+        "sourceType" : "EFFECT",
+        "sourceKey" : "perseverance_regen",
+        "field" : "results[0].valueRule.value",
+        "sourceSkillKey" : "garen_p"
+      } ]
+    },
+    "passed" : true
+  }, {
+    "code" : "400.INVALID_SKILL_NUMERIC_VALUE",
+    "outcome" : "REJECTED_AS_EXPECTED",
+    "name" : "反例：只删Diana直接效果，保留间接公式效果仍拒绝",
+    "details" : {
+      "fieldIssues" : [ {
+        "code" : "RUNTIME_INPUT_FORBIDDEN",
+        "sourceType" : "EFFECT",
+        "sourceKey" : "cast_attack_speed",
+        "field" : "results[0].valueRule.value",
+        "sourceSkillKey" : "diana_p"
+      } ]
+    },
+    "passed" : true
+  }, {
+    "code" : "400.INVALID_SKILL_NUMERIC_VALUE",
+    "outcome" : "REJECTED_AS_EXPECTED",
+    "name" : "反例：只删Diana公式效果，保留直接效果仍拒绝",
+    "details" : {
+      "fieldIssues" : [ {
+        "code" : "RUNTIME_INPUT_FORBIDDEN",
+        "sourceType" : "EFFECT",
+        "sourceKey" : "passive_attack_speed",
+        "field" : "results[0].valueRule.value",
+        "sourceSkillKey" : "diana_p"
+      } ]
+    },
+    "passed" : true
+  }, {
+    "passed" : true,
+    "name" : "最终8技能无过程与触发规则"
+  }, {
+    "passed" : true,
+    "name" : "实际引用校验：三效果移除后其余67组成无悬空引用",
+    "references" : 60
+  }, {
+    "passed" : true,
+    "name" : "当前效果无外部组成引用 /skills/diana_p/effects/passive_attack_speed"
+  }, {
+    "passed" : true,
+    "name" : "当前效果无外部组成引用 /skills/diana_p/effects/cast_attack_speed"
+  }, {
+    "passed" : true,
+    "name" : "当前效果无外部组成引用 /skills/garen_p/effects/perseverance_regen"
+  }, {
+    "passed" : true,
+    "code" : "409.SKILL_OBJECT_REFERENCE_INVALID",
+    "name" : "反例：原初始化规则仍在时删除目标被真实引用校验拒绝",
+    "details" : {
+      "fieldIssues" : [ {
+        "sourceKey" : "initialize_passive_attack_speed",
+        "targetSkillKey" : "diana_p",
+        "targetType" : "EFFECT",
+        "sourceType" : "TRIGGER",
+        "sourceSkillKey" : "diana_p",
+        "targetSubKey" : "",
+        "code" : "MISSING_REFERENCE_TARGET",
+        "targetKey" : "passive_attack_speed",
+        "field" : "actions[0].detail.effectKey"
+      } ]
+    }
+  } ],
+  "validator" : "实际当前 SkillNumericSemantics.java 重新编译，离线直接调用静态validate；不访问数据库，不执行业务写入",
+  "currentComponents" : 70,
+  "proposedSixFinalComponents" : 68,
+  "correctedSevenFinalComponents" : 67,
+  "otherUnchanged" : 57,
+  "blocker" : "/skills/garen_p/effects/perseverance_regen -> regen_per_5s -> regen_ratio_per_5s，持续当前时点求值禁止运行输入"
+}
