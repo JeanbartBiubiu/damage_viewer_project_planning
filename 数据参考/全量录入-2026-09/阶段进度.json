@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T01:02:11.767Z",
+  "generatedAt": "2026-09-09T01:25:07.664Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -130,7 +130,11 @@
     ],
     "runeIdentityUses": 69,
     "runePathUses": 5,
-    "runeEvidence": "API实录/符文基础资料第一批/页面验收.json"
+    "runeEvidence": "API实录/符文基础资料第一批/页面验收.json",
+    "additionalRuneSkillRepresentativeReuses": 5,
+    "additionalRuneSkillEvidence": [
+      "API实录/符文效果第一批/页面验收.json"
+    ]
   },
   "runes": {
     "metadata": 69,
@@ -144,7 +148,8 @@
     "status": "身份、完整布局和代表图已录入并独立回读；真实页面与缓存验收通过，技能机制继续逐项补录",
     "evidence": "API实录/符文基础资料第一批/接口录入/独立核对汇总-20260909005419486.json",
     "browserEvidence": "API实录/符文基础资料第一批/页面验收.json",
-    "runtimeValidation": "未执行"
+    "runtimeValidation": "未执行",
+    "mechanismStatus": "5碎片技能已挂载，其中3项固定自身属性配置、2项仅参数；另2碎片与62常规符文效果继续逐项处理"
   },
   "deferred": [
     "斗魂竞技场海克斯",
@@ -1000,6 +1005,27 @@
       "executor": "Luna录入，独立来源审查与主负责人页面回读",
       "runtimeValidation": "未执行",
       "evidence": "装备技能实录/Luna第十批/第三组/页面验收.json"
+    },
+    "runeShardFirstBatch": {
+      "skills": [
+        "rune_5007_passive",
+        "rune_5005_passive",
+        "rune_5011_passive",
+        "rune_5010_passive",
+        "rune_5013_passive"
+      ],
+      "parameters": 6,
+      "formulas": 0,
+      "effects": 3,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 3,
+      "runeRelations": 5,
+      "representativeImageReuses": 5,
+      "status": "22组成已保存、独立回读及8算例通过；三项固定自身属性配置，移速/韧性两项仅参数；5007页面创建与挂载，另三代表页面通过",
+      "executor": "Luna补录17项及5图片关系；主负责人页面种子5项与最终核对",
+      "runtimeValidation": "未执行",
+      "evidence": "API实录/符文效果第一批/页面验收.json"
     }
   },
   "runtimeValidation": "未执行"

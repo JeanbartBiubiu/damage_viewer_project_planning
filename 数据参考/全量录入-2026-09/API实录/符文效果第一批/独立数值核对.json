@@ -1,0 +1,84 @@
+{
+  "checkedAt": "2026-09-08T18:45:38.481Z",
+  "scope": "冻结值、存储单位及明确属性加算的独立算例；未运行战斗引擎",
+  "arithmetic": [
+    {
+      "id": 5007,
+      "sample": "已有技能急速20",
+      "independent": "20 + 8",
+      "expected": 28,
+      "actual": 28,
+      "unit": "点",
+      "passed": true
+    },
+    {
+      "id": 5005,
+      "sample": "已有额外攻速比例0.35",
+      "independent": "0.35 + 0.10",
+      "expected": 0.45,
+      "actual": 0.44999999999999996,
+      "unit": "额外攻速比例",
+      "passed": true
+    },
+    {
+      "id": 5005,
+      "sample": "单位核对",
+      "independent": "10 / 100",
+      "expected": 0.1,
+      "actual": 0.1,
+      "unit": "比例",
+      "passed": true
+    },
+    {
+      "id": 5011,
+      "sample": "已有生命值属性1000",
+      "independent": "1000 + 65",
+      "expected": 1065,
+      "actual": 1065,
+      "unit": "点",
+      "passed": true
+    },
+    {
+      "id": 5010,
+      "sample": "单位核对，不推断与装备组合",
+      "independent": "2.5 / 100",
+      "expected": 0.025,
+      "actual": 0.025,
+      "unit": "比例",
+      "passed": true
+    },
+    {
+      "id": 5013,
+      "sample": "两个独立比例，不合成30%",
+      "independent": "[15 / 100, 15 / 100]",
+      "expected": [
+        0.15,
+        0.15
+      ],
+      "actual": [
+        0.15,
+        0.15
+      ],
+      "unit": "依次韧性和减速抗性比例",
+      "passed": true
+    },
+    {
+      "id": 5013,
+      "sample": "阻止错误跨来源加算效果",
+      "independent": "效果数量应为0",
+      "expected": 0,
+      "actual": 0,
+      "unit": "个",
+      "passed": true
+    },
+    {
+      "id": 5010,
+      "sample": "未证实移速分组前不生成属性效果",
+      "independent": "效果数量应为0",
+      "expected": 0,
+      "actual": 0,
+      "unit": "个",
+      "passed": true
+    }
+  ]
+}
