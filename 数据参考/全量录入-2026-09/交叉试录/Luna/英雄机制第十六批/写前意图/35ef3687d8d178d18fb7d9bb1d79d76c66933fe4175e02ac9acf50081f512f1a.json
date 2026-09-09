@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-09T10:36:54.926Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/lissandra_r/parameters/self_heal_missing_hp_per_above_percent",
+  "id": "self_heal_missing_hp_per_above_percent",
+  "method": "POST",
+  "body": {
+    "parameterKey": "self_heal_missing_hp_per_above_percent",
+    "name": "每段缺失生命百分数点",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 1,
+    "levelValues": null,
+    "description": "客户端当前根绑定 DataValues.SelfCastMissingHPPerAbove 取索引1至3；单位正文写百分号，保留1，不乘0.01。",
+    "sortOrder": 120
+  }
+}

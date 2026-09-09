@@ -1,0 +1,53 @@
+{
+  "lockedAt": "2026-09-09T09:57:53.948Z",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "revision": true,
+  "historicalLock": {
+    "file": "冻结候选锁-修订版.json",
+    "sha256": "75adef58889eae11cded000cfcc36504db7eab682c72fabcba6aad3ea99b54c9",
+    "candidateSha256": "2dbb94fc014619c16e0f3671d37ec0106ebde64ddcdd7ddda8c6e075e4cba27c"
+  },
+  "scope": "修订版2：玛尔扎哈、艾尼维亚、丽桑卓、卡尔萨斯各P/Q/W/E/R共20个技能位。保留本技能可独立核验数值、混合技能自身收益、单一敌人==1分支、非英雄前置进度和资源依赖；独立虚灵、独立冰奴、纯冰墙和完整蛋形态专用组成按逐支路排除。卡尔萨斯P死亡后7秒继续施法和无消耗说明属于本批范围内系统待接，Q/W/E/R主体仍保留。",
+  "source": "client16.17/official16.17.1",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "candidatePlanSha256": "f25f8452a29624f8e5e4a19b7a080a6212bfcb27f2baa50557f4462e0c7fe06e",
+  "candidateVersionSha256": "6f12f66530b3ddb4d4ac7c69379348d6f018079f84a80a7d005b9bd02bb9d2e8",
+  "writePlanSha256": "6c2e687d3aaa74401d07fe200fa1c4bfe022f183a51f2d20d3492ba41d90b022",
+  "independentReportSha256": "15fd7861117bdc08dd09475f6f5ab4eec95a13edb2a678e7efdd84a7e4deb0d8",
+  "sourceEvidenceSha256": "1c46d8d383796c8cc02562d49a398881333a9071dd517aa55431f4353ee9268b",
+  "protectionFile": "关联与图片保护快照-终稿.json",
+  "protectionSha256": "bc2e2cbc99cc940644e05ed575467a143c146eb5e17ef01f7bca593b67e78938",
+  "sourceFreezeSha256": "56aa23cd30d258984598adecdfa405e69662adbcc6d702fbc82b13abcda97431",
+  "textEvidenceSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "stageLedgerSha256": "388d28d70d34f4116fa57d8359045756f815c298b632f19418586d203bc7c5e7",
+  "counts": {
+    "parameters": 115,
+    "formulas": 21,
+    "effects": 17,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedPublicParameters": 22,
+  "writeIntentCount": 131,
+  "apiWrites": 0,
+  "businessWrites": 0,
+  "browserValidation": false,
+  "runtimeValidation": false,
+  "protectedScope": {
+    "characters": 4,
+    "characterSkillRelations": 4,
+    "skillImages": 20,
+    "apiWrites": 0
+  },
+  "replacement": {
+    "excluded": "Veigar",
+    "selected": "Karthus",
+    "reason": "Veigar已有完整六类组成；Karthus仅有公共参数。"
+  },
+  "revisionChanges": [
+    "艾尼维亚P完整蛋形态专用参数和双抗反号显示公式移到范围外证据，不影响普通形态或其他技能。",
+    "卡尔萨斯P死亡后继续施法、7秒窗口和无消耗说明归入本批系统待接范围，清空范围外分类。"
+  ],
+  "parentAction": "由父负责人审查修订版后决定是否实际保存；本锁不授权任何业务写入。"
+}

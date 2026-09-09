@@ -1,0 +1,5857 @@
+{
+  "at": "2026-09-09T09:55:53.858Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "sourceFreezeSha256": "56aa23cd30d258984598adecdfa405e69662adbcc6d702fbc82b13abcda97431",
+  "textEvidenceSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "stageLedgerSha256": "388d28d70d34f4116fa57d8359045756f815c298b632f19418586d203bc7c5e7",
+  "checks": [
+    {
+      "name": "候选固定20槽顺序",
+      "ok": true,
+      "detail": {
+        "actual": [
+          "malzahar_p",
+          "malzahar_q",
+          "malzahar_w",
+          "malzahar_e",
+          "malzahar_r",
+          "anivia_p",
+          "anivia_q",
+          "anivia_w",
+          "anivia_e",
+          "anivia_r",
+          "lissandra_p",
+          "lissandra_q",
+          "lissandra_w",
+          "lissandra_e",
+          "lissandra_r",
+          "karthus_p",
+          "karthus_q",
+          "karthus_w",
+          "karthus_e",
+          "karthus_r"
+        ],
+        "expected": [
+          "malzahar_p",
+          "malzahar_q",
+          "malzahar_w",
+          "malzahar_e",
+          "malzahar_r",
+          "anivia_p",
+          "anivia_q",
+          "anivia_w",
+          "anivia_e",
+          "anivia_r",
+          "lissandra_p",
+          "lissandra_q",
+          "lissandra_w",
+          "lissandra_e",
+          "lissandra_r",
+          "karthus_p",
+          "karthus_q",
+          "karthus_w",
+          "karthus_e",
+          "karthus_r"
+        ]
+      }
+    },
+    {
+      "name": "候选文件哈希可复现",
+      "ok": true,
+      "detail": {
+        "apiWrites": 0,
+        "fileSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc"
+      }
+    },
+    {
+      "name": "阶段去重预检为只读",
+      "ok": true,
+      "detail": {
+        "excluded": [
+          "Veigar"
+        ],
+        "excludedReason": "Veigar P/Q/W/E/R在写前GET已有六类完整组成，避免重复录入。",
+        "selectedReplacement": "Karthus",
+        "replacementReason": "Karthus在阶段账只有公共参数记录，20技能位除既有22个公共参数外没有公式、效果、过程、状态或规则；与本批范围和来源冻结一致。"
+      }
+    },
+    {
+      "name": "写前GET全部成功",
+      "ok": true,
+      "detail": {
+        "skillCount": 20,
+        "expectedSkillCount": 20,
+        "compositionCount": 22,
+        "detailCount": 22,
+        "duplicateCount": 0,
+        "errorCount": 0,
+        "requestCount": 166
+      }
+    },
+    {
+      "name": "当前20技能没有非参数旧组成",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "文本冻结哈希存在",
+      "ok": true,
+      "detail": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031"
+    },
+    {
+      "name": "丽桑卓R默认法强窄证存在",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "Malzahar客户端哈希与来源冻结一致",
+      "ok": true,
+      "detail": {
+        "freeze": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4",
+        "root": "e3fae2cd0c6cc7371971b5bf9220cd2d42570930dfa8e73ddc5139fdde9a1bb4"
+      }
+    },
+    {
+      "name": "Malzahar官方哈希与来源冻结一致",
+      "ok": true,
+      "detail": {
+        "freeze": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac",
+        "root": "a0f800de74e95f5602af0fd0538d54023ae9202406db7a24155c06c2760ca3ac"
+      }
+    },
+    {
+      "name": "malzahar_p根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "P",
+          "skillKey": "malzahar_p",
+          "binding": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+          "name": "虚空穿越",
+          "maxrank": 1
+        },
+        "root": {
+          "binding": "Characters/Malzahar/Spells/MalzaharPassiveAbility/MalzaharPassive",
+          "maxrank": 1
+        }
+      }
+    },
+    {
+      "name": "malzahar_q根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "Q",
+          "skillKey": "malzahar_q",
+          "binding": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+          "name": "虚空召唤",
+          "maxrank": 5
+        },
+        "root": {
+          "binding": "Characters/Malzahar/Spells/MalzaharQAbility/MalzaharQ",
+          "maxrank": 5
+        }
+      }
+    },
+    {
+      "name": "malzahar_w根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "W",
+          "skillKey": "malzahar_w",
+          "binding": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+          "name": "虚空虫群",
+          "maxrank": 5
+        },
+        "root": {
+          "binding": "Characters/Malzahar/Spells/MalzaharWAbility/MalzaharW",
+          "maxrank": 5
+        }
+      }
+    },
+    {
+      "name": "malzahar_e根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "E",
+          "skillKey": "malzahar_e",
+          "binding": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+          "name": "煞星幻象",
+          "maxrank": 5
+        },
+        "root": {
+          "binding": "Characters/Malzahar/Spells/MalzaharEAbility/MalzaharE",
+          "maxrank": 5
+        }
+      }
+    },
+    {
+      "name": "malzahar_r根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "R",
+          "skillKey": "malzahar_r",
+          "binding": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+          "name": "冥府之握",
+          "maxrank": 3
+        },
+        "root": {
+          "binding": "Characters/Malzahar/Spells/MalzaharRAbility/MalzaharR",
+          "maxrank": 3
+        }
+      }
+    },
+    {
+      "name": "Anivia客户端哈希与来源冻结一致",
+      "ok": true,
+      "detail": {
+        "freeze": "b1511eaa03ac8806b6af57a77bb0927e6e297b70ef21222e4330e22746601ff0",
+        "root": "b1511eaa03ac8806b6af57a77bb0927e6e297b70ef21222e4330e22746601ff0"
+      }
+    },
+    {
+      "name": "Anivia官方哈希与来源冻结一致",
+      "ok": true,
+      "detail": {
+        "freeze": "3650fafe1e626ee703325857ba4d4a180b86c5df0f2a06ea8994dc0a894c7061",
+        "root": "3650fafe1e626ee703325857ba4d4a180b86c5df0f2a06ea8994dc0a894c7061"
+      }
+    },
+    {
+      "name": "anivia_p根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "P",
+          "skillKey": "anivia_p",
+          "binding": "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthMarker",
+          "name": "寒霜涅槃",
+          "maxrank": 1
+        },
+        "root": {
+          "binding": "Characters/Anivia/Spells/RebirthMarkerAbility/RebirthMarker",
+          "maxrank": 1
+        }
+      }
+    },
+    {
+      "name": "anivia_q根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "Q",
+          "skillKey": "anivia_q",
+          "binding": "Characters/Anivia/Spells/FlashFrostAbility/FlashFrost",
+          "name": "寒冰闪耀",
+          "maxrank": 5
+        },
+        "root": {
+          "binding": "Characters/Anivia/Spells/FlashFrostAbility/FlashFrost",
+          "maxrank": 5
+        }
+      }
+    },
+    {
+      "name": "anivia_w根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "W",
+          "skillKey": "anivia_w",
+          "binding": "Characters/Anivia/Spells/CrystallizeAbility/Crystallize",
+          "name": "寒冰屏障",
+          "maxrank": 5
+        },
+        "root": {
+          "binding": "Characters/Anivia/Spells/CrystallizeAbility/Crystallize",
+          "maxrank": 5
+        }
+      }
+    },
+    {
+      "name": "anivia_e根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "E",
+          "skillKey": "anivia_e",
+          "binding": "Characters/Anivia/Spells/FrostbiteAbility/Frostbite",
+          "name": "霜寒刺骨",
+          "maxrank": 5
+        },
+        "root": {
+          "binding": "Characters/Anivia/Spells/FrostbiteAbility/Frostbite",
+          "maxrank": 5
+        }
+      }
+    },
+    {
+      "name": "anivia_r根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "R",
+          "skillKey": "anivia_r",
+          "binding": "Characters/Anivia/Spells/GlacialStormAbility/GlacialStorm",
+          "name": "冰川风暴",
+          "maxrank": 3
+        },
+        "root": {
+          "binding": "Characters/Anivia/Spells/GlacialStormAbility/GlacialStorm",
+          "maxrank": 3
+        }
+      }
+    },
+    {
+      "name": "Lissandra客户端哈希与来源冻结一致",
+      "ok": true,
+      "detail": {
+        "freeze": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958",
+        "root": "17809cc6cefaaba007aaeec13843597d2428b8c3f15a32d0fda511214cf80958"
+      }
+    },
+    {
+      "name": "Lissandra官方哈希与来源冻结一致",
+      "ok": true,
+      "detail": {
+        "freeze": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d",
+        "root": "64f84b115e6b66a303885c16a2b0914240782b8c67c93818d68d514dff52de3d"
+      }
+    },
+    {
+      "name": "lissandra_p根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "P",
+          "skillKey": "lissandra_p",
+          "binding": "Characters/Lissandra/Spells/LissandraPassiveAbility/LissandraPassive",
+          "name": "冰脉驱役",
+          "maxrank": 1
+        },
+        "root": {
+          "binding": "Characters/Lissandra/Spells/LissandraPassiveAbility/LissandraPassive",
+          "maxrank": 1
+        }
+      }
+    },
+    {
+      "name": "lissandra_q根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "Q",
+          "skillKey": "lissandra_q",
+          "binding": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+          "name": "寒冰碎片",
+          "maxrank": 5
+        },
+        "root": {
+          "binding": "Characters/Lissandra/Spells/LissandraQAbility/LissandraQ",
+          "maxrank": 5
+        }
+      }
+    },
+    {
+      "name": "lissandra_w根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "W",
+          "skillKey": "lissandra_w",
+          "binding": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+          "name": "冰霜之环",
+          "maxrank": 5
+        },
+        "root": {
+          "binding": "Characters/Lissandra/Spells/LissandraWAbility/LissandraW",
+          "maxrank": 5
+        }
+      }
+    },
+    {
+      "name": "lissandra_e根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "E",
+          "skillKey": "lissandra_e",
+          "binding": "Characters/Lissandra/Spells/LissandraEAbility/LissandraE",
+          "name": "冰川之径",
+          "maxrank": 5
+        },
+        "root": {
+          "binding": "Characters/Lissandra/Spells/LissandraEAbility/LissandraE",
+          "maxrank": 5
+        }
+      }
+    },
+    {
+      "name": "lissandra_r根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "R",
+          "skillKey": "lissandra_r",
+          "binding": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR",
+          "name": "冰封陵墓",
+          "maxrank": 3
+        },
+        "root": {
+          "binding": "Characters/Lissandra/Spells/LissandraRAbility/LissandraR",
+          "maxrank": 3
+        }
+      }
+    },
+    {
+      "name": "Karthus客户端哈希与来源冻结一致",
+      "ok": true,
+      "detail": {
+        "freeze": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94",
+        "root": "f252bf58a6e259ddc31819d9379fb38cb7374a1f6d3f27c05ccdd595c6cb4c94"
+      }
+    },
+    {
+      "name": "Karthus官方哈希与来源冻结一致",
+      "ok": true,
+      "detail": {
+        "freeze": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018",
+        "root": "a9aac3b8eefaff307f0b521c0d3e7fe8e64fc2747515498ab60d37a84abcb018"
+      }
+    },
+    {
+      "name": "karthus_p根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "P",
+          "skillKey": "karthus_p",
+          "binding": "Characters/Karthus/Spells/KarthusDeathDefiedAbility/KarthusDeathDefied",
+          "name": "死亡契约",
+          "maxrank": 1
+        },
+        "root": {
+          "binding": "Characters/Karthus/Spells/KarthusDeathDefiedAbility/KarthusDeathDefied",
+          "maxrank": 1
+        }
+      }
+    },
+    {
+      "name": "karthus_q根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "Q",
+          "skillKey": "karthus_q",
+          "binding": "Characters/Karthus/Spells/KarthusLayWasteA1Ability/KarthusLayWasteA1",
+          "name": "荒芜",
+          "maxrank": 5
+        },
+        "root": {
+          "binding": "Characters/Karthus/Spells/KarthusLayWasteA1Ability/KarthusLayWasteA1",
+          "maxrank": 5
+        }
+      }
+    },
+    {
+      "name": "karthus_w根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "W",
+          "skillKey": "karthus_w",
+          "binding": "Characters/Karthus/Spells/KarthusWallOfPainAbility/KarthusWallOfPain",
+          "name": "痛苦之墙",
+          "maxrank": 5
+        },
+        "root": {
+          "binding": "Characters/Karthus/Spells/KarthusWallOfPainAbility/KarthusWallOfPain",
+          "maxrank": 5
+        }
+      }
+    },
+    {
+      "name": "karthus_e根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "E",
+          "skillKey": "karthus_e",
+          "binding": "Characters/Karthus/Spells/KarthusDefileAbility/KarthusDefile",
+          "name": "亵渎",
+          "maxrank": 5
+        },
+        "root": {
+          "binding": "Characters/Karthus/Spells/KarthusDefileAbility/KarthusDefile",
+          "maxrank": 5
+        }
+      }
+    },
+    {
+      "name": "karthus_r根路径一致",
+      "ok": true,
+      "detail": {
+        "freeze": {
+          "slot": "R",
+          "skillKey": "karthus_r",
+          "binding": "Characters/Karthus/Spells/KarthusFallenOneAbility/KarthusFallenOne",
+          "name": "安魂曲",
+          "maxrank": 3
+        },
+        "root": {
+          "binding": "Characters/Karthus/Spells/KarthusFallenOneAbility/KarthusFallenOne",
+          "maxrank": 3
+        }
+      }
+    },
+    {
+      "name": "malzahar_p原始数据字段有证明 DRPercent",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_p原始数据字段有证明 LingerDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_p原始计算树有证明 ShieldCooldown",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_p/damage_reduction_percent候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          90
+        ],
+        "proof": [
+          90
+        ],
+        "source": "DataValues.DRPercent"
+      }
+    },
+    {
+      "name": "malzahar_p/damage_reduction_linger_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          250
+        ],
+        "proof": [
+          250
+        ],
+        "source": "DataValues.LingerDuration"
+      }
+    },
+    {
+      "name": "malzahar_p/shield_cooldown_seconds运行输入无默认",
+      "ok": true,
+      "detail": {
+        "parameterKey": "shield_cooldown_seconds",
+        "name": "被动护盾冷却（秒，实际等级值外供）（实际值外供）",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原树只有角色等级断点，当前没有把等级曲线猜展开为固定1至18级。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "name": "malzahar_q原始数据字段有证明 BaseDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_q原始数据字段有证明 SilenceDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_q原始数据字段有证明 DelayPostCast",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_q原始计算树有证明 TotalDamageTooltip",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_q/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          6000
+        ],
+        "proof": [
+          6000,
+          6000,
+          6000,
+          6000,
+          6000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "malzahar_q/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "proof": [
+          60,
+          65,
+          70,
+          75,
+          80
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "malzahar_q/cast_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          250
+        ],
+        "proof": [
+          250
+        ],
+        "source": "spellCastTime"
+      }
+    },
+    {
+      "name": "malzahar_q/base_damage候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          70,
+          105,
+          140,
+          175,
+          210
+        ],
+        "proof": [
+          70,
+          105,
+          140,
+          175,
+          210
+        ],
+        "source": "DataValues.BaseDamage"
+      }
+    },
+    {
+      "name": "malzahar_q/silence_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          1000,
+          1250,
+          1500,
+          1750,
+          2000
+        ],
+        "proof": [
+          1000,
+          1250,
+          1500,
+          1750,
+          2000
+        ],
+        "source": "DataValues.SilenceDuration"
+      }
+    },
+    {
+      "name": "malzahar_q/ap_ratio_constant候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.55
+        ],
+        "proof": [
+          0.55
+        ],
+        "source": "mSpellCalculations.TotalDamageTooltip.mFormulaParts[1]"
+      }
+    },
+    {
+      "name": "malzahar_q/mana_cost等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Malzahar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "malzahar_q/base_damage等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "name": "malzahar_q/silence_duration_ms等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "silence_duration_ms",
+        "name": "沉默持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1000,
+          "2": 1250,
+          "3": 1500,
+          "4": 1750,
+          "5": 2000
+        },
+        "description": "客户端当前根绑定 DataValues.SilenceDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "name": "malzahar_q/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "malzahar_q/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio_constant",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "malzahar_q/damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "malzahar_q/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_q/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_q/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w原始数据字段有证明 VoidlingDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w原始数据字段有证明 VoidlingBaseDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w原始数据字段有证明 LaneMinionMod",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w原始数据字段有证明 EpicMonsterMod",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w原始数据字段有证明 StackCap",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w原始数据字段有证明 ADRatio",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w原始数据字段有证明 SummonDelay",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w原始数据字段有证明 APRatio",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w原始数据字段有证明 StackDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w原始数据字段有证明 MaxStacks",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w原始计算树有证明 {c2505620}",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w原始计算树有证明 VoidlingBonusDamageTooltip",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          8000
+        ],
+        "proof": [
+          8000,
+          8000,
+          8000,
+          8000,
+          8000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "malzahar_w/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          40,
+          45,
+          50,
+          55,
+          60
+        ],
+        "proof": [
+          40,
+          45,
+          50,
+          55,
+          60
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "malzahar_w/cast_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          250
+        ],
+        "proof": [
+          250
+        ],
+        "source": "spellCastTime"
+      }
+    },
+    {
+      "name": "malzahar_w/mana_cost等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "description": "官方cost与当前根manaValues逐级一致；法力值；未接入实际扣除时点。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "name": "malzahar_w/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_w/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_e原始数据字段有证明 BaseDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_e原始数据字段有证明 SecondsPerTick",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_e原始数据字段有证明 Duration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_e原始数据字段有证明 UnnamedEffectAmount2",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_e原始计算树有证明 TotalDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_e原始计算树有证明 ManaRestore",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_e原始计算树有证明 MinionExecuteThreshold",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_e/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          11000,
+          10000,
+          9000,
+          8000,
+          7000
+        ],
+        "proof": [
+          11000,
+          10000,
+          9000,
+          8000,
+          7000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "malzahar_e/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          60,
+          70,
+          80,
+          90,
+          100
+        ],
+        "proof": [
+          60,
+          70,
+          80,
+          90,
+          100
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "malzahar_e/cast_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          250
+        ],
+        "proof": [
+          250
+        ],
+        "source": "spellCastTime"
+      }
+    },
+    {
+      "name": "malzahar_e/base_damage候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          80,
+          115,
+          150,
+          185,
+          220
+        ],
+        "proof": [
+          80,
+          115,
+          150,
+          185,
+          220
+        ],
+        "source": "DataValues.BaseDamage"
+      }
+    },
+    {
+      "name": "malzahar_e/duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          4000
+        ],
+        "proof": [
+          4000,
+          4000,
+          4000,
+          4000,
+          4000
+        ],
+        "source": "DataValues.Duration"
+      }
+    },
+    {
+      "name": "malzahar_e/ap_ratio_constant候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.8
+        ],
+        "proof": [
+          0.8
+        ],
+        "source": "mSpellCalculations.TotalDamage.mFormulaParts[1]"
+      }
+    },
+    {
+      "name": "malzahar_e/cooldown_ms等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Malzahar.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "malzahar_e/mana_cost等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Malzahar.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 70,
+          "3": 80,
+          "4": 90,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "malzahar_e/base_damage等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 115,
+          "3": 150,
+          "4": 185,
+          "5": 220
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "name": "malzahar_e/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "malzahar_e/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio_constant",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "malzahar_e/damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "malzahar_e/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_e/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_e/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始数据字段有证明 BeamDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始数据字段有证明 BeamAPRatio",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始数据字段有证明 BeamDamageTicks",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始数据字段有证明 SuppressDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始数据字段有证明 NeutralMonsterDamageCap",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始数据字段有证明 ZoneDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始数据字段有证明 MaxHealthDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始数据字段有证明 MaxHealthRatio",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始数据字段有证明 BeamTetherRange",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始数据字段有证明 PoolDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始数据字段有证明 CCDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始计算树有证明 ZoneDamageTooltip",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r原始计算树有证明 TotalDamageTooltip",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          140000,
+          110000,
+          80000
+        ],
+        "proof": [
+          140000,
+          110000,
+          80000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "malzahar_r/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          100
+        ],
+        "proof": [
+          100,
+          100,
+          100
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "malzahar_r/cast_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          5
+        ],
+        "proof": [
+          5
+        ],
+        "source": "spellCastTime"
+      }
+    },
+    {
+      "name": "malzahar_r/beam_base_damage候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          125,
+          200,
+          275
+        ],
+        "proof": [
+          125,
+          200,
+          275
+        ],
+        "source": "DataValues.BeamDamage"
+      }
+    },
+    {
+      "name": "malzahar_r/beam_ap_ratio候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.8
+        ],
+        "proof": [
+          0.8,
+          0.8,
+          0.8
+        ],
+        "source": "DataValues.BeamAPRatio"
+      }
+    },
+    {
+      "name": "malzahar_r/pool_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          5000
+        ],
+        "proof": [
+          5000,
+          5000,
+          5000
+        ],
+        "source": "DataValues.PoolDuration"
+      }
+    },
+    {
+      "name": "malzahar_r/max_health_damage_percent候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          2,
+          3,
+          4
+        ],
+        "proof": [
+          2,
+          3,
+          4
+        ],
+        "source": "DataValues.MaxHealthDamage"
+      }
+    },
+    {
+      "name": "malzahar_r/max_health_ratio候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.005
+        ],
+        "proof": [
+          0.005,
+          0.005,
+          0.005
+        ],
+        "source": "DataValues.MaxHealthRatio"
+      }
+    },
+    {
+      "name": "malzahar_r/cc_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          2500
+        ],
+        "proof": [
+          2500,
+          2500,
+          2500
+        ],
+        "source": "DataValues.CCDuration"
+      }
+    },
+    {
+      "name": "malzahar_r/zone_multiplier候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.05
+        ],
+        "proof": [
+          0.05
+        ],
+        "source": "mSpellCalculations.ZoneDamageTooltip.mMultiplier"
+      }
+    },
+    {
+      "name": "malzahar_r/cooldown_ms等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Malzahar.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 140000,
+          "2": 110000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "malzahar_r/beam_base_damage等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "beam_base_damage",
+        "name": "压制光束基础伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 125,
+          "2": 200,
+          "3": 275
+        },
+        "description": "客户端当前根绑定 DataValues.BeamDamage 取索引1至3。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "name": "malzahar_r/max_health_damage_percent等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "max_health_damage_percent",
+        "name": "区域最大生命伤害百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2,
+          "2": 3,
+          "3": 4
+        },
+        "description": "客户端当前根绑定 DataValues.MaxHealthDamage 取索引1至3；单位正文/树以百分数显示，保留原始1至7，不乘0.01。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "name": "malzahar_r/beam_damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "beam_base_damage",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "malzahar_r/beam_damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "beam_ap_ratio",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "malzahar_r/beam_damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "malzahar_r/zone_damage_ratio引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "zone_multiplier",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "malzahar_r/zone_damage_ratio引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "max_health_damage_percent",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "malzahar_r/zone_damage_ratio引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "max_health_ratio",
+        "path": "$.operands.1.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "malzahar_r/zone_damage_ratio属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "malzahar_r/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "malzahar_r/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_p原始数据字段有证明 Cooldown",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_p原始计算树有证明 BonusResists",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_p原始计算树有证明 BonusResistsTooltip",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_q原始数据字段有证明 PassthroughBaseDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_q原始数据字段有证明 ExplosionBaseDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_q原始数据字段有证明 StunDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_q原始数据字段有证明 SlowDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_q原始计算树有证明 TotalPassthroughDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_q原始计算树有证明 TotalExplosionDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_q/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          11000,
+          10000,
+          9000,
+          8000,
+          7000
+        ],
+        "proof": [
+          11000,
+          10000,
+          9000,
+          8000,
+          7000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "anivia_q/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          80,
+          85,
+          90,
+          95,
+          100
+        ],
+        "proof": [
+          80,
+          85,
+          90,
+          95,
+          100
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "anivia_q/cast_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          250
+        ],
+        "proof": [
+          250
+        ],
+        "source": "spellCastTime"
+      }
+    },
+    {
+      "name": "anivia_q/passthrough_base_damage候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          50,
+          70,
+          90,
+          110,
+          130
+        ],
+        "proof": [
+          50,
+          70,
+          90,
+          110,
+          130
+        ],
+        "source": "DataValues.PassthroughBaseDamage"
+      }
+    },
+    {
+      "name": "anivia_q/explosion_base_damage候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          60,
+          95,
+          130,
+          165,
+          200
+        ],
+        "proof": [
+          60,
+          95,
+          130,
+          165,
+          200
+        ],
+        "source": "DataValues.ExplosionBaseDamage"
+      }
+    },
+    {
+      "name": "anivia_q/stun_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          1100.000024,
+          1200.000048,
+          1299.999952,
+          1399.999976,
+          1500
+        ],
+        "proof": [
+          1100.000024,
+          1200.000048,
+          1299.999952,
+          1399.999976,
+          1500
+        ],
+        "source": "DataValues.StunDuration"
+      }
+    },
+    {
+      "name": "anivia_q/slow_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          3000
+        ],
+        "proof": [
+          3000,
+          3000,
+          3000,
+          3000,
+          3000
+        ],
+        "source": "DataValues.SlowDuration"
+      }
+    },
+    {
+      "name": "anivia_q/passthrough_ap_ratio候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.25
+        ],
+        "proof": [
+          0.25
+        ],
+        "source": "mSpellCalculations.TotalPassthroughDamage.mFormulaParts[1]"
+      }
+    },
+    {
+      "name": "anivia_q/explosion_ap_ratio候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.45
+        ],
+        "proof": [
+          0.45
+        ],
+        "source": "mSpellCalculations.TotalExplosionDamage.mFormulaParts[1]"
+      }
+    },
+    {
+      "name": "anivia_q/cooldown_ms等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Anivia.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 11000,
+          "2": 10000,
+          "3": 9000,
+          "4": 8000,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "anivia_q/mana_cost等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Anivia.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 85,
+          "3": 90,
+          "4": 95,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "anivia_q/passthrough_base_damage等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "passthrough_base_damage",
+        "name": "穿行基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 50,
+          "2": 70,
+          "3": 90,
+          "4": 110,
+          "5": 130
+        },
+        "description": "客户端当前根绑定 DataValues.PassthroughBaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "name": "anivia_q/explosion_base_damage等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "explosion_base_damage",
+        "name": "爆炸基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 95,
+          "3": 130,
+          "4": 165,
+          "5": 200
+        },
+        "description": "客户端当前根绑定 DataValues.ExplosionBaseDamage 取索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "name": "anivia_q/stun_duration_ms等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "stun_duration_ms",
+        "name": "爆炸眩晕持续（毫秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1100.000024,
+          "2": 1200.000048,
+          "3": 1299.999952,
+          "4": 1399.999976,
+          "5": 1500
+        },
+        "description": "客户端当前根绑定 DataValues.StunDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "name": "anivia_q/passthrough_damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "passthrough_base_damage",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "anivia_q/passthrough_damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "passthrough_ap_ratio",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "anivia_q/passthrough_damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "anivia_q/explosion_damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "explosion_base_damage",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "anivia_q/explosion_damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "explosion_ap_ratio",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "anivia_q/explosion_damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "anivia_q/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_q/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_q/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_w原始数据字段有证明 WallDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_w原始数据字段有证明 WallWidth",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_w原始数据字段有证明 WallChunks",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_w原始数据字段有证明 ChampPushDistance",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_w原始数据字段有证明 NonChampPushDistance",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_w/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          17000
+        ],
+        "proof": [
+          17000,
+          17000,
+          17000,
+          17000,
+          17000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "anivia_w/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          70
+        ],
+        "proof": [
+          70,
+          70,
+          70,
+          70,
+          70
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "anivia_w/cast_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          250
+        ],
+        "proof": [
+          250
+        ],
+        "source": "spellCastTime"
+      }
+    },
+    {
+      "name": "anivia_w/wall_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          5000
+        ],
+        "proof": [
+          5000,
+          5000,
+          5000,
+          5000,
+          5000
+        ],
+        "source": "DataValues.WallDuration"
+      }
+    },
+    {
+      "name": "anivia_w/wall_width候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "proof": [
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "source": "DataValues.WallWidth"
+      }
+    },
+    {
+      "name": "anivia_w/wall_width等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "wall_width",
+        "name": "冰墙宽度",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 400,
+          "2": 500,
+          "3": 600,
+          "4": 700,
+          "5": 800
+        },
+        "description": "客户端当前根绑定 DataValues.WallWidth 取索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "name": "anivia_w/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_w/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_w/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_e原始数据字段有证明 BaseDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_e原始计算树有证明 TotalDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_e原始计算树有证明 EmpoweredDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_e/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          4000
+        ],
+        "proof": [
+          4000,
+          4000,
+          4000,
+          4000,
+          4000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "anivia_e/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          50
+        ],
+        "proof": [
+          50,
+          50,
+          50,
+          50,
+          50
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "anivia_e/cast_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          250
+        ],
+        "proof": [
+          250
+        ],
+        "source": "spellCastTime"
+      }
+    },
+    {
+      "name": "anivia_e/base_damage候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          55,
+          80,
+          105,
+          130,
+          155
+        ],
+        "proof": [
+          55,
+          80,
+          105,
+          130,
+          155
+        ],
+        "source": "DataValues.BaseDamage"
+      }
+    },
+    {
+      "name": "anivia_e/ap_ratio_constant候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.55
+        ],
+        "proof": [
+          0.55
+        ],
+        "source": "mSpellCalculations.TotalDamage.mFormulaParts[1]"
+      }
+    },
+    {
+      "name": "anivia_e/empowered_multiplier候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          2
+        ],
+        "proof": [
+          2
+        ],
+        "source": "mSpellCalculations.EmpoweredDamage.mMultiplier"
+      }
+    },
+    {
+      "name": "anivia_e/base_damage等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 80,
+          "3": 105,
+          "4": 130,
+          "5": 155
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "name": "anivia_e/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "anivia_e/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio_constant",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "anivia_e/damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "anivia_e/empowered_damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "empowered_multiplier",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "anivia_e/empowered_damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "anivia_e/empowered_damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio_constant",
+        "path": "$.operands.1.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "anivia_e/empowered_damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "anivia_e/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_e/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_e/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 DamagePerSecond",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 BonusMultiplier",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 ManaCostPerSecond",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 TickRate",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 SlowAmount",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 ChillDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 GrowthTime",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 AdditionalSlowPercentAtMax",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 SlowDurationAtMaxMultiplier",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 LeashWarning",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 LeashBreak",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 SlowPercentEmpoweredTT",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始数据字段有证明 MinCooldown",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始计算树有证明 TotalDamagePerSecond",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始计算树有证明 EnhancedSlow",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r原始计算树有证明 EmpoweredDamagePerSecondTooltipOnly",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          4000,
+          3000,
+          2000
+        ],
+        "proof": [
+          4000,
+          3000,
+          2000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "anivia_r/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          60
+        ],
+        "proof": [
+          60,
+          60,
+          60
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "anivia_r/cast_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          250
+        ],
+        "proof": [
+          250
+        ],
+        "source": "spellCastTime"
+      }
+    },
+    {
+      "name": "anivia_r/damage_per_second_base候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          30,
+          45,
+          60
+        ],
+        "proof": [
+          30,
+          45,
+          60
+        ],
+        "source": "DataValues.DamagePerSecond"
+      }
+    },
+    {
+      "name": "anivia_r/mana_cost_per_second候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          35,
+          45,
+          55
+        ],
+        "proof": [
+          35,
+          45,
+          55
+        ],
+        "source": "DataValues.ManaCostPerSecond"
+      }
+    },
+    {
+      "name": "anivia_r/slow_amount_percent候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          20,
+          30,
+          40
+        ],
+        "proof": [
+          20,
+          30,
+          40
+        ],
+        "source": "DataValues.SlowAmount"
+      }
+    },
+    {
+      "name": "anivia_r/growth_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          1500
+        ],
+        "proof": [
+          1500,
+          1500,
+          1500
+        ],
+        "source": "DataValues.GrowthTime"
+      }
+    },
+    {
+      "name": "anivia_r/additional_slow_ratio_at_max候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.5
+        ],
+        "proof": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "source": "DataValues.AdditionalSlowPercentAtMax"
+      }
+    },
+    {
+      "name": "anivia_r/empowered_slow_percent候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          30,
+          45,
+          60
+        ],
+        "proof": [
+          30,
+          45,
+          60
+        ],
+        "source": "DataValues.SlowPercentEmpoweredTT"
+      }
+    },
+    {
+      "name": "anivia_r/ap_ratio_constant候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.125
+        ],
+        "proof": [
+          0.125
+        ],
+        "source": "mSpellCalculations.TotalDamagePerSecond.mFormulaParts[1]"
+      }
+    },
+    {
+      "name": "anivia_r/one候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          1
+        ],
+        "proof": [
+          1
+        ],
+        "source": "mSpellCalculations.EnhancedSlow.mMultiplier"
+      }
+    },
+    {
+      "name": "anivia_r/empowered_dps_multiplier候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          3
+        ],
+        "proof": [
+          3
+        ],
+        "source": "mSpellCalculations.EmpoweredDamagePerSecondTooltipOnly.mMultiplier"
+      }
+    },
+    {
+      "name": "anivia_r/cooldown_ms等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 4000,
+          "2": 3000,
+          "3": 2000
+        },
+        "description": "官方逐级冷却与当前根Cooldown字段逐级一致；不含急速或其他技能修正。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "name": "anivia_r/damage_per_second_base等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "damage_per_second_base",
+        "name": "风暴每秒基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60
+        },
+        "description": "客户端当前根绑定 DataValues.DamagePerSecond 取索引1至3。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "name": "anivia_r/mana_cost_per_second等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "mana_cost_per_second",
+        "name": "风暴每秒法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 35,
+          "2": 45,
+          "3": 55
+        },
+        "description": "客户端当前根绑定 DataValues.ManaCostPerSecond 取索引1至3。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "name": "anivia_r/slow_amount_percent等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "slow_amount_percent",
+        "name": "风暴减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 30,
+          "3": 40
+        },
+        "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至3；单位正文写@SlowAmount@%，保留20/30/40等百分数点，不乘0.01。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "name": "anivia_r/empowered_slow_percent等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "empowered_slow_percent",
+        "name": "完全成形减速显示百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60
+        },
+        "description": "客户端当前根绑定 DataValues.SlowPercentEmpoweredTT 取索引1至3；单位正文写百分号，保留来源百分数点。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "name": "anivia_r/damage_per_second引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "damage_per_second_base",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "anivia_r/damage_per_second引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio_constant",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "anivia_r/damage_per_second属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "anivia_r/enhanced_slow引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "slow_amount_percent",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "anivia_r/enhanced_slow引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "additional_slow_ratio_at_max",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "anivia_r/enhanced_slow引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "one",
+        "path": "$.operands.1.operands.1"
+      }
+    },
+    {
+      "name": "anivia_r/empowered_damage_per_second引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "empowered_dps_multiplier",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "anivia_r/empowered_damage_per_second引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "damage_per_second_base",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "anivia_r/empowered_damage_per_second引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio_constant",
+        "path": "$.operands.1.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "anivia_r/empowered_damage_per_second属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "anivia_r/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "anivia_r/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_p原始数据字段有证明 MoveSpeedMod",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_p原始数据字段有证明 ExplosionDelay",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_p原始数据字段有证明 Range",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_p原始数据字段有证明 Radius",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_p原始计算树有证明 TotalDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_q原始数据字段有证明 damage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_q原始数据字段有证明 slowDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_q原始数据字段有证明 slowPercentage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_q原始数据字段有证明 SlowDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_q原始数据字段有证明 SlowPercentage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_q原始计算树有证明 TotalDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_q/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          7000,
+          6000,
+          5000,
+          4000,
+          3000
+        ],
+        "proof": [
+          7000,
+          6000,
+          5000,
+          4000,
+          3000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "lissandra_q/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          55,
+          60,
+          65,
+          70,
+          75
+        ],
+        "proof": [
+          55,
+          60,
+          65,
+          70,
+          75
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "lissandra_q/cast_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          250
+        ],
+        "proof": [
+          250
+        ],
+        "source": "spellCastTime"
+      }
+    },
+    {
+      "name": "lissandra_q/base_damage候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          80,
+          115,
+          150,
+          185,
+          220
+        ],
+        "proof": [
+          80,
+          115,
+          150,
+          185,
+          220
+        ],
+        "source": "DataValues.damage"
+      }
+    },
+    {
+      "name": "lissandra_q/slow_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          1500
+        ],
+        "proof": [
+          1500,
+          1500,
+          1500,
+          1500,
+          1500
+        ],
+        "source": "DataValues.slowDuration"
+      }
+    },
+    {
+      "name": "lissandra_q/slow_percent候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          20,
+          24,
+          28,
+          32,
+          36
+        ],
+        "proof": [
+          20,
+          24,
+          28,
+          32,
+          36
+        ],
+        "source": "DataValues.slowPercentage"
+      }
+    },
+    {
+      "name": "lissandra_q/ap_ratio_constant候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.75
+        ],
+        "proof": [
+          0.75
+        ],
+        "source": "mSpellCalculations.TotalDamage.mFormulaParts[1]"
+      }
+    },
+    {
+      "name": "lissandra_q/cooldown_ms等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Lissandra.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 7000,
+          "2": 6000,
+          "3": 5000,
+          "4": 4000,
+          "5": 3000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "lissandra_q/mana_cost等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Lissandra.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 55,
+          "2": 60,
+          "3": 65,
+          "4": 70,
+          "5": 75
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "lissandra_q/base_damage等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "name": "寒冰碎片基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 115,
+          "3": 150,
+          "4": 185,
+          "5": 220
+        },
+        "description": "客户端当前根绑定 DataValues.damage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "name": "lissandra_q/slow_percent等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "slow_percent",
+        "name": "减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 24,
+          "3": 28,
+          "4": 32,
+          "5": 36
+        },
+        "description": "客户端当前根绑定 DataValues.slowPercentage；原始值为负移速修正，当前正文占位为 @slowPercentage*-100@%，转为正的20至36百分数点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "name": "lissandra_q/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "lissandra_q/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio_constant",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "lissandra_q/damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "lissandra_q/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_q/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_q/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_w原始数据字段有证明 BaseDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_w原始数据字段有证明 SnareDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_w原始数据字段有证明 TargetsToHit",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_w原始数据字段有证明 FreeCastCD",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_w原始计算树有证明 TotalDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_w/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          10000,
+          9500,
+          9000,
+          8500,
+          8000
+        ],
+        "proof": [
+          10000,
+          9500,
+          9000,
+          8500,
+          8000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "lissandra_w/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          40
+        ],
+        "proof": [
+          40,
+          40,
+          40,
+          40,
+          40
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "lissandra_w/cast_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          250
+        ],
+        "proof": [
+          250
+        ],
+        "source": "spellCastTime"
+      }
+    },
+    {
+      "name": "lissandra_w/base_damage候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          70,
+          105,
+          140,
+          175,
+          210
+        ],
+        "proof": [
+          70,
+          105,
+          140,
+          175,
+          210
+        ],
+        "source": "DataValues.BaseDamage"
+      }
+    },
+    {
+      "name": "lissandra_w/snare_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          1250,
+          1350.000024,
+          1450.000048,
+          1549.999952,
+          1649.999976
+        ],
+        "proof": [
+          1250,
+          1350.000024,
+          1450.000048,
+          1549.999952,
+          1649.999976
+        ],
+        "source": "DataValues.SnareDuration"
+      }
+    },
+    {
+      "name": "lissandra_w/ap_ratio_constant候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.7
+        ],
+        "proof": [
+          0.7
+        ],
+        "source": "mSpellCalculations.TotalDamage.mFormulaParts[1]"
+      }
+    },
+    {
+      "name": "lissandra_w/cooldown_ms等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Lissandra.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10000,
+          "2": 9500,
+          "3": 9000,
+          "4": 8500,
+          "5": 8000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "lissandra_w/base_damage等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "name": "冰脉驱役基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "name": "lissandra_w/snare_duration_ms等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "snare_duration_ms",
+        "name": "禁锢持续（毫秒）",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1250,
+          "2": 1350.000024,
+          "3": 1450.000048,
+          "4": 1549.999952,
+          "5": 1649.999976
+        },
+        "description": "客户端当前根绑定 DataValues.SnareDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "name": "lissandra_w/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "lissandra_w/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio_constant",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "lissandra_w/damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "lissandra_w/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_w/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_w/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_e原始数据字段有证明 BaseDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_e原始计算树有证明 TotalDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_e/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          24000,
+          21000,
+          18000,
+          15000,
+          12000
+        ],
+        "proof": [
+          24000,
+          21000,
+          18000,
+          15000,
+          12000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "lissandra_e/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          80,
+          85,
+          90,
+          95,
+          100
+        ],
+        "proof": [
+          80,
+          85,
+          90,
+          95,
+          100
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "lissandra_e/cast_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          250
+        ],
+        "proof": [
+          250
+        ],
+        "source": "spellCastTime"
+      }
+    },
+    {
+      "name": "lissandra_e/base_damage候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          70,
+          105,
+          140,
+          175,
+          210
+        ],
+        "proof": [
+          70,
+          105,
+          140,
+          175,
+          210
+        ],
+        "source": "DataValues.BaseDamage"
+      }
+    },
+    {
+      "name": "lissandra_e/ap_ratio_constant候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.6
+        ],
+        "proof": [
+          0.6
+        ],
+        "source": "mSpellCalculations.TotalDamage.mFormulaParts[1]"
+      }
+    },
+    {
+      "name": "lissandra_e/cooldown_ms等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 24000,
+          "2": 21000,
+          "3": 18000,
+          "4": 15000,
+          "5": 12000
+        },
+        "description": "官方逐级冷却与当前根Cooldown字段逐级一致；不含急速或其他技能修正。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "name": "lissandra_e/mana_cost等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Lissandra.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 85,
+          "3": 90,
+          "4": 95,
+          "5": 100
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "lissandra_e/base_damage等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "name": "冰川之径基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "name": "lissandra_e/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "lissandra_e/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio_constant",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "lissandra_e/damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "lissandra_e/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_e/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_e/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始数据字段有证明 APRatio",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始数据字段有证明 BaseDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始数据字段有证明 SlowAmount",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始数据字段有证明 SlowDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始数据字段有证明 EnemyCastDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始数据字段有证明 SelfCastDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始数据字段有证明 SelfCastFlatHeal",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始数据字段有证明 SelfCastMissingHPRatio",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始数据字段有证明 SelfCastMissingHPPerAbove",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始数据字段有证明 StartingAoESize",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始数据字段有证明 PercentMissingHPRatio",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始计算树有证明 CalculatedDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r原始计算树有证明 HealAmount",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          120000,
+          100000,
+          80000
+        ],
+        "proof": [
+          120000,
+          100000,
+          80000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "lissandra_r/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          100
+        ],
+        "proof": [
+          100,
+          100,
+          100
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "lissandra_r/cast_time_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          250
+        ],
+        "proof": [
+          250
+        ],
+        "source": "spellCastTime"
+      }
+    },
+    {
+      "name": "lissandra_r/ap_ratio候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.75
+        ],
+        "proof": [
+          0.75,
+          0.75,
+          0.75
+        ],
+        "source": "DataValues.APRatio"
+      }
+    },
+    {
+      "name": "lissandra_r/base_damage候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          150,
+          250,
+          350
+        ],
+        "proof": [
+          150,
+          250,
+          350
+        ],
+        "source": "DataValues.BaseDamage"
+      }
+    },
+    {
+      "name": "lissandra_r/slow_percent候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          45,
+          60,
+          75
+        ],
+        "proof": [
+          45,
+          60,
+          75
+        ],
+        "source": "DataValues.SlowAmount"
+      }
+    },
+    {
+      "name": "lissandra_r/slow_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          3000
+        ],
+        "proof": [
+          3000,
+          3000,
+          3000
+        ],
+        "source": "DataValues.SlowDuration"
+      }
+    },
+    {
+      "name": "lissandra_r/enemy_stun_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          1500
+        ],
+        "proof": [
+          1500,
+          1500,
+          1500
+        ],
+        "source": "DataValues.EnemyCastDuration"
+      }
+    },
+    {
+      "name": "lissandra_r/self_stasis_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          2500
+        ],
+        "proof": [
+          2500,
+          2500,
+          2500
+        ],
+        "source": "DataValues.SelfCastDuration"
+      }
+    },
+    {
+      "name": "lissandra_r/self_heal_flat候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          100,
+          150,
+          200
+        ],
+        "proof": [
+          100,
+          150,
+          200
+        ],
+        "source": "DataValues.SelfCastFlatHeal"
+      }
+    },
+    {
+      "name": "lissandra_r/self_heal_missing_hp_percent候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          1
+        ],
+        "proof": [
+          1,
+          1,
+          1
+        ],
+        "source": "DataValues.SelfCastMissingHPRatio"
+      }
+    },
+    {
+      "name": "lissandra_r/self_heal_missing_hp_per_above_percent候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          1
+        ],
+        "proof": [
+          1,
+          1,
+          1
+        ],
+        "source": "DataValues.SelfCastMissingHPPerAbove"
+      }
+    },
+    {
+      "name": "lissandra_r/heal_ap_ratio候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.55
+        ],
+        "proof": [
+          0.55,
+          0.55,
+          0.55
+        ],
+        "source": "DataValues.PercentMissingHPRatio"
+      }
+    },
+    {
+      "name": "lissandra_r/cooldown_ms等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Lissandra.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "lissandra_r/base_damage等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "name": "冰封陵墓基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "name": "lissandra_r/slow_percent等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "slow_percent",
+        "name": "区域减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 45,
+          "2": 60,
+          "3": 75
+        },
+        "description": "客户端当前根绑定 DataValues.SlowAmount；原始值为负移速修正，当前正文占位为 @SlowAmount*-100@%，转为正的45至75百分数点。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "name": "lissandra_r/self_heal_flat等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "self_heal_flat",
+        "name": "自身施放基础治疗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 150,
+          "3": 200
+        },
+        "description": "客户端当前根绑定 DataValues.SelfCastFlatHeal 取索引1至3。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "name": "lissandra_r/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "lissandra_r/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "lissandra_r/damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "lissandra_r/self_heal引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "self_heal_flat",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "lissandra_r/self_heal引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "heal_ap_ratio",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "lissandra_r/self_heal属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "lissandra_r/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "lissandra_r/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_p原始数据字段有证明 PassiveDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_p/death_recast_window_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          7000
+        ],
+        "proof": [
+          7000
+        ],
+        "source": "DataValues.PassiveDuration"
+      }
+    },
+    {
+      "name": "karthus_q原始数据字段有证明 MonsterMod",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_q原始数据字段有证明 BaseDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_q原始数据字段有证明 APRatio",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_q原始计算树有证明 QDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_q原始计算树有证明 QSingleTargetDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_q/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ],
+        "proof": [
+          20,
+          25,
+          30,
+          35,
+          40
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "karthus_q/base_damage候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          40,
+          59,
+          78,
+          97,
+          116
+        ],
+        "proof": [
+          40,
+          59,
+          78,
+          97,
+          116
+        ],
+        "source": "DataValues.BaseDamage"
+      }
+    },
+    {
+      "name": "karthus_q/ap_ratio候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.35
+        ],
+        "proof": [
+          0.35,
+          0.35,
+          0.35,
+          0.35,
+          0.35
+        ],
+        "source": "DataValues.APRatio"
+      }
+    },
+    {
+      "name": "karthus_q/single_target_multiplier候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          2
+        ],
+        "proof": [
+          2
+        ],
+        "source": "mSpellCalculations.QSingleTargetDamage.mMultiplier"
+      }
+    },
+    {
+      "name": "karthus_q/mana_cost等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Karthus.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 25,
+          "3": 30,
+          "4": 35,
+          "5": 40
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "sortOrder": 110,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "karthus_q/base_damage等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "name": "荒芜基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 59,
+          "3": 78,
+          "4": 97,
+          "5": 116
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "name": "karthus_q/actual_target_count运行输入无默认",
+      "ok": true,
+      "detail": {
+        "parameterKey": "actual_target_count",
+        "name": "本次荒芜命中的实际目标数量（实际值外供）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "必须由当前命中事件提供；只有数量严格为1才能选择双倍分支，不默认单一目标。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "name": "karthus_q/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "karthus_q/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "karthus_q/damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "karthus_q/single_target_damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "single_target_multiplier",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "karthus_q/single_target_damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "karthus_q/single_target_damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio",
+        "path": "$.operands.1.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "karthus_q/single_target_damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "karthus_q/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_q/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_q/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_w原始数据字段有证明 MagicResistShred",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_w原始数据字段有证明 TT_WallWidth",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_w原始数据字段有证明 SlowPercent",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_w原始数据字段有证明 WallDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_w原始数据字段有证明 DebuffDuration",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_w/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          15000
+        ],
+        "proof": [
+          15000,
+          15000,
+          15000,
+          15000,
+          15000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "karthus_w/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          70
+        ],
+        "proof": [
+          70,
+          70,
+          70,
+          70,
+          70
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "karthus_w/magic_resist_shred_percent候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          25
+        ],
+        "proof": [
+          25,
+          25,
+          25,
+          25,
+          25
+        ],
+        "source": "DataValues.MagicResistShred"
+      }
+    },
+    {
+      "name": "karthus_w/wall_width候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          800,
+          900,
+          1000,
+          1100,
+          1200
+        ],
+        "proof": [
+          800,
+          900,
+          1000,
+          1100,
+          1200
+        ],
+        "source": "DataValues.TT_WallWidth"
+      }
+    },
+    {
+      "name": "karthus_w/slow_percent候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          40,
+          50,
+          60,
+          70,
+          80
+        ],
+        "proof": [
+          40,
+          50,
+          60,
+          70,
+          80
+        ],
+        "source": "DataValues.SlowPercent"
+      }
+    },
+    {
+      "name": "karthus_w/wall_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          5000
+        ],
+        "proof": [
+          5000,
+          5000,
+          5000,
+          5000,
+          5000
+        ],
+        "source": "DataValues.WallDuration"
+      }
+    },
+    {
+      "name": "karthus_w/debuff_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          5000
+        ],
+        "proof": [
+          5000,
+          5000,
+          5000,
+          5000,
+          5000
+        ],
+        "source": "DataValues.DebuffDuration"
+      }
+    },
+    {
+      "name": "karthus_w/wall_width等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "wall_width",
+        "name": "墙体宽度",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 800,
+          "2": 900,
+          "3": 1000,
+          "4": 1100,
+          "5": 1200
+        },
+        "description": "客户端当前根绑定 DataValues.TT_WallWidth 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "name": "karthus_w/slow_percent等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "slow_percent",
+        "name": "墙体减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 50,
+          "3": 60,
+          "4": 70,
+          "5": 80
+        },
+        "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5；单位正文写百分号，保留30至80等百分数点，不乘0.01。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "name": "karthus_w/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_w/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_w/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_e原始数据字段有证明 DamagePerSecond",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_e原始数据字段有证明 APRatioPerSecond",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_e原始数据字段有证明 ManaRestoreOnKill",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_e原始计算树有证明 TotalDPS",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_e原始计算树有证明 {57456bbc}",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_e/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          30,
+          42,
+          54,
+          66,
+          78
+        ],
+        "proof": [
+          30,
+          42,
+          54,
+          66,
+          78
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "karthus_e/damage_per_second_base候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          30,
+          50,
+          70,
+          90,
+          110
+        ],
+        "proof": [
+          30,
+          50,
+          70,
+          90,
+          110
+        ],
+        "source": "DataValues.DamagePerSecond"
+      }
+    },
+    {
+      "name": "karthus_e/ap_ratio_per_second候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.2
+        ],
+        "proof": [
+          0.2,
+          0.2,
+          0.2,
+          0.2,
+          0.2
+        ],
+        "source": "DataValues.APRatioPerSecond"
+      }
+    },
+    {
+      "name": "karthus_e/mana_restore_on_kill候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          10,
+          20,
+          30,
+          40,
+          50
+        ],
+        "proof": [
+          10,
+          20,
+          30,
+          40,
+          50
+        ],
+        "source": "DataValues.ManaRestoreOnKill"
+      }
+    },
+    {
+      "name": "karthus_e/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          500
+        ],
+        "proof": [
+          500
+        ],
+        "source": "official.cooldown + mSpell.cooldownTime[0]"
+      }
+    },
+    {
+      "name": "karthus_e/quarter_multiplier候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.25
+        ],
+        "proof": [
+          0.25
+        ],
+        "source": "mSpellCalculations.{57456bbc}.mMultiplier"
+      }
+    },
+    {
+      "name": "karthus_e/mana_cost等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 42,
+          "3": 54,
+          "4": 66,
+          "5": 78
+        },
+        "description": "官方cost与当前根manaValues逐级一致；法力值；未接入实际扣除时点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "name": "karthus_e/damage_per_second_base等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "damage_per_second_base",
+        "name": "污染每秒基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 50,
+          "3": 70,
+          "4": 90,
+          "5": 110
+        },
+        "description": "客户端当前根绑定 DataValues.DamagePerSecond 取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "name": "karthus_e/mana_restore_on_kill等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "mana_restore_on_kill",
+        "name": "击杀单位回复法力",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 20,
+          "3": 30,
+          "4": 40,
+          "5": 50
+        },
+        "description": "客户端当前根绑定 DataValues.ManaRestoreOnKill 取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "name": "karthus_e/damage_per_second引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "damage_per_second_base",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "karthus_e/damage_per_second引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio_per_second",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "karthus_e/damage_per_second属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "karthus_e/quarter_damage_per_second引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "quarter_multiplier",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "karthus_e/quarter_damage_per_second引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "damage_per_second_base",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "karthus_e/quarter_damage_per_second引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio_per_second",
+        "path": "$.operands.1.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "karthus_e/quarter_damage_per_second属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "karthus_e/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_e/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_e/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_e/mana_restore_on_kill没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_e/mana_restore_on_kill没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_e/mana_restore_on_kill没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_r原始数据字段有证明 BaseDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_r原始数据字段有证明 APRatio",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_r原始计算树有证明 TotalDamage",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_r/cooldown_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          200000,
+          180000,
+          160000
+        ],
+        "proof": [
+          200000,
+          180000,
+          160000
+        ],
+        "source": "official.cooldown + Cooldown.values"
+      }
+    },
+    {
+      "name": "karthus_r/mana_cost候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          100
+        ],
+        "proof": [
+          100,
+          100,
+          100
+        ],
+        "source": "official.cost + manaValues.values"
+      }
+    },
+    {
+      "name": "karthus_r/base_damage候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          200,
+          350,
+          500
+        ],
+        "proof": [
+          200,
+          350,
+          500
+        ],
+        "source": "DataValues.BaseDamage"
+      }
+    },
+    {
+      "name": "karthus_r/ap_ratio候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          0.7
+        ],
+        "proof": [
+          0.7,
+          0.7,
+          0.7
+        ],
+        "source": "DataValues.APRatio"
+      }
+    },
+    {
+      "name": "karthus_r/channel_duration_ms候选值等于独立证明",
+      "ok": true,
+      "detail": {
+        "actual": [
+          3000
+        ],
+        "proof": [
+          3000
+        ],
+        "source": "official.description"
+      }
+    },
+    {
+      "name": "karthus_r/cooldown_ms等级值完整",
+      "ok": true,
+      "detail": {
+        "description": "DDragon16.17.1 Karthus.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 200000,
+          "2": 180000,
+          "3": 160000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "sortOrder": 100,
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "name": "karthus_r/base_damage等级值完整",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "name": "安魂曲基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 200,
+          "2": 350,
+          "3": 500
+        },
+        "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至3。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "name": "karthus_r/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "base_damage",
+        "path": "$.operands.0"
+      }
+    },
+    {
+      "name": "karthus_r/damage引用参数存在",
+      "ok": true,
+      "detail": {
+        "parameterKey": "ap_ratio",
+        "path": "$.operands.1.operands.0"
+      }
+    },
+    {
+      "name": "karthus_r/damage属性口径受控",
+      "ok": true,
+      "detail": {
+        "nodeType": "ATTRIBUTE",
+        "attributeOwner": "SOURCE",
+        "attributeKey": "ability_power",
+        "attributeValueKind": "TOTAL"
+      }
+    },
+    {
+      "name": "karthus_r/mana_cost没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_r/mana_cost没有即时伤害或治疗结果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "karthus_r/mana_cost没有间接运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "原树算例 malzahar_q/damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 125,
+        "rawResult": 125.0000011920929,
+        "expected": 125
+      }
+    },
+    {
+      "name": "原树算例 malzahar_q/damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 340.35,
+        "rawResult": 340.35000282526016,
+        "expected": 340.35
+      }
+    },
+    {
+      "name": "原树算例 malzahar_e/damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 195,
+        "rawResult": 195.0000011920929,
+        "expected": 195
+      }
+    },
+    {
+      "name": "原树算例 malzahar_r/beam_damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 205,
+        "rawResult": 205.0000011920929,
+        "expected": 205
+      }
+    },
+    {
+      "name": "原树算例 malzahar_r/zone_damage_ratio",
+      "ok": true,
+      "detail": {
+        "candidateResult": 0.125,
+        "rawResult": 0.12500000130385158,
+        "expected": 0.125,
+        "note": "仅验证当前窄口径算术；目标最大生命所有者不由该节点推出。"
+      }
+    },
+    {
+      "name": "原树算例 anivia_q/passthrough_damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 75,
+        "rawResult": 75,
+        "expected": 75
+      }
+    },
+    {
+      "name": "原树算例 anivia_q/explosion_damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 105,
+        "rawResult": 104.9999988079071,
+        "expected": 105
+      }
+    },
+    {
+      "name": "原树算例 anivia_e/damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 265,
+        "rawResult": 265.0000023841858,
+        "expected": 265
+      }
+    },
+    {
+      "name": "原树算例 anivia_e/empowered_damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 530,
+        "rawResult": 530.0000047683716,
+        "expected": 530
+      }
+    },
+    {
+      "name": "原树算例 anivia_r/damage_per_second",
+      "ok": true,
+      "detail": {
+        "candidateResult": 72.5,
+        "rawResult": 72.5,
+        "expected": 72.5
+      }
+    },
+    {
+      "name": "原树算例 anivia_r/enhanced_slow",
+      "ok": true,
+      "detail": {
+        "candidateResult": 60,
+        "rawResult": 60,
+        "expected": 60
+      }
+    },
+    {
+      "name": "原树算例 anivia_r/empowered_damage_per_second",
+      "ok": true,
+      "detail": {
+        "candidateResult": 217.5,
+        "rawResult": 217.5,
+        "expected": 217.5
+      }
+    },
+    {
+      "name": "原树算例 lissandra_q/damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 260,
+        "rawResult": 260,
+        "expected": 260
+      }
+    },
+    {
+      "name": "原树算例 lissandra_w/damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 175,
+        "rawResult": 174.9999988079071,
+        "expected": 175
+      }
+    },
+    {
+      "name": "原树算例 lissandra_e/damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 165,
+        "rawResult": 165.0000023841858,
+        "expected": 165
+      }
+    },
+    {
+      "name": "原树算例 lissandra_r/damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 425,
+        "rawResult": 425,
+        "expected": 425
+      }
+    },
+    {
+      "name": "原树算例 lissandra_r/self_heal",
+      "ok": true,
+      "detail": {
+        "candidateResult": 255,
+        "rawResult": 255.0000011920929,
+        "expected": 255,
+        "note": "200+0.55×100；PercentMissingHPRatio按mStat0默认法强窄证进入基础治疗。"
+      }
+    },
+    {
+      "name": "原树算例 karthus_q/damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 151,
+        "rawResult": 150.99999940395355,
+        "expected": 151
+      }
+    },
+    {
+      "name": "原树算例 karthus_q/single_target_damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 302,
+        "rawResult": 301.9999988079071,
+        "expected": 302
+      }
+    },
+    {
+      "name": "原树算例 karthus_e/damage_per_second",
+      "ok": true,
+      "detail": {
+        "candidateResult": 130,
+        "rawResult": 130.00000029802322,
+        "expected": 130
+      }
+    },
+    {
+      "name": "原树算例 karthus_e/quarter_damage_per_second",
+      "ok": true,
+      "detail": {
+        "candidateResult": 32.5,
+        "rawResult": 32.500000074505806,
+        "expected": 32.5
+      }
+    },
+    {
+      "name": "原树算例 karthus_r/damage",
+      "ok": true,
+      "detail": {
+        "candidateResult": 570,
+        "rawResult": 569.9999988079071,
+        "expected": 570
+      }
+    },
+    {
+      "name": "手算 malzahar_q/damage",
+      "ok": true,
+      "detail": {
+        "actual": 125,
+        "expected": 125,
+        "note": "70+0.55×100"
+      }
+    },
+    {
+      "name": "手算 malzahar_e/damage",
+      "ok": true,
+      "detail": {
+        "actual": 195,
+        "expected": 195,
+        "note": "115+0.8×100"
+      }
+    },
+    {
+      "name": "手算 malzahar_r/beam_damage",
+      "ok": true,
+      "detail": {
+        "actual": 205,
+        "expected": 205,
+        "note": "125+0.8×100"
+      }
+    },
+    {
+      "name": "手算 malzahar_r/zone_damage_ratio",
+      "ok": true,
+      "detail": {
+        "actual": 0.125,
+        "expected": 0.125,
+        "note": "0.05×(2+0.005×100)"
+      }
+    },
+    {
+      "name": "手算 anivia_q/passthrough_damage",
+      "ok": true,
+      "detail": {
+        "actual": 75,
+        "expected": 75,
+        "note": "50+0.25×100"
+      }
+    },
+    {
+      "name": "手算 anivia_q/explosion_damage",
+      "ok": true,
+      "detail": {
+        "actual": 105,
+        "expected": 105,
+        "note": "60+0.45×100"
+      }
+    },
+    {
+      "name": "手算 anivia_e/damage",
+      "ok": true,
+      "detail": {
+        "actual": 265,
+        "expected": 265,
+        "note": "155+0.55×200"
+      }
+    },
+    {
+      "name": "手算 anivia_e/empowered_damage",
+      "ok": true,
+      "detail": {
+        "actual": 530,
+        "expected": 530,
+        "note": "2×265"
+      }
+    },
+    {
+      "name": "手算 anivia_r/damage_per_second",
+      "ok": true,
+      "detail": {
+        "actual": 72.5,
+        "expected": 72.5,
+        "note": "60+0.125×100"
+      }
+    },
+    {
+      "name": "手算 anivia_r/enhanced_slow",
+      "ok": true,
+      "detail": {
+        "actual": 60,
+        "expected": 60,
+        "note": "40×(0.5+1)，40为正文百分数点"
+      }
+    },
+    {
+      "name": "手算 anivia_r/empowered_damage_per_second",
+      "ok": true,
+      "detail": {
+        "actual": 217.5,
+        "expected": 217.5,
+        "note": "3×72.5"
+      }
+    },
+    {
+      "name": "手算 lissandra_q/damage",
+      "ok": true,
+      "detail": {
+        "actual": 260,
+        "expected": 260,
+        "note": "185+0.75×100；DataValues索引1起"
+      }
+    },
+    {
+      "name": "手算 lissandra_r/damage",
+      "ok": true,
+      "detail": {
+        "actual": 425,
+        "expected": 425,
+        "note": "350+0.75×100"
+      }
+    },
+    {
+      "name": "手算 lissandra_r/self_heal",
+      "ok": true,
+      "detail": {
+        "actual": 255,
+        "expected": 255,
+        "note": "200+0.55×100；PercentMissingHPRatio按mStat0默认法强窄证进入基础治疗"
+      }
+    },
+    {
+      "name": "手算 karthus_q/damage",
+      "ok": true,
+      "detail": {
+        "actual": 151,
+        "expected": 151,
+        "note": "116+0.35×100"
+      }
+    },
+    {
+      "name": "手算 karthus_q/single_target_damage",
+      "ok": true,
+      "detail": {
+        "actual": 302,
+        "expected": 302,
+        "note": "2×151；仅唯一敌人资格成立时使用"
+      }
+    },
+    {
+      "name": "手算 karthus_e/damage_per_second",
+      "ok": true,
+      "detail": {
+        "actual": 130,
+        "expected": 130,
+        "note": "110+0.2×100"
+      }
+    },
+    {
+      "name": "手算 karthus_e/quarter_damage_per_second",
+      "ok": true,
+      "detail": {
+        "actual": 32.5,
+        "expected": 32.5,
+        "note": "0.25×130；不是瞬时伤害"
+      }
+    },
+    {
+      "name": "手算 karthus_r/damage",
+      "ok": true,
+      "detail": {
+        "actual": 570,
+        "expected": 570,
+        "note": "500+0.7×100；DataValues索引1起"
+      }
+    },
+    {
+      "name": "负例 缺少等级曲线实际输入",
+      "ok": true,
+      "detail": {
+        "error": "候选公式不存在 malzahar_p/shield_cooldown_seconds",
+        "detail": null
+      }
+    },
+    {
+      "name": "负例 范围外虚灵伤害公式已移除",
+      "ok": true,
+      "detail": {
+        "error": "候选公式不存在 malzahar_w/voidling_hit_damage",
+        "detail": null
+      }
+    },
+    {
+      "name": "负例 范围外冰奴伤害公式已移除",
+      "ok": true,
+      "detail": {
+        "error": "候选公式不存在 lissandra_p/ice_servant_damage",
+        "detail": null
+      }
+    },
+    {
+      "name": "负例 范围外蛋形态双抗显示公式已移除",
+      "ok": true,
+      "detail": {
+        "error": "候选公式不存在 anivia_p/bonus_resists_display",
+        "detail": null
+      }
+    },
+    {
+      "name": "负例 无消费者的目标数量下限公式已移除",
+      "ok": true,
+      "detail": {
+        "error": "候选公式不存在 karthus_q/single_target_eligibility_lower_bound",
+        "detail": null
+      }
+    },
+    {
+      "name": "负例 唯一敌人分支未满足数量1",
+      "ok": true,
+      "detail": {
+        "error": "实际目标数量不是1，禁止选择QSingleTargetDamage",
+        "detail": null
+      }
+    },
+    {
+      "name": "负例 负目标数量不应成为唯一目标",
+      "ok": true,
+      "detail": {
+        "error": "实际目标数量不是1，禁止选择QSingleTargetDamage",
+        "detail": null
+      }
+    },
+    {
+      "name": "最大生命字段没有擅自绑定hp",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "候选没有MOMENT_EVALUATION",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "候选没有即时伤害或治疗效果",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "丽桑卓R基础治疗不需要缺失生命运行输入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "丽桑卓R候选不绑定actual_missing_health",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "卡尔萨斯Q不再写目标数量MAX下限",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "卡尔萨斯E冷却不命名为伤害节拍",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "玛尔扎哈W虚灵专用组成均移出写入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "玛尔扎哈E小兵处决阈值移出写入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "丽桑卓P冰奴专用组成均移出写入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "艾尼维亚P蛋形态专用组成均移出写入",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "卡尔萨斯P死亡状态属于系统待接而非范围外",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "比例单位 lissandra_q/slow_percent保留原始单位",
+      "ok": true,
+      "detail": {
+        "expected": 32,
+        "rank": 4,
+        "actual": 32
+      }
+    },
+    {
+      "name": "比例单位 lissandra_r/slow_percent保留原始单位",
+      "ok": true,
+      "detail": {
+        "expected": 75,
+        "rank": 3,
+        "actual": 75
+      }
+    },
+    {
+      "name": "比例单位 anivia_r/slow_amount_percent保留原始单位",
+      "ok": true,
+      "detail": {
+        "expected": 40,
+        "rank": 3,
+        "actual": 40
+      }
+    },
+    {
+      "name": "比例单位 karthus_w/magic_resist_shred_percent保留原始单位",
+      "ok": true,
+      "detail": {
+        "expected": 25,
+        "rank": 1,
+        "actual": 25
+      }
+    },
+    {
+      "name": "比例单位 karthus_w/slow_percent保留原始单位",
+      "ok": true,
+      "detail": {
+        "expected": 60,
+        "rank": 3,
+        "actual": 60
+      }
+    }
+  ],
+  "sourceCases": [
+    {
+      "skillKey": "malzahar_q",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamageTooltip",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 125,
+      "candidateResult": 125,
+      "rawResult": 125.0000011920929,
+      "ok": true
+    },
+    {
+      "skillKey": "malzahar_q",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamageTooltip",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 237
+      },
+      "expected": 340.35,
+      "candidateResult": 340.35,
+      "rawResult": 340.35000282526016,
+      "ok": true
+    },
+    {
+      "skillKey": "malzahar_e",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamage",
+      "rank": 2,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 195,
+      "candidateResult": 195,
+      "rawResult": 195.0000011920929,
+      "ok": true
+    },
+    {
+      "skillKey": "malzahar_r",
+      "formulaKey": "beam_damage",
+      "rawKey": "TotalDamageTooltip",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 205,
+      "candidateResult": 205,
+      "rawResult": 205.0000011920929,
+      "ok": true
+    },
+    {
+      "skillKey": "malzahar_r",
+      "formulaKey": "zone_damage_ratio",
+      "rawKey": "ZoneDamageTooltip",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 0.125,
+      "note": "仅验证当前窄口径算术；目标最大生命所有者不由该节点推出。",
+      "candidateResult": 0.125,
+      "rawResult": 0.12500000130385158,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_q",
+      "formulaKey": "passthrough_damage",
+      "rawKey": "TotalPassthroughDamage",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 75,
+      "candidateResult": 75,
+      "rawResult": 75,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_q",
+      "formulaKey": "explosion_damage",
+      "rawKey": "TotalExplosionDamage",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 105,
+      "candidateResult": 105,
+      "rawResult": 104.9999988079071,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_e",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 200
+      },
+      "expected": 265,
+      "candidateResult": 265,
+      "rawResult": 265.0000023841858,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_e",
+      "formulaKey": "empowered_damage",
+      "rawKey": "EmpoweredDamage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 200
+      },
+      "expected": 530,
+      "candidateResult": 530,
+      "rawResult": 530.0000047683716,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_r",
+      "formulaKey": "damage_per_second",
+      "rawKey": "TotalDamagePerSecond",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 72.5,
+      "candidateResult": 72.5,
+      "rawResult": 72.5,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_r",
+      "formulaKey": "enhanced_slow",
+      "rawKey": "EnhancedSlow",
+      "rank": 3,
+      "attrs": {},
+      "expected": 60,
+      "candidateResult": 60,
+      "rawResult": 60,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_r",
+      "formulaKey": "empowered_damage_per_second",
+      "rawKey": "EmpoweredDamagePerSecondTooltipOnly",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 217.5,
+      "candidateResult": 217.5,
+      "rawResult": 217.5,
+      "ok": true
+    },
+    {
+      "skillKey": "lissandra_q",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamage",
+      "rank": 4,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 260,
+      "candidateResult": 260,
+      "rawResult": 260,
+      "ok": true
+    },
+    {
+      "skillKey": "lissandra_w",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamage",
+      "rank": 2,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 175,
+      "candidateResult": 175,
+      "rawResult": 174.9999988079071,
+      "ok": true
+    },
+    {
+      "skillKey": "lissandra_e",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamage",
+      "rank": 2,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 165,
+      "candidateResult": 165,
+      "rawResult": 165.0000023841858,
+      "ok": true
+    },
+    {
+      "skillKey": "lissandra_r",
+      "formulaKey": "damage",
+      "rawKey": "CalculatedDamage",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 425,
+      "candidateResult": 425,
+      "rawResult": 425,
+      "ok": true
+    },
+    {
+      "skillKey": "lissandra_r",
+      "formulaKey": "self_heal",
+      "rawKey": "HealAmount",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 255,
+      "note": "200+0.55×100；PercentMissingHPRatio按mStat0默认法强窄证进入基础治疗。",
+      "candidateResult": 255,
+      "rawResult": 255.0000011920929,
+      "ok": true
+    },
+    {
+      "skillKey": "karthus_q",
+      "formulaKey": "damage",
+      "rawKey": "QDamage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 151,
+      "candidateResult": 151,
+      "rawResult": 150.99999940395355,
+      "ok": true
+    },
+    {
+      "skillKey": "karthus_q",
+      "formulaKey": "single_target_damage",
+      "rawKey": "QSingleTargetDamage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 302,
+      "candidateResult": 302,
+      "rawResult": 301.9999988079071,
+      "ok": true
+    },
+    {
+      "skillKey": "karthus_e",
+      "formulaKey": "damage_per_second",
+      "rawKey": "TotalDPS",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 130,
+      "candidateResult": 130,
+      "rawResult": 130.00000029802322,
+      "ok": true
+    },
+    {
+      "skillKey": "karthus_e",
+      "formulaKey": "quarter_damage_per_second",
+      "rawKey": "{57456bbc}",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 32.5,
+      "candidateResult": 32.5,
+      "rawResult": 32.500000074505806,
+      "ok": true
+    },
+    {
+      "skillKey": "karthus_r",
+      "formulaKey": "damage",
+      "rawKey": "TotalDamage",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "omittedNamedAsAp": true,
+      "expected": 570,
+      "candidateResult": 570,
+      "rawResult": 569.9999988079071,
+      "ok": true
+    }
+  ],
+  "manualCases": [
+    {
+      "skillKey": "malzahar_q",
+      "formulaKey": "damage",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 125,
+      "note": "70+0.55×100",
+      "actual": 125,
+      "ok": true
+    },
+    {
+      "skillKey": "malzahar_e",
+      "formulaKey": "damage",
+      "rank": 2,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 195,
+      "note": "115+0.8×100",
+      "actual": 195,
+      "ok": true
+    },
+    {
+      "skillKey": "malzahar_r",
+      "formulaKey": "beam_damage",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 205,
+      "note": "125+0.8×100",
+      "actual": 205,
+      "ok": true
+    },
+    {
+      "skillKey": "malzahar_r",
+      "formulaKey": "zone_damage_ratio",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 0.125,
+      "note": "0.05×(2+0.005×100)",
+      "actual": 0.125,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_q",
+      "formulaKey": "passthrough_damage",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 75,
+      "note": "50+0.25×100",
+      "actual": 75,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_q",
+      "formulaKey": "explosion_damage",
+      "rank": 1,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 105,
+      "note": "60+0.45×100",
+      "actual": 105,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_e",
+      "formulaKey": "damage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 200
+      },
+      "expected": 265,
+      "note": "155+0.55×200",
+      "actual": 265,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_e",
+      "formulaKey": "empowered_damage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 200
+      },
+      "expected": 530,
+      "note": "2×265",
+      "actual": 530,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_r",
+      "formulaKey": "damage_per_second",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 72.5,
+      "note": "60+0.125×100",
+      "actual": 72.5,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_r",
+      "formulaKey": "enhanced_slow",
+      "rank": 3,
+      "expected": 60,
+      "note": "40×(0.5+1)，40为正文百分数点",
+      "actual": 60,
+      "ok": true
+    },
+    {
+      "skillKey": "anivia_r",
+      "formulaKey": "empowered_damage_per_second",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 217.5,
+      "note": "3×72.5",
+      "actual": 217.5,
+      "ok": true
+    },
+    {
+      "skillKey": "lissandra_q",
+      "formulaKey": "damage",
+      "rank": 4,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 260,
+      "note": "185+0.75×100；DataValues索引1起",
+      "actual": 260,
+      "ok": true
+    },
+    {
+      "skillKey": "lissandra_r",
+      "formulaKey": "damage",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 425,
+      "note": "350+0.75×100",
+      "actual": 425,
+      "ok": true
+    },
+    {
+      "skillKey": "lissandra_r",
+      "formulaKey": "self_heal",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 255,
+      "note": "200+0.55×100；PercentMissingHPRatio按mStat0默认法强窄证进入基础治疗",
+      "actual": 255,
+      "ok": true
+    },
+    {
+      "skillKey": "karthus_q",
+      "formulaKey": "damage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 151,
+      "note": "116+0.35×100",
+      "actual": 151,
+      "ok": true
+    },
+    {
+      "skillKey": "karthus_q",
+      "formulaKey": "single_target_damage",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 302,
+      "note": "2×151；仅唯一敌人资格成立时使用",
+      "actual": 302,
+      "ok": true
+    },
+    {
+      "skillKey": "karthus_e",
+      "formulaKey": "damage_per_second",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 130,
+      "note": "110+0.2×100",
+      "actual": 130,
+      "ok": true
+    },
+    {
+      "skillKey": "karthus_e",
+      "formulaKey": "quarter_damage_per_second",
+      "rank": 5,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 32.5,
+      "note": "0.25×130；不是瞬时伤害",
+      "actual": 32.5,
+      "ok": true
+    },
+    {
+      "skillKey": "karthus_r",
+      "formulaKey": "damage",
+      "rank": 3,
+      "attrs": {
+        "ability_power": 100
+      },
+      "expected": 570,
+      "note": "500+0.7×100；DataValues索引1起",
+      "actual": 570,
+      "ok": true
+    }
+  ],
+  "negativeControls": [
+    {
+      "name": "缺少等级曲线实际输入",
+      "rejected": true,
+      "error": "候选公式不存在 malzahar_p/shield_cooldown_seconds",
+      "detail": null
+    },
+    {
+      "name": "范围外虚灵伤害公式已移除",
+      "rejected": true,
+      "error": "候选公式不存在 malzahar_w/voidling_hit_damage",
+      "detail": null
+    },
+    {
+      "name": "范围外冰奴伤害公式已移除",
+      "rejected": true,
+      "error": "候选公式不存在 lissandra_p/ice_servant_damage",
+      "detail": null
+    },
+    {
+      "name": "范围外蛋形态双抗显示公式已移除",
+      "rejected": true,
+      "error": "候选公式不存在 anivia_p/bonus_resists_display",
+      "detail": null
+    },
+    {
+      "name": "无消费者的目标数量下限公式已移除",
+      "rejected": true,
+      "error": "候选公式不存在 karthus_q/single_target_eligibility_lower_bound",
+      "detail": null
+    },
+    {
+      "name": "唯一敌人分支未满足数量1",
+      "rejected": true,
+      "error": "实际目标数量不是1，禁止选择QSingleTargetDamage",
+      "detail": null
+    },
+    {
+      "name": "负目标数量不应成为唯一目标",
+      "rejected": true,
+      "error": "实际目标数量不是1，禁止选择QSingleTargetDamage",
+      "detail": null
+    }
+  ],
+  "unknownCurves": [
+    {
+      "skillKey": "malzahar_p",
+      "parameterKey": "shield_cooldown_seconds",
+      "fixedValue": null,
+      "levelValues": null
+    },
+    {
+      "skillKey": "karthus_q",
+      "parameterKey": "actual_target_count",
+      "fixedValue": null,
+      "levelValues": null
+    }
+  ],
+  "failures": [],
+  "status": "独立源值、原树映射、手算和负例全部通过；可交父负责人审查"
+}

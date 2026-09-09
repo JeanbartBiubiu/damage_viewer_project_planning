@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T10:37:10.871Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/karthus_w/parameters/wall_width",
+  "id": "wall_width",
+  "method": "POST",
+  "body": {
+    "parameterKey": "wall_width",
+    "name": "墙体宽度",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 800,
+      "2": 900,
+      "3": 1000,
+      "4": 1100,
+      "5": 1200
+    },
+    "description": "客户端当前根绑定 DataValues.TT_WallWidth 取索引1至5。",
+    "sortOrder": 40
+  }
+}

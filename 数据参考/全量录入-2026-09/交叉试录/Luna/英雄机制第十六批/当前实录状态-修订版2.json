@@ -1,0 +1,84 @@
+{
+  "at": "2026-09-09T09:57:53.948Z",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "revision": true,
+  "historicalLock": {
+    "file": "冻结候选锁-修订版.json",
+    "sha256": "75adef58889eae11cded000cfcc36504db7eab682c72fabcba6aad3ea99b54c9",
+    "candidateSha256": "2dbb94fc014619c16e0f3671d37ec0106ebde64ddcdd7ddda8c6e075e4cba27c"
+  },
+  "batch": "英雄机制第十六批",
+  "skills": [
+    "malzahar_p",
+    "malzahar_q",
+    "malzahar_w",
+    "malzahar_e",
+    "malzahar_r",
+    "anivia_p",
+    "anivia_q",
+    "anivia_w",
+    "anivia_e",
+    "anivia_r",
+    "lissandra_p",
+    "lissandra_q",
+    "lissandra_w",
+    "lissandra_e",
+    "lissandra_r",
+    "karthus_p",
+    "karthus_q",
+    "karthus_w",
+    "karthus_e",
+    "karthus_r"
+  ],
+  "apiWritesComplete": false,
+  "businessWrites": 0,
+  "currentGet": {
+    "skillCount": 20,
+    "expectedSkillCount": 20,
+    "compositionCount": 22,
+    "detailCount": 22,
+    "duplicateCount": 0,
+    "errorCount": 0,
+    "requestCount": 166
+  },
+  "counts": {
+    "parameters": 115,
+    "formulas": 21,
+    "effects": 17,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedPublicParameters": 22,
+  "writeIntentCount": 131,
+  "exactHashes": {
+    "candidate": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+    "candidatePlan": "f25f8452a29624f8e5e4a19b7a080a6212bfcb27f2baa50557f4462e0c7fe06e",
+    "writePlan": "6c2e687d3aaa74401d07fe200fa1c4bfe022f183a51f2d20d3492ba41d90b022",
+    "independent": "15fd7861117bdc08dd09475f6f5ab4eec95a13edb2a678e7efdd84a7e4deb0d8",
+    "sourceEvidence": "1c46d8d383796c8cc02562d49a398881333a9071dd517aa55431f4353ee9268b",
+    "protection": "bc2e2cbc99cc940644e05ed575467a143c146eb5e17ef01f7bca593b67e78938",
+    "sourceFreeze": "56aa23cd30d258984598adecdfa405e69662adbcc6d702fbc82b13abcda97431",
+    "stageLedger": "388d28d70d34f4116fa57d8359045756f815c298b632f19418586d203bc7c5e7"
+  },
+  "validation": {
+    "sourceAndTree": "独立源值、原树映射、手算和负例全部通过；可交父负责人审查",
+    "sourceCases": 22,
+    "manualCases": 19,
+    "negativeControls": 7,
+    "failures": 0,
+    "protectedGets": {
+      "requests": 28,
+      "characters": 4,
+      "characterSkillRelationLists": 4,
+      "skillImages": 20,
+      "apiWrites": 0
+    }
+  },
+  "limitations": [
+    "尚未业务写入",
+    "尚未浏览器页面验收",
+    "尚未运行时战斗验证",
+    "等级曲线、事件资格、独立召唤物和死亡状态覆盖继续待接线"
+  ]
+}

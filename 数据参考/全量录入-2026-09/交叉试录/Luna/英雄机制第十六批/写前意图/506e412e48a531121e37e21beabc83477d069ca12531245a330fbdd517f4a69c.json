@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T10:36:57.103Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/lissandra_r/formulas/damage",
+  "id": "damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "damage",
+    "name": "冰封陵墓对敌魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "CalculatedDamage = BaseDamage + APRatio×法强；省略统计选择器的具名节点按当前版本窄口径映射法强。",
+    "sortOrder": 10
+  }
+}

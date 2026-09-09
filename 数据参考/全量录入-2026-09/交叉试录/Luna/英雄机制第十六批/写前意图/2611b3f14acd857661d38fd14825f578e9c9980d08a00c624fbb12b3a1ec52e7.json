@@ -1,0 +1,49 @@
+{
+  "at": "2026-09-09T10:35:36.667Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/malzahar_r/formulas/zone_damage_ratio",
+  "id": "zone_damage_ratio",
+  "method": "POST",
+  "body": {
+    "formulaKey": "zone_damage_ratio",
+    "name": "虚空区域最大生命伤害比例",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "zone_multiplier"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_health_damage_percent"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "max_health_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "description": "ZoneDamageTooltip = 0.05×(MaxHealthDamage + MaxHealthRatio×法强)；MaxHealthRatio节点未提供mStat，不擅自绑定目标hp或所有者。",
+    "sortOrder": 20
+  }
+}

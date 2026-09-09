@@ -1,0 +1,37 @@
+{
+  "at": "2026-09-09T10:36:19.586Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/anivia_r/formulas/enhanced_slow",
+  "id": "enhanced_slow",
+  "method": "POST",
+  "body": {
+    "formulaKey": "enhanced_slow",
+    "name": "完全成形减速比例",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "slow_amount_percent"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "additional_slow_ratio_at_max"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "one"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "EnhancedSlow = SlowAmount×(AdditionalSlowPercentAtMax+1)；原始减速字段是正文百分数点，比例加成为0.5。",
+    "sortOrder": 20
+  }
+}

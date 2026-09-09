@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T10:35:10.570Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/malzahar_q/formulas/damage",
+  "id": "damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "damage",
+    "name": "虚空召唤魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio_constant"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalDamageTooltip = BaseDamage + 0.55×法强；当前树的StatByCoefficient无独立运行输入。",
+    "sortOrder": 10
+  }
+}

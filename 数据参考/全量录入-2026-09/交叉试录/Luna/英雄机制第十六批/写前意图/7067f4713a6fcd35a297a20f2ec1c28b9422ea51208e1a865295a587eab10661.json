@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T10:35:46.973Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/anivia_q/formulas/passthrough_damage",
+  "id": "passthrough_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "passthrough_damage",
+    "name": "寒冰闪耀穿行伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "passthrough_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passthrough_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalPassthroughDamage = PassthroughBaseDamage + 0.25×法强。",
+    "sortOrder": 10
+  }
+}

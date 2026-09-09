@@ -1,0 +1,1461 @@
+{
+  "at": "2026-09-09T10:34:49.399Z",
+  "runId": "2026-09-09T10-34-49-397Z",
+  "mode": "仅创建冻结候选缺项",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "candidateFile": "完整候选-修订版2.json",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "candidateVersionSha256": "6f12f66530b3ddb4d4ac7c69379348d6f018079f84a80a7d005b9bd02bb9d2e8",
+  "candidatePlanSha256": "f25f8452a29624f8e5e4a19b7a080a6212bfcb27f2baa50557f4462e0c7fe06e",
+  "writePlanSha256": "6c2e687d3aaa74401d07fe200fa1c4bfe022f183a51f2d20d3492ba41d90b022",
+  "freezeSha256": "e4c8fa637700b666a885b9fa1500e164d511a1ce3344c05e443d5444f05a9f75",
+  "expected": {
+    "catalogs": 4,
+    "subjects": 20,
+    "characters": 4,
+    "relations": 4,
+    "images": 20,
+    "lists": 120,
+    "protectedDetails": 22,
+    "candidateDetails": 153,
+    "newComponents": 131
+  },
+  "candidateCounts": {
+    "parameters": 115,
+    "formulas": 21,
+    "effects": 17,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedPublicParameters": 22,
+  "apiWrites": 131,
+  "calls": {
+    "total": 912,
+    "methods": {
+      "GET": 781,
+      "POST": 131
+    },
+    "statuses": {
+      "200": 650,
+      "201": 131,
+      "404": 131
+    }
+  },
+  "staticChecks": [
+    {
+      "name": "候选文件冻结",
+      "passed": true,
+      "detail": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc"
+    },
+    {
+      "name": "候选版本文件冻结",
+      "passed": true,
+      "detail": "6f12f66530b3ddb4d4ac7c69379348d6f018079f84a80a7d005b9bd02bb9d2e8"
+    },
+    {
+      "name": "写前计划文件冻结",
+      "passed": true,
+      "detail": "6c2e687d3aaa74401d07fe200fa1c4bfe022f183a51f2d20d3492ba41d90b022"
+    },
+    {
+      "name": "修订版2冻结锁冻结",
+      "passed": true,
+      "detail": "e4c8fa637700b666a885b9fa1500e164d511a1ce3344c05e443d5444f05a9f75"
+    },
+    {
+      "name": "写前现值冻结",
+      "passed": true,
+      "detail": "4f4c30ab1768b20f3d1f762b9fb73d96baebba8e4c70870d4bdfbf849725b339"
+    },
+    {
+      "name": "关联与图片保护快照冻结",
+      "passed": true,
+      "detail": "bc2e2cbc99cc940644e05ed575467a143c146eb5e17ef01f7bca593b67e78938"
+    },
+    {
+      "name": "候选关联哈希一致",
+      "passed": true,
+      "detail": {
+        "candidateVersion": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "plan": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+        "freeze": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc"
+      }
+    },
+    {
+      "name": "候选计划哈希一致",
+      "passed": true,
+      "detail": {
+        "candidateVersion": "f25f8452a29624f8e5e4a19b7a080a6212bfcb27f2baa50557f4462e0c7fe06e",
+        "plan": "f25f8452a29624f8e5e4a19b7a080a6212bfcb27f2baa50557f4462e0c7fe06e",
+        "freeze": "f25f8452a29624f8e5e4a19b7a080a6212bfcb27f2baa50557f4462e0c7fe06e"
+      }
+    },
+    {
+      "name": "候选来源与接口策略冻结",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "候选技能槽精确20项",
+      "passed": true,
+      "detail": [
+        "malzahar_p",
+        "malzahar_q",
+        "malzahar_w",
+        "malzahar_e",
+        "malzahar_r",
+        "anivia_p",
+        "anivia_q",
+        "anivia_w",
+        "anivia_e",
+        "anivia_r",
+        "lissandra_p",
+        "lissandra_q",
+        "lissandra_w",
+        "lissandra_e",
+        "lissandra_r",
+        "karthus_p",
+        "karthus_q",
+        "karthus_w",
+        "karthus_e",
+        "karthus_r"
+      ]
+    },
+    {
+      "name": "候选版本和锁均为父负责人审查前状态",
+      "passed": true,
+      "detail": "由父负责人审查修订版后决定是否实际保存；本锁不授权任何业务写入。"
+    },
+    {
+      "name": "候选六类计数冻结",
+      "passed": true,
+      "detail": {
+        "parameters": 115,
+        "formulas": 21,
+        "effects": 17,
+        "processes": 0,
+        "internalStates": 0,
+        "triggerRules": 0
+      }
+    },
+    {
+      "name": "候选组成总数与复用/新增一致",
+      "passed": true,
+      "detail": {
+        "totalCandidateComponents": 153,
+        "reused": 22,
+        "newComponents": 131
+      }
+    },
+    {
+      "name": "写前计划131项且全是POST",
+      "passed": true,
+      "detail": {
+        "requestCount": 131,
+        "methods": [
+          "POST"
+        ]
+      }
+    },
+    {
+      "name": "当前保护GET冻结为166次全200",
+      "passed": true,
+      "detail": {
+        "skillCount": 20,
+        "expectedSkillCount": 20,
+        "compositionCount": 22,
+        "detailCount": 22,
+        "duplicateCount": 0,
+        "errorCount": 0,
+        "requestCount": 166
+      }
+    },
+    {
+      "name": "历史关联图片保护为28次只读",
+      "passed": true,
+      "detail": {
+        "requests": 28,
+        "characters": 4,
+        "characterSkillRelationLists": 4,
+        "skillImages": 20,
+        "apiWrites": 0
+      }
+    },
+    {
+      "name": "写前保护详情22项",
+      "passed": true,
+      "detail": {
+        "details": 22,
+        "expected": 22
+      }
+    },
+    {
+      "name": "复用公共参数22项且无重复",
+      "passed": true,
+      "detail": {
+        "count": 22
+      }
+    },
+    {
+      "name": "候选组成键唯一",
+      "passed": true,
+      "detail": {
+        "total": 153,
+        "unique": 153
+      }
+    },
+    {
+      "name": "候选新增131项",
+      "passed": true,
+      "detail": {
+        "actual": 131,
+        "expected": 131
+      }
+    },
+    {
+      "name": "写前计划键唯一且覆盖候选新增",
+      "passed": true,
+      "detail": {
+        "planKeys": 131,
+        "newEntries": 131
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_p/parameters/damage_reduction_percent",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_p/parameters",
+        "expected": "/skills/malzahar_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_p/parameters/damage_reduction_linger_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_p/parameters",
+        "expected": "/skills/malzahar_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_p/parameters/shield_cooldown_seconds",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_p/parameters",
+        "expected": "/skills/malzahar_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_q/parameters",
+        "expected": "/skills/malzahar_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_q/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_q/parameters",
+        "expected": "/skills/malzahar_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_q/parameters/silence_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_q/parameters",
+        "expected": "/skills/malzahar_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_q/parameters/ap_ratio_constant",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_q/parameters",
+        "expected": "/skills/malzahar_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_q/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_q/formulas",
+        "expected": "/skills/malzahar_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_q/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_q/effects",
+        "expected": "/skills/malzahar_q/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_w/parameters",
+        "expected": "/skills/malzahar_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_w/parameters/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_w/parameters",
+        "expected": "/skills/malzahar_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_w/parameters",
+        "expected": "/skills/malzahar_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_w/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_w/effects",
+        "expected": "/skills/malzahar_w/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_e/parameters",
+        "expected": "/skills/malzahar_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_e/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_e/parameters",
+        "expected": "/skills/malzahar_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_e/parameters/duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_e/parameters",
+        "expected": "/skills/malzahar_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_e/parameters/ap_ratio_constant",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_e/parameters",
+        "expected": "/skills/malzahar_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_e/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_e/formulas",
+        "expected": "/skills/malzahar_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_e/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_e/effects",
+        "expected": "/skills/malzahar_e/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_r/parameters",
+        "expected": "/skills/malzahar_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_r/parameters/beam_base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_r/parameters",
+        "expected": "/skills/malzahar_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_r/parameters/beam_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_r/parameters",
+        "expected": "/skills/malzahar_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_r/parameters/pool_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_r/parameters",
+        "expected": "/skills/malzahar_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_r/parameters/max_health_damage_percent",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_r/parameters",
+        "expected": "/skills/malzahar_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_r/parameters/max_health_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_r/parameters",
+        "expected": "/skills/malzahar_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_r/parameters/cc_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_r/parameters",
+        "expected": "/skills/malzahar_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_r/parameters/zone_multiplier",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_r/parameters",
+        "expected": "/skills/malzahar_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_r/formulas/beam_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_r/formulas",
+        "expected": "/skills/malzahar_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_r/formulas/zone_damage_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_r/formulas",
+        "expected": "/skills/malzahar_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 malzahar_r/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/malzahar_r/effects",
+        "expected": "/skills/malzahar_r/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_q/parameters",
+        "expected": "/skills/anivia_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_q/parameters/passthrough_base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_q/parameters",
+        "expected": "/skills/anivia_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_q/parameters/explosion_base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_q/parameters",
+        "expected": "/skills/anivia_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_q/parameters/stun_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_q/parameters",
+        "expected": "/skills/anivia_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_q/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_q/parameters",
+        "expected": "/skills/anivia_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_q/parameters/passthrough_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_q/parameters",
+        "expected": "/skills/anivia_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_q/parameters/explosion_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_q/parameters",
+        "expected": "/skills/anivia_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_q/formulas/passthrough_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_q/formulas",
+        "expected": "/skills/anivia_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_q/formulas/explosion_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_q/formulas",
+        "expected": "/skills/anivia_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_q/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_q/effects",
+        "expected": "/skills/anivia_q/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_w/parameters",
+        "expected": "/skills/anivia_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_w/parameters/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_w/parameters",
+        "expected": "/skills/anivia_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_w/parameters",
+        "expected": "/skills/anivia_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_w/parameters/wall_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_w/parameters",
+        "expected": "/skills/anivia_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_w/parameters/wall_width",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_w/parameters",
+        "expected": "/skills/anivia_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_w/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_w/effects",
+        "expected": "/skills/anivia_w/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_e/parameters",
+        "expected": "/skills/anivia_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_e/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_e/parameters",
+        "expected": "/skills/anivia_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_e/parameters/ap_ratio_constant",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_e/parameters",
+        "expected": "/skills/anivia_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_e/parameters/empowered_multiplier",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_e/parameters",
+        "expected": "/skills/anivia_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_e/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_e/formulas",
+        "expected": "/skills/anivia_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_e/formulas/empowered_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_e/formulas",
+        "expected": "/skills/anivia_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_e/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_e/effects",
+        "expected": "/skills/anivia_e/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/parameters",
+        "expected": "/skills/anivia_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/parameters/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/parameters",
+        "expected": "/skills/anivia_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/parameters",
+        "expected": "/skills/anivia_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/parameters/damage_per_second_base",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/parameters",
+        "expected": "/skills/anivia_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/parameters/mana_cost_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/parameters",
+        "expected": "/skills/anivia_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/parameters/slow_amount_percent",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/parameters",
+        "expected": "/skills/anivia_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/parameters/growth_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/parameters",
+        "expected": "/skills/anivia_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/parameters/additional_slow_ratio_at_max",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/parameters",
+        "expected": "/skills/anivia_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/parameters/empowered_slow_percent",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/parameters",
+        "expected": "/skills/anivia_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/parameters/ap_ratio_constant",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/parameters",
+        "expected": "/skills/anivia_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/parameters/one",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/parameters",
+        "expected": "/skills/anivia_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/parameters/empowered_dps_multiplier",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/parameters",
+        "expected": "/skills/anivia_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/formulas/damage_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/formulas",
+        "expected": "/skills/anivia_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/formulas/enhanced_slow",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/formulas",
+        "expected": "/skills/anivia_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/formulas/empowered_damage_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/formulas",
+        "expected": "/skills/anivia_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 anivia_r/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/anivia_r/effects",
+        "expected": "/skills/anivia_r/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_q/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_q/parameters",
+        "expected": "/skills/lissandra_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_q/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_q/parameters",
+        "expected": "/skills/lissandra_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_q/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_q/parameters",
+        "expected": "/skills/lissandra_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_q/parameters/slow_percent",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_q/parameters",
+        "expected": "/skills/lissandra_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_q/parameters/ap_ratio_constant",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_q/parameters",
+        "expected": "/skills/lissandra_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_q/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_q/formulas",
+        "expected": "/skills/lissandra_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_q/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_q/effects",
+        "expected": "/skills/lissandra_q/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_w/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_w/parameters",
+        "expected": "/skills/lissandra_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_w/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_w/parameters",
+        "expected": "/skills/lissandra_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_w/parameters/snare_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_w/parameters",
+        "expected": "/skills/lissandra_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_w/parameters/ap_ratio_constant",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_w/parameters",
+        "expected": "/skills/lissandra_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_w/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_w/formulas",
+        "expected": "/skills/lissandra_w/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_w/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_w/effects",
+        "expected": "/skills/lissandra_w/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_e/parameters/cooldown_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_e/parameters",
+        "expected": "/skills/lissandra_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_e/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_e/parameters",
+        "expected": "/skills/lissandra_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_e/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_e/parameters",
+        "expected": "/skills/lissandra_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_e/parameters/ap_ratio_constant",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_e/parameters",
+        "expected": "/skills/lissandra_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_e/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_e/formulas",
+        "expected": "/skills/lissandra_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_e/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_e/effects",
+        "expected": "/skills/lissandra_e/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/parameters/cast_time_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/parameters",
+        "expected": "/skills/lissandra_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/parameters",
+        "expected": "/skills/lissandra_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/parameters",
+        "expected": "/skills/lissandra_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/parameters/slow_percent",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/parameters",
+        "expected": "/skills/lissandra_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/parameters/slow_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/parameters",
+        "expected": "/skills/lissandra_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/parameters/enemy_stun_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/parameters",
+        "expected": "/skills/lissandra_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/parameters/self_stasis_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/parameters",
+        "expected": "/skills/lissandra_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/parameters/self_heal_flat",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/parameters",
+        "expected": "/skills/lissandra_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/parameters/self_heal_missing_hp_percent",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/parameters",
+        "expected": "/skills/lissandra_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/parameters/self_heal_missing_hp_per_above_percent",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/parameters",
+        "expected": "/skills/lissandra_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/parameters/heal_ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/parameters",
+        "expected": "/skills/lissandra_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/formulas",
+        "expected": "/skills/lissandra_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/formulas/self_heal",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/formulas",
+        "expected": "/skills/lissandra_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 lissandra_r/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/lissandra_r/effects",
+        "expected": "/skills/lissandra_r/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_p/parameters/death_recast_window_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_p/parameters",
+        "expected": "/skills/karthus_p/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_q/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_q/parameters",
+        "expected": "/skills/karthus_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_q/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_q/parameters",
+        "expected": "/skills/karthus_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_q/parameters/single_target_multiplier",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_q/parameters",
+        "expected": "/skills/karthus_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_q/parameters/actual_target_count",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_q/parameters",
+        "expected": "/skills/karthus_q/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_q/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_q/formulas",
+        "expected": "/skills/karthus_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_q/formulas/single_target_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_q/formulas",
+        "expected": "/skills/karthus_q/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_q/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_q/effects",
+        "expected": "/skills/karthus_q/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_w/parameters/magic_resist_shred_percent",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_w/parameters",
+        "expected": "/skills/karthus_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_w/parameters/wall_width",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_w/parameters",
+        "expected": "/skills/karthus_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_w/parameters/slow_percent",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_w/parameters",
+        "expected": "/skills/karthus_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_w/parameters/wall_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_w/parameters",
+        "expected": "/skills/karthus_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_w/parameters/debuff_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_w/parameters",
+        "expected": "/skills/karthus_w/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_w/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_w/effects",
+        "expected": "/skills/karthus_w/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_e/parameters/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_e/parameters",
+        "expected": "/skills/karthus_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_e/parameters/damage_per_second_base",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_e/parameters",
+        "expected": "/skills/karthus_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_e/parameters/ap_ratio_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_e/parameters",
+        "expected": "/skills/karthus_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_e/parameters/mana_restore_on_kill",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_e/parameters",
+        "expected": "/skills/karthus_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_e/parameters/cooldown_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_e/parameters",
+        "expected": "/skills/karthus_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_e/parameters/quarter_multiplier",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_e/parameters",
+        "expected": "/skills/karthus_e/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_e/formulas/damage_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_e/formulas",
+        "expected": "/skills/karthus_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_e/formulas/quarter_damage_per_second",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_e/formulas",
+        "expected": "/skills/karthus_e/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_e/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_e/effects",
+        "expected": "/skills/karthus_e/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_e/effects/mana_restore_on_kill",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_e/effects",
+        "expected": "/skills/karthus_e/effects"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_r/parameters/base_damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_r/parameters",
+        "expected": "/skills/karthus_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_r/parameters/ap_ratio",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_r/parameters",
+        "expected": "/skills/karthus_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_r/parameters/channel_duration_ms",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_r/parameters",
+        "expected": "/skills/karthus_r/parameters"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_r/formulas/damage",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_r/formulas",
+        "expected": "/skills/karthus_r/formulas"
+      }
+    },
+    {
+      "name": "计划对象等于候选 karthus_r/effects/mana_cost",
+      "passed": true,
+      "detail": {
+        "route": "/skills/karthus_r/effects",
+        "expected": "/skills/karthus_r/effects"
+      }
+    },
+    {
+      "name": "公共参数复用值一致 malzahar_q/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 malzahar_q/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 malzahar_e/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 malzahar_e/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 malzahar_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 malzahar_r/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 anivia_q/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 anivia_q/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 anivia_e/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 anivia_e/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 lissandra_q/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 lissandra_q/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 lissandra_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 lissandra_w/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 lissandra_e/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 lissandra_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 lissandra_r/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 karthus_q/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 karthus_w/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 karthus_w/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 karthus_r/parameters/cooldown_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "公共参数复用值一致 karthus_r/parameters/mana_cost",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "实际类型和结构字典无未知值",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "写入树不含MOMENT_EVALUATION",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "写入树不含RUNTIME_INPUT_FORBIDDEN",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "写入树不含actual_missing_health",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "写入树不含damage_tick_interval_ms",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "写入树不含single_target_eligibility_lower_bound",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "写入树没有即时伤害或直接治疗",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "staticFailures": [],
+  "success": true,
+  "errors": [],
+  "preflight": {
+    "pass": true,
+    "protectionConflicts": 0,
+    "catalogReferences": 37,
+    "catalogConflicts": 0,
+    "conflicts": 0,
+    "counts": {
+      "lists": 120,
+      "details": 22,
+      "existing": 22,
+      "missing": 131
+    },
+    "missingByKind": {
+      "parameters": 93,
+      "formulas": 21,
+      "effects": 17,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    }
+  },
+  "writeEvents": 262,
+  "apply": {
+    "startedAt": "2026-09-09T10:35:02.695Z",
+    "confirmed": 131,
+    "postCount": 131,
+    "stopped": false,
+    "stopReason": null,
+    "events": [],
+    "finishedAt": "2026-09-09T10:37:33.516Z"
+  },
+  "final": {
+    "details": 153,
+    "lists": 120,
+    "missing": 0,
+    "conflicts": 0,
+    "protectionDrift": 0,
+    "pass": true
+  },
+  "finishedAt": "2026-09-09T10:37:52.631Z"
+}

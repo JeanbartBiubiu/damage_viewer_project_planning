@@ -1,0 +1,77 @@
+{
+  "at": "2026-09-09T09:30:07.529Z",
+  "status": "READY_FOR_PARENT_REVIEW",
+  "batch": "英雄机制第十六批",
+  "skills": [
+    "malzahar_p",
+    "malzahar_q",
+    "malzahar_w",
+    "malzahar_e",
+    "malzahar_r",
+    "anivia_p",
+    "anivia_q",
+    "anivia_w",
+    "anivia_e",
+    "anivia_r",
+    "lissandra_p",
+    "lissandra_q",
+    "lissandra_w",
+    "lissandra_e",
+    "lissandra_r",
+    "karthus_p",
+    "karthus_q",
+    "karthus_w",
+    "karthus_e",
+    "karthus_r"
+  ],
+  "apiWritesComplete": false,
+  "businessWrites": 0,
+  "currentGet": {
+    "skillCount": 20,
+    "expectedSkillCount": 20,
+    "compositionCount": 22,
+    "detailCount": 22,
+    "duplicateCount": 0,
+    "errorCount": 0,
+    "requestCount": 166
+  },
+  "counts": {
+    "parameters": 137,
+    "formulas": 27,
+    "effects": 17,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "reusedPublicParameters": 22,
+  "writeIntentCount": 159,
+  "exactHashes": {
+    "candidate": "7bf7f7a2e2571c40d34961407532ecc5457510227b4487146be7039967a044fb",
+    "candidatePlan": "5cba42ff37322e8d7d8f94ae9a9695d16c56c58db9f6772c4c491c5f06c09980",
+    "writePlan": "e5ae9d74a2423734819f68e1a1de720509ec28a8ddecae27662114d225956629",
+    "independent": "0cf90aafa241ae83515eed7cabfd7092baf0e85ed6399d9f395367834e9f454a",
+    "protection": "bc2e2cbc99cc940644e05ed575467a143c146eb5e17ef01f7bca593b67e78938",
+    "sourceFreeze": "56aa23cd30d258984598adecdfa405e69662adbcc6d702fbc82b13abcda97431",
+    "stageLedger": "388d28d70d34f4116fa57d8359045756f815c298b632f19418586d203bc7c5e7"
+  },
+  "validation": {
+    "sourceAndTree": "独立源值、原树映射、手算和负例全部通过；可交父负责人审查",
+    "sourceCases": 25,
+    "manualCases": 23,
+    "negativeControls": 5,
+    "failures": 0,
+    "protectedGets": {
+      "requests": 28,
+      "characters": 4,
+      "characterSkillRelationLists": 4,
+      "skillImages": 20,
+      "apiWrites": 0
+    }
+  },
+  "limitations": [
+    "尚未业务写入",
+    "尚未浏览器页面验收",
+    "尚未运行时战斗验证",
+    "等级曲线和事件资格继续待接线"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T10:36:11.127Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/anivia_r/parameters/slow_amount_percent",
+  "id": "slow_amount_percent",
+  "method": "POST",
+  "body": {
+    "parameterKey": "slow_amount_percent",
+    "name": "风暴减速百分数点",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 20,
+      "2": 30,
+      "3": 40
+    },
+    "description": "客户端当前根绑定 DataValues.SlowAmount 取索引1至3；单位正文写@SlowAmount@%，保留20/30/40等百分数点，不乘0.01。",
+    "sortOrder": 60
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T10:35:30.803Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/malzahar_r/parameters/max_health_damage_percent",
+  "id": "max_health_damage_percent",
+  "method": "POST",
+  "body": {
+    "parameterKey": "max_health_damage_percent",
+    "name": "区域最大生命伤害百分数点",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 2,
+      "2": 3,
+      "3": 4
+    },
+    "description": "客户端当前根绑定 DataValues.MaxHealthDamage 取索引1至3；单位正文/树以百分数显示，保留原始1至7，不乘0.01。",
+    "sortOrder": 70
+  }
+}

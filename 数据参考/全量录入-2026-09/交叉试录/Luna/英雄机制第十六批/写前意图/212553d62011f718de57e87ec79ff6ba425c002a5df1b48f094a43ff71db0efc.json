@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-09T10:35:35.504Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/malzahar_r/formulas/beam_damage",
+  "id": "beam_damage",
+  "method": "POST",
+  "body": {
+    "formulaKey": "beam_damage",
+    "name": "压制光束魔法伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "beam_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "beam_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalDamageTooltip = BeamDamage + BeamAPRatio×法强；同版本具名树窄口径映射法强。",
+    "sortOrder": 10
+  }
+}

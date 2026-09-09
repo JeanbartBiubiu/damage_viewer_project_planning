@@ -1,0 +1,21 @@
+{
+  "at": "2026-09-09T10:36:52.526Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/lissandra_r/parameters/self_heal_flat",
+  "id": "self_heal_flat",
+  "method": "POST",
+  "body": {
+    "parameterKey": "self_heal_flat",
+    "name": "自身施放基础治疗",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 100,
+      "2": 150,
+      "3": 200
+    },
+    "description": "客户端当前根绑定 DataValues.SelfCastFlatHeal 取索引1至3。",
+    "sortOrder": 100
+  }
+}

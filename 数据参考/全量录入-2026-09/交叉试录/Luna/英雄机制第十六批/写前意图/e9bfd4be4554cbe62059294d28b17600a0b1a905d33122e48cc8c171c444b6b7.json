@@ -1,0 +1,23 @@
+{
+  "at": "2026-09-09T10:35:08.401Z",
+  "candidateSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "route": "/skills/malzahar_q/parameters/silence_duration_ms",
+  "id": "silence_duration_ms",
+  "method": "POST",
+  "body": {
+    "parameterKey": "silence_duration_ms",
+    "name": "沉默持续（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 1000,
+      "2": 1250,
+      "3": 1500,
+      "4": 1750,
+      "5": 2000
+    },
+    "description": "客户端当前根绑定 DataValues.SilenceDuration 取索引1至5；单位秒转毫秒；按来源显示单位换算为系统比例/毫秒。",
+    "sortOrder": 50
+  }
+}

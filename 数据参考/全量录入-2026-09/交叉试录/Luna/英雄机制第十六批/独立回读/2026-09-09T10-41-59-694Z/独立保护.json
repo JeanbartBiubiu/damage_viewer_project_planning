@@ -1,0 +1,1444 @@
+{
+  "catalogs": {
+    "attributes": {
+      "route": "/attributes",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    "modifier-zones": {
+      "route": "/modifier-zones",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    "damage-types": {
+      "route": "/damage-types",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    "statuses": {
+      "route": "/statuses",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-28T14:55:06.53067Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "眩晕",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "statusKey": "vertigo",
+            "updatedAt": "2026-08-28T14:55:06.53067Z"
+          }
+        ],
+        "total": 1
+      }
+    }
+  },
+  "characters": {
+    "malzahar": {
+      "route": "/characters/champion_malzahar",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "characterKey": "champion_malzahar",
+        "createdAt": "2026-09-06T16:24:46.602257Z",
+        "description": "来源：官方 Data Dragon 16.17.1；攻击力成长与攻速来源补证自 CommunityDragon 提取的同补丁客户端 16.17.8104348（非 Riot 官方接口）。本轮仅录角色主体与 1～18 级基础自然成长，不含被动、技能、装备、符文、叠层或形态。技能、图片和机制待录，不能视为完整录入。",
+        "gameId": "lol",
+        "name": "玛尔扎哈",
+        "updatedAt": "2026-09-06T16:24:46.602257Z"
+      }
+    },
+    "anivia": {
+      "route": "/characters/champion_anivia",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "characterKey": "champion_anivia",
+        "createdAt": "2026-09-06T17:04:23.614656Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "艾尼维亚",
+        "updatedAt": "2026-09-06T17:04:23.614656Z"
+      }
+    },
+    "lissandra": {
+      "route": "/characters/champion_lissandra",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "characterKey": "champion_lissandra",
+        "createdAt": "2026-09-06T17:21:20.505939Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "丽桑卓",
+        "updatedAt": "2026-09-06T17:21:20.505939Z"
+      }
+    },
+    "karthus": {
+      "route": "/characters/champion_karthus",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "characterKey": "champion_karthus",
+        "createdAt": "2026-09-06T17:23:47.225834Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "卡尔萨斯",
+        "updatedAt": "2026-09-06T17:23:47.225834Z"
+      }
+    }
+  },
+  "relations": {
+    "malzahar": {
+      "route": "/character-skill-relations?characterKey=champion_malzahar",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_malzahar",
+            "characterName": "玛尔扎哈",
+            "gameId": "lol",
+            "skillKey": "malzahar_p",
+            "skillName": "玛尔扎哈·虚空穿越",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_malzahar",
+            "characterName": "玛尔扎哈",
+            "gameId": "lol",
+            "skillKey": "malzahar_q",
+            "skillName": "玛尔扎哈·虚空召唤",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_malzahar",
+            "characterName": "玛尔扎哈",
+            "gameId": "lol",
+            "skillKey": "malzahar_w",
+            "skillName": "玛尔扎哈·虚空虫群",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_malzahar",
+            "characterName": "玛尔扎哈",
+            "gameId": "lol",
+            "skillKey": "malzahar_e",
+            "skillName": "玛尔扎哈·煞星幻象",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_malzahar",
+            "characterName": "玛尔扎哈",
+            "gameId": "lol",
+            "skillKey": "malzahar_r",
+            "skillName": "玛尔扎哈·冥府之握",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    "anivia": {
+      "route": "/character-skill-relations?characterKey=champion_anivia",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_anivia",
+            "characterName": "艾尼维亚",
+            "gameId": "lol",
+            "skillKey": "anivia_p",
+            "skillName": "艾尼维亚·寒霜涅槃",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_anivia",
+            "characterName": "艾尼维亚",
+            "gameId": "lol",
+            "skillKey": "anivia_q",
+            "skillName": "艾尼维亚·寒冰闪耀",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_anivia",
+            "characterName": "艾尼维亚",
+            "gameId": "lol",
+            "skillKey": "anivia_w",
+            "skillName": "艾尼维亚·寒冰屏障",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_anivia",
+            "characterName": "艾尼维亚",
+            "gameId": "lol",
+            "skillKey": "anivia_e",
+            "skillName": "艾尼维亚·霜寒刺骨",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_anivia",
+            "characterName": "艾尼维亚",
+            "gameId": "lol",
+            "skillKey": "anivia_r",
+            "skillName": "艾尼维亚·冰川风暴",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    "lissandra": {
+      "route": "/character-skill-relations?characterKey=champion_lissandra",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_lissandra",
+            "characterName": "丽桑卓",
+            "gameId": "lol",
+            "skillKey": "lissandra_p",
+            "skillName": "丽桑卓·冰脉驱役",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_lissandra",
+            "characterName": "丽桑卓",
+            "gameId": "lol",
+            "skillKey": "lissandra_q",
+            "skillName": "丽桑卓·寒冰碎片",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_lissandra",
+            "characterName": "丽桑卓",
+            "gameId": "lol",
+            "skillKey": "lissandra_w",
+            "skillName": "丽桑卓·冰霜之环",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_lissandra",
+            "characterName": "丽桑卓",
+            "gameId": "lol",
+            "skillKey": "lissandra_e",
+            "skillName": "丽桑卓·冰川之径",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_lissandra",
+            "characterName": "丽桑卓",
+            "gameId": "lol",
+            "skillKey": "lissandra_r",
+            "skillName": "丽桑卓·冰封陵墓",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    "karthus": {
+      "route": "/character-skill-relations?characterKey=champion_karthus",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_karthus",
+            "characterName": "卡尔萨斯",
+            "gameId": "lol",
+            "skillKey": "karthus_p",
+            "skillName": "卡尔萨斯·死亡契约",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_karthus",
+            "characterName": "卡尔萨斯",
+            "gameId": "lol",
+            "skillKey": "karthus_q",
+            "skillName": "卡尔萨斯·荒芜",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_karthus",
+            "characterName": "卡尔萨斯",
+            "gameId": "lol",
+            "skillKey": "karthus_w",
+            "skillName": "卡尔萨斯·痛苦之墙",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_karthus",
+            "characterName": "卡尔萨斯",
+            "gameId": "lol",
+            "skillKey": "karthus_e",
+            "skillName": "卡尔萨斯·亵渎",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_karthus",
+            "characterName": "卡尔萨斯",
+            "gameId": "lol",
+            "skillKey": "karthus_r",
+            "skillName": "卡尔萨斯·安魂曲",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    }
+  },
+  "subjects": {
+    "malzahar_p": {
+      "route": "/skills/malzahar_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:19:19.306208Z",
+        "description": "玛尔扎哈如果近期没有受到伤害或控制效果，就会获得巨幅伤害减免和免疫控制的效果，并且这个效果在受到伤害后还会残留一小段时间。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "玛尔扎哈·虚空穿越",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "malzahar_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:19.306208Z"
+      }
+    },
+    "malzahar_q": {
+      "route": "/skills/malzahar_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:19:19.619328Z",
+        "description": "玛尔扎哈开启两扇通向虚空的传送门。在短暂的延迟后，两扇门之间会有虚空能量对流而过，造成魔法伤害并沉默敌方英雄。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "玛尔扎哈·虚空召唤",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "malzahar_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:19.619328Z"
+      }
+    },
+    "malzahar_w": {
+      "route": "/skills/malzahar_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:19:19.87203Z",
+        "description": "玛尔扎哈召唤虚灵去攻击附近的敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "玛尔扎哈·虚空虫群",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "malzahar_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:19.87203Z"
+      }
+    },
+    "malzahar_e": {
+      "route": "/skills/malzahar_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:19:20.153696Z",
+        "description": "玛尔扎哈将目标的惨死幻象侵入目标的意识中，造成持续伤害。玛尔扎哈对目标使用其它技能时会刷新幻象的持续时间。<br><br>如果目标在感染幻象期间死亡，那么幻象会传到附近的一个敌人身上，并且玛尔扎哈会回复法力值。玛尔扎哈的虚灵会优先攻击感染了幻象的单位。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "玛尔扎哈·煞星幻象",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "malzahar_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:20.153696Z"
+      }
+    },
+    "malzahar_r": {
+      "route": "/skills/malzahar_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:19:20.42Z",
+        "description": "玛尔扎哈引导虚空的精萃来把一名敌方英雄压制在一个充满伤害的负能量地带上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "玛尔扎哈·冥府之握",
+        "skillCategoryKeys": [],
+        "skillKey": "malzahar_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:20.42Z"
+      }
+    },
+    "anivia_p": {
+      "route": "/skills/anivia_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:16:24.033571Z",
+        "description": "在受到致命伤害后，艾尼维亚将化身为凤凰蛋，然后满血复活。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "艾尼维亚·寒霜涅槃",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "anivia_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:24.033571Z"
+      }
+    },
+    "anivia_q": {
+      "route": "/skills/anivia_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:16:24.392362Z",
+        "description": "艾尼维亚挥动翅膀聚集空气，制造一枚冰晶向目标区域施放，冰冻并伤害路径上的所有敌人。当冰晶爆裂时，它会晕眩并伤害一定范围内的所有敌人。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾尼维亚·寒冰闪耀",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "anivia_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:24.392362Z"
+      }
+    },
+    "anivia_w": {
+      "route": "/skills/anivia_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:16:24.779014Z",
+        "description": "艾尼维亚利用空气中的湿气，召唤出一道不可穿越的冰之墙来阻挡所有移动。该墙持续很短一段时间后就会融化。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾尼维亚·寒冰屏障",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "anivia_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:24.779014Z"
+      }
+    },
+    "anivia_e": {
+      "route": "/skills/anivia_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:16:25.126073Z",
+        "description": "艾尼维亚扇动双翅，朝她的目标喷射出一股刺骨的强风，造成伤害。如果目标近期已被【Q寒冰闪耀】所命中或被一个完全形成的【R冰川风暴】所伤害，那么将会受到该技能双倍的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "艾尼维亚·霜寒刺骨",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "anivia_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:25.126073Z"
+      }
+    },
+    "anivia_r": {
+      "route": "/skills/anivia_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:16:25.505746Z",
+        "description": "艾尼维亚召唤出一朵夹杂着冰块和冰雹的雨云，对敌人造成伤害，并使其减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "艾尼维亚·冰川风暴",
+        "skillCategoryKeys": [],
+        "skillKey": "anivia_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:25.505746Z"
+      }
+    },
+    "lissandra_p": {
+      "route": "/skills/lissandra_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:19:12.235879Z",
+        "description": "当一名敌方英雄在丽桑卓附近阵亡时，该英雄会变成一个冰封奴仆。冰封奴仆会寻找活着的敌人，使身边敌人的移动速度减少。在一段延迟后，冰封奴仆会从极度冰寒中粉碎，对附近目标造成魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "丽桑卓·冰脉驱役",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "lissandra_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:12.235879Z"
+      }
+    },
+    "lissandra_q": {
+      "route": "/skills/lissandra_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:19:12.518594Z",
+        "description": "掷出一杆冰矛，冰矛会在命中敌人时碎裂，造成魔法伤害和减速效果。碎裂会穿过目标，对被冰矛命中的其他敌人造成等量伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "丽桑卓·寒冰碎片",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "lissandra_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:12.518594Z"
+      }
+    },
+    "lissandra_w": {
+      "route": "/skills/lissandra_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:19:12.755851Z",
+        "description": "将周围的敌人冻在原地，造成魔法伤害和束缚效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "丽桑卓·冰霜之环",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "lissandra_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:12.755851Z"
+      }
+    },
+    "lissandra_e": {
+      "route": "/skills/lissandra_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:19:13.008327Z",
+        "description": "丽桑卓召唤一个寒冰魔爪来造成魔法伤害。再次激活这个技能，可以让丽桑卓传送到寒冰魔爪的当前位置上。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "丽桑卓·冰川之径",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "lissandra_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:13.008327Z"
+      }
+    },
+    "lissandra_r": {
+      "route": "/skills/lissandra_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:19:13.299361Z",
+        "description": "如果对敌方英雄施放，那么会冻结目标，对目标造成晕眩效果，如果对丽桑卓自己施放，那么她会暂时用暗黑之冰裹住自己，治疗自身并免疫任何伤害且不可被选取，但也无法进行任何动作。暗黑之冰可以从目标处放射寒芒对敌人造成魔法伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "丽桑卓·冰封陵墓",
+        "skillCategoryKeys": [],
+        "skillKey": "lissandra_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:13.299361Z"
+      }
+    },
+    "karthus_p": {
+      "route": "/skills/karthus_p",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:51.416974Z",
+        "description": "在死亡时，卡尔萨斯会化为一个灵体，能够继续施放技能。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "卡尔萨斯·死亡契约",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "karthus_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:51.416974Z"
+      }
+    },
+    "karthus_q": {
+      "route": "/skills/karthus_q",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:51.654703Z",
+        "description": "卡尔萨斯在目标区域释放一次有延迟的爆炸魔法，对区域内的所有敌人造成伤害。对孤立无援的敌人造成提升过的伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡尔萨斯·荒芜",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "karthus_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:51.654703Z"
+      }
+    },
+    "karthus_w": {
+      "route": "/skills/karthus_w",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:51.93481Z",
+        "description": "卡尔萨斯创造一道可通过的魔能之墙。所有穿过墙体的敌方单位都会被暂时降低移动速度和魔法抗性。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡尔萨斯·痛苦之墙",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "karthus_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:51.93481Z"
+      }
+    },
+    "karthus_e": {
+      "route": "/skills/karthus_e",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:52.209544Z",
+        "description": "卡尔萨斯被动地从他的猎物那里窃取法力，每杀死一个敌人就会获得法力。卡尔萨斯也可以转化这种力量，用猎物的灵魂环绕自身，对附近的敌人造成伤害，但会急速消耗他自己的法力。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "卡尔萨斯·亵渎",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "karthus_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:52.209544Z"
+      }
+    },
+    "karthus_r": {
+      "route": "/skills/karthus_r",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "createdAt": "2026-09-06T18:18:52.467655Z",
+        "description": "在引导3秒后，卡尔萨斯就会对所有敌方英雄造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "卡尔萨斯·安魂曲",
+        "skillCategoryKeys": [],
+        "skillKey": "karthus_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:52.467655Z"
+      }
+    }
+  },
+  "images": {
+    "malzahar_p": {
+      "route": "/skills/malzahar_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_malzahar_p",
+          "name": "malzahar_p"
+        }
+      }
+    },
+    "malzahar_q": {
+      "route": "/skills/malzahar_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_malzahar_q",
+          "name": "malzahar_q"
+        }
+      }
+    },
+    "malzahar_w": {
+      "route": "/skills/malzahar_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_malzahar_w",
+          "name": "malzahar_w"
+        }
+      }
+    },
+    "malzahar_e": {
+      "route": "/skills/malzahar_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_malzahar_e",
+          "name": "malzahar_e"
+        }
+      }
+    },
+    "malzahar_r": {
+      "route": "/skills/malzahar_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_malzahar_r",
+          "name": "malzahar_r"
+        }
+      }
+    },
+    "anivia_p": {
+      "route": "/skills/anivia_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_anivia_p",
+          "name": "anivia_p"
+        }
+      }
+    },
+    "anivia_q": {
+      "route": "/skills/anivia_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_anivia_q",
+          "name": "anivia_q"
+        }
+      }
+    },
+    "anivia_w": {
+      "route": "/skills/anivia_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_anivia_w",
+          "name": "anivia_w"
+        }
+      }
+    },
+    "anivia_e": {
+      "route": "/skills/anivia_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_anivia_e",
+          "name": "anivia_e"
+        }
+      }
+    },
+    "anivia_r": {
+      "route": "/skills/anivia_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_anivia_r",
+          "name": "anivia_r"
+        }
+      }
+    },
+    "lissandra_p": {
+      "route": "/skills/lissandra_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_lissandra_p",
+          "name": "lissandra_p"
+        }
+      }
+    },
+    "lissandra_q": {
+      "route": "/skills/lissandra_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_lissandra_q",
+          "name": "lissandra_q"
+        }
+      }
+    },
+    "lissandra_w": {
+      "route": "/skills/lissandra_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_lissandra_w",
+          "name": "lissandra_w"
+        }
+      }
+    },
+    "lissandra_e": {
+      "route": "/skills/lissandra_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_lissandra_e",
+          "name": "lissandra_e"
+        }
+      }
+    },
+    "lissandra_r": {
+      "route": "/skills/lissandra_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_lissandra_r",
+          "name": "lissandra_r"
+        }
+      }
+    },
+    "karthus_p": {
+      "route": "/skills/karthus_p/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_karthus_p",
+          "name": "karthus_p"
+        }
+      }
+    },
+    "karthus_q": {
+      "route": "/skills/karthus_q/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_karthus_q",
+          "name": "karthus_q"
+        }
+      }
+    },
+    "karthus_w": {
+      "route": "/skills/karthus_w/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_karthus_w",
+          "name": "karthus_w"
+        }
+      }
+    },
+    "karthus_e": {
+      "route": "/skills/karthus_e/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_karthus_e",
+          "name": "karthus_e"
+        }
+      }
+    },
+    "karthus_r": {
+      "route": "/skills/karthus_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "ok": true,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_karthus_r",
+          "name": "karthus_r"
+        }
+      }
+    }
+  }
+}

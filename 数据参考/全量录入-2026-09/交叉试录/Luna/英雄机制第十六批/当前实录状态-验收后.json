@@ -1,0 +1,135 @@
+{
+  "at": "2026-09-09T10:42:18.689Z",
+  "status": "已保存与验收明确组成，剩余机制继续处理",
+  "revision": "修订版2",
+  "batch": "英雄机制第十六批",
+  "candidateFileSha256": "1e8809bc4c69d42a4b947f9d533e51bdb8e53d4ff04153091ec7cbadbda643bc",
+  "candidatePlanSha256": "f25f8452a29624f8e5e4a19b7a080a6212bfcb27f2baa50557f4462e0c7fe06e",
+  "writePlanSha256": "6c2e687d3aaa74401d07fe200fa1c4bfe022f183a51f2d20d3492ba41d90b022",
+  "freezeSha256": "e4c8fa637700b666a885b9fa1500e164d511a1ce3344c05e443d5444f05a9f75",
+  "sourceVersion": "client16.17/official16.17.1",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "apiWritesComplete": true,
+  "businessWrites": 131,
+  "allCandidateComponentsConfirmed": true,
+  "writeRun": {
+    "runId": "2026-09-09T10-34-49-397Z",
+    "resultFile": "执行记录/2026-09-09T10-34-49-397Z/执行结果.json",
+    "resultSha256": "cad463573753f2b6e32380bb68e262b4b3f520d2ab23b75e3059d31937acee93",
+    "calls": 912,
+    "methods": {
+      "GET": 781,
+      "POST": 131
+    },
+    "statuses": {
+      "200": 650,
+      "201": 131,
+      "404": 131
+    },
+    "preflight": {
+      "calls": 194,
+      "all200": true,
+      "lists": 120,
+      "existingDetails": 22,
+      "missing": 131,
+      "catalogReferences": 37,
+      "protectionConflicts": 0,
+      "componentConflicts": 0
+    },
+    "postCount": 131,
+    "confirmed": 131,
+    "postStatus201": 131,
+    "finalDetails": 153,
+    "finalLists": 120,
+    "remainingMissing": 0,
+    "finalConflicts": 0,
+    "protectionDrift": 0,
+    "writeLock": "执行准备/实际录入写入锁.json",
+    "intentFiles": 131
+  },
+  "counts": {
+    "parameters": 115,
+    "formulas": 21,
+    "effects": 17,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "total": 153
+  },
+  "reusedPublicParameters": 22,
+  "independentReadback": {
+    "runId": "2026-09-09T10-41-59-694Z",
+    "resultFile": "独立回读/2026-09-09T10-41-59-694Z/执行结果.json",
+    "resultSha256": "f00d8434777b0f849fab70d25e25064e34dca4be4ba790c38f5a1786750934e0",
+    "apiWrites": 0,
+    "requests": {
+      "catalogs": 4,
+      "characters": 4,
+      "relations": 4,
+      "subjects": 20,
+      "images": 20,
+      "lists": 120,
+      "details": 153,
+      "total": 325
+    },
+    "statuses": {
+      "200": 325,
+      "GET": 325
+    },
+    "protectionConflicts": 0,
+    "listConflicts": 0,
+    "componentConflicts": 0,
+    "catalogReferences": 37,
+    "math": {
+      "file": "独立回读/2026-09-09T10-41-59-694Z/实际读后数学核算.json",
+      "sha256": "3cf8376bfd1dcd7032e6afc1f99611b770d9fdb72b90816a0efc5b6339cfb471",
+      "status": "READY_FOR_INDEPENDENT_REVIEW",
+      "checks": 297,
+      "failedChecks": 0,
+      "formulaChecks": 21,
+      "sourceCases": 22,
+      "manualCases": 19,
+      "negativeControls": 6,
+      "inputRejections": 0
+    }
+  },
+  "sourceEvidence": {
+    "sourceFreezeSha256": "56aa23cd30d258984598adecdfa405e69662adbcc6d702fbc82b13abcda97431",
+    "textEvidenceSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+    "sourceSummarySha256": "1c46d8d383796c8cc02562d49a398881333a9071dd517aa55431f4353ee9268b",
+    "examplesSha256": "15fd7861117bdc08dd09475f6f5ab4eec95a13edb2a678e7efdd84a7e4deb0d8",
+    "narrowMappingSha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+    "constructorDefaultsSha256": "b655135a440e892435ff500e2dc8034eba247f7323c532cb47ee2001137c831e"
+  },
+  "scriptHashes": {
+    "writer": "2b05571077f5302ec452910374131c2459f171cf73321802533f080c4b28ed7f",
+    "independentReadback": "f4e0e3a75f0fe75db8afe2d7dc5f5d92469cc33029bca4f206192b96e4c41756",
+    "independentMath": "bd31b6d796b611adf5bb966083ed3385ffed0e9634f3cf0abc5c8060ccc46ddd"
+  },
+  "auditNotes": [
+    "首轮独立回读2026-09-09T10-38-03-072Z的325次GET全部成功；数学子进程因脚本变量名错误退出，目录保留为失败证据，未重放任何业务写入。",
+    "修复数学脚本后重新执行独立325次GET并通过全部297项核算；候选、计划和冻结锁散列未改变。",
+    "未执行浏览器验收、运行时战斗验收、Git操作、阶段账更新或SOP修改。",
+    "主负责人另完成4代表页面及17次对应GET，基础治疗两算例通过；原未执行浏览器条目属于执行代理交付时状态。"
+  ],
+  "limitations": [
+    "未知等级曲线继续要求实际运行输入",
+    "卡尔萨斯P死亡状态触发、7秒窗口结束、死亡后技能资格和无消耗覆盖仍待系统接线",
+    "丽桑卓R低血提升的分段、取整、封顶、所有者和时点未猜补",
+    "独立召唤物、完整蛋形态和纯冰墙空间路径不在本批写入范围"
+  ],
+  "browser": {
+    "representativePages": 4,
+    "GETs": 17,
+    "evidence": "页面验收.json",
+    "passed": true
+  },
+  "runtimeValidation": "未执行",
+  "finalFormatting": {
+    "script": "实际读后数学核算.mjs",
+    "change": "提交前仅移除一处行尾空格；语法检查通过，未改变数学逻辑",
+    "executedScriptSha256": "bd31b6d796b611adf5bb966083ed3385ffed0e9634f3cf0abc5c8060ccc46ddd",
+    "currentScriptSha256": "dce757ec8cbd0a74a2257c69e4c8893ed8b2677ea0e636bdcba83784d3254d5a",
+    "executedScriptArchive": "核算脚本执行原件.mjs.gz"
+  }
+}
