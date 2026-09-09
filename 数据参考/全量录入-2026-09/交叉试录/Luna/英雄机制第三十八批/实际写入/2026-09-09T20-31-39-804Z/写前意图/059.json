@@ -1,0 +1,23 @@
+{
+  "i": 58,
+  "intent": {
+    "sequence": 59,
+    "method": "POST",
+    "route": "/skills/leesin_q/parameters",
+    "detailRoute": "/skills/leesin_q/parameters/empowered_damage_multiplier",
+    "skillKey": "leesin_q",
+    "kind": "parameters",
+    "stableKey": "empowered_damage_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_damage_multiplier",
+      "name": "回音击最高伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前绑定正文消费EmpoweredDamage最高值；只保留一次完整回音击基础树乘2，不把tooltipOnly树重复作为另一段伤害。",
+      "sortOrder": 70
+    }
+  }
+}

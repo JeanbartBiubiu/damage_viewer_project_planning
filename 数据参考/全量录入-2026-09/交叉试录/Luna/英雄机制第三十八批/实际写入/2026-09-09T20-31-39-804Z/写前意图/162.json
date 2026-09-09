@@ -1,0 +1,23 @@
+{
+  "i": 161,
+  "intent": {
+    "sequence": 162,
+    "method": "POST",
+    "route": "/skills/kayle_q/parameters",
+    "detailRoute": "/skills/kayle_q/parameters/bonus_ad_ratio",
+    "skillKey": "kayle_q",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "耀焰冲击额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.60000002,
+      "levelValues": null,
+      "description": "TotalDamage的第三项mStat=2、mStatFormula=2，读取来源额外攻击力。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 176,
+  "intent": {
+    "sequence": 177,
+    "method": "POST",
+    "route": "/skills/kayle_e/parameters",
+    "detailRoute": "/skills/kayle_e/parameters/passive_base_damage",
+    "skillKey": "kayle_e",
+    "kind": "parameters",
+    "stableKey": "passive_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_base_damage",
+      "name": "星火符刃被动基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15,
+        "2": 20,
+        "3": 25,
+        "4": 30,
+        "5": 35
+      },
+      "description": "客户端当前根绑定PassiveDamage取技能等级索引1至5为15/20/25/30/35；索引0重复15不作为起点证据。",
+      "sortOrder": 10
+    }
+  }
+}

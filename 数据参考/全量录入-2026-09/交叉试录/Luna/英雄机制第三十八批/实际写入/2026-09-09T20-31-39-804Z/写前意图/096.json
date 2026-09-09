@@ -1,0 +1,33 @@
+{
+  "i": 95,
+  "intent": {
+    "sequence": 96,
+    "method": "POST",
+    "route": "/skills/skarner_p/formulas",
+    "detailRoute": "/skills/skarner_p/formulas/percent_health_damage_ratio",
+    "skillKey": "skarner_p",
+    "kind": "formulas",
+    "stableKey": "percent_health_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "percent_health_damage_ratio",
+      "name": "战栗目标最大生命伤害比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_health_multiplier"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_health_base_at_character_level"
+          }
+        ]
+      },
+      "description": "当前PercentHealthDamage=0.01×角色等级插值基础值，结果按百分数显示；实际目标最大生命和周期事件待接。",
+      "sortOrder": 10
+    }
+  }
+}

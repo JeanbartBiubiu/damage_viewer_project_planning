@@ -1,0 +1,23 @@
+{
+  "i": 165,
+  "intent": {
+    "sequence": 166,
+    "method": "POST",
+    "route": "/skills/kayle_q/parameters",
+    "detailRoute": "/skills/kayle_q/parameters/shred_duration_ms",
+    "skillKey": "kayle_q",
+    "kind": "parameters",
+    "stableKey": "shred_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shred_duration_ms",
+      "name": "耀焰冲击削减持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "当前ShredDuration=4秒，转换为4000毫秒。",
+      "sortOrder": 70
+    }
+  }
+}

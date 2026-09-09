@@ -1,0 +1,23 @@
+{
+  "i": 12,
+  "intent": {
+    "sequence": 13,
+    "method": "POST",
+    "route": "/skills/jarvaniv_q/parameters",
+    "detailRoute": "/skills/jarvaniv_q/parameters/knock_up_duration_ms",
+    "skillKey": "jarvaniv_q",
+    "kind": "parameters",
+    "stableKey": "knock_up_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knock_up_duration_ms",
+      "name": "巨龙撞击连接军旗击飞持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 750,
+      "levelValues": null,
+      "description": "当前绑定中文正文明确连接军旗时沿途敌人击飞0.75秒；只保存时长，不创建控制结果。",
+      "sortOrder": 50
+    }
+  }
+}

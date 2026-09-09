@@ -1,0 +1,23 @@
+{
+  "i": 39,
+  "intent": {
+    "sequence": 40,
+    "method": "POST",
+    "route": "/skills/jarvaniv_r/parameters",
+    "detailRoute": "/skills/jarvaniv_r/parameters/cast_time_ms",
+    "skillKey": "jarvaniv_r",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "天崩地裂根施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "只记录根spellCastTime。",
+      "sortOrder": 40
+    }
+  }
+}

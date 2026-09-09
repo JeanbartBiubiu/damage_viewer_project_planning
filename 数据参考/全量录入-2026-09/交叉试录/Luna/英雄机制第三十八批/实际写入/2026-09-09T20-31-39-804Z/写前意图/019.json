@@ -1,0 +1,23 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "method": "POST",
+    "route": "/skills/jarvaniv_w/parameters",
+    "detailRoute": "/skills/jarvaniv_w/parameters/shield_bonus_stat12_ratio",
+    "skillKey": "jarvaniv_w",
+    "kind": "parameters",
+    "stableKey": "shield_bonus_stat12_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_bonus_stat12_ratio",
+      "name": "黄金圣盾命中英雄额外护盾生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.013,
+      "levelValues": null,
+      "description": "BonusShield的mStat=12；结合同版窄证映射为来源生命总值，使用SOURCE.hp.TOTAL。",
+      "sortOrder": 30
+    }
+  }
+}

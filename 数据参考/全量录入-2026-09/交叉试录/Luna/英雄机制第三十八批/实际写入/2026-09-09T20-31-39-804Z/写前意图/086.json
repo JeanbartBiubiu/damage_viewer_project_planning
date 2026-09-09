@@ -1,0 +1,23 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "method": "POST",
+    "route": "/skills/leesin_r/parameters",
+    "detailRoute": "/skills/leesin_r/parameters/bonus_ad_ratio",
+    "skillKey": "leesin_r",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "猛龙摆尾额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "Damage的mStat=2、mStatFormula=2，按来源额外攻击力读取。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 125,
+  "intent": {
+    "sequence": 126,
+    "method": "POST",
+    "route": "/skills/skarner_e/parameters",
+    "detailRoute": "/skills/skarner_e/parameters/pin_base_damage",
+    "skillKey": "skarner_e",
+    "kind": "parameters",
+    "stableKey": "pin_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "pin_base_damage",
+      "name": "以绪塔尔冲击撞墙基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 60,
+        "3": 90,
+        "4": 120,
+        "5": 150
+      },
+      "description": "客户端当前根绑定PinBaseDamage取技能等级索引1至5为30/60/90/120/150。",
+      "sortOrder": 60
+    }
+  }
+}

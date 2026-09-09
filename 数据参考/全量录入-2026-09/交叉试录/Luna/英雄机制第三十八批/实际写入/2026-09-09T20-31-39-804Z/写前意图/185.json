@@ -1,0 +1,55 @@
+{
+  "i": 184,
+  "intent": {
+    "sequence": 185,
+    "method": "POST",
+    "route": "/skills/kayle_e/formulas",
+    "detailRoute": "/skills/kayle_e/formulas/active_execute_ratio",
+    "skillKey": "kayle_e",
+    "kind": "formulas",
+    "stableKey": "active_execute_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "active_execute_ratio",
+      "name": "星火符刃主动已损生命伤害比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "active_execute_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "active_execute_percent_points"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "active_execute_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前ActiveTotalExecuteDamage=0.01×(ActiveExecutePercent+0.015×来源总法术强度)，结果按百分数显示；目标已损生命由运行层提供。",
+      "sortOrder": 20
+    }
+  }
+}

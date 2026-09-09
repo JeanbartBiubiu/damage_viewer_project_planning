@@ -1,0 +1,23 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "method": "POST",
+    "route": "/skills/leesin_q/parameters",
+    "detailRoute": "/skills/leesin_q/parameters/q2_bonus_ad_ratio",
+    "skillKey": "leesin_q",
+    "kind": "parameters",
+    "stableKey": "q2_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "q2_bonus_ad_ratio",
+      "name": "回音击额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.89999998,
+      "levelValues": null,
+      "description": "RecastDamage的mStat=2、mStatFormula=2，按来源额外攻击力读取。",
+      "sortOrder": 40
+    }
+  }
+}

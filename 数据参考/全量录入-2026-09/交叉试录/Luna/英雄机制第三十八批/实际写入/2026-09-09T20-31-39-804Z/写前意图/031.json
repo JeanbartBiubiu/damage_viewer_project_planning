@@ -1,0 +1,29 @@
+{
+  "i": 30,
+  "intent": {
+    "sequence": 31,
+    "method": "POST",
+    "route": "/skills/jarvaniv_e/parameters",
+    "detailRoute": "/skills/jarvaniv_e/parameters/base_magic_damage",
+    "skillKey": "jarvaniv_e",
+    "kind": "parameters",
+    "stableKey": "base_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_magic_damage",
+      "name": "德邦军旗基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "description": "当前TotalDamage的mEffectIndex=2对应mEffectAmount[1]，取技能等级索引1至5为80/120/160/200/240。",
+      "sortOrder": 70
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 87,
+    "method": "POST",
+    "route": "/skills/leesin_r/parameters",
+    "detailRoute": "/skills/leesin_r/parameters/kick_distance",
+    "skillKey": "leesin_r",
+    "kind": "parameters",
+    "stableKey": "kick_distance",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "kick_distance",
+      "name": "猛龙摆尾击退距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 800,
+      "levelValues": null,
+      "description": "当前KickDistance=800；只记录空间参数，不创建击退结果。",
+      "sortOrder": 30
+    }
+  }
+}

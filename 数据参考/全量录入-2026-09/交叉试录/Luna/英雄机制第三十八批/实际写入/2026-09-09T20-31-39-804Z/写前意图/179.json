@@ -1,0 +1,23 @@
+{
+  "i": 178,
+  "intent": {
+    "sequence": 179,
+    "method": "POST",
+    "route": "/skills/kayle_e/parameters",
+    "detailRoute": "/skills/kayle_e/parameters/passive_ap_ratio",
+    "skillKey": "kayle_e",
+    "kind": "parameters",
+    "stableKey": "passive_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_ap_ratio",
+      "name": "星火符刃被动法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.2,
+      "levelValues": null,
+      "description": "EPassiveTotalDamage第二项无mStat，按同版窄证读取来源总法术强度。",
+      "sortOrder": 30
+    }
+  }
+}

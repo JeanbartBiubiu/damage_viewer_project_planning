@@ -1,0 +1,16 @@
+import fs from 'node:fs';import assert from 'node:assert/strict';
+const a='C:/project/damage_web_dev/.agents/artifacts',r=a+'/hero38-independent-review',m=a+'/hero38-independent-source-math';assert(!fs.existsSync(r));assert(!fs.existsSync(m));fs.mkdirSync(r);fs.mkdirSync(m);
+let s=fs.readFileSync(a+'/hero37-independent-review/独立回读-实际GET.mjs','utf8').replaceAll('hero37','hero38').replaceAll('HERO37','HERO38').replace("|| '修订二'","|| ''").replaceAll('a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5','2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb').replaceAll('31f512d49b1c7e150bb1b471df3886ef1860e8a38a8ccf6777b00e7942137aec','90e673a8cc1f0475eb0bbf518e05f04168eb20f59c46a49e16ce4158532e319b');
+for(const[x,y]of [['247','193'],['271','218'],['196','197'],['467','415']])s=s.replaceAll(x,y);
+s=s.replaceAll('!== 24','!== 25').replaceAll('reusedDetails: 24','reusedDetails: 25').replaceAll('为24项','为25项').replaceAll('增加24项','增加25项');
+s=s.replace("const args = process.argv.slice(2);","if (JSON.parse(fs.readFileSync(path.join(candidateDir,'实际写入锁.json'))).status !== 'COMPLETED') throw new Error('实际保存未完成，不启动独立GET');\nconst args = process.argv.slice(2);");
+fs.writeFileSync(r+'/独立回读-实际GET.mjs',s,{flag:'wx'});
+let t=fs.readFileSync(a+'/hero38-luna-candidate/独立数学核算.mjs','utf8').replace('const candidatePath = path.join(artifactDir, "完整候选.json");','const candidatePath = path.join(repo, ".agents/artifacts/hero38-luna-candidate/完整候选.json");').replace('const reportPath = path.join(artifactDir, "独立数学核算.json");','const reportPath = path.join(artifactDir, "实际公式数学.json");');
+t=t.replace('const candidate = readJson(candidatePath);',`const candidate = readJson(candidatePath);
+const getPath=process.env.HERO38_GET_REPORT;if(!getPath)throw new Error('必须指定同一次独立GET报告');const getReport=readJson(getPath);assert(getReport.status==='PASS'&&getReport.actual.calls===415,'独立GET未通过');assert(getReport.candidateSha256===sha256File(candidatePath),'实际GET候选散列不一致');
+const actual=new Map(getReport.rawResponses.map(x=>[x.route,x.data]));let actualHydrated=0;
+for(const [key,skill]of Object.entries(candidate.skills))for(const[k,id,route]of [['parameters','parameterKey','parameters'],['formulas','formulaKey','formulas'],['effects','effectKey','effects']])skill.write[k]=skill.write[k].map(x=>{const p='/skills/'+key+'/'+route+'/'+x[id];assert(actual.has(p),'缺少实际回读组成',p);actualHydrated++;return actual.get(p);});assert(actualHydrated===193,'实际组成数不符');`);
+t=t.replace('实际值读取候选参数树；','实际值只读取同一次415GET快照的真实详情；');
+t=t.replace('const report = {','const report = {\n  apiCalls:0,apiWrites:0,actualHydrated,actualGETFile:getPath,actualGETSha256:sha256File(getPath),');
+const before=t.indexOf('const durableScriptPath = '),after=t.indexOf('console.log(JSON.stringify({',before);assert(before>0&&after>before);t=t.slice(0,before)+t.slice(after);t=t.replace('  durableReportSha256: sha256File(durableReportPath),','');
+fs.writeFileSync(m+'/实际公式数学.mjs',t,{flag:'wx'});console.log(JSON.stringify({prepared:true,GETs:415,mathGETs:0}));

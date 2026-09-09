@@ -1,0 +1,23 @@
+{
+  "i": 156,
+  "intent": {
+    "sequence": 157,
+    "method": "POST",
+    "route": "/skills/kayle_p/parameters",
+    "detailRoute": "/skills/kayle_p/parameters/passive_wave_bonus_ad_ratio",
+    "skillKey": "kayle_p",
+    "kind": "parameters",
+    "stableKey": "passive_wave_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_wave_bonus_ad_ratio",
+      "name": "登神长阶焰浪额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.1,
+      "levelValues": null,
+      "description": "当前第三项mStat=2、mStatFormula=2，读取来源额外攻击力。",
+      "sortOrder": 170
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 116,
+    "method": "POST",
+    "route": "/skills/skarner_w/parameters",
+    "detailRoute": "/skills/skarner_w/parameters/cast_time_ms",
+    "skillKey": "skarner_w",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "震地壁垒根施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 300,
+      "levelValues": null,
+      "description": "只记录根spellCastTime。",
+      "sortOrder": 70
+    }
+  }
+}

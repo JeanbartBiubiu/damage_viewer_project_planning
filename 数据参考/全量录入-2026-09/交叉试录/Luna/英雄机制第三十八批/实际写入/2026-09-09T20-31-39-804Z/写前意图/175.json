@@ -1,0 +1,45 @@
+{
+  "i": 174,
+  "intent": {
+    "sequence": 175,
+    "method": "POST",
+    "route": "/skills/kayle_w/formulas",
+    "detailRoute": "/skills/kayle_w/formulas/haste_ratio",
+    "skillKey": "kayle_w",
+    "kind": "formulas",
+    "stableKey": "haste_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "haste_ratio",
+      "name": "星界恩典自身与友军移动速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "haste_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "haste_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalHaste=Haste+0.0008×来源总法术强度，并按百分比显示。",
+      "sortOrder": 20
+    }
+  }
+}

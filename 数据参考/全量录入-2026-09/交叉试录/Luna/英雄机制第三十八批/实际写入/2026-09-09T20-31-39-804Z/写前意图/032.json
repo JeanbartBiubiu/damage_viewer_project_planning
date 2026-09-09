@@ -1,0 +1,23 @@
+{
+  "i": 31,
+  "intent": {
+    "sequence": 32,
+    "method": "POST",
+    "route": "/skills/jarvaniv_e/parameters",
+    "detailRoute": "/skills/jarvaniv_e/parameters/flag_duration_ms",
+    "skillKey": "jarvaniv_e",
+    "kind": "parameters",
+    "stableKey": "flag_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "flag_duration_ms",
+      "name": "德邦军旗持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 8000,
+      "levelValues": null,
+      "description": "当前Effect4Amount取索引1为8秒；用于自身被动及旗帜期间来源说明。",
+      "sortOrder": 80
+    }
+  }
+}

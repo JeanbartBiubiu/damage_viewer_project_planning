@@ -1,0 +1,23 @@
+{
+  "i": 132,
+  "intent": {
+    "sequence": 133,
+    "method": "POST",
+    "route": "/skills/skarner_r/parameters",
+    "detailRoute": "/skills/skarner_r/parameters/ap_ratio",
+    "skillKey": "skarner_r",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "毒刺贯体法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "Damage第二项无mStat，按同版窄证读取来源总法术强度。",
+      "sortOrder": 20
+    }
+  }
+}

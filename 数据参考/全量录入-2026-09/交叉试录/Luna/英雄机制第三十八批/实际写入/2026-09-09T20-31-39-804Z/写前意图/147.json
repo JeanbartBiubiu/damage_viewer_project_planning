@@ -1,0 +1,23 @@
+{
+  "i": 146,
+  "intent": {
+    "sequence": 147,
+    "method": "POST",
+    "route": "/skills/kayle_p/parameters",
+    "detailRoute": "/skills/kayle_p/parameters/self_move_speed_ratio",
+    "skillKey": "kayle_p",
+    "kind": "parameters",
+    "stableKey": "self_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_move_speed_ratio",
+      "name": "登神长阶满层自身移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.1,
+      "levelValues": null,
+      "description": "正文将MSTowardsEnemy乘100显示；当前值0.1，触发条件由层数/角色等级事件提供。",
+      "sortOrder": 70
+    }
+  }
+}

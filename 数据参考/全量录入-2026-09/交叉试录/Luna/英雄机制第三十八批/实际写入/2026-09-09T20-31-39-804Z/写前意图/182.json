@@ -1,0 +1,23 @@
+{
+  "i": 181,
+  "intent": {
+    "sequence": 182,
+    "method": "POST",
+    "route": "/skills/kayle_e/parameters",
+    "detailRoute": "/skills/kayle_e/parameters/active_execute_multiplier",
+    "skillKey": "kayle_e",
+    "kind": "parameters",
+    "stableKey": "active_execute_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_execute_multiplier",
+      "name": "星火符刃主动已损生命倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "保留当前树外层0.01倍率；不把它与百分数显示重复换算。",
+      "sortOrder": 60
+    }
+  }
+}

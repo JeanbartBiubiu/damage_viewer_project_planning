@@ -1,0 +1,27 @@
+{
+  "i": 190,
+  "intent": {
+    "sequence": 191,
+    "method": "POST",
+    "route": "/skills/kayle_r/parameters",
+    "detailRoute": "/skills/kayle_r/parameters/mana_cost",
+    "skillKey": "kayle_r",
+    "kind": "parameters",
+    "stableKey": "mana_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mana_cost",
+      "name": "圣裁之刻法力消耗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 50,
+        "3": 0
+      },
+      "description": "当前官方基础消耗按技能等级索引1至3为100/50/0；根mana数组尾部占位不覆盖该值。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 63,
+    "method": "POST",
+    "route": "/skills/leesin_q/formulas",
+    "detailRoute": "/skills/leesin_q/formulas/empowered_physical_damage",
+    "skillKey": "leesin_q",
+    "kind": "formulas",
+    "stableKey": "empowered_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "empowered_physical_damage",
+      "name": "回音击最高单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "empowered_damage_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "q2_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "q2_bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前正文消费EmpoweredDamage最高值；按完整RecastDamage树乘2，目标已损生命的中间曲线仍待补。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 81,
+  "intent": {
+    "sequence": 82,
+    "method": "POST",
+    "route": "/skills/leesin_e/parameters",
+    "detailRoute": "/skills/leesin_e/parameters/energy_cost",
+    "skillKey": "leesin_e",
+    "kind": "parameters",
+    "stableKey": "energy_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "energy_cost",
+      "name": "天雷破能量消耗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 50,
+        "3": 50,
+        "4": 50,
+        "5": 50
+      },
+      "description": "当前英雄资源为能量；官方成本等级1至5均为50。",
+      "sortOrder": 70
+    }
+  }
+}

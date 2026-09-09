@@ -1,0 +1,29 @@
+{
+  "i": 16,
+  "intent": {
+    "sequence": 17,
+    "method": "POST",
+    "route": "/skills/jarvaniv_w/parameters",
+    "detailRoute": "/skills/jarvaniv_w/parameters/shield_base",
+    "skillKey": "jarvaniv_w",
+    "kind": "parameters",
+    "stableKey": "shield_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base",
+      "name": "黄金圣盾基础护盾",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 80,
+        "3": 100,
+        "4": 120,
+        "5": 140
+      },
+      "description": "当前TotalShield的mEffectIndex=1对应mEffectAmount[0]，取技能等级索引1至5为60/80/100/120/140。",
+      "sortOrder": 10
+    }
+  }
+}

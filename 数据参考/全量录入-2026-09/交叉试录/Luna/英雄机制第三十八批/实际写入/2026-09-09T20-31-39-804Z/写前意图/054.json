@@ -1,0 +1,29 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "method": "POST",
+    "route": "/skills/leesin_q/parameters",
+    "detailRoute": "/skills/leesin_q/parameters/q2_base_damage",
+    "skillKey": "leesin_q",
+    "kind": "parameters",
+    "stableKey": "q2_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "q2_base_damage",
+      "name": "回音击再施放基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 90,
+        "3": 120,
+        "4": 150,
+        "5": 180
+      },
+      "description": "客户端当前根绑定Q2BaseDamage取技能等级索引1至5为60/90/120/150/180。",
+      "sortOrder": 20
+    }
+  }
+}

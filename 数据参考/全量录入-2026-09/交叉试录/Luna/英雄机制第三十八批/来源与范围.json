@@ -1,0 +1,465 @@
+{
+  "generatedAt": "2026-09-09T20:22:11.632Z",
+  "batch": "第三十八批嘉文四世李青斯卡纳凯尔",
+  "revision": "hero38-source-v1-candidate",
+  "status": "候选阶段，未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceInputSha256": "60f4bda96ba32aec592c70fd4e9c54a8fbed9f5382a6f8ff7bd7f731e5bdb822",
+  "sourceBindingSha256": "3daaf5e697541e14b27a079688879bab54d1607a113e13bbf82f46a717961792",
+  "sourceReview": {
+    "conclusionFile": ".agents/artifacts/hero38-cursor-review-run-20260910/review.md",
+    "conclusionSha256": "a581f7a09fd18787edb2cd3bae578478562afae79262909dc1f727dc6f1dd232",
+    "auditFile": ".agents/artifacts/hero38-cursor-review-run-20260910/主负责人执行审计.json",
+    "auditSha256": "f5a43bfd41214cee3299a1f623b4cba99a290b4619eb8cd432240c9bd464d5ba",
+    "inputManifestFile": ".agents/artifacts/hero38-cursor-review-20260910/输入冻结散列.json",
+    "inputManifestSha256": "f4de735f3e1675d007ee37cb23cb0f4bd2eed2685e5e8829f2d1ed146eb01c4f",
+    "verdict": "READY",
+    "runId": "run-b30c563a-993b-462d-b83c-5a2d657e916e",
+    "requestId": "59c6c0e0-28a6-4610-842e-ed0d5f206a1f",
+    "events": 5391,
+    "uniqueTools": [
+      "glob",
+      "grep",
+      "read"
+    ],
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "included": [
+    "嘉文四世：战争律动当前生命比例与角色等级冷却端点；Q/W/E/R主树、军旗连接击飞时长、军旗自身攻速、护盾与竞技场时长。",
+    "李青：疾风骤雨两次能量回复；Q首段、再施放和正文消费的最高值树；W自身护盾/全能吸血；E首段伤害/再施放减速；R仅主目标伤害。",
+    "斯卡纳：战栗最大生命比例端点；Q强化攻击、最后一次最大生命比例和减速；W自身护盾/地震伤害；E撞墙伤害；R单一英雄伤害和命中后自身移速。",
+    "凯尔：登神长阶门槛、层数、自身移速和焰浪；Q/W伤害、治疗、移速；E被动与主动已损生命比例；R敌方伤害和友方英雄无敌持续。"
+  ],
+  "oneVsOneIrrelevant": [
+    "第三友军收益、额外敌人独立事件、兵野专用封顶、视野/碰撞几何结果和未消费模式/匿名树。"
+  ],
+  "unknownTimingOrCurve": [
+    "角色等级断点中间曲线、目标最大/当前/额外生命输入、李青Q已损生命中间曲线、触发资格、碰撞与周期事件。"
+  ],
+  "perSkill": {
+    "jarvaniv_p": {
+      "excluded": [
+        {
+          "item": "非英雄单位最低/最高伤害",
+          "reason": "仅在扩展正文出现，属于非英雄专用分支；本轮一对一敌方英雄不建立兵野分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "目标当前生命值实际属性和首次攻击触发",
+          "reason": "当前绑定正文消费比例但计算树没有目标生命属性节点，保留比例并待运行事件接线。"
+        },
+        {
+          "item": "角色等级断点求值",
+          "reason": "保留起点、断点等级和变化量；没有证据把其展开为完整角色等级公式。"
+        }
+      ]
+    },
+    "jarvaniv_q": {
+      "excluded": [
+        {
+          "item": "E旗帜牵引/击飞的位移几何",
+          "reason": "属于与军旗连接的另一技能和空间事件，不并入Q伤害公式。"
+        },
+        {
+          "item": "SWIFTPLAY、BotData和模式覆盖树",
+          "reason": "不是当前标准根绑定正文。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "目标资格、沿途多目标和与军旗连接",
+          "reason": "保留单一敌人伤害树；目标、击飞和连接事件待接。"
+        }
+      ]
+    },
+    "jarvaniv_w": {
+      "excluded": [
+        {
+          "item": "护盾持续时间4秒",
+          "reason": "Effect4Amount虽有4秒值，但当前绑定正文没有消费该字段；不把未消费字段当已证生命周期。"
+        },
+        {
+          "item": "额外敌人目标事件",
+          "reason": "本轮只保留数值，附近敌人资格和每名英雄应用由事件层接线。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "护盾英雄资格和额外护盾叠加时点",
+          "reason": "保留TotalShield与BonusShield两棵树；当前正文目标资格和命中次数待接。"
+        }
+      ]
+    },
+    "jarvaniv_e": {
+      "excluded": [
+        {
+          "item": "附近友军攻击速度效果",
+          "reason": "第三友方收益不属于唯一敌人一对一主路径；仅保留来源参数供后续定向接线。"
+        },
+        {
+          "item": "旗帜连接击飞事件",
+          "reason": "空间连接和控制事件未在本轮创建。"
+        },
+        {
+          "item": "cherry模式APRatio和BotData",
+          "reason": "标准根绑定正文不消费。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "旗帜落地、自身被动应用和友军目标资格",
+          "reason": "保留数值与自身属性效果；触发、目标资格和控制时序待接。"
+        }
+      ]
+    },
+    "jarvaniv_r": {
+      "excluded": [
+        {
+          "item": "附近额外敌人的独立命中",
+          "reason": "正文共用DamageCalc但额外目标事件不在本轮单一敌人公式内。"
+        },
+        {
+          "item": "竞技场倒塌再次施放",
+          "reason": "只保留墙体持续数值，不创建再次施放事件。"
+        },
+        {
+          "item": "冷却尾部8/5/0和索引0占位",
+          "reason": "根数组中非技能等级值，且冷却/法力已由公共参数保护。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "选中敌方英雄资格和落地时序",
+          "reason": "保留单一主目标公式；目标标签、区域命中和再次施放待接。"
+        }
+      ]
+    },
+    "leesin_p": {
+      "excluded": [
+        {
+          "item": "攻击、技能触发和第二次攻击时序",
+          "reason": "本轮只保存自身数值，不创建攻击事件或内部状态。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "EnergyReturn角色等级实际求值",
+          "reason": "保留断点来源和运行输入；未编完整等级曲线。"
+        }
+      ]
+    },
+    "leesin_q": {
+      "excluded": [
+        {
+          "item": "Q2MaxMissingHealthMod",
+          "reason": "当前根计算树和正文不消费该DataValue；不得用它补造已损生命曲线。"
+        },
+        {
+          "item": "EmpoweredDamage的独立重复树",
+          "reason": "保留一棵完整回音击最高值公式；不再把tooltipOnly节点另建为第二套重复伤害。"
+        },
+        {
+          "item": "真实视野、突进几何和SWIFTPLAY",
+          "reason": "属于视野/空间或模式分支。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "回音击已损生命中间曲线",
+          "reason": "保留RecastDamage基础树与最高展示边界，不猜线性函数。"
+        },
+        {
+          "item": "首个命中与再次施放事件",
+          "reason": "同一技能两段保留，事件和目标资格待接。"
+        }
+      ]
+    },
+    "leesin_w": {
+      "excluded": [
+        {
+          "item": "守卫/友军目标的护盾结果",
+          "reason": "第三方目标结果不在本轮自身与单一敌人范围；参数和自身护盾保留。"
+        },
+        {
+          "item": "W1CooldownRecovered和SWIFTPLAY",
+          "reason": "当前正文与计算树未消费或属于模式字段。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "友军英雄资格、再次施放和减速衰减事件",
+          "reason": "数值与生命周期保存，触发目标和衰减曲线待接。"
+        }
+      ]
+    },
+    "leesin_e": {
+      "excluded": [
+        {
+          "item": "减速逐渐恢复的完整曲线",
+          "reason": "当前正文只有持续时间和初始减速，没有恢复曲线。"
+        },
+        {
+          "item": "显形、空间范围与SWIFTPLAY",
+          "reason": "视野、空间和模式分支不进入本轮公式。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "首段命中与再次施放时序",
+          "reason": "保留两段共用窗口与减速持续，触发事件待接。"
+        }
+      ]
+    },
+    "leesin_r": {
+      "excluded": [
+        {
+          "item": "碰撞到其他英雄的额外伤害公式和初始目标额外生命",
+          "reason": "该支路要求另一名敌方英雄及其额外生命，本轮唯一敌方英雄一对一范围不写入参数或公式。"
+        },
+        {
+          "item": "击退、击飞和施法内禁锢结果",
+          "reason": "控制和时序不创建直接结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "目标碰撞、额外生命求值和地图边界",
+          "reason": "主目标伤害已保留，碰撞事件及额外目标接线待补。"
+        }
+      ]
+    },
+    "skarner_p": {
+      "excluded": [
+        {
+          "item": "野怪总伤害上限",
+          "reason": "扩展正文只针对野怪，本轮唯一敌方英雄不建立野怪封顶参数。"
+        },
+        {
+          "item": "TickFrequency与每跳过程",
+          "reason": "当前正文未消费TickFrequency，不把0.5秒字段编成周期过程。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "角色等级插值实际值、目标最大生命和满层事件",
+          "reason": "保留端点和无默认运行输入，实际层数、目标资格与周期由事件层提供。"
+        }
+      ]
+    },
+    "skarner_q": {
+      "excluded": [
+        {
+          "item": "cooldown_ms误用占位",
+          "reason": "本参数由生成器从根cooldownTime按索引1至5直接读取，见脚本后置赋值；不使用伪造DataValues名称。"
+        },
+        {
+          "item": "野怪封顶和建筑物倍率",
+          "reason": "扩展正文专用分支；本轮唯一敌方英雄不建立。"
+        },
+        {
+          "item": "投掷巨石的其它敌人、命中盒和攻击次数事件",
+          "reason": "目标分支和空间时序不并入单一敌人公式。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "最后一次攻击、目标最大生命和三次攻击事件",
+          "reason": "参数已保存，事件和目标生命实际输入待接。"
+        }
+      ]
+    },
+    "skarner_w": {
+      "excluded": [
+        {
+          "item": "附近额外敌人逐个命中",
+          "reason": "本轮只表达单一敌人伤害公式，不创建范围结果。"
+        },
+        {
+          "item": "Tick/命中盒时序",
+          "reason": "当前数据字段未构成当前正文消费的周期过程。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "护盾、地震、减速的触发时序",
+          "reason": "数值与生命周期已保存，具体事件待接。"
+        }
+      ]
+    },
+    "skarner_e": {
+      "excluded": [
+        {
+          "item": "碰撞过程命中盒、预警和MinimumQRenew",
+          "reason": "属于空间与表现/内部字段，不建立伤害或周期公式。"
+        },
+        {
+          "item": "大型野怪目标分支",
+          "reason": "本轮唯一敌方英雄范围不创建兵野专用资格或结果。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "冲锋、拖拽、撞墙和冷却降至事件",
+          "reason": "保留对应数值，事件时序和目标资格待接。"
+        }
+      ]
+    },
+    "skarner_r": {
+      "excluded": [
+        {
+          "item": "第二、第三敌方英雄命中",
+          "reason": "本轮一对一只保留单一敌方英雄主伤害，不建立多目标结果。"
+        },
+        {
+          "item": "拖行、命中盒和撼地/擎天切换事件",
+          "reason": "属于控制/空间/跨技能时序。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "至少命中一个英雄的自身加速触发",
+          "reason": "自身属性效果已保存，触发条件待接。"
+        }
+      ]
+    },
+    "kayle_p": {
+      "excluded": [
+        {
+          "item": "焰浪暴击与法术特效",
+          "reason": "扩展正文只说明效能，不创建暴击或攻击事件。"
+        },
+        {
+          "item": "等级替换整套技能",
+          "reason": "等级是同一技能的进阶门槛，不能拆成多个技能。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "层数累积、11级焰浪资格和16级永久昂扬",
+          "reason": "保留门槛、层数和数值；触发时序待接。"
+        }
+      ]
+    },
+    "kayle_q": {
+      "excluded": [
+        {
+          "item": "Explosion几何和未消费退还比例",
+          "reason": "当前正文未提供独立爆炸伤害树；ManaRefundPercent不在当前正文消费。"
+        },
+        {
+          "item": "尾部冷却占位7和mDoesNotConsume标志",
+          "reason": "冷却/法力已由公共参数保护，不能据标志删改。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "减速、削减和穿透多个敌人的事件",
+          "reason": "数值保留，控制目标和后方敌人事件待接。"
+        },
+        {
+          "item": "CastDelay前摇",
+          "reason": "DataValues.CastDelay为0.25秒但根spellCastTime为0，二者冲突；暂不把其写成已证施法时长。"
+        }
+      ]
+    },
+    "kayle_w": {
+      "excluded": [
+        {
+          "item": "目标友军治疗结果",
+          "reason": "直接治疗结果不在本轮创建；数值公式保留供后续自身/友军目标接线。"
+        },
+        {
+          "item": "mDoesNotConsumeMana/mDoesNotConsumeCooldown标志",
+          "reason": "与根数组及公共参数并存，不能据标志删改基础消耗和冷却。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "无目标施放选最近伤势友军",
+          "reason": "当前正文明确目标选择规则，数值不代表任意目标或自施放资格。"
+        }
+      ]
+    },
+    "kayle_e": {
+      "excluded": [
+        {
+          "item": "野怪额外伤害上限",
+          "reason": "仅扩展正文兵野专用分支。"
+        },
+        {
+          "item": "爆炸直接伤害、爆炸半径和攻击特效事件",
+          "reason": "爆炸影响周围额外敌人，超出本轮唯一敌人范围；当前没有独立爆炸伤害树，不创建伤害结果或伪造公式。"
+        },
+        {
+          "item": "无关匿名计算树",
+          "reason": "未被当前正文消费，不作参数/公式引用。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "主动下一次攻击、已损生命输入和11级爆炸资格",
+          "reason": "保留两棵数值树、半径与等级门槛依赖；触发和目标生命待接。"
+        }
+      ]
+    },
+    "kayle_r": {
+      "excluded": [
+        {
+          "item": "友方英雄无敌结果",
+          "reason": "本轮不创建直接无敌/控制结果，只保存明确持续与目标资格说明。"
+        },
+        {
+          "item": "附近多个敌人的范围事件",
+          "reason": "仅保留单一敌人伤害公式，多个目标由事件层分别结算。"
+        },
+        {
+          "item": "冷却尾部和mDoesNotConsume标志",
+          "reason": "冷却/法力不从非等级占位推断，公共冷却保护与新法力参数分开。"
+        }
+      ],
+      "pending": [
+        {
+          "item": "一名友方英雄选中施放资格",
+          "reason": "当前文本明确友方英雄，但mRequiredUnitTags没有可用枚举；不假定自身或任意友方。"
+        }
+      ]
+    }
+  },
+  "counts": {
+    "newParameters": 149,
+    "newFormulas": 25,
+    "newEffects": 19,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "newTotal": 193,
+    "reusedPublicParameters": 25,
+    "plannedTotalIncludingReused": 218,
+    "protectedCurrentCompositionLists": 120
+  },
+  "requestCount": 193,
+  "publicReuse": 25,
+  "protectedSummary": {
+    "GETs": 197,
+    "subjects": 20,
+    "currentCompositionSkillSlots": 20,
+    "currentCompositionLists": 120,
+    "reusedPublicParameters": 25,
+    "images": 20,
+    "characters": 4,
+    "characterSkillRelations": 4,
+    "dictionaries": 4
+  },
+  "hashes": {
+    "candidateSha256": "2f03daad0fc690bb96164e1a92da5c62977a842dcb59c85cf45484e88d9587eb",
+    "planSha256": "90e673a8cc1f0475eb0bbf518e05f04168eb20f59c46a49e16ce4158532e319b",
+    "sourceValuesSha256": "1f3a451c738c1bdd6703a54ad2a4c97b98fad427b4c67cf943c674efb772ac7f"
+  },
+  "noApiCalls": true
+}

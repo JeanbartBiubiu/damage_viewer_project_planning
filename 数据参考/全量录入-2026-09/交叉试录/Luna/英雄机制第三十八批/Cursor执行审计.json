@@ -1,0 +1,170 @@
+{
+  "at": "2026-09-09T20:29:31.717Z",
+  "status": "完成，所有工具均为read/glob/grep，冻结来源与隔离Git零变化",
+  "readonlyAuditPassed": true,
+  "agentId": "agent-f15100b5-abbb-42fa-8334-2bd1e21ff474",
+  "runId": "run-b30c563a-993b-462d-b83c-5a2d657e916e",
+  "requestId": "59c6c0e0-28a6-4610-842e-ed0d5f206a1f",
+  "resultStatus": "finished",
+  "events": 5391,
+  "uniqueTools": 40,
+  "toolNames": {
+    "glob": 2,
+    "read": 21,
+    "grep": 17
+  },
+  "inputsChecked": 22,
+  "inputs": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "98b11ee90bc7b80716658ad3f1417654bc4678f893a2ade9d6b8f81947a9c704",
+      "byteSize": 149,
+      "actualSha256": "98b11ee90bc7b80716658ad3f1417654bc4678f893a2ade9d6b8f81947a9c704"
+    },
+    {
+      "path": "README.md",
+      "sha256": "5ee6bed389b5ea25a7ca26200e33c9ce2e222269ad47bd239c2e0ce464b6168a",
+      "byteSize": 457,
+      "actualSha256": "5ee6bed389b5ea25a7ca26200e33c9ce2e222269ad47bd239c2e0ce464b6168a"
+    },
+    {
+      "path": "参考资料/lol-16.17-zh_CN.stringtable.json.gz",
+      "sha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "byteSize": 8350124,
+      "actualSha256": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e"
+    },
+    {
+      "path": "参考资料/公共参数复用清单.json",
+      "sha256": "bd5102dea8eb301f6eeaf4467e5ff336cb58325e9f99096989e622c909a85e1b",
+      "byteSize": 1775,
+      "actualSha256": "bd5102dea8eb301f6eeaf4467e5ff336cb58325e9f99096989e622c909a85e1b"
+    },
+    {
+      "path": "参考资料/官方中文/JarvanIV.json",
+      "sha256": "6ad75b89b0c298bbe08c5aa13b46f8013f81a4c6fa460e6826157d8efce4e483",
+      "byteSize": 13365,
+      "actualSha256": "6ad75b89b0c298bbe08c5aa13b46f8013f81a4c6fa460e6826157d8efce4e483"
+    },
+    {
+      "path": "参考资料/官方中文/Kayle.json",
+      "sha256": "5d4fa068b8f088e199e62fa9eed0c7b77476f4791e03d44993b9ecb876ed4b93",
+      "byteSize": 16333,
+      "actualSha256": "5d4fa068b8f088e199e62fa9eed0c7b77476f4791e03d44993b9ecb876ed4b93"
+    },
+    {
+      "path": "参考资料/官方中文/LeeSin.json",
+      "sha256": "3dff63235df8785f38f43560a0c149f3edd05455a0e0e541e8aeee6d162929c9",
+      "byteSize": 16203,
+      "actualSha256": "3dff63235df8785f38f43560a0c149f3edd05455a0e0e541e8aeee6d162929c9"
+    },
+    {
+      "path": "参考资料/官方中文/Skarner.json",
+      "sha256": "162188a6f1d57e30d3611660f00c0154ef9b89f3de32a9b90ec51f2a4cd467f2",
+      "byteSize": 10433,
+      "actualSha256": "162188a6f1d57e30d3611660f00c0154ef9b89f3de32a9b90ec51f2a4cd467f2"
+    },
+    {
+      "path": "参考资料/官方英文/JarvanIV.json",
+      "sha256": "27820f30fdda0380b5c25006a6253c4b4bc61050e63b4709c165bd99c14e4343",
+      "byteSize": 13088,
+      "actualSha256": "27820f30fdda0380b5c25006a6253c4b4bc61050e63b4709c165bd99c14e4343"
+    },
+    {
+      "path": "参考资料/官方英文/Kayle.json",
+      "sha256": "a22f0a67f0092f2538e188d9a538cb69c5005d3e4a70f058d7a2e63d6a60dff7",
+      "byteSize": 15967,
+      "actualSha256": "a22f0a67f0092f2538e188d9a538cb69c5005d3e4a70f058d7a2e63d6a60dff7"
+    },
+    {
+      "path": "参考资料/官方英文/LeeSin.json",
+      "sha256": "fd18d187390bdf3519900fcf45968d2b3f9382dc670ad24181029971631f52a7",
+      "byteSize": 15947,
+      "actualSha256": "fd18d187390bdf3519900fcf45968d2b3f9382dc670ad24181029971631f52a7"
+    },
+    {
+      "path": "参考资料/官方英文/Skarner.json",
+      "sha256": "dba7c616a97453855cdca38601146cf5be1a6e6de13057b2f12707f49058823c",
+      "byteSize": 9912,
+      "actualSha256": "dba7c616a97453855cdca38601146cf5be1a6e6de13057b2f12707f49058823c"
+    },
+    {
+      "path": "参考资料/客户端原文/JarvanIV.json.gz",
+      "sha256": "45eb3307c6d2a0015ce3942366e08a6d8b5566402e94afec8d2acef1e473b9ae",
+      "byteSize": 6612,
+      "actualSha256": "45eb3307c6d2a0015ce3942366e08a6d8b5566402e94afec8d2acef1e473b9ae"
+    },
+    {
+      "path": "参考资料/客户端原文/Kayle.json.gz",
+      "sha256": "5966ef540c2e882ca33d3ba320c12e7a8de50909318a8cf3bd3bfd4c03023ce7",
+      "byteSize": 9416,
+      "actualSha256": "5966ef540c2e882ca33d3ba320c12e7a8de50909318a8cf3bd3bfd4c03023ce7"
+    },
+    {
+      "path": "参考资料/客户端原文/LeeSin.json.gz",
+      "sha256": "25530711b203461d3d5986910e8ea2c600b678ee5ae0714d597a1e98b00caf8f",
+      "byteSize": 8332,
+      "actualSha256": "25530711b203461d3d5986910e8ea2c600b678ee5ae0714d597a1e98b00caf8f"
+    },
+    {
+      "path": "参考资料/客户端原文/Skarner.json.gz",
+      "sha256": "1bedeafb86780b1f114f37fb3b7eaac6e611c3db371c267204765e6f88a4ee68",
+      "byteSize": 8228,
+      "actualSha256": "1bedeafb86780b1f114f37fb3b7eaac6e611c3db371c267204765e6f88a4ee68"
+    },
+    {
+      "path": "参考资料/属性默认与边界.json",
+      "sha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "byteSize": 4045,
+      "actualSha256": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6"
+    },
+    {
+      "path": "参考资料/当前20槽保护快照.json",
+      "sha256": "6d84f4781aba0f03055f7ec480148b919e7604847f0166fe683093051f747d34",
+      "byteSize": 139632,
+      "actualSha256": "6d84f4781aba0f03055f7ec480148b919e7604847f0166fe683093051f747d34"
+    },
+    {
+      "path": "参考资料/接口载荷样例.json",
+      "sha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "byteSize": 18896,
+      "actualSha256": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02"
+    },
+    {
+      "path": "来源绑定与当前文本.json",
+      "sha256": "3daaf5e697541e14b27a079688879bab54d1607a113e13bbf82f46a717961792",
+      "byteSize": 260026,
+      "actualSha256": "3daaf5e697541e14b27a079688879bab54d1607a113e13bbf82f46a717961792"
+    },
+    {
+      "path": "评审任务.md",
+      "sha256": "ee766877ac9302486da0330087692e8400abbe24b7d0cbe10c76fb3d80f53460",
+      "byteSize": 4182,
+      "actualSha256": "ee766877ac9302486da0330087692e8400abbe24b7d0cbe10c76fb3d80f53460"
+    },
+    {
+      "path": "输入版本.json",
+      "sha256": "60f4bda96ba32aec592c70fd4e9c54a8fbed9f5382a6f8ff7bd7f731e5bdb822",
+      "byteSize": 4304,
+      "actualSha256": "60f4bda96ba32aec592c70fd4e9c54a8fbed9f5382a6f8ff7bd7f731e5bdb822"
+    }
+  ],
+  "gitDelta": [],
+  "apiWrites": 0,
+  "reviewedPlanRev": "hero38-source-v1",
+  "model": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "reviewSha256": "217e111879bf20d136e58255e442cef070c94091fa7c935480cbd70e34240398",
+  "eventsSha256": "711fac7a61db6f4967df03c7df47610689fef1bc89df485fbd02c69b06ff9125",
+  "summarySha256": "bf23877c74d887e75372d1d90c56f76d647a836284ca8278f20d6a0418c9283b"
+}

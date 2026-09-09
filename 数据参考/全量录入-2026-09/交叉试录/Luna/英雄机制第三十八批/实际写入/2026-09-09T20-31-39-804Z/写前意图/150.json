@@ -1,0 +1,23 @@
+{
+  "i": 149,
+  "intent": {
+    "sequence": 150,
+    "method": "POST",
+    "route": "/skills/kayle_p/parameters",
+    "detailRoute": "/skills/kayle_p/parameters/stack_duration_ms",
+    "skillKey": "kayle_p",
+    "kind": "parameters",
+    "stableKey": "stack_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stack_duration_ms",
+      "name": "登神长阶攻击层数持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前EnrageDuration=5秒，转换为5000毫秒。",
+      "sortOrder": 100
+    }
+  }
+}

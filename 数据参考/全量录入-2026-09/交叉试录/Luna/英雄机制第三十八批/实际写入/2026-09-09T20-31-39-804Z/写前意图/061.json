@@ -1,0 +1,45 @@
+{
+  "i": 60,
+  "intent": {
+    "sequence": 61,
+    "method": "POST",
+    "route": "/skills/leesin_q/formulas",
+    "detailRoute": "/skills/leesin_q/formulas/initial_physical_damage",
+    "skillKey": "leesin_q",
+    "kind": "formulas",
+    "stableKey": "initial_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "initial_physical_damage",
+      "name": "天音波首段单一敌人物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "q1_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "q1_bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前InitialDamage=Q1BaseDamage+Q1ADRatio×来源额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}

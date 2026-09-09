@@ -1,0 +1,45 @@
+{
+  "i": 33,
+  "intent": {
+    "sequence": 34,
+    "method": "POST",
+    "route": "/skills/jarvaniv_e/formulas",
+    "detailRoute": "/skills/jarvaniv_e/formulas/magic_damage",
+    "skillKey": "jarvaniv_e",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "德邦军旗落点单一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_magic_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=落点基础伤害+0.8×来源总法术强度；友军光环不并入伤害。",
+      "sortOrder": 10
+    }
+  }
+}

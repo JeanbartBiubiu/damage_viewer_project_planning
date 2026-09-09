@@ -1,0 +1,23 @@
+{
+  "i": 133,
+  "intent": {
+    "sequence": 134,
+    "method": "POST",
+    "route": "/skills/skarner_r/parameters",
+    "detailRoute": "/skills/skarner_r/parameters/suppression_duration_ms",
+    "skillKey": "skarner_r",
+    "kind": "parameters",
+    "stableKey": "suppression_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "suppression_duration_ms",
+      "name": "毒刺贯体压制持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "当前Duration=1.5秒，转换为1500毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "i": 158,
+  "intent": {
+    "sequence": 159,
+    "method": "POST",
+    "route": "/skills/kayle_p/effects",
+    "detailRoute": "/skills/kayle_p/effects/self_move_speed",
+    "skillKey": "kayle_p",
+    "kind": "effects",
+    "stableKey": "self_move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "self_move_speed",
+      "name": "登神长阶满层自身移动速度",
+      "description": "当前正文明确满层昂扬时自身获得移动速度；层数和角色等级触发待接。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": null,
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "登神长阶满层自身移动速度",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "只定义当前正文明确的自身属性变化；触发事件由后续事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "self_move_speed_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

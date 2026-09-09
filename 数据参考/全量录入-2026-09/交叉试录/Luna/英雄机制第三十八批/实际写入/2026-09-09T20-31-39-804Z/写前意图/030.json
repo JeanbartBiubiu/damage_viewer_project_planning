@@ -1,0 +1,23 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "method": "POST",
+    "route": "/skills/jarvaniv_e/parameters",
+    "detailRoute": "/skills/jarvaniv_e/parameters/ap_ratio",
+    "skillKey": "jarvaniv_e",
+    "kind": "parameters",
+    "stableKey": "ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ap_ratio",
+      "name": "德邦军旗法术强度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.80000001,
+      "levelValues": null,
+      "description": "TotalDamage的StatByNamedDataValue使用APRatio；同版窄证读取来源总法术强度。",
+      "sortOrder": 60
+    }
+  }
+}
