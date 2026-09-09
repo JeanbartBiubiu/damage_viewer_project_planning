@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T06:17:23.316Z",
+  "generatedAt": "2026-09-09T06:31:51.954Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -303,7 +303,7 @@
       ],
       "parameters": 156,
       "formulas": 35,
-      "effects": 33,
+      "effects": 32,
       "processes": 5,
       "internalStates": 0,
       "triggerRules": 4,
@@ -311,13 +311,27 @@
       "reused": 64,
       "arithmeticCases": 104,
       "invariantChecks": 68,
-      "status": "部分录入；233组成独立GET及5个代表页面通过；盖伦53项历史组成复用，贾克斯被动衰减时序待补",
+      "status": "部分录入；盖伦未证回复等级表转无默认输入，原动态回复效果撤下；其他组成保持，贾克斯衰减时序等继续补证",
       "executor": "执行代理录入，独立代理复核，主负责人真实页面验收",
       "runtimeValidation": "未执行",
       "evidence": {
         "worktree": "C:\\project\\damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第六批/最终独立回读证据.json",
         "commit": "35bb3eb0"
+      },
+      "beforeHistoricalLevelCorrection": {
+        "effects": 33,
+        "triggerRules": 4,
+        "status": "部分录入；233组成独立GET及5个代表页面通过；盖伦53项历史组成复用，贾克斯被动衰减时序待补"
+      },
+      "historicalLevelCorrection": {
+        "removedEffects": 1,
+        "removedRules": 0,
+        "evidence": {
+          "worktree": "C:/project/damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/历史等级曲线修正/当前修正结果.json",
+          "commit": "db8911b8"
+        }
       }
     },
     "equipmentTenthFirstGroup": {
@@ -384,17 +398,31 @@
       "effects": 45,
       "processes": 12,
       "internalStates": 0,
-      "triggerRules": 4,
+      "triggerRules": 3,
       "created": 228,
       "reused": 28,
       "arithmeticCases": 93,
       "invariantChecks": 61,
-      "status": "部分录入；256组成独立GET及代表页面通过，瑟提四个无行为过程未保存，其余按待配清单返回补录",
+      "status": "部分录入；沃里克普攻附伤自动规则已撤下，特朗德尔/沃里克相关等级值转无默认输入，其余待配清单继续补录",
       "executor": "Cursor路线中断后由执行代理接手，独立代理复核，主负责人真实页面验收",
       "runtimeValidation": "未执行",
       "evidence": {
         "worktree": "C:\\project\\damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第五批/最终独立回读证据.json"
+      },
+      "beforeHistoricalLevelCorrection": {
+        "effects": 45,
+        "triggerRules": 4,
+        "status": "部分录入；256组成独立GET及代表页面通过，瑟提四个无行为过程未保存，其余按待配清单返回补录"
+      },
+      "historicalLevelCorrection": {
+        "removedEffects": 0,
+        "removedRules": 1,
+        "evidence": {
+          "worktree": "C:/project/damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/历史等级曲线修正/当前修正结果.json",
+          "commit": "db8911b8"
+        }
       }
     },
     "equipmentEighthBatch": {
@@ -593,11 +621,11 @@
       ],
       "parameters": 138,
       "formulas": 26,
-      "effects": 44,
+      "effects": 42,
       "processes": 11,
       "internalStates": 0,
-      "triggerRules": 11,
-      "status": "部分录入；黛安娜攻速已纠正并页面核对，维迦E两项未保存草稿保留待修",
+      "triggerRules": 6,
+      "status": "部分录入；历史未证等级表已纠正，黛安娜两动态攻速效果与五自动规则撤下，公式和其余组成保留，仍需实际等级输入与接线",
       "executor": "Cursor路线中断后由执行代理接手，独立代理复核，主负责人真实页面验收",
       "arithmeticCases": 100,
       "invariantChecks": 20,
@@ -605,6 +633,20 @@
       "evidence": {
         "worktree": "C:\\project\\damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Cursor/英雄机制第四批/最终回读摘要.json"
+      },
+      "beforeHistoricalLevelCorrection": {
+        "effects": 44,
+        "triggerRules": 11,
+        "status": "部分录入；黛安娜攻速已纠正并页面核对，维迦E两项未保存草稿保留待修"
+      },
+      "historicalLevelCorrection": {
+        "removedEffects": 2,
+        "removedRules": 5,
+        "evidence": {
+          "worktree": "C:/project/damage_web_dev",
+          "relativePath": "数据参考/全量录入-2026-09/交叉试录/历史等级曲线修正/当前修正结果.json",
+          "commit": "db8911b8"
+        }
       }
     },
     "equipmentSeventhBatch": {
@@ -1674,6 +1716,45 @@
         "worktree": "C:/project/damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十三批/页面验收.json",
         "commit": "c3e29d18"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "historicalLevelCurveCorrection": {
+      "skills": [
+        "annie_e",
+        "brand_p",
+        "ahri_p",
+        "darius_p",
+        "diana_p",
+        "trundle_p",
+        "warwick_p",
+        "garen_p"
+      ],
+      "updatedParameters": 10,
+      "removedRules": 6,
+      "removedEffects": 3,
+      "successfulWrites": 19,
+      "rejectedWrites": 1,
+      "componentsBefore": 76,
+      "componentsAfter": 67,
+      "otherComponentsUnchanged": 57,
+      "initialWriterGets": 174,
+      "supplementWriterGets": 313,
+      "independentFinalGets": 158,
+      "representativePages": 2,
+      "productionNumericAndReferenceValidation": true,
+      "referenceCount": 60,
+      "status": "数据纠错与独立回读、两个真实页面验收完成；未知等级实际输入、原动态行为后续补证，未计完整战斗运行",
+      "finalSupplementSha256": "fe7f22180b233579c1356b0492d689e344c3e2152cda591db6298250c2254cbe",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/历史等级曲线修正/当前修正结果.json",
+        "commit": "db8911b8"
+      },
+      "browserEvidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/历史等级曲线修正/页面验收.json",
+        "commit": "db8911b8"
       },
       "runtimeValidation": "未执行"
     }
