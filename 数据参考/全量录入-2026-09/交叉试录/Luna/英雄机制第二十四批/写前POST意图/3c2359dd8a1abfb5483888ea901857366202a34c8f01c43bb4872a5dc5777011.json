@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-09T14:39:52.234Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_r/parameters",
+  "detailRoute": "/skills/sion_r/parameters/cooldown_ms",
+  "skillKey": "sion_r",
+  "kind": "parameters",
+  "stableKey": "cooldown_ms",
+  "body": {
+    "parameterKey": "cooldown_ms",
+    "name": "基础冷却时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 140000,
+      "2": 100000,
+      "3": 60000
+    },
+    "description": "官方逐级冷却与当前根 cooldownTime 索引1至上限逐级一致；不含技能急速或其他技能修正。",
+    "sortOrder": 10
+  }
+}

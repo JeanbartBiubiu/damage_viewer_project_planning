@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T14:39:17.644Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_q/formulas",
+  "detailRoute": "/skills/sion_q/formulas/maximum_damage",
+  "skillKey": "sion_q",
+  "kind": "formulas",
+  "stableKey": "maximum_damage",
+  "body": {
+    "formulaKey": "maximum_damage",
+    "name": "残虐猛击最高物理伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "maximum_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "maximum_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "MaxDamageTotal = HighDamage + ADRatioMax×来源总攻击力。",
+    "sortOrder": 20
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "at": "2026-09-09T14:36:42.058Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_q/formulas",
+  "detailRoute": "/skills/nunu_q/formulas/monster_healing",
+  "skillKey": "nunu_q",
+  "kind": "formulas",
+  "stableKey": "monster_healing",
+  "body": {
+    "formulaKey": "monster_healing",
+    "name": "吞噬基础回复数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_healing"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_hp_healing_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "monster_healing_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "MonsterHealing = BaseHealing + PercentageOfBonusHP×来源额外生命值 + MonsterHealingAPRatio×来源法术强度；作为英雄回复倍率的基础量，不创建治疗结果。",
+    "sortOrder": 10
+  }
+}

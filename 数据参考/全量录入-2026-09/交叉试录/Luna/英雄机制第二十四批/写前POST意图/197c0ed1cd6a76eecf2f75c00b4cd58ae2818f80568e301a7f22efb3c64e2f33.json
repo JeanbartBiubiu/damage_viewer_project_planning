@@ -1,0 +1,40 @@
+{
+  "at": "2026-09-09T14:40:43.830Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_w/formulas",
+  "detailRoute": "/skills/volibear_w/formulas/empowered_healing",
+  "skillKey": "volibear_w",
+  "kind": "formulas",
+  "stableKey": "empowered_healing",
+  "body": {
+    "formulaKey": "empowered_healing",
+    "name": "暴怒撕咬第二次施放回复数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_heal"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "missing_health_heal_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "source_missing_health"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "第二次回复 = BaseHeal + HealPercent×施放者已损失生命值；不创建直接治疗效果。",
+    "sortOrder": 30
+  }
+}

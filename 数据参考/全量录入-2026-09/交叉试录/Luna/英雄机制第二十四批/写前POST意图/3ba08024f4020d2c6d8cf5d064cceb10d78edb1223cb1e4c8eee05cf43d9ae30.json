@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T14:40:15.477Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_p/formulas",
+  "detailRoute": "/skills/volibear_p/formulas/chain_lightning_damage",
+  "skillKey": "volibear_p",
+  "kind": "formulas",
+  "stableKey": "chain_lightning_damage",
+  "body": {
+    "formulaKey": "chain_lightning_damage",
+    "name": "狂雷渐起额外魔法伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "chain_lightning_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "ChainLightningDamage = 角色等级求值的基础值 + APRatio×来源法术强度；弹跳目标和攻击事件尚未接线。",
+    "sortOrder": 10
+  }
+}

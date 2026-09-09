@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T14:40:16.639Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_p/formulas",
+  "detailRoute": "/skills/volibear_p/formulas/attack_speed_per_stack",
+  "skillKey": "volibear_p",
+  "kind": "formulas",
+  "stableKey": "attack_speed_per_stack",
+  "body": {
+    "formulaKey": "attack_speed_per_stack",
+    "name": "狂雷渐起每层攻击速度数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "attack_speed_per_stack_ratio"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "attack_speed_ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "每层攻击速度 = PAttackSpeed + 0.0003×来源法术强度；省略属性选择器按已有窄证取法强。",
+    "sortOrder": 20
+  }
+}

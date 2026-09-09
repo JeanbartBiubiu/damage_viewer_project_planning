@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T14:38:18.389Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sejuani_q/formulas",
+  "detailRoute": "/skills/sejuani_q/formulas/total_damage",
+  "skillKey": "sejuani_q",
+  "kind": "formulas",
+  "stableKey": "total_damage",
+  "body": {
+    "formulaKey": "total_damage",
+    "name": "极寒突袭魔法伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "ap_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "ability_power",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalDamageTooltip = BaseDamage + APRatio×来源法术强度。",
+    "sortOrder": 10
+  }
+}

@@ -1,0 +1,1006 @@
+{
+  "at": "2026-09-09T15:00:55.343Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "representativePages": 3,
+  "observations": [
+    {
+      "skillKey": "nunu_q",
+      "view": "参数与公式/low_health_champion_healing",
+      "observed": "0.5生命阈值、1.5回复倍率，以及1.5乘英雄回复完整子树显示；说明明确低生命资格成立时使用。"
+    },
+    {
+      "skillKey": "sejuani_p",
+      "view": "参数frost_armor_duration_ms和效果列表",
+      "observed": "受击后持续3000毫秒，效果列表为空，没有把受击后尾段误建成从获得起持续3秒的普通护甲增益。"
+    },
+    {
+      "skillKey": "volibear_p",
+      "view": "参数与公式/attack_speed_total",
+      "observed": "每层0.05+0.0003法强，实际整数层数最多5层；中文预览完整显示封顶乘每层攻速。"
+    }
+  ],
+  "GETs": 16,
+  "mathCases": 7,
+  "cases": [
+    {
+      "sk": "nunu_q",
+      "key": "low_health_champion_healing",
+      "l": 1,
+      "attrs": {
+        "ability_power": {
+          "TOTAL": 120
+        },
+        "hp": {
+          "BONUS": 1000
+        }
+      },
+      "rt": {},
+      "actual": 245.7,
+      "expected": 245.7,
+      "passed": true
+    },
+    {
+      "sk": "nunu_q",
+      "key": "low_health_champion_healing",
+      "l": 5,
+      "attrs": {
+        "ability_power": {
+          "TOTAL": 260
+        },
+        "hp": {
+          "BONUS": 2400
+        }
+      },
+      "rt": {},
+      "actual": 593.0999999999999,
+      "expected": 593.1,
+      "passed": true
+    },
+    {
+      "sk": "sejuani_p",
+      "key": "frost_armor_amount",
+      "l": 1,
+      "attrs": {},
+      "rt": {
+        "source_bonus_armor": 100
+      },
+      "actual": 85,
+      "expected": 85,
+      "passed": true
+    },
+    {
+      "sk": "sejuani_p",
+      "key": "frost_mr_amount",
+      "l": 1,
+      "attrs": {
+        "magic_resistance": {
+          "BONUS": 80
+        }
+      },
+      "rt": {},
+      "actual": 70,
+      "expected": 70,
+      "passed": true
+    },
+    {
+      "sk": "volibear_p",
+      "key": "attack_speed_total",
+      "l": 1,
+      "attrs": {
+        "ability_power": {
+          "TOTAL": 120
+        }
+      },
+      "rt": {
+        "attack_speed_stacks": 0
+      },
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "sk": "volibear_p",
+      "key": "attack_speed_total",
+      "l": 1,
+      "attrs": {
+        "ability_power": {
+          "TOTAL": 120
+        }
+      },
+      "rt": {
+        "attack_speed_stacks": 5
+      },
+      "actual": 0.42999999999999994,
+      "expected": 0.43,
+      "passed": true
+    },
+    {
+      "sk": "volibear_p",
+      "key": "attack_speed_total",
+      "l": 1,
+      "attrs": {
+        "ability_power": {
+          "TOTAL": 120
+        }
+      },
+      "rt": {
+        "attack_speed_stacks": 7
+      },
+      "actual": 0.42999999999999994,
+      "expected": 0.43,
+      "passed": true
+    }
+  ],
+  "calls": [
+    {
+      "method": "GET",
+      "route": "/skills/nunu_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:42.564414Z",
+        "description": "威朗普撕咬一个小兵、野怪或敌方英雄，造成巨大伤害并回复自己的生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "努努和威朗普·吞噬",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nunu_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:42.564414Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/nunu_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nunu_q",
+          "name": "nunu_q"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/nunu_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T14:36:30.794024Z",
+          "description": "当前根绑定 DataValues.BaseHealing 取索引1至5",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 65,
+            "2": 95,
+            "3": 125,
+            "4": 155,
+            "5": 185
+          },
+          "name": "吞噬基础回复量",
+          "parameterKey": "base_healing",
+          "skillKey": "nunu_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T14:36:30.794024Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:36:31.932185Z",
+          "description": "当前根MonsterHealing和TotalChampionDamage的mStat=12、mStatFormula=2；按已证窄口径绑定来源额外生命值。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "吞噬额外生命值回复比例",
+          "parameterKey": "bonus_hp_healing_ratio",
+          "skillKey": "nunu_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T14:36:31.932185Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:36:33.049132Z",
+          "description": "当前根ChampionHealing的mMultiplier；直接复用为英雄目标回复倍率。",
+          "fixedValue": 0.6,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "吞噬英雄目标回复倍率",
+          "parameterKey": "champion_healing_scalar",
+          "skillKey": "nunu_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T14:36:33.049132Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:36:34.179872Z",
+          "description": "当前正文按LowHealthThreshhold×100显示；保留0至1比例。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "吞噬低生命值阈值",
+          "parameterKey": "low_health_threshold_ratio",
+          "skillKey": "nunu_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T14:36:34.179872Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:36:35.200492Z",
+          "description": "当前正文按LowHealthHealingScalar×100显示；保留0至1比例。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "吞噬低生命值回复提升比例",
+          "parameterKey": "low_health_healing_scalar",
+          "skillKey": "nunu_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T14:36:35.200492Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:36:36.314363Z",
+          "description": "当前正文明确低于阈值时回复增加50%；倍率为1+LowHealthHealingScalar，即1.5，仅在低生命资格成立时使用。",
+          "fixedValue": 1.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "低生命资格成立时的英雄回复倍率",
+          "parameterKey": "low_health_champion_multiplier",
+          "skillKey": "nunu_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T14:36:36.314363Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:36:37.524593Z",
+          "description": "当前根TotalChampionDamage的mStat=12、mStatFormula=2；按已证窄口径绑定来源额外生命值。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "吞噬英雄目标额外生命值伤害比例",
+          "parameterKey": "bonus_hp_damage_ratio",
+          "skillKey": "nunu_q",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T14:36:37.524593Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:36:38.552443Z",
+          "description": "当前根TotalChampionDamage省略mStat字段但正文为英雄目标魔法伤害；按当前法术强度窄口径保留。",
+          "fixedValue": 0.65,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "吞噬英雄目标法强比例",
+          "parameterKey": "champion_damage_ap_ratio",
+          "skillKey": "nunu_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T14:36:38.552443Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:53.84024Z",
+          "description": "DDragon16.17.1 Nunu.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。两来源均为60法力；资源文案省略空格和属性占位名仍是明确单次法力，不是持续扣费。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 13000,
+            "2": 12000,
+            "3": 11000,
+            "4": 10000,
+            "5": 9000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nunu_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:53.84024Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:36:39.675545Z",
+          "description": "当前根MonsterHealing省略mStat字段；按当前法术强度窄口径保留，实际拥有者待运行核对。",
+          "fixedValue": 0.9,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "吞噬回复法强比例",
+          "parameterKey": "monster_healing_ap_ratio",
+          "skillKey": "nunu_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T14:36:39.675545Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:54.490444Z",
+          "description": "DDragon16.17.1 Nunu.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。两来源均为60法力；资源文案省略空格和属性占位名仍是明确单次法力，不是持续扣费。",
+          "fixedValue": 60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nunu_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:02:54.490444Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:36:40.801536Z",
+          "description": "当前根绑定 DataValues.ChampionDamage 取索引1至5",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 100,
+            "3": 140,
+            "4": 180,
+            "5": 220
+          },
+          "name": "吞噬英雄目标基础魔法伤害",
+          "parameterKey": "champion_base_damage",
+          "skillKey": "nunu_q",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T14:36:40.801536Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/sejuani_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:20:10.626488Z",
+        "description": "在脱离战斗后，瑟庄妮会获得冰霜护甲，冰川护甲可提供护甲、魔法抗性和免疫减速。当瑟庄妮受到伤害后，冰霜护甲会存留一小段时间。瑟庄妮可以伤害一名被晕眩的敌人来击碎它，从而造成巨量魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "瑟庄妮·北地之怒",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "sejuani_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:20:10.626488Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/sejuani_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_sejuani_p",
+          "name": "sejuani_p"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/sejuani_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T14:37:57.9639Z",
+          "description": "当前根FrostArmorDuration。",
+          "fixedValue": 3000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "北地之怒冰霜护甲受击后持续时间（毫秒）",
+          "parameterKey": "frost_armor_duration_ms",
+          "skillKey": "sejuani_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T14:37:57.9639Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:37:59.102613Z",
+          "description": "当前根TotalArmorTooltip的mStat=1、mStatFormula=2；来源额外护甲语义由根树明确，按护甲属性绑定。",
+          "fixedValue": 0.75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "北地之怒额外护甲比例",
+          "parameterKey": "bonus_armor_ratio",
+          "skillKey": "sejuani_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T14:37:59.102613Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:38:00.30833Z",
+          "description": "当前根TotalMRTooltip的mStat=6、mStatFormula=2；按已证窄口径绑定来源额外魔法抗性。",
+          "fixedValue": 0.75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "北地之怒额外魔抗比例",
+          "parameterKey": "bonus_mr_ratio",
+          "skillKey": "sejuani_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T14:38:00.30833Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:38:01.430939Z",
+          "description": "当前根绑定 DataValues.BonusArmorBase 取索引1至1",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "北地之怒基础额外护甲",
+          "parameterKey": "bonus_armor_base",
+          "skillKey": "sejuani_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T14:38:01.430939Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:38:02.588847Z",
+          "description": "当前根绑定 DataValues.BonusMRBase 取索引1至1",
+          "fixedValue": 10,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "北地之怒基础额外魔法抗性",
+          "parameterKey": "bonus_mr_base",
+          "skillKey": "sejuani_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T14:38:02.588847Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:38:03.655866Z",
+          "description": "当前根PercentHPDamage仅给比例；正文明确击碎冰霜护甲后对被晕眩敌人造成巨量魔法伤害，目标最大生命值由运行时提供。",
+          "fixedValue": 0.1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "北地之怒破甲护甲目标最大生命值伤害比例",
+          "parameterKey": "stunned_target_max_hp_damage_ratio",
+          "skillKey": "sejuani_p",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T14:38:03.655866Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:38:04.828749Z",
+          "description": "当前根TotalArmorTooltip使用mStat=1、mStatFormula=2；本批没有共享窄证确认该选择器，实际来源额外护甲由运行时提供，不默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "北地之怒来源额外护甲（运行输入）",
+          "parameterKey": "source_bonus_armor",
+          "skillKey": "sejuani_p",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T14:38:04.828749Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:38:05.897641Z",
+          "description": "北地之怒正文把破甲伤害绑定目标最大生命值；目标属性由运行时提供，不默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "被晕眩目标最大生命值",
+          "parameterKey": "target_max_health",
+          "skillKey": "sejuani_p",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T14:38:05.897641Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:38:07.060414Z",
+          "description": "当前根只给角色等级12秒至6秒插值节点；未知等级求值不猜，实际值无默认由运行输入提供。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "北地之怒脱战获得冰霜护甲时间（毫秒）（实际值外供）",
+          "parameterKey": "frost_armor_ooc_ms",
+          "skillKey": "sejuani_p",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T14:38:07.060414Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/volibear_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:04.006745Z",
+        "description": "沃利贝尔的攻击和技能会提供攻击速度，并且最终使他的攻击对附近的敌人们造成额外魔法伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "沃利贝尔·狂雷渐起",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "volibear_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:04.006745Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/volibear_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_volibear_p",
+          "name": "volibear_p"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/volibear_p/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T14:40:07.807902Z",
+          "description": "当前根ChainLightningDamage第二项；按当前法术强度窄口径绑定。",
+          "fixedValue": 0.45,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "狂雷渐起额外魔法伤害法强比例",
+          "parameterKey": "passive_ap_ratio",
+          "skillKey": "volibear_p",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T14:40:07.807902Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:40:08.888912Z",
+          "description": "当前官方中文正文明确“至多可叠加5层”；这是攻击速度层数上限，不由BounceCounterMax弹跳目标数字段推定。",
+          "fixedValue": 5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "狂雷渐起最大攻击速度层数",
+          "parameterKey": "attack_speed_max_stacks",
+          "skillKey": "volibear_p",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T14:40:08.888912Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:40:09.944989Z",
+          "description": "当前根BuffDuration。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "狂雷渐起增益持续时间（毫秒）",
+          "parameterKey": "buff_duration_ms",
+          "skillKey": "volibear_p",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T14:40:09.944989Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:40:10.955689Z",
+          "description": "当前根PAttackSpeed；正文明确攻击和技能提供攻击速度，1表示100%。",
+          "fixedValue": 0.05,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "狂雷渐起每层攻击速度比例",
+          "parameterKey": "attack_speed_per_stack_ratio",
+          "skillKey": "volibear_p",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T14:40:10.955689Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:40:12.124086Z",
+          "description": "当前根AttackSpeedCalc省略属性选择器但给出mCoefficient=0.0003；按已有窄证绑定来源法术强度，不推广到其他省略属性树。",
+          "fixedValue": 0.0003,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "狂雷渐起每层攻击速度法强比例",
+          "parameterKey": "attack_speed_ap_ratio",
+          "skillKey": "volibear_p",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T14:40:12.124086Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T14:40:13.259855Z",
+          "description": "实际层数由运行时以整数提供；当前官方中文正文明确至多可叠加5层，不补默认层数。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "狂雷渐起当前攻击速度层数（运行输入）",
+          "parameterKey": "attack_speed_stacks",
+          "skillKey": "volibear_p",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T14:40:13.259855Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T14:40:14.344081Z",
+          "description": "当前根只给角色等级1起点、每级值和4/7/14断点；等级求值不猜，实际基础值无默认由运行输入提供。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "狂雷渐起额外魔法伤害等级基础值（实际值外供）",
+          "parameterKey": "chain_lightning_base_damage",
+          "skillKey": "volibear_p",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T14:40:14.344081Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/nunu_q/formulas/low_health_champion_healing",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:36:45.641945Z",
+        "description": "低生命资格成立时的英雄回复 = 1.5×ChampionHealing；LowHealthHealingScalar=0.5只在正文资格成立时转成该倍率，不创建治疗结果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "low_health_champion_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "champion_healing_scalar"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "base_healing"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "bonus_hp_healing_ratio"
+                            },
+                            {
+                              "attributeKey": "hp",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "BONUS",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "monster_healing_ap_ratio"
+                        },
+                        {
+                          "attributeKey": "ability_power",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "TOTAL",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "low_health_champion_healing",
+        "gameId": "lol",
+        "name": "低生命资格成立时的英雄回复数学量",
+        "skillKey": "nunu_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T14:36:45.641945Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/nunu_q/formulas/champion_healing",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:36:44.465544Z",
+        "description": "ChampionHealing = ChampionHealingScalar×MonsterHealing；低生命资格和实际治疗尚未接线。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "champion_healing_scalar"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "base_healing"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bonus_hp_healing_ratio"
+                        },
+                        {
+                          "attributeKey": "hp",
+                          "attributeOwner": "SOURCE",
+                          "attributeValueKind": "BONUS",
+                          "nodeType": "ATTRIBUTE"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "monster_healing_ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "champion_healing",
+        "gameId": "lol",
+        "name": "吞噬英雄目标回复数学量",
+        "skillKey": "nunu_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T14:36:44.465544Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/sejuani_p/formulas/frost_armor_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:38:08.028186Z",
+        "description": "TotalArmorTooltip = BonusArmorBase + BonusArmorRatio×来源额外护甲运行输入；mStat=1、mStatFormula=2的选择器不在本批猜测。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_armor_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_armor_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_bonus_armor"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "frost_armor_amount",
+        "gameId": "lol",
+        "name": "北地之怒额外护甲数学量",
+        "skillKey": "sejuani_p",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T14:38:08.028186Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/sejuani_p/formulas/frost_mr_amount",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:38:09.186002Z",
+        "description": "TotalMRTooltip = BonusMRBase + BonusMRRatio×来源额外魔法抗性；应用时增加魔抗。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_mr_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_mr_ratio"
+                },
+                {
+                  "attributeKey": "magic_resistance",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "frost_mr_amount",
+        "gameId": "lol",
+        "name": "北地之怒额外魔抗数学量",
+        "skillKey": "sejuani_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T14:38:09.186002Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/volibear_p/formulas/attack_speed_total",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:40:17.722161Z",
+        "description": "当前层数总攻击速度 = MIN(运行输入层数,正文至多5层)×(PAttackSpeed + 0.0003×来源法术强度)；5层上限来自正文固定字面值，层数为运行输入整数，负数仍由调用方拒绝。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_speed_stacks"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_speed_max_stacks"
+                }
+              ],
+              "operation": "MIN"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_speed_per_stack_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "attack_speed_ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "attack_speed_total",
+        "gameId": "lol",
+        "name": "狂雷渐起当前层数总攻击速度数学量",
+        "skillKey": "volibear_p",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T14:40:17.722161Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/volibear_p/formulas/attack_speed_per_stack",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T14:40:16.587561Z",
+        "description": "每层攻击速度 = PAttackSpeed + 0.0003×来源法术强度；省略属性选择器按已有窄证取法强。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "attack_speed_per_stack_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_speed_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "attack_speed_per_stack",
+        "gameId": "lol",
+        "name": "狂雷渐起每层攻击速度数学量",
+        "skillKey": "volibear_p",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T14:40:16.587561Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/sejuani_p/effects",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "passed": true,
+  "runtimeValidation": "未执行"
+}

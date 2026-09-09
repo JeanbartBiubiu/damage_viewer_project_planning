@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-09T14:39:56.686Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_r/parameters",
+  "detailRoute": "/skills/sion_r/parameters/slow_ratio",
+  "skillKey": "sion_r",
+  "kind": "parameters",
+  "stableKey": "slow_ratio",
+  "body": {
+    "parameterKey": "slow_ratio",
+    "name": "蛮横冲撞减速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.4,
+      "2": 0.45,
+      "3": 0.5
+    },
+    "description": "当前官方中文正文以SlowAmount%显示；百分数点转为比例。",
+    "sortOrder": 60
+  }
+}

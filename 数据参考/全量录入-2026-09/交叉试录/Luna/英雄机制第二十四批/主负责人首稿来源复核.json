@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T13:46:07.262Z",
+  "candidateSha256": "c031418bd72a457f38f71ad0ef0ad1516052099a9da74a5cb94defc5862b6193",
+  "decision": "修订后重新核对，原候选未批准业务写入",
+  "changes": [
+    "NunuP对其他敌人的溅射与纯友军分支排除；自身增益持续时间可叠加，当前REFRESH_ALL不能表达，两个效果移出待修系统，补10000ms同目标冷却。",
+    "NunuQ低生命资格成立时回复1.5倍可建立条件成立数学，资格事件单列。",
+    "NunuW NoImpact正文为最低距离伤害，不能等同任意提前释放固定值。",
+    "NunuR未被当前绑定正文消费的tooltipOnly MinDamage不作为提前释放半伤录入。",
+    "NunuE150.000006毫秒归一整数150并核全_ms类型。",
+    "SejuaniP3000ms为受伤后保留，不是增益总时长；移出错误通用效果，护甲选择器未证则用输入。",
+    "SionW未消费DamagePercentHealthTooltip还被二次.01缩放，移出冗余参数；实际主公式固定.14目标HP正确。",
+    "VolibearP每层攻击速度=.05+.0003AP，原效果固定.05且1层上限错误；先公式化每层及实际层数5封顶总量，生命周期待接。",
+    "VoliP未消费PDamageRatio=.2移出，实际伤害系数APRatio=.45，修正说明。",
+    "VoliW当前被排除字段为小兵治疗倍率，不能误写兵野伤害；SionP替换DeathSurge支路单列边界。"
+  ],
+  "sourceReview": "主负责人已逐槽读取冻结根绑定、当前文本和计算树，按原始字段及当前消费者检查。",
+  "businessWritesAtReview": 0,
+  "runtimeValidation": "未执行"
+}

@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:40:48.547Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_e/parameters",
+  "detailRoute": "/skills/volibear_e/parameters/base_damage",
+  "skillKey": "volibear_e",
+  "kind": "parameters",
+  "stableKey": "base_damage",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "霹天雳地基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 80,
+      "2": 110,
+      "3": 140,
+      "4": 170,
+      "5": 200
+    },
+    "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+    "sortOrder": 50
+  }
+}

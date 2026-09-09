@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "status": "PREPARED_NOT_APPLIED",
+  "mode": "第二十四批最终候选写入准备冻结；等待根负责人另行授权--apply",
+  "gameId": "lol",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "sourceVersion": "client16.17/official16.17.1",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "candidateVersionSha256": "ddd962534722ead73fd1457c256829cfe13b13ceac840ff8c4fcfcd72d05737c",
+  "candidateInternalPlanSha256": "fd9a2366b153b3141686152d26c70aed7db8cbef56359c7b4cb5d7701de429f5",
+  "requestPlanSha256": "50f5a261f451928db01980ce2bb9fd5d6c0b3f720cc4ecd985e90d0d534bd3f0",
+  "snapshotSha256": "5f6925724ac3e0c9f72324410b2f37600c21a57ae7fb3d525426d9a43bac4a9e",
+  "sourceHashes": {
+    "完整候选.json": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+    "候选版本.json": "ddd962534722ead73fd1457c256829cfe13b13ceac840ff8c4fcfcd72d05737c",
+    "写入请求计划.json": "50f5a261f451928db01980ce2bb9fd5d6c0b3f720cc4ecd985e90d0d534bd3f0",
+    "写前现值.json": "5f6925724ac3e0c9f72324410b2f37600c21a57ae7fb3d525426d9a43bac4a9e",
+    "根绑定与数值证据.json": "2ba9d064dc1233dd5e8275cb1fe133da1d66c4f5e99de6a8b24fba69b86dfe53",
+    "补充文本证据.json": "b48dab89fcee7c11de4ff45b6d77736ada355a3600ca45aebb5cbbaa22ec11e9",
+    "来源冻结/来源与哈希汇总.json": "86d9e78de259c8c6f2cca542cce731db9ed006c655569cf90fe94963a1480137",
+    "来源冻结/主技能数值展开.json": "33ad9e35b3635599a2388e20cb53620e6ba40576a6adf16b4390051f64896c07",
+    "来源冻结/主技能原始展开.json": "fc46a3784eb2e6ebbabc826f90eef1bc4a3ebb51c973ac0ef4e7c7487c0ac03a",
+    "候选.mjs": "86aec7bfcceb5f664f5703525f75a4ac2fee840c53ea2d927ff426885d3f50ba",
+    "英雄组成.mjs": "96e096ef82d8831f45a6fdc7564aceb0b72daff75c01448c7c64432ed75c2e78",
+    "生成候选.mjs": "e06d7992fb8fa653f593a8f42ea5ab2fe4f4802ea541506efc855bf07becddf2",
+    "独立数学核对.mjs": "d198f40445d4bb91daac6584dfb0b51894e80701ed71d9d74c8658c7e8ee4fd7",
+    "独立数学核对.json": "0a91f6d054fb9154725afa8db57706f650d08ae8b174125dafd42667c50fa10e",
+    "生成写入计划.mjs": "52fed0be6c082dde74fbcf443e8060bb8f77e51140f9d703de3665f1478225e8"
+  },
+  "historicalCandidates": {
+    "previousFinal": {
+      "path": "历史版本/冻结前-114907e0419ad5df34d0251a035493d57a736b0dd5901b3422eee4a5f62f528f/完整候选.json",
+      "sha256": "114907e0419ad5df34d0251a035493d57a736b0dd5901b3422eee4a5f62f528f"
+    },
+    "priorIntermediate": {
+      "path": "历史版本/修订前-c031418bd72a457f38f71ad0ef0ad1516052099a9da74a5cb94defc5862b6193/完整候选.json",
+      "sha256": "c031418bd72a457f38f71ad0ef0ad1516052099a9da74a5cb94defc5862b6193"
+    },
+    "originalMentionedByRoot": {
+      "sha256": "cba4e4…",
+      "localFound": false,
+      "note": "在本工作树本批目录及制品目录未找到该散列原件；本次未覆盖或删除。"
+    }
+  },
+  "protection": {
+    "heroes": 4,
+    "subjects": 20,
+    "componentLists": 120,
+    "existingComponentDetails": 29,
+    "existingByKind": {
+      "parameters": 29,
+      "formulas": 0,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "protectedFields": "写前现值.json中的目录、20个技能主体、120个六类列表、29个现有参数列表行及详情逐字段保留；其它三类组成现值为空，出现计划外项即停止。",
+    "reuseParameters": [
+      {
+        "skillKey": "nunu_e",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "nunu_e",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "nunu_q",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "nunu_q",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "nunu_r",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "nunu_r",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "nunu_w",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "nunu_w",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "sejuani_e",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "sejuani_e",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "sejuani_q",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "sejuani_q",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "sejuani_r",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "sejuani_r",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "sejuani_w",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "sejuani_w",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "sion_e",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "sion_e",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "sion_q",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "sion_q",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "sion_r",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "volibear_e",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "volibear_e",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "volibear_q",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "volibear_q",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "volibear_r",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "volibear_r",
+        "parameterKey": "mana_cost"
+      },
+      {
+        "skillKey": "volibear_w",
+        "parameterKey": "cooldown_ms"
+      },
+      {
+        "skillKey": "volibear_w",
+        "parameterKey": "mana_cost"
+      }
+    ]
+  },
+  "counts": {
+    "candidate": {
+      "parameters": 229,
+      "formulas": 38,
+      "effects": 19,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "reusedParameters": 29,
+    "newByKind": {
+      "parameters": 200,
+      "formulas": 38,
+      "effects": 19,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "plannedPostCount": 257,
+    "apiWritesAtFreeze": 0
+  },
+  "policy": {
+    "parameterPosts": "只发送不在29项复用清单中的200项参数；复用参数只做完整字段保护，不发送更新。",
+    "formulaPosts": "发送38项公式；OPERATION必须为允许的二元运算。",
+    "effectPosts": "发送19项效果；不发送过程、内部状态、触发规则。",
+    "protected": "技能主体、目录、既有参数、公式、效果、过程、内部状态、触发规则和其它现值均不更新；逐项POST后立即GET确认，未知响应停止。"
+  },
+  "frozenAt": "2026-09-09T14:19:54.605Z"
+}

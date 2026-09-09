@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:40:32.473Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_w/parameters",
+  "detailRoute": "/skills/volibear_w/parameters/missing_health_heal_ratio",
+  "skillKey": "volibear_w",
+  "kind": "parameters",
+  "stableKey": "missing_health_heal_ratio",
+  "body": {
+    "parameterKey": "missing_health_heal_ratio",
+    "name": "暴怒撕咬已损生命值回复比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.08,
+      "2": 0.11,
+      "3": 0.14,
+      "4": 0.17,
+      "5": 0.2
+    },
+    "description": "当前根PercentMissingHealthHealingRatio直接显示HealPercent；按0至1比例保留，不重复建直通公式。",
+    "sortOrder": 50
+  }
+}

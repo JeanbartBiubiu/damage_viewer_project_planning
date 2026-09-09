@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:36:40.859Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_q/parameters",
+  "detailRoute": "/skills/nunu_q/parameters/champion_base_damage",
+  "skillKey": "nunu_q",
+  "kind": "parameters",
+  "stableKey": "champion_base_damage",
+  "body": {
+    "parameterKey": "champion_base_damage",
+    "name": "吞噬英雄目标基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 60,
+      "2": 100,
+      "3": 140,
+      "4": 180,
+      "5": 220
+    },
+    "description": "当前根绑定 DataValues.ChampionDamage 取索引1至5",
+    "sortOrder": 120
+  }
+}

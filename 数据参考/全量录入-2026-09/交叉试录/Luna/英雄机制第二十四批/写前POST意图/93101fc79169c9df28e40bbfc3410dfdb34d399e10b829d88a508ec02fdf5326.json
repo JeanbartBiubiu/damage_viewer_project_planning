@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:40:20.027Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_q/parameters",
+  "detailRoute": "/skills/volibear_q/parameters/base_damage",
+  "skillKey": "volibear_q",
+  "kind": "parameters",
+  "stableKey": "base_damage",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "擂首一击基础物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 10,
+      "2": 20,
+      "3": 30,
+      "4": 40,
+      "5": 50
+    },
+    "description": "当前根绑定 DataValues.BaseDamage 取索引1至5",
+    "sortOrder": 40
+  }
+}

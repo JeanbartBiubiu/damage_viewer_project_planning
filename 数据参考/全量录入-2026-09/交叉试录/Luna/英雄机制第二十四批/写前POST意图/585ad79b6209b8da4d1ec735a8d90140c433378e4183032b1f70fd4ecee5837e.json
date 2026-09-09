@@ -1,0 +1,30 @@
+{
+  "at": "2026-09-09T14:39:05.000Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_p/formulas",
+  "detailRoute": "/skills/sion_p/formulas/death_attack_extra_damage",
+  "skillKey": "sion_p",
+  "kind": "formulas",
+  "stableKey": "death_attack_extra_damage",
+  "body": {
+    "formulaKey": "death_attack_extra_damage",
+    "name": "死亡荣耀攻击额外伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "MULTIPLY",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "death_attack_target_max_hp_ratio"
+        },
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "target_max_health"
+        }
+      ]
+    },
+    "description": "额外伤害 = PercentMaxHP×目标最大生命值；死亡状态、攻击资格和实际命中尚未接线。",
+    "sortOrder": 10
+  }
+}

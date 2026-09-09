@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T14:40:13.312Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/volibear_p/parameters",
+  "detailRoute": "/skills/volibear_p/parameters/attack_speed_stacks",
+  "skillKey": "volibear_p",
+  "kind": "parameters",
+  "stableKey": "attack_speed_stacks",
+  "body": {
+    "parameterKey": "attack_speed_stacks",
+    "name": "狂雷渐起当前攻击速度层数（运行输入）",
+    "valueType": "INTEGER",
+    "valueMode": "RUNTIME_INPUT",
+    "fixedValue": null,
+    "levelValues": null,
+    "description": "实际层数由运行时以整数提供；当前官方中文正文明确至多可叠加5层，不补默认层数。",
+    "sortOrder": 60
+  }
+}

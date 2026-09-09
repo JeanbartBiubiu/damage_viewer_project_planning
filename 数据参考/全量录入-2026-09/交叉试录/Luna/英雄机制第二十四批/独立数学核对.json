@@ -1,0 +1,1119 @@
+{
+  "generatedAt": "2026-09-09T14:15:44.344Z",
+  "source": "候选完整候选.json；根绑定客户端16.17/官方16.17.1；独立来源数值展开",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "formulaCount": 38,
+  "groups": 76,
+  "casesPerFormula": 2,
+  "missingInputChecks": 8,
+  "runtimeInputCount": 10,
+  "failedChecks": [],
+  "modifierChecks": [
+    {
+      "key": "nunu_w/minimum_distance_damage",
+      "ok": true,
+      "detail": {
+        "mDataValue": "NoImpactDamageScalar",
+        "__type": "NamedDataValueCalculationPart"
+      }
+    },
+    {
+      "key": "nunu_r/minimum_damage",
+      "ok": true,
+      "detail": {
+        "mNumber": 0.5,
+        "__type": "NumberCalculationPart"
+      }
+    },
+    {
+      "key": "volibear_p/attack_speed_per_stack",
+      "ok": true,
+      "detail": [
+        {
+          "mDataValue": "PAttackSpeed",
+          "__type": "NamedDataValueCalculationPart"
+        },
+        {
+          "mCoefficient": 0.0003000000142492354,
+          "__type": "StatByCoefficientCalculationPart"
+        }
+      ]
+    },
+    {
+      "key": "volibear_w/empowered_damage",
+      "ok": true,
+      "detail": {
+        "mSubparts": [
+          {
+            "mDataValue": "W2DamageMultiplier",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          {
+            "mStat": 2,
+            "mStatFormula": 2,
+            "mDataValue": "W2BonusADDamageMultiplier",
+            "__type": "StatByNamedDataValueCalculationPart"
+          }
+        ],
+        "__type": "SumOfSubPartsCalculationPart"
+      }
+    }
+  ],
+  "runtimeNoDefaults": [
+    {
+      "skillKey": "nunu_e",
+      "parameterKey": "root_duration_ms",
+      "ok": true
+    },
+    {
+      "skillKey": "sejuani_p",
+      "parameterKey": "source_bonus_armor",
+      "ok": true
+    },
+    {
+      "skillKey": "sejuani_p",
+      "parameterKey": "target_max_health",
+      "ok": true
+    },
+    {
+      "skillKey": "sejuani_p",
+      "parameterKey": "frost_armor_ooc_ms",
+      "ok": true
+    },
+    {
+      "skillKey": "sion_p",
+      "parameterKey": "target_max_health",
+      "ok": true
+    },
+    {
+      "skillKey": "sion_w",
+      "parameterKey": "target_max_health",
+      "ok": true
+    },
+    {
+      "skillKey": "volibear_p",
+      "parameterKey": "attack_speed_stacks",
+      "ok": true
+    },
+    {
+      "skillKey": "volibear_p",
+      "parameterKey": "chain_lightning_base_damage",
+      "ok": true
+    },
+    {
+      "skillKey": "volibear_w",
+      "parameterKey": "source_missing_health",
+      "ok": true
+    },
+    {
+      "skillKey": "volibear_e",
+      "parameterKey": "target_max_health",
+      "ok": true
+    }
+  ],
+  "boundaryChecks": [
+    {
+      "name": "层数下界0",
+      "inputStacks": 0,
+      "cappedStacks": 0,
+      "actual": 0,
+      "expected": 0,
+      "ok": true
+    },
+    {
+      "name": "层数上限5",
+      "inputStacks": 5,
+      "cappedStacks": 5,
+      "actual": 0.42999999999999994,
+      "expected": 0.42999999999999994,
+      "ok": true
+    },
+    {
+      "name": "超过上限7按5封顶",
+      "inputStacks": 7,
+      "cappedStacks": 5,
+      "actual": 0.42999999999999994,
+      "expected": 0.42999999999999994,
+      "ok": true
+    },
+    {
+      "name": "低于50%时回复倍率",
+      "threshold": 0.5,
+      "lowHealthScalar": 0.5,
+      "multiplier": 1.5,
+      "expectedMultiplier": 1.5,
+      "ok": true
+    }
+  ],
+  "formulas": [
+    {
+      "skillKey": "nunu_q",
+      "formulaKey": "monster_healing",
+      "sourceCalculation": "MonsterHealing",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 273,
+          "expected": 272.99999862909317,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 659,
+          "expected": 658.9999973773956,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "nunu_q",
+      "formulaKey": "champion_damage",
+      "sourceCalculation": "TotalChampionDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 188,
+          "expected": 187.9999978840351,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 509,
+          "expected": 508.9999955892563,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "nunu_q",
+      "formulaKey": "champion_healing",
+      "sourceCalculation": "ChampionHealing",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 163.79999999999998,
+          "expected": 163.80000568628307,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 395.4,
+          "expected": 395.40001413822165,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "nunu_q",
+      "formulaKey": "low_health_champion_healing",
+      "sourceCalculation": "ChampionHealing",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 245.7,
+          "expected": 245.70000852942462,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 593.0999999999999,
+          "expected": 593.1000212073325,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "nunu_w",
+      "formulaKey": "maximum_damage",
+      "sourceCalculation": "MaximumSnowballDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 360,
+          "expected": 360,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 750,
+          "expected": 750,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "nunu_w",
+      "formulaKey": "minimum_distance_damage",
+      "sourceCalculation": "NoImpactSnowballDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 119.88000000000001,
+          "expected": 119.88000154495239,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 249.75,
+          "expected": 249.75000321865082,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "nunu_w",
+      "formulaKey": "maximum_stun_duration_ms",
+      "sourceCalculation": "MaximumStunDuration",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 1250,
+          "expected": 1250,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 1250,
+          "expected": 1250,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "nunu_e",
+      "formulaKey": "snowball_damage",
+      "sourceCalculation": "TotalSnowballDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 29.4,
+          "expected": 29.4,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 76.2,
+          "expected": 76.2,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "nunu_e",
+      "formulaKey": "root_damage",
+      "sourceCalculation": "TotalRootDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 116,
+          "expected": 116,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 268,
+          "expected": 268,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "nunu_r",
+      "formulaKey": "shield_amount",
+      "sourceCalculation": "TotalShieldAmount",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 545,
+          "expected": 545.000011920929,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 3,
+          "actual": 1675,
+          "expected": 1675,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "nunu_r",
+      "formulaKey": "maximum_damage",
+      "sourceCalculation": "MaximumDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 985,
+          "expected": 985,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 3,
+          "actual": 2055,
+          "expected": 2055,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sejuani_p",
+      "formulaKey": "frost_armor_amount",
+      "sourceCalculation": "TotalArmorTooltip",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [
+        "source_bonus_armor"
+      ],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 85,
+          "expected": 85,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 1,
+          "actual": 205,
+          "expected": 205,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": [
+        {
+          "parameterKey": "source_bonus_armor",
+          "rejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "sejuani_p",
+      "formulaKey": "frost_mr_amount",
+      "sourceCalculation": "TotalMRTooltip",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 70,
+          "expected": 70,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 1,
+          "actual": 145,
+          "expected": 145,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sejuani_p",
+      "formulaKey": "armor_break_damage",
+      "sourceCalculation": "PercentHPDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [
+        "target_max_health"
+      ],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 200,
+          "expected": 200.00000298023224,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 1,
+          "actual": 420,
+          "expected": 420.0000062584877,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": [
+        {
+          "parameterKey": "target_max_health",
+          "rejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "sejuani_q",
+      "formulaKey": "total_damage",
+      "sourceCalculation": "TotalDamageTooltip",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 180,
+          "expected": 180,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 485,
+          "expected": 485,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sejuani_w",
+      "formulaKey": "first_hit_damage",
+      "sourceCalculation": "FirstHitDamageTooltip",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 161,
+          "expected": 160.99999874830246,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 331,
+          "expected": 330.99999845027924,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sejuani_w",
+      "formulaKey": "second_hit_damage",
+      "sourceCalculation": "SecondHitDamageTooltip",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 317,
+          "expected": 316.9999974966049,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 657,
+          "expected": 656.9999969005585,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sejuani_e",
+      "formulaKey": "total_damage",
+      "sourceCalculation": "TotalDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 139,
+          "expected": 138.99999856948853,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 437,
+          "expected": 436.9999969005585,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sejuani_r",
+      "formulaKey": "minor_damage",
+      "sourceCalculation": "MinorDamageTooltip",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 173,
+          "expected": 173,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 3,
+          "actual": 279,
+          "expected": 279,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sejuani_r",
+      "formulaKey": "empowered_damage",
+      "sourceCalculation": "TotalDamageTooltip",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 296,
+          "expected": 296,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 3,
+          "actual": 608,
+          "expected": 608,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sion_p",
+      "formulaKey": "death_attack_extra_damage",
+      "sourceCalculation": null,
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [
+        "target_max_health"
+      ],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 200,
+          "expected": 200.00000298023224,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 1,
+          "actual": 420,
+          "expected": 420.0000062584877,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": [
+        {
+          "parameterKey": "target_max_health",
+          "rejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "sion_q",
+      "formulaKey": "minimum_damage",
+      "sourceCalculation": "MinDamageTotal",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 110,
+          "expected": 110.0000011920929,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 370,
+          "expected": 370.00000417232513,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sion_q",
+      "formulaKey": "maximum_damage",
+      "sourceCalculation": "MaxDamageTotal",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 330,
+          "expected": 330.00000953674316,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 1190,
+          "expected": 1190.000033378601,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sion_w",
+      "formulaKey": "total_shield",
+      "sourceCalculation": "TotalShield",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 348,
+          "expected": 347.9999953508377,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 1056,
+          "expected": 1055.9999829530716,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sion_w",
+      "formulaKey": "total_damage",
+      "sourceCalculation": "TotalDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [
+        "target_max_health"
+      ],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 368,
+          "expected": 368.00000071525574,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 832,
+          "expected": 832.0000015497208,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": [
+        {
+          "parameterKey": "target_max_health",
+          "rejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "sion_e",
+      "formulaKey": "total_damage",
+      "sourceCalculation": "TotalDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 131,
+          "expected": 131.00000143051147,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 348,
+          "expected": 348.0000030994415,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sion_r",
+      "formulaKey": "minimum_damage",
+      "sourceCalculation": "MinDamageTotal",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 210,
+          "expected": 210,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 3,
+          "actual": 582,
+          "expected": 582,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "sion_r",
+      "formulaKey": "maximum_damage",
+      "sourceCalculation": "MaxDamageTotal",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 520,
+          "expected": 520,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 3,
+          "actual": 1464,
+          "expected": 1464,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "volibear_p",
+      "formulaKey": "chain_lightning_damage",
+      "sourceCalculation": "ChainLightningDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [
+        "chain_lightning_base_damage"
+      ],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 114,
+          "expected": 113.99999856948853,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 1,
+          "actual": 212,
+          "expected": 211.99999690055847,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": [
+        {
+          "parameterKey": "chain_lightning_base_damage",
+          "rejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "volibear_p",
+      "formulaKey": "attack_speed_per_stack",
+      "sourceCalculation": "AttackSpeedCalc",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 0.086,
+          "expected": 0.0860000024549663,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 1,
+          "actual": 0.128,
+          "expected": 0.12800000444985926,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "volibear_p",
+      "formulaKey": "attack_speed_total",
+      "sourceCalculation": "AttackSpeedCalc",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [
+        "attack_speed_stacks"
+      ],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 0,
+          "expected": 0,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 1,
+          "actual": 0.64,
+          "expected": 0.6400000222492963,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": [
+        {
+          "parameterKey": "attack_speed_stacks",
+          "rejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "volibear_q",
+      "formulaKey": "calculated_damage",
+      "sourceCalculation": "CalculatedDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 370,
+          "expected": 370.0000023841858,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 752,
+          "expected": 752.0000052452087,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "volibear_w",
+      "formulaKey": "total_damage",
+      "sourceCalculation": "TotalDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 285,
+          "expected": 284.9999986588955,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 634,
+          "expected": 633.9999967813492,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "volibear_w",
+      "formulaKey": "empowered_damage",
+      "sourceCalculation": "EmpoweredDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 498.75,
+          "expected": 498.7499960605055,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 1299.6999999999998,
+          "expected": 1299.6999856077134,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "volibear_w",
+      "formulaKey": "empowered_healing",
+      "sourceCalculation": "PercentMissingHealthHealingRatio",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [
+        "source_missing_health"
+      ],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 60,
+          "expected": 59.99999910593033,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 420,
+          "expected": 420.0000050663948,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": [
+        {
+          "parameterKey": "source_missing_health",
+          "rejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "volibear_e",
+      "formulaKey": "total_damage",
+      "sourceCalculation": "CalculatedDamage",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [
+        "target_max_health"
+      ],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 384,
+          "expected": 383.99999737739563,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 1012,
+          "expected": 1012.0000219345093,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": [
+        {
+          "parameterKey": "target_max_health",
+          "rejected": true
+        }
+      ]
+    },
+    {
+      "skillKey": "volibear_e",
+      "formulaKey": "shield_value",
+      "sourceCalculation": "ShieldValue",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 510.00000000000006,
+          "expected": 510.00000178813934,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 5,
+          "actual": 923.0000000000001,
+          "expected": 923.0000030994415,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    },
+    {
+      "skillKey": "volibear_r",
+      "formulaKey": "sweet_spot_damage",
+      "sourceCalculation": "SweetSpotDamageTooltip",
+      "sourceCalculationPresent": true,
+      "runtimeDependencies": [],
+      "cases": [
+        {
+          "name": "输入组A",
+          "level": 1,
+          "actual": 700,
+          "expected": 700,
+          "ok": true
+        },
+        {
+          "name": "输入组B",
+          "level": 3,
+          "actual": 1575,
+          "expected": 1575,
+          "ok": true
+        }
+      ],
+      "missingInputChecks": []
+    }
+  ],
+  "passed": true
+}

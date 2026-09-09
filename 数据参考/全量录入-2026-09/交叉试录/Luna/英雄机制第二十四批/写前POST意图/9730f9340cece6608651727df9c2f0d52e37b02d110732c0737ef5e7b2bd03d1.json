@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-09T14:37:42.311Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_r/parameters",
+  "detailRoute": "/skills/nunu_r/parameters/base_damage",
+  "skillKey": "nunu_r",
+  "kind": "parameters",
+  "stableKey": "base_damage",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "绝对零度最高基础魔法伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 625,
+      "2": 925,
+      "3": 1275
+    },
+    "description": "当前根绑定 DataValues.BaseDamage 取索引1至3",
+    "sortOrder": 30
+  }
+}

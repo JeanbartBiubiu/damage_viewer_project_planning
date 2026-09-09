@@ -1,0 +1,40 @@
+{
+  "at": "2026-09-09T14:38:08.086Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sejuani_p/formulas",
+  "detailRoute": "/skills/sejuani_p/formulas/frost_armor_amount",
+  "skillKey": "sejuani_p",
+  "kind": "formulas",
+  "stableKey": "frost_armor_amount",
+  "body": {
+    "formulaKey": "frost_armor_amount",
+    "name": "北地之怒额外护甲数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "bonus_armor_base"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "bonus_armor_ratio"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "source_bonus_armor"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "TotalArmorTooltip = BonusArmorBase + BonusArmorRatio×来源额外护甲运行输入；mStat=1、mStatFormula=2的选择器不在本批猜测。",
+    "sortOrder": 10
+  }
+}

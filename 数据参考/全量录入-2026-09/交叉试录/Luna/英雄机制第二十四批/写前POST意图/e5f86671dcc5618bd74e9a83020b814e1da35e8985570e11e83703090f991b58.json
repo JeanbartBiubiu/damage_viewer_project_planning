@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T14:36:57.548Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/nunu_w/parameters",
+  "detailRoute": "/skills/nunu_w/parameters/minimum_distance_damage_scalar",
+  "skillKey": "nunu_w",
+  "kind": "parameters",
+  "stableKey": "minimum_distance_damage_scalar",
+  "body": {
+    "parameterKey": "minimum_distance_damage_scalar",
+    "name": "史上最大雪球最低滚动距离伤害倍率",
+    "valueType": "DECIMAL",
+    "valueMode": "FIXED",
+    "fixedValue": 0.333,
+    "levelValues": null,
+    "description": "当前根NoImpactSnowballDamage的mMultiplier；当前正文把它作为滚动距离伤害下界，不把它解释为固定提前释放伤害。",
+    "sortOrder": 110
+  }
+}

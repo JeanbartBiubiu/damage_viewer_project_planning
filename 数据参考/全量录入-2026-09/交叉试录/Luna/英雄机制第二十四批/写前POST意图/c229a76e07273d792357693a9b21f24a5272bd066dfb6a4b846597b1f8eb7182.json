@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-09T14:39:16.555Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_q/formulas",
+  "detailRoute": "/skills/sion_q/formulas/minimum_damage",
+  "skillKey": "sion_q",
+  "kind": "formulas",
+  "stableKey": "minimum_damage",
+  "body": {
+    "formulaKey": "minimum_damage",
+    "name": "残虐猛击最低物理伤害数学量",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "minimum_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minimum_ad_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "MinDamageTotal = LowDamage + ADRatioMin×来源总攻击力。",
+    "sortOrder": 10
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T14:39:21.970Z",
+  "candidateSha256": "82909b66781b24fba50b7777cc01d7a511479eb0bb20e25a340b789014c3cf8b",
+  "method": "POST",
+  "route": "/skills/sion_w/parameters",
+  "detailRoute": "/skills/sion_w/parameters/cast_time_ms",
+  "skillKey": "sion_w",
+  "kind": "parameters",
+  "stableKey": "cast_time_ms",
+  "body": {
+    "parameterKey": "cast_time_ms",
+    "name": "施法时间（毫秒）",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": 250,
+    "levelValues": null,
+    "description": "当前根spellCastTime；仅保存根字段，不表示命中发生在施法结束。",
+    "sortOrder": 30
+  }
+}
