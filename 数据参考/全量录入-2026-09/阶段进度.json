@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T07:17:22.427Z",
+  "generatedAt": "2026-09-09T07:29:47.819Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -1615,7 +1615,7 @@
         "item_6695_passive",
         "item_6696_passive"
       ],
-      "parameters": 73,
+      "parameters": 72,
       "formulas": 24,
       "effects": 0,
       "processes": 0,
@@ -1632,7 +1632,9 @@
       "candidateSha256": "8eb1c181548df3710ab525bf2997137443fe7305b5e83d5d1e452e7b5f9b9e4a",
       "evidence": "装备技能实录/第十七批防御与状态装备/当前实录状态.json",
       "browserEvidence": "装备技能实录/第十七批防御与状态装备/页面验收.json",
-      "runtimeValidation": "未执行"
+      "runtimeValidation": "未执行",
+      "originalParametersBeforeHPBackfill": 73,
+      "followup": "破舰者两公式已按同版窄补证改读自身最大生命，临时输入移除；原133创建及258GET为历史，当前参数72。Web6b8c2eb4"
     },
     "runeFifthBatch": {
       "skills": [
@@ -1922,6 +1924,32 @@
       "evidence": "API实录/符文效果第六批/当前实录状态.json",
       "browserEvidence": "API实录/符文效果第六批/页面验收.json",
       "finalSha256": "424ae390c61108adc692de63e95926c847e72e855607176bc8703621491eda02",
+      "runtimeValidation": "未执行"
+    },
+    "hpAttributeBackfill": {
+      "skills": [
+        "item_3181_passive"
+      ],
+      "updated": 4,
+      "deleted": 1,
+      "currentSkillParameters": 4,
+      "currentSkillFormulas": 2,
+      "executionGets": 37,
+      "independentGets": 17,
+      "independentFormulaCases": 4,
+      "wrongHPKindCases": 12,
+      "representativePages": 1,
+      "status": "具名最大生命窄补证及5请求回补完成，列表摘要误报修正并独立回读确认；原流水保留且无重放",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/最大生命属性回补/当前回补结果.json",
+        "commit": "6b8c2eb4"
+      },
+      "browserEvidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/最大生命属性回补/页面验收.json",
+        "commit": "6b8c2eb4"
+      },
       "runtimeValidation": "未执行"
     }
   },
