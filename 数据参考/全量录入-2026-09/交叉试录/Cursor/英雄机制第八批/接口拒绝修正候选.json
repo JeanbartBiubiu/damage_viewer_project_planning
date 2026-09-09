@@ -1,0 +1,342 @@
+{
+  "baseFile": "前十技能候选.json",
+  "baseSha256": "b6b7c2ff1d976d31a0875982429d40124d0cfa9bf4570c30cf2cec83794e52d2",
+  "reason": "公式表达式内只能使用已支持的nodeType节点；普通数值引用kind:FORMULA不能当表达式操作数。仅内联已核子公式，不改任何数字、参数、读取口径、说明或成功现值。",
+  "entries": [
+    {
+      "skillKey": "caitlyn_r",
+      "kind": "formulas",
+      "id": "damage",
+      "before": {
+        "formulaKey": "damage",
+        "name": "让子弹飞完整物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "kind": "FORMULA",
+              "formulaKey": "raw_damage"
+            },
+            {
+              "kind": "FORMULA",
+              "formulaKey": "crit_damage_multiplier"
+            }
+          ]
+        },
+        "description": "完整RTotalDamage：基础和式先形成，再统一乘暴击几率增幅。",
+        "sortOrder": 30
+      },
+      "body": {
+        "formulaKey": "damage",
+        "name": "让子弹飞完整物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "critical_strike_chance",
+                          "attributeValueKind": "TOTAL"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "crit_damage_scaling"
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "one"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "critical_strike_damage_bonus_percent",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "完整RTotalDamage：基础和式先形成，再统一乘暴击几率增幅。",
+        "sortOrder": 30
+      },
+      "dependencies": [
+        {
+          "formulaKey": "raw_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "formulaKey": "crit_damage_multiplier",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "critical_strike_chance",
+                        "attributeValueKind": "TOTAL"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "crit_damage_scaling"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "one"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "critical_strike_damage_bonus_percent",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "rejection": {
+        "runId": "2026-09-09T02-03-09-891Z",
+        "postStatus": 400,
+        "postResponse": {
+          "error": {
+            "code": "400.INVALID_BODY",
+            "details": {
+              "reason": "Could not resolve subtype of [simple type, class xyz.game.datamanage.model.skillformula.SkillFormulaExpressionNode]: missing type id property 'nodeType' (for POJO property 'operands')\n at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 179] (through reference chain: xyz.game.datamanage.model.skillformula.SkillFormulaCreateRequest[\"expression\"]->xyz.game.datamanage.model.skillformula.SkillFormulaOperationNode[\"operands\"]->java.util.ArrayList[0])"
+            },
+            "message": "Invalid JSON body"
+          }
+        },
+        "readbackStatus": 404
+      }
+    },
+    {
+      "skillKey": "jhin_r",
+      "kind": "formulas",
+      "id": "maximum_damage",
+      "before": {
+        "formulaKey": "maximum_damage",
+        "name": "完美谢幕最大端点伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "kind": "FORMULA",
+              "formulaKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missing_health_max_amp"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MaxIncreaseCalc明确为基础×4，仅表示目标已损生命增幅的最大端点。",
+        "sortOrder": 20
+      },
+      "body": {
+        "formulaKey": "maximum_damage",
+        "name": "完美谢幕最大端点伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "attack_damage_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "current_attack_damage_value"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "missing_health_max_amp"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MaxIncreaseCalc明确为基础×4，仅表示目标已损生命增幅的最大端点。",
+        "sortOrder": 20
+      },
+      "dependencies": [
+        {
+          "formulaKey": "base_damage",
+          "expression": {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "attack_damage_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "current_attack_damage_value"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "rejection": {
+        "runId": "2026-09-09T02-03-09-891Z",
+        "postStatus": 400,
+        "postResponse": {
+          "error": {
+            "code": "400.INVALID_BODY",
+            "details": {
+              "reason": "Could not resolve subtype of [simple type, class xyz.game.datamanage.model.skillformula.SkillFormulaExpressionNode]: missing type id property 'nodeType' (for POJO property 'operands')\n at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 188] (through reference chain: xyz.game.datamanage.model.skillformula.SkillFormulaCreateRequest[\"expression\"]->xyz.game.datamanage.model.skillformula.SkillFormulaOperationNode[\"operands\"]->java.util.ArrayList[0])"
+            },
+            "message": "Invalid JSON body"
+          }
+        },
+        "readbackStatus": 404
+      }
+    }
+  ]
+}

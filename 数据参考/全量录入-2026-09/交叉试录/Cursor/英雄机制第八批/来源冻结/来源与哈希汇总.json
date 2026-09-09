@@ -1,0 +1,218 @@
+{
+  "generatedAt": "2026-09-08T18:41:34.846Z",
+  "note": "沿角色根 mCharacterPassiveSpell / spells 精确路径核对；不以名称相似评分选对象。完整原文及SHA位于规划树公共来源。官方16.17.1与客户端16.17分别记录。",
+  "heroes": [
+    {
+      "id": "Caitlyn",
+      "chineseName": "皮城女警",
+      "rootPath": "Characters/Caitlyn/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Caitlyn.json.gz",
+        "sha256": "752031538f05209d6413c471b8df5d061d15cdbd9e1e366e1694849aef30881b",
+        "compressedSha256": "5a3658a4da6aeba98af280d640af142ff299f518904e1e502a4b57f40ded6079",
+        "byteSize": 50357,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/caitlyn/caitlyn.bin.json",
+        "fetchedAt": "2026-09-06T14:26:14.291Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Caitlyn.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Caitlyn.json",
+        "fetchedAt": "2026-09-06T14:12:45.377Z",
+        "byteSize": 13948,
+        "sha256": "f433e840b2cd3b0c2726f99490d37df0651d10273882de2aec09cb3547bb2248"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "caitlyn_p",
+          "binding": "Characters/Caitlyn/Spells/CaitlynPassiveAbility/CaitlynPassive",
+          "name": "爆头"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "caitlyn_q",
+          "binding": "Characters/Caitlyn/Spells/CaitlynQAbility/CaitlynQ",
+          "name": "和平使者"
+        },
+        {
+          "slot": "W",
+          "skillKey": "caitlyn_w",
+          "binding": "Characters/Caitlyn/Spells/CaitlynWAbility/CaitlynW",
+          "name": "约德尔诱捕器"
+        },
+        {
+          "slot": "E",
+          "skillKey": "caitlyn_e",
+          "binding": "Characters/Caitlyn/Spells/CaitlynEAbility/CaitlynE",
+          "name": "90口径绳网"
+        },
+        {
+          "slot": "R",
+          "skillKey": "caitlyn_r",
+          "binding": "Characters/Caitlyn/Spells/CaitlynRAbility/CaitlynR",
+          "name": "让子弹飞"
+        }
+      ]
+    },
+    {
+      "id": "Jhin",
+      "chineseName": "戏命师",
+      "rootPath": "Characters/Jhin/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Jhin.json.gz",
+        "sha256": "80b289e84d449d3ef28c357038dfcc2625d2838c186ef21778ceb93d69f93e25",
+        "compressedSha256": "21146e54ed3337fd2e235fd6bda961823a4834f6e068e832dc433d59b47139f7",
+        "byteSize": 59957,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/jhin/jhin.bin.json",
+        "fetchedAt": "2026-09-06T14:26:21.201Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Jhin.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Jhin.json",
+        "fetchedAt": "2026-09-06T14:12:48.393Z",
+        "byteSize": 14749,
+        "sha256": "834641187cbea1cc33eaad8bd8e4716bd204206a1c194871be898719bfae4f15"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "jhin_p",
+          "binding": "Characters/Jhin/Spells/JhinPassiveAbility/JhinPassive",
+          "name": "低语"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "jhin_q",
+          "binding": "Characters/Jhin/Spells/JhinQAbility/JhinQ",
+          "name": "曼舞手雷"
+        },
+        {
+          "slot": "W",
+          "skillKey": "jhin_w",
+          "binding": "Characters/Jhin/Spells/JhinWAbility/JhinW",
+          "name": "致命华彩"
+        },
+        {
+          "slot": "E",
+          "skillKey": "jhin_e",
+          "binding": "Characters/Jhin/Spells/JhinEAbility/JhinE",
+          "name": "万众倾倒"
+        },
+        {
+          "slot": "R",
+          "skillKey": "jhin_r",
+          "binding": "Characters/Jhin/Spells/JhinRAbility/JhinR",
+          "name": "完美谢幕"
+        }
+      ]
+    },
+    {
+      "id": "Draven",
+      "chineseName": "荣耀行刑官",
+      "rootPath": "Characters/Draven/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Draven.json.gz",
+        "sha256": "b3a73415914abdafe3a888486015b4ba6af7ca2b97d47c69a558c6e94d9ee75a",
+        "compressedSha256": "91d24a2317c2a4aa55e680f13f5bd884215836fcdfbe5839961d6c36f0e3e4b0",
+        "byteSize": 70402,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/draven/draven.bin.json",
+        "fetchedAt": "2026-09-06T14:26:15.888Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Draven.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Draven.json",
+        "fetchedAt": "2026-09-06T14:12:46.143Z",
+        "byteSize": 16481,
+        "sha256": "d58ecef124c884fcec1d9a9825b61fab5a07e0b794b9c52c1482bdcfd4d79488"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "draven_p",
+          "binding": "Characters/Draven/Spells/DravenPassiveAbility/DravenPassive",
+          "name": "德莱文联盟"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "draven_q",
+          "binding": "Characters/Draven/Spells/DravenSpinningAbility/DravenSpinning",
+          "name": "旋转飞斧"
+        },
+        {
+          "slot": "W",
+          "skillKey": "draven_w",
+          "binding": "Characters/Draven/Spells/DravenFuryAbility/DravenFury",
+          "name": "血性冲刺"
+        },
+        {
+          "slot": "E",
+          "skillKey": "draven_e",
+          "binding": "Characters/Draven/Spells/DravenDoubleShotAbility/DravenDoubleShot",
+          "name": "开道利斧"
+        },
+        {
+          "slot": "R",
+          "skillKey": "draven_r",
+          "binding": "Characters/Draven/Spells/DravenRCastAbility/DravenRCast",
+          "name": "冷血追命"
+        }
+      ]
+    },
+    {
+      "id": "Kalista",
+      "chineseName": "复仇之矛",
+      "rootPath": "Characters/Kalista/CharacterRecords/Root",
+      "client": {
+        "path": "客户端原文/Kalista.json.gz",
+        "sha256": "8d4f584a163ea59691532d737ee8253b9c38d9cbdc00e273bfdb7acda8480c42",
+        "compressedSha256": "b1240cfb91f3e7964b8d17b46c5d67f811fe62946736ee912c7edc4b0712ace5",
+        "byteSize": 119640,
+        "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/kalista/kalista.bin.json",
+        "fetchedAt": "2026-09-06T14:26:22.337Z",
+        "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+      },
+      "official": {
+        "path": "../英雄/原始资料/zh_CN/champion/Kalista.json",
+        "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Kalista.json",
+        "fetchedAt": "2026-09-06T14:12:48.054Z",
+        "byteSize": 12451,
+        "sha256": "b8aea6d5628e2c9aaa5e2219701863a6bdafdf7706879dbd33f16c0cf2f05f84"
+      },
+      "bindings": [
+        {
+          "slot": "P",
+          "skillKey": "kalista_p",
+          "binding": "Characters/Kalista/Spells/KalistaPassiveBuffAbility/KalistaPassiveBuff",
+          "name": "武术姿态"
+        },
+        {
+          "slot": "Q",
+          "skillKey": "kalista_q",
+          "binding": "Characters/Kalista/Spells/KalistaMysticShotAbility/KalistaMysticShot",
+          "name": "穿刺"
+        },
+        {
+          "slot": "W",
+          "skillKey": "kalista_w",
+          "binding": "Characters/Kalista/Spells/KalistaWAbility/KalistaW",
+          "name": "哨兵"
+        },
+        {
+          "slot": "E",
+          "skillKey": "kalista_e",
+          "binding": "Characters/Kalista/Spells/KalistaExpungeWrapperAbility/KalistaExpungeWrapper",
+          "name": "撕裂"
+        },
+        {
+          "slot": "R",
+          "skillKey": "kalista_r",
+          "binding": "Characters/Kalista/Spells/KalistaRxAbility/KalistaRx",
+          "name": "命运的召唤"
+        }
+      ]
+    }
+  ]
+}
