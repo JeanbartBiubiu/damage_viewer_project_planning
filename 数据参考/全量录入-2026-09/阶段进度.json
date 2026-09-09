@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T19:57:50.301Z",
+  "generatedAt": "2026-09-09T20:29:12.375Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -3535,6 +3535,79 @@
         "worktree": "damage_web_dev",
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十六批/修订一/页面验收.json",
         "commit": "5170bd37b57540409aebafb5e31bd58917a0a14f"
+      },
+      "runtimeValidation": "未执行"
+    },
+    "heroThirtySeventhBatch": {
+      "skills": [
+        "akshan_p",
+        "akshan_q",
+        "akshan_w",
+        "akshan_e",
+        "akshan_r",
+        "ambessa_p",
+        "ambessa_q",
+        "ambessa_w",
+        "ambessa_e",
+        "ambessa_r",
+        "aurora_p",
+        "aurora_q",
+        "aurora_w",
+        "aurora_e",
+        "aurora_r",
+        "briar_p",
+        "briar_q",
+        "briar_w",
+        "briar_e",
+        "briar_r"
+      ],
+      "heroes": [
+        "Akshan",
+        "Ambessa",
+        "Aurora",
+        "Briar"
+      ],
+      "parameters": 223,
+      "formulas": 41,
+      "effects": 7,
+      "newCounts": {
+        "parameters": 199,
+        "formulas": 41,
+        "effects": 7
+      },
+      "created": 247,
+      "businessWrites": 247,
+      "reusedParameters": 24,
+      "currentTotalComponents": 271,
+      "saveGETs": 1428,
+      "independentGets": 467,
+      "protectedPaths": 196,
+      "detailChecks": 271,
+      "additionalMathGets": 0,
+      "mathUsesIndependentReadback": true,
+      "independentFormulaChecks": 41,
+      "independentSourceCases": 82,
+      "independentMissingRejects": 60,
+      "independentIntegerValueChecks": 268,
+      "integerParameters": 132,
+      "independentBoundaryChecks": 13,
+      "representativePages": 4,
+      "pageGets": 0,
+      "pageMathCases": 0,
+      "candidateSha256": "a701138c64980aca63185467c43152196519c035365faea161f8ea0123b273b5",
+      "planSha256": "31f512d49b1c7e150bb1b471df3886ef1860e8a38a8ccf6777b00e7942137aec",
+      "executor": "Cursor来源复核，Luna Max候选及独立回读与实际数学，主负责人修正、保存和页面验收",
+      "status": "本轮范围内来源明确组成已保存并独立回读、数值和代表页面验收；未知事件与阶段单列",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十七批/当前实录状态.json",
+        "sha256": "c469d786c1210a0972e1e895e987ca77bfa0acdeaeb9f3806a5f14a4b5514a34",
+        "commit": "463adc8b8ef157db69c2f87a46ef4990700e0f18"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第三十七批/修订二/页面验收.json",
+        "commit": "463adc8b8ef157db69c2f87a46ef4990700e0f18"
       },
       "runtimeValidation": "未执行"
     }
