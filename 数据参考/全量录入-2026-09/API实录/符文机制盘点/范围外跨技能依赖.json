@@ -1,0 +1,299 @@
+{
+  "checkedAt": "2026-09-09T01:27:16.127Z",
+  "scope": "仅核对7项自身效果排除和必须保留的通用事实/潜在间接依赖；没有删除身份或已有技能",
+  "sourceScope": "两份冻结符文原对象及当前符文技能挂载GET，未遍历客户端玩法程序",
+  "entries": [
+    {
+      "runeKey": "rune_8137",
+      "name": "第六感",
+      "excludedEffectReason": [
+        {
+          "summary": "守卫感知、全队标记和显形",
+          "reason": "只有守卫与视野收益，不构成英雄对战伤害或防御组成",
+          "evidence": {
+            "sourceId": 8137,
+            "field": "officialLong",
+            "exactText": "未被追踪且未被看见的守卫"
+          }
+        }
+      ],
+      "explicitNameReferencesInOtherFrozenRunes": [],
+      "currentMountedSkills": {
+        "items": [],
+        "total": 0
+      },
+      "dependencyReview": {
+        "related": [],
+        "keep": "只排除守卫感知和显形，不删除通用英雄目标可见性数据。",
+        "boundary": "在两份冻结符文文本中未见其他符文以第六感发现次数作为战斗系数；没有读取玩法程序，不能据此断言所有英雄技能无间接视野依赖。"
+      }
+    },
+    {
+      "runeKey": "rune_8141",
+      "name": "深入守卫",
+      "excludedEffectReason": [
+        {
+          "summary": "守卫生命与持续时间",
+          "reason": "收益对象是守卫，不是角色生命；纯视野分支排除",
+          "evidence": {
+            "sourceId": 8141,
+            "field": "officialLong",
+            "exactText": "深入守卫获得+1额外生命值"
+          }
+        }
+      ],
+      "explicitNameReferencesInOtherFrozenRunes": [],
+      "currentMountedSkills": {
+        "items": [],
+        "total": 0
+      },
+      "dependencyReview": {
+        "related": [],
+        "keep": "只排除守卫生命/时长，不把守卫生命值写入角色hp，也不删除其他来源的英雄生命属性。",
+        "boundary": "未见62符文原文直接引用深入守卫的层数或持续时间；涉及守卫目标的其他角色技能需按各自范围核对，当前不虚构引用。"
+      }
+    },
+    {
+      "runeKey": "rune_8135",
+      "name": "寻宝猎人",
+      "excludedEffectReason": [
+        {
+          "summary": "独特敌方英雄赏金的金币奖励",
+          "reason": "全部收益为金币，无独立战斗属性或伤害",
+          "evidence": {
+            "sourceId": 8135,
+            "field": "officialLong",
+            "exactText": "提供额外的50金币"
+          }
+        }
+      ],
+      "explicitNameReferencesInOtherFrozenRunes": [],
+      "currentMountedSkills": {
+        "items": [],
+        "total": 0
+      },
+      "dependencyReview": {
+        "related": [
+          {
+            "runeKey": "rune_8105",
+            "kind": "相同进度概念，状态共享未证实",
+            "evidence": [
+              {
+                "runeKey": "rune_8135",
+                "field": "officialLong",
+                "exactText": "你首次参与击杀每位独特的敌方英雄时"
+              },
+              {
+                "runeKey": "rune_8105",
+                "field": "officialLong",
+                "exactText": "8x赏金猎人层数"
+              }
+            ]
+          },
+          {
+            "runeKey": "rune_8106",
+            "kind": "相同进度概念，状态共享未证实",
+            "evidence": [
+              {
+                "runeKey": "rune_8135",
+                "field": "officialLong",
+                "exactText": "赏金猎人效果"
+              },
+              {
+                "runeKey": "rune_8106",
+                "field": "officialLong",
+                "exactText": "6+5x赏金猎人层数"
+              }
+            ]
+          }
+        ],
+        "keep": "金币奖励排除，独特英雄参与击杀的业务事实仍可能供无情猎手、终极猎人使用；不因寻宝被排除就删除层数生产。",
+        "boundary": "共同中文名称不能证明三个符文共享同一个内部状态实例；各来源计数关系另核。"
+      }
+    },
+    {
+      "runeKey": "rune_8306",
+      "name": "海克斯科技闪现罗网",
+      "excludedEffectReason": [
+        {
+          "summary": "海克斯闪现的引导与位置改变",
+          "reason": "只有空间移动及闪现替换，无独立伤害/治疗/属性组成；按本阶段纯空间效果排除",
+          "evidence": {
+            "sourceId": 8306,
+            "field": "officialLong",
+            "exactText": "引导2秒后闪烁到一个新位置"
+          }
+        }
+      ],
+      "explicitNameReferencesInOtherFrozenRunes": [],
+      "currentMountedSkills": {
+        "items": [],
+        "total": 0
+      },
+      "dependencyReview": {
+        "related": [
+          {
+            "runeKey": "rune_8143",
+            "kind": "触发类别可能重合，具体归属未证实",
+            "evidence": [
+              {
+                "runeKey": "rune_8306",
+                "field": "officialLong",
+                "exactText": "引导2秒后闪烁到一个新位置"
+              },
+              {
+                "runeKey": "rune_8143",
+                "field": "officialLong",
+                "exactText": "闪烁"
+              }
+            ]
+          },
+          {
+            "runeKey": "rune_8275",
+            "kind": "召唤师技能分类需核，未确认为满足触发",
+            "evidence": [
+              {
+                "runeKey": "rune_8306",
+                "field": "officialLong",
+                "exactText": "当【闪现】尚未冷却完毕时，它会被替换为海克斯闪现"
+              },
+              {
+                "runeKey": "rune_8275",
+                "field": "officialLong",
+                "exactText": "在你施放一个召唤师技能后"
+              }
+            ]
+          }
+        ],
+        "keep": "不实现空间移动，但须保留合法闪烁/位移事件的来源类别核对入口，以免漏掉猛然冲击等后续战斗收益。",
+        "boundary": "两条文字只证明可能相遇的事件概念，不足以确认海克斯闪现必然属于灵光披风的召唤师技能施放。"
+      }
+    },
+    {
+      "runeKey": "rune_8321",
+      "name": "返现",
+      "excludedEffectReason": [
+        {
+          "summary": "购买传说装备返金币",
+          "reason": "仅经济收益，整项效果排除",
+          "evidence": {
+            "sourceId": 8321,
+            "field": "officialLong",
+            "exactText": "返还7.5%金币"
+          }
+        }
+      ],
+      "explicitNameReferencesInOtherFrozenRunes": [],
+      "currentMountedSkills": {
+        "items": [],
+        "total": 0
+      },
+      "dependencyReview": {
+        "related": [
+          {
+            "runeKey": "rune_8316",
+            "kind": "最终装备输入依赖，非直接触发引用",
+            "evidence": [
+              {
+                "runeKey": "rune_8321",
+                "field": "officialLong",
+                "exactText": "购买传说级装备"
+              },
+              {
+                "runeKey": "rune_8316",
+                "field": "officialLong",
+                "exactText": "每从装备中获得一种不同属性"
+              }
+            ]
+          }
+        ],
+        "keep": "不计算返现，仍使用实际最终装备与属性输入，不能因为金币分支排除而删除已获得装备。",
+        "boundary": "没有证据表明返现直接提供多面手层数；层数来自最终装备属性，经济过程由本阶段排除。"
+      }
+    },
+    {
+      "runeKey": "rune_8465",
+      "name": "守护者",
+      "excludedEffectReason": [
+        {
+          "summary": "依赖友军守护关系的双方护盾",
+          "reason": "自身护盾也要求存在受守护友军，严格单挑不能独立触发；不抽出无条件自身护盾",
+          "evidence": {
+            "sourceId": 8465,
+            "field": "officialLong",
+            "exactText": "守护距离你350码内的友军"
+          }
+        }
+      ],
+      "explicitNameReferencesInOtherFrozenRunes": [],
+      "currentMountedSkills": {
+        "items": [],
+        "total": 0
+      },
+      "dependencyReview": {
+        "related": [
+          {
+            "runeKey": "rune_8401",
+            "kind": "护盾事件资格仍需保留，当前单挑前提不成立",
+            "evidence": [
+              {
+                "runeKey": "rune_8465",
+                "field": "officialLong",
+                "exactText": "你们两个都会获得一层"
+              },
+              {
+                "runeKey": "rune_8401",
+                "field": "officialLong",
+                "exactText": "在你获得一个新的护盾时"
+              }
+            ]
+          }
+        ],
+        "keep": "本场景没有被守护友军，守护者不能发出自身护盾；其他合法自身护盾及护盾猛击的新护盾事件仍需保留。",
+        "boundary": "不把队友前置条件删除后建立守护者自身护盾，也不把护盾猛击一并排除。"
+      }
+    },
+    {
+      "runeKey": "rune_8446",
+      "name": "爆破",
+      "excludedEffectReason": [
+        {
+          "summary": "防御塔第三次攻击伤害",
+          "reason": "专用目标为防御塔，不录成对英雄伤害",
+          "evidence": {
+            "sourceId": 8446,
+            "field": "officialLong",
+            "exactText": "你对防御塔的第三次攻击"
+          }
+        }
+      ],
+      "explicitNameReferencesInOtherFrozenRunes": [],
+      "currentMountedSkills": {
+        "items": [],
+        "total": 0
+      },
+      "dependencyReview": {
+        "related": [
+          {
+            "runeKey": "rune_8021",
+            "kind": "通用攻击进度需独立核对，不确认塔攻击权重",
+            "evidence": [
+              {
+                "runeKey": "rune_8446",
+                "field": "officialLong",
+                "exactText": "你对防御塔的第三次攻击"
+              },
+              {
+                "runeKey": "rune_8021",
+                "field": "officialLong",
+                "exactText": "攻击和移动会积攒能量层数"
+              }
+            ]
+          }
+        ],
+        "keep": "对塔附加伤害排除；通用攻击事件的目标类别以及其他符文已确认战前充能输入保留。",
+        "boundary": "冻结文字没有给出对塔攻击的具体充能权重，不能自行把爆破三击当作迅捷步法100层。"
+      }
+    }
+  ]
+}
