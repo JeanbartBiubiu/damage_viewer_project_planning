@@ -1,0 +1,23 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 55,
+    "method": "POST",
+    "route": "/skills/rell_w/parameters",
+    "detailRoute": "/skills/rell_w/parameters/crash_shield_hp_ratio",
+    "skillKey": "rell_w",
+    "kind": "parameters",
+    "stableKey": "crash_shield_hp_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crash_shield_hp_ratio",
+      "name": "轰落护盾生命比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.11,
+      "levelValues": null,
+      "description": "当前Shield=ShieldBase+0.11×来源最大生命；0.11为比例。",
+      "sortOrder": 60
+    }
+  }
+}

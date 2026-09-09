@@ -1,0 +1,23 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 37,
+    "method": "POST",
+    "route": "/skills/rell_p/parameters",
+    "detailRoute": "/skills/rell_p/parameters/steal_ratio_per_stack",
+    "skillKey": "rell_p",
+    "kind": "parameters",
+    "stableKey": "steal_ratio_per_stack",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "steal_ratio_per_stack",
+      "name": "每层偷取双抗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.03,
+      "levelValues": null,
+      "description": "当前StealPercent=0.03，正文以StealPercent×100显示为3%；比例1代表100%。",
+      "sortOrder": 10
+    }
+  }
+}

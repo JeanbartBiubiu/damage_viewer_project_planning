@@ -1,0 +1,29 @@
+{
+  "i": 54,
+  "intent": {
+    "sequence": 54,
+    "method": "POST",
+    "route": "/skills/rell_w/parameters",
+    "detailRoute": "/skills/rell_w/parameters/crash_shield_base",
+    "skillKey": "rell_w",
+    "kind": "parameters",
+    "stableKey": "crash_shield_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crash_shield_base",
+      "name": "轰落护盾基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 40,
+        "3": 60,
+        "4": 80,
+        "5": 100
+      },
+      "description": "客户端ShieldBase取技能等级索引1至5的20/40/60/80/100。",
+      "sortOrder": 50
+    }
+  }
+}

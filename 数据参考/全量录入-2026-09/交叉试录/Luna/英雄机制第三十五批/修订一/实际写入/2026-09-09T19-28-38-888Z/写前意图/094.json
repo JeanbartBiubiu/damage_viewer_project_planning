@@ -1,0 +1,33 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 93,
+    "method": "POST",
+    "route": "/skills/taric_p/formulas",
+    "detailRoute": "/skills/taric_p/formulas/basic_ability_cooldown_refund_seconds",
+    "skillKey": "taric_p",
+    "kind": "formulas",
+    "stableKey": "basic_ability_cooldown_refund_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "basic_ability_cooldown_refund_seconds",
+      "name": "正气凌人基础技能冷却缩短（秒）",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "SUBTRACT",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "cooldown_refund_base_seconds"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_cooldown_multiplier"
+          }
+        ]
+      },
+      "description": "当前CDR原树为1+(1-实际冷却倍率)，等价于2-实际冷却倍率；不简化为固定1秒。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 71,
+  "intent": {
+    "sequence": 71,
+    "method": "POST",
+    "route": "/skills/rell_e/parameters",
+    "detailRoute": "/skills/rell_e/parameters/toward_enemy_move_speed_ratio",
+    "skillKey": "rell_e",
+    "kind": "parameters",
+    "stableKey": "toward_enemy_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "toward_enemy_move_speed_ratio",
+      "name": "朝敌方英雄移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.30000001,
+      "levelValues": null,
+      "description": "当前MaxMS=0.3，正文显示30%；它是朝敌方英雄时的更高自益比例。",
+      "sortOrder": 20
+    }
+  }
+}

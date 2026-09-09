@@ -1,0 +1,23 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 105,
+    "method": "POST",
+    "route": "/skills/taric_w/parameters",
+    "detailRoute": "/skills/taric_w/parameters/actual_armor_stage",
+    "skillKey": "taric_w",
+    "kind": "parameters",
+    "stableKey": "actual_armor_stage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_armor_stage",
+      "name": "坚毅壁垒护甲阶段",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前BonusArmor使用mStat1且mStatFormula省略；具体事件读取阶段由运行输入提供，禁止用本次护甲加成结果递归反馈，也不预先指定施加前快照。",
+      "sortOrder": 20
+    }
+  }
+}

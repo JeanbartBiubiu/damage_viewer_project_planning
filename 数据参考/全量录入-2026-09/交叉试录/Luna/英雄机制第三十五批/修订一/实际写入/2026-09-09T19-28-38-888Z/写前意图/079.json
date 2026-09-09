@@ -1,0 +1,23 @@
+{
+  "i": 78,
+  "intent": {
+    "sequence": 78,
+    "method": "POST",
+    "route": "/skills/rell_r/parameters",
+    "detailRoute": "/skills/rell_r/parameters/ability_power_ratio",
+    "skillKey": "rell_r",
+    "kind": "parameters",
+    "stableKey": "ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ability_power_ratio",
+      "name": "极涌每秒法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.55000001,
+      "levelValues": null,
+      "description": "当前DamagePerSecond=BaseDamagePerSecond+0.55×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

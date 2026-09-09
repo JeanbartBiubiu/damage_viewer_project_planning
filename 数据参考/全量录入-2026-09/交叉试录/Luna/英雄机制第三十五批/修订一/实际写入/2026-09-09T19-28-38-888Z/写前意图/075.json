@@ -1,0 +1,23 @@
+{
+  "i": 74,
+  "intent": {
+    "sequence": 74,
+    "method": "POST",
+    "route": "/skills/rell_e/parameters",
+    "detailRoute": "/skills/rell_e/parameters/next_hit_ability_power_ratio",
+    "skillKey": "rell_e",
+    "kind": "parameters",
+    "stableKey": "next_hit_ability_power_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "next_hit_ability_power_ratio",
+      "name": "下次攻击或Q法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0003,
+      "levelValues": null,
+      "description": "当前MaxHealthDamageCalc第二项为0.0003×来源总法强；整个结果作为目标最大生命比例。",
+      "sortOrder": 50
+    }
+  }
+}

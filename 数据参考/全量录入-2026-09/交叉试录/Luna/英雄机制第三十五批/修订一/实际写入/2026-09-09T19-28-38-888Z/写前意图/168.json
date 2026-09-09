@@ -1,0 +1,23 @@
+{
+  "i": 167,
+  "intent": {
+    "sequence": 167,
+    "method": "POST",
+    "route": "/skills/tahmkench_r/parameters",
+    "detailRoute": "/skills/tahmkench_r/parameters/actual_cooldown_multiplier",
+    "skillKey": "tahmkench_r",
+    "kind": "parameters",
+    "stableKey": "actual_cooldown_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_cooldown_multiplier",
+      "name": "大快朵颐实际冷却倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前CDCalc消费CooldownMultiplierCalculationPart；实际倍率由运行输入提供，不把包装层0数组当作冷却值。",
+      "sortOrder": 90
+    }
+  }
+}

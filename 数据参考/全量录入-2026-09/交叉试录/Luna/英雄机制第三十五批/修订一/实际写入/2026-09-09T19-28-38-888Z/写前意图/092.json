@@ -1,0 +1,23 @@
+{
+  "i": 91,
+  "intent": {
+    "sequence": 91,
+    "method": "POST",
+    "route": "/skills/taric_p/parameters",
+    "detailRoute": "/skills/taric_p/parameters/cooldown_refund_base_seconds",
+    "skillKey": "taric_p",
+    "kind": "parameters",
+    "stableKey": "cooldown_refund_base_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_refund_base_seconds",
+      "name": "正气凌人冷却缩短基础项（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "当前CDR=1+(1-实际冷却倍率)，整理为2-实际冷却倍率；2是树中两个NumberCalculationPart的合计常数。",
+      "sortOrder": 90
+    }
+  }
+}

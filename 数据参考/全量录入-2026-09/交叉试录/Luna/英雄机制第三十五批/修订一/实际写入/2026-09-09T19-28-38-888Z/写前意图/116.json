@@ -1,0 +1,23 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 115,
+    "method": "POST",
+    "route": "/skills/taric_e/parameters",
+    "detailRoute": "/skills/taric_e/parameters/stun_duration_ms",
+    "skillKey": "taric_e",
+    "kind": "parameters",
+    "stableKey": "stun_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_duration_ms",
+      "name": "炫光晕眩时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "客户端StunDuration=1.5秒；转换为1500毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "i": 66,
+  "intent": {
+    "sequence": 66,
+    "method": "POST",
+    "route": "/skills/rell_w/formulas",
+    "detailRoute": "/skills/rell_w/formulas/crash_down_magic_damage",
+    "skillKey": "rell_w",
+    "kind": "formulas",
+    "stableKey": "crash_down_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "crash_down_magic_damage",
+      "name": "轰落魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "crash_down_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "crash_down_ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前DismountDamage=CrashDownDamage+0.6×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

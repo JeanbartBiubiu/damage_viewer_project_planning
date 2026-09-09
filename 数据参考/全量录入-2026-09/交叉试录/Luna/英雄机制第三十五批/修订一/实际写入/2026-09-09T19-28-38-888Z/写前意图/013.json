@@ -1,0 +1,33 @@
+{
+  "i": 12,
+  "intent": {
+    "sequence": 13,
+    "method": "POST",
+    "route": "/skills/braum_p/formulas",
+    "detailRoute": "/skills/braum_p/formulas/already_stunned_extra_magic_damage",
+    "skillKey": "braum_p",
+    "kind": "formulas",
+    "stableKey": "already_stunned_extra_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "already_stunned_extra_magic_damage",
+      "name": "晕眩冷却期间普攻额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "total_magic_damage_by_character_level"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "already_stunned_damage_ratio"
+          }
+        ]
+      },
+      "description": "当前OnHitDamage=TotalDamage×AlreadyStunnedDamageAmp；只保存附加组成，不自动创建普攻事件。",
+      "sortOrder": 10
+    }
+  }
+}

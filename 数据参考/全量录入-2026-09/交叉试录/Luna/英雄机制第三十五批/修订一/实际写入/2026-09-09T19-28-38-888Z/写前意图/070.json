@@ -1,0 +1,67 @@
+{
+  "i": 69,
+  "intent": {
+    "sequence": 69,
+    "method": "POST",
+    "route": "/skills/rell_w/effects",
+    "detailRoute": "/skills/rell_w/effects/dismount_shield",
+    "skillKey": "rell_w",
+    "kind": "effects",
+    "stableKey": "dismount_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "dismount_shield",
+      "name": "披甲形态自身护盾",
+      "description": "当前正文明确护盾持续到再次上马；使用显式移除生命周期，不虚构固定秒数。施放与再次上马事件待接。",
+      "sortOrder": 40,
+      "lifecycle": {
+        "durationValue": null,
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": null,
+        "expiryMode": "EXPLICIT_ONLY",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "shield",
+          "name": "披甲形态自身护盾",
+          "resultType": "NORMAL_SHIELD",
+          "target": "SOURCE",
+          "description": "只定义来源明确的自身护盾数值；施放和移除事件由后续事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "crash_shield_value"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "i": 159,
+  "intent": {
+    "sequence": 159,
+    "method": "POST",
+    "route": "/skills/tahmkench_r/parameters",
+    "detailRoute": "/skills/tahmkench_r/parameters/cooldown_ms",
+    "skillKey": "tahmkench_r",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "大快朵颐基础冷却时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 120000,
+        "2": 100000,
+        "3": 80000
+      },
+      "description": "当前CDCalc消费DataCooldown，取技能等级索引1至3的120/100/80秒；官方包装层cooldown为0不代表无冷却。",
+      "sortOrder": 10
+    }
+  }
+}

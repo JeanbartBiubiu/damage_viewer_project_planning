@@ -1,0 +1,23 @@
+{
+  "i": 16,
+  "intent": {
+    "sequence": 17,
+    "method": "POST",
+    "route": "/skills/braum_q/parameters",
+    "detailRoute": "/skills/braum_q/parameters/minimum_slow_percent_points",
+    "skillKey": "braum_q",
+    "kind": "parameters",
+    "stableKey": "minimum_slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "minimum_slow_percent_points",
+      "name": "最低减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 30,
+      "levelValues": null,
+      "description": "客户端MinSlow=30且当前正文未显示该占位；只保留来源值，不拟合衰减曲线。",
+      "sortOrder": 40
+    }
+  }
+}

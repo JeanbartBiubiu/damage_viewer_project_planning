@@ -1,0 +1,23 @@
+{
+  "i": 88,
+  "intent": {
+    "sequence": 88,
+    "method": "POST",
+    "route": "/skills/taric_p/parameters",
+    "detailRoute": "/skills/taric_p/parameters/armor_damage_ratio",
+    "skillKey": "taric_p",
+    "kind": "parameters",
+    "stableKey": "armor_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "armor_damage_ratio",
+      "name": "正气凌人护甲伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.15000001,
+      "levelValues": null,
+      "description": "当前伤害树中mStat1/mStatFormula2实际护甲阶段的比例系数；具体阶段值另由运行输入提供。",
+      "sortOrder": 60
+    }
+  }
+}

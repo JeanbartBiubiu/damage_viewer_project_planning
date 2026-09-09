@@ -1,0 +1,29 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 56,
+    "method": "POST",
+    "route": "/skills/rell_w/parameters",
+    "detailRoute": "/skills/rell_w/parameters/mounted_move_speed_points",
+    "skillKey": "rell_w",
+    "kind": "parameters",
+    "stableKey": "mounted_move_speed_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mounted_move_speed_points",
+      "name": "骑乘状态移动速度点数",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 20,
+        "2": 25,
+        "3": 30,
+        "4": 35,
+        "5": 40
+      },
+      "description": "当前MountedMoveSpeed正文直接显示点数20/25/30/35/40，不映射为移动速度比例。",
+      "sortOrder": 70
+    }
+  }
+}

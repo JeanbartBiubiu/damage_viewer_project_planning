@@ -1,0 +1,23 @@
+{
+  "i": 138,
+  "intent": {
+    "sequence": 138,
+    "method": "POST",
+    "route": "/skills/tahmkench_q/parameters",
+    "detailRoute": "/skills/tahmkench_q/parameters/required_stack_count",
+    "skillKey": "tahmkench_q",
+    "kind": "parameters",
+    "stableKey": "required_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "required_stack_count",
+      "name": "三层强化所需层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "当前正文明确目标已有3层时触发晕眩并消耗层数。",
+      "sortOrder": 90
+    }
+  }
+}

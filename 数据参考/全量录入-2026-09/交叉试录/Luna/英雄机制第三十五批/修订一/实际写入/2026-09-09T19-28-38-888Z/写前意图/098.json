@@ -1,0 +1,23 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 97,
+    "method": "POST",
+    "route": "/skills/taric_q/parameters",
+    "detailRoute": "/skills/taric_q/parameters/healing_ap_ratio",
+    "skillKey": "taric_q",
+    "kind": "parameters",
+    "stableKey": "healing_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "healing_ap_ratio",
+      "name": "每层治疗法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.15000001,
+      "levelValues": null,
+      "description": "当前HealingPerStack使用0.15×来源总法强。",
+      "sortOrder": 40
+    }
+  }
+}

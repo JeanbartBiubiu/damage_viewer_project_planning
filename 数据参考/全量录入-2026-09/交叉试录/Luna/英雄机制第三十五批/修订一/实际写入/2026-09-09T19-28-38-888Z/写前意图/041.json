@@ -1,0 +1,23 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 40,
+    "method": "POST",
+    "route": "/skills/rell_p/parameters",
+    "detailRoute": "/skills/rell_p/parameters/max_steal_percent_points",
+    "skillKey": "rell_p",
+    "kind": "parameters",
+    "stableKey": "max_steal_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_steal_percent_points",
+      "name": "最大偷取双抗百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 15,
+      "levelValues": null,
+      "description": "当前正文直接显示MaxPercentTooltipOnly%，保留15百分数点，不作为另一个倍率。",
+      "sortOrder": 40
+    }
+  }
+}

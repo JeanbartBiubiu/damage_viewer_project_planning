@@ -1,0 +1,57 @@
+{
+  "i": 128,
+  "intent": {
+    "sequence": 128,
+    "method": "POST",
+    "route": "/skills/tahmkench_p/formulas",
+    "detailRoute": "/skills/tahmkench_p/formulas/ap_bonus_hp_magic_damage",
+    "skillKey": "tahmkench_p",
+    "kind": "formulas",
+    "stableKey": "ap_bonus_hp_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "ap_bonus_hp_magic_damage",
+      "name": "培养品味法强额外生命魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio_per_100_bonus_hp"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_to_ratio"
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "BONUS"
+          }
+        ]
+      },
+      "description": "当前TotalDamage子树保留法强×额外生命×0.0125×0.01，两个比例因子均进入最终公式。",
+      "sortOrder": 20
+    }
+  }
+}

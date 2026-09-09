@@ -1,0 +1,89 @@
+{
+  "i": 129,
+  "intent": {
+    "sequence": 129,
+    "method": "POST",
+    "route": "/skills/tahmkench_p/formulas",
+    "detailRoute": "/skills/tahmkench_p/formulas/total_passive_magic_damage",
+    "skillKey": "tahmkench_p",
+    "kind": "formulas",
+    "stableKey": "total_passive_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_passive_magic_damage",
+      "name": "培养品味普攻额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "character_level_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_hp_damage_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "ap_ratio_per_100_bonus_hp"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "percent_to_ratio"
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前TotalDamage=角色等级基础值+0.04×额外生命+法强×额外生命×0.0125×0.01；基础等级值由运行输入包含断点结果。",
+      "sortOrder": 30
+    }
+  }
+}

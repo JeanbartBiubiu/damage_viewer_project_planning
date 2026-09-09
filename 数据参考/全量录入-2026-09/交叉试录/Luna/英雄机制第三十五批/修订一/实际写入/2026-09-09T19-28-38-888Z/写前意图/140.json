@@ -1,0 +1,23 @@
+{
+  "i": 139,
+  "intent": {
+    "sequence": 139,
+    "method": "POST",
+    "route": "/skills/tahmkench_q/parameters",
+    "detailRoute": "/skills/tahmkench_q/parameters/cast_stage_missing_hp",
+    "skillKey": "tahmkench_q",
+    "kind": "parameters",
+    "stableKey": "cast_stage_missing_hp",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_stage_missing_hp",
+      "name": "施放阶段自身已损生命",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "自身治疗按施放阶段已损生命读取，不能把缺少生命默认成0。",
+      "sortOrder": 100
+    }
+  }
+}

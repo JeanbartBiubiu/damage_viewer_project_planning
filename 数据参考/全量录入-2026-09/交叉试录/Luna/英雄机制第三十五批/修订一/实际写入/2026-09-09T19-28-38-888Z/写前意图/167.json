@@ -1,0 +1,23 @@
+{
+  "i": 166,
+  "intent": {
+    "sequence": 166,
+    "method": "POST",
+    "route": "/skills/tahmkench_r/parameters",
+    "detailRoute": "/skills/tahmkench_r/parameters/self_slow_ratio",
+    "skillKey": "tahmkench_r",
+    "kind": "parameters",
+    "stableKey": "self_slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "self_slow_ratio",
+      "name": "敌方吞噬期间自身减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.40000001,
+      "levelValues": null,
+      "description": "当前正文显示SlowAmount×100%，保留0.4比例；缚地是独立状态条件。",
+      "sortOrder": 80
+    }
+  }
+}

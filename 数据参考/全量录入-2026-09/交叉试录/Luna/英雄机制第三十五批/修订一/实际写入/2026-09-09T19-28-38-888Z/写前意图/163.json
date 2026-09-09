@@ -1,0 +1,23 @@
+{
+  "i": 162,
+  "intent": {
+    "sequence": 162,
+    "method": "POST",
+    "route": "/skills/tahmkench_r/parameters",
+    "detailRoute": "/skills/tahmkench_r/parameters/target_max_hp_base_ratio",
+    "skillKey": "tahmkench_r",
+    "kind": "parameters",
+    "stableKey": "target_max_hp_base_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "target_max_hp_base_ratio",
+      "name": "大快朵颐目标最大生命基础比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.15000001,
+      "levelValues": null,
+      "description": "当前PercentHPDamage树基础项为0.15×目标最大生命。",
+      "sortOrder": 40
+    }
+  }
+}

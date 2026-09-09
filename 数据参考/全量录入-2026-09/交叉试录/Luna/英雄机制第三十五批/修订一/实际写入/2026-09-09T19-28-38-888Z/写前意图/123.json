@@ -1,0 +1,23 @@
+{
+  "i": 122,
+  "intent": {
+    "sequence": 122,
+    "method": "POST",
+    "route": "/skills/tahmkench_p/parameters",
+    "detailRoute": "/skills/tahmkench_p/parameters/character_level_base_damage",
+    "skillKey": "tahmkench_p",
+    "kind": "parameters",
+    "stableKey": "character_level_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "character_level_base_damage",
+      "name": "培养品味角色等级基础伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前TotalDamage含角色等级起点5、每级增加5及12级断点增加5；完整断点求值算法未证，实际角色等级值由运行输入提供。",
+      "sortOrder": 40
+    }
+  }
+}

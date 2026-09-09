@@ -1,0 +1,23 @@
+{
+  "i": 87,
+  "intent": {
+    "sequence": 87,
+    "method": "POST",
+    "route": "/skills/taric_p/parameters",
+    "detailRoute": "/skills/taric_p/parameters/mode_damage_multiplier",
+    "skillKey": "taric_p",
+    "kind": "parameters",
+    "stableKey": "mode_damage_multiplier",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mode_damage_multiplier",
+      "name": "正气凌人模式伤害系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "当前TotalDamage第一项使用BaseDamageMultiplierForModesBalance=1；只保留当前模式值。",
+      "sortOrder": 50
+    }
+  }
+}

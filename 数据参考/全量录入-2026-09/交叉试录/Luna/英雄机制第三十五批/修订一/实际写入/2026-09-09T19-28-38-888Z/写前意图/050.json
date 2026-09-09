@@ -1,0 +1,45 @@
+{
+  "i": 49,
+  "intent": {
+    "sequence": 49,
+    "method": "POST",
+    "route": "/skills/rell_q/formulas",
+    "detailRoute": "/skills/rell_q/formulas/magic_damage",
+    "skillKey": "rell_q",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "裂阵单一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ability_power_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前Damage=BaseDamage+0.6×来源总法强；护盾摧毁顺序由事件层保留。",
+      "sortOrder": 10
+    }
+  }
+}

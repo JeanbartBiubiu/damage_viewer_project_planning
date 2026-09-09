@@ -1,0 +1,57 @@
+{
+  "i": 45,
+  "intent": {
+    "sequence": 45,
+    "method": "POST",
+    "route": "/skills/rell_p/formulas",
+    "detailRoute": "/skills/rell_p/formulas/on_hit_extra_magic_damage",
+    "skillKey": "rell_p",
+    "kind": "formulas",
+    "stableKey": "on_hit_extra_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "on_hit_extra_magic_damage",
+      "name": "普攻额外魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "on_hit_armor_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "armor",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "on_hit_magic_resistance_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "magic_resistance",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前OnHitDamage=0.05×来源总护甲+0.05×来源总魔抗；不自动扩展到所有技能。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 100,
+    "method": "POST",
+    "route": "/skills/taric_q/parameters",
+    "detailRoute": "/skills/taric_q/parameters/current_consumed_charge_count",
+    "skillKey": "taric_q",
+    "kind": "parameters",
+    "stableKey": "current_consumed_charge_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_consumed_charge_count",
+      "name": "当前消耗充能层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "主动施放时的实际充能层数由运行输入提供，范围0至当前MaxCharges；不默认满层。",
+      "sortOrder": 70
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 94,
+  "intent": {
+    "sequence": 94,
+    "method": "POST",
+    "route": "/skills/taric_q/parameters",
+    "detailRoute": "/skills/taric_q/parameters/charge_interval_ms",
+    "skillKey": "taric_q",
+    "kind": "parameters",
+    "stableKey": "charge_interval_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charge_interval_ms",
+      "name": "星光之触充能间隔（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 15000,
+      "levelValues": null,
+      "description": "当前StackCooldown消费Recharge=15秒；转换为15000毫秒，区别于已有cast_interval_ms=3000。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "i": 77,
+  "intent": {
+    "sequence": 77,
+    "method": "POST",
+    "route": "/skills/rell_r/parameters",
+    "detailRoute": "/skills/rell_r/parameters/damage_per_second_base",
+    "skillKey": "rell_r",
+    "kind": "parameters",
+    "stableKey": "damage_per_second_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_per_second_base",
+      "name": "极涌每秒基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 75,
+        "2": 125,
+        "3": 175
+      },
+      "description": "客户端BaseDamagePerSecond取技能等级索引1至3的75/125/175。",
+      "sortOrder": 10
+    }
+  }
+}

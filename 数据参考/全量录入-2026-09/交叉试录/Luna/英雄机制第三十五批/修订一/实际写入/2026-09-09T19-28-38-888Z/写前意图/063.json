@@ -1,0 +1,23 @@
+{
+  "i": 62,
+  "intent": {
+    "sequence": 62,
+    "method": "POST",
+    "route": "/skills/rell_w/parameters",
+    "detailRoute": "/skills/rell_w/parameters/mount_up_move_speed_ratio",
+    "skillKey": "rell_w",
+    "kind": "parameters",
+    "stableKey": "mount_up_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mount_up_move_speed_ratio",
+      "name": "上马后衰减移动速度比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.30000001,
+      "levelValues": null,
+      "description": "当前MountUpSpeed=0.3比例，衰减过程不凭匿名树拟合。",
+      "sortOrder": 130
+    }
+  }
+}

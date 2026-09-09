@@ -1,0 +1,35 @@
+{
+  "i": 156,
+  "intent": {
+    "sequence": 156,
+    "method": "POST",
+    "route": "/skills/tahmkench_e/formulas",
+    "detailRoute": "/skills/tahmkench_e/formulas/grey_health_maximum",
+    "skillKey": "tahmkench_e",
+    "kind": "formulas",
+    "stableKey": "grey_health_maximum",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "grey_health_maximum",
+      "name": "灰色生命值上限",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "grey_health_max_hp_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "当前GreyHealthMaximum树直接为3×来源最大生命。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 96,
+  "intent": {
+    "sequence": 96,
+    "method": "POST",
+    "route": "/skills/taric_q/parameters",
+    "detailRoute": "/skills/taric_q/parameters/healing_per_charge_base",
+    "skillKey": "taric_q",
+    "kind": "parameters",
+    "stableKey": "healing_per_charge_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "healing_per_charge_base",
+      "name": "每层治疗基础值",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 25,
+      "levelValues": null,
+      "description": "当前HealingPerStackBase=25。",
+      "sortOrder": 30
+    }
+  }
+}

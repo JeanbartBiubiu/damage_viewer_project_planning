@@ -1,0 +1,23 @@
+{
+  "i": 151,
+  "intent": {
+    "sequence": 151,
+    "method": "POST",
+    "route": "/skills/tahmkench_e/parameters",
+    "detailRoute": "/skills/tahmkench_e/parameters/out_of_combat_timer_ms",
+    "skillKey": "tahmkench_e",
+    "kind": "parameters",
+    "stableKey": "out_of_combat_timer_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "out_of_combat_timer_ms",
+      "name": "厚实表皮脱离受伤等待时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "客户端OOCTimer=4秒；转换为4000毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

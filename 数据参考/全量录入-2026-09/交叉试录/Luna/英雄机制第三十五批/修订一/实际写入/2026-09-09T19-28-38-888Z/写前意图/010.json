@@ -1,0 +1,23 @@
+{
+  "i": 9,
+  "intent": {
+    "sequence": 10,
+    "method": "POST",
+    "route": "/skills/braum_p/parameters",
+    "detailRoute": "/skills/braum_p/parameters/stun_duration_increase_ms",
+    "skillKey": "braum_p",
+    "kind": "parameters",
+    "stableKey": "stun_duration_increase_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_duration_increase_ms",
+      "name": "触发晕眩每次增加（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "当前StunDuration在7级、13级各增加0.25秒。",
+      "sortOrder": 100
+    }
+  }
+}

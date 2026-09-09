@@ -1,0 +1,23 @@
+{
+  "i": 114,
+  "intent": {
+    "sequence": 114,
+    "method": "POST",
+    "route": "/skills/taric_e/parameters",
+    "detailRoute": "/skills/taric_e/parameters/charge_duration_ms",
+    "skillKey": "taric_e",
+    "kind": "parameters",
+    "stableKey": "charge_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charge_duration_ms",
+      "name": "炫光准备时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "客户端ChargeDuration=1秒；转换为1000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

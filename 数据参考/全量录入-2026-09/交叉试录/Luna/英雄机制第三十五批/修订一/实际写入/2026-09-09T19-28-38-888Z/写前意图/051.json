@@ -1,0 +1,29 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 50,
+    "method": "POST",
+    "route": "/skills/rell_w/parameters",
+    "detailRoute": "/skills/rell_w/parameters/crash_down_base_damage",
+    "skillKey": "rell_w",
+    "kind": "parameters",
+    "stableKey": "crash_down_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "crash_down_base_damage",
+      "name": "轰落基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 90,
+        "3": 120,
+        "4": 150,
+        "5": 180
+      },
+      "description": "客户端CrashDownDamage取技能等级索引1至5的60/90/120/150/180。",
+      "sortOrder": 10
+    }
+  }
+}

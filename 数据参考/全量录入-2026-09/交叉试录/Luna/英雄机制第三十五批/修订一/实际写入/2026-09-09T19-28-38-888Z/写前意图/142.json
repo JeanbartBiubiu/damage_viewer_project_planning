@@ -1,0 +1,43 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 141,
+    "method": "POST",
+    "route": "/skills/tahmkench_q/formulas",
+    "detailRoute": "/skills/tahmkench_q/formulas/self_heal",
+    "skillKey": "tahmkench_q",
+    "kind": "formulas",
+    "stableKey": "self_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_heal",
+      "name": "巨舌鞭笞自身治疗",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "self_heal_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "self_heal_missing_hp_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "cast_stage_missing_hp"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前正文为BaseHeal+PercentHealthHealing×施放阶段已损生命；治疗不是伤害公式的默认结果。",
+      "sortOrder": 20
+    }
+  }
+}

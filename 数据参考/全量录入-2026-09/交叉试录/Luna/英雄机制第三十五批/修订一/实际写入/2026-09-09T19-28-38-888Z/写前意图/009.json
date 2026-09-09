@@ -1,0 +1,23 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "method": "POST",
+    "route": "/skills/braum_p/parameters",
+    "detailRoute": "/skills/braum_p/parameters/stun_duration_base_ms",
+    "skillKey": "braum_p",
+    "kind": "parameters",
+    "stableKey": "stun_duration_base_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stun_duration_base_ms",
+      "name": "触发晕眩基础时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1250,
+      "levelValues": null,
+      "description": "当前StunDuration基础1.25秒；转换为1250毫秒。",
+      "sortOrder": 90
+    }
+  }
+}

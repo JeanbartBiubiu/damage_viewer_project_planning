@@ -1,0 +1,23 @@
+{
+  "i": 146,
+  "intent": {
+    "sequence": 146,
+    "method": "POST",
+    "route": "/skills/tahmkench_w/parameters",
+    "detailRoute": "/skills/tahmkench_w/parameters/aoe_delay_from_channel_start_ms",
+    "skillKey": "tahmkench_w",
+    "kind": "parameters",
+    "stableKey": "aoe_delay_from_channel_start_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "aoe_delay_from_channel_start_ms",
+      "name": "深渊潜航区域伤害延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "当前AoEDelayFromChannelStart=1.5秒；转换为1500毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

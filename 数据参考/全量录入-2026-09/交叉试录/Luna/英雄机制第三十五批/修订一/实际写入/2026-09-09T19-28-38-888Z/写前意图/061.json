@@ -1,0 +1,29 @@
+{
+  "i": 60,
+  "intent": {
+    "sequence": 60,
+    "method": "POST",
+    "route": "/skills/rell_w/parameters",
+    "detailRoute": "/skills/rell_w/parameters/mount_up_extra_attack_base_damage",
+    "skillKey": "rell_w",
+    "kind": "parameters",
+    "stableKey": "mount_up_extra_attack_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mount_up_extra_attack_base_damage",
+      "name": "上马后下次攻击额外基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 25,
+        "3": 40,
+        "4": 55,
+        "5": 70
+      },
+      "description": "当前FlipDamage实际消费MountUpDamage，取索引1至5的10/25/40/55/70；不使用未消费FlipBaseDamage。",
+      "sortOrder": 110
+    }
+  }
+}

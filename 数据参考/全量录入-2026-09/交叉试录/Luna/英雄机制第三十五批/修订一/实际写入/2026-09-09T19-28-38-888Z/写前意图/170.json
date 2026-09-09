@@ -1,0 +1,67 @@
+{
+  "i": 169,
+  "intent": {
+    "sequence": 169,
+    "method": "POST",
+    "route": "/skills/tahmkench_r/formulas",
+    "detailRoute": "/skills/tahmkench_r/formulas/enemy_magic_damage",
+    "skillKey": "tahmkench_r",
+    "kind": "formulas",
+    "stableKey": "enemy_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "enemy_magic_damage",
+      "name": "大快朵颐敌方英雄魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "target_max_hp_base_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "target_max_hp_ability_power_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前敌方吐出伤害=BaseDamage+(0.15+0.0007×来源总法强)×目标最大生命。",
+      "sortOrder": 20
+    }
+  }
+}
