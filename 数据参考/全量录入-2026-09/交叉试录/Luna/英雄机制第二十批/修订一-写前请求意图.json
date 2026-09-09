@@ -1,0 +1,4106 @@
+{
+  "generatedAt": "2026-09-09T12:12:54.534Z",
+  "status": "仅生成POST意图，未执行业务写入",
+  "apiBase": "http://127.0.0.1:8080/api/admin/games/lol",
+  "businessWrites": 0,
+  "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+  "requestCount": 158,
+  "requestCounts": {
+    "parameters": 122,
+    "formulas": 24,
+    "effects": 12,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "protectedSkills": [
+    "nasus_p",
+    "nasus_q",
+    "nasus_w",
+    "nasus_e",
+    "nasus_r"
+  ],
+  "publicParametersReused": 20,
+  "requests": [
+    {
+      "method": "POST",
+      "route": "/skills/chogath_p/parameters",
+      "skillKey": "chogath_p",
+      "kind": "parameters",
+      "stableKey": "health_restore_on_kill",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_restore_on_kill",
+        "name": "击杀回复生命值输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端ByCharLevelBreakpoints的等级曲线不在当前可操作参数边界内；保留当前等级实值作为无默认运行时输入，不自行展开断点。只表示候选数值，不创建直接治疗结果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_p/parameters",
+      "skillKey": "chogath_p",
+      "kind": "parameters",
+      "stableKey": "mana_restore_on_kill",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mana_restore_on_kill",
+        "name": "击杀回复法力值输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端ByCharLevelBreakpoints的等级曲线和mPrecision展示规则不等同于实际存储精度；保留当前等级实值作为无默认运行时输入，不按4.72/0.28自行舍入。只表示候选数值，不创建资源回复结果。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_q/parameters",
+      "skillKey": "chogath_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 135,
+          "3": 190,
+          "4": 245,
+          "5": 300
+        },
+        "description": "客户端根DataValues.BaseDamage取索引1至5；与官方16.17.1等级数组对齐。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_q/parameters",
+      "skillKey": "chogath_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "TotalDamageTooltip的StatByCoefficientCalculationPart未显式给mStat，按同版窄口径取来源总法强；系数归一为1。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_q/parameters",
+      "skillKey": "chogath_q",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockup_duration_ms",
+        "name": "击飞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前mEffectAmount第五项为1秒；秒转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_q/parameters",
+      "skillKey": "chogath_q",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 60,
+          "3": 60,
+          "4": 60,
+          "5": 60
+        },
+        "description": "当前mEffectAmount第二项为百分数点；保留60，不再乘0.01。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_q/parameters",
+      "skillKey": "chogath_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1500,
+          "2": 1500,
+          "3": 1500,
+          "4": 1500,
+          "5": 1500
+        },
+        "description": "当前mEffectAmount第三项为秒，转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_q/formulas",
+      "skillKey": "chogath_q",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "破裂魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamageTooltip=BaseDamage+1×来源总法强；只建立数值公式，不创建DAMAGE结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_q/effects",
+      "skillKey": "chogath_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_w/parameters",
+      "skillKey": "chogath_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 130,
+          "3": 180,
+          "4": 230,
+          "5": 280
+        },
+        "description": "客户端根mEffectAmount第一项索引1至5；保留技能等级值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_w/parameters",
+      "skillKey": "chogath_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "TotalDamageTooltip的StatByCoefficientCalculationPart系数0.7，mStat省略按同版窄口径取来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_w/parameters",
+      "skillKey": "chogath_w",
+      "kind": "parameters",
+      "stableKey": "silence_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "silence_duration_ms",
+        "name": "沉默持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1600,
+          "2": 1700,
+          "3": 1800,
+          "4": 1900,
+          "5": 2000
+        },
+        "description": "客户端根mEffectAmount第二项为秒，转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_w/formulas",
+      "skillKey": "chogath_w",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "野性尖叫魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamageTooltip=BaseDamage+0.7×来源总法强；只建立数值公式，不创建DAMAGE结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_w/effects",
+      "skillKey": "chogath_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/parameters",
+      "skillKey": "chogath_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 381,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.3812499940395355秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/parameters",
+      "skillKey": "chogath_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 50,
+          "3": 70,
+          "4": 90,
+          "5": 110
+        },
+        "description": "客户端根DataValues.BaseDamage取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/parameters",
+      "skillKey": "chogath_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "FlatDamageCalc的StatByNamedDataValue APRatio=0.3，mStat省略按同版窄口径取来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/parameters",
+      "skillKey": "chogath_e",
+      "kind": "parameters",
+      "stableKey": "target_max_health_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "target_max_health_percent_points",
+        "name": "目标最大生命值百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 2.5,
+          "2": 2.85,
+          "3": 3.2,
+          "4": 3.55,
+          "5": 3.9
+        },
+        "description": "客户端根PercentHealthDamage为百分数点，公式统一由percent_point_ratio转换。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/parameters",
+      "skillKey": "chogath_e",
+      "kind": "parameters",
+      "stableKey": "feast_stack_multiplier_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "feast_stack_multiplier_percent_points",
+        "name": "每层盛宴额外百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端根FeastStackMultiplier=0.5百分数点；仅作为E最大生命值公式输入。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/parameters",
+      "skillKey": "chogath_e",
+      "kind": "parameters",
+      "stableKey": "percent_point_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_point_ratio",
+        "name": "百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "客户端MaxHealthPercentCalc的mMultiplier=0.01。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/parameters",
+      "skillKey": "chogath_e",
+      "kind": "parameters",
+      "stableKey": "actual_feast_stacks",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_feast_stacks",
+        "name": "当前盛宴层数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前1V1前置输入；实际层数必须为整数，无默认值。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/parameters",
+      "skillKey": "chogath_e",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 35,
+          "3": 40,
+          "4": 45,
+          "5": 50
+        },
+        "description": "客户端根SlowAmountPercentage为百分数点，保留原单位。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/parameters",
+      "skillKey": "chogath_e",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端根SlowDuration=1.5秒，转毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/parameters",
+      "skillKey": "chogath_e",
+      "kind": "parameters",
+      "stableKey": "attack_range_increase",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_range_increase",
+        "name": "攻击距离增加",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "description": "客户端根AttackRangeIncrease=50。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/parameters",
+      "skillKey": "chogath_e",
+      "kind": "parameters",
+      "stableKey": "maximum_attacks",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "maximum_attacks",
+        "name": "最多攻击次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端根MaximumAttacks=3。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/parameters",
+      "skillKey": "chogath_e",
+      "kind": "parameters",
+      "stableKey": "buff_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "强化攻击持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "客户端根BuffDuration=6秒，转毫秒。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/formulas",
+      "skillKey": "chogath_e",
+      "kind": "formulas",
+      "stableKey": "flat_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "flat_damage",
+        "name": "恐惧之刺基础伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "FlatDamageCalc=BaseDamage+0.3×来源总法强；只建立数值公式。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/formulas",
+      "skillKey": "chogath_e",
+      "kind": "formulas",
+      "stableKey": "max_health_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "max_health_damage",
+        "name": "恐惧之刺目标最大生命值伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_point_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_max_health_percent_points"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_feast_stacks"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "feast_stack_multiplier_percent_points"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "TARGET",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "MaxHealthPercentCalc=0.01×(目标最大生命值百分数点+当前盛宴层数×每层百分数点)×目标最大生命值；不创建DAMAGE结果。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_e/effects",
+      "skillKey": "chogath_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/parameters",
+      "skillKey": "chogath_r",
+      "kind": "parameters",
+      "stableKey": "hero_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "hero_base_damage",
+        "name": "英雄目标基础真实伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 300,
+          "2": 475,
+          "3": 650
+        },
+        "description": "客户端根RBaseDamage取索引1至3；只保留英雄目标，非英雄伤害另列范围外。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/parameters",
+      "skillKey": "chogath_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "RDamage树中的StatByCoefficientCalculationPart系数0.5，mStat省略按同版窄口径取来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/parameters",
+      "skillKey": "chogath_r",
+      "kind": "parameters",
+      "stableKey": "source_bonus_health_for_hero_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "source_bonus_health_for_hero_damage",
+        "name": "英雄伤害树中的额外生命值输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "RDamage含mStat12、mStatFormula2、mCoefficient=0.1；同版同类选择器来源支持额外生命值口径，但当前仍由外部运行时提供且无默认值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/parameters",
+      "skillKey": "chogath_r",
+      "kind": "parameters",
+      "stableKey": "unmapped_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "unmapped_ratio",
+        "name": "未映射属性倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "RDamage树mStat12分支的原始mCoefficient=0.1；属性归属不猜。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/parameters",
+      "skillKey": "chogath_r",
+      "kind": "parameters",
+      "stableKey": "actual_feast_stacks",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "actual_feast_stacks",
+        "name": "当前盛宴层数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前1V1历史前置输入；实际层数必须为整数，无默认值。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/parameters",
+      "skillKey": "chogath_r",
+      "kind": "parameters",
+      "stableKey": "health_per_stack",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "health_per_stack",
+        "name": "每层额外生命值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160
+        },
+        "description": "客户端根RHealthPerStack取索引1至3。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/parameters",
+      "skillKey": "chogath_r",
+      "kind": "parameters",
+      "stableKey": "cast_range_per_stack",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_range_per_stack",
+        "name": "每层施法距离增加",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2.5,
+        "levelValues": null,
+        "description": "客户端根CastRangePerStack=2.5。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/parameters",
+      "skillKey": "chogath_r",
+      "kind": "parameters",
+      "stableKey": "max_bonus_cast_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_bonus_cast_range",
+        "name": "施法距离增加上限",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 25,
+        "levelValues": null,
+        "description": "客户端根MaxBonusCastRange=25。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/parameters",
+      "skillKey": "chogath_r",
+      "kind": "parameters",
+      "stableKey": "attack_range_per_stack",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "attack_range_per_stack",
+        "name": "每层攻击距离增加",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 4.7,
+          "2": 6.2,
+          "3": 7.7
+        },
+        "description": "客户端根AttackRangePerStack取索引1至3。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/parameters",
+      "skillKey": "chogath_r",
+      "kind": "parameters",
+      "stableKey": "max_bonus_attack_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_bonus_attack_range",
+        "name": "攻击距离增加上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 75,
+        "levelValues": null,
+        "description": "客户端根MaxBonusAttackRange=75。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/formulas",
+      "skillKey": "chogath_r",
+      "kind": "formulas",
+      "stableKey": "hero_true_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "hero_true_damage",
+        "name": "盛宴英雄目标真实伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "hero_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "unmapped_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_bonus_health_for_hero_damage"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "RDamage=英雄基础值+0.5×来源总法强+0.1×未映射mStat12运行时输入；不把mStat12猜作生命值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/formulas",
+      "skillKey": "chogath_r",
+      "kind": "formulas",
+      "stableKey": "max_health_gain",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "max_health_gain",
+        "name": "盛宴层数生命值收益",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_feast_stacks"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "health_per_stack"
+            }
+          ]
+        },
+        "description": "当前盛宴层数×每层额外生命值；层数由1V1前置输入提供。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/formulas",
+      "skillKey": "chogath_r",
+      "kind": "formulas",
+      "stableKey": "bonus_cast_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_cast_range",
+        "name": "盛宴施法距离收益",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MIN",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_bonus_cast_range"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_feast_stacks"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "cast_range_per_stack"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "按当前层数与上限计算距离收益。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/formulas",
+      "skillKey": "chogath_r",
+      "kind": "formulas",
+      "stableKey": "bonus_attack_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_attack_range",
+        "name": "盛宴攻击距离收益",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MIN",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_bonus_attack_range"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_feast_stacks"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "attack_range_per_stack"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "按当前层数与上限计算攻击距离收益。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/chogath_r/effects",
+      "skillKey": "chogath_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_p/parameters",
+      "skillKey": "galio_p",
+      "kind": "parameters",
+      "stableKey": "passive_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_base_damage",
+        "name": "被动等级基础伤害输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端ByCharLevelInterpolation只有起点15和终点115；当前候选不自行展开角色等级曲线，保留当前等级实值作为无默认运行时输入。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_p/parameters",
+      "skillKey": "galio_p",
+      "kind": "parameters",
+      "stableKey": "total_attack_damage_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "total_attack_damage_ratio",
+        "name": "总攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "TotalDamage的mStat2系数=1，按同版窄证映射来源总攻击力。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_p/parameters",
+      "skillKey": "galio_p",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "TotalDamage的省略mStat分支系数=0.4，按同版窄口径取来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_p/parameters",
+      "skillKey": "galio_p",
+      "kind": "parameters",
+      "stableKey": "source_mstat6_for_passive",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "source_mstat6_for_passive",
+        "name": "被动树中的未映射属性输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "TotalDamage含mStat6、mCoefficient=0.6；当前资料未证明属性映射，保留无默认运行时输入。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_p/parameters",
+      "skillKey": "galio_p",
+      "kind": "parameters",
+      "stableKey": "unmapped_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "unmapped_ratio",
+        "name": "未映射属性倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "TotalDamage的mStat6分支原始系数=0.6；属性归属不猜。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_p/parameters",
+      "skillKey": "galio_p",
+      "kind": "parameters",
+      "stableKey": "charge_rate_per_hit",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "charge_rate_per_hit",
+        "name": "每次命中减少被动冷却（秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端ChargeRatePerHit=3；实际命中事件和冷却扣减未接线。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_p/parameters",
+      "skillKey": "galio_p",
+      "kind": "parameters",
+      "stableKey": "passive_cooldown_seconds",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_cooldown_seconds",
+        "name": "被动基础冷却（秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5,
+        "levelValues": null,
+        "description": "客户端PassiveCooldown=5；不替代公共技能冷却。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_p/formulas",
+      "skillKey": "galio_p",
+      "kind": "formulas",
+      "stableKey": "passive_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "passive_magic_damage",
+        "name": "巨像重击魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "passive_base_damage"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "total_attack_damage_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "attack_damage",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "unmapped_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat6_for_passive"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage=等级基础值+总攻击力+0.4×来源总法强+0.6×未映射mStat6输入；不据字段名猜属性。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_q/parameters",
+      "skillKey": "galio_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_q/parameters",
+      "skillKey": "galio_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "单颗飞弹基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 70,
+          "2": 105,
+          "3": 140,
+          "4": 175,
+          "5": 210
+        },
+        "description": "客户端根DataValues.BaseDamage取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_q/parameters",
+      "skillKey": "galio_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "单颗飞弹法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "QMissileDamage的系数0.7，mStat省略按同版窄口径取来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_q/parameters",
+      "skillKey": "galio_q",
+      "kind": "parameters",
+      "stableKey": "super_q_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "super_q_duration_ms",
+        "name": "龙卷风持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端SuperQDuration=2秒，转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_q/parameters",
+      "skillKey": "galio_q",
+      "kind": "parameters",
+      "stableKey": "super_q_base_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "super_q_base_percent_points",
+        "name": "龙卷风目标最大生命值百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "客户端SuperQBasePercentage=2百分数点，公式统一由percent_point_ratio转换。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_q/parameters",
+      "skillKey": "galio_q",
+      "kind": "parameters",
+      "stableKey": "super_q_ap_percent_points_per_ap",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "super_q_ap_percent_points_per_ap",
+        "name": "龙卷风每点法强百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "匿名计算树mCoefficient=0.01；按百分数点语义保留，再由0.01转换比例。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_q/parameters",
+      "skillKey": "galio_q",
+      "kind": "parameters",
+      "stableKey": "tornado_ticks",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tornado_ticks",
+        "name": "龙卷风跳数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4,
+        "levelValues": null,
+        "description": "客户端TornadoTicks=4。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_q/parameters",
+      "skillKey": "galio_q",
+      "kind": "parameters",
+      "stableKey": "percent_point_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "percent_point_ratio",
+        "name": "百分数点转比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "目标最大生命值百分数点统一转比例。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_q/formulas",
+      "skillKey": "galio_q",
+      "kind": "formulas",
+      "stableKey": "missile_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "missile_damage",
+        "name": "战争罡风飞弹魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "QMissileDamage=BaseDamage+0.7×来源总法强；只建立数值公式。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_q/formulas",
+      "skillKey": "galio_q",
+      "kind": "formulas",
+      "stableKey": "tornado_max_health_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "tornado_max_health_damage",
+        "name": "战争罡风龙卷风目标最大生命值伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_point_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tornado_ticks"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "super_q_base_percent_points"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "super_q_ap_percent_points_per_ap"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "PercentSuperQDamageTT=跳数×(2+0.01×来源法强)百分数点×0.01×目标最大生命值；不采用非英雄上限。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_q/effects",
+      "skillKey": "galio_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "minimum_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "minimum_base_damage",
+        "name": "最低蓄力基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 30,
+          "3": 40,
+          "4": 50,
+          "5": 60
+        },
+        "description": "客户端根MinimumWBaseDamage取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "maximum_base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "maximum_base_damage",
+        "name": "满蓄力基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 90,
+          "3": 120,
+          "4": 150,
+          "5": 180
+        },
+        "description": "客户端根MaximumWBaseDamage取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "damage_reduction_base",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_reduction_base",
+        "name": "伤害减免基础比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.25,
+          "2": 0.3,
+          "3": 0.35,
+          "4": 0.4,
+          "5": 0.45
+        },
+        "description": "客户端根DamageReductionBase已是比例，保留0至1单位。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "伤害减免法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0004,
+        "levelValues": null,
+        "description": "MagicDamageReduction树APRation=0.0004；单位为每点法强比例。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "mstat6_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mstat6_ratio",
+        "name": "未映射mStat6减免倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0008,
+        "levelValues": null,
+        "description": "MagicDamageReduction树mStat6/formula2系数0.0008；属性归属保留运行时输入。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "mstat12_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mstat12_ratio",
+        "name": "未映射mStat12减免倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.0001,
+        "levelValues": null,
+        "description": "MagicDamageReduction树mStat12/formula2系数0.0001；属性归属保留运行时输入。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "source_mstat6_for_reduction",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "source_mstat6_for_reduction",
+        "name": "减免树中的未映射mStat6输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前同版根树未证明mStat6属性映射，无默认值。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "source_mstat12_for_reduction",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "source_mstat12_for_reduction",
+        "name": "减免树中的未映射mStat12输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前同版根树未证明mStat12属性映射，无默认值。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "source_hp_for_passive_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "source_hp_for_passive_shield",
+        "name": "被动护盾树的生命值输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "TotalPassiveShield含mStat12、mDataValue PassiveShieldHealthRatio；当前未形成同版属性映射，保留运行时输入。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "passive_shield_health_ratio_by_skill_level",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "passive_shield_health_ratio_by_skill_level",
+        "name": "脱战被动护盾生命值倍率（技能等级）",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.075,
+          "2": 0.09,
+          "3": 0.105,
+          "4": 0.12,
+          "5": 0.135
+        },
+        "description": "客户端根PassiveShieldHealthRatio取索引1至5；公式使用技能等级值。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "physical_damage_reduction_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "physical_damage_reduction_ratio",
+        "name": "物理伤害减免倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "客户端PhysicalDRPercent=0.5。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "max_charge_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_charge_duration_ms",
+        "name": "最大蓄力时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端MaxChargeDuration=2秒，转毫秒。",
+        "sortOrder": 140
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "self_slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "self_slow_percent_points",
+        "name": "蓄力自身减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 15,
+        "levelValues": null,
+        "description": "客户端SelfSlowPercent=15百分数点。",
+        "sortOrder": 150
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "cc_duration_min_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cc_duration_min_ms",
+        "name": "最短嘲讽持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "客户端CCDurationMin=0.5秒，转毫秒。",
+        "sortOrder": 160
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "cc_duration_max_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cc_duration_max_ms",
+        "name": "最长嘲讽持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端CCDurationMax=1.5秒，转毫秒。",
+        "sortOrder": 170
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "dr_linger_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dr_linger_duration_ms",
+        "name": "伤害减免残留（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端DRLingerDuration=2秒，转毫秒。",
+        "sortOrder": 180
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "ap_damage_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_damage_ratio",
+        "name": "伤害法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.3,
+        "levelValues": null,
+        "description": "客户端根计算树固定乘数。",
+        "sortOrder": 207
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/parameters",
+      "skillKey": "galio_w",
+      "kind": "parameters",
+      "stableKey": "maximum_damage_multiplier",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "maximum_damage_multiplier",
+        "name": "满蓄力伤害倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端根计算树固定乘数。",
+        "sortOrder": 208
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/formulas",
+      "skillKey": "galio_w",
+      "kind": "formulas",
+      "stableKey": "passive_shield",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "passive_shield",
+        "name": "脱战被动护盾数值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "passive_shield_health_ratio_by_skill_level"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "source_hp_for_passive_shield"
+            }
+          ]
+        },
+        "description": "TotalPassiveShield的mStat12输入映射未证；以显式运行时生命值输入计算，不创建护盾效果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/formulas",
+      "skillKey": "galio_w",
+      "kind": "formulas",
+      "stableKey": "magic_damage_reduction",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "magic_damage_reduction",
+        "name": "魔法伤害减免比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_reduction_base"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "ap_ratio"
+                        },
+                        {
+                          "nodeType": "ATTRIBUTE",
+                          "attributeOwner": "SOURCE",
+                          "attributeKey": "ability_power",
+                          "attributeValueKind": "TOTAL"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "mstat6_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "source_mstat6_for_reduction"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "mstat12_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat12_for_reduction"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MagicDamageReduction按根树四项相加；mStat6/mStat12保持运行时输入，不猜属性。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/formulas",
+      "skillKey": "galio_w",
+      "kind": "formulas",
+      "stableKey": "physical_damage_reduction",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "physical_damage_reduction",
+        "name": "物理伤害减免比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "physical_damage_reduction_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "ADD",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "damage_reduction_base"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MULTIPLY",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "ap_ratio"
+                            },
+                            {
+                              "nodeType": "ATTRIBUTE",
+                              "attributeOwner": "SOURCE",
+                              "attributeKey": "ability_power",
+                              "attributeValueKind": "TOTAL"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "mstat6_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "source_mstat6_for_reduction"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "mstat12_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "source_mstat12_for_reduction"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "PhysicalDamageReduction=0.5×MagicDamageReduction；内嵌完整减免树，避免把公式键当参数引用。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/formulas",
+      "skillKey": "galio_w",
+      "kind": "formulas",
+      "stableKey": "minimum_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "minimum_magic_damage",
+        "name": "最低蓄力魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minimum_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_damage_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MinTotalDamage=MinimumWBaseDamage+0.3×来源总法强。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/formulas",
+      "skillKey": "galio_w",
+      "kind": "formulas",
+      "stableKey": "maximum_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "maximum_magic_damage",
+        "name": "满蓄力魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "maximum_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "minimum_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_damage_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MaxTotalDamage=3×MinTotalDamage；内嵌最低伤害树，避免把公式键当参数引用。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_w/effects",
+      "skillKey": "galio_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_e/parameters",
+      "skillKey": "galio_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 400,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.4000000059604645秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_e/parameters",
+      "skillKey": "galio_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "首个英雄目标基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 100,
+          "2": 135,
+          "3": 170,
+          "4": 205,
+          "5": 240
+        },
+        "description": "客户端根DataValues.BaseDamage取索引1至5；只保留首个英雄目标。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_e/parameters",
+      "skillKey": "galio_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "TotalDamage的省略mStat分支系数=1，按同版窄口径取来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_e/parameters",
+      "skillKey": "galio_e",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockup_duration_ms",
+        "name": "击飞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "客户端KnockupDuration=0.75秒，转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_e/formulas",
+      "skillKey": "galio_e",
+      "kind": "formulas",
+      "stableKey": "first_champion_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "first_champion_magic_damage",
+        "name": "正义冲拳首个英雄目标魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage=BaseDamage+来源总法强；只表达首个英雄目标数值，不创建DAMAGE结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_e/effects",
+      "skillKey": "galio_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_r/parameters",
+      "skillKey": "galio_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_r/parameters",
+      "skillKey": "galio_r",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 180000,
+          "2": 160000,
+          "3": 140000
+        },
+        "description": "官方16.17.1技能冷却数组，等级1起索引0，秒转毫秒；未计急速或技能修正。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_r/parameters",
+      "skillKey": "galio_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "落地基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "客户端根DataValues.BaseDamage取索引1至3。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_r/parameters",
+      "skillKey": "galio_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "TotalDamage的省略mStat分支系数=0.7，按同版窄口径取来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_r/parameters",
+      "skillKey": "galio_r",
+      "kind": "parameters",
+      "stableKey": "source_mstat6_for_landing_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "source_mstat6_for_landing_damage",
+        "name": "落地伤害树中的未映射属性输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "TotalDamage含mStat6/formula2、系数1；当前未证明属性映射，无默认值。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_r/parameters",
+      "skillKey": "galio_r",
+      "kind": "parameters",
+      "stableKey": "unmapped_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "unmapped_ratio",
+        "name": "未映射属性倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "落地TotalDamage的mStat6分支原始系数=1；属性归属不猜。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_r/parameters",
+      "skillKey": "galio_r",
+      "kind": "parameters",
+      "stableKey": "stun_duration_outer_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_outer_ms",
+        "name": "落地击飞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "客户端StunDurationOuter=0.75秒，转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_r/parameters",
+      "skillKey": "galio_r",
+      "kind": "parameters",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "mana_cost",
+        "name": "基础法力消耗",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 100,
+        "levelValues": null,
+        "description": "官方16.17.1 Galio.spells[3].cost等级1起全部为100；当前槽缺少公共参数，本候选补入基础值，不表示实际扣除时点。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_r/formulas",
+      "skillKey": "galio_r",
+      "kind": "formulas",
+      "stableKey": "landing_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "landing_magic_damage",
+        "name": "英雄登场落地魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "unmapped_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_mstat6_for_landing_damage"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage=基础值+0.7×来源总法强+未映射mStat6输入；不猜属性。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/galio_r/effects",
+      "skillKey": "galio_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_p/parameters",
+      "skillKey": "rammus_p",
+      "kind": "parameters",
+      "stableKey": "armor_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "armor_ratio",
+        "name": "护甲倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.15,
+        "levelValues": null,
+        "description": "客户端根ArmorRatio=0.15；只保存倍率。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_p/parameters",
+      "skillKey": "rammus_p",
+      "kind": "parameters",
+      "stableKey": "magic_resistance_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "magic_resistance_ratio",
+        "name": "魔法抗性倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.15,
+        "levelValues": null,
+        "description": "客户端根MagicResistRatio=0.15；只保存倍率。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_p/parameters",
+      "skillKey": "rammus_p",
+      "kind": "parameters",
+      "stableKey": "source_armor_for_passive",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "source_armor_for_passive",
+        "name": "被动计算用护甲输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "TotalDamage含mStat1；当前树未证明是总护甲或额外护甲，保留运行时输入。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_p/parameters",
+      "skillKey": "rammus_p",
+      "kind": "parameters",
+      "stableKey": "source_magic_resistance_for_passive",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "source_magic_resistance_for_passive",
+        "name": "被动计算用魔法抗性输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "TotalDamage含mStat6；当前树未证明属性作用域，保留运行时输入。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_p/formulas",
+      "skillKey": "rammus_p",
+      "kind": "formulas",
+      "stableKey": "bonus_attack_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_attack_damage",
+        "name": "锥刺甲壳额外攻击力",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "armor_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_armor_for_passive"
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "magic_resistance_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_magic_resistance_for_passive"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage=0.15×护甲输入+0.15×魔法抗性输入；输入作用域留待同版映射补证。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_q/parameters",
+      "skillKey": "rammus_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_q/parameters",
+      "skillKey": "rammus_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 12000,
+          "2": 10500,
+          "3": 9000,
+          "4": 7500,
+          "5": 6000
+        },
+        "description": "官方16.17.1技能冷却数组，等级1起索引0，秒转毫秒；未计急速或技能修正。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_q/parameters",
+      "skillKey": "rammus_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "动力冲刺基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "description": "客户端根QBaseDamage取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_q/parameters",
+      "skillKey": "rammus_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1,
+          "2": 1,
+          "3": 1,
+          "4": 1,
+          "5": 1
+        },
+        "description": "客户端根APRatio取索引1至5，按每点法强比例保存。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_q/parameters",
+      "skillKey": "rammus_q",
+      "kind": "parameters",
+      "stableKey": "roll_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "roll_duration_ms",
+        "name": "滚动持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 6000,
+        "levelValues": null,
+        "description": "客户端RollDuration=6秒，转毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_q/parameters",
+      "skillKey": "rammus_q",
+      "kind": "parameters",
+      "stableKey": "minimum_move_speed_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "minimum_move_speed_ratio",
+        "name": "当前等级最低移动速度比例输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "客户端ByCharLevelInterpolation只有起点0.25和终点0.391；当前候选不自行展开角色等级曲线，保留当前等级实值作为无默认运行时输入。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_q/parameters",
+      "skillKey": "rammus_q",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "减速百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 50,
+          "3": 60,
+          "4": 70,
+          "5": 80
+        },
+        "description": "客户端SlowPercent为百分数点，保留40至80，不再乘0.01。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_q/parameters",
+      "skillKey": "rammus_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "客户端SlowDuration=1秒，转毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_q/parameters",
+      "skillKey": "rammus_q",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "stun_duration_ms",
+        "name": "碰撞控制持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "客户端StunDuration=0.35秒，转毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_q/formulas",
+      "skillKey": "rammus_q",
+      "kind": "formulas",
+      "stableKey": "power_ball_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "power_ball_magic_damage",
+        "name": "动力冲刺魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "PowerBallDamage=QBaseDamage+APRatio×来源总法强；不创建DAMAGE结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_q/effects",
+      "skillKey": "rammus_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 7000,
+          "2": 7000,
+          "3": 7000,
+          "4": 7000,
+          "5": 7000
+        },
+        "description": "官方16.17.1技能冷却数组，等级1起索引0，秒转毫秒；未计急速或技能修正。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "bonus_armor_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_armor_ratio",
+        "name": "额外护甲比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.375,
+          "3": 0.45,
+          "4": 0.525,
+          "5": 0.6
+        },
+        "description": "客户端BonusArmorPercent取索引1至5，保留0至1比例。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "bonus_magic_resistance_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "bonus_magic_resistance_ratio",
+        "name": "额外魔法抗性比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.375,
+          "3": 0.45,
+          "4": 0.525,
+          "5": 0.6
+        },
+        "description": "客户端BonusMRPercent取索引1至5，保留0至1比例。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "flat_bonus_armor",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "flat_bonus_armor",
+        "name": "额外护甲基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 27,
+          "2": 32,
+          "3": 37,
+          "4": 42,
+          "5": 47
+        },
+        "description": "客户端FlatBonusArmor取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "flat_bonus_magic_resistance",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "flat_bonus_magic_resistance",
+        "name": "额外魔法抗性基础值",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 25,
+          "3": 30,
+          "4": 35,
+          "5": 40
+        },
+        "description": "客户端FlatBonusMR取索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "buff_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "强化持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 7000,
+        "levelValues": null,
+        "description": "客户端BuffDuration=7秒，转毫秒。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "damage_armor_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_armor_ratio",
+        "name": "护甲反伤倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "客户端DamageArmorRatio=0.1；作用域仍用运行时护甲输入。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "damage_magic_resistance_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "damage_magic_resistance_ratio",
+        "name": "魔抗反伤倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.1,
+        "levelValues": null,
+        "description": "客户端DamageMRRatio=0.1；作用域仍用运行时魔抗输入。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "flat_damage_return",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "flat_damage_return",
+        "name": "反伤基础值",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 15,
+        "levelValues": null,
+        "description": "客户端FlatDamageReturn=15。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "source_armor_for_w",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "source_armor_for_w",
+        "name": "反伤计算用护甲输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "ReturnDamageCalc含mStat1，当前未证明总/额外作用域。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "source_magic_resistance_for_w",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "source_magic_resistance_for_w",
+        "name": "反伤计算用魔法抗性输入",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "ReturnDamageCalc含mStat6，当前未证明作用域。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/parameters",
+      "skillKey": "rammus_w",
+      "kind": "parameters",
+      "stableKey": "one",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "one",
+        "name": "常数1",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "用于还原客户端乘加树。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/formulas",
+      "skillKey": "rammus_w",
+      "kind": "formulas",
+      "stableKey": "return_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "return_magic_damage",
+        "name": "尖刺防御反伤数值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_damage_return"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_armor_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "source_armor_for_w"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_magic_resistance_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_magic_resistance_for_w"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "ReturnDamageCalc=15+0.1×护甲输入+0.1×魔抗输入；不创建DAMAGE结果。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/formulas",
+      "skillKey": "rammus_w",
+      "kind": "formulas",
+      "stableKey": "bonus_armor",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_armor",
+        "name": "尖刺防御额外护甲数值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_bonus_armor"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_armor_ratio"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_armor_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_armor_for_w"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "BonusArmorTooltip=FlatBonusArmor×(1+BonusArmorPercent)+mStat1×BonusArmorPercent；mStat1作用域保留为运行时护甲输入。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/formulas",
+      "skillKey": "rammus_w",
+      "kind": "formulas",
+      "stableKey": "bonus_magic_resistance",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "bonus_magic_resistance",
+        "name": "尖刺防御额外魔抗数值",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "flat_bonus_magic_resistance"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "ADD",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "one"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_magic_resistance_ratio"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_magic_resistance_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "source_magic_resistance_for_w"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "BonusMRTooltip=FlatBonusMR×(1+BonusMRPercent)+mStat6×BonusMRPercent；mStat6作用域保留为运行时魔抗输入。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_w/effects",
+      "skillKey": "rammus_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_e/parameters",
+      "skillKey": "rammus_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_e/parameters",
+      "skillKey": "rammus_e",
+      "kind": "parameters",
+      "stableKey": "taunt_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "taunt_duration_ms",
+        "name": "嘲讽持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 1200,
+          "2": 1400,
+          "3": 1600,
+          "4": 1800,
+          "5": 2000
+        },
+        "description": "客户端Duration为秒，转毫秒；正文目标资格含英雄或野怪。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_e/effects",
+      "skillKey": "rammus_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根spellCastTime为0.25秒，仅保存根字段，不表示命中或位移发生在施法结束。",
+        "sortOrder": 5
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "initial_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "initial_damage",
+        "name": "初始基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "客户端根InitialDamage取索引1至3。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "InitialDamageCalc的StatByNamedDataValue APRatio=0.6，mStat省略按同版窄口径取来源总法强。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "slow_ratio",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_ratio",
+        "name": "减速比例",
+        "valueType": "DECIMAL",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 0.3,
+          "2": 0.4,
+          "3": 0.5
+        },
+        "description": "客户端SlowAmount已是0至1比例，保留0.3至0.5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "客户端SlowDuration=1.5秒，转毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "number_of_pulses",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "number_of_pulses",
+        "name": "脉冲次数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "客户端NumberOfPulses=3。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "buff_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "技能持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3500,
+        "levelValues": null,
+        "description": "客户端BuffDuration=3.5秒，转毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "base_cast_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "base_cast_range",
+        "name": "基础施法距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 800,
+        "levelValues": null,
+        "description": "客户端BaseCastRange=800。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "tremors_aoe_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tremors_aoe_range",
+        "name": "震荡范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 400,
+        "levelValues": null,
+        "description": "客户端TremorsAoERange=400。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "tremors_knockup_range",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "tremors_knockup_range",
+        "name": "击飞范围",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 200,
+        "levelValues": null,
+        "description": "客户端TremorsKnockupRange=200。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "knockup_duration_ms",
+        "name": "击飞持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "客户端KnockupDuration=0.75秒，转毫秒。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "dash_range_growth",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dash_range_growth",
+        "name": "冲刺距离增长",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.5,
+        "levelValues": null,
+        "description": "客户端DashRangeGrowth=1.5。",
+        "sortOrder": 120
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "max_range_for_damage_growth",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_range_for_damage_growth",
+        "name": "伤害增长距离上限",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1700,
+        "levelValues": null,
+        "description": "客户端MaxRangeForDmgGrowth=1700。",
+        "sortOrder": 130
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "dash_speed_growth",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "dash_speed_growth",
+        "name": "冲刺速度增长",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.1,
+        "levelValues": null,
+        "description": "客户端DashSpeedGrowth=1.1。",
+        "sortOrder": 140
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "min_dash_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "min_dash_speed",
+        "name": "最低冲刺速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 900,
+        "levelValues": null,
+        "description": "客户端MinDashSpeed=900。",
+        "sortOrder": 150
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/parameters",
+      "skillKey": "rammus_r",
+      "kind": "parameters",
+      "stableKey": "max_dash_speed",
+      "status": "仅意图，未调用",
+      "body": {
+        "parameterKey": "max_dash_speed",
+        "name": "最高冲刺速度",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "客户端MaxDashSpeed=2000。",
+        "sortOrder": 160
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/formulas",
+      "skillKey": "rammus_r",
+      "kind": "formulas",
+      "stableKey": "initial_magic_damage",
+      "status": "仅意图，未调用",
+      "body": {
+        "formulaKey": "initial_magic_damage",
+        "name": "冲天猛撞初始魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "initial_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "InitialDamageCalc=InitialDamage+0.6×来源总法强；只表达初始提示数值。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/rammus_r/effects",
+      "skillKey": "rammus_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "status": "仅意图，未调用",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "仅保留官方基础法力消耗；实际扣除时点与施放资格尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "consume_mana",
+            "name": "消耗法力",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "description": null,
+            "sortOrder": 10,
+            "lifecycleBehavior": null,
+            "spellShieldBlockScope": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "existingParametersObserved": 52,
+  "revision": "修订一",
+  "baseCandidateSha256": "723d467d65d4942ec64261530b863f3cd0d06e101fcc3b38731feeb3af1f93d2",
+  "baseRequestPlanSha256": "9a220bc33362948aa170c518e551a64cf34dcfe1def8b291b19bdd3410586d9a"
+}

@@ -1,0 +1,2656 @@
+{
+  "generatedAt": "2026-09-09T12:20:40.143Z",
+  "revision": "修订一",
+  "candidateFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero20-candidate\\修订一-完整候选.json",
+  "candidateSha256": "7fddee3b4b2fd121d3c053ba20388a69e38e2069a42ad7b80a054c56b70ce5c9",
+  "requestPlanSha256": "b542da6edbc8fedba977ea20bb61e78ab436ae9a9fd7f290f6419b8bb19e855a",
+  "candidateMathReady": true,
+  "businessMathReady": false,
+  "businessWrites": 0,
+  "formulaCount": 24,
+  "positiveFormulaChecks": [
+    {
+      "skillKey": "chogath_q",
+      "formulaKey": "magic_damage",
+      "value": 290,
+      "parameters": [
+        "base_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "chogath_w",
+      "formulaKey": "magic_damage",
+      "value": 250,
+      "parameters": [
+        "base_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "flat_damage",
+      "value": 100,
+      "parameters": [
+        "base_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "value": 84,
+      "parameters": [
+        "percent_point_ratio",
+        "target_max_health_percent_points",
+        "actual_feast_stacks",
+        "feast_stack_multiplier_percent_points"
+      ],
+      "attributes": [
+        "TARGET.hp.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "hero_true_damage",
+      "value": 701.75,
+      "parameters": [
+        "hero_base_damage",
+        "ap_ratio",
+        "unmapped_ratio",
+        "source_bonus_health_for_hero_damage"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "max_health_gain",
+      "value": 320,
+      "parameters": [
+        "actual_feast_stacks",
+        "health_per_stack"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "value": 5,
+      "parameters": [
+        "max_bonus_cast_range",
+        "actual_feast_stacks",
+        "cast_range_per_stack"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "value": 15.4,
+      "parameters": [
+        "max_bonus_attack_range",
+        "actual_feast_stacks",
+        "attack_range_per_stack"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "value": 188,
+      "parameters": [
+        "passive_base_damage",
+        "total_attack_damage_ratio",
+        "ap_ratio",
+        "unmapped_ratio",
+        "source_mstat6_for_passive"
+      ],
+      "attributes": [
+        "SOURCE.attack_damage.TOTAL",
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "missile_damage",
+      "value": 210,
+      "parameters": [
+        "base_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "tornado_max_health_damage",
+      "value": 240,
+      "parameters": [
+        "percent_point_ratio",
+        "tornado_ticks",
+        "super_q_base_percent_points",
+        "super_q_ap_percent_points_per_ap"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL",
+        "TARGET.hp.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "passive_shield",
+      "value": 1.8375,
+      "parameters": [
+        "passive_shield_health_ratio_by_skill_level",
+        "source_hp_for_passive_shield"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "magic_damage_reduction",
+      "value": 0.40574999999999994,
+      "parameters": [
+        "damage_reduction_base",
+        "ap_ratio",
+        "mstat6_ratio",
+        "source_mstat6_for_reduction",
+        "mstat12_ratio",
+        "source_mstat12_for_reduction"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "physical_damage_reduction",
+      "value": 0.20287499999999997,
+      "parameters": [
+        "physical_damage_reduction_ratio",
+        "damage_reduction_base",
+        "ap_ratio",
+        "mstat6_ratio",
+        "source_mstat6_for_reduction",
+        "mstat12_ratio",
+        "source_mstat12_for_reduction"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "minimum_magic_damage",
+      "value": 70,
+      "parameters": [
+        "minimum_base_damage",
+        "ap_damage_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "maximum_magic_damage",
+      "value": 210,
+      "parameters": [
+        "maximum_damage_multiplier",
+        "minimum_base_damage",
+        "ap_damage_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_e",
+      "formulaKey": "first_champion_magic_damage",
+      "value": 270,
+      "parameters": [
+        "base_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "galio_r",
+      "formulaKey": "landing_magic_damage",
+      "value": 437.5,
+      "parameters": [
+        "base_damage",
+        "ap_ratio",
+        "unmapped_ratio",
+        "source_mstat6_for_landing_damage"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "rammus_p",
+      "formulaKey": "bonus_attack_damage",
+      "value": 5.25,
+      "parameters": [
+        "armor_ratio",
+        "source_armor_for_passive",
+        "magic_resistance_ratio",
+        "source_magic_resistance_for_passive"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "rammus_q",
+      "formulaKey": "power_ball_magic_damage",
+      "value": 260,
+      "parameters": [
+        "base_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "return_magic_damage",
+      "value": 18.5,
+      "parameters": [
+        "flat_damage_return",
+        "damage_armor_ratio",
+        "source_armor_for_w",
+        "damage_magic_resistance_ratio",
+        "source_magic_resistance_for_w"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_armor",
+      "value": 61.525,
+      "parameters": [
+        "flat_bonus_armor",
+        "one",
+        "bonus_armor_ratio",
+        "source_armor_for_w"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_magic_resistance",
+      "value": 51.375,
+      "parameters": [
+        "flat_bonus_magic_resistance",
+        "one",
+        "bonus_magic_resistance_ratio",
+        "source_magic_resistance_for_w"
+      ],
+      "attributes": []
+    },
+    {
+      "skillKey": "rammus_r",
+      "formulaKey": "initial_magic_damage",
+      "value": 410,
+      "parameters": [
+        "initial_damage",
+        "ap_ratio"
+      ],
+      "attributes": [
+        "SOURCE.ability_power.TOTAL"
+      ]
+    }
+  ],
+  "positiveFormulaCount": 24,
+  "missingValueRejections": [
+    {
+      "skillKey": "chogath_q",
+      "formulaKey": "magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "chogath_w",
+      "formulaKey": "magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "flat_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "missing": "actual_feast_stacks",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:actual_feast_stacks"
+    },
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "missing": "TARGET.hp.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:TARGET.hp.TOTAL"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "hero_true_damage",
+      "missing": "source_bonus_health_for_hero_damage",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_bonus_health_for_hero_damage"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "hero_true_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "max_health_gain",
+      "missing": "actual_feast_stacks",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:actual_feast_stacks"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "missing": "actual_feast_stacks",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:actual_feast_stacks"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "missing": "actual_feast_stacks",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:actual_feast_stacks"
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "missing": "passive_base_damage",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:passive_base_damage"
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "missing": "source_mstat6_for_passive",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_mstat6_for_passive"
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "missing": "SOURCE.attack_damage.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.attack_damage.TOTAL"
+    },
+    {
+      "skillKey": "galio_p",
+      "formulaKey": "passive_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "missile_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "tornado_max_health_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "tornado_max_health_damage",
+      "missing": "TARGET.hp.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:TARGET.hp.TOTAL"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "passive_shield",
+      "missing": "source_hp_for_passive_shield",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_hp_for_passive_shield"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "magic_damage_reduction",
+      "missing": "source_mstat6_for_reduction",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_mstat6_for_reduction"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "magic_damage_reduction",
+      "missing": "source_mstat12_for_reduction",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_mstat12_for_reduction"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "magic_damage_reduction",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "physical_damage_reduction",
+      "missing": "source_mstat6_for_reduction",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_mstat6_for_reduction"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "physical_damage_reduction",
+      "missing": "source_mstat12_for_reduction",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_mstat12_for_reduction"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "physical_damage_reduction",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "minimum_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "maximum_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_e",
+      "formulaKey": "first_champion_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "galio_r",
+      "formulaKey": "landing_magic_damage",
+      "missing": "source_mstat6_for_landing_damage",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_mstat6_for_landing_damage"
+    },
+    {
+      "skillKey": "galio_r",
+      "formulaKey": "landing_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "rammus_p",
+      "formulaKey": "bonus_attack_damage",
+      "missing": "source_armor_for_passive",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_armor_for_passive"
+    },
+    {
+      "skillKey": "rammus_p",
+      "formulaKey": "bonus_attack_damage",
+      "missing": "source_magic_resistance_for_passive",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_magic_resistance_for_passive"
+    },
+    {
+      "skillKey": "rammus_q",
+      "formulaKey": "power_ball_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "return_magic_damage",
+      "missing": "source_armor_for_w",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_armor_for_w"
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "return_magic_damage",
+      "missing": "source_magic_resistance_for_w",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_magic_resistance_for_w"
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_armor",
+      "missing": "source_armor_for_w",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_armor_for_w"
+    },
+    {
+      "skillKey": "rammus_w",
+      "formulaKey": "bonus_magic_resistance",
+      "missing": "source_magic_resistance_for_w",
+      "rejectedBy": "MISSING_RUNTIME_INPUT:source_magic_resistance_for_w"
+    },
+    {
+      "skillKey": "rammus_r",
+      "formulaKey": "initial_magic_damage",
+      "missing": "SOURCE.ability_power.TOTAL",
+      "rejectedBy": "MISSING_ATTRIBUTE:SOURCE.ability_power.TOTAL"
+    }
+  ],
+  "integerInputRejections": [
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "actual_feast_stacks",
+      "formulaKey": "max_health_damage",
+      "rejectedBy": "INTEGER参数不是整数：actual_feast_stacks"
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "actual_feast_stacks",
+      "formulaKey": "max_health_gain",
+      "rejectedBy": "INTEGER参数不是整数：actual_feast_stacks"
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "actual_feast_stacks",
+      "formulaKey": "bonus_cast_range",
+      "rejectedBy": "INTEGER参数不是整数：actual_feast_stacks"
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "actual_feast_stacks",
+      "formulaKey": "bonus_attack_range",
+      "rejectedBy": "INTEGER参数不是整数：actual_feast_stacks"
+    }
+  ],
+  "hpVariations": [
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "low": 42,
+      "high": 105,
+      "label": "科加斯E目标最大生命值变化"
+    },
+    {
+      "skillKey": "galio_q",
+      "formulaKey": "tornado_max_health_damage",
+      "low": 120,
+      "high": 300,
+      "label": "加里奥Q龙卷风目标最大生命值变化"
+    },
+    {
+      "skillKey": "galio_w",
+      "formulaKey": "passive_shield",
+      "low": 105,
+      "high": 262.5,
+      "label": "加里奥W护盾生命值输入变化"
+    }
+  ],
+  "stackVariations": [
+    {
+      "skillKey": "chogath_e",
+      "formulaKey": "max_health_damage",
+      "low": 64,
+      "high": 124.00000000000001,
+      "label": "科加斯E盛宴层数变化"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "max_health_gain",
+      "low": 0,
+      "high": 960,
+      "label": "科加斯R盛宴层数变化"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_cast_range",
+      "low": 0,
+      "high": 15,
+      "label": "科加斯R盛宴层数变化"
+    },
+    {
+      "skillKey": "chogath_r",
+      "formulaKey": "bonus_attack_range",
+      "low": 0,
+      "high": 46.2,
+      "label": "科加斯R盛宴层数变化"
+    }
+  ],
+  "boundaryChecks": [
+    {
+      "label": "科加斯R施法距离20层上限",
+      "actual": 25,
+      "expected": 25
+    },
+    {
+      "label": "科加斯R攻击距离20层上限",
+      "actual": 75,
+      "expected": 75
+    },
+    {
+      "label": "科加斯R施法距离9层",
+      "actual": 22.5,
+      "expected": 22.5
+    },
+    {
+      "label": "科加斯R攻击距离10层",
+      "actual": 75,
+      "expected": 75
+    },
+    {
+      "label": "科加斯R施法距离11层",
+      "actual": 25,
+      "expected": 25
+    }
+  ],
+  "shieldNoDefaultChecks": [
+    {
+      "parameterKey": "passive_shield_health_ratio_by_skill_level",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.075,
+        "2": 0.09,
+        "3": 0.105,
+        "4": 0.12,
+        "5": 0.135
+      },
+      "passed": true
+    },
+    {
+      "parameterKey": "source_hp_for_passive_shield",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "passed": true
+    }
+  ],
+  "unconsumedRuntimeInputs": [
+    {
+      "skillKey": "chogath_p",
+      "parameterKey": "health_restore_on_kill",
+      "valueType": "DECIMAL",
+      "reason": "未知曲线或外部前置输入没有当前公式消费者。"
+    },
+    {
+      "skillKey": "chogath_p",
+      "parameterKey": "mana_restore_on_kill",
+      "valueType": "DECIMAL",
+      "reason": "未知曲线或外部前置输入没有当前公式消费者。"
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "minimum_move_speed_ratio",
+      "valueType": "DECIMAL",
+      "reason": "未知曲线或外部前置输入没有当前公式消费者。"
+    }
+  ],
+  "rawIndexChecks": [
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "base_damage",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 80,
+      "scale": 1,
+      "expectedValue": 80,
+      "candidateValue": 80,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "base_damage",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 135,
+      "scale": 1,
+      "expectedValue": 135,
+      "candidateValue": 135,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "base_damage",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 190,
+      "scale": 1,
+      "expectedValue": 190,
+      "candidateValue": 190,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "base_damage",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 245,
+      "scale": 1,
+      "expectedValue": 245,
+      "candidateValue": 245,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "base_damage",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 300,
+      "scale": 1,
+      "expectedValue": 300,
+      "candidateValue": 300,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "slow_percent_points",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 60,
+      "scale": 1,
+      "expectedValue": 60,
+      "candidateValue": 60,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "slow_percent_points",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 60,
+      "scale": 1,
+      "expectedValue": 60,
+      "candidateValue": 60,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "slow_percent_points",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 60,
+      "scale": 1,
+      "expectedValue": 60,
+      "candidateValue": 60,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "slow_percent_points",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 60,
+      "scale": 1,
+      "expectedValue": 60,
+      "candidateValue": 60,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "slow_percent_points",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 60,
+      "scale": 1,
+      "expectedValue": 60,
+      "candidateValue": 60,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "slow_duration_ms",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 1.5,
+      "scale": 1000,
+      "expectedValue": 1500,
+      "candidateValue": 1500,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "slow_duration_ms",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 1.5,
+      "scale": 1000,
+      "expectedValue": 1500,
+      "candidateValue": 1500,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "slow_duration_ms",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 1.5,
+      "scale": 1000,
+      "expectedValue": 1500,
+      "candidateValue": 1500,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "slow_duration_ms",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 1.5,
+      "scale": 1000,
+      "expectedValue": 1500,
+      "candidateValue": 1500,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_q",
+      "parameterKey": "slow_duration_ms",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 1.5,
+      "scale": 1000,
+      "expectedValue": 1500,
+      "candidateValue": 1500,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_w",
+      "parameterKey": "base_damage",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 80,
+      "scale": 1,
+      "expectedValue": 80,
+      "candidateValue": 80,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_w",
+      "parameterKey": "base_damage",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 130,
+      "scale": 1,
+      "expectedValue": 130,
+      "candidateValue": 130,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_w",
+      "parameterKey": "base_damage",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 180,
+      "scale": 1,
+      "expectedValue": 180,
+      "candidateValue": 180,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_w",
+      "parameterKey": "base_damage",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 230,
+      "scale": 1,
+      "expectedValue": 230,
+      "candidateValue": 230,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_w",
+      "parameterKey": "base_damage",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 280,
+      "scale": 1,
+      "expectedValue": 280,
+      "candidateValue": 280,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_w",
+      "parameterKey": "silence_duration_ms",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 1.600000023841858,
+      "scale": 1000,
+      "expectedValue": 1600.000023841858,
+      "candidateValue": 1600,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_w",
+      "parameterKey": "silence_duration_ms",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 1.7000000476837158,
+      "scale": 1000,
+      "expectedValue": 1700.0000476837158,
+      "candidateValue": 1700,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_w",
+      "parameterKey": "silence_duration_ms",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 1.7999999523162842,
+      "scale": 1000,
+      "expectedValue": 1799.9999523162842,
+      "candidateValue": 1800,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_w",
+      "parameterKey": "silence_duration_ms",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 1.899999976158142,
+      "scale": 1000,
+      "expectedValue": 1899.999976158142,
+      "candidateValue": 1900,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_w",
+      "parameterKey": "silence_duration_ms",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 2,
+      "scale": 1000,
+      "expectedValue": 2000,
+      "candidateValue": 2000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "base_damage",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 30,
+      "scale": 1,
+      "expectedValue": 30,
+      "candidateValue": 30,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "base_damage",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 50,
+      "scale": 1,
+      "expectedValue": 50,
+      "candidateValue": 50,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "base_damage",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 70,
+      "scale": 1,
+      "expectedValue": 70,
+      "candidateValue": 70,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "base_damage",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 90,
+      "scale": 1,
+      "expectedValue": 90,
+      "candidateValue": 90,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "base_damage",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 110,
+      "scale": 1,
+      "expectedValue": 110,
+      "candidateValue": 110,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "target_max_health_percent_points",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 2.5,
+      "scale": 1,
+      "expectedValue": 2.5,
+      "candidateValue": 2.5,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "target_max_health_percent_points",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 2.8499999046325684,
+      "scale": 1,
+      "expectedValue": 2.8499999046325684,
+      "candidateValue": 2.85,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "target_max_health_percent_points",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 3.200000047683716,
+      "scale": 1,
+      "expectedValue": 3.200000047683716,
+      "candidateValue": 3.2,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "target_max_health_percent_points",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 3.549999952316284,
+      "scale": 1,
+      "expectedValue": 3.549999952316284,
+      "candidateValue": 3.55,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "target_max_health_percent_points",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 3.9000000953674316,
+      "scale": 1,
+      "expectedValue": 3.9000000953674316,
+      "candidateValue": 3.9,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "slow_percent_points",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 30,
+      "scale": 1,
+      "expectedValue": 30,
+      "candidateValue": 30,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "slow_percent_points",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 35,
+      "scale": 1,
+      "expectedValue": 35,
+      "candidateValue": 35,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "slow_percent_points",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 40,
+      "scale": 1,
+      "expectedValue": 40,
+      "candidateValue": 40,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "slow_percent_points",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 45,
+      "scale": 1,
+      "expectedValue": 45,
+      "candidateValue": 45,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_e",
+      "parameterKey": "slow_percent_points",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 50,
+      "scale": 1,
+      "expectedValue": 50,
+      "candidateValue": 50,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "hero_base_damage",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 300,
+      "scale": 1,
+      "expectedValue": 300,
+      "candidateValue": 300,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "hero_base_damage",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 475,
+      "scale": 1,
+      "expectedValue": 475,
+      "candidateValue": 475,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "hero_base_damage",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 650,
+      "scale": 1,
+      "expectedValue": 650,
+      "candidateValue": 650,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "health_per_stack",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 80,
+      "scale": 1,
+      "expectedValue": 80,
+      "candidateValue": 80,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "health_per_stack",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 120,
+      "scale": 1,
+      "expectedValue": 120,
+      "candidateValue": 120,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "health_per_stack",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 160,
+      "scale": 1,
+      "expectedValue": 160,
+      "candidateValue": 160,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "attack_range_per_stack",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 4.699999809265137,
+      "scale": 1,
+      "expectedValue": 4.699999809265137,
+      "candidateValue": 4.7,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "attack_range_per_stack",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 6.199999809265137,
+      "scale": 1,
+      "expectedValue": 6.199999809265137,
+      "candidateValue": 6.2,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "chogath_r",
+      "parameterKey": "attack_range_per_stack",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 7.699999809265137,
+      "scale": 1,
+      "expectedValue": 7.699999809265137,
+      "candidateValue": 7.7,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_q",
+      "parameterKey": "base_damage",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 70,
+      "scale": 1,
+      "expectedValue": 70,
+      "candidateValue": 70,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_q",
+      "parameterKey": "base_damage",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 105,
+      "scale": 1,
+      "expectedValue": 105,
+      "candidateValue": 105,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_q",
+      "parameterKey": "base_damage",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 140,
+      "scale": 1,
+      "expectedValue": 140,
+      "candidateValue": 140,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_q",
+      "parameterKey": "base_damage",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 175,
+      "scale": 1,
+      "expectedValue": 175,
+      "candidateValue": 175,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_q",
+      "parameterKey": "base_damage",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 210,
+      "scale": 1,
+      "expectedValue": 210,
+      "candidateValue": 210,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "minimum_base_damage",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 20,
+      "scale": 1,
+      "expectedValue": 20,
+      "candidateValue": 20,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "minimum_base_damage",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 30,
+      "scale": 1,
+      "expectedValue": 30,
+      "candidateValue": 30,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "minimum_base_damage",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 40,
+      "scale": 1,
+      "expectedValue": 40,
+      "candidateValue": 40,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "minimum_base_damage",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 50,
+      "scale": 1,
+      "expectedValue": 50,
+      "candidateValue": 50,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "minimum_base_damage",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 60,
+      "scale": 1,
+      "expectedValue": 60,
+      "candidateValue": 60,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "maximum_base_damage",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 60,
+      "scale": 1,
+      "expectedValue": 60,
+      "candidateValue": 60,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "maximum_base_damage",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 90,
+      "scale": 1,
+      "expectedValue": 90,
+      "candidateValue": 90,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "maximum_base_damage",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 120,
+      "scale": 1,
+      "expectedValue": 120,
+      "candidateValue": 120,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "maximum_base_damage",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 150,
+      "scale": 1,
+      "expectedValue": 150,
+      "candidateValue": 150,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "maximum_base_damage",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 180,
+      "scale": 1,
+      "expectedValue": 180,
+      "candidateValue": 180,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "damage_reduction_base",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 0.25,
+      "scale": 1,
+      "expectedValue": 0.25,
+      "candidateValue": 0.25,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "damage_reduction_base",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 0.30000001192092896,
+      "scale": 1,
+      "expectedValue": 0.30000001192092896,
+      "candidateValue": 0.3,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "damage_reduction_base",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 0.3499999940395355,
+      "scale": 1,
+      "expectedValue": 0.3499999940395355,
+      "candidateValue": 0.35,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "damage_reduction_base",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 0.4000000059604645,
+      "scale": 1,
+      "expectedValue": 0.4000000059604645,
+      "candidateValue": 0.4,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "damage_reduction_base",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 0.44999998807907104,
+      "scale": 1,
+      "expectedValue": 0.44999998807907104,
+      "candidateValue": 0.45,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "passive_shield_health_ratio_by_skill_level",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 0.07500000298023224,
+      "scale": 1,
+      "expectedValue": 0.07500000298023224,
+      "candidateValue": 0.075,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "passive_shield_health_ratio_by_skill_level",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 0.09000000357627869,
+      "scale": 1,
+      "expectedValue": 0.09000000357627869,
+      "candidateValue": 0.09,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "passive_shield_health_ratio_by_skill_level",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 0.10499999672174454,
+      "scale": 1,
+      "expectedValue": 0.10499999672174454,
+      "candidateValue": 0.105,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "passive_shield_health_ratio_by_skill_level",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 0.11999999731779099,
+      "scale": 1,
+      "expectedValue": 0.11999999731779099,
+      "candidateValue": 0.12,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_w",
+      "parameterKey": "passive_shield_health_ratio_by_skill_level",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 0.13500000536441803,
+      "scale": 1,
+      "expectedValue": 0.13500000536441803,
+      "candidateValue": 0.135,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_e",
+      "parameterKey": "base_damage",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 100,
+      "scale": 1,
+      "expectedValue": 100,
+      "candidateValue": 100,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_e",
+      "parameterKey": "base_damage",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 135,
+      "scale": 1,
+      "expectedValue": 135,
+      "candidateValue": 135,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_e",
+      "parameterKey": "base_damage",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 170,
+      "scale": 1,
+      "expectedValue": 170,
+      "candidateValue": 170,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_e",
+      "parameterKey": "base_damage",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 205,
+      "scale": 1,
+      "expectedValue": 205,
+      "candidateValue": 205,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_e",
+      "parameterKey": "base_damage",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 240,
+      "scale": 1,
+      "expectedValue": 240,
+      "candidateValue": 240,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_r",
+      "parameterKey": "cooldown_ms",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 180,
+      "scale": 1000,
+      "expectedValue": 180000,
+      "candidateValue": 180000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_r",
+      "parameterKey": "cooldown_ms",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 160,
+      "scale": 1000,
+      "expectedValue": 160000,
+      "candidateValue": 160000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_r",
+      "parameterKey": "cooldown_ms",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 140,
+      "scale": 1000,
+      "expectedValue": 140000,
+      "candidateValue": 140000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_r",
+      "parameterKey": "base_damage",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 150,
+      "scale": 1,
+      "expectedValue": 150,
+      "candidateValue": 150,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_r",
+      "parameterKey": "base_damage",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 250,
+      "scale": 1,
+      "expectedValue": 250,
+      "candidateValue": 250,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "galio_r",
+      "parameterKey": "base_damage",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 350,
+      "scale": 1,
+      "expectedValue": 350,
+      "candidateValue": 350,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "cooldown_ms",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 12,
+      "scale": 1000,
+      "expectedValue": 12000,
+      "candidateValue": 12000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "cooldown_ms",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 10.5,
+      "scale": 1000,
+      "expectedValue": 10500,
+      "candidateValue": 10500,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "cooldown_ms",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 9,
+      "scale": 1000,
+      "expectedValue": 9000,
+      "candidateValue": 9000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "cooldown_ms",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 7.5,
+      "scale": 1000,
+      "expectedValue": 7500,
+      "candidateValue": 7500,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "cooldown_ms",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 6,
+      "scale": 1000,
+      "expectedValue": 6000,
+      "candidateValue": 6000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "base_damage",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 80,
+      "scale": 1,
+      "expectedValue": 80,
+      "candidateValue": 80,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "base_damage",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 120,
+      "scale": 1,
+      "expectedValue": 120,
+      "candidateValue": 120,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "base_damage",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 160,
+      "scale": 1,
+      "expectedValue": 160,
+      "candidateValue": 160,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "base_damage",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 200,
+      "scale": 1,
+      "expectedValue": 200,
+      "candidateValue": 200,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "base_damage",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 240,
+      "scale": 1,
+      "expectedValue": 240,
+      "candidateValue": 240,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "ap_ratio",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 1,
+      "scale": 1,
+      "expectedValue": 1,
+      "candidateValue": 1,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "ap_ratio",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 1,
+      "scale": 1,
+      "expectedValue": 1,
+      "candidateValue": 1,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "ap_ratio",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 1,
+      "scale": 1,
+      "expectedValue": 1,
+      "candidateValue": 1,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "ap_ratio",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 1,
+      "scale": 1,
+      "expectedValue": 1,
+      "candidateValue": 1,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "ap_ratio",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 1,
+      "scale": 1,
+      "expectedValue": 1,
+      "candidateValue": 1,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "slow_percent_points",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 40,
+      "scale": 1,
+      "expectedValue": 40,
+      "candidateValue": 40,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "slow_percent_points",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 50,
+      "scale": 1,
+      "expectedValue": 50,
+      "candidateValue": 50,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "slow_percent_points",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 60,
+      "scale": 1,
+      "expectedValue": 60,
+      "candidateValue": 60,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "slow_percent_points",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 70,
+      "scale": 1,
+      "expectedValue": 70,
+      "candidateValue": 70,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_q",
+      "parameterKey": "slow_percent_points",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 80,
+      "scale": 1,
+      "expectedValue": 80,
+      "candidateValue": 80,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "cooldown_ms",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 7,
+      "scale": 1000,
+      "expectedValue": 7000,
+      "candidateValue": 7000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "cooldown_ms",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 7,
+      "scale": 1000,
+      "expectedValue": 7000,
+      "candidateValue": 7000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "cooldown_ms",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 7,
+      "scale": 1000,
+      "expectedValue": 7000,
+      "candidateValue": 7000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "cooldown_ms",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 7,
+      "scale": 1000,
+      "expectedValue": 7000,
+      "candidateValue": 7000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "cooldown_ms",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 7,
+      "scale": 1000,
+      "expectedValue": 7000,
+      "candidateValue": 7000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "bonus_armor_ratio",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 0.30000001192092896,
+      "scale": 1,
+      "expectedValue": 0.30000001192092896,
+      "candidateValue": 0.3,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "bonus_armor_ratio",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 0.375,
+      "scale": 1,
+      "expectedValue": 0.375,
+      "candidateValue": 0.375,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "bonus_armor_ratio",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 0.44999998807907104,
+      "scale": 1,
+      "expectedValue": 0.44999998807907104,
+      "candidateValue": 0.45,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "bonus_armor_ratio",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 0.5249999761581421,
+      "scale": 1,
+      "expectedValue": 0.5249999761581421,
+      "candidateValue": 0.525,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "bonus_armor_ratio",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 0.6000000238418579,
+      "scale": 1,
+      "expectedValue": 0.6000000238418579,
+      "candidateValue": 0.6,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "bonus_magic_resistance_ratio",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 0.30000001192092896,
+      "scale": 1,
+      "expectedValue": 0.30000001192092896,
+      "candidateValue": 0.3,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "bonus_magic_resistance_ratio",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 0.375,
+      "scale": 1,
+      "expectedValue": 0.375,
+      "candidateValue": 0.375,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "bonus_magic_resistance_ratio",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 0.44999998807907104,
+      "scale": 1,
+      "expectedValue": 0.44999998807907104,
+      "candidateValue": 0.45,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "bonus_magic_resistance_ratio",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 0.5249999761581421,
+      "scale": 1,
+      "expectedValue": 0.5249999761581421,
+      "candidateValue": 0.525,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "bonus_magic_resistance_ratio",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 0.6000000238418579,
+      "scale": 1,
+      "expectedValue": 0.6000000238418579,
+      "candidateValue": 0.6,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "flat_bonus_armor",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 27,
+      "scale": 1,
+      "expectedValue": 27,
+      "candidateValue": 27,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "flat_bonus_armor",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 32,
+      "scale": 1,
+      "expectedValue": 32,
+      "candidateValue": 32,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "flat_bonus_armor",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 37,
+      "scale": 1,
+      "expectedValue": 37,
+      "candidateValue": 37,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "flat_bonus_armor",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 42,
+      "scale": 1,
+      "expectedValue": 42,
+      "candidateValue": 42,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "flat_bonus_armor",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 47,
+      "scale": 1,
+      "expectedValue": 47,
+      "candidateValue": 47,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "flat_bonus_magic_resistance",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 20,
+      "scale": 1,
+      "expectedValue": 20,
+      "candidateValue": 20,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "flat_bonus_magic_resistance",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 25,
+      "scale": 1,
+      "expectedValue": 25,
+      "candidateValue": 25,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "flat_bonus_magic_resistance",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 30,
+      "scale": 1,
+      "expectedValue": 30,
+      "candidateValue": 30,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "flat_bonus_magic_resistance",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 35,
+      "scale": 1,
+      "expectedValue": 35,
+      "candidateValue": 35,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_w",
+      "parameterKey": "flat_bonus_magic_resistance",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 40,
+      "scale": 1,
+      "expectedValue": 40,
+      "candidateValue": 40,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_e",
+      "parameterKey": "taunt_duration_ms",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 1.2000000476837158,
+      "scale": 1000,
+      "expectedValue": 1200.0000476837158,
+      "candidateValue": 1200,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_e",
+      "parameterKey": "taunt_duration_ms",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 1.399999976158142,
+      "scale": 1000,
+      "expectedValue": 1399.999976158142,
+      "candidateValue": 1400,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_e",
+      "parameterKey": "taunt_duration_ms",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 1.600000023841858,
+      "scale": 1000,
+      "expectedValue": 1600.000023841858,
+      "candidateValue": 1600,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_e",
+      "parameterKey": "taunt_duration_ms",
+      "rank": 4,
+      "rawIndex": 4,
+      "rawValue": 1.7999999523162842,
+      "scale": 1000,
+      "expectedValue": 1799.9999523162842,
+      "candidateValue": 1800,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_e",
+      "parameterKey": "taunt_duration_ms",
+      "rank": 5,
+      "rawIndex": 5,
+      "rawValue": 2,
+      "scale": 1000,
+      "expectedValue": 2000,
+      "candidateValue": 2000,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_r",
+      "parameterKey": "initial_damage",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 150,
+      "scale": 1,
+      "expectedValue": 150,
+      "candidateValue": 150,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_r",
+      "parameterKey": "initial_damage",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 250,
+      "scale": 1,
+      "expectedValue": 250,
+      "candidateValue": 250,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_r",
+      "parameterKey": "initial_damage",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 350,
+      "scale": 1,
+      "expectedValue": 350,
+      "candidateValue": 350,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_r",
+      "parameterKey": "slow_ratio",
+      "rank": 1,
+      "rawIndex": 1,
+      "rawValue": 0.30000001192092896,
+      "scale": 1,
+      "expectedValue": 0.30000001192092896,
+      "candidateValue": 0.3,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_r",
+      "parameterKey": "slow_ratio",
+      "rank": 2,
+      "rawIndex": 2,
+      "rawValue": 0.4000000059604645,
+      "scale": 1,
+      "expectedValue": 0.4000000059604645,
+      "candidateValue": 0.4,
+      "tolerance": 0.000001,
+      "passed": true
+    },
+    {
+      "skillKey": "rammus_r",
+      "parameterKey": "slow_ratio",
+      "rank": 3,
+      "rawIndex": 3,
+      "rawValue": 0.5,
+      "scale": 1,
+      "expectedValue": 0.5,
+      "candidateValue": 0.5,
+      "tolerance": 0.000001,
+      "passed": true
+    }
+  ],
+  "rawIndexCheckCount": 141,
+  "sourceHashChecks": [
+    {
+      "relative": "参考资料/技能来源索引/技能来源索引.json",
+      "expected": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+      "actual": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/技能来源索引/公共参数候选.json",
+      "expected": "bf38e231584f7804007c520e1624966c7cc6bbedfa2c50d5c145754c8187c8eb",
+      "actual": "bf38e231584f7804007c520e1624966c7cc6bbedfa2c50d5c145754c8187c8eb",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/客户端原文/Nasus.json.gz",
+      "expected": "dad0b2fe3a52800faceaf75b9e70cced0ba8128acb3384712cea739ab4386051",
+      "actual": "dad0b2fe3a52800faceaf75b9e70cced0ba8128acb3384712cea739ab4386051",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/英雄原始资料/zh_CN/Nasus.json",
+      "expected": "81dfb23296dc46f729f9d6d43609c2a8580b7fa27146c41e65d148f4e1101e2d",
+      "actual": "81dfb23296dc46f729f9d6d43609c2a8580b7fa27146c41e65d148f4e1101e2d",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/英雄原始资料/en_US/Nasus.json",
+      "expected": "496b12f13b5f6837ea2c6a668289e27ecb2a7b7a1b64827751155b67922eca23",
+      "actual": "496b12f13b5f6837ea2c6a668289e27ecb2a7b7a1b64827751155b67922eca23",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/角色根记录/Nasus.json",
+      "expected": "e987ed5ef0df59a2563a5fbde79539d3fd966412e653bbed76ae6de81a44c5b5",
+      "actual": "e987ed5ef0df59a2563a5fbde79539d3fd966412e653bbed76ae6de81a44c5b5",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/等级属性候选/Nasus.json",
+      "expected": "e0c0d6455a58b340da8ba063c7afa6a0f18785fdaa385ef4567d523687522b98",
+      "actual": "e0c0d6455a58b340da8ba063c7afa6a0f18785fdaa385ef4567d523687522b98",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/nasus_p_P_Nasus_Passive.png",
+      "expected": "2ec73bcd02734d93924a360f0330c8a73bfd3b8e49897c7f68a4eb406f9ee9d0",
+      "actual": "2ec73bcd02734d93924a360f0330c8a73bfd3b8e49897c7f68a4eb406f9ee9d0",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/nasus_q_Q_NasusQ.png",
+      "expected": "89449d4078c6bdef6788e964fde9f867f9e0a94ea8dd41a7c52a9622c97ac900",
+      "actual": "89449d4078c6bdef6788e964fde9f867f9e0a94ea8dd41a7c52a9622c97ac900",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/nasus_w_W_NasusW.png",
+      "expected": "0dc2c3903c6960026449074c997cddd6f64ede2369b796aff0dd8c73384a0ca6",
+      "actual": "0dc2c3903c6960026449074c997cddd6f64ede2369b796aff0dd8c73384a0ca6",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/nasus_e_E_NasusE.png",
+      "expected": "af9960eb76511a7e6f19fdfba17b0d230fac62ce38914aee8e13276853d61837",
+      "actual": "af9960eb76511a7e6f19fdfba17b0d230fac62ce38914aee8e13276853d61837",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/nasus_r_R_NasusR.png",
+      "expected": "a1b689d08f57c7b24b02af2e665cbfc5d812f66a3513b0b32f2392cbf5b34cff",
+      "actual": "a1b689d08f57c7b24b02af2e665cbfc5d812f66a3513b0b32f2392cbf5b34cff",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/客户端原文/Chogath.json.gz",
+      "expected": "e098bd867debab64aa497e4ef7155677f7bdb6aeb881e41411b1515bd9736eac",
+      "actual": "e098bd867debab64aa497e4ef7155677f7bdb6aeb881e41411b1515bd9736eac",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/英雄原始资料/zh_CN/Chogath.json",
+      "expected": "f4413f86c1c4c7074b433c703cf4e0cbb6c10a41b419e64f528dc2becfe96ff3",
+      "actual": "f4413f86c1c4c7074b433c703cf4e0cbb6c10a41b419e64f528dc2becfe96ff3",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/英雄原始资料/en_US/Chogath.json",
+      "expected": "a132ad9f7eba390af39efe75a61d2bce5d76ae03e33e047552d9612b482c6843",
+      "actual": "a132ad9f7eba390af39efe75a61d2bce5d76ae03e33e047552d9612b482c6843",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/角色根记录/Chogath.json",
+      "expected": "bb0f30f8a0017af974e5b84a7da3a44835c035fe598820afbd60e2b726c1abb0",
+      "actual": "bb0f30f8a0017af974e5b84a7da3a44835c035fe598820afbd60e2b726c1abb0",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/等级属性候选/Chogath.json",
+      "expected": "6d509dbc87a4d57286744c3747e3503b74986a1c0efe4948e1a4b6d6898d8ed5",
+      "actual": "6d509dbc87a4d57286744c3747e3503b74986a1c0efe4948e1a4b6d6898d8ed5",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/chogath_p_P_GreenTerror_TailSpike.png",
+      "expected": "51bb31118cfe492b7f6bb4182767202219239a9c30549b87830cf4b66b1fdb3b",
+      "actual": "51bb31118cfe492b7f6bb4182767202219239a9c30549b87830cf4b66b1fdb3b",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/chogath_q_Q_Rupture.png",
+      "expected": "2a7c03435d2d7a7dd000f57137649b26219f6f9a5d2662a80091d048a66a9cc2",
+      "actual": "2a7c03435d2d7a7dd000f57137649b26219f6f9a5d2662a80091d048a66a9cc2",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/chogath_w_W_FeralScream.png",
+      "expected": "b1b99c07f57b91cedd4e8ad3cdb4c4f3909235e1102b5a00c993715bcdea27a6",
+      "actual": "b1b99c07f57b91cedd4e8ad3cdb4c4f3909235e1102b5a00c993715bcdea27a6",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/chogath_e_E_VorpalSpikes.png",
+      "expected": "af12f3b93a187999e39ad30b1a29c4158ac2e0ec00db36bb9c633e0118d0aed9",
+      "actual": "af12f3b93a187999e39ad30b1a29c4158ac2e0ec00db36bb9c633e0118d0aed9",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/chogath_r_R_Feast.png",
+      "expected": "5b1b242202c3e79f43cb95150c9c3ae2947b076f59e3e842226c480e92388d69",
+      "actual": "5b1b242202c3e79f43cb95150c9c3ae2947b076f59e3e842226c480e92388d69",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/客户端原文/Galio.json.gz",
+      "expected": "136567a942a41400396116a7102e8ab47823ca5e478b6309a554977591c06825",
+      "actual": "136567a942a41400396116a7102e8ab47823ca5e478b6309a554977591c06825",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/英雄原始资料/zh_CN/Galio.json",
+      "expected": "baa6f532dde92bf2ce46ce0e38bcf9f2f7a5995f3873a4beffef5d9f72991f48",
+      "actual": "baa6f532dde92bf2ce46ce0e38bcf9f2f7a5995f3873a4beffef5d9f72991f48",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/英雄原始资料/en_US/Galio.json",
+      "expected": "34be318e7fa1c69832db57be4b6e7c8a6dbf62769c01efa2e44b5940c52d36d6",
+      "actual": "34be318e7fa1c69832db57be4b6e7c8a6dbf62769c01efa2e44b5940c52d36d6",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/角色根记录/Galio.json",
+      "expected": "6f30bd0e1bbf99282895642a2c956b0b3e6340d210d498d7e5f7f82c32652be5",
+      "actual": "6f30bd0e1bbf99282895642a2c956b0b3e6340d210d498d7e5f7f82c32652be5",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/等级属性候选/Galio.json",
+      "expected": "ed09f32a6f21b8056dfbead49024d83f736fb11714c3e5a8f24ef597cd52a873",
+      "actual": "ed09f32a6f21b8056dfbead49024d83f736fb11714c3e5a8f24ef597cd52a873",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/galio_p_P_Galio_Passive.png",
+      "expected": "5a42c1fbc345e637d13f1d2f2c4dc92bf7e18e9c61b23ade10ec96006c25474d",
+      "actual": "5a42c1fbc345e637d13f1d2f2c4dc92bf7e18e9c61b23ade10ec96006c25474d",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/galio_q_Q_GalioQ.png",
+      "expected": "563eb98a89a7201e26e757c5cbd03ab167f8ef02e528b193e3ca5a5fa10f4c2c",
+      "actual": "563eb98a89a7201e26e757c5cbd03ab167f8ef02e528b193e3ca5a5fa10f4c2c",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/galio_w_W_GalioW.png",
+      "expected": "7f6c1b652859b7e93d16a2a7a4895d5d6ec3753e7dc03f55a6771e2af8186b26",
+      "actual": "7f6c1b652859b7e93d16a2a7a4895d5d6ec3753e7dc03f55a6771e2af8186b26",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/galio_e_E_GalioE.png",
+      "expected": "5756c2ecc581403cdbc86a32d89c415cfa185f0ff086d996d39a493f4187e8cd",
+      "actual": "5756c2ecc581403cdbc86a32d89c415cfa185f0ff086d996d39a493f4187e8cd",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/galio_r_R_GalioR.png",
+      "expected": "bf97d9824a5c15e88da0a4ae5457163e04bef5f16195577e3ff6103d7324c52f",
+      "actual": "bf97d9824a5c15e88da0a4ae5457163e04bef5f16195577e3ff6103d7324c52f",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/客户端原文/Rammus.json.gz",
+      "expected": "cc772bd84c517dfe0c38633b1f63a8700f89a6c478ee345058a27303906d5c51",
+      "actual": "cc772bd84c517dfe0c38633b1f63a8700f89a6c478ee345058a27303906d5c51",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/英雄原始资料/zh_CN/Rammus.json",
+      "expected": "72b475a22fe47f43283a8913f50db7beaa2b454db598dbffc26097735986c007",
+      "actual": "72b475a22fe47f43283a8913f50db7beaa2b454db598dbffc26097735986c007",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/英雄原始资料/en_US/Rammus.json",
+      "expected": "f8d6298851bdac182136e56538dd4c4d148b6f7eef4b56fb31c90114a2025adf",
+      "actual": "f8d6298851bdac182136e56538dd4c4d148b6f7eef4b56fb31c90114a2025adf",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/角色根记录/Rammus.json",
+      "expected": "d77674bcee3f8309a4a8be93f38d2f17753d327923454807e973b95451606d78",
+      "actual": "d77674bcee3f8309a4a8be93f38d2f17753d327923454807e973b95451606d78",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/等级属性候选/Rammus.json",
+      "expected": "f738f9a6930a4fd0468b48d8127bdbb8ddf0878be467ba2366a645c7a0b197c9",
+      "actual": "f738f9a6930a4fd0468b48d8127bdbb8ddf0878be467ba2366a645c7a0b197c9",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/rammus_p_P_Armordillo_ScavengeArmor.png",
+      "expected": "ec062f37f18b4897e1668e278d614d406adb9c5a659559c337d6bc6378ddae43",
+      "actual": "ec062f37f18b4897e1668e278d614d406adb9c5a659559c337d6bc6378ddae43",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/rammus_q_Q_PowerBall.png",
+      "expected": "cb98e0d963ebe491e725544bbdf6285765ffaa7c84917350cda11831f4bb8398",
+      "actual": "cb98e0d963ebe491e725544bbdf6285765ffaa7c84917350cda11831f4bb8398",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/rammus_w_W_DefensiveBallCurl.png",
+      "expected": "6b41c27cd30b236169f52d23440b0b04e0845dc37a3a4df8c36a604e62f3edb4",
+      "actual": "6b41c27cd30b236169f52d23440b0b04e0845dc37a3a4df8c36a604e62f3edb4",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/rammus_e_E_PuncturingTaunt.png",
+      "expected": "2c9e8dd393c7830e9d2c9730169e3b6c26fff37bb596c57702fef6f1a7406bc9",
+      "actual": "2c9e8dd393c7830e9d2c9730169e3b6c26fff37bb596c57702fef6f1a7406bc9",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/图片/rammus_r_R_Tremors2.png",
+      "expected": "768e232e86abee63d885cd74dd9d0e94f83435aae1d7a8c7a65d0910552c609e",
+      "actual": "768e232e86abee63d885cd74dd9d0e94f83435aae1d7a8c7a65d0910552c609e",
+      "passed": true
+    },
+    {
+      "relative": "参考资料/字符串表/lol-16.17-zh_CN.stringtable.json.gz",
+      "expected": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "actual": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "passed": true
+    }
+  ],
+  "sourceHashCheckCount": 43,
+  "failures": [],
+  "policy": {
+    "expressionParser": "递归解析PARAMETER、ATTRIBUTE、OPERATION；每个修订公式都执行实际求值，不以候选散列代替。",
+    "rawIndexRule": "每个SKILL_LEVEL候选值独立读取冻结客户端原文索引1至N；秒和毫秒只按显式scale换算，不使用数组索引作为舍入参数。",
+    "integerRule": "INTEGER运行时输入拒绝0.5等非整数；actual_feast_stacks作为历史前置输入，不强迫RMinionMaxStacks=6上限。",
+    "scope": "仅候选静态数学和冻结来源完整性；不代表业务GET、数据库、运行时或浏览器证据。"
+  },
+  "mathScriptSha256": "c13b77acdc20d7ac83ecca634ba26ff8520141c7e5ed352306a36f5698b9b37b"
+}
