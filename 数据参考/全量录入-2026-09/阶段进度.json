@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T04:56:12.452Z",
+  "generatedAt": "2026-09-09T05:28:14.669Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -1466,6 +1466,72 @@
         "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十二批/README.md",
         "commit": "e2aa70ca"
       }
+    },
+    "heroEleventhBatch": {
+      "heroes": [
+        "Irelia",
+        "Fiora",
+        "Camille",
+        "Gwen"
+      ],
+      "skills": [
+        "irelia_p",
+        "irelia_q",
+        "irelia_w",
+        "irelia_e",
+        "irelia_r",
+        "fiora_p",
+        "fiora_q",
+        "fiora_w",
+        "fiora_e",
+        "fiora_r",
+        "camille_p",
+        "camille_q",
+        "camille_w",
+        "camille_e",
+        "camille_r",
+        "gwen_p",
+        "gwen_q",
+        "gwen_w",
+        "gwen_e",
+        "gwen_r"
+      ],
+      "parameters": 175,
+      "formulas": 44,
+      "effects": 16,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "created": 206,
+      "createdByKind": {
+        "parameters": 146,
+        "formulas": 44,
+        "effects": 16
+      },
+      "reusedPublicParameters": 29,
+      "initialPost201": 206,
+      "correctivePuts": 7,
+      "correctionParametersToRuntime": 6,
+      "correctionFormulas": 1,
+      "correctionFullProtectionGets": 403,
+      "correctionTotalGets": 424,
+      "independentCorrectionLiveGets": 7,
+      "independentCorrectionChecks": 28,
+      "rootRepresentativePages": 2,
+      "currentStatus": "已保存235组成，页面发现六张未证等级表及格温治疗缺上限后已纠正；独立实时7GET通过，未知等级和事件资格继续补，不计完整战斗机制。",
+      "initialCandidateSha256": "98eb0627937a403ddcecd5b597469271ef5b9e074113083bac38d3572e1f2a83",
+      "correctionRequestSha256": "922f213e781fea8ab8cec893f8cec096382cfaca2cd2e7518958a8e7df636599",
+      "evidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十一批/当前实录状态.json",
+        "commit": "53294e70"
+      },
+      "browserEvidence": {
+        "worktree": "C:/project/damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第十一批/页面验收.json",
+        "commit": "53294e70"
+      },
+      "runtimeValidation": "未执行"
     }
   },
   "runtimeValidation": "未执行"
