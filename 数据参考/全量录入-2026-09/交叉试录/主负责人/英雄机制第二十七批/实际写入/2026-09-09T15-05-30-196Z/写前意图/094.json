@@ -1,0 +1,20 @@
+{
+  "i": 93,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_r/parameters",
+    "skillKey": "hecarim_r",
+    "kind": "parameters",
+    "stableKey": "minimum_fear_duration_ms",
+    "body": {
+      "parameterKey": "minimum_fear_duration_ms",
+      "name": "最短恐惧（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 750,
+      "levelValues": null,
+      "description": "当前根DataValues.FearDurationMin取索引1至3，秒转为整数毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

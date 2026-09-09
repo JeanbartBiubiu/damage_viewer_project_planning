@@ -1,0 +1,68 @@
+{
+  "i": 73,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_w/effects",
+    "skillKey": "hecarim_w",
+    "kind": "effects",
+    "stableKey": "armor_gain",
+    "body": {
+      "effectKey": "armor_gain",
+      "name": "恐惧之灵自身护甲",
+      "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+      "sortOrder": 10,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "armor_gain",
+          "name": "恐惧之灵自身护甲",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "sortOrder": 10,
+          "description": null,
+          "spellShieldBlockScope": null,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "resistance_gain"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "armor",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

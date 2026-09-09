@@ -1,0 +1,20 @@
+{
+  "i": 80,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_e/parameters",
+    "skillKey": "hecarim_e",
+    "kind": "parameters",
+    "stableKey": "minimum_move_speed_ratio",
+    "body": {
+      "parameterKey": "minimum_move_speed_ratio",
+      "name": "起始移速加成",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "当前根DataValues.MinMoveSpeed取索引1至5。",
+      "sortOrder": 50
+    }
+  }
+}

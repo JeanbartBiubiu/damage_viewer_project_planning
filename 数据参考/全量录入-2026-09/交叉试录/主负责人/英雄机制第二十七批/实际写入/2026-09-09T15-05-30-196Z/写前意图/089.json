@@ -1,0 +1,52 @@
+{
+  "i": 88,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_e/formulas",
+    "skillKey": "hecarim_e",
+    "kind": "formulas",
+    "stableKey": "maximum_damage",
+    "body": {
+      "formulaKey": "maximum_damage",
+      "name": "毁灭冲锋最大额外物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "maximum_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "minimum_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "最高伤害为完整最低值×2，未知中间位移关系不猜。",
+      "sortOrder": 20
+    }
+  }
+}

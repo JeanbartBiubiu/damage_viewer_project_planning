@@ -1,0 +1,20 @@
+{
+  "i": 33,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_e/parameters",
+    "skillKey": "gragas_e",
+    "kind": "parameters",
+    "stableKey": "control_duration_ms",
+    "body": {
+      "parameterKey": "control_duration_ms",
+      "name": "控制持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前根DataValues.StunDuration取索引1至5，秒转为整数毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

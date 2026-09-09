@@ -1,0 +1,42 @@
+{
+  "i": 71,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_w/formulas",
+    "skillKey": "hecarim_w",
+    "kind": "formulas",
+    "stableKey": "magic_damage_total",
+    "body": {
+      "formulaKey": "magic_damage_total",
+      "name": "恐惧之灵四秒总魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage_total"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage为4秒总量，不当每次伤害。",
+      "sortOrder": 10
+    }
+  }
+}

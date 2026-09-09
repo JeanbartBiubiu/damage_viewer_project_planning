@@ -1,0 +1,20 @@
+{
+  "i": 94,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_r/parameters",
+    "skillKey": "hecarim_r",
+    "kind": "parameters",
+    "stableKey": "maximum_fear_duration_ms",
+    "body": {
+      "parameterKey": "maximum_fear_duration_ms",
+      "name": "最大恐惧（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "当前根DataValues.FearDurationMax取索引1至3，秒转为整数毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "i": 34,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_e/parameters",
+    "skillKey": "gragas_e",
+    "kind": "parameters",
+    "stableKey": "cooldown_refund_ratio",
+    "body": {
+      "parameterKey": "cooldown_refund_ratio",
+      "name": "命中后冷却缩短比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.4,
+      "levelValues": null,
+      "description": "当前根DataValues.CooldownRefund取索引1至5。",
+      "sortOrder": 50
+    }
+  }
+}

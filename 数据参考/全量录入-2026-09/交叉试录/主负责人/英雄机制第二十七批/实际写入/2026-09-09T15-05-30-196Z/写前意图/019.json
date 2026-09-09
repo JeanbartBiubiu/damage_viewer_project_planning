@@ -1,0 +1,26 @@
+{
+  "i": 18,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_w/parameters",
+    "skillKey": "gragas_w",
+    "kind": "parameters",
+    "stableKey": "reduction_base_percent_points",
+    "body": {
+      "parameterKey": "reduction_base_percent_points",
+      "name": "基础减伤百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 10,
+        "2": 14,
+        "3": 18,
+        "4": 22,
+        "5": 26
+      },
+      "description": "当前根DataValues.BaseDamageReduction取索引1至5。",
+      "sortOrder": 30
+    }
+  }
+}

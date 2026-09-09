@@ -1,0 +1,42 @@
+{
+  "i": 12,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_q/formulas",
+    "skillKey": "gragas_q",
+    "kind": "formulas",
+    "stableKey": "minimum_damage",
+    "body": {
+      "formulaKey": "minimum_damage",
+      "name": "滚动酒桶最低魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前MinDamage=基础+0.8AP。",
+      "sortOrder": 10
+    }
+  }
+}

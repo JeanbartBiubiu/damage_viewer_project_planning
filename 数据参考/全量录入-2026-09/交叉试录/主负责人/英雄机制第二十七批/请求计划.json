@@ -1,0 +1,2525 @@
+{
+  "generatedAt": "2026-09-09T14:24:19.345Z",
+  "apiWrites": 0,
+  "count": 98,
+  "intents": [
+    {
+      "method": "POST",
+      "route": "/skills/gragas_p/parameters",
+      "skillKey": "gragas_p",
+      "kind": "parameters",
+      "stableKey": "heal_ratio",
+      "body": {
+        "parameterKey": "heal_ratio",
+        "name": "自身最大生命回复比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.055,
+        "levelValues": null,
+        "description": "当前根DataValues.HealRatio取索引1至1。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_p/parameters",
+      "skillKey": "gragas_p",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "被动冷却（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "HealCooldown为匿名等级求值类，12秒及6/11/16级各-2断点保留来源，未猜完整求值。实际输入无默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_p/formulas",
+      "skillKey": "gragas_p",
+      "kind": "formulas",
+      "stableKey": "heal_amount",
+      "body": {
+        "formulaKey": "heal_amount",
+        "name": "欢乐时光回复量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "heal_ratio"
+            },
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "hp",
+              "attributeValueKind": "TOTAL"
+            }
+          ]
+        },
+        "description": "HealAmount=HealRatio×来源总生命值；只定义回复量。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/parameters",
+      "skillKey": "gragas_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/parameters",
+      "skillKey": "gragas_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "body": {
+        "parameterKey": "cooldown_ms",
+        "name": "基础冷却时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10000,
+          "2": 9000,
+          "3": 8000,
+          "4": 7000,
+          "5": 6000
+        },
+        "description": "官方16.17.1与当前根索引1至5逐级一致，补齐现有缺项。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/parameters",
+      "skillKey": "gragas_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "最低基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "description": "当前根DataValues.BaseDamage取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/parameters",
+      "skillKey": "gragas_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "当前MinDamage属性系数，按既证省略属性选择器窄口径。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/parameters",
+      "skillKey": "gragas_q",
+      "kind": "parameters",
+      "stableKey": "maximum_multiplier",
+      "body": {
+        "parameterKey": "maximum_multiplier",
+        "name": "最高强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 1.5,
+        "levelValues": null,
+        "description": "MaxDamage根乘数1.5，当前正文明确消费。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/parameters",
+      "skillKey": "gragas_q",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "body": {
+        "parameterKey": "slow_percent_points",
+        "name": "最低减速百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "description": "当前根DataValues.SlowPercent取索引1至5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/parameters",
+      "skillKey": "gragas_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "body": {
+        "parameterKey": "slow_duration_ms",
+        "name": "减速持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根DataValues.SlowDuration取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/parameters",
+      "skillKey": "gragas_q",
+      "kind": "parameters",
+      "stableKey": "barrel_max_duration_ms",
+      "body": {
+        "parameterKey": "barrel_max_duration_ms",
+        "name": "酒桶自动爆炸时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前根DataValues.BarrelMaxDuration取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/parameters",
+      "skillKey": "gragas_q",
+      "kind": "parameters",
+      "stableKey": "maximum_charge_time_ms",
+      "body": {
+        "parameterKey": "maximum_charge_time_ms",
+        "name": "达到最高强度时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2000,
+        "levelValues": null,
+        "description": "当前根DataValues.BarrelCookMaxTime取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/formulas",
+      "skillKey": "gragas_q",
+      "kind": "formulas",
+      "stableKey": "minimum_damage",
+      "body": {
+        "formulaKey": "minimum_damage",
+        "name": "滚动酒桶最低魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前MinDamage=基础+0.8AP。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/formulas",
+      "skillKey": "gragas_q",
+      "kind": "formulas",
+      "stableKey": "maximum_damage",
+      "body": {
+        "formulaKey": "maximum_damage",
+        "name": "滚动酒桶最大魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "maximum_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "当前MaxDamage=1.5×完整MinDamage；只表示最高端点。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/formulas",
+      "skillKey": "gragas_q",
+      "kind": "formulas",
+      "stableKey": "maximum_slow_percent_points",
+      "body": {
+        "formulaKey": "maximum_slow_percent_points",
+        "name": "最大减速百分数点",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "slow_percent_points"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "maximum_multiplier"
+            }
+          ]
+        },
+        "description": "当前正文减速最大为1.5×SlowPercent。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_q/effects",
+      "skillKey": "gragas_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/parameters",
+      "skillKey": "gragas_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "两个字段冲突：spellCastTime=0.4393500089645386秒，mCastTime=0.0010000000474974513秒；不任选。实际输入无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/parameters",
+      "skillKey": "gragas_w",
+      "kind": "parameters",
+      "stableKey": "percent_point_ratio",
+      "body": {
+        "parameterKey": "percent_point_ratio",
+        "name": "百分数点换算比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "DamageReduction根mMultiplier0.01，作用于整个和。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/parameters",
+      "skillKey": "gragas_w",
+      "kind": "parameters",
+      "stableKey": "reduction_base_percent_points",
+      "body": {
+        "parameterKey": "reduction_base_percent_points",
+        "name": "基础减伤百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 10,
+          "2": 14,
+          "3": 18,
+          "4": 22,
+          "5": 26
+        },
+        "description": "当前根DataValues.BaseDamageReduction取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/parameters",
+      "skillKey": "gragas_w",
+      "kind": "parameters",
+      "stableKey": "reduction_ap_percent_points",
+      "body": {
+        "parameterKey": "reduction_ap_percent_points",
+        "name": "每点法强的减伤百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.04,
+        "levelValues": null,
+        "description": "当前根DataValues.DamageReductionAP取索引1至5。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/parameters",
+      "skillKey": "gragas_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "强化攻击基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 20,
+          "2": 50,
+          "3": 80,
+          "4": 110,
+          "5": 140
+        },
+        "description": "当前根DataValues.BaseDamage取索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/parameters",
+      "skillKey": "gragas_w",
+      "kind": "parameters",
+      "stableKey": "damage_ap_ratio",
+      "body": {
+        "parameterKey": "damage_ap_ratio",
+        "name": "强化攻击法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.7,
+        "levelValues": null,
+        "description": "当前根DataValues.BaseDamageAP取索引1至5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/parameters",
+      "skillKey": "gragas_w",
+      "kind": "parameters",
+      "stableKey": "target_max_health_percent_points",
+      "body": {
+        "parameterKey": "target_max_health_percent_points",
+        "name": "目标最大生命伤害百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 7,
+        "levelValues": null,
+        "description": "当前根DataValues.MaxHPPercentDamage取索引1至5。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/parameters",
+      "skillKey": "gragas_w",
+      "kind": "parameters",
+      "stableKey": "defense_duration_ms",
+      "body": {
+        "parameterKey": "defense_duration_ms",
+        "name": "减伤持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "当前根DataValues.DefenseDuration取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/parameters",
+      "skillKey": "gragas_w",
+      "kind": "parameters",
+      "stableKey": "attack_window_ms",
+      "body": {
+        "parameterKey": "attack_window_ms",
+        "name": "强化攻击窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 5000,
+        "levelValues": null,
+        "description": "当前根DataValues.AttackDuration取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/parameters",
+      "skillKey": "gragas_w",
+      "kind": "parameters",
+      "stableKey": "bonus_attack_range",
+      "body": {
+        "parameterKey": "bonus_attack_range",
+        "name": "强化攻击额外距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 50,
+        "levelValues": null,
+        "description": "当前根DataValues.AttackRangeBuff取索引1至5。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/parameters",
+      "skillKey": "gragas_w",
+      "kind": "parameters",
+      "stableKey": "drink_time_ms",
+      "body": {
+        "parameterKey": "drink_time_ms",
+        "name": "喝酒时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前绑定总结明确品尝1秒，与冲突施法字段分开记录。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/formulas",
+      "skillKey": "gragas_w",
+      "kind": "formulas",
+      "stableKey": "damage_reduction_ratio",
+      "body": {
+        "formulaKey": "damage_reduction_ratio",
+        "name": "醉酒狂暴减伤比例",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_point_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "reduction_base_percent_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "reduction_ap_percent_points"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "DamageReduction=.01×(基础减伤百分数点+.04AP)，不按固定点数处理。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/formulas",
+      "skillKey": "gragas_w",
+      "kind": "formulas",
+      "stableKey": "empowered_bonus_damage",
+      "body": {
+        "formulaKey": "empowered_bonus_damage",
+        "name": "醉酒狂暴额外魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_ap_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "ability_power",
+                      "attributeValueKind": "TOTAL"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_point_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "target_max_health_percent_points"
+                    }
+                  ]
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "TARGET",
+                  "attributeKey": "hp",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "额外伤害=基础+.7AP+.07目标最大生命值，不包括普攻自身。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_w/effects",
+      "skillKey": "gragas_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_e/parameters",
+      "skillKey": "gragas_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_e/parameters",
+      "skillKey": "gragas_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 125,
+          "3": 170,
+          "4": 215,
+          "5": 260
+        },
+        "description": "当前根DataValues.BaseDamage取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_e/parameters",
+      "skillKey": "gragas_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.6,
+        "levelValues": null,
+        "description": "当前根DataValues.APRatio取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_e/parameters",
+      "skillKey": "gragas_e",
+      "kind": "parameters",
+      "stableKey": "control_duration_ms",
+      "body": {
+        "parameterKey": "control_duration_ms",
+        "name": "控制持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1000,
+        "levelValues": null,
+        "description": "当前根DataValues.StunDuration取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_e/parameters",
+      "skillKey": "gragas_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_refund_ratio",
+      "body": {
+        "parameterKey": "cooldown_refund_ratio",
+        "name": "命中后冷却缩短比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.4,
+        "levelValues": null,
+        "description": "当前根DataValues.CooldownRefund取索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_e/formulas",
+      "skillKey": "gragas_e",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "肉弹冲击魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage按当前树，唯一目标命中保留。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_e/effects",
+      "skillKey": "gragas_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_r/parameters",
+      "skillKey": "gragas_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_r/parameters",
+      "skillKey": "gragas_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 200,
+          "2": 300,
+          "3": 400
+        },
+        "description": "当前根DataValues.BaseDamage取索引1至3。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_r/parameters",
+      "skillKey": "gragas_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "当前根DataValues.APRatio取索引1至3。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_r/parameters",
+      "skillKey": "gragas_r",
+      "kind": "parameters",
+      "stableKey": "knockback_distance",
+      "body": {
+        "parameterKey": "knockback_distance",
+        "name": "击退距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 900,
+        "levelValues": null,
+        "description": "当前根DataValues.KnockbackDistance取索引1至3。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_r/formulas",
+      "skillKey": "gragas_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "爆破酒桶魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "DamageDone按当前根绑定。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/gragas_r/effects",
+      "skillKey": "gragas_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_p/parameters",
+      "skillKey": "hecarim_p",
+      "kind": "parameters",
+      "stableKey": "actual_bonus_move_speed",
+      "body": {
+        "parameterKey": "actual_bonus_move_speed",
+        "name": "实际额外移动速度",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "当前总结与扩展明确按额外移动速度增长，mStat7/formula2具体类仍待窄证。实际输入无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_p/parameters",
+      "skillKey": "hecarim_p",
+      "kind": "parameters",
+      "stableKey": "move_speed_to_ad_ratio",
+      "body": {
+        "parameterKey": "move_speed_to_ad_ratio",
+        "name": "当前等级移速转攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "来源0.12起点及3/6/9/12/15/18级各+.02断点，未推定等级求值。实际输入无默认。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_p/formulas",
+      "skillKey": "hecarim_p",
+      "kind": "formulas",
+      "stableKey": "bonus_attack_damage",
+      "body": {
+        "formulaKey": "bonus_attack_damage",
+        "name": "征战之路额外攻击力",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_bonus_move_speed"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "move_speed_to_ad_ratio"
+            }
+          ]
+        },
+        "description": "实际额外移动速度×实际等级倍率；两个输入无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/parameters",
+      "skillKey": "hecarim_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "无叠层基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 60,
+          "2": 90,
+          "3": 120,
+          "4": 150,
+          "5": 180
+        },
+        "description": "当前根DataValues.BaseDamage取索引1至5。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/parameters",
+      "skillKey": "hecarim_q",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.9,
+        "levelValues": null,
+        "description": "当前根DataValues.BaseDamageBonusAD取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/parameters",
+      "skillKey": "hecarim_q",
+      "kind": "parameters",
+      "stableKey": "boost_base_percent_points",
+      "body": {
+        "parameterKey": "boost_base_percent_points",
+        "name": "每层基础增幅百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前根DataValues.RampageBonusRatio取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/parameters",
+      "skillKey": "hecarim_q",
+      "kind": "parameters",
+      "stableKey": "boost_bonus_ad_percent_points",
+      "body": {
+        "parameterKey": "boost_bonus_ad_percent_points",
+        "name": "每点额外攻击力的增幅百分数点",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.03,
+        "levelValues": null,
+        "description": "RampageBonusDamagePerc第二项mStat2/formula2系数.03。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/parameters",
+      "skillKey": "hecarim_q",
+      "kind": "parameters",
+      "stableKey": "actual_stacks",
+      "body": {
+        "parameterKey": "actual_stacks",
+        "name": "本次计算已有暴走层数",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "实际已有层数与本次命中新层分开提供；非负整数。实际输入无默认。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/parameters",
+      "skillKey": "hecarim_q",
+      "kind": "parameters",
+      "stableKey": "max_stacks",
+      "body": {
+        "parameterKey": "max_stacks",
+        "name": "暴走最高层数",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 3,
+        "levelValues": null,
+        "description": "当前根DataValues.MaxStacks取索引1至5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/parameters",
+      "skillKey": "hecarim_q",
+      "kind": "parameters",
+      "stableKey": "one",
+      "body": {
+        "parameterKey": "one",
+        "name": "完整基础量倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "伤害增幅增加于完整原值。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/parameters",
+      "skillKey": "hecarim_q",
+      "kind": "parameters",
+      "stableKey": "percent_point_ratio",
+      "body": {
+        "parameterKey": "percent_point_ratio",
+        "name": "百分数点换算比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "百分数点换成比例。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/parameters",
+      "skillKey": "hecarim_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_reduction_per_stack_ms",
+      "body": {
+        "parameterKey": "cooldown_reduction_per_stack_ms",
+        "name": "每层冷却缩短（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "当前根DataValues.RampageCooldownReduction取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/parameters",
+      "skillKey": "hecarim_q",
+      "kind": "parameters",
+      "stableKey": "zero",
+      "body": {
+        "parameterKey": "zero",
+        "name": "冷却时间下界",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 0,
+        "levelValues": null,
+        "description": "冷却结果不能小于零。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/parameters",
+      "skillKey": "hecarim_q",
+      "kind": "parameters",
+      "stableKey": "buff_duration_ms",
+      "body": {
+        "parameterKey": "buff_duration_ms",
+        "name": "层数持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 8000,
+        "levelValues": null,
+        "description": "当前根DataValues.BuffDuration取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/formulas",
+      "skillKey": "hecarim_q",
+      "kind": "formulas",
+      "stableKey": "base_physical_damage",
+      "body": {
+        "formulaKey": "base_physical_damage",
+        "name": "暴走无叠层物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "Damage=基础+.9额外AD。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/formulas",
+      "skillKey": "hecarim_q",
+      "kind": "formulas",
+      "stableKey": "damage_boost_per_stack_percent_points",
+      "body": {
+        "formulaKey": "damage_boost_per_stack_percent_points",
+        "name": "每层伤害增幅百分数点",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "boost_base_percent_points"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "boost_bonus_ad_percent_points"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "每层增幅=3+.03额外AD百分数点。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/formulas",
+      "skillKey": "hecarim_q",
+      "kind": "formulas",
+      "stableKey": "physical_damage_at_stacks",
+      "body": {
+        "formulaKey": "physical_damage_at_stacks",
+        "name": "指定已有层数的暴走伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MULTIPLY",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "MIN",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "actual_stacks"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "max_stacks"
+                            }
+                          ]
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operation": "ADD",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "boost_base_percent_points"
+                            },
+                            {
+                              "nodeType": "OPERATION",
+                              "operation": "MULTIPLY",
+                              "operands": [
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "boost_bonus_ad_percent_points"
+                                },
+                                {
+                                  "nodeType": "ATTRIBUTE",
+                                  "attributeOwner": "SOURCE",
+                                  "attributeKey": "attack_damage",
+                                  "attributeValueKind": "BONUS"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_point_ratio"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "完整无叠层伤害×(1+MIN(实际已有层数,3)×每层增幅×.01)；层数取得时点待接。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/formulas",
+      "skillKey": "hecarim_q",
+      "kind": "formulas",
+      "stableKey": "cooldown_at_stacks_ms",
+      "body": {
+        "formulaKey": "cooldown_at_stacks_ms",
+        "name": "指定层数的基础冷却（毫秒）",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MAX",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "zero"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "SUBTRACT",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "cooldown_ms"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operation": "MIN",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_stacks"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "max_stacks"
+                        }
+                      ]
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "cooldown_reduction_per_stack_ms"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MAX(0,基础冷却-MIN(层数,3)×750ms)，不表示技能急速或冷却事件已接。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_q/effects",
+      "skillKey": "hecarim_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/parameters",
+      "skillKey": "hecarim_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 439,
+        "levelValues": null,
+        "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/parameters",
+      "skillKey": "hecarim_w",
+      "kind": "parameters",
+      "stableKey": "base_damage_total",
+      "body": {
+        "parameterKey": "base_damage_total",
+        "name": "四秒基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 80,
+          "2": 120,
+          "3": 160,
+          "4": 200,
+          "5": 240
+        },
+        "description": "当前根DataValues.Damage取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/parameters",
+      "skillKey": "hecarim_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "总伤害法强倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.8,
+        "levelValues": null,
+        "description": "当前根DataValues.APRatio取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/parameters",
+      "skillKey": "hecarim_w",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "恐惧之灵持续（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前根DataValues.BuffDuration取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/parameters",
+      "skillKey": "hecarim_w",
+      "kind": "parameters",
+      "stableKey": "tick_interval_ms",
+      "body": {
+        "parameterKey": "tick_interval_ms",
+        "name": "来源伤害间隔（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 500,
+        "levelValues": null,
+        "description": "当前根DataValues.TickTime取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/parameters",
+      "skillKey": "hecarim_w",
+      "kind": "parameters",
+      "stableKey": "resistance_gain",
+      "body": {
+        "parameterKey": "resistance_gain",
+        "name": "自身护甲和魔抗增加量",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 5,
+          "2": 10,
+          "3": 15,
+          "4": 20,
+          "5": 25
+        },
+        "description": "当前根DataValues.ResistAmount取索引1至5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/parameters",
+      "skillKey": "hecarim_w",
+      "kind": "parameters",
+      "stableKey": "self_damage_heal_percent_points",
+      "body": {
+        "parameterKey": "self_damage_heal_percent_points",
+        "name": "自身伤害回复百分数点",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 25,
+        "levelValues": null,
+        "description": "当前根DataValues.DamageLeechPerc取索引1至5。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/parameters",
+      "skillKey": "hecarim_w",
+      "kind": "parameters",
+      "stableKey": "percent_point_ratio",
+      "body": {
+        "parameterKey": "percent_point_ratio",
+        "name": "百分数点换算比例",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.01,
+        "levelValues": null,
+        "description": "当前正文LeechAmount显示百分数点。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/parameters",
+      "skillKey": "hecarim_w",
+      "kind": "parameters",
+      "stableKey": "actual_self_damage_dealt",
+      "body": {
+        "parameterKey": "actual_self_damage_dealt",
+        "name": "期间对唯一敌人实际造成伤害",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "须取实际造成的伤害，不能用抗性减免前数学量替代。实际输入无默认。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/formulas",
+      "skillKey": "hecarim_w",
+      "kind": "formulas",
+      "stableKey": "magic_damage_total",
+      "body": {
+        "formulaKey": "magic_damage_total",
+        "name": "恐惧之灵四秒总魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage_total"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "TotalDamage为4秒总量，不当每次伤害。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/formulas",
+      "skillKey": "hecarim_w",
+      "kind": "formulas",
+      "stableKey": "self_healing_from_damage",
+      "body": {
+        "formulaKey": "self_healing_from_damage",
+        "name": "自身实际伤害对应回复量",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_damage_heal_percent_points"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_point_ratio"
+                }
+              ]
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_self_damage_dealt"
+            }
+          ]
+        },
+        "description": "当前LeechAmount只取25；回复=.25×来自自身的实际伤害，不自动触发治疗。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/effects",
+      "skillKey": "hecarim_w",
+      "kind": "effects",
+      "stableKey": "armor_gain",
+      "body": {
+        "effectKey": "armor_gain",
+        "name": "恐惧之灵自身护甲",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "armor_gain",
+            "name": "恐惧之灵自身护甲",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "resistance_gain"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "armor",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/effects",
+      "skillKey": "hecarim_w",
+      "kind": "effects",
+      "stableKey": "magic_resistance_gain",
+      "body": {
+        "effectKey": "magic_resistance_gain",
+        "name": "恐惧之灵自身魔抗",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "sortOrder": 20,
+        "lifecycle": {
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "instanceScope": "SOURCE",
+          "reapplicationStackMode": "KEEP",
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "expiryMode": "ALL_AT_ONCE",
+          "periodicIntervalValue": null,
+          "firstPeriodicExecution": null
+        },
+        "results": [
+          {
+            "resultKey": "magic_resistance_gain",
+            "name": "恐惧之灵自身魔抗",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "valueReadMode": "APPLICATION_SNAPSHOT",
+              "stackValueMode": "SHARED",
+              "reapplicationValueMode": "REPLACE",
+              "periodicExecutionMode": null
+            },
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "resistance_gain"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "magic_resistance",
+              "operation": "INCREASE",
+              "modifierZoneKey": "attribute_flat_add"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_w/effects",
+      "skillKey": "hecarim_w",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "sortOrder": 30,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/parameters",
+      "skillKey": "hecarim_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 250,
+        "levelValues": null,
+        "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/parameters",
+      "skillKey": "hecarim_e",
+      "kind": "parameters",
+      "stableKey": "minimum_base_damage",
+      "body": {
+        "parameterKey": "minimum_base_damage",
+        "name": "最低基础物理伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 30,
+          "2": 45,
+          "3": 60,
+          "4": 75,
+          "5": 90
+        },
+        "description": "当前根DataValues.MinBaseDamage取索引1至5。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/parameters",
+      "skillKey": "hecarim_e",
+      "kind": "parameters",
+      "stableKey": "bonus_ad_ratio",
+      "body": {
+        "parameterKey": "bonus_ad_ratio",
+        "name": "最低额外攻击力倍率",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.5,
+        "levelValues": null,
+        "description": "当前根DataValues.BonusADRatio取索引1至5。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/parameters",
+      "skillKey": "hecarim_e",
+      "kind": "parameters",
+      "stableKey": "maximum_multiplier",
+      "body": {
+        "parameterKey": "maximum_multiplier",
+        "name": "最高伤害倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2,
+        "levelValues": null,
+        "description": "MaxDamage根乘数2，作用于完整MinDamage。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/parameters",
+      "skillKey": "hecarim_e",
+      "kind": "parameters",
+      "stableKey": "minimum_move_speed_ratio",
+      "body": {
+        "parameterKey": "minimum_move_speed_ratio",
+        "name": "起始移速加成",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.25,
+        "levelValues": null,
+        "description": "当前根DataValues.MinMoveSpeed取索引1至5。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/parameters",
+      "skillKey": "hecarim_e",
+      "kind": "parameters",
+      "stableKey": "maximum_move_speed_ratio",
+      "body": {
+        "parameterKey": "maximum_move_speed_ratio",
+        "name": "最高移速加成",
+        "valueType": "DECIMAL",
+        "valueMode": "FIXED",
+        "fixedValue": 0.65,
+        "levelValues": null,
+        "description": "当前根DataValues.MaxMoveSpeed取索引1至5。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/parameters",
+      "skillKey": "hecarim_e",
+      "kind": "parameters",
+      "stableKey": "duration_ms",
+      "body": {
+        "parameterKey": "duration_ms",
+        "name": "冲锋有效窗口（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 4000,
+        "levelValues": null,
+        "description": "当前根DataValues.Duration取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 70
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/parameters",
+      "skillKey": "hecarim_e",
+      "kind": "parameters",
+      "stableKey": "time_to_max_move_speed_ms",
+      "body": {
+        "parameterKey": "time_to_max_move_speed_ms",
+        "name": "来源达到最高移速时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 2500,
+        "levelValues": null,
+        "description": "当前根DataValues.TimeToMaxMoveSpeed取索引1至5，秒转为整数毫秒。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/parameters",
+      "skillKey": "hecarim_e",
+      "kind": "parameters",
+      "stableKey": "distance_to_max_damage",
+      "body": {
+        "parameterKey": "distance_to_max_damage",
+        "name": "达到最高伤害位移距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1200,
+        "levelValues": null,
+        "description": "当前根DataValues.DistanceToMaxDamage取索引1至5。",
+        "sortOrder": 90
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/parameters",
+      "skillKey": "hecarim_e",
+      "kind": "parameters",
+      "stableKey": "minimum_knockback",
+      "body": {
+        "parameterKey": "minimum_knockback",
+        "name": "最短击退距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 150,
+        "levelValues": null,
+        "description": "当前根DataValues.MinKnockback取索引1至5。",
+        "sortOrder": 100
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/parameters",
+      "skillKey": "hecarim_e",
+      "kind": "parameters",
+      "stableKey": "maximum_knockback",
+      "body": {
+        "parameterKey": "maximum_knockback",
+        "name": "最大击退距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 350,
+        "levelValues": null,
+        "description": "当前根DataValues.MaxKnockback取索引1至5。",
+        "sortOrder": 110
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/formulas",
+      "skillKey": "hecarim_e",
+      "kind": "formulas",
+      "stableKey": "minimum_damage",
+      "body": {
+        "formulaKey": "minimum_damage",
+        "name": "毁灭冲锋最低额外物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "minimum_base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bonus_ad_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "attack_damage",
+                  "attributeValueKind": "BONUS"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "MinDamage=基础+.5额外AD；只表示最低端点。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/formulas",
+      "skillKey": "hecarim_e",
+      "kind": "formulas",
+      "stableKey": "maximum_damage",
+      "body": {
+        "formulaKey": "maximum_damage",
+        "name": "毁灭冲锋最大额外物理伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "maximum_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "ADD",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "minimum_base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operation": "MULTIPLY",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "nodeType": "ATTRIBUTE",
+                      "attributeOwner": "SOURCE",
+                      "attributeKey": "attack_damage",
+                      "attributeValueKind": "BONUS"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "description": "最高伤害为完整最低值×2，未知中间位移关系不猜。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_e/effects",
+      "skillKey": "hecarim_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_r/parameters",
+      "skillKey": "hecarim_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "body": {
+        "parameterKey": "cast_time_ms",
+        "name": "施法时间（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "两个字段冲突：spellCastTime=0.75秒，mCastTime=0.009999999776482582秒；不任选。实际输入无默认。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_r/parameters",
+      "skillKey": "hecarim_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "body": {
+        "parameterKey": "base_damage",
+        "name": "基础魔法伤害",
+        "valueType": "INTEGER",
+        "valueMode": "SKILL_LEVEL",
+        "fixedValue": null,
+        "levelValues": {
+          "1": 150,
+          "2": 250,
+          "3": 350
+        },
+        "description": "当前根DataValues.BaseDamage取索引1至3。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_r/parameters",
+      "skillKey": "hecarim_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "body": {
+        "parameterKey": "ap_ratio",
+        "name": "法术强度倍率",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1,
+        "levelValues": null,
+        "description": "当前根DataValues.APRatio取索引1至3。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_r/parameters",
+      "skillKey": "hecarim_r",
+      "kind": "parameters",
+      "stableKey": "minimum_fear_duration_ms",
+      "body": {
+        "parameterKey": "minimum_fear_duration_ms",
+        "name": "最短恐惧（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 750,
+        "levelValues": null,
+        "description": "当前根DataValues.FearDurationMin取索引1至3，秒转为整数毫秒。",
+        "sortOrder": 40
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_r/parameters",
+      "skillKey": "hecarim_r",
+      "kind": "parameters",
+      "stableKey": "maximum_fear_duration_ms",
+      "body": {
+        "parameterKey": "maximum_fear_duration_ms",
+        "name": "最大恐惧（毫秒）",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 1500,
+        "levelValues": null,
+        "description": "当前根DataValues.FearDurationMax取索引1至3，秒转为整数毫秒。",
+        "sortOrder": 50
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_r/parameters",
+      "skillKey": "hecarim_r",
+      "kind": "parameters",
+      "stableKey": "range_for_max_fear",
+      "body": {
+        "parameterKey": "range_for_max_fear",
+        "name": "达到最高恐惧的冲锋距离",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 950,
+        "levelValues": null,
+        "description": "当前根DataValues.RangeForMaxFearDuration取索引1至3。",
+        "sortOrder": 60
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_r/formulas",
+      "skillKey": "hecarim_r",
+      "kind": "formulas",
+      "stableKey": "magic_damage",
+      "body": {
+        "formulaKey": "magic_damage",
+        "name": "暗影冲击魔法伤害",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operation": "ADD",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operation": "MULTIPLY",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "ap_ratio"
+                },
+                {
+                  "nodeType": "ATTRIBUTE",
+                  "attributeOwner": "SOURCE",
+                  "attributeKey": "ability_power",
+                  "attributeValueKind": "TOTAL"
+                }
+              ]
+            }
+          ]
+        },
+        "description": "DamageDone为主技能伤害，幽魂骑兵不是独立自主召唤物。",
+        "sortOrder": 10
+      }
+    },
+    {
+      "method": "POST",
+      "route": "/skills/hecarim_r/effects",
+      "skillKey": "hecarim_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "body": {
+        "effectKey": "mana_cost",
+        "name": "施放法力消耗",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "sortOrder": 10,
+        "lifecycle": null,
+        "results": [
+          {
+            "resultKey": "mana_cost",
+            "name": "施放法力消耗",
+            "resultType": "RESOURCE_CHANGE",
+            "target": "SOURCE",
+            "sortOrder": 10,
+            "description": null,
+            "spellShieldBlockScope": null,
+            "lifecycleBehavior": null,
+            "valueRule": {
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "mana_cost"
+              },
+              "fixedMultiplier": 1,
+              "fixedMinValue": 0,
+              "fixedMaxValue": null
+            },
+            "detail": {
+              "attributeKey": "mana",
+              "operation": "CONSUME"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

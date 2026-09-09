@@ -1,0 +1,1236 @@
+{
+  "at": "2026-09-09T15:15:03.653Z",
+  "url": "http://127.0.0.1:5173/#/skills",
+  "representativePages": 3,
+  "observations": [
+    {
+      "skillKey": "gragas_w",
+      "view": "参数与公式/damage_reduction_ratio",
+      "observed": "喝酒1000ms与冲突施法输入分开；减伤中文预览是.01乘基础百分数点加.04AP整体。"
+    },
+    {
+      "skillKey": "hecarim_q",
+      "view": "参数与公式/physical_damage_at_stacks、cooldown_at_stacks_ms",
+      "observed": "当前层数为实际输入，最多3层；伤害乘完整基础式，冷却每层750毫秒且有0下界；当前层数持续8000毫秒。"
+    },
+    {
+      "skillKey": "hecarim_w",
+      "view": "效果与结果/armor_gain",
+      "observed": "自身护甲、魔抗分别显示有生命周期；护甲详情作用对象为施法者，持续引用duration_ms，原值4000由以下GET确认。"
+    }
+  ],
+  "GETs": 15,
+  "mathCases": 10,
+  "cases": [
+    {
+      "sk": "gragas_w",
+      "key": "damage_reduction_ratio",
+      "l": 1,
+      "attrs": {
+        "ability_power": {
+          "TOTAL": 100
+        }
+      },
+      "rt": {},
+      "actual": 0.14,
+      "expected": 0.14,
+      "passed": true
+    },
+    {
+      "sk": "gragas_w",
+      "key": "damage_reduction_ratio",
+      "l": 5,
+      "attrs": {
+        "ability_power": {
+          "TOTAL": 250
+        }
+      },
+      "rt": {},
+      "actual": 0.36,
+      "expected": 0.36,
+      "passed": true
+    },
+    {
+      "sk": "hecarim_q",
+      "key": "physical_damage_at_stacks",
+      "l": 1,
+      "attrs": {
+        "attack_damage": {
+          "BONUS": 100
+        }
+      },
+      "rt": {
+        "actual_stacks": 0
+      },
+      "actual": 150,
+      "expected": 150,
+      "passed": true
+    },
+    {
+      "sk": "hecarim_q",
+      "key": "cooldown_at_stacks_ms",
+      "l": 1,
+      "attrs": {},
+      "rt": {
+        "actual_stacks": 0
+      },
+      "actual": 4000,
+      "expected": 4000,
+      "passed": true
+    },
+    {
+      "sk": "hecarim_q",
+      "key": "physical_damage_at_stacks",
+      "l": 1,
+      "attrs": {
+        "attack_damage": {
+          "BONUS": 100
+        }
+      },
+      "rt": {
+        "actual_stacks": 3
+      },
+      "actual": 177,
+      "expected": 177,
+      "passed": true
+    },
+    {
+      "sk": "hecarim_q",
+      "key": "cooldown_at_stacks_ms",
+      "l": 1,
+      "attrs": {},
+      "rt": {
+        "actual_stacks": 3
+      },
+      "actual": 1750,
+      "expected": 1750,
+      "passed": true
+    },
+    {
+      "sk": "hecarim_q",
+      "key": "physical_damage_at_stacks",
+      "l": 1,
+      "attrs": {
+        "attack_damage": {
+          "BONUS": 100
+        }
+      },
+      "rt": {
+        "actual_stacks": 7
+      },
+      "actual": 177,
+      "expected": 177,
+      "passed": true
+    },
+    {
+      "sk": "hecarim_q",
+      "key": "cooldown_at_stacks_ms",
+      "l": 1,
+      "attrs": {},
+      "rt": {
+        "actual_stacks": 7
+      },
+      "actual": 1750,
+      "expected": 1750,
+      "passed": true
+    },
+    {
+      "sk": "hecarim_w",
+      "key": "self_healing_from_damage",
+      "l": 1,
+      "attrs": {},
+      "rt": {
+        "actual_self_damage_dealt": 400
+      },
+      "actual": 100,
+      "expected": 100,
+      "passed": true
+    },
+    {
+      "sk": "hecarim_w",
+      "key": "self_healing_from_damage",
+      "l": 1,
+      "attrs": {},
+      "rt": {
+        "actual_self_damage_dealt": 1200
+      },
+      "actual": 300,
+      "expected": 300,
+      "passed": true
+    }
+  ],
+  "calls": [
+    {
+      "method": "GET",
+      "route": "/skills/gragas_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:26.617634Z",
+        "description": "古拉加斯品尝他的最新佳酿，持续1秒。在喝完之后，他会变得喧闹且好斗，下次普通攻击会对附近的所有目标造成更多伤害，并且自身所受的伤害会降低。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "古拉加斯·醉酒狂暴",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "gragas_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:26.617634Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/gragas_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_gragas_w",
+          "name": "gragas_w"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/gragas_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:05:59.229564Z",
+          "description": "两个字段冲突：spellCastTime=0.4393500089645386秒，mCastTime=0.0010000000474974513秒；不任选。实际输入无默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "gragas_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:05:59.229564Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:00.338463Z",
+          "description": "DamageReduction根mMultiplier0.01，作用于整个和。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "百分数点换算比例",
+          "parameterKey": "percent_point_ratio",
+          "skillKey": "gragas_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T15:06:00.338463Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:01.396492Z",
+          "description": "当前根DataValues.BaseDamageReduction取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10,
+            "2": 14,
+            "3": 18,
+            "4": 22,
+            "5": 26
+          },
+          "name": "基础减伤百分数点",
+          "parameterKey": "reduction_base_percent_points",
+          "skillKey": "gragas_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T15:06:01.396492Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:02.496294Z",
+          "description": "当前根DataValues.DamageReductionAP取索引1至5。",
+          "fixedValue": 0.04,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每点法强的减伤百分数点",
+          "parameterKey": "reduction_ap_percent_points",
+          "skillKey": "gragas_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T15:06:02.496294Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:03.582227Z",
+          "description": "当前根DataValues.BaseDamage取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20,
+            "2": 50,
+            "3": 80,
+            "4": 110,
+            "5": 140
+          },
+          "name": "强化攻击基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "gragas_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T15:06:03.582227Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:04.621565Z",
+          "description": "当前根DataValues.BaseDamageAP取索引1至5。",
+          "fixedValue": 0.7,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化攻击法强倍率",
+          "parameterKey": "damage_ap_ratio",
+          "skillKey": "gragas_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T15:06:04.621565Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:05.724552Z",
+          "description": "当前根DataValues.MaxHPPercentDamage取索引1至5。",
+          "fixedValue": 7,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "目标最大生命伤害百分数点",
+          "parameterKey": "target_max_health_percent_points",
+          "skillKey": "gragas_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T15:06:05.724552Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:06.873308Z",
+          "description": "当前根DataValues.DefenseDuration取索引1至5，秒转为整数毫秒。",
+          "fixedValue": 2500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减伤持续（毫秒）",
+          "parameterKey": "defense_duration_ms",
+          "skillKey": "gragas_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T15:06:06.873308Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:07.923436Z",
+          "description": "当前根DataValues.AttackDuration取索引1至5，秒转为整数毫秒。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化攻击窗口（毫秒）",
+          "parameterKey": "attack_window_ms",
+          "skillKey": "gragas_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T15:06:07.923436Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:39.282964Z",
+          "description": "DDragon16.17.1 Gragas.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "gragas_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:39.282964Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:08.981076Z",
+          "description": "当前根DataValues.AttackRangeBuff取索引1至5。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "强化攻击额外距离",
+          "parameterKey": "bonus_attack_range",
+          "skillKey": "gragas_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T15:06:08.981076Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:10.093455Z",
+          "description": "当前绑定总结明确品尝1秒，与冲突施法字段分开记录。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "喝酒时间（毫秒）",
+          "parameterKey": "drink_time_ms",
+          "skillKey": "gragas_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T15:06:10.093455Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:39.705419Z",
+          "description": "DDragon16.17.1 Gragas.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "gragas_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:39.705419Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/hecarim_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:30.473405Z",
+        "description": "赫卡里姆猛劈周围的敌人，同时造成物理伤害。如果这个技能对至少一名敌人造成伤害，那么赫卡里姆会提升【暴走】的伤害并为随后施放的【暴走】缩短冷却时间。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "赫卡里姆·暴走",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "hecarim_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:30.473405Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/hecarim_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_hecarim_q",
+          "name": "hecarim_q"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/hecarim_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:06:31.990888Z",
+          "description": "当前根DataValues.BaseDamage取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 90,
+            "3": 120,
+            "4": 150,
+            "5": 180
+          },
+          "name": "无叠层基础物理伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "hecarim_q",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:06:31.990888Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:33.149239Z",
+          "description": "当前根DataValues.BaseDamageBonusAD取索引1至5。",
+          "fixedValue": 0.9,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "额外攻击力倍率",
+          "parameterKey": "bonus_ad_ratio",
+          "skillKey": "hecarim_q",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T15:06:33.149239Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:34.312837Z",
+          "description": "当前根DataValues.RampageBonusRatio取索引1至5。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层基础增幅百分数点",
+          "parameterKey": "boost_base_percent_points",
+          "skillKey": "hecarim_q",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T15:06:34.312837Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:35.47291Z",
+          "description": "RampageBonusDamagePerc第二项mStat2/formula2系数.03。",
+          "fixedValue": 0.03,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每点额外攻击力的增幅百分数点",
+          "parameterKey": "boost_bonus_ad_percent_points",
+          "skillKey": "hecarim_q",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T15:06:35.47291Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:36.496355Z",
+          "description": "实际已有层数与本次命中新层分开提供；非负整数。实际输入无默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "本次计算已有暴走层数",
+          "parameterKey": "actual_stacks",
+          "skillKey": "hecarim_q",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T15:06:36.496355Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:37.591236Z",
+          "description": "当前根DataValues.MaxStacks取索引1至5。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "暴走最高层数",
+          "parameterKey": "max_stacks",
+          "skillKey": "hecarim_q",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T15:06:37.591236Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:38.732535Z",
+          "description": "伤害增幅增加于完整原值。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "完整基础量倍率",
+          "parameterKey": "one",
+          "skillKey": "hecarim_q",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T15:06:38.732535Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:39.869341Z",
+          "description": "百分数点换成比例。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "百分数点换算比例",
+          "parameterKey": "percent_point_ratio",
+          "skillKey": "hecarim_q",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T15:06:39.869341Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:40.967299Z",
+          "description": "当前根DataValues.RampageCooldownReduction取索引1至5，秒转为整数毫秒。",
+          "fixedValue": 750,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "每层冷却缩短（毫秒）",
+          "parameterKey": "cooldown_reduction_per_stack_ms",
+          "skillKey": "hecarim_q",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T15:06:40.967299Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:43.403884Z",
+          "description": "冷却结果不能小于零。",
+          "fixedValue": 0,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "冷却时间下界",
+          "parameterKey": "zero",
+          "skillKey": "hecarim_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T15:06:43.403884Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:25.571983Z",
+          "description": "DDragon16.17.1 Hecarim.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "hecarim_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:25.571983Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:25.859846Z",
+          "description": "DDragon16.17.1 Hecarim.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 28,
+            "2": 26,
+            "3": 24,
+            "4": 22,
+            "5": 20
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "hecarim_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:25.859846Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:45.002006Z",
+          "description": "当前根DataValues.BuffDuration取索引1至5，秒转为整数毫秒。",
+          "fixedValue": 8000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "层数持续（毫秒）",
+          "parameterKey": "buff_duration_ms",
+          "skillKey": "hecarim_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T15:06:45.002006Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/hecarim_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:30.736475Z",
+        "description": "赫卡里姆获得护甲和魔抗。赫卡里姆对附近敌人造成魔法伤害，并基于敌人所受的伤害来恢复生命值。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "赫卡里姆·恐惧之灵",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "hecarim_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:30.736475Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/hecarim_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_hecarim_w",
+          "name": "hecarim_w"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/hecarim_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T15:06:52.106479Z",
+          "description": "当前根明确非负施法字段，秒转整数毫秒，不等于命中时点。",
+          "fixedValue": 439,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "hecarim_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T15:06:52.106479Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:53.315974Z",
+          "description": "当前根DataValues.Damage取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 80,
+            "2": 120,
+            "3": 160,
+            "4": 200,
+            "5": 240
+          },
+          "name": "四秒基础魔法伤害",
+          "parameterKey": "base_damage_total",
+          "skillKey": "hecarim_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T15:06:53.315974Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:54.427503Z",
+          "description": "当前根DataValues.APRatio取索引1至5。",
+          "fixedValue": 0.8,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "总伤害法强倍率",
+          "parameterKey": "ap_ratio",
+          "skillKey": "hecarim_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T15:06:54.427503Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:55.611867Z",
+          "description": "当前根DataValues.BuffDuration取索引1至5，秒转为整数毫秒。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "恐惧之灵持续（毫秒）",
+          "parameterKey": "duration_ms",
+          "skillKey": "hecarim_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T15:06:55.611867Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:56.765051Z",
+          "description": "当前根DataValues.TickTime取索引1至5，秒转为整数毫秒。",
+          "fixedValue": 500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "来源伤害间隔（毫秒）",
+          "parameterKey": "tick_interval_ms",
+          "skillKey": "hecarim_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T15:06:56.765051Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:57.918462Z",
+          "description": "当前根DataValues.ResistAmount取索引1至5。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 5,
+            "2": 10,
+            "3": 15,
+            "4": 20,
+            "5": 25
+          },
+          "name": "自身护甲和魔抗增加量",
+          "parameterKey": "resistance_gain",
+          "skillKey": "hecarim_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T15:06:57.918462Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:06:59.070449Z",
+          "description": "当前根DataValues.DamageLeechPerc取索引1至5。",
+          "fixedValue": 25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "自身伤害回复百分数点",
+          "parameterKey": "self_damage_heal_percent_points",
+          "skillKey": "hecarim_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T15:06:59.070449Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T15:07:00.217202Z",
+          "description": "当前正文LeechAmount显示百分数点。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "百分数点换算比例",
+          "parameterKey": "percent_point_ratio",
+          "skillKey": "hecarim_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T15:07:00.217202Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T15:07:01.431066Z",
+          "description": "须取实际造成的伤害，不能用抗性减免前数学量替代。实际输入无默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "期间对唯一敌人实际造成伤害",
+          "parameterKey": "actual_self_damage_dealt",
+          "skillKey": "hecarim_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T15:07:01.431066Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:26.151263Z",
+          "description": "DDragon16.17.1 Hecarim.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 14000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "hecarim_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:26.151263Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:26.411287Z",
+          "description": "DDragon16.17.1 Hecarim.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "hecarim_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:26.411287Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "route": "/skills/gragas_w/formulas/damage_reduction_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:06:11.153442Z",
+        "description": "DamageReduction=.01×(基础减伤百分数点+.04AP)，不按固定点数处理。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_point_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "reduction_base_percent_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "reduction_ap_percent_points"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "damage_reduction_ratio",
+        "gameId": "lol",
+        "name": "醉酒狂暴减伤比例",
+        "skillKey": "gragas_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:06:11.153442Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/hecarim_q/formulas/physical_damage_at_stacks",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:06:48.582907Z",
+        "description": "完整无叠层伤害×(1+MIN(实际已有层数,3)×每层增幅×.01)；层数取得时点待接。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bonus_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "actual_stacks"
+                            },
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "max_stacks"
+                            }
+                          ],
+                          "operation": "MIN"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "boost_base_percent_points"
+                            },
+                            {
+                              "nodeType": "OPERATION",
+                              "operands": [
+                                {
+                                  "nodeType": "PARAMETER",
+                                  "parameterKey": "boost_bonus_ad_percent_points"
+                                },
+                                {
+                                  "attributeKey": "attack_damage",
+                                  "attributeOwner": "SOURCE",
+                                  "attributeValueKind": "BONUS",
+                                  "nodeType": "ATTRIBUTE"
+                                }
+                              ],
+                              "operation": "MULTIPLY"
+                            }
+                          ],
+                          "operation": "ADD"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_point_ratio"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "physical_damage_at_stacks",
+        "gameId": "lol",
+        "name": "指定已有层数的暴走伤害",
+        "skillKey": "hecarim_q",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T15:06:48.582907Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/hecarim_q/formulas/cooldown_at_stacks_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:06:49.737279Z",
+        "description": "MAX(0,基础冷却-MIN(层数,3)×750ms)，不表示技能急速或冷却事件已接。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "zero"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "cooldown_ms"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_stacks"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "max_stacks"
+                        }
+                      ],
+                      "operation": "MIN"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "cooldown_reduction_per_stack_ms"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "SUBTRACT"
+            }
+          ],
+          "operation": "MAX"
+        },
+        "formulaKey": "cooldown_at_stacks_ms",
+        "gameId": "lol",
+        "name": "指定层数的基础冷却（毫秒）",
+        "skillKey": "hecarim_q",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T15:06:49.737279Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/hecarim_w/formulas/self_healing_from_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:07:03.849553Z",
+        "description": "当前LeechAmount只取25；回复=.25×来自自身的实际伤害，不自动触发治疗。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_damage_heal_percent_points"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "percent_point_ratio"
+                }
+              ],
+              "operation": "MULTIPLY"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_self_damage_dealt"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "self_healing_from_damage",
+        "gameId": "lol",
+        "name": "自身实际伤害对应回复量",
+        "skillKey": "hecarim_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:07:03.849553Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/hecarim_w/effects/armor_gain",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:07:05.041247Z",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "effectKey": "armor_gain",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "恐惧之灵自身护甲",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "armor",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "恐惧之灵自身护甲",
+            "resultKey": "armor_gain",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "resistance_gain"
+              }
+            }
+          }
+        ],
+        "skillKey": "hecarim_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T15:07:05.041247Z"
+      }
+    },
+    {
+      "method": "GET",
+      "route": "/skills/hecarim_w/effects/magic_resistance_gain",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T15:07:06.371584Z",
+        "description": "来源明确的自身组成；施放资格、应用和取消事件尚未接线。",
+        "effectKey": "magic_resistance_gain",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "恐惧之灵自身魔抗",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "magic_resistance",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "恐惧之灵自身魔抗",
+            "resultKey": "magic_resistance_gain",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "resistance_gain"
+              }
+            }
+          }
+        ],
+        "skillKey": "hecarim_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T15:07:06.371584Z"
+      }
+    }
+  ],
+  "passed": true,
+  "runtimeValidation": "未执行"
+}

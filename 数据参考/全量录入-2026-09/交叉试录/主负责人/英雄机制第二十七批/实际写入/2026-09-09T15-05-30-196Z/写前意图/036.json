@@ -1,0 +1,42 @@
+{
+  "i": 35,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_e/formulas",
+    "skillKey": "gragas_e",
+    "kind": "formulas",
+    "stableKey": "magic_damage",
+    "body": {
+      "formulaKey": "magic_damage",
+      "name": "肉弹冲击魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage按当前树，唯一目标命中保留。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "i": 58,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_q/formulas",
+    "skillKey": "hecarim_q",
+    "kind": "formulas",
+    "stableKey": "damage_boost_per_stack_percent_points",
+    "body": {
+      "formulaKey": "damage_boost_per_stack_percent_points",
+      "name": "每层伤害增幅百分数点",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "boost_base_percent_points"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "boost_bonus_ad_percent_points"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "每层增幅=3+.03额外AD百分数点。",
+      "sortOrder": 20
+    }
+  }
+}

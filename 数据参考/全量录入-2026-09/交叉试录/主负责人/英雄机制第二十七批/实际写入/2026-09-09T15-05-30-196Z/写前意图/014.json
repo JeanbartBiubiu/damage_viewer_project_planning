@@ -1,0 +1,52 @@
+{
+  "i": 13,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/gragas_q/formulas",
+    "skillKey": "gragas_q",
+    "kind": "formulas",
+    "stableKey": "maximum_damage",
+    "body": {
+      "formulaKey": "maximum_damage",
+      "name": "滚动酒桶最大魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "maximum_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前MaxDamage=1.5×完整MinDamage；只表示最高端点。",
+      "sortOrder": 20
+    }
+  }
+}

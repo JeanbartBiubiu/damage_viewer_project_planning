@@ -1,0 +1,42 @@
+{
+  "i": 57,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_q/formulas",
+    "skillKey": "hecarim_q",
+    "kind": "formulas",
+    "stableKey": "base_physical_damage",
+    "body": {
+      "formulaKey": "base_physical_damage",
+      "name": "暴走无叠层物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Damage=基础+.9额外AD。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "i": 77,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_e/parameters",
+    "skillKey": "hecarim_e",
+    "kind": "parameters",
+    "stableKey": "minimum_base_damage",
+    "body": {
+      "parameterKey": "minimum_base_damage",
+      "name": "最低基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 45,
+        "3": 60,
+        "4": 75,
+        "5": 90
+      },
+      "description": "当前根DataValues.MinBaseDamage取索引1至5。",
+      "sortOrder": 20
+    }
+  }
+}

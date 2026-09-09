@@ -1,0 +1,20 @@
+{
+  "i": 44,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/hecarim_p/parameters",
+    "skillKey": "hecarim_p",
+    "kind": "parameters",
+    "stableKey": "move_speed_to_ad_ratio",
+    "body": {
+      "parameterKey": "move_speed_to_ad_ratio",
+      "name": "当前等级移速转攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "来源0.12起点及3/6/9/12/15/18级各+.02断点，未推定等级求值。实际输入无默认。",
+      "sortOrder": 20
+    }
+  }
+}
