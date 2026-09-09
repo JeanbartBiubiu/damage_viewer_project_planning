@@ -1,0 +1,20 @@
+{
+  "i": 61,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_p/parameters",
+    "skillKey": "shen_p",
+    "kind": "parameters",
+    "stableKey": "conditional_shield_multiplier",
+    "body": {
+      "parameterKey": "conditional_shield_multiplier",
+      "name": "指定条件护盾倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.3,
+      "levelValues": null,
+      "description": "具名条件分支根树使用ShenZedQuestShieldMultiplier=1.3；不默认条件成立。",
+      "sortOrder": 80
+    }
+  }
+}

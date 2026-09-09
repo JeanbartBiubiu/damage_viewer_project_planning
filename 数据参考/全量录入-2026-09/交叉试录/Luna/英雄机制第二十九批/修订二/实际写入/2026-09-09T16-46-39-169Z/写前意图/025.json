@@ -1,0 +1,20 @@
+{
+  "i": 24,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_w/parameters",
+    "skillKey": "ornn_w",
+    "kind": "parameters",
+    "stableKey": "actual_brittle_extra_magic_ratio",
+    "body": {
+      "parameterKey": "actual_brittle_extra_magic_ratio",
+      "name": "实际等级易碎额外魔法伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "根BrittlePercentMaxHPCalc只有9%至17%角色等级端点，等级求值未证；实际比例无默认。",
+      "sortOrder": 70
+    }
+  }
+}

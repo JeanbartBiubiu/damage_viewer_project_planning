@@ -1,0 +1,213 @@
+{
+  "generatedAt": "2026-09-09T16:44:54.213Z",
+  "sourceVersions": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "frozenHashes": {
+    "inputVersion": "85459db3db119841a7950124c3661b7cc5625b7be3b2283fe5e31fc61d66349f",
+    "sourceBinding": "f09cf7a5e4f515d89860cf5f05cfd89eb3f2f42b7b19294c906740f6910f6341",
+    "sourceNote": "3839875a178be5932150348757b8cbe3e6d9187041e2c98384ab0cc7acee7bc2",
+    "protection": "e68afdd8f5b82dea441ac6fed6d2ecd912fc70d0a7b05812a22b695fffb73956",
+    "publicReuse": "ba209b9fedd67c4e00e8f95b6dcba477f1114a96df8755dffafd9f73a2a8d739"
+  },
+  "scope": "奥恩与慎各P/Q/W/E/R；慎R因纯友方目标跳过，其余按唯一敌方英雄1V1范围记录伤害载体、自身收益、控制和资源参数。",
+  "skillRanges": {
+    "ornn_p": {
+      "binding": "Characters/Ornn/Spells/OrnnPAbility/OrnnP",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtended"
+      ],
+      "pending": [
+        "自身生命、护甲和魔抗的应用前基准必须由实际输入提供，避免把已含被动增益的最终值再次放大。",
+        "杰作升级数量没有本轮可用的完整上限；仅要求非负整数，不把13级解锁或经济操作写成事件。",
+        "当前模式1的10%基础加成和每件杰作4%加成保留，升级后的装备属性接线另待处理。"
+      ],
+      "excluded": [
+        "商店、铸造经济、队友装备升级及匿名90到10等级曲线不录入。"
+      ],
+      "parameterCount": 6,
+      "formulaCount": 4,
+      "effectCount": 0
+    },
+    "ornn_q": {
+      "binding": "Characters/Ornn/Spells/OrnnQAbility/OrnnQ",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "pending": [
+        "施法250/300毫秒来源冲突，使用无默认实际输入；柱形成延迟、短暂停滞、碰撞和减速应用时点未接线。"
+      ],
+      "excluded": [
+        "不把火山柱实体交互写成自主召唤物或伤害事件；仅保留柱持续时间和技能伤害公式。"
+      ],
+      "parameterCount": 8,
+      "formulaCount": 1,
+      "effectCount": 1
+    },
+    "ornn_w": {
+      "binding": "Characters/Ornn/Spells/OrnnWAbility/OrnnW",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "pending": [
+        "每次火焰取生命值的阶段、首末时点和五次间隔未接线；这里只表达单次下限、目标最大生命比例和五次算术总量。",
+        "易碎额外伤害比例只有9%至17%根插值端点，等级求值未证，实际比例无默认输入。"
+      ],
+      "excluded": [
+        "BaseDamageTooltip和野怪上限为当前正文未消费或非英雄分支；不把35%自减速挂成效果。"
+      ],
+      "parameterCount": 13,
+      "formulaCount": 4,
+      "effectCount": 1
+    },
+    "ornn_e": {
+      "binding": "Characters/Ornn/Spells/OrnnEAbility/OrnnE",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "pending": [
+        "施法250/350毫秒来源冲突，使用无默认实际输入。",
+        "mStat1的额外护甲映射缺少本轮窄证，先以应用前实际护甲输入；mStat6按同版窄口径使用来源额外魔抗属性。",
+        "冲锋资格、地形判定、柱碰撞和同一英雄仅受一次冲击波伤害的事件时序未接线；保留唯一敌人一次伤害范围。"
+      ],
+      "excluded": [
+        "不按ArmorRatio字段名猜最终护甲，不创建第二次同敌伤害或冲锋过程。"
+      ],
+      "parameterCount": 8,
+      "formulaCount": 1,
+      "effectCount": 1
+    },
+    "ornn_r": {
+      "binding": "Characters/Ornn/Spells/OrnnRAbility/OrnnR",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "pending": [
+        "施法250/500毫秒来源冲突，使用无默认实际输入；冲击波飞行和目标资格未接线。",
+        "客户端减速持续2000毫秒与官方英文正文3000毫秒冲突，分开记录两个来源值，不任选统一时长。"
+      ],
+      "excluded": [
+        "第三目标分配、后续英雄500毫秒击飞和完整元素碰撞过程排除；本轮唯一敌人保留来回两程。"
+      ],
+      "parameterCount": 11,
+      "formulaCount": 2,
+      "effectCount": 1
+    },
+    "shen_p": {
+      "binding": "Characters/Shen/Spells/ShenPassiveAbility/ShenPassive",
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keySummary",
+        "keyCooldown"
+      ],
+      "pending": [
+        "当前ShieldValue默认分支的角色等级基础护盾值和冷却缩短值均使用无默认实际输入；不按显示精度把冷却曲线造为整数毫秒数组。",
+        "指定buff条件的1.3倍护盾端点保留，但不假定慎劫任务已完成，也不创建技能触发事件。"
+      ],
+      "excluded": [
+        "另一个47至101加0.07额外生命的非当前分支不混入；队友收益和护盾触发资格待接。"
+      ],
+      "parameterCount": 8,
+      "formulaCount": 2,
+      "effectCount": 0
+    },
+    "shen_q": {
+      "binding": "Characters/Shen/Spells/ShenQAbility/ShenQ",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "pending": [
+        "强化普攻的魂刃方向、穿过敌方英雄资格、三次攻击扣次和减速应用时序未接线；这里只记录两种实际额外魔法伤害与三次算术总量。",
+        "BaseFlatDamage使用已支持的CHARACTER_LEVEL断点值；完整角色等级求值仍以当前服务的角色等级输入为准，不把它错误放入技能等级数组。能量消耗保留为能量效果。"
+      ],
+      "excluded": [
+        "兵野专用加伤/封顶、建筑伤害、普通攻击物理伤害以及SteroidDuration=75等未接入分支排除。"
+      ],
+      "parameterCount": 15,
+      "formulaCount": 3,
+      "effectCount": 1
+    },
+    "shen_w": {
+      "binding": "Characters/Shen/Spells/ShenWAbility/ShenW",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "pending": [
+        "自身防御区域保留，但区域开启时机、普攻格挡和最多等待2000毫秒的条件事件未接线；不写成1750毫秒全伤害减免。",
+        "能量40使用当前属性目录已存在的energy资源效果；不改写成法力。"
+      ],
+      "excluded": [
+        "队友保护、伤害格挡事件与无敌效果不生成。"
+      ],
+      "parameterCount": 4,
+      "formulaCount": 0,
+      "effectCount": 1
+    },
+    "shen_e": {
+      "binding": "Characters/Shen/Spells/ShenEAbility/ShenE",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "pending": [
+        "嘲讽目标资格、冲刺碰撞未接线；能量回复使用已支持的CHARACTER_LEVEL断点值，触发时序仍未自动接线。",
+        "能量150和造成伤害后的能量回复均使用当前属性目录已存在的energy资源效果，不改写成法力。"
+      ],
+      "excluded": [
+        "兵野嘲讽独立目标分配和冲刺过程排除；没有明确施法时间，不补0。"
+      ],
+      "parameterCount": 9,
+      "formulaCount": 1,
+      "effectCount": 2
+    },
+    "shen_r": {
+      "binding": "Characters/Shen/Spells/ShenRAbility/ShenR",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyCost"
+      ],
+      "pending": [
+        "慎R只能选另一友方英雄，护盾和传送属于纯友方目标，本轮1V1范围跳过；保留完整来源依据，不生成参数、公式或效果。"
+      ],
+      "excluded": [
+        "不因本轮有慎自身被动或Q/E而虚构一个可独自在1V1施放的R过程。"
+      ],
+      "parameterCount": 0,
+      "formulaCount": 0,
+      "effectCount": 0
+    }
+  },
+  "notes": [
+    "冷却等级统一按客户端索引1与官方数组索引0交叉核对；法力数组按官方索引0核对，慎Q/W/E能量按当前属性目录energy键保存资源变化效果。",
+    "当前99条保护快照的attributes列表确认energy为启用DECIMAL属性；仓库SkillEffectResultType支持RESOURCE_CHANGE，资源操作支持CONSUME/RESTORE。",
+    "奥恩P使用应用前生命/护甲/魔抗基准与10%+4%×杰作数量；数量无本轮上限，不录经济和升级事件。",
+    "奥恩W保留单次MAX下限与五次总量、易碎9%至17%端点和实际比例输入；奥恩E同一敌人一次冲击范围保留，护甲映射仍为实际输入。",
+    "奥恩R来回两程保留，首程减速客户端2000毫秒与官方英文3000毫秒分开保存；第三目标击飞分支排除。",
+    "慎P只使用当前ShieldValue默认47至120+0.13额外生命分支，并保留指定buff的1.3倍条件端点；另一个0.07分支排除。",
+    "慎Q使用0.01根倍率、普通/穿过英雄两种法强比例和三次强化普攻；能量不是法力，等级阶梯与回复曲线均无默认。",
+    "未创建DAMAGE、DIRECT_HEAL或MOMENT_EVALUATION结果；未知资格、时序、曲线和资源接线记录为待补。"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "i": 40,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_e/formulas",
+    "skillKey": "ornn_e",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "炽烈冲锋物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "armor_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "actual_source_armor_for_ornn_e"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "magic_resistance_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "magic_resistance",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage=BaseDamage+0.4×实际应用前护甲基准+0.4×来源额外魔抗；不把字段名当最终属性。",
+      "sortOrder": 10
+    }
+  }
+}

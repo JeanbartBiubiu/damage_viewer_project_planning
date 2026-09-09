@@ -1,0 +1,26 @@
+{
+  "i": 71,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_q/parameters",
+    "skillKey": "shen_q",
+    "kind": "parameters",
+    "stableKey": "enhanced_percent_damage_points",
+    "body": {
+      "parameterKey": "enhanced_percent_damage_points",
+      "name": "穿过英雄后的生命百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 5,
+        "2": 5.5,
+        "3": 6,
+        "4": 6.5,
+        "5": 7
+      },
+      "description": "当前根DataValues.EnhancedPercentDamage取技能等级1至5；根倍率另乘0.01。",
+      "sortOrder": 80
+    }
+  }
+}

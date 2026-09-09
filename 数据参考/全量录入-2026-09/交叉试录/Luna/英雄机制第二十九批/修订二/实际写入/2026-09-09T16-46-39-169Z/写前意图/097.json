@@ -1,0 +1,42 @@
+{
+  "i": 96,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_e/effects",
+    "skillKey": "shen_e",
+    "kind": "effects",
+    "stableKey": "energy_refund",
+    "body": {
+      "effectKey": "energy_refund",
+      "name": "Q或E造成伤害能量回复",
+      "description": "仅奥义！暮临（Q）的强化攻击或奥义！影缚（E）造成伤害时回复能量；按角色等级参数读取实际回复量，触发事件尚未接线，不适用于任意来源伤害。",
+      "sortOrder": 10,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "resource",
+          "name": "Q或E造成伤害能量回复",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "sortOrder": 10,
+          "description": null,
+          "spellShieldBlockScope": null,
+          "lifecycleBehavior": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "actual_energy_refund_on_damage"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "energy",
+            "operation": "RESTORE"
+          }
+        }
+      ]
+    }
+  }
+}

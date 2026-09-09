@@ -1,0 +1,26 @@
+{
+  "i": 76,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_q/parameters",
+    "skillKey": "shen_q",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "逃离慎方向减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 25,
+        "2": 30,
+        "3": 35,
+        "4": 40,
+        "5": 45
+      },
+      "description": "当前根DataValues.SlowPercent取技能等级1至5；方向资格未接线。",
+      "sortOrder": 130
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "i": 51,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_r/formulas",
+    "skillKey": "ornn_r",
+    "kind": "formulas",
+    "stableKey": "magic_damage_per_pass",
+    "body": {
+      "formulaKey": "magic_damage_per_pass",
+      "name": "熔铸之神的召唤单程魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage_per_pass"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "RDamageCalc=RBaseDamage+0.2×来源总法强；每程独立可命中唯一敌人。",
+      "sortOrder": 10
+    }
+  }
+}

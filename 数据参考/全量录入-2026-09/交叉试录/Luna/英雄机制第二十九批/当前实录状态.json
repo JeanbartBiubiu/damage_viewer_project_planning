@@ -1,0 +1,90 @@
+{
+  "at": "2026-09-09T17:12:19.789Z",
+  "skills": [
+    "ornn_p",
+    "ornn_q",
+    "ornn_w",
+    "ornn_e",
+    "ornn_r",
+    "shen_p",
+    "shen_q",
+    "shen_w",
+    "shen_e",
+    "shen_r"
+  ],
+  "status": "明确组成已保存并通过独立回读、公式核算和代表页面；等级曲线和事件接线继续处理",
+  "counts": {
+    "parameters": 82,
+    "formulas": 18,
+    "effects": 8,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "newCounts": {
+    "parameters": 71,
+    "formulas": 18,
+    "effects": 8
+  },
+  "reusedParameters": 11,
+  "businessWrites": 97,
+  "candidateFileSha256": "3837264e96ce61ca1cb420a0d37cdadb19d5d3082240f92cff29baff335875b1",
+  "writePlanSha256": "162f1637ac59183d198265a5c152d245c7a1b619efef742256f094bd98344eb0",
+  "execution": {
+    "file": "修订二/实际写入/2026-09-09T16-46-39-169Z/执行结果.json",
+    "GETs": 608,
+    "successfulPOSTs": 97,
+    "rejectedPOSTs": 0,
+    "unknownPOSTs": 0,
+    "passed": true
+  },
+  "independentReadback": {
+    "file": "独立验收/修订二独立回读/2026-09-09T17-07-32-166Z/独立全量回读.json",
+    "GETs": 196,
+    "protectedPaths": 99,
+    "details": 108,
+    "passed": true
+  },
+  "strictMath": {
+    "file": "独立验收/修订二独立回读/2026-09-09T17-07-32-166Z/独立全量回读.json",
+    "actualFormulas": 18,
+    "formulaCases": 36,
+    "missingInputChecks": 30,
+    "runtimeParametersWithoutDefaults": 11,
+    "integerRuntimeRejections": 5,
+    "invalidCharacterLevelRejections": 3,
+    "boundaryChecks": 23,
+    "additionalNetworkCalls": 0,
+    "passed": true
+  },
+  "browser": {
+    "file": "修订二/页面验收.json",
+    "representativePages": 3,
+    "GETs": 18,
+    "mathCases": 12,
+    "passed": true
+  },
+  "hashes": {
+    "修订二/完整候选.json": "3837264e96ce61ca1cb420a0d37cdadb19d5d3082240f92cff29baff335875b1",
+    "修订二/请求计划.json": "162f1637ac59183d198265a5c152d245c7a1b619efef742256f094bd98344eb0",
+    "修订二/受保护写入器.mjs": "1f7155feb8c15937f94cf26c373dafca32fd4a741bcb2f8dfae1ef28feac20c6",
+    "修订二/实际写入/2026-09-09T16-46-39-169Z/执行结果.json": "7ec698ff5f90c4a8e8cb1e64b7ca0e709b70fe200a981f0668d5dbf33109d91d",
+    "独立验收/修订二独立回读/2026-09-09T17-07-32-166Z/独立全量回读.json": "f908be47f1e630ccdecee2af47b1262e1a38f6cf8c1195d12225d2f422d02f60",
+    "修订二/页面验收.json": "36749a8097c3d9cc6c91006202003b62648e45fc98f973ff0e2d5f2e2909bb99",
+    "独立验收/修订二独立回读-实际GET.mjs": "2257152ab19f8c5b34752254d641d063ceb0f499a72c9ce8877b9892ae6fe9ab"
+  },
+  "issues": [
+    "保存前修订慎P实际冷却缩短毫秒参数为整数，未执行错误候选写入。",
+    "奥恩被动三个属性基数必须是应用被动前的额外生命、护甲、魔抗，排除基础和本次被动增益，避免重复计算。",
+    "慎E回能触发限定Q或E伤害；回复30/40/50按角色等级4和12切换，不能扩为任意伤害。",
+    "慎Q附加固定伤害在4/7/10/13/16级递增，正常与强化百分比的0.01倍率位于来源公式根。",
+    "效果和公式列表可能仅含摘要；完整表达式、生命周期、结果须GET详情。首次独立回读误判保留，修正检查器后完整重跑通过。",
+    "候选审查曾取错慎Q根倍率且异常未加入阻塞，主负责人指出后修正；最终36行数学全部通过，早先中间PASS不作为验收证据。"
+  ],
+  "pending": [
+    "奥恩被动装备升级历史、自身属性取值阶段，易碎等级曲线、伤害事件与控制阶段继续处理。",
+    "慎P冷却缩短曲线、Q强化资格与次数消费、W格挡资格、Q/E回能触发时序尚未自动接线。",
+    "慎R纯其他友方收益按约定排除；未知时序、来源冲突和曲线均列待补，不归为1V1无关。"
+  ],
+  "runtimeValidation": "未执行"
+}

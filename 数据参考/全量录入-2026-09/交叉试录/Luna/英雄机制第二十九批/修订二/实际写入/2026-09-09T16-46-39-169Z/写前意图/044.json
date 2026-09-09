@@ -1,0 +1,24 @@
+{
+  "i": 43,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/ornn_r/parameters",
+    "skillKey": "ornn_r",
+    "kind": "parameters",
+    "stableKey": "base_damage_per_pass",
+    "body": {
+      "parameterKey": "base_damage_per_pass",
+      "name": "每程基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 125,
+        "2": 175,
+        "3": 225
+      },
+      "description": "当前根DataValues.RBaseDamage取技能等级1至3。",
+      "sortOrder": 20
+    }
+  }
+}

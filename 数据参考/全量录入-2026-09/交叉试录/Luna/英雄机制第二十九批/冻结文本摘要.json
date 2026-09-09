@@ -1,0 +1,171 @@
+{
+  "generatedAt": "2026-09-09T16:09:26.588Z",
+  "sourceBindingSha256": "f09cf7a5e4f515d89860cf5f05cfd89eb3f2f42b7b19294c906740f6910f6341",
+  "skills": {
+    "ornn_p": {
+      "keyName": {
+        "sourceKey": "game_character_passiveName_Ornn",
+        "text": "活体锻炉"
+      },
+      "keySummary": {
+        "sourceKey": "game_character_passiveDescription_Ornn",
+        "text": "奥恩可使所有来源的护甲和魔抗加成获得额外提升。<br><br>奥恩可在地图的任意位置上花费金钱来锻造非消耗品的装备。<br><br>此外，他能为他自己和友方英雄打造杰作武器。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_OrnnP_Tooltip",
+        "text": "{{Spell_OrnnP_Tooltip_@GameModeInteger@}}"
+      },
+      "keyTooltipExtended": {
+        "sourceKey": "Spell_OrnnP_TooltipExtended",
+        "text": "{{Spell_OrnnP_TooltipExtended_@GameModeInteger@}}"
+      }
+    },
+    "ornn_q": {
+      "keyName": {
+        "sourceKey": "Spell_OrnnQ_Name",
+        "text": "火山突堑"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_OrnnQ_Summary",
+        "text": "奥恩猛砸地面，形成一道裂隙来伤害并减速被击中的敌人们。在一阵短暂的延迟后，一个熔岩之柱会在裂隙的终点处形成。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_OrnnQ_Tooltip",
+        "text": "奥恩猛砸地面，创造一道裂隙来造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>，以及持续@SlowDuration@秒的@SlowAmount@%<status>减速</status>。一根熔岩之柱会在裂隙的终点处形成，持续@PillarDuration@秒。 "
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_OrnnQ_TooltipExtendedBelowLine",
+        "text": "<rules>裂隙在命中一名敌方英雄后会短暂地停滞。</rules><br>"
+      }
+    },
+    "ornn_w": {
+      "keyName": {
+        "sourceKey": "Spell_OrnnW_Name",
+        "text": "风箱炎息"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_OrnnW_Summary",
+        "text": "奥恩向前进发，喷出炎息。被最后一阵炎息命中的敌人将变为易碎状态。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_OrnnW_Tooltip",
+        "text": "奥恩向前不可阻挡地重踏，同时喷吐炎息，在@BreathDuration@秒里持续造成共<magicDamage>@MaxPercentHPPerTickTooltip@%最大生命值的魔法伤害</magicDamage>。被最后一道炎息命中的敌人，会变成<keywordMajor>易碎</keywordMajor>效果，持续@BrittleDuration@秒。<br><br>对<keywordMajor>易碎</keywordMajor>状态的敌人施加的下一个<status>定身</status>效果将使该效果的持续时间提升30%并对目标造成额外的<magicDamage>@BrittlePercentMaxHPCalc@最大生命值的魔法伤害</magicDamage>。奥恩的普攻会<status>击退</status><keywordMajor>易碎</keywordMajor>状态下的目标，并造成额外伤害。"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_OrnnW_TooltipExtendedBelowLine",
+        "text": "<rules>对英雄和小兵最少造成<magicDamage>@TotalMinimumDamage@魔法伤害</magicDamage>，对野怪最多造成<magicDamage>@TotalMonsterDamageCap@魔法伤害</magicDamage>。</rules>"
+      }
+    },
+    "ornn_e": {
+      "keyName": {
+        "sourceKey": "Spell_OrnnE_Name",
+        "text": "炽烈冲锋"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_OrnnE_Summary",
+        "text": "奥恩冲锋，对他途经的敌人造成伤害。如果奥恩在冲锋状态下与地形产生碰撞，那么这次碰撞就会在他四周生成一道冲击波，来对敌人造成伤害和击飞效果。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_OrnnE_Tooltip",
+        "text": "奥恩冲锋，造成<physicalDamage>@TotalDamage@物理伤害</physicalDamage>。如果奥恩撞到了地形，则会引发冲击波，<status>击飞</status>敌人@KnockupDuration@秒并将此技能的伤害施加给那些未被冲锋命中的敌人们。<br><br>奥恩的冲锋会摧毁熔岩之柱和由敌方英雄创造的地形。"
+      }
+    },
+    "ornn_r": {
+      "keyName": {
+        "sourceKey": "Spell_OrnnR_Name",
+        "text": "熔铸之神的召唤"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_OrnnR_Summary",
+        "text": "奥恩在目标位置召唤一个巨大的岩浆元素，岩浆元素会以逐渐提升的速度跑向奥恩。被岩浆元素途经的敌人会受到伤害、减速效果并被施加易碎效果。奥恩可以再次施放这个技能，以冲向岩浆元素，并在命中岩浆元素时重新导向岩浆元素，使岩浆元素可将途经的任何敌人击飞，造成等额的伤害并再次施加易碎效果。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_OrnnR_Tooltip",
+        "text": "奥恩召唤一个巨大的岩浆元素来疾奔向他，造成<magicDamage>@RDamageCalc@魔法伤害</magicDamage>，对命中的敌人们施加持续@BrittleDurationTOOLTIPONLY@秒的<keywordMajor>易碎</keywordMajor>和@RSlowPercentBasePreMath@%<status>减速</status>。<br><br>奥恩可以<recast>再次施放</recast>这个技能来用头槌进行冲刺。如果他冲刺到了岩浆元素，那么他可以使它重新导向并强化它，使它<status>击飞</status>首个命中的敌方英雄@RStunDuration@秒和后续的英雄们@MinStun@秒。岩浆元素还会造成<magicDamage>@RDamageCalc@魔法伤害</magicDamage>并施加<keywordMajor>易碎</keywordMajor>。"
+      }
+    },
+    "shen_p": {
+      "keyName": {
+        "sourceKey": "Spell_ShenPassive_Name",
+        "text": "忍法！气合盾"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_ShenPassive_Tooltip",
+        "text": "慎在使用一个技能后，会获得持续@ShieldDuration@秒的<shield>@ShieldValue@护盾值</shield>。这个效果有@ShieldCooldown@秒冷却时间，每当慎有一个技能成功影响到一名友军或敌人时，这个冷却时间就会缩短@ShieldCooldownReduction@秒。<br><br>慎拥有一把<keywordMajor>魂刃</keywordMajor>，可供他的其它技能使用。"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_ShenPassive_Summary",
+        "text": "在施放一次技能后，慎会获得一层护盾。如果慎的技能对英雄产生作用，那么这个技能的冷却时间就会降低。"
+      },
+      "keyCooldown": {
+        "sourceKey": "Spell_ShenP_CD",
+        "text": "@ShieldCooldown@秒%i:cooldown%"
+      }
+    },
+    "shen_q": {
+      "keyName": {
+        "sourceKey": "Spell_ShenQ_Name",
+        "text": "奥义！暮临"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_ShenQ_Summary",
+        "text": "慎召回他的魂刃并用它进行攻击，造成基于目标最大生命值的额外伤害。如果魂刃在召回途中与一个敌方英雄产生了碰撞，那么慎的魂刃攻击会获得极大强化，并且所有被碰撞的敌人在逃离慎的时候都会被减速。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_ShenQ_Tooltip",
+        "text": "慎召回他的<keywordMajor>魂刃</keywordMajor>。被其命中的敌人们在接下来的@SlowDuration@秒里，在远离慎的时候会被<status>减速</status>@SlowPercent@%。<br><br>此外，慎的下@NumEnhancedAttacks@次攻击造成额外的<magicDamage>@BaseFlatDamage@</magicDamage>外加<magicDamage>@BasePercentHealth@最大生命值的魔法伤害</magicDamage>。如果慎用<keywordMajor>魂刃</keywordMajor>命中了一名英雄，那么伤害提升至<magicDamage>@BaseFlatDamage@</magicDamage>外加<magicDamage>@EmpPercentHealth@最大生命值的魔法伤害</magicDamage>并且他的那几次攻击获得<attackSpeed>@SteroidAS@%攻击速度</attackSpeed>。"
+      },
+      "keyTooltipExtendedBelowLine": {
+        "sourceKey": "Spell_ShenQ_TooltipExtendedBelowLine",
+        "text": "<rules>每次攻击对野怪造成@MonsterAmp*100@%伤害提升(最大值为<magicDamage>@MinionDamageCap@伤害</magicDamage>)。<br>对建筑物的攻击造成@TowerDamageCalc@伤害。</rules>"
+      }
+    },
+    "shen_w": {
+      "keyName": {
+        "sourceKey": "Spell_ShenW_Name",
+        "text": "奥义！魂佑"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_ShenW_Summary",
+        "text": "当慎或友方英雄在魂刃附近时，魂刃会对原本要命中他们的攻击进行格挡。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_ShenW_Tooltip",
+        "text": "慎在他的<keywordMajor>魂刃</keywordMajor>位置生成一个防御结界，持续@ZoneDuration@秒。对结界内的友方英雄进行的攻击都会被格挡。 <br><br>如果结界在开启时并没有英雄在其中，那么它会等待至多@ZoneDelay@秒。"
+      }
+    },
+    "shen_e": {
+      "keyName": {
+        "sourceKey": "Spell_ShenE_Name",
+        "text": "奥义！影缚"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_ShenE_Summary",
+        "text": "慎朝着一个方向冲刺，嘲讽沿途的敌人。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_ShenE_Tooltip",
+        "text": "<spellPassive>被动：</spellPassive>用<spellName>奥义！暮临</spellName>或这个技能造成伤害时，会回复<keywordMajor>@EnergyRefund@能量</keywordMajor>。<br><br><spellActive>主动：</spellActive>慎进行冲刺，<status>嘲讽</status>英雄和野怪@CCDuration@秒并造成<physicalDamage>@TauntDamage@物理伤害</physicalDamage>。"
+      }
+    },
+    "shen_r": {
+      "keyName": {
+        "sourceKey": "Spell_ShenR_Name",
+        "text": "秘奥义！慈悲度魂落"
+      },
+      "keySummary": {
+        "sourceKey": "Spell_ShenR_Summary",
+        "text": "慎为目标友方英雄提供一层吸收伤害的护盾，然后很快传送到目标身旁。"
+      },
+      "keyTooltip": {
+        "sourceKey": "Spell_ShenR_Tooltip",
+        "text": "慎为地图任一位置的一名友方英雄提供持续@ShieldDuration@秒的<shield>@Shield@</shield>到<shield>@MaxShield@护盾值</shield>，基于目标的已损失生命值(在60%已损失生命值时达到最大值)。在引导@ChannelDuration@秒后，慎会带着<keywordMajor>魂刃</keywordMajor>传送到该友方英雄所在的位置。"
+      },
+      "keyCost": {
+        "sourceKey": "Spell_Cost_NoCost",
+        "text": "无消耗"
+      }
+    }
+  },
+  "apiWrites": 0
+}

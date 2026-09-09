@@ -1,0 +1,20 @@
+{
+  "i": 54,
+  "intent": {
+    "method": "POST",
+    "route": "/skills/shen_p/parameters",
+    "skillKey": "shen_p",
+    "kind": "parameters",
+    "stableKey": "actual_base_shield_value",
+    "body": {
+      "parameterKey": "actual_base_shield_value",
+      "name": "实际等级基础护盾值",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前ShieldValue默认分支的基础项为角色等级47至120，完整等级曲线未证，实际输入无默认。",
+      "sortOrder": 10
+    }
+  }
+}
