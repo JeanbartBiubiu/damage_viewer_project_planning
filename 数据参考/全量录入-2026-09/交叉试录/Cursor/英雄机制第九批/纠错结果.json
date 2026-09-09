@@ -1,0 +1,450 @@
+{
+  "at": "2026-09-09T03:32:17.213Z",
+  "status": "READY_FOR_CONFIRMED_COMPONENTS",
+  "apiWrites": 0,
+  "prior": {
+    "fileSha256": "5f74d34117db4e9920ba9171dd3020e5f2770e2d2c990b96423f2fff174ebe2c",
+    "planSha256": "146d482b6f6f299a66cb52ed216785ef5c88658267a9608040725641ed15908b"
+  },
+  "final": {
+    "fileSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e",
+    "planSha256": "b1a85cc47aaf05370d09d92d646a746d4b9bf75d103310657daf36687e5e9fd9"
+  },
+  "checks": [
+    {
+      "name": "parameters 精确移出范围",
+      "pass": true,
+      "detail": [
+        "masteryi_e/legacy_sword_vfx_duration_ms",
+        "pantheon_e/empowered_damage_multiplier",
+        "pantheon_e/heal_base_by_level",
+        "pantheon_e/heal_bonus_ad_ratio",
+        "pantheon_p/out_of_combat_timer_ms",
+        "pantheon_p/passive_crit_threshold",
+        "pantheon_p/phalanx_duration_ms",
+        "pantheon_p/q_damage_amp_melee_ratio",
+        "pantheon_p/q_damage_amp_ratio",
+        "pantheon_p/q_extra_attacks"
+      ]
+    },
+    {
+      "name": "formulas 精确移出范围",
+      "pass": true,
+      "detail": [
+        "pantheon_e/empowered_spear_damage",
+        "pantheon_e/heal_amount"
+      ]
+    },
+    {
+      "name": "effects 精确移出范围",
+      "pass": true,
+      "detail": [
+        "masteryi_r/basic_cooldown_refund",
+        "pantheon_q/tap_cooldown_refund",
+        "talon_q/kill_cooldown_refund"
+      ]
+    },
+    {
+      "name": "无额外新增组成",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "trundle_p 完整技能对象原样保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "trundle_q 完整技能对象原样保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "trundle_w 完整技能对象原样保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "trundle_e 完整技能对象原样保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "trundle_r 完整技能对象原样保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "泰隆E完整技能原样与零新增",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pantheon_q/empowered_base_damage_by_level 没有等级表或默认值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pantheon_q/empowered_base_damage_by_level 完整原节点保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pantheon_w/empowered_attack_ratio_by_level 没有等级表或默认值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pantheon_w/empowered_attack_ratio_by_level 完整原节点保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pantheon_e/resists_base_by_level 没有等级表或默认值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pantheon_e/resists_base_by_level 完整原节点保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "talon_p/bleed_base_damage_by_level 没有等级表或默认值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "talon_p/bleed_base_damage_by_level 完整原节点保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "talon_q/kill_heal_by_level 没有等级表或默认值",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "talon_q/kill_heal_by_level 完整原节点保留",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森E HealCalc完整原计算树移来源",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森E EmpoweredDamageCalc完整原计算树移来源",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森P PhalanxDuration原数据留待核",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森P QDamageAmp原数据留待核",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森P QDamageAmpMelee原数据留待核",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森P OutOfCombatTimer原数据留待核",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森P QExtraAttacks原数据留待核",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森P CritThreshold原数据留待核",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "易E视觉原值留来源",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "易R被动返还无需主动资格",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森E总量命名与原文一致",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "易Q转换仅改固定乘数",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "六类候选引用无悬空",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "易Q秒转毫秒 0.5",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "易Q秒转毫秒 1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "易Q秒转毫秒 1.25",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森Q外供等级项 137",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森Q外供等级项 211",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森W外供倍率 0.47",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森W外供倍率 0.51",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森E外供等级与属性 17",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "潘森E外供等级与属性 25",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "泰隆P外供基础值 193",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "泰隆P外供基础值 111",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pantheon_q/empowered_base_damage_by_level 缺外供值不能计算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pantheon_w/empowered_attack_ratio_by_level 缺外供值不能计算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "pantheon_e/resists_base_by_level 缺外供值不能计算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "talon_p/bleed_base_damage_by_level 缺外供值不能计算",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "写前只读GET全成功",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "写前对象与原保护快照完全相同",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "math": [
+    {
+      "name": "易Q秒转毫秒 0.5",
+      "inputs": {
+        "multiplier": 0.5,
+        "note": "显式输入，不代表默认值"
+      },
+      "actual": 500,
+      "expected": 500,
+      "pass": true
+    },
+    {
+      "name": "易Q秒转毫秒 1",
+      "inputs": {
+        "multiplier": 1,
+        "note": "显式输入，不代表默认值"
+      },
+      "actual": 1000,
+      "expected": 1000,
+      "pass": true
+    },
+    {
+      "name": "易Q秒转毫秒 1.25",
+      "inputs": {
+        "multiplier": 1.25,
+        "note": "显式输入，不代表默认值"
+      },
+      "actual": 1250,
+      "expected": 1250,
+      "pass": true
+    },
+    {
+      "name": "潘森Q外供等级项 137",
+      "inputs": {
+        "suppliedBase": 137,
+        "bonusAD": 100,
+        "notAnInferredLevelValue": true
+      },
+      "actual": 252,
+      "expected": 251.9999976158142,
+      "pass": true
+    },
+    {
+      "name": "潘森Q外供等级项 211",
+      "inputs": {
+        "suppliedBase": 211,
+        "bonusAD": 35,
+        "notAnInferredLevelValue": true
+      },
+      "actual": 251.25,
+      "expected": 251.24999916553497,
+      "pass": true
+    },
+    {
+      "name": "潘森W外供倍率 0.47",
+      "inputs": {
+        "suppliedRatio": 0.47,
+        "totalAD": 300
+      },
+      "actual": 423,
+      "expected": 423,
+      "pass": true
+    },
+    {
+      "name": "潘森W外供倍率 0.51",
+      "inputs": {
+        "suppliedRatio": 0.51,
+        "totalAD": 180
+      },
+      "actual": 275.4,
+      "expected": 275.4,
+      "pass": true
+    },
+    {
+      "name": "潘森E外供等级与属性 17",
+      "inputs": {
+        "suppliedBase": 17,
+        "suppliedUnknownStat": 600
+      },
+      "actual": 32,
+      "expected": 32.00000022351742,
+      "pass": true
+    },
+    {
+      "name": "潘森E外供等级与属性 25",
+      "inputs": {
+        "suppliedBase": 25,
+        "suppliedUnknownStat": 200
+      },
+      "actual": 30,
+      "expected": 30.000000074505806,
+      "pass": true
+    },
+    {
+      "name": "泰隆P外供基础值 193",
+      "inputs": {
+        "suppliedBase": 193,
+        "bonusAD": 120
+      },
+      "actual": 445,
+      "expected": 444.9999885559082,
+      "pass": true
+    },
+    {
+      "name": "泰隆P外供基础值 111",
+      "inputs": {
+        "suppliedBase": 111,
+        "bonusAD": 35
+      },
+      "actual": 184.5,
+      "expected": 184.4999966621399,
+      "pass": true
+    }
+  ],
+  "counts": {
+    "all": {
+      "parameters": 168,
+      "formulas": 39,
+      "effects": 26,
+      "processes": 4,
+      "internalStates": 0,
+      "triggerRules": 0
+    },
+    "newThreeHeroes": {
+      "parameters": 131,
+      "formulas": 34,
+      "effects": 15,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0
+    }
+  },
+  "deltaSummary": {
+    "修改": 10,
+    "移出正常候选": 15,
+    "顺序调整": 5
+  },
+  "writePrecheck": {
+    "at": "2026-09-09T03:28:53.103Z",
+    "mode": "全部请求为GET；保留当前20技能及六类组成原值；不写业务接口",
+    "summary": {
+      "skillCount": 20,
+      "expectedSkillCount": 20,
+      "compositionCount": 120,
+      "detailCount": 76,
+      "duplicateCount": 0,
+      "errorCount": 0,
+      "requestCount": 220
+    },
+    "duplicates": [],
+    "errors": [],
+    "statusCounts": {
+      "200": 220
+    },
+    "snapshotSha256": "011619a9d562dfba53785864c1776e8b2d990a1222aa104755e4f76a5cf52776",
+    "probeOnly": true,
+    "fullSnapshotPath": "纠错写前快照-20260909032853103.json",
+    "previousSnapshotSha256": "f65026f7979d008b6f364ea2dfa6de1bbf702cce76ee3b08fb982ba8d9331a23",
+    "canonicalSnapshotSha256": "7bca669d2f82b8accd693837034ea58a8df8d06d69057d7819a94e2fe081bfad",
+    "previousCanonicalSnapshotSha256": "7bca669d2f82b8accd693837034ea58a8df8d06d69057d7819a94e2fe081bfad",
+    "sameAsPreviousSnapshot": true
+  },
+  "limits": [
+    "READY仅针对确定组成及无默认独立公式，不是20技能完整战斗机制。",
+    "5个插值输入与其他未知属性、事件条件仍需外供；潘森E治疗/强化伤害、P六原字段仅来源待核。",
+    "三项比例冷却没有已录入效果，不能靠结果描述代替毫秒换算或资格。"
+  ]
+}

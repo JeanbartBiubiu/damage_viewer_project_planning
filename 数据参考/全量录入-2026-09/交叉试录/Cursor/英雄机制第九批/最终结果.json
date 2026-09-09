@@ -1,0 +1,558 @@
+{
+  "finishedAt": "2026-09-09T03:48:01.589Z",
+  "status": "已录入确定集合并独立回读通过",
+  "candidateFileSha256": "d4856e5e8914e8a02c8d02a264c1e84acc84171d8733f434db345ef69b28bc0e",
+  "candidateObjectSha256": "b1a85cc47aaf05370d09d92d646a746d4b9bf75d103310657daf36687e5e9fd9",
+  "applyRun": "2026-09-09T03-41-37-883Z",
+  "independentReadRun": "2026-09-09T03-46-58-027Z",
+  "created": 161,
+  "createdByKind": {
+    "parameters": 112,
+    "formulas": 34,
+    "effects": 15
+  },
+  "reconciledAfterUnknownResponse": 0,
+  "reused": 76,
+  "reusedPublicParameters": 19,
+  "trundleProtectedComponents": 57,
+  "finalTotals": {
+    "parameters": 168,
+    "formulas": 39,
+    "effects": 26,
+    "processes": 4,
+    "internalStates": 0,
+    "triggerRules": 0
+  },
+  "readback": {
+    "subjects": 20,
+    "collections": 120,
+    "details": 237,
+    "images": 20,
+    "relations": 4,
+    "catalogs": 4,
+    "httpGetCount": 405,
+    "missing": 0,
+    "conflicts": 0,
+    "businessLeafFields": 2927,
+    "formulaCases": 333,
+    "checks": 1252
+  },
+  "protectedComponents": [
+    {
+      "skillKey": "masteryi_q",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "masteryi_q",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "masteryi_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "masteryi_r",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "masteryi_r",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_p",
+      "kind": "parameters",
+      "key": "dead_enemy_hp_heal_ratio",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_p",
+      "kind": "formulas",
+      "key": "tribute_heal",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_p",
+      "kind": "effects",
+      "key": "kings_tribute",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "parameters",
+      "key": "base_bonus_damage",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "parameters",
+      "key": "total_ad_ratio",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "parameters",
+      "key": "one",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "parameters",
+      "key": "source_attack_damage_gain",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "parameters",
+      "key": "target_attack_damage_loss",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "parameters",
+      "key": "sap_duration_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "parameters",
+      "key": "slow_duration_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "parameters",
+      "key": "empowered_window_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "parameters",
+      "key": "bonus_attack_range",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "formulas",
+      "key": "total_noncritical_damage",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "formulas",
+      "key": "bonus_noncritical_damage",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "effects",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "effects",
+      "key": "noncritical_bonus",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "effects",
+      "key": "source_attack_damage_gain",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "effects",
+      "key": "target_attack_damage_loss",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_q",
+      "kind": "processes",
+      "key": "cast",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_w",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_w",
+      "kind": "parameters",
+      "key": "move_speed_ratio",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_w",
+      "kind": "parameters",
+      "key": "attack_speed_ratio",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_w",
+      "kind": "parameters",
+      "key": "healing_received_ratio",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_w",
+      "kind": "parameters",
+      "key": "zone_duration_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_w",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_w",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_w",
+      "kind": "effects",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_w",
+      "kind": "effects",
+      "key": "zone_attack_speed",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_w",
+      "kind": "effects",
+      "key": "zone_move_speed",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_w",
+      "kind": "processes",
+      "key": "cast",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_e",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_e",
+      "kind": "parameters",
+      "key": "pillar_duration_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_e",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_e",
+      "kind": "parameters",
+      "key": "slow_radius",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_e",
+      "kind": "parameters",
+      "key": "knockback_radius",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_e",
+      "kind": "parameters",
+      "key": "enemy_displacement_distance",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_e",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_e",
+      "kind": "effects",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_e",
+      "kind": "processes",
+      "key": "cast",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "parameters",
+      "key": "base_max_hp_damage_ratio",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "parameters",
+      "key": "ap_to_max_hp_damage_ratio",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "parameters",
+      "key": "resistance_steal_ratio",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "parameters",
+      "key": "upfront_ratio",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "parameters",
+      "key": "actual_drain_duration_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "parameters",
+      "key": "post_drain_shred_duration_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "formulas",
+      "key": "drain_total_damage",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "formulas",
+      "key": "initial_drain_damage",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "effects",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "effects",
+      "key": "initial_drain",
+      "unchanged": true
+    },
+    {
+      "skillKey": "trundle_r",
+      "kind": "processes",
+      "key": "cast",
+      "unchanged": true
+    },
+    {
+      "skillKey": "pantheon_q",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "pantheon_q",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "pantheon_w",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "pantheon_w",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "pantheon_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "pantheon_e",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "pantheon_r",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "pantheon_r",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "talon_q",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "talon_q",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "talon_w",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "talon_w",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    },
+    {
+      "skillKey": "talon_r",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "unchanged": true
+    },
+    {
+      "skillKey": "talon_r",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "unchanged": true
+    }
+  ],
+  "catalogProtection": [
+    {
+      "catalog": "attributes",
+      "key": "attack_damage",
+      "unchanged": true
+    },
+    {
+      "catalog": "attributes",
+      "key": "mana",
+      "unchanged": true
+    },
+    {
+      "catalog": "attributes",
+      "key": "ability_power",
+      "unchanged": true
+    },
+    {
+      "catalog": "attributes",
+      "key": "bonus_attack_speed_percent",
+      "unchanged": true
+    },
+    {
+      "catalog": "attributes",
+      "key": "move_speed_percent",
+      "unchanged": true
+    },
+    {
+      "catalog": "attributes",
+      "key": "hp",
+      "unchanged": true
+    },
+    {
+      "catalog": "modifier-zones",
+      "key": "attribute_flat_add",
+      "unchanged": true
+    },
+    {
+      "catalog": "damage-types",
+      "key": "physics",
+      "unchanged": true
+    },
+    {
+      "catalog": "damage-types",
+      "key": "magic",
+      "unchanged": true
+    }
+  ],
+  "limits": [
+    "只完成确定组成；无新DAMAGE/DIRECT_HEAL/过程/触发规则。",
+    "五个等级项与其他未知属性/实际事件输入没有默认；缺输入不可直接计算。",
+    "易R/潘森Q/泰隆Q比例冷却只保存事实参数；潘森P六字段、E治疗及强化伤害树仅留资料。",
+    "页面验收和Git提交由主负责人完成；本批未修改主体、图、关系、目录或特朗德尔。"
+  ],
+  "resolvedHistoricalCheckIssue": {
+    "count": 5,
+    "kind": "核算脚本顺序误判",
+    "originalReport": "写入结果.json",
+    "evidence": "实值核算顺序误判证据.json",
+    "resolution": "按组成稳定键配对并逐字段比较；独立重新GET与1252项检查通过，未重放POST。"
+  }
+}
