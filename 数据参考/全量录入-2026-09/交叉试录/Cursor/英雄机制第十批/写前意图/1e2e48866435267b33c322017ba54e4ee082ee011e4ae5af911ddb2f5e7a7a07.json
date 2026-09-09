@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T04:27:33.145Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/jinx_q/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "rocket_bonus_range",
+    "name": "火箭额外攻击距离",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 100,
+      "2": 125,
+      "3": 150,
+      "4": 175,
+      "5": 200
+    },
+    "description": "客户端当前根绑定 DataValues.RocketBonusRange 取索引1至5。",
+    "sortOrder": 30
+  }
+}

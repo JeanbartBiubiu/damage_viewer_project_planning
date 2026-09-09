@@ -1,0 +1,5026 @@
+{
+  "at": "2026-09-09T04:14:50.838Z",
+  "pass": true,
+  "apiWrites": 0,
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "candidatePlanSha256": "55ba724ff495fc172debca3bbe3bb3257bd66b624dc135450a1debda3c8b8a6d",
+  "originalSnapshotSha256": "c34a9ffb21b345e4f576c2183019fa391e19cb0ee3f1f8af44a0c24fc862163b",
+  "snapshot": {
+    "file": ".agents/artifacts/hero10-takeover/只读现值-2026-09-09T04-14-41-470Z.json",
+    "sha256": "e79e98b38f1eb0519ade002017d9ad7f3f597ba14d6ad9bc7a0bf75f2846e802"
+  },
+  "requests": 171,
+  "statusCounts": {
+    "200": 171
+  },
+  "counts": {
+    "parameters": {
+      "total": 170,
+      "reuse": 27,
+      "missing": 143,
+      "conflicts": 0
+    },
+    "formulas": {
+      "total": 49,
+      "reuse": 0,
+      "missing": 49,
+      "conflicts": 0
+    },
+    "effects": {
+      "total": 21,
+      "reuse": 0,
+      "missing": 21,
+      "conflicts": 0
+    },
+    "processes": {
+      "total": 0,
+      "reuse": 0,
+      "missing": 0,
+      "conflicts": 0
+    },
+    "internalStates": {
+      "total": 0,
+      "reuse": 0,
+      "missing": 0,
+      "conflicts": 0
+    },
+    "triggerRules": {
+      "total": 0,
+      "reuse": 0,
+      "missing": 0,
+      "conflicts": 0
+    }
+  },
+  "checks": [
+    {
+      "name": "GET /attributes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "原目录对象逐字段保护 attributes",
+      "pass": true,
+      "detail": {
+        "before": 28,
+        "now": 28,
+        "added": []
+      }
+    },
+    {
+      "name": "GET /modifier-zones",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "原目录对象逐字段保护 modifier-zones",
+      "pass": true,
+      "detail": {
+        "before": 4,
+        "now": 4,
+        "added": []
+      }
+    },
+    {
+      "name": "GET /statuses",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "原目录对象逐字段保护 statuses",
+      "pass": true,
+      "detail": {
+        "before": 1,
+        "now": 1,
+        "added": []
+      }
+    },
+    {
+      "name": "GET /damage-types",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "原目录对象逐字段保护 damage-types",
+      "pass": true,
+      "detail": {
+        "before": 3,
+        "now": 3,
+        "added": []
+      }
+    },
+    {
+      "name": "GET /skills/graves_p",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 graves_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_p/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_p/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_p/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/parameters/crit_damage_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/parameters/single_bullet_damage_level_value",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/parameters/calculation_constant_1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/parameters/calculation_constant_2",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/parameters/source_stat_9_0_value",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/parameters/calculation_constant_3",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/parameters/normal_pellet_count",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/parameters/crit_pellet_count",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/parameters/ammo_capacity",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/parameters/normal_followup_count",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_p/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_p/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_p/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/formulas/single_bullet_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/formulas/subsequent_bullet_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/formulas/crit_pellet_increase",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_p/formulas/four_pellets_same_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_p/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_p/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_p/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_p/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_p/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_p/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_p/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_p/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_p/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_p/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_p/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_p/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_q",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 graves_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_q/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_q/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_q/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 graves_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_q/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 graves_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_q/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_q/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_q/parameters/bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_q/parameters/detonation_base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_q/parameters/detonation_bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_q/parameters/normal_detonation_delay_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_q/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_q/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_q/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_q/formulas/initial_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_q/formulas/detonation_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_q/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_q/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_q/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_q/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_q/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_q/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_q/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_q/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_q/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_q/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_q/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_q/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_q/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_w",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 graves_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_w/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_w/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_w/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 graves_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_w/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 graves_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_w/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_w/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_w/parameters/slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_w/parameters/smoke_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_w/parameters/slow_linger_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_w/parameters/calculation_constant_1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_w/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_w/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_w/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_w/formulas/impact_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_w/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_w/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_w/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_w/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_w/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_w/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_w/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_w/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_w/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_w/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_w/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_w/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_w/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_e",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 graves_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_e/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_e/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_e/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 graves_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_e/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 graves_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/parameters/armor_per_stack",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/parameters/mr_grant_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/parameters/buff_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/parameters/max_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/parameters/cooldown_reduction_per_pellet_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/parameters/current_grit_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/parameters/normal_dash_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/parameters/toward_enemy_total_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/parameters/ammo_reload_count",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_e/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_e/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_e/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/formulas/mr_per_stack",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/formulas/current_grit_armor",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/formulas/current_grit_mr",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_e/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_e/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_e/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/effects/grit_armor",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/effects/grit_mr",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_e/effects/pellet_cooldown_reduction",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_e/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_e/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_e/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_e/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_e/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_e/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_e/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_e/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_e/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_r",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 graves_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_r/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_r/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_r/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 graves_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_r/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 graves_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_r/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_r/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_r/parameters/explosion_base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_r/parameters/calculation_constant_1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_r/parameters/calculation_constant_2",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_r/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_r/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_r/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_r/formulas/direct_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_r/formulas/explosion_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_r/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_r/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_r/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 graves_r/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_r/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_r/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_r/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_r/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_r/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_r/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/graves_r/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 graves_r/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 graves_r/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_p",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 jinx_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_p/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_p/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_p/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_p/parameters/buff_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_p/parameters/attack_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_p/parameters/initial_move_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_p/parameters/assist_marker_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_p/parameters/champion_max_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_p/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_p/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_p/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_p/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_p/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_p/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_p/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_p/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_p/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_p/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_p/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_p/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_p/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_p/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_p/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_q",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 jinx_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_q/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_q/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_q/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_q/parameters/rocket_total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_q/parameters/rocket_bonus_range",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_q/parameters/rocket_bonus_attack_speed_penalty",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_q/parameters/minigun_max_attack_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_q/parameters/minigun_stack_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_q/parameters/minigun_max_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_q/parameters/rocket_mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_q/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_q/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_q/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_q/formulas/rocket_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_q/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_q/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_q/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_q/effects/rocket_mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_q/effects/rocket_range",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_q/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_q/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_q/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_q/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_q/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_q/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_q/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_q/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_q/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_w",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 jinx_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_w/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_w/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_w/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 jinx_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_w/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 jinx_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_w/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_w/parameters/total_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_w/parameters/slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_w/parameters/slow_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_w/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_w/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_w/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_w/formulas/damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_w/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_w/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_w/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_w/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_w/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_w/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_w/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_w/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_w/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_w/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_w/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_w/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_w/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_e",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 jinx_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_e/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_e/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_e/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_e/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_e/parameters/root_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_e/parameters/grenade_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_e/parameters/arm_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_e/parameters/calculation_constant_1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_e/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_e/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_e/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_e/formulas/damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_e/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_e/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_e/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_e/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_e/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_e/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_e/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_e/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_e/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_e/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_e/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_e/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_e/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_r",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 jinx_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_r/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_r/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_r/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 jinx_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_r/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 jinx_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_r/parameters/base_damage_floor",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_r/parameters/base_damage_max",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_r/parameters/missing_health_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_r/parameters/calculation_constant_1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_r/parameters/calculation_constant_2",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_r/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_r/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_r/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_r/formulas/damage_floor",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_r/formulas/damage_max",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_r/formulas/missing_health_bonus",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_r/formulas/max_damage_with_missing_health",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_r/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_r/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_r/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 jinx_r/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_r/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_r/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_r/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_r/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_r/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_r/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/jinx_r/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 jinx_r/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 jinx_r/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_p",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 varus_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_p/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_p/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_p/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/parameters/champion_attack_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/parameters/nonchampion_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/parameters/nonchampion_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/parameters/champion_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/parameters/champion_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/parameters/ordinary_attack_speed_level_value",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/parameters/buff_duration_seconds_level_value_2",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/parameters/source_stat_4_2_value",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_p/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_p/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_p/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/formulas/ordinary_attack_speed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/formulas/champion_attack_speed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/formulas/buff_duration_seconds",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/formulas/ordinary_ad",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/formulas/ordinary_ap",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/formulas/champion_ad",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_p/formulas/champion_ap",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_p/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_p/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_p/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_p/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_p/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_p/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_p/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_p/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_p/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_p/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_p/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_p/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_q",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 varus_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_q/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_q/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_q/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 varus_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_q/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 varus_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/parameters/channel_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/parameters/max_base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/parameters/max_bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/parameters/minimum_damage_multiplier",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/parameters/max_charge_bonus_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/parameters/mana_refund_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/parameters/cancel_deadline_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/parameters/self_slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/parameters/actual_mana_spent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_q/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_q/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_q/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/formulas/damage_max",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/formulas/damage_min",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/formulas/cancel_mana_refund",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_q/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_q/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_q/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_q/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_q/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_q/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_q/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_q/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_q/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_q/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_q/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_q/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_q/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_w",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 varus_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_w/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_w/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_w/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 varus_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/base_hp_ratio_per_stack",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/on_hit_base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/on_hit_ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/on_hit_bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/q_empower_missing_hp_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/max_q_empower_multiplier",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/base_cooldown_refund_ratio_per_stack",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/blight_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/max_blight_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/calculation_constant_1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/calculation_constant_2",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/calculation_constant_3",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/actual_detonated_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/parameters/affected_skill_base_cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_w/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_w/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_w/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/formulas/hp_ratio_per_stack",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/formulas/on_hit_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/formulas/three_stack_hp_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/formulas/q_empower_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/formulas/q_empower_max_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/formulas/detonation_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/formulas/q_empower_missing_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/formulas/q_empower_max_missing_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_w/formulas/base_cooldown_refund_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_w/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_w/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_w/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_w/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_w/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_w/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_w/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_w/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_w/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_w/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_w/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_w/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_e",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 varus_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_e/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_e/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_e/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 varus_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_e/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 varus_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_e/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_e/parameters/bonus_ad_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_e/parameters/slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_e/parameters/grievous_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_e/parameters/grievous_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_e/parameters/ground_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_e/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_e/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_e/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_e/formulas/damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_e/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_e/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_e/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_e/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_e/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_e/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_e/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_e/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_e/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_e/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_e/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_e/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_e/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_r",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 varus_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_r/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_r/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_r/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 varus_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_r/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 varus_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_r/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_r/parameters/root_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_r/parameters/passive_stacks_total",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_r/parameters/stack_interval_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_r/parameters/calculation_constant_1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_r/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_r/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_r/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_r/formulas/damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_r/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_r/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_r/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 varus_r/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_r/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_r/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_r/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_r/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_r/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_r/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/varus_r/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 varus_r/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 varus_r/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_p",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 kogmaw_p",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_p/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_p/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_p/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_p/parameters/death_move_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_p/parameters/max_death_move_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_p/parameters/initial_death_move_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_p/parameters/death_explosion_damage_level_value",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_p/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_p/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_p/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_p/formulas/death_explosion_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_p/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_p/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_p/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_p/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_p/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_p/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_p/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_p/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_p/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_p/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_p/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_p/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_q",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 kogmaw_q",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_q/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_q/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_q/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 kogmaw_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_q/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 kogmaw_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_q/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_q/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_q/parameters/passive_attack_speed_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_q/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_q/parameters/ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_q/parameters/resistance_shred_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_q/parameters/shred_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_q/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_q/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_q/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_q/formulas/damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_q/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_q/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_q/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_q/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_q/effects/passive_attack_speed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_q/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_q/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_q/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_q/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_q/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_q/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_q/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_q/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_q/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_w",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 kogmaw_w",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_w/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_w/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_w/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 kogmaw_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_w/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 kogmaw_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_w/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_w/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_w/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_w/parameters/max_health_percent_points",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_w/parameters/ap_percent_points_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_w/parameters/bonus_attack_range",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_w/parameters/duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_w/parameters/calculation_constant_1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_w/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_w/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_w/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_w/formulas/on_hit_max_hp_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_w/formulas/on_hit_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_w/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_w/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_w/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_w/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_w/effects/attack_range",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_w/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_w/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_w/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_w/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_w/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_w/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_w/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_w/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_w/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_e",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 kogmaw_e",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_e/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_e/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_e/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 kogmaw_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_e/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 kogmaw_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_e/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_e/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_e/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_e/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_e/parameters/ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_e/parameters/slow_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_e/parameters/trail_duration_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_e/parameters/slow_linger_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_e/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_e/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_e/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_e/formulas/damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_e/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_e/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_e/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_e/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_e/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_e/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_e/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_e/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_e/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_e/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_e/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_e/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_e/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_r",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "主体完整保护 kogmaw_r",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_r/parameters",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_r/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_r/parameters",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 kogmaw_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_r/parameters/mana_cost",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成详情完整保护 kogmaw_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/cooldown_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/cast_time_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/base_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/ap_ratio",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/low_health_multiplier",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/missing_health_amp_per_point",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/mana_stack_window_ms",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/base_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/mana_cost_cap",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/calculation_constant_1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/low_health_threshold",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/one",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/parameters/actual_prior_cost_stacks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_r/formulas",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_r/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_r/formulas",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/formulas/base_damage_value",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/formulas/low_health_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/formulas/normal_missing_health_damage",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/formulas/actual_mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_r/effects",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_r/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_r/effects",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "候选无异值 kogmaw_r/effects/mana_cost",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_r/processes",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_r/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_r/processes",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_r/internal-states",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_r/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_r/internalStates",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "GET /skills/kogmaw_r/trigger-rules",
+      "pass": true,
+      "detail": 200
+    },
+    {
+      "name": "组成列表逐字段保护 kogmaw_r/triggerRules",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "组成稳定键唯一 kogmaw_r/triggerRules",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "decisions": [
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "key": "crit_damage_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "key": "single_bullet_damage_level_value",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "key": "calculation_constant_2",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "key": "source_stat_9_0_value",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "key": "calculation_constant_3",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "key": "normal_pellet_count",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "key": "crit_pellet_count",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "key": "ammo_capacity",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "parameters",
+      "key": "normal_followup_count",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "formulas",
+      "key": "single_bullet_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "formulas",
+      "key": "subsequent_bullet_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "formulas",
+      "key": "crit_pellet_increase",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_p",
+      "kind": "formulas",
+      "key": "four_pellets_same_target",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "key": "base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "key": "bonus_ad_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "key": "detonation_base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "key": "detonation_bonus_ad_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "parameters",
+      "key": "normal_detonation_delay_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "formulas",
+      "key": "initial_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "formulas",
+      "key": "detonation_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_q",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "key": "base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "key": "smoke_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "key": "slow_linger_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "formulas",
+      "key": "impact_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_w",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "key": "armor_per_stack",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "key": "mr_grant_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "key": "buff_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "key": "max_stacks",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "key": "cooldown_reduction_per_pellet_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "key": "current_grit_stacks",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "key": "normal_dash_stacks",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "key": "toward_enemy_total_stacks",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "parameters",
+      "key": "ammo_reload_count",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "formulas",
+      "key": "mr_per_stack",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "formulas",
+      "key": "current_grit_armor",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "formulas",
+      "key": "current_grit_mr",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "effects",
+      "key": "grit_armor",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "effects",
+      "key": "grit_mr",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_e",
+      "kind": "effects",
+      "key": "pellet_cooldown_reduction",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "key": "base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "key": "explosion_base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "parameters",
+      "key": "calculation_constant_2",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "formulas",
+      "key": "direct_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "formulas",
+      "key": "explosion_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "graves_r",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_p",
+      "kind": "parameters",
+      "key": "buff_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_p",
+      "kind": "parameters",
+      "key": "attack_speed_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_p",
+      "kind": "parameters",
+      "key": "initial_move_speed_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_p",
+      "kind": "parameters",
+      "key": "assist_marker_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_p",
+      "kind": "parameters",
+      "key": "champion_max_stacks",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "key": "rocket_total_ad_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "key": "rocket_bonus_range",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "key": "rocket_bonus_attack_speed_penalty",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "key": "minigun_max_attack_speed_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "key": "minigun_stack_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "key": "minigun_max_stacks",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "parameters",
+      "key": "rocket_mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "formulas",
+      "key": "rocket_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "effects",
+      "key": "rocket_mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_q",
+      "kind": "effects",
+      "key": "rocket_range",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "parameters",
+      "key": "base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "parameters",
+      "key": "total_ad_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "parameters",
+      "key": "slow_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "formulas",
+      "key": "damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_w",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "key": "base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "key": "root_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "key": "grenade_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "key": "arm_time_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "formulas",
+      "key": "damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_e",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "key": "base_damage_floor",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "key": "base_damage_max",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "key": "missing_health_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "parameters",
+      "key": "calculation_constant_2",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "formulas",
+      "key": "damage_floor",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "formulas",
+      "key": "damage_max",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "formulas",
+      "key": "missing_health_bonus",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "formulas",
+      "key": "max_damage_with_missing_health",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "jinx_r",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "key": "champion_attack_speed_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "key": "nonchampion_ad_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "key": "nonchampion_ap_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "key": "champion_ad_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "key": "champion_ap_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "key": "ordinary_attack_speed_level_value",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "key": "buff_duration_seconds_level_value_2",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "parameters",
+      "key": "source_stat_4_2_value",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "key": "ordinary_attack_speed",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "key": "champion_attack_speed",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "key": "buff_duration_seconds",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "key": "ordinary_ad",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "key": "ordinary_ap",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "key": "champion_ad",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_p",
+      "kind": "formulas",
+      "key": "champion_ap",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "key": "channel_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "key": "max_base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "key": "max_bonus_ad_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "key": "minimum_damage_multiplier",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "key": "max_charge_bonus_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "key": "mana_refund_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "key": "cancel_deadline_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "key": "self_slow_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "parameters",
+      "key": "actual_mana_spent",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "formulas",
+      "key": "damage_max",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "formulas",
+      "key": "damage_min",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "formulas",
+      "key": "cancel_mana_refund",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_q",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "base_hp_ratio_per_stack",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "on_hit_base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "on_hit_ap_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "on_hit_bonus_ad_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "q_empower_missing_hp_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "max_q_empower_multiplier",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "base_cooldown_refund_ratio_per_stack",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "blight_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "max_blight_stacks",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "calculation_constant_2",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "calculation_constant_3",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "actual_detonated_stacks",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "parameters",
+      "key": "affected_skill_base_cooldown_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "key": "hp_ratio_per_stack",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "key": "on_hit_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "key": "three_stack_hp_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "key": "q_empower_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "key": "q_empower_max_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "key": "detonation_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "key": "q_empower_missing_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "key": "q_empower_max_missing_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_w",
+      "kind": "formulas",
+      "key": "base_cooldown_refund_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "key": "base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "key": "bonus_ad_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "key": "grievous_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "key": "grievous_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "parameters",
+      "key": "ground_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "formulas",
+      "key": "damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_e",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "key": "base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "key": "root_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "key": "passive_stacks_total",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "key": "stack_interval_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "formulas",
+      "key": "damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "varus_r",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_p",
+      "kind": "parameters",
+      "key": "death_move_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_p",
+      "kind": "parameters",
+      "key": "max_death_move_speed_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_p",
+      "kind": "parameters",
+      "key": "initial_death_move_speed_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_p",
+      "kind": "parameters",
+      "key": "death_explosion_damage_level_value",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_p",
+      "kind": "formulas",
+      "key": "death_explosion_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "key": "passive_attack_speed_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "key": "base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "key": "ap_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "key": "resistance_shred_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "parameters",
+      "key": "shred_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "formulas",
+      "key": "damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_q",
+      "kind": "effects",
+      "key": "passive_attack_speed",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "key": "max_health_percent_points",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "key": "ap_percent_points_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "key": "bonus_attack_range",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "key": "duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "formulas",
+      "key": "on_hit_max_hp_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "formulas",
+      "key": "on_hit_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "kind": "effects",
+      "key": "attack_range",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "key": "base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "key": "ap_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "key": "slow_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "key": "trail_duration_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "parameters",
+      "key": "slow_linger_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "formulas",
+      "key": "damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_e",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "mana_cost",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "cooldown_ms",
+      "state": "同值复用"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "cast_time_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "base_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "ap_ratio",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "low_health_multiplier",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "missing_health_amp_per_point",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "mana_stack_window_ms",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "base_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "mana_cost_cap",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "calculation_constant_1",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "low_health_threshold",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "one",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "parameters",
+      "key": "actual_prior_cost_stacks",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "formulas",
+      "key": "base_damage_value",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "formulas",
+      "key": "low_health_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "formulas",
+      "key": "normal_missing_health_damage",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "formulas",
+      "key": "actual_mana_cost",
+      "state": "待新增"
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "kind": "effects",
+      "key": "mana_cost",
+      "state": "待新增"
+    }
+  ],
+  "failures": [],
+  "boundary": "只读接口验证；未创建组成、修改主体、关联、图片或执行战斗。"
+}

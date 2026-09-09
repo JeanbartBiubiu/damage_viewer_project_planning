@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T04:28:52.295Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/varus_e/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "slow_ratio",
+    "name": "污染地面减速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.3,
+      "2": 0.35,
+      "3": 0.4,
+      "4": 0.45,
+      "5": 0.5
+    },
+    "description": "客户端当前根绑定 DataValues.SlowPercent 取索引1至5；按来源显示单位换算为系统比例/毫秒。",
+    "sortOrder": 50
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "at": "2026-09-09T04:20:53.092Z",
+  "reviewer": "主负责人独立复核",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "businessWrites": 0,
+  "checks": [
+    {
+      "name": "20主槽和213待新增组成边界",
+      "passed": true
+    },
+    {
+      "name": "原树韦鲁斯Q字段名不能覆盖2/2额外攻击力",
+      "passed": true
+    },
+    {
+      "name": "枯萎每层返还基础技能基础冷却",
+      "passed": true
+    },
+    {
+      "name": "大嘴W百分比点换比例与目标生命",
+      "passed": true
+    },
+    {
+      "name": "大嘴R严格低于40%替代而非相叠",
+      "passed": true
+    },
+    {
+      "name": "男枪E500毫秒每弹与朝敌人共2层",
+      "passed": true
+    },
+    {
+      "name": "火箭成本仅攻击不扣切换",
+      "passed": true
+    },
+    {
+      "name": "全部效果仅确证资源和独立自身属性或毫秒冷却",
+      "passed": true
+    },
+    {
+      "name": "来源待核输入均无默认值",
+      "passed": true
+    }
+  ],
+  "mathCases": [
+    {
+      "skillKey": "varus_q",
+      "formulaKey": "damage_max",
+      "context": {
+        "attrs": {
+          "SOURCE.attack_damage.BONUS": 50,
+          "SOURCE.attack_damage.TOTAL": 999
+        }
+      },
+      "expected": 140,
+      "actual": 140
+    },
+    {
+      "skillKey": "varus_w",
+      "formulaKey": "base_cooldown_refund_ms",
+      "context": {
+        "inputs": {
+          "actual_detonated_stacks": 2,
+          "affected_skill_base_cooldown_ms": 10000
+        }
+      },
+      "expected": 2600,
+      "actual": 2600
+    },
+    {
+      "skillKey": "varus_w",
+      "formulaKey": "base_cooldown_refund_ms",
+      "context": {
+        "inputs": {
+          "actual_detonated_stacks": 2,
+          "affected_skill_base_cooldown_ms": 5000
+        }
+      },
+      "expected": 1300,
+      "actual": 1300
+    },
+    {
+      "skillKey": "kogmaw_w",
+      "formulaKey": "on_hit_damage",
+      "context": {
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "TARGET.hp.TOTAL": 2000
+        }
+      },
+      "expected": 90,
+      "actual": 90
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "formulaKey": "normal_missing_health_damage",
+      "context": {
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.BONUS": 40,
+          "TARGET.hp.TOTAL": 2000,
+          "TARGET.hp.MISSING": 1200
+        }
+      },
+      "expected": 247.49966999999998,
+      "actual": 247.49966999999998
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "formulaKey": "low_health_damage",
+      "context": {
+        "attrs": {
+          "SOURCE.ability_power.TOTAL": 100,
+          "SOURCE.attack_damage.BONUS": 40,
+          "TARGET.hp.TOTAL": 2000,
+          "TARGET.hp.MISSING": 1200
+        }
+      },
+      "expected": 330,
+      "actual": 330
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "formulaKey": "actual_mana_cost",
+      "context": {
+        "inputs": {
+          "actual_prior_cost_stacks": 0
+        }
+      },
+      "expected": 40,
+      "actual": 40
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "formulaKey": "actual_mana_cost",
+      "context": {
+        "inputs": {
+          "actual_prior_cost_stacks": 3
+        }
+      },
+      "expected": 160,
+      "actual": 160
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "formulaKey": "actual_mana_cost",
+      "context": {
+        "inputs": {
+          "actual_prior_cost_stacks": 9
+        }
+      },
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "skillKey": "kogmaw_r",
+      "formulaKey": "actual_mana_cost",
+      "context": {
+        "inputs": {
+          "actual_prior_cost_stacks": 12
+        }
+      },
+      "expected": 400,
+      "actual": 400
+    }
+  ],
+  "decision": "候选通过主负责人静态关键语义复核，允许按锁定候选新增213组成；实际保存、全量回读和页面验收随后单独记录。",
+  "boundaries": [
+    "未运行战斗引擎",
+    "不将无默认运行输入或尚未接事件视为完整机制",
+    "未重跑代理已通过的1359项来源与数学检查"
+  ]
+}

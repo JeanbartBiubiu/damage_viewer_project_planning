@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T04:27:20.938Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/graves_r/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "爆破弹直击基础物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 275,
+      "2": 425,
+      "3": 575
+    },
+    "description": "客户端当前根绑定 DataValues.RBaseDamage 取索引1至3。",
+    "sortOrder": 40
+  }
+}

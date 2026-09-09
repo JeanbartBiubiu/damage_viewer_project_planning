@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T04:26:51.617Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/graves_q/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_damage",
+    "name": "火药卷基础物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 50,
+      "2": 75,
+      "3": 100,
+      "4": 125,
+      "5": 150
+    },
+    "description": "客户端当前根绑定 DataValues.BaseDamage 取索引1至5。",
+    "sortOrder": 40
+  }
+}

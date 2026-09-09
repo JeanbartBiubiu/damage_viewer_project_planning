@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T04:26:54.290Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/graves_q/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "detonation_bonus_ad_ratio",
+    "name": "引爆额外攻击力系数",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.45,
+      "2": 0.6,
+      "3": 0.75,
+      "4": 0.9,
+      "5": 1.05
+    },
+    "description": "客户端当前根绑定 DataValues.bADDetonationRatio 取索引1至5。",
+    "sortOrder": 70
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T04:28:29.699Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/varus_w/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "base_hp_ratio_per_stack",
+    "name": "每层枯萎基础最大生命比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.03,
+      "2": 0.035,
+      "3": 0.04,
+      "4": 0.045,
+      "5": 0.05
+    },
+    "description": "客户端当前根绑定 DataValues.BasePercentHPPerStack 取索引1至5。",
+    "sortOrder": 30
+  }
+}

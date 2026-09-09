@@ -1,0 +1,22 @@
+{
+  "at": "2026-09-09T04:29:07.725Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/kogmaw_q/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "passive_attack_speed_ratio",
+    "name": "腐蚀唾液被动额外攻速比例",
+    "valueType": "DECIMAL",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 0.05,
+      "2": 0.1,
+      "3": 0.15,
+      "4": 0.2,
+      "5": 0.25
+    },
+    "description": "客户端当前根绑定 DataValues.AttackSpeed 取索引1至5。",
+    "sortOrder": 30
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "at": "2026-09-09T04:33:19.749Z",
+  "success": true,
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "candidateObjectSha256": "55ba724ff495fc172debca3bbe3bb3257bd66b624dc135450a1debda3c8b8a6d",
+  "actual": {
+    "new": 213,
+    "reused": 27,
+    "total": 240,
+    "newByKind": {
+      "parameters": 143,
+      "formulas": 49,
+      "effects": 21
+    },
+    "newByHero": {
+      "graves": 56,
+      "jinx": 41,
+      "varus": 68,
+      "kogmaw": 48
+    },
+    "post201": 213,
+    "unknownResponses": 0,
+    "replayedPost": 0
+  },
+  "apply": {
+    "runId": "2026-09-09T04-26-26-132Z",
+    "file": "执行记录/2026-09-09T04-26-26-132Z/执行结果.json",
+    "sha256": "8955ef4c06d2869fd1f51643e67deb3bdc99e47e2c57ad9da5e763d97eace5db",
+    "journal": {
+      "file": "执行记录/2026-09-09T04-26-26-132Z/HTTP流水.jsonl",
+      "sha256": "2c19afa2ccb5ba41fcbfd0ee2b799e82dc6313ef277d2980cbccf33894a493e2",
+      "requests": 1238,
+      "methods": {
+        "GET": 1025,
+        "POST": 213
+      },
+      "statuses": {
+        "200": 812,
+        "201": 213,
+        "404": 213
+      }
+    }
+  },
+  "independent": {
+    "runId": "2026-09-09T04-32-03-886Z",
+    "file": "独立回读/2026-09-09T04-32-03-886Z/独立全量回读.json",
+    "sha256": "bdc97c004866217f20b6ae649f82400ab22c5552acebfb7d81ffe07f55c7247d",
+    "journal": {
+      "file": "独立回读/2026-09-09T04-32-03-886Z/HTTP流水.jsonl",
+      "sha256": "8aaec48fb3af57ab3506b894e40a8d50b4356778563358b375e3559d91ac0b18",
+      "requests": 408,
+      "methods": {
+        "GET": 408
+      },
+      "statuses": {
+        "200": 408
+      }
+    },
+    "subjects": 20,
+    "compositionLists": 120,
+    "compositionDetails": 240,
+    "representativeImages": 20,
+    "characterRelations": 4,
+    "catalogs": 4,
+    "fields": 2821,
+    "checks": 1359,
+    "sourceCases": 122,
+    "handCases": 28,
+    "actualInputSha256": "022c539a80ed4377f4be194e27032ce76f2653c587705a70e2ab0e84f15bb54a",
+    "missing": 0,
+    "conflicts": 0
+  },
+  "originalHashes": [
+    [
+      "根绑定与数值证据.json",
+      "e59f40c13d57fcef26ede39ce33fe9c99fc938f46f8666bb5ab10d21752cb1b6"
+    ],
+    [
+      "补充文本证据.json",
+      "95ad677cb6aaca057e67e35641ce23bb1beb6992f2eba977684ee259d54e1f4b"
+    ],
+    [
+      "写前现值.json",
+      "c34a9ffb21b345e4f576c2183019fa391e19cb0ee3f1f8af44a0c24fc862163b"
+    ]
+  ],
+  "rootReviewSha256": "c1db4bf02231b60e4b37ff4f1578ed2530bdbadf64ee76b32f540cd7cf3ad4e8",
+  "boundary": "管理API实际写入及独立实值数学通过；触发、未证输入与完整战斗仍未接线。没有PUT/DELETE、图片或关系写入。",
+  "resolvedHistoricalCheckIssue": {
+    "file": "列表摘要断言纠错.json",
+    "sha256": "ced286e60ee3ca0e5c230df2ce8fbc5797df4ebc86b6e03d2ed0fa562d1a5a07",
+    "originalReportUnchanged": true,
+    "previousFalseConflicts": 70,
+    "description": "公式列表无expression，效果列表无results/lifecycle并有派生摘要resultCount/lifecycleEnabled；列表不应与完整详情要求相同字段集合。",
+    "correction": "列表全部实际字段逐项核对详情，效果结果数和生命周期开关从详情独立派生；完整详情仍逐字段对候选及原保护对象核对。",
+    "noReplay": true
+  }
+}

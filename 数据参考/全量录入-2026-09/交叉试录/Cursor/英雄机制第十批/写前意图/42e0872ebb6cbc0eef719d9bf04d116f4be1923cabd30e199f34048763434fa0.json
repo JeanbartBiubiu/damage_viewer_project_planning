@@ -1,0 +1,20 @@
+{
+  "at": "2026-09-09T04:27:21.756Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/graves_r/parameters",
+  "method": "POST",
+  "body": {
+    "parameterKey": "explosion_base_damage",
+    "name": "爆裂分支基础物理伤害",
+    "valueType": "INTEGER",
+    "valueMode": "SKILL_LEVEL",
+    "fixedValue": null,
+    "levelValues": {
+      "1": 200,
+      "2": 320,
+      "3": 440
+    },
+    "description": "客户端当前根绑定 DataValues.RFalloffDamage 取索引1至3。",
+    "sortOrder": 50
+  }
+}

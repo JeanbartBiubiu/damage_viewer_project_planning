@@ -1,0 +1,38 @@
+{
+  "at": "2026-09-09T04:28:25.323Z",
+  "candidateFileSha256": "c08257b3fbd500d448b87d250e2a23c51d416a212e3d0398f29f9ce12b709cae",
+  "route": "/skills/varus_q/formulas",
+  "method": "POST",
+  "body": {
+    "formulaKey": "damage_max",
+    "name": "满蓄力穿刺之箭物理伤害",
+    "expression": {
+      "nodeType": "OPERATION",
+      "operation": "ADD",
+      "operands": [
+        {
+          "nodeType": "PARAMETER",
+          "parameterKey": "max_base_damage"
+        },
+        {
+          "nodeType": "OPERATION",
+          "operation": "MULTIPLY",
+          "operands": [
+            {
+              "nodeType": "ATTRIBUTE",
+              "attributeOwner": "SOURCE",
+              "attributeKey": "attack_damage",
+              "attributeValueKind": "BONUS"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "max_bonus_ad_ratio"
+            }
+          ]
+        }
+      ]
+    },
+    "description": "原字段名含tAD但计算节点显式mStat2/formula2，按额外攻击力计算；直接按当前根计算树展开，子计算内联；未知等级和属性值不设默认。",
+    "sortOrder": 10
+  }
+}
