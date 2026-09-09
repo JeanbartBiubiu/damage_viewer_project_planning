@@ -1,0 +1,1249 @@
+{
+  "generatedAt": "2026-09-09T04:59:43.641Z",
+  "status": "通过",
+  "scope": "第十七批防御与状态装备独立复核；只读文件核对和本地数学算例，不含业务接口写入、浏览器或战斗引擎运行。",
+  "source": {
+    "candidatePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十七批防御与状态装备\\完整候选.json",
+    "sourcePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\装备技能实录\\第十七批防御与状态装备\\冻结来源.json",
+    "aftershockEvidencePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文效果第四批\\冻结来源.json",
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "candidateSha256": "8eb1c181548df3710ab525bf2997137443fe7305b5e83d5d1e452e7b5f9b9e4a",
+    "sourceSha256": "6e8846b7c748578f0c6868442d118eb4a6296b3a2add87b105c2cbeaab059a67",
+    "aftershock8439ObjectSha256": "b740424a9170e82972029bd6f85b438146d66a9cfc7fd6d668bbb757f15eb392"
+  },
+  "crossEvidence": {
+    "item2525StatMapping": {
+      "status": "通过",
+      "sourcePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文效果第四批\\冻结来源.json",
+      "runeId": 8439,
+      "name": "余震",
+      "armorNode": {
+        "mStat": 1,
+        "mStatFormula": 2,
+        "mDataValue": "PercentBonusResist",
+        "__type": "StatByNamedDataValueCalculationPart"
+      },
+      "magicResistNode": {
+        "mStat": 6,
+        "mStatFormula": 2,
+        "mDataValue": "PercentBonusResist",
+        "__type": "StatByNamedDataValueCalculationPart"
+      },
+      "longText": "在定身住一名敌方英雄后，使你的护甲和魔法抗性提升，数额为@FlatResists@+你@PercentBonusResist*100@%的额外双抗，持续@DelayBeforeBurst.1@秒。随后会爆炸，对附近的敌人造成魔法伤害。<br><br>伤害值：@StartingBaseDamage@ - @MaxBaseDamage@ (+你@HealthRatio*100@%的额外生命值)<br>冷却时间：@Cooldown@秒<br><br>来自余震的双抗加成封顶值：@BonusResistMin@-@BonusResistMax@(基于等级)<br>",
+      "percentBonusResist": 0.75
+    }
+  },
+  "totals": {
+    "declared": {
+      "equipment": 12,
+      "skills": 12,
+      "parameters": 73,
+      "formulas": 24,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "relations": 12,
+      "representativeImages": 12,
+      "components": 133,
+      "omittedComponents": 10,
+      "pendingComponents": 30
+    },
+    "actual": {
+      "equipment": 12,
+      "skills": 12,
+      "parameters": 73,
+      "formulas": 24,
+      "effects": 0,
+      "processes": 0,
+      "internalStates": 0,
+      "triggerRules": 0,
+      "relations": 12,
+      "representativeImages": 12,
+      "components": 133
+    }
+  },
+  "checks": {
+    "total": 78,
+    "passed": 78,
+    "failed": 0,
+    "details": [
+      {
+        "key": "候选对象数量和组成总数",
+        "pass": true,
+        "evidence": {
+          "expected": {
+            "equipment": 12,
+            "skills": 12,
+            "parameters": 73,
+            "formulas": 24,
+            "effects": 0,
+            "processes": 0,
+            "internalStates": 0,
+            "triggerRules": 0,
+            "relations": 12,
+            "representativeImages": 12,
+            "components": 133
+          },
+          "actual": {
+            "equipment": 12,
+            "skills": 12,
+            "parameters": 73,
+            "formulas": 24,
+            "effects": 0,
+            "processes": 0,
+            "internalStates": 0,
+            "triggerRules": 0,
+            "relations": 12,
+            "representativeImages": 12,
+            "components": 133
+          }
+        }
+      },
+      {
+        "key": "候选技能顺序",
+        "pass": true,
+        "evidence": {
+          "targetIds": [
+            "2522",
+            "2525",
+            "3119",
+            "3121",
+            "3137",
+            "3181",
+            "6333",
+            "6610",
+            "4401",
+            "6665",
+            "6695",
+            "6696"
+          ]
+        }
+      },
+      {
+        "key": "候选版本哈希",
+        "pass": true,
+        "evidence": {
+          "versionSha256": "8eb1c181548df3710ab525bf2997137443fe7305b5e83d5d1e452e7b5f9b9e4a",
+          "actualSha256": "8eb1c181548df3710ab525bf2997137443fe7305b5e83d5d1e452e7b5f9b9e4a"
+        }
+      },
+      {
+        "key": "来源版本边界",
+        "pass": true,
+        "evidence": {
+          "clientVersion": "16.17",
+          "officialVersion": "16.17.1"
+        }
+      },
+      {
+        "key": "item_2522公式树节点类型",
+        "pass": true,
+        "evidence": {
+          "formulas": [
+            {
+              "key": "amplification_ratio",
+              "signature": "MULTIPLY[P(percentage_point_to_ratio),ADD[P(amplification_base_points),MULTIPLY[P(resource_amplification_points_ratio),P(actual_ability_resource_formula2)]]]"
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_2522公式参数引用",
+        "pass": true,
+        "evidence": {
+          "parameterKeys": [
+            "cooldown_ms",
+            "duration_ms",
+            "extra_mana_cost_ratio",
+            "basic_cooldown_speed_bonus",
+            "percentage_point_to_ratio",
+            "amplification_base_points",
+            "resource_amplification_points_ratio",
+            "actual_ability_resource_formula2"
+          ]
+        }
+      },
+      {
+        "key": "item_2522运行时输入不带默认值",
+        "pass": true,
+        "evidence": {
+          "runtimeInputs": [
+            {
+              "key": "actual_ability_resource_formula2",
+              "fixedValue": null
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_2522没有事件结果组成",
+        "pass": true,
+        "evidence": {
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      {
+        "key": "item_2525公式树节点类型",
+        "pass": true,
+        "evidence": {
+          "formulas": [
+            {
+              "key": "total_healing",
+              "signature": "ADD[ADD[P(heal_base_by_level),MULTIPLY[P(bonus_resist_heal_ratio),A(SOURCE.armor.BONUS)]],MULTIPLY[P(bonus_resist_heal_ratio),A(SOURCE.magic_resistance.BONUS)]]"
+            },
+            {
+              "key": "max_health_gain",
+              "signature": "P(health_gain_by_level)"
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_2525公式参数引用",
+        "pass": true,
+        "evidence": {
+          "parameterKeys": [
+            "low_health_threshold",
+            "duration_ms",
+            "cooldown_ms",
+            "move_speed_ratio",
+            "tenacity_ratio",
+            "heal_base_by_level",
+            "health_gain_by_level",
+            "bonus_resist_heal_ratio"
+          ]
+        }
+      },
+      {
+        "key": "item_2525运行时输入不带默认值",
+        "pass": true,
+        "evidence": {
+          "runtimeInputs": [
+            {
+              "key": "heal_base_by_level",
+              "fixedValue": null
+            },
+            {
+              "key": "health_gain_by_level",
+              "fixedValue": null
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_2525没有事件结果组成",
+        "pass": true,
+        "evidence": {
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      {
+        "key": "item_3119公式树节点类型",
+        "pass": true,
+        "evidence": {
+          "formulas": [
+            {
+              "key": "awe_bonus_health",
+              "signature": "MULTIPLY[P(resource_health_ratio),P(actual_ability_resource_formula2)]"
+            },
+            {
+              "key": "champion_mana_per_charge",
+              "signature": "MULTIPLY[P(mana_per_charge),P(champion_growth_multiplier)]"
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_3119公式参数引用",
+        "pass": true,
+        "evidence": {
+          "parameterKeys": [
+            "resource_health_ratio",
+            "actual_ability_resource_formula2",
+            "mana_per_charge",
+            "charge_interval_ms",
+            "max_charge_ammo",
+            "upgrade_growth_mana",
+            "champion_growth_multiplier"
+          ]
+        }
+      },
+      {
+        "key": "item_3119运行时输入不带默认值",
+        "pass": true,
+        "evidence": {
+          "runtimeInputs": [
+            {
+              "key": "actual_ability_resource_formula2",
+              "fixedValue": null
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_3119没有事件结果组成",
+        "pass": true,
+        "evidence": {
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      {
+        "key": "item_3121公式树节点类型",
+        "pass": true,
+        "evidence": {
+          "formulas": [
+            {
+              "key": "awe_bonus_health",
+              "signature": "MULTIPLY[P(resource_health_ratio),P(actual_ability_resource_formula2)]"
+            },
+            {
+              "key": "shield_value",
+              "signature": "ADD[P(shield_base),MULTIPLY[P(current_mana_shield_ratio),A(SOURCE.mana.CURRENT)]]"
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_3121公式参数引用",
+        "pass": true,
+        "evidence": {
+          "parameterKeys": [
+            "resource_health_ratio",
+            "actual_ability_resource_formula2",
+            "shield_base",
+            "current_mana_shield_ratio",
+            "shield_duration_ms",
+            "cooldown_ms"
+          ]
+        }
+      },
+      {
+        "key": "item_3121运行时输入不带默认值",
+        "pass": true,
+        "evidence": {
+          "runtimeInputs": [
+            {
+              "key": "actual_ability_resource_formula2",
+              "fixedValue": null
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_3121没有事件结果组成",
+        "pass": true,
+        "evidence": {
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      {
+        "key": "item_3137公式树节点类型",
+        "pass": true,
+        "evidence": {
+          "formulas": [
+            {
+              "key": "self_healing",
+              "signature": "ADD[P(base_heal),MULTIPLY[P(ap_heal_ratio),A(SOURCE.ability_power.TOTAL)]]"
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_3137公式参数引用",
+        "pass": true,
+        "evidence": {
+          "parameterKeys": [
+            "base_heal",
+            "ap_heal_ratio",
+            "cooldown_ms",
+            "takedown_window_ms"
+          ]
+        }
+      },
+      {
+        "key": "item_3137运行时输入不带默认值",
+        "pass": true,
+        "evidence": {
+          "runtimeInputs": []
+        }
+      },
+      {
+        "key": "item_3137没有事件结果组成",
+        "pass": true,
+        "evidence": {
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      {
+        "key": "item_3181公式树节点类型",
+        "pass": true,
+        "evidence": {
+          "formulas": [
+            {
+              "key": "melee_bonus_damage",
+              "signature": "ADD[MULTIPLY[P(base_ad_ratio),A(SOURCE.attack_damage.BASE)],MULTIPLY[P(mstat12_formula0_ratio),P(actual_mstat12_formula0)]]"
+            },
+            {
+              "key": "ranged_bonus_damage",
+              "signature": "MULTIPLY[P(ranged_damage_multiplier),ADD[MULTIPLY[P(base_ad_ratio),A(SOURCE.attack_damage.BASE)],MULTIPLY[P(mstat12_formula0_ratio),P(actual_mstat12_formula0)]]]"
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_3181公式参数引用",
+        "pass": true,
+        "evidence": {
+          "parameterKeys": [
+            "base_ad_ratio",
+            "mstat12_formula0_ratio",
+            "actual_mstat12_formula0",
+            "attacks_required",
+            "ranged_damage_multiplier"
+          ]
+        }
+      },
+      {
+        "key": "item_3181运行时输入不带默认值",
+        "pass": true,
+        "evidence": {
+          "runtimeInputs": [
+            {
+              "key": "actual_mstat12_formula0",
+              "fixedValue": null
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_3181没有事件结果组成",
+        "pass": true,
+        "evidence": {
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      {
+        "key": "item_6333公式树节点类型",
+        "pass": true,
+        "evidence": {
+          "formulas": [
+            {
+              "key": "melee_deferred_damage",
+              "signature": "MULTIPLY[P(melee_deferred_ratio),P(actual_eligible_incoming_damage)]"
+            },
+            {
+              "key": "ranged_deferred_damage",
+              "signature": "MULTIPLY[P(ranged_deferred_ratio),P(actual_eligible_incoming_damage)]"
+            },
+            {
+              "key": "total_healing",
+              "signature": "MULTIPLY[P(bonus_ad_heal_ratio),A(SOURCE.attack_damage.BONUS)]"
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_6333公式参数引用",
+        "pass": true,
+        "evidence": {
+          "parameterKeys": [
+            "bonus_ad_heal_ratio",
+            "deferred_duration_ms",
+            "healing_duration_ms",
+            "takedown_window_ms",
+            "melee_deferred_ratio",
+            "ranged_deferred_ratio",
+            "actual_eligible_incoming_damage"
+          ]
+        }
+      },
+      {
+        "key": "item_6333运行时输入不带默认值",
+        "pass": true,
+        "evidence": {
+          "runtimeInputs": [
+            {
+              "key": "actual_eligible_incoming_damage",
+              "fixedValue": null
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_6333没有事件结果组成",
+        "pass": true,
+        "evidence": {
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      {
+        "key": "item_6610公式树节点类型",
+        "pass": true,
+        "evidence": {
+          "formulas": [
+            {
+              "key": "melee_self_healing",
+              "signature": "ADD[MULTIPLY[P(base_ad_heal_ratio),A(SOURCE.attack_damage.BASE)],MULTIPLY[P(missing_health_heal_ratio),A(SOURCE.hp.MISSING)]]"
+            },
+            {
+              "key": "ranged_self_healing",
+              "signature": "ADD[MULTIPLY[P(ranged_ad_heal_multiplier),MULTIPLY[P(base_ad_heal_ratio),A(SOURCE.attack_damage.BASE)]],MULTIPLY[P(missing_health_heal_ratio),A(SOURCE.hp.MISSING)]]"
+            },
+            {
+              "key": "modified_critical_damage",
+              "signature": "MULTIPLY[P(normal_crit_damage_ratio),P(actual_normal_critical_damage)]"
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_6610公式参数引用",
+        "pass": true,
+        "evidence": {
+          "parameterKeys": [
+            "per_target_cooldown_ms",
+            "normal_crit_damage_ratio",
+            "base_ad_heal_ratio",
+            "missing_health_heal_ratio",
+            "ranged_ad_heal_multiplier",
+            "actual_normal_critical_damage"
+          ]
+        }
+      },
+      {
+        "key": "item_6610运行时输入不带默认值",
+        "pass": true,
+        "evidence": {
+          "runtimeInputs": [
+            {
+              "key": "actual_normal_critical_damage",
+              "fixedValue": null
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_6610没有事件结果组成",
+        "pass": true,
+        "evidence": {
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      {
+        "key": "item_4401公式树节点类型",
+        "pass": true,
+        "evidence": {
+          "formulas": []
+        }
+      },
+      {
+        "key": "item_4401公式参数引用",
+        "pass": true,
+        "evidence": {
+          "parameterKeys": [
+            "required_magic_hits",
+            "bonus_magic_resistance",
+            "bonus_move_speed_ratio",
+            "immobilize_hit_count",
+            "reset_duration_ms"
+          ]
+        }
+      },
+      {
+        "key": "item_4401运行时输入不带默认值",
+        "pass": true,
+        "evidence": {
+          "runtimeInputs": []
+        }
+      },
+      {
+        "key": "item_4401没有事件结果组成",
+        "pass": true,
+        "evidence": {
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      {
+        "key": "item_6665公式树节点类型",
+        "pass": true,
+        "evidence": {
+          "formulas": [
+            {
+              "key": "additional_armor",
+              "signature": "MULTIPLY[P(bonus_resistance_increase_ratio),P(eligible_bonus_armor)]"
+            },
+            {
+              "key": "additional_magic_resistance",
+              "signature": "MULTIPLY[P(bonus_resistance_increase_ratio),P(eligible_bonus_magic_resistance)]"
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_6665公式参数引用",
+        "pass": true,
+        "evidence": {
+          "parameterKeys": [
+            "champion_combat_duration_ms",
+            "bonus_resistance_increase_ratio",
+            "eligible_bonus_armor",
+            "eligible_bonus_magic_resistance"
+          ]
+        }
+      },
+      {
+        "key": "item_6665运行时输入不带默认值",
+        "pass": true,
+        "evidence": {
+          "runtimeInputs": [
+            {
+              "key": "eligible_bonus_armor",
+              "fixedValue": null
+            },
+            {
+              "key": "eligible_bonus_magic_resistance",
+              "fixedValue": null
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_6665没有事件结果组成",
+        "pass": true,
+        "evidence": {
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      {
+        "key": "item_6695公式树节点类型",
+        "pass": true,
+        "evidence": {
+          "formulas": [
+            {
+              "key": "melee_existing_shield_removed",
+              "signature": "MULTIPLY[P(melee_existing_shield_reduction),P(eligible_existing_shield)]"
+            },
+            {
+              "key": "melee_new_shield_removed",
+              "signature": "MULTIPLY[P(melee_new_shield_reduction),P(eligible_new_shield)]"
+            },
+            {
+              "key": "ranged_existing_shield_removed",
+              "signature": "MULTIPLY[P(ranged_existing_shield_reduction),P(eligible_existing_shield)]"
+            },
+            {
+              "key": "ranged_new_shield_removed",
+              "signature": "MULTIPLY[P(ranged_new_shield_reduction),P(eligible_new_shield)]"
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_6695公式参数引用",
+        "pass": true,
+        "evidence": {
+          "parameterKeys": [
+            "debuff_duration_ms",
+            "melee_new_shield_reduction",
+            "melee_existing_shield_reduction",
+            "ranged_new_shield_reduction",
+            "ranged_existing_shield_reduction",
+            "eligible_existing_shield",
+            "eligible_new_shield"
+          ]
+        }
+      },
+      {
+        "key": "item_6695运行时输入不带默认值",
+        "pass": true,
+        "evidence": {
+          "runtimeInputs": [
+            {
+              "key": "eligible_existing_shield",
+              "fixedValue": null
+            },
+            {
+              "key": "eligible_new_shield",
+              "fixedValue": null
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_6695没有事件结果组成",
+        "pass": true,
+        "evidence": {
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      {
+        "key": "item_6696公式树节点类型",
+        "pass": true,
+        "evidence": {
+          "formulas": [
+            {
+              "key": "refund_ratio",
+              "signature": "MULTIPLY[P(percentage_point_to_ratio),ADD[P(refund_base_points),MULTIPLY[P(mstat29_refund_points_ratio),P(actual_mstat29_formula0)]]]"
+            },
+            {
+              "key": "refund_cooldown_ms",
+              "signature": "MULTIPLY[MULTIPLY[P(percentage_point_to_ratio),ADD[P(refund_base_points),MULTIPLY[P(mstat29_refund_points_ratio),P(actual_mstat29_formula0)]]],P(actual_ultimate_total_cooldown_ms)]"
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_6696公式参数引用",
+        "pass": true,
+        "evidence": {
+          "parameterKeys": [
+            "takedown_window_ms",
+            "refund_base_points",
+            "mstat29_refund_points_ratio",
+            "percentage_point_to_ratio",
+            "actual_mstat29_formula0",
+            "actual_ultimate_total_cooldown_ms"
+          ]
+        }
+      },
+      {
+        "key": "item_6696运行时输入不带默认值",
+        "pass": true,
+        "evidence": {
+          "runtimeInputs": [
+            {
+              "key": "actual_mstat29_formula0",
+              "fixedValue": null
+            },
+            {
+              "key": "actual_ultimate_total_cooldown_ms",
+              "fixedValue": null
+            }
+          ]
+        }
+      },
+      {
+        "key": "item_6696没有事件结果组成",
+        "pass": true,
+        "evidence": {
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        }
+      },
+      {
+        "key": "3137库存文案明确自我治疗",
+        "pass": true,
+        "evidence": {
+          "text": "已造成的自我治疗：<attention>@f5@</attention><br>已造成的友军治疗：<attention>@f6@</attention>"
+        }
+      },
+      {
+        "key": "3137自身治疗保留为公式且不造直接治疗",
+        "pass": true,
+        "evidence": {
+          "formula": "ADD[P(base_heal),MULTIPLY[P(ap_heal_ratio),A(SOURCE.ability_power.TOTAL)]]",
+          "example": "基础100+0.2×法强300=160"
+        }
+      },
+      {
+        "key": "4401扩展文案定身计2次且7秒重置",
+        "pass": true,
+        "evidence": {
+          "text": "{{Item_4401_Tooltip}}<br><br><rules><status>定身</status>效果视作@ImmobilizeStacks@次伤害。<br><passive>坚定</passive>会在@BuffDuration@秒后重置。</rules><br>",
+          "immobilizeStacks": {
+            "mName": "ImmobilizeStacks",
+            "mValue": 2,
+            "__type": "ItemDataValue"
+          },
+          "buffDuration": {
+            "mName": "BuffDuration",
+            "mValue": 7,
+            "__type": "ItemDataValue"
+          }
+        }
+      },
+      {
+        "key": "4401定身和重置字段数值",
+        "pass": true,
+        "evidence": {
+          "immobilizeHitCount": 2,
+          "resetDurationMs": 7000
+        }
+      },
+      {
+        "key": "4401缺失减伤值未补零",
+        "pass": true,
+        "evidence": {
+          "sourceDamageReduction": {
+            "mName": "DamageReduction",
+            "__type": "ItemDataValue"
+          }
+        }
+      },
+      {
+        "key": "2522主动持续8秒且冷却为转速",
+        "pass": true,
+        "evidence": {
+          "durationSeconds": 8,
+          "activeText": "%i:activeEffect% <active>法力成真</active> {{ Item_Cooldown }}<br>在@Duration@秒的持续期间里，你的法力值获得强化。在强化状态下，你的技能花费@ManaCostIncrease*100@%额外法力值，你获得额外的@ManaCalc@技能伤害、护盾值、治疗效果，并且你的基础技能的冷却时间转速加快@CooldownTick*100@%。"
+        }
+      },
+      {
+        "key": "2522资源formula2运行时输入无默认",
+        "pass": true,
+        "evidence": {
+          "parameter": {
+            "parameterKey": "actual_ability_resource_formula2",
+            "name": "原资源口径的实际值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "AbilityResourceByCoefficient的mStatFormula=2尚未证明对应额外法力，必须外供原节点实际数值。 不提供默认值。",
+            "sortOrder": 80
+          }
+        }
+      },
+      {
+        "key": "2522增幅算例及无一次返还字段",
+        "pass": true,
+        "evidence": {
+          "formula": "MULTIPLY[P(percentage_point_to_ratio),ADD[P(amplification_base_points),MULTIPLY[P(resource_amplification_points_ratio),P(actual_ability_resource_formula2)]]]",
+          "example": "0.01×(15+0.005×500)=0.175",
+          "keys": [
+            "cooldown_ms",
+            "duration_ms",
+            "extra_mana_cost_ratio",
+            "basic_cooldown_speed_bonus",
+            "percentage_point_to_ratio",
+            "amplification_base_points",
+            "resource_amplification_points_ratio",
+            "actual_ability_resource_formula2",
+            "amplification_ratio"
+          ]
+        }
+      },
+      {
+        "key": "3181远程乘数来自mRangedMultiplier",
+        "pass": true,
+        "evidence": {
+          "sourceMRangeMultiplier": 0.699999988079071,
+          "candidateMultiplier": 0.7
+        }
+      },
+      {
+        "key": "3181远程乘整项",
+        "pass": true,
+        "evidence": {
+          "signature": "MULTIPLY[P(ranged_damage_multiplier),ADD[MULTIPLY[P(base_ad_ratio),A(SOURCE.attack_damage.BASE)],MULTIPLY[P(mstat12_formula0_ratio),P(actual_mstat12_formula0)]]]"
+        }
+      },
+      {
+        "key": "3181的12/0输入无默认",
+        "pass": true,
+        "evidence": {
+          "parameter": {
+            "parameterKey": "actual_mstat12_formula0",
+            "name": "船长第二属性实际值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "mStat12且省略mStatFormula默认0，当前不扩展为总生命；需要原节点实际输入。 不提供默认值。",
+            "sortOrder": 30
+          }
+        }
+      },
+      {
+        "key": "3181远程区别性算例",
+        "pass": true,
+        "evidence": {
+          "example": "0.7×(1.2×100+0.05×200)=91",
+          "result": 91
+        }
+      },
+      {
+        "key": "6610远程乘数原节点为0.5",
+        "pass": true,
+        "evidence": {
+          "sourceDataValue": "RangedHealMod",
+          "sourceValue": 0.5,
+          "candidateValue": 0.5
+        }
+      },
+      {
+        "key": "6610远程仅减半基础AD治疗项",
+        "pass": true,
+        "evidence": {
+          "signature": "ADD[MULTIPLY[P(ranged_ad_heal_multiplier),MULTIPLY[P(base_ad_heal_ratio),A(SOURCE.attack_damage.BASE)]],MULTIPLY[P(missing_health_heal_ratio),A(SOURCE.hp.MISSING)]]"
+        }
+      },
+      {
+        "key": "6610区别性算例",
+        "pass": true,
+        "evidence": {
+          "example": "0.5×0.9×100+0.04×500=65",
+          "result": 65
+        }
+      },
+      {
+        "key": "6333持续总治疗与延后总伤字段",
+        "pass": true,
+        "evidence": {
+          "tooltip": "<passive>无视痛苦</passive><br>所受的{{ Item_Melee_Ranged_Split_Dynamic }}伤害会以流血形式在@BleedDurationWorst@秒里持续扣除。<br><br><passive>蔑视</passive><br>如果一名在过去@TakedownWindow@秒内曾被你造成过伤害的英雄阵亡，会净化<passive>无视痛苦</passive>的剩余伤害，并在@HealDuration@秒里持续为你<healing>治疗共@HealTotal@生命值</healing>。",
+          "sourceMelee": 0.30000001192092896,
+          "sourceRanged": 0.10000000149011612
+        }
+      },
+      {
+        "key": "6333公式不把总治疗拆成每跳",
+        "pass": true,
+        "evidence": {
+          "totalHealingExample": 150,
+          "durationMs": 2000
+        }
+      },
+      {
+        "key": "6333近远延后伤害算例",
+        "pass": true,
+        "evidence": {
+          "melee": 30,
+          "ranged": 10,
+          "formula": "0.3×100 / 0.1×100"
+        }
+      },
+      {
+        "key": "6696原文为终极技能总冷却百分比",
+        "pass": true,
+        "evidence": {
+          "text": "<passive>涌动</passive><br>在你对一名敌方英雄造成伤害后，如果该英雄在@ResetWindow@秒内阵亡，则会返还你@UltimateRefund@%的终极技能总冷却时间。"
+        }
+      },
+      {
+        "key": "6696百分比点先转比例再乘总冷却毫秒",
+        "pass": true,
+        "evidence": {
+          "ratioExample": 0.15,
+          "millisecondsExample": 15000,
+          "formula": "0.01×(10+0.25×20)×100000=15000毫秒"
+        }
+      },
+      {
+        "key": "6696未解码mStat29和总冷却无默认",
+        "pass": true,
+        "evidence": {
+          "stat": {
+            "parameterKey": "actual_mstat29_formula0",
+            "name": "原mStat29属性实际值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "当前mStat29且默认formula0的枚举未具名证明。 不提供默认值。",
+            "sortOrder": 50
+          },
+          "cooldown": {
+            "parameterKey": "actual_ultimate_total_cooldown_ms",
+            "name": "当前终极技能总冷却毫秒",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "中文明确总冷却，需外部提供对应技能正确结算口径的总冷却，不使用当前剩余值代替。 不提供默认值。",
+            "sortOrder": 60
+          }
+        }
+      },
+      {
+        "key": "2522资源formula2不填默认",
+        "pass": true,
+        "evidence": {
+          "sourceParts": [
+            {
+              "mCoefficient": 0.004999999888241291,
+              "mStatFormula": 2,
+              "__type": "AbilityResourceByCoefficientCalculationPart"
+            }
+          ],
+          "candidate": {
+            "parameterKey": "actual_ability_resource_formula2",
+            "name": "原资源口径的实际值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "AbilityResourceByCoefficient的mStatFormula=2尚未证明对应额外法力，必须外供原节点实际数值。 不提供默认值。",
+            "sortOrder": 80
+          }
+        }
+      },
+      {
+        "key": "3119资源formula2不填默认",
+        "pass": true,
+        "evidence": {
+          "sourceParts": [
+            {
+              "mCoefficient": 0.15000000596046448,
+              "mStatFormula": 2,
+              "__type": "AbilityResourceByCoefficientCalculationPart"
+            }
+          ],
+          "candidate": {
+            "parameterKey": "actual_ability_resource_formula2",
+            "name": "原资源口径的实际值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "原资源节点类型与mStatFormula=2的属性语义未证，不能借护盾当前法力说明替代该节点。 不提供默认值。",
+            "sortOrder": 20
+          }
+        }
+      },
+      {
+        "key": "3121资源formula2不填默认",
+        "pass": true,
+        "evidence": {
+          "sourceParts": [
+            {
+              "mCoefficient": 0.15000000596046448,
+              "mStatFormula": 2,
+              "__type": "AbilityResourceByCoefficientCalculationPart"
+            }
+          ],
+          "candidate": {
+            "parameterKey": "actual_ability_resource_formula2",
+            "name": "原资源口径的实际值",
+            "valueType": "DECIMAL",
+            "valueMode": "RUNTIME_INPUT",
+            "fixedValue": null,
+            "levelValues": null,
+            "description": "原资源节点类型与mStatFormula=2的属性语义未证，不能借护盾当前法力说明替代该节点。 不提供默认值。",
+            "sortOrder": 20
+          }
+        }
+      },
+      {
+        "key": "2525原始属性节点已识别",
+        "pass": true,
+        "evidence": {
+          "sourceParts": [
+            {
+              "mStat": 1,
+              "mStatFormula": 2,
+              "coefficient": 1.75
+            },
+            {
+              "mStat": 6,
+              "mStatFormula": 2,
+              "coefficient": 1.75
+            }
+          ]
+        }
+      },
+      {
+        "key": "2525属性枚举映射有窄证据",
+        "pass": true,
+        "evidence": {
+          "candidateFormula": "ADD[ADD[P(heal_base_by_level),MULTIPLY[P(bonus_resist_heal_ratio),A(SOURCE.armor.BONUS)]],MULTIPLY[P(bonus_resist_heal_ratio),A(SOURCE.magic_resistance.BONUS)]]",
+          "sourceParts": [
+            {
+              "mStat": 1,
+              "mStatFormula": 2,
+              "coefficient": 1.75
+            },
+            {
+              "mStat": 6,
+              "mStatFormula": 2,
+              "coefficient": 1.75
+            }
+          ],
+          "aftershockEvidencePath": "C:\\project\\damage_viewer_project_planning\\数据参考\\全量录入-2026-09\\API实录\\符文效果第四批\\冻结来源.json",
+          "aftershockArmorNode": {
+            "mStat": 1,
+            "mStatFormula": 2,
+            "mDataValue": "PercentBonusResist",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "aftershockMagicResistNode": {
+            "mStat": 6,
+            "mStatFormula": 2,
+            "mDataValue": "PercentBonusResist",
+            "__type": "StatByNamedDataValueCalculationPart"
+          },
+          "aftershockLongText": "在定身住一名敌方英雄后，使你的护甲和魔法抗性提升，数额为@FlatResists@+你@PercentBonusResist*100@%的额外双抗，持续@DelayBeforeBurst.1@秒。随后会爆炸，对附近的敌人造成魔法伤害。<br><br>伤害值：@StartingBaseDamage@ - @MaxBaseDamage@ (+你@HealthRatio*100@%的额外生命值)<br>冷却时间：@Cooldown@秒<br><br>来自余震的双抗加成封顶值：@BonusResistMin@-@BonusResistMax@(基于等级)<br>"
+        }
+      }
+    ]
+  },
+  "checker": {
+    "passSignature": "(key, condition, evidence)",
+    "normalFailedCheckExitCode": 2,
+    "negativeSelfTestArgument": "--negative-self-test",
+    "negativeSelfTestObservedExitCode": 2
+  },
+  "examples": [
+    {
+      "item": "3137",
+      "case": "法强300",
+      "formula": "100+0.2×300",
+      "result": 160,
+      "boundary": "仅数值公式算例，击杀窗口和新星命中仍待运行时接线"
+    },
+    {
+      "item": "4401",
+      "case": "6次普通魔法伤害+1次定身",
+      "formula": "6+2",
+      "result": 8,
+      "boundary": "计数、去重和7秒计时起点仍未接线"
+    },
+    {
+      "item": "2522",
+      "case": "资源输入500",
+      "formula": "0.01×(15+0.005×500)",
+      "result": 0.17500000000000002,
+      "boundary": "只证明公式；额外法力消费、合法增幅乘区和冷却转速计时未接线"
+    },
+    {
+      "item": "3181",
+      "case": "基础攻击力100、未解码12/0输入200",
+      "formula": "0.7×(1.2×100+0.05×200)",
+      "result": 91,
+      "boundary": "12/0资格和第五次攻击事件仍待外供"
+    },
+    {
+      "item": "6610",
+      "case": "基础攻击力100、已损生命500",
+      "formula": "0.5×(0.9×100)+0.04×500",
+      "result": 65,
+      "boundary": "首次攻击资格、暴击结算和溢出治疗仍待接线"
+    },
+    {
+      "item": "6333",
+      "case": "符合资格伤害100、额外攻击力200",
+      "formula": "近战0.3×100；远程0.1×100；总治疗0.75×200",
+      "result": {
+        "meleeDeferred": 30,
+        "rangedDeferred": 10,
+        "totalHealing": 150
+      },
+      "boundary": "三秒流血池、后续节拍、击杀净化和两秒治疗时序未接线"
+    },
+    {
+      "item": "6696",
+      "case": "mStat29输入20、终极总冷却100000毫秒",
+      "formula": "0.01×(10+0.25×20)×100000",
+      "result": 15000,
+      "boundary": "伤害归因、目标阵亡和终极技能选择仍待接线"
+    }
+  ],
+  "resourceFormula2": [
+    {
+      "id": "2522",
+      "sourceParts": [
+        {
+          "mCoefficient": 0.004999999888241291,
+          "mStatFormula": 2,
+          "__type": "AbilityResourceByCoefficientCalculationPart"
+        }
+      ],
+      "candidate": {
+        "parameterKey": "actual_ability_resource_formula2",
+        "name": "原资源口径的实际值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "AbilityResourceByCoefficient的mStatFormula=2尚未证明对应额外法力，必须外供原节点实际数值。 不提供默认值。",
+        "sortOrder": 80
+      }
+    },
+    {
+      "id": "3119",
+      "sourceParts": [
+        {
+          "mCoefficient": 0.15000000596046448,
+          "mStatFormula": 2,
+          "__type": "AbilityResourceByCoefficientCalculationPart"
+        }
+      ],
+      "candidate": {
+        "parameterKey": "actual_ability_resource_formula2",
+        "name": "原资源口径的实际值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原资源节点类型与mStatFormula=2的属性语义未证，不能借护盾当前法力说明替代该节点。 不提供默认值。",
+        "sortOrder": 20
+      }
+    },
+    {
+      "id": "3121",
+      "sourceParts": [
+        {
+          "mCoefficient": 0.15000000596046448,
+          "mStatFormula": 2,
+          "__type": "AbilityResourceByCoefficientCalculationPart"
+        }
+      ],
+      "candidate": {
+        "parameterKey": "actual_ability_resource_formula2",
+        "name": "原资源口径的实际值",
+        "valueType": "DECIMAL",
+        "valueMode": "RUNTIME_INPUT",
+        "fixedValue": null,
+        "levelValues": null,
+        "description": "原资源节点类型与mStatFormula=2的属性语义未证，不能借护盾当前法力说明替代该节点。 不提供默认值。",
+        "sortOrder": 20
+      }
+    }
+  ],
+  "blockers": [],
+  "dependencies": [
+    {
+      "item": "item_3181",
+      "component": "mStat2/formula1基础攻击力",
+      "status": "依赖另一代理复核",
+      "evidence": "候选保留 SOURCE.attack_damage.BASE；本报告只核对远程整项乘数和12/0无默认，不重复基础攻击力具名补证。"
+    }
+  ],
+  "noBusinessWrites": true
+}
