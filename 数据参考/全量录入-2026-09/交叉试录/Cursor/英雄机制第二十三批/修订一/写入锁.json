@@ -1,0 +1,1103 @@
+{
+  "schemaVersion": 1,
+  "state": "COMPLETED",
+  "startedAt": "2026-09-09T14:32:14.058Z",
+  "candidateSha256": "772528a5abd0ec24285f4db64f7cb03b5c6415a106aa83fbb7ffe40b651d3358",
+  "planSha256": "ba31f93dee47c0ce73128cb1d1e94283c74c00aae4a5d42791dbbfbff84c3169",
+  "sourceManifestSha256": "9ce4a9e55a1057d34906e8669750632af6ba234be7453cbd9e829bab22184e39",
+  "apiWrites": 109,
+  "nextIndex": 109,
+  "writes": [
+    {
+      "skillKey": "amumu_p",
+      "kind": "parameters",
+      "stableKey": "curse_duration_ms",
+      "route": "/skills/amumu_p/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_p",
+      "kind": "parameters",
+      "stableKey": "magic_damage_bonus_true_ratio",
+      "route": "/skills/amumu_p/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_p",
+      "kind": "parameters",
+      "stableKey": "magic_damage_base",
+      "route": "/skills/amumu_p/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_p",
+      "kind": "formulas",
+      "stableKey": "bonus_true_damage",
+      "route": "/skills/amumu_p/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_q",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "route": "/skills/amumu_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_q",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/amumu_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "route": "/skills/amumu_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "route": "/skills/amumu_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_q",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "route": "/skills/amumu_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_q",
+      "kind": "parameters",
+      "stableKey": "max_charges",
+      "route": "/skills/amumu_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_q",
+      "kind": "parameters",
+      "stableKey": "ammo_recharge_time_ms",
+      "route": "/skills/amumu_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_q",
+      "kind": "parameters",
+      "stableKey": "dash_speed",
+      "route": "/skills/amumu_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_q",
+      "kind": "formulas",
+      "stableKey": "total_damage",
+      "route": "/skills/amumu_q/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_q",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "route": "/skills/amumu_q/effects",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_w",
+      "kind": "parameters",
+      "stableKey": "cooldown_ms",
+      "route": "/skills/amumu_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/amumu_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_w",
+      "kind": "parameters",
+      "stableKey": "mana_cost_per_second",
+      "route": "/skills/amumu_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_w",
+      "kind": "parameters",
+      "stableKey": "base_damage_per_second",
+      "route": "/skills/amumu_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_w",
+      "kind": "parameters",
+      "stableKey": "target_max_health_percent_points",
+      "route": "/skills/amumu_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_percent_points_per_ap",
+      "route": "/skills/amumu_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_w",
+      "kind": "parameters",
+      "stableKey": "percent_point_ratio",
+      "route": "/skills/amumu_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_w",
+      "kind": "formulas",
+      "stableKey": "total_health_damage_percent_points",
+      "route": "/skills/amumu_w/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_w",
+      "kind": "formulas",
+      "stableKey": "damage_per_second",
+      "route": "/skills/amumu_w/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/amumu_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "route": "/skills/amumu_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "route": "/skills/amumu_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "parameters",
+      "stableKey": "base_damage_reduction_points",
+      "route": "/skills/amumu_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "parameters",
+      "stableKey": "bonus_armor_ratio",
+      "route": "/skills/amumu_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "parameters",
+      "stableKey": "bonus_magic_resistance_ratio",
+      "route": "/skills/amumu_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "parameters",
+      "stableKey": "reduction_cap_ratio",
+      "route": "/skills/amumu_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "parameters",
+      "stableKey": "incoming_physical_damage",
+      "route": "/skills/amumu_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "parameters",
+      "stableKey": "source_bonus_armor",
+      "route": "/skills/amumu_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "parameters",
+      "stableKey": "source_bonus_magic_resistance",
+      "route": "/skills/amumu_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "parameters",
+      "stableKey": "cooldown_reduction_on_hit_ms",
+      "route": "/skills/amumu_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "formulas",
+      "stableKey": "damage_reduction_points",
+      "route": "/skills/amumu_e/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "formulas",
+      "stableKey": "raw_physical_damage_reduction",
+      "route": "/skills/amumu_e/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "formulas",
+      "stableKey": "capped_physical_damage_reduction",
+      "route": "/skills/amumu_e/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "formulas",
+      "stableKey": "tantrum_damage",
+      "route": "/skills/amumu_e/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "route": "/skills/amumu_e/effects",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_r",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/amumu_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_r",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "route": "/skills/amumu_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "route": "/skills/amumu_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_r",
+      "kind": "parameters",
+      "stableKey": "stun_duration_ms",
+      "route": "/skills/amumu_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_r",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "route": "/skills/amumu_r/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "amumu_r",
+      "kind": "effects",
+      "stableKey": "mana_cost",
+      "route": "/skills/amumu_r/effects",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_p",
+      "kind": "parameters",
+      "stableKey": "cell_heal_ratio",
+      "route": "/skills/zac_p/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_p",
+      "kind": "formulas",
+      "stableKey": "total_heal",
+      "route": "/skills/zac_p/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "route": "/skills/zac_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "route": "/skills/zac_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "parameters",
+      "stableKey": "source_bonus_health_ratio",
+      "route": "/skills/zac_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "parameters",
+      "stableKey": "hp_cost_ratio",
+      "route": "/skills/zac_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "parameters",
+      "stableKey": "source_current_hp_for_cost",
+      "route": "/skills/zac_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "route": "/skills/zac_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "route": "/skills/zac_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "parameters",
+      "stableKey": "max_damage_multiplier",
+      "route": "/skills/zac_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "parameters",
+      "stableKey": "missile_range",
+      "route": "/skills/zac_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "parameters",
+      "stableKey": "tether_duration_ms",
+      "route": "/skills/zac_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "parameters",
+      "stableKey": "tether_falloff_distance",
+      "route": "/skills/zac_q/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "formulas",
+      "stableKey": "total_damage",
+      "route": "/skills/zac_q/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "formulas",
+      "stableKey": "max_damage_tooltip",
+      "route": "/skills/zac_q/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "formulas",
+      "stableKey": "health_cost",
+      "route": "/skills/zac_q/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_q",
+      "kind": "effects",
+      "stableKey": "health_cost",
+      "route": "/skills/zac_q/effects",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_w",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/zac_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_w",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "route": "/skills/zac_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_w",
+      "kind": "parameters",
+      "stableKey": "target_max_health_percent_points",
+      "route": "/skills/zac_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_w",
+      "kind": "parameters",
+      "stableKey": "ap_ratio_percent_points_per_ap",
+      "route": "/skills/zac_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_w",
+      "kind": "parameters",
+      "stableKey": "percent_point_ratio",
+      "route": "/skills/zac_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_w",
+      "kind": "parameters",
+      "stableKey": "hp_cost_ratio",
+      "route": "/skills/zac_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_w",
+      "kind": "parameters",
+      "stableKey": "source_current_hp_for_cost",
+      "route": "/skills/zac_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_w",
+      "kind": "parameters",
+      "stableKey": "cell_cooldown_reduction_ms",
+      "route": "/skills/zac_w/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_w",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "route": "/skills/zac_w/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_w",
+      "kind": "formulas",
+      "stableKey": "health_cost",
+      "route": "/skills/zac_w/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_w",
+      "kind": "effects",
+      "stableKey": "health_cost",
+      "route": "/skills/zac_w/effects",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "cast_time_ms",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "base_damage",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "hp_cost_ratio",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "source_current_hp_for_cost",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "charge_time_ms",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "minimum_stun_duration_ms",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "maximum_stun_multiplier",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "max_range",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "minimum_speed",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "maximum_speed",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "distance_to_speed_ratio",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "knockup_radius",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "cancel_refund_ratio",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "parameters",
+      "stableKey": "extra_cell_per_enemy_hero",
+      "route": "/skills/zac_e/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "formulas",
+      "stableKey": "damage",
+      "route": "/skills/zac_e/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "formulas",
+      "stableKey": "maximum_stun_duration",
+      "route": "/skills/zac_e/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "formulas",
+      "stableKey": "health_cost",
+      "route": "/skills/zac_e/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_e",
+      "kind": "effects",
+      "stableKey": "health_cost",
+      "route": "/skills/zac_e/effects",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "bounce_count",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "interval_ms",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "knockup_duration_ms",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "first_base_damage",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "subsequent_damage_multiplier",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "knockback_distance",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "knockback_range",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "beginning_move_speed_ratio",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "ending_move_speed_ratio",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "slow_percent_points",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "slow_duration_ms",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "ap_ratio",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "parameters",
+      "stableKey": "subsequent_bounce_offset",
+      "route": "/skills/zac_r/parameters",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "formulas",
+      "stableKey": "damage_per_bounce",
+      "route": "/skills/zac_r/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "formulas",
+      "stableKey": "damage_per_subsequent_bounce",
+      "route": "/skills/zac_r/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "formulas",
+      "stableKey": "duration_tooltip_ms",
+      "route": "/skills/zac_r/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    },
+    {
+      "skillKey": "zac_r",
+      "kind": "formulas",
+      "stableKey": "max_damage_tooltip",
+      "route": "/skills/zac_r/formulas",
+      "state": "CREATED_AND_VERIFIED",
+      "postStatus": 201,
+      "readbackStatus": 200,
+      "diff": null
+    }
+  ],
+  "finishedAt": "2026-09-09T14:34:20.348Z"
+}

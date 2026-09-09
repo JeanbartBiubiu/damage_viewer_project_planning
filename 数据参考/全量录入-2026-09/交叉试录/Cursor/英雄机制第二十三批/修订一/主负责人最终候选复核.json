@@ -1,0 +1,26 @@
+{
+  "at": "2026-09-09T14:17:11.761Z",
+  "status": "最终候选来源复核通过，写入器仍须单独检查后授权实际录入",
+  "candidateSha256": "772528a5abd0ec24285f4db64f7cb03b5c6415a106aa83fbb7ffe40b651d3358",
+  "planSha256": "ba31f93dee47c0ce73128cb1d1e94283c74c00aae4a5d42791dbbfbff84c3169",
+  "newCounts": {
+    "parameters": 81,
+    "formulas": 22,
+    "effects": 6
+  },
+  "POSTIntents": 109,
+  "reusedParameters": 9,
+  "checks": [
+    "已按当前十槽绑定正文和计算树核对初稿，再逐项检查修订差异。",
+    "阿木木E固定点数5/7/9/11/13+.03额外护甲+.03额外魔抗，最终MIN(点数,.5输入物理伤害)，不乘.01。",
+    "阿木木W匿名半次修饰、扎克四组织复活、不同目标碰撞专用距离和表现预警已移出业务候选。",
+    "所有22式运算节点二元、整数和毫秒参数类型通过，109意图逐body等于最终候选。",
+    "扎克Q/W/E生命值消耗载荷已有奥拉夫E实际回读同类证据，当前生命值仍明确无默认外供。",
+    "44独立来源算例和32缺值拒绝通过；业务实际GET表达式数学仍待写后核验。"
+  ],
+  "nonBlockingIssues": [
+    "阿木木E damage_reduction_points与raw_physical_damage_reduction表达式重复，首轮汇总后按中间量复用规则精简；二者目前值一致，无调用歧义。"
+  ],
+  "apiWrites": 0,
+  "runtimeValidation": "未执行"
+}

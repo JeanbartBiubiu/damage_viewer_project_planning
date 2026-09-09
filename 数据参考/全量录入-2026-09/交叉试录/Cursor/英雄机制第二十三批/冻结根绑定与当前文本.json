@@ -1,0 +1,4380 @@
+{
+  "at": "2026-09-09T12:42:13.199Z",
+  "clientVersion": "16.17",
+  "officialVersion": "16.17.1",
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "stringTableSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "heroes": [
+    {
+      "id": "Amumu",
+      "key": "champion_amumu",
+      "name": "阿木木",
+      "source": {
+        "championId": "Amumu",
+        "chineseName": "殇之木乃伊",
+        "resourceType": "法力",
+        "client": {
+          "path": "客户端原文/Amumu.json.gz",
+          "sha256": "d4902e3cf57aace35eb28d9645bd14b394039d5345fd7c5de602b05d7f75c660",
+          "compressedSha256": "35cc43b24362baa4c5a549aa6522a3e67a63f2dd0e48d2e255d358bbf6048175",
+          "byteSize": 42103,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/amumu/amumu.bin.json",
+          "fetchedAt": "2026-09-06T14:26:12.354Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Amumu.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Amumu.json",
+          "fetchedAt": "2026-09-06T14:12:44.169Z",
+          "byteSize": 13973,
+          "sha256": "1ec70c09d774c7bd7605c2803e098699d5c42df8ceb22bc9c7ae6f4b7de956c5"
+        },
+        "rootPath": "Characters/Amumu/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "诅咒之触",
+            "clientPath": "Characters/Amumu/Spells/AmumuPAbility/AmumuP",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "DebuffDuration",
+              "DamageAmp"
+            ],
+            "calculationNames": [],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "BandageToss",
+            "name": "绷带牵引",
+            "clientPath": "Characters/Amumu/Spells/BandageTossAbility/BandageToss",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "cost": [
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            "clientMana": [
+              50,
+              50,
+              50,
+              50,
+              50,
+              50
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "BaseDamage",
+              "StunDuration",
+              "DashSpeed"
+            ],
+            "calculationNames": [
+              "TotalDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "AuraofDespair",
+            "name": "绝望光环",
+            "clientPath": "Characters/Amumu/Spells/AuraofDespairAbility/AuraofDespair",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "cost": [
+              8,
+              8,
+              8,
+              8,
+              8
+            ],
+            "resource": "每秒{{ cost }}{{ abilityresourcename }}",
+            "clientCooldown": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ],
+            "clientMana": [
+              8,
+              8,
+              8,
+              8,
+              8,
+              8
+            ],
+            "clientCastTime": 0.3068000078201294,
+            "dataValueNames": [
+              "BaseDamage",
+              "HealthDamage",
+              "APRatio"
+            ],
+            "calculationNames": [
+              "{c8e45bc3}",
+              "TotalHealthDamage",
+              "{8a96509c}"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "Tantrum",
+            "name": "阿木木的愤怒",
+            "clientPath": "Characters/Amumu/Spells/TantrumAbility/Tantrum",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              9,
+              8,
+              7,
+              6,
+              5
+            ],
+            "cost": [
+              35,
+              35,
+              35,
+              35,
+              35
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              10,
+              9,
+              8,
+              7,
+              6,
+              5,
+              4
+            ],
+            "clientMana": [
+              35,
+              35,
+              35,
+              35,
+              35,
+              35
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "FlatDamageReductionMax",
+              "BaseDamage",
+              "BaseDamageReduction",
+              "CDROnHit",
+              "PassiveScaling"
+            ],
+            "calculationNames": [
+              "DamageReduction",
+              "TantrumDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "CurseoftheSadMummy",
+            "name": "木乃伊之咒",
+            "clientPath": "Characters/Amumu/Spells/CurseoftheSadMummyAbility/CurseoftheSadMummy",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              150,
+              125,
+              100
+            ],
+            "cost": [
+              100,
+              150,
+              200
+            ],
+            "resource": "{{ cost }} {{ abilityresourcename }}",
+            "clientCooldown": [
+              150,
+              150,
+              125,
+              100,
+              100,
+              100,
+              100
+            ],
+            "clientMana": [
+              100,
+              150,
+              200,
+              80,
+              80,
+              0
+            ],
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "RDamage",
+              "RDuration",
+              "RCoefficient"
+            ],
+            "calculationNames": [
+              "RCalculatedDamage"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      },
+      "rootPath": "Characters/Amumu/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Amumu/Spells/AmumuPAbility/AmumuP",
+        "spells": [
+          "Characters/Amumu/Spells/BandageTossAbility/BandageToss",
+          "Characters/Amumu/Spells/AuraofDespairAbility/AuraofDespair",
+          "Characters/Amumu/Spells/TantrumAbility/Tantrum",
+          "Characters/Amumu/Spells/CurseoftheSadMummyAbility/CurseoftheSadMummy"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "amumu_p",
+          "binding": "Characters/Amumu/Spells/AmumuPAbility/AmumuP",
+          "object": {
+            "ObjectName": "AmumuP",
+            "objectPath": "Characters/Amumu/Spells/AmumuPAbility/AmumuP",
+            "mScriptName": "AmumuP",
+            "mSpell": {
+              "DataValues": [
+                {
+                  "name": "DebuffDuration",
+                  "values": [
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3,
+                    3
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DamageAmp",
+                  "values": [
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612,
+                    0.10000000149011612
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mAnimationName": "",
+              "mImgIconName": [
+                "ASSETS/Characters/Amumu/HUD/Icons2D/Amumu_Passive.dds"
+              ],
+              "cooldownTime": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "Cooldown": {
+                "values": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "{0a3e0478}": 0,
+                "__type": "{0a0eddc9}"
+              },
+              "castRange": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "castRangeValues": {
+                "values": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "{0a3e0478}": 0,
+                "__type": "{0a0eddc9}"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "AmumuP",
+                  "mFormat": "{476ec0b8}",
+                  "EnableExtendedTooltip": false,
+                  "mLocKeys": {
+                    "keyName": "Spell_AmumuP_Name",
+                    "keyTooltip": "Spell_AmumuP_Tooltip",
+                    "keySummary": "Spell_AmumuP_Summary"
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_AmumuP_Name",
+              "text": "诅咒之触"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_AmumuP_Tooltip",
+              "text": "阿木木的攻击会<keywordMajor>诅咒</keywordMajor>他的敌人@DebuffDuration@秒，使其从所有来源的魔法伤害中多承受额外的<trueDamage>@DamageAmp*100@%真实伤害</trueDamage>。"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_AmumuP_Summary",
+              "text": "阿木木的普通攻击会<font color='#9b0f5f'>诅咒</font>他的敌人，使敌人会从即将到来的魔法伤害中承受额外真实伤害。"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "amumu_q",
+          "binding": "Characters/Amumu/Spells/BandageTossAbility/BandageToss",
+          "object": {
+            "ObjectName": "BandageToss",
+            "objectPath": "Characters/Amumu/Spells/BandageTossAbility/BandageToss",
+            "mScriptName": "BandageToss",
+            "mSpell": {
+              "mAffectsTypeFlags": 14346,
+              "mSpellTags": [
+                "PositiveEffect_MoveBlock",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_SignatureSpell",
+                "Trait_Ammo",
+                "Trait_Ranged_StopsFirstHit"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    45,
+                    70,
+                    95,
+                    120,
+                    145,
+                    170,
+                    195
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1800,
+                    1800,
+                    1800,
+                    1800,
+                    1800,
+                    1800,
+                    1800
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    45,
+                    70,
+                    95,
+                    120,
+                    145,
+                    170,
+                    195
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "StunDuration",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DashSpeed",
+                  "values": [
+                    1800,
+                    1800,
+                    1800,
+                    1800,
+                    1800,
+                    1800,
+                    1800
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.8500000238418579,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.8500000238418579,
+              "mAnimationName": "Spell1",
+              "mImgIconName": [
+                "ASSETS/Characters/Amumu/HUD/Icons2D/Amumu_Q.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                3,
+                3,
+                3,
+                3,
+                3,
+                3,
+                3
+              ],
+              "Cooldown": {
+                "values": [
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3,
+                  3
+                ],
+                "{0a3e0478}": 3,
+                "__type": "{0a0eddc9}"
+              },
+              "mMaxAmmo": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mAmmoRechargeTime": [
+                16,
+                16,
+                15,
+                14,
+                13,
+                12,
+                12
+              ],
+              "mCooldownNotAffectedByCDR": true,
+              "mCantCancelWhileWindingUp": true,
+              "cantCastWhileRooted": true,
+              "castRange": [
+                1100,
+                1100,
+                1100,
+                1100,
+                1100,
+                1100,
+                1100
+              ],
+              "castRangeValues": {
+                "values": [
+                  1100,
+                  1100,
+                  1100,
+                  1100,
+                  1100,
+                  1100,
+                  1100
+                ],
+                "{0a3e0478}": 1100,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                1100,
+                1100,
+                1100,
+                1100,
+                1100,
+                1100,
+                1100
+              ],
+              "castRadius": [
+                210,
+                210,
+                210,
+                210,
+                210,
+                210,
+                210
+              ],
+              "castConeDistance": 100,
+              "castFrame": 13,
+              "missileSpeed": 2000,
+              "mMissileEffectKey": "Amumu_Q_beam",
+              "mLineWidth": 80,
+              "bHaveHitBone": true,
+              "mHitBoneName": "C_BUFFBONE_GLB_CHEST_LOC",
+              "mana": [
+                50,
+                50,
+                50,
+                50,
+                50,
+                50
+              ],
+              "manaValues": {
+                "values": [
+                  50,
+                  50,
+                  50,
+                  50,
+                  50,
+                  50
+                ],
+                "{0a3e0478}": 50,
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "LocationClamped"
+              },
+              "SpellEventToAudioEventSuffix": {
+                "12": "Play_sfx_Amumu_BandageToss_OnCast"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "BandageToss",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_BandageToss_Name",
+                    "keySummary": "Spell_BandageToss_Summary",
+                    "keyTooltip": "Spell_BandageToss_Tooltip",
+                    "keyCooldown": "Spell_BandageToss_Cooldown"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "AmmoRechargeTime",
+                          "nameOverride": "Spell_ListType_RechargeTime",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "hideWithLineIndicator": true,
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "lineStopsAtEndPosition": false,
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        80,
+                        80,
+                        80,
+                        80,
+                        80,
+                        80
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionLine"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 2048,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "StunDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 256,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "DashSpeed",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 32768,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mNumber": 80,
+                        "__type": "NumberCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_BandageToss_Name",
+              "text": "绷带牵引"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_BandageToss_Summary",
+              "text": "阿木木向目标投掷粘稠的绷带，将自己拉向目标，并对目标造成伤害和眩晕效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_BandageToss_Tooltip",
+              "text": "阿木木掷出一条绷带，然后将他拉向命中的第一个敌人，使其<status>晕眩</status>@StunDuration@秒，并造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>。<br><br>这个技能有2层充能。"
+            },
+            "keyCooldown": {
+              "sourceKey": "Spell_BandageToss_Cooldown",
+              "text": "@AmmoRechargeTime@秒充能时间(@Cooldown@秒%i:cooldown%)"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "amumu_w",
+          "binding": "Characters/Amumu/Spells/AuraofDespairAbility/AuraofDespair",
+          "object": {
+            "ObjectName": "AuraofDespair",
+            "objectPath": "Characters/Amumu/Spells/AuraofDespairAbility/AuraofDespair",
+            "mScriptName": "AuraofDespair",
+            "mSpell": {
+              "flags": 20,
+              "mAffectsTypeFlags": 9221,
+              "mRequiredUnitTags": {
+                "mObjectTagList": [
+                  "{ea595ca6}"
+                ],
+                "__type": "ObjectTags"
+              },
+              "mAlternateName": "AuraofDespair",
+              "mSpellTags": [
+                "Trait_DamageAbility",
+                "Trait_RecastOrReplaceSpell",
+                "Trait_DoT",
+                "Trait_Low_Damage",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10,
+                    10
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HealthDamage",
+                  "values": [
+                    0.75,
+                    1,
+                    1.25,
+                    1.5,
+                    1.75,
+                    2,
+                    2.25
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.004999999888241291,
+                    0.004999999888241291,
+                    0.004999999888241291,
+                    0.004999999888241291,
+                    0.004999999888241291,
+                    0.004999999888241291,
+                    0.004999999888241291
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "{c8e45bc3}": {
+                  "mMultiplier": {
+                    "mNumber": 0.5,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "TotalHealthDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "HealthDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "mPrecision": 2,
+                  "__type": "GameCalculation"
+                },
+                "{8a96509c}": {
+                  "mMultiplier": {
+                    "mNumber": 0.004999999888241291,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "mModifiedGameCalculation": "TotalHealthDamage",
+                  "__type": "GameCalculationModified"
+                }
+              },
+              "mCoefficient": 0.004999999888241291,
+              "mAnimationName": "Crit",
+              "mImgIconName": [
+                "ASSETS/Characters/Amumu/HUD/Icons2D/Amumu_W.dds"
+              ],
+              "spellCastTime": 0.3068000078201294,
+              "spellTotalTime": 2.9333999156951904,
+              "cooldownTime": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "Cooldown": {
+                "values": [
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1,
+                  1
+                ],
+                "{0a3e0478}": 1,
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "bIsToggleSpell": true,
+              "mLockedSpellOriginationCastID": true,
+              "castRange": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "castRangeValues": {
+                "values": [
+                  300,
+                  300,
+                  300,
+                  300,
+                  300,
+                  300,
+                  300
+                ],
+                "{0a3e0478}": 300,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "castConeDistance": 100,
+              "castFrame": 5,
+              "missileSpeed": 0,
+              "mana": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "manaValues": {
+                "values": [
+                  8,
+                  8,
+                  8,
+                  8,
+                  8,
+                  8
+                ],
+                "{0a3e0478}": 8,
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "SelfAoe"
+              },
+              "SpellEventToAudioEventSuffix": {
+                "18": "Play_sfx_Amumu_AuraofDespair_OnBuffActivate",
+                "19": "Play_sfx_Amumu_AuraofDespair_OnBuffDeactivate"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "AuraofDespair",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_AuraofDespair_Name",
+                    "keySummary": "Spell_AuraofDespair_Summary",
+                    "keyTooltip": "Spell_AuraofDespair_Tooltip",
+                    "keyCost": "Spell_Cost_PerSecond"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "HealthDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_PercentHealthDamage",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_AuraofDespair",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TotalHealthDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{38382c53}": [
+                {
+                  "{e38f54f7}": 1,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 8,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 1024,
+                  "{0717e686}": false,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 4096,
+                  "__type": "{150d1b92}"
+                },
+                {
+                  "{e38f54f7}": 2048,
+                  "__type": "{150d1b92}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_AuraofDespair_Name",
+              "text": "绝望光环"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_AuraofDespair_Summary",
+              "text": "附近的敌人陷入绝望，每秒损失一定百分比的最大生命值并刷新身上的<font color='#9b0f5f'>诅咒</font>效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_AuraofDespair_Tooltip",
+              "text": "<toggle>开启：</toggle>阿木木开始哭泣，每秒对附近的敌人们造成<magicDamage>@BaseDamage@外加@TotalHealthDamage@%最大生命值的魔法伤害</magicDamage>并刷新<keywordMajor>诅咒</keywordMajor>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_PerSecond",
+              "text": "每秒@Cost@@AbilityResourceName@"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "amumu_e",
+          "binding": "Characters/Amumu/Spells/TantrumAbility/Tantrum",
+          "object": {
+            "ObjectName": "Tantrum",
+            "objectPath": "Characters/Amumu/Spells/TantrumAbility/Tantrum",
+            "mScriptName": "Tantrum",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mAlternateName": "Tantrum",
+              "mSpellTags": [
+                "Trait_DamageAbility",
+                "Trait_Low_Damage",
+                "Trait_AoE"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    0,
+                    5,
+                    7,
+                    9,
+                    11,
+                    13,
+                    15
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    65,
+                    65,
+                    95,
+                    125,
+                    155,
+                    185,
+                    185
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "FlatDamageReductionMax",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    35,
+                    65,
+                    95,
+                    125,
+                    155,
+                    185,
+                    215
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseDamageReduction",
+                  "values": [
+                    0,
+                    5,
+                    7,
+                    9,
+                    11,
+                    13,
+                    15
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "CDROnHit",
+                  "values": [
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75,
+                    0.75
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PassiveScaling",
+                  "values": [
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "DamageReduction": {
+                  "mSimpleTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamageReduction",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 1,
+                      "mStatFormula": 2,
+                      "mCoefficient": 0.029999999329447746,
+                      "__type": "StatByCoefficientCalculationPart"
+                    },
+                    {
+                      "mStat": 6,
+                      "mStatFormula": 2,
+                      "mCoefficient": 0.029999999329447746,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "TantrumDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.5,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.5,
+              "mAnimationName": "Crit",
+              "mImgIconName": [
+                "ASSETS/Characters/Amumu/HUD/Icons2D/Amumu_E.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                10,
+                9,
+                8,
+                7,
+                6,
+                5,
+                4
+              ],
+              "Cooldown": {
+                "values": [
+                  10,
+                  9,
+                  8,
+                  7,
+                  6,
+                  5,
+                  4
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                350,
+                350,
+                350,
+                350,
+                350,
+                350,
+                350
+              ],
+              "castRangeValues": {
+                "values": [
+                  350,
+                  350,
+                  350,
+                  350,
+                  350,
+                  350,
+                  350
+                ],
+                "{0a3e0478}": 350,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                350,
+                350,
+                350,
+                350,
+                350,
+                350,
+                350
+              ],
+              "castConeDistance": 100,
+              "castFrame": 13.319999694824219,
+              "missileSpeed": 0,
+              "mana": [
+                35,
+                35,
+                35,
+                35,
+                35,
+                35
+              ],
+              "manaValues": {
+                "values": [
+                  35,
+                  35,
+                  35,
+                  35,
+                  35,
+                  35
+                ],
+                "{0a3e0478}": 35,
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "SelfAoe"
+              },
+              "SpellEventToAudioEventSuffix": {
+                "12": "Play_sfx_Amumu_Tantrum_OnCast"
+              },
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "Tantrum",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_Tantrum_Name",
+                    "keySummary": "Spell_Tantrum_Summary",
+                    "keyTooltip": "Spell_Tantrum_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_LeonaSolarBarrier_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamageReduction",
+                          "nameOverride": "Spell_ListType_DamageReduced",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "BaseDamage",
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_Tantrum",
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "TantrumDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_Tantrum_Name",
+              "text": "阿木木的愤怒"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_Tantrum_Summary",
+              "text": "永久减少阿木木所受的物理伤害。主动施放时，阿木木可以发泄他的怒火，对周围的敌人造成伤害。阿木木每被攻击一次，该技能的冷却时间就会缩短。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_Tantrum_Tooltip",
+              "text": "<spellPassive>被动：</spellPassive>阿木木受到的物理伤害降低@DamageReduction@。此外，当阿木木被一次攻击命中时，这个技能的冷却时间会缩短@CDROnHit@秒。<br><br><spellActive>主动：</spellActive>阿木木大发脾气，对附近的敌人们造成<magicDamage>@TantrumDamage@魔法伤害</magicDamage>。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_LeonaSolarBarrier_TooltipExtendedBelowLine",
+              "text": "<rules>伤害降低效果无法将伤害降至@FlatDamageReductionMax*100@%以下。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "amumu_r",
+          "binding": "Characters/Amumu/Spells/CurseoftheSadMummyAbility/CurseoftheSadMummy",
+          "object": {
+            "ObjectName": "CurseoftheSadMummy",
+            "objectPath": "Characters/Amumu/Spells/CurseoftheSadMummyAbility/CurseoftheSadMummy",
+            "mScriptName": "CurseoftheSadMummy",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mAlternateName": "CurseoftheSadMummy",
+              "mSpellTags": [
+                "Trait_Ultimate",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "RDamage",
+                  "values": [
+                    100,
+                    200,
+                    300,
+                    400,
+                    500,
+                    600,
+                    700
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RDuration",
+                  "values": [
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5,
+                    1.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RCoefficient",
+                  "values": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "RCalculatedDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "RDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "RCoefficient",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell4",
+              "mImgIconName": [
+                "ASSETS/Characters/Amumu/HUD/Icons2D/Amumu_R.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 0.25,
+              "cooldownTime": [
+                150,
+                150,
+                125,
+                100,
+                100,
+                100,
+                100
+              ],
+              "Cooldown": {
+                "values": [
+                  150,
+                  150,
+                  125,
+                  100,
+                  100,
+                  100,
+                  100
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                550,
+                550,
+                550,
+                550,
+                550,
+                550,
+                550
+              ],
+              "castRangeValues": {
+                "values": [
+                  550,
+                  550,
+                  550,
+                  550,
+                  550,
+                  550,
+                  550
+                ],
+                "{0a3e0478}": 550,
+                "__type": "{0a0eddc9}"
+              },
+              "castRadius": [
+                550,
+                550,
+                550,
+                550,
+                550,
+                550,
+                550
+              ],
+              "castConeDistance": 100,
+              "castFrame": 17.850000381469727,
+              "missileSpeed": 20,
+              "mana": [
+                100,
+                150,
+                200,
+                80,
+                80,
+                0
+              ],
+              "manaValues": {
+                "values": [
+                  100,
+                  150,
+                  200,
+                  80,
+                  80,
+                  0
+                ],
+                "__type": "{630af303}"
+              },
+              "mTargetingTypeData": {
+                "__type": "SelfAoe"
+              },
+              "SpellEventToAudioEventSuffix": {
+                "12": "Play_sfx_Amumu_CurseoftheSadMummy_OnCast"
+              },
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "CurseoftheSadMummy",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_CurseoftheSadMummy_Name",
+                    "keySummary": "Spell_CurseoftheSadMummy_Summary",
+                    "keyTooltip": "Spell_CurseoftheSadMummy_Tooltip",
+                    "keyTooltipExtendedBelowLine": "Spell_CurseoftheSadMummy_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 3,
+                      "Elements": [
+                        {
+                          "type": "Cost",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "RDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_CurseoftheSadMummy",
+              "__type": "BuffData"
+            },
+            "BotData": {
+              "DamageTag": 1,
+              "{6d548702}": {
+                "mFormulaParts": [
+                  {
+                    "mSpellCalculationKey": "RCalculatedDamage",
+                    "__type": "{f3cbe7b2}"
+                  }
+                ],
+                "__type": "GameCalculation"
+              },
+              "{ec17e271}": [
+                {
+                  "EffectTag": 2048,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "RDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 4096,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "RDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                },
+                {
+                  "EffectTag": 16384,
+                  "EffectCalculation": {
+                    "mFormulaParts": [
+                      {
+                        "mDataValue": "RDuration",
+                        "__type": "NamedDataValueCalculationPart"
+                      }
+                    ],
+                    "__type": "GameCalculation"
+                  },
+                  "__type": "{b09016f6}"
+                }
+              ],
+              "__type": "BotsSpellData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_CurseoftheSadMummy_Name",
+              "text": "木乃伊之咒"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_CurseoftheSadMummy_Summary",
+              "text": "阿木木用绷带将附近敌方单位通通缠住，对他们施加<keywordMajor>诅咒</keywordMajor>效果，并造成伤害和晕眩效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_CurseoftheSadMummy_Tooltip",
+              "text": "阿木木用绷带将周围敌方单位通通缠住，将其<status>晕眩</status>@RDuration@秒，造成<magicDamage>@RCalculatedDamage@魔法伤害</magicDamage>并施加<keywordMajor>诅咒</keywordMajor>效果。"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_CurseoftheSadMummy_TooltipExtendedBelowLine",
+              "text": "<rules>这个技能会使敌人<status>中断位移</status>。</rules>"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "Zac",
+      "key": "champion_zac",
+      "name": "扎克",
+      "source": {
+        "championId": "Zac",
+        "chineseName": "生化魔人",
+        "resourceType": "无",
+        "client": {
+          "path": "客户端原文/Zac.json.gz",
+          "sha256": "c36252f51ec7c6b18fd82dda2955fc6a1c7a33b9eeff8882c478c6eb6c99a41e",
+          "compressedSha256": "849c95035547e56f09e5d691a6f9c1fc02362801c91ec71b7628196b735b9628",
+          "byteSize": 55524,
+          "sourceUrl": "https://raw.communitydragon.org/16.17/game/data/characters/zac/zac.bin.json",
+          "fetchedAt": "2026-09-06T14:26:50.572Z",
+          "contentVersion": "16.17.8104348+branch.releases-16-17.content.release"
+        },
+        "official": {
+          "path": "../英雄/原始资料/zh_CN/champion/Zac.json",
+          "url": "https://ddragon.leagueoflegends.com/cdn/16.17.1/data/zh_CN/champion/Zac.json",
+          "fetchedAt": "2026-09-06T14:12:57.664Z",
+          "byteSize": 12749,
+          "sha256": "b7bb6c2c2bd93d55b3f8d8bfd04aee66138c96086dbe3dc3de8194293a7b0aab"
+        },
+        "rootPath": "Characters/Zac/CharacterRecords/Root",
+        "skills": [
+          {
+            "slot": "P",
+            "officialId": null,
+            "name": "细胞分裂",
+            "clientPath": "Characters/Zac/Spells/ZacPassiveChunkDropAbility/ZacPassiveChunkDrop",
+            "bindingAvailable": true,
+            "officialMaxRank": 1,
+            "cooldown": null,
+            "cost": null,
+            "resource": null,
+            "clientCooldown": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "clientMana": null,
+            "clientCastTime": null,
+            "dataValueNames": [
+              "ReviveCooldown"
+            ],
+            "calculationNames": [
+              "HealPercent",
+              "ReviveBlobletDuration",
+              "TotalHeal"
+            ],
+            "note": "被动只沿mCharacterPassiveSpell，不借用主动槽位。"
+          },
+          {
+            "slot": "Q",
+            "officialId": "ZacQ",
+            "name": "延伸打击",
+            "clientPath": "Characters/Zac/Spells/ZacQAbility/ZacQ",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              14,
+              12.5,
+              11,
+              9.5,
+              8
+            ],
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "resource": "消耗{{ hpcost*100 }}%当前生命值({{ healthcosttooltip }})",
+            "clientCooldown": [
+              14,
+              14,
+              12.5,
+              11,
+              9.5,
+              8,
+              8
+            ],
+            "clientMana": null,
+            "clientCastTime": 0,
+            "dataValueNames": [
+              "BaseDamage",
+              "APRatio",
+              "HealthRatio",
+              "HPCost",
+              "MissileRange",
+              "SlowAmount",
+              "SlowDuration",
+              "TetherDuration",
+              "TetherFalloffDistance",
+              "MaxSlamDistance",
+              "YankDistance",
+              "CollisionAoE"
+            ],
+            "calculationNames": [
+              "TotalDamage",
+              "MaxDamageTooltip",
+              "HealthCostTooltip"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "W",
+            "officialId": "ZacW",
+            "name": "不稳定物质",
+            "clientPath": "Characters/Zac/Spells/ZacWAbility/ZacW",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "resource": "消耗{{ hpcost*100 }}%当前生命值({{ tooltiphealthcost }})",
+            "clientCooldown": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "clientMana": null,
+            "clientCastTime": 0.25,
+            "dataValueNames": [
+              "BaseDamage",
+              "APRatioToPercentDamage",
+              "BaseMaxHealthDamage",
+              "HealthPercentTooltip",
+              "HPCost",
+              "PercentHealthDamage",
+              "RefundOnBlobPickup",
+              "MaxMinionDamage"
+            ],
+            "calculationNames": [
+              "DisplayPercentDamage",
+              "TooltipHealthCost"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "E",
+            "officialId": "ZacE",
+            "name": "橡筋弹弓",
+            "clientPath": "Characters/Zac/Spells/ZacEAbility/ZacE",
+            "bindingAvailable": true,
+            "officialMaxRank": 5,
+            "cooldown": [
+              21,
+              18,
+              15,
+              12,
+              9
+            ],
+            "cost": [
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "resource": "消耗{{ hpcost*100 }}%当前生命值({{ healthcosttooltip }})",
+            "clientCooldown": [
+              25,
+              22,
+              19,
+              16,
+              13,
+              10,
+              10
+            ],
+            "clientMana": null,
+            "clientCastTime": 0,
+            "dataValueNames": [
+              "BaseDamage",
+              "HPCost",
+              "MaxRange",
+              "ChannelTime",
+              "MinimumStun",
+              "MinimumSpeed",
+              "MaximumSpeed",
+              "DistanceToSpeedRatio",
+              "KnockupRadius",
+              "VFXWarningTime"
+            ],
+            "calculationNames": [
+              "MaxStun",
+              "Damage",
+              "HealthCostTooltip"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          },
+          {
+            "slot": "R",
+            "officialId": "ZacR",
+            "name": "动感弹球",
+            "clientPath": "Characters/Zac/Spells/ZacRAbility/ZacR",
+            "bindingAvailable": true,
+            "officialMaxRank": 3,
+            "cooldown": [
+              120,
+              105,
+              90
+            ],
+            "cost": [
+              0,
+              0,
+              0
+            ],
+            "resource": "无消耗",
+            "clientCooldown": [
+              120,
+              120,
+              105,
+              90,
+              90,
+              90,
+              90
+            ],
+            "clientMana": null,
+            "clientCastTime": 0,
+            "dataValueNames": [
+              "Bounces",
+              "TimeBetweenBounces",
+              "KnockupDuration",
+              "BaseDamageBounce",
+              "DamageReductionBounce",
+              "KnockbackDistance",
+              "KnockbackRange",
+              "BeginningMS",
+              "EndingMS",
+              "SlowAmount",
+              "SlowDuration",
+              "BounceAPRatioTooltip"
+            ],
+            "calculationNames": [
+              "DamagePerBounce",
+              "DamagePerSubsequentBounce",
+              "DurationTooltip",
+              "MaxDamageTooltip"
+            ],
+            "note": "仅保留实际角色根引用；字段仍需按技能行为及等级语义核对。"
+          }
+        ]
+      },
+      "rootPath": "Characters/Zac/CharacterRecords/Root",
+      "rootBindings": {
+        "passive": "Characters/Zac/Spells/ZacPassiveChunkDropAbility/ZacPassiveChunkDrop",
+        "spells": [
+          "Characters/Zac/Spells/ZacQAbility/ZacQ",
+          "Characters/Zac/Spells/ZacWAbility/ZacW",
+          "Characters/Zac/Spells/ZacEAbility/ZacE",
+          "Characters/Zac/Spells/ZacRAbility/ZacR"
+        ]
+      },
+      "skills": [
+        {
+          "slot": "P",
+          "skillKey": "zac_p",
+          "binding": "Characters/Zac/Spells/ZacPassiveChunkDropAbility/ZacPassiveChunkDrop",
+          "object": {
+            "ObjectName": "ZacPassiveChunkDrop",
+            "objectPath": "Characters/Zac/Spells/ZacPassiveChunkDropAbility/ZacPassiveChunkDrop",
+            "mScriptName": "ZacPassiveChunkDrop",
+            "mSpell": {
+              "DataValues": [
+                {
+                  "name": "ReviveCooldown",
+                  "values": [
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "DataValuesModeOverride": {
+                "URF": {
+                  "SpellDataValues": [
+                    {
+                      "name": "ReviveCooldown",
+                      "values": [
+                        60,
+                        60,
+                        60,
+                        60,
+                        60,
+                        60,
+                        60
+                      ],
+                      "__type": "SpellDataValue"
+                    },
+                    {
+                      "name": "Cooldown",
+                      "values": [
+                        60,
+                        60,
+                        60,
+                        60,
+                        60,
+                        60,
+                        60
+                      ],
+                      "__type": "SpellDataValue"
+                    }
+                  ],
+                  "__type": "SpellDataValueVector"
+                }
+              },
+              "mSpellCalculations": {
+                "HealPercent": {
+                  "mFormulaParts": [
+                    {
+                      "mStartValue": 0.03999999910593033,
+                      "mEndValue": 0.07999999821186066,
+                      "__type": "ByCharLevelInterpolationCalculationPart"
+                    }
+                  ],
+                  "mDisplayAsPercent": true,
+                  "mPrecision": 1,
+                  "__type": "GameCalculation"
+                },
+                "ReviveBlobletDuration": {
+                  "mFormulaParts": [
+                    {
+                      "mLevel1Value": 8,
+                      "mBreakpoints": [
+                        {
+                          "mLevel": 6,
+                          "mAdditionalBonusAtThisLevel": -1,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 10,
+                          "mAdditionalBonusAtThisLevel": -1,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 13,
+                          "mAdditionalBonusAtThisLevel": -1,
+                          "__type": "Breakpoint"
+                        },
+                        {
+                          "mLevel": 17,
+                          "mAdditionalBonusAtThisLevel": -1,
+                          "__type": "Breakpoint"
+                        }
+                      ],
+                      "__type": "ByCharLevelBreakpointsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "TotalHeal": {
+                  "mMultiplier": {
+                    "mStat": 12,
+                    "mCoefficient": 1,
+                    "__type": "StatByCoefficientCalculationPart"
+                  },
+                  "mModifiedGameCalculation": "HealPercent",
+                  "__type": "GameCalculationModified"
+                }
+              },
+              "mImgIconName": [
+                "ASSETS/Characters/Zac/HUD/Icons2D/ZacPassive.dds"
+              ],
+              "cooldownTime": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "Cooldown": {
+                "values": [
+                  300,
+                  300,
+                  300,
+                  300,
+                  300,
+                  300,
+                  300
+                ],
+                "{0a3e0478}": 300,
+                "__type": "{0a0eddc9}"
+              },
+              "mFloatVarsDecimals": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "ZacPassiveChunkDrop",
+                  "mFormat": "{476ec0b8}",
+                  "mLocKeys": {
+                    "keyName": "Spell_ZacPassiveChunkDrop_Name",
+                    "keySummary": "",
+                    "keyTooltip": "Spell_ZacPassiveChunkDrop_Tooltip",
+                    "keyTooltipExtended": "Spell_ZacPassiveChunkDrop_TooltipExtended",
+                    "keyCooldown": "Spell_Cooldown_Generic"
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_ZacPassiveChunkDrop",
+              "mFloatVarsDecimals": [
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_ZacPassiveChunkDrop_Name",
+              "text": "细胞分裂"
+            },
+            "keySummary": {
+              "sourceKey": "",
+              "text": null
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ZacPassiveChunkDrop_Tooltip",
+              "text": "扎克每用一个技能命中一次敌人，一小块<keywordMajor>粘液</keywordMajor>就会飞溅出去。扎克可以重新吸收这些粘液，来为自己回复<healing>@HealPercent@最大生命值</healing>。<br><br>在阵亡时，扎克会分裂成四块细胞组织，并试图重新结合。如果在<scaleLevel>@ReviveBlobletDuration@</scaleLevel>秒后，仍然有细胞组织存活，那么他就会重生，重生时的生命值为10-50%最大生命值(基于存活的细胞组织的生命值)。这个效果有@ReviveCooldown@秒的冷却时间。"
+            },
+            "keyTooltipExtended": {
+              "sourceKey": "Spell_ZacPassiveChunkDrop_TooltipExtended",
+              "text": "{{Spell_ZacPassiveChunkDrop_Tooltip}}<br><br><rules>每个细胞组织拥有扎克12%的最大<healing>生命值</healing>，以及他50%的<scaleArmor>护甲</scaleArmor>和<scaleMR>魔法抗性</scaleMR>。</rules>"
+            },
+            "keyCooldown": {
+              "sourceKey": "Spell_Cooldown_Generic",
+              "text": "@Cooldown@秒%i:cooldown%"
+            }
+          }
+        },
+        {
+          "slot": "Q",
+          "skillKey": "zac_q",
+          "binding": "Characters/Zac/Spells/ZacQAbility/ZacQ",
+          "object": {
+            "ObjectName": "ZacQ",
+            "objectPath": "Characters/Zac/Spells/ZacQAbility/ZacQ",
+            "mScriptName": "ZacQ",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mAlternateName": "ZacQ",
+              "mSpellTags": [
+                "Trait_AttackReset",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_RecastOrReplaceSpell",
+                "Trait_Strike",
+                "Trait_Ranged_StopsFirstHit",
+                "Trait_Low_Damage",
+                "Trait_AoE"
+              ],
+              "mEffectAmount": [
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    800,
+                    800,
+                    800,
+                    800,
+                    800,
+                    800,
+                    800
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    -0.4000000059604645,
+                    -0.4000000059604645,
+                    -0.4000000059604645,
+                    -0.4000000059604645,
+                    -0.4000000059604645,
+                    -0.4000000059604645,
+                    -0.4000000059604645
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    900,
+                    900,
+                    900,
+                    900,
+                    900,
+                    900,
+                    900
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    700,
+                    700,
+                    700,
+                    700,
+                    700,
+                    700,
+                    700
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    30,
+                    60,
+                    90,
+                    120,
+                    150,
+                    180,
+                    210
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatio",
+                  "values": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HealthRatio",
+                  "values": [
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HPCost",
+                  "values": [
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066,
+                    0.07999999821186066
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MissileRange",
+                  "values": [
+                    800,
+                    800,
+                    800,
+                    800,
+                    800,
+                    800,
+                    800
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowAmount",
+                  "values": [
+                    -0.4000000059604645,
+                    -0.4000000059604645,
+                    -0.4000000059604645,
+                    -0.4000000059604645,
+                    -0.4000000059604645,
+                    -0.4000000059604645,
+                    -0.4000000059604645
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowDuration",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TetherDuration",
+                  "values": [
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5,
+                    2.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TetherFalloffDistance",
+                  "values": [
+                    900,
+                    900,
+                    900,
+                    900,
+                    900,
+                    900,
+                    900
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxSlamDistance",
+                  "values": [
+                    700,
+                    700,
+                    700,
+                    700,
+                    700,
+                    700,
+                    700
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "YankDistance",
+                  "values": [
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "CollisionAoE",
+                  "values": [
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "TotalDamage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    },
+                    {
+                      "mStat": 12,
+                      "mStatFormula": 2,
+                      "mDataValue": "HealthRatio",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "MaxDamageTooltip": {
+                  "mExpandedTooltipCalculationDisplay": 6,
+                  "mFormulaParts": [
+                    {
+                      "mPart1": {
+                        "mSpellCalculationKey": "TotalDamage",
+                        "__type": "{f3cbe7b2}"
+                      },
+                      "mPart2": {
+                        "mNumber": 2,
+                        "__type": "NumberCalculationPart"
+                      },
+                      "__type": "ProductOfSubPartsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "HealthCostTooltip": {
+                  "mSimpleTooltipCalculationDisplay": 5,
+                  "mExpandedTooltipCalculationDisplay": 5,
+                  "mFormulaParts": [
+                    {
+                      "mPart1": {
+                        "mDataValue": "HPCost",
+                        "__type": "NamedDataValueCalculationPart"
+                      },
+                      "mPart2": {
+                        "mPart1": {
+                          "mStat": 12,
+                          "mCoefficient": 1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        },
+                        "mPart2": {
+                          "mStat": 14,
+                          "mCoefficient": 1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      },
+                      "__type": "ProductOfSubPartsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mAnimationName": "Spell1",
+              "mImgIconName": [
+                "ASSETS/Characters/Zac/HUD/Icons2D/ZacQ.dds"
+              ],
+              "mCastTime": 0.33000001311302185,
+              "spellCastTime": 0,
+              "spellTotalTime": 0,
+              "cooldownTime": [
+                14,
+                14,
+                12.5,
+                11,
+                9.5,
+                8,
+                8
+              ],
+              "Cooldown": {
+                "values": [
+                  14,
+                  14,
+                  12.5,
+                  11,
+                  9.5,
+                  8,
+                  8
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "alwaysSnapFacing": true,
+              "bIsToggleSpell": true,
+              "castRange": [
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000,
+                25000
+              ],
+              "castRangeValues": {
+                "values": [
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000,
+                  25000
+                ],
+                "{0a3e0478}": 25000,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                800,
+                800,
+                800,
+                800,
+                800,
+                800,
+                800
+              ],
+              "castFrame": 10,
+              "missileSpeed": 0,
+              "mLineWidth": 120,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "mTargetingTypeData": {
+                "__type": "Location"
+              },
+              "mSpellCooldownOrSealedQueueThreshold": 0.30000001192092896,
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "ZacQ",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_ZacQ_Name",
+                    "keySummary": "Spell_ZacQ_Summary",
+                    "keyTooltip": "Spell_ZacQ_Tooltip",
+                    "keyCost": "Spell_ZacQ_Cost",
+                    "keyTooltipExtendedBelowLine": "Spell_ZacQ_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "typeIndex": 1,
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "hideWithLineIndicator": true,
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        825,
+                        825,
+                        825,
+                        825,
+                        825,
+                        825
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "endLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "lineWidth": {
+                      "mPerLevelValues": [
+                        70,
+                        70,
+                        70,
+                        70,
+                        70,
+                        70
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "overrideBaseRange": {
+                      "mPerLevelValues": [
+                        825,
+                        825,
+                        825,
+                        825,
+                        825,
+                        825
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "__type": "TargeterDefinitionLine"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_ZacQMissile",
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_ZacQ_Name",
+              "text": "延伸打击"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ZacQ_Summary",
+              "text": "扎克延伸他的双臂，捕获一个敌人。攻击一个不同的敌人将使他把两个目标投向彼此。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ZacQ_Tooltip",
+              "text": "扎克伸展他的手臂，将其吸附到命中的第一个敌人身上以造成<magicDamage>@TotalDamage@魔法伤害</magicDamage>并暂时将该敌人<status>减速</status>。扎克的下次攻击会提升距离并且造成相同的伤害和<status>减速</status>。<br><br>如果扎克用这次攻击命中了一个<i>不同</i>的敌人，那么他会将这两个敌人朝着彼此<status>击飞</status>。如果这两个敌人产生碰撞，那么他们及他们附近的敌人都会受到<magicDamage>@TotalDamage@魔法伤害</magicDamage>并被暂时<status>减速</status>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_ZacQ_Cost",
+              "text": "消耗@HPCost*100@%当前生命值(@HealthCostTooltip@)"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_ZacQ_TooltipExtendedBelowLine",
+              "text": "<rules><status>减速</status>幅度为@SlowAmount*-100@%。<br>最大魔法伤害：<magicDamage>@MaxDamageTooltip@。</magicDamage></rules>"
+            }
+          }
+        },
+        {
+          "slot": "W",
+          "skillKey": "zac_w",
+          "binding": "Characters/Zac/Spells/ZacWAbility/ZacW",
+          "object": {
+            "ObjectName": "ZacW",
+            "objectPath": "Characters/Zac/Spells/ZacWAbility/ZacW",
+            "mScriptName": "ZacW",
+            "mSpell": {
+              "flags": 4,
+              "mAffectsTypeFlags": 6154,
+              "mAlternateName": "ZacW",
+              "mSpellTags": [
+                "Trait_DamageAbility",
+                "Trait_AoE"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    40,
+                    40,
+                    50,
+                    60,
+                    70,
+                    80,
+                    80
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.05000000074505806,
+                    0.05999999865889549,
+                    0.07000000029802322,
+                    0.07999999821186066,
+                    0.09000000357627869
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    200,
+                    200,
+                    200,
+                    200,
+                    200,
+                    200,
+                    200
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    30,
+                    40,
+                    50,
+                    60,
+                    70,
+                    80,
+                    90
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "APRatioToPercentDamage",
+                  "values": [
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746,
+                    0.029999999329447746
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseMaxHealthDamage",
+                  "values": [
+                    0.029999999329447746,
+                    0.03999999910593033,
+                    0.05000000074505806,
+                    0.05999999865889549,
+                    0.07000000029802322,
+                    0.07999999821186066,
+                    0.09000000357627869
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HealthPercentTooltip",
+                  "values": [
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HPCost",
+                  "values": [
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "PercentHealthDamage",
+                  "values": [
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.05000000074505806,
+                    0.05999999865889549,
+                    0.07000000029802322,
+                    0.07999999821186066,
+                    0.09000000357627869
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "RefundOnBlobPickup",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxMinionDamage",
+                  "values": [
+                    200,
+                    200,
+                    200,
+                    200,
+                    200,
+                    200,
+                    200
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "DisplayPercentDamage": {
+                  "mMultiplier": {
+                    "mNumber": 0.009999999776482582,
+                    "__type": "NumberCalculationPart"
+                  },
+                  "tooltipOnly": true,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "HealthPercentTooltip",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "APRatioToPercentDamage",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "mDisplayAsPercent": true,
+                  "mPrecision": 1,
+                  "__type": "GameCalculation"
+                },
+                "TooltipHealthCost": {
+                  "mSimpleTooltipCalculationDisplay": 5,
+                  "mExpandedTooltipCalculationDisplay": 5,
+                  "mFormulaParts": [
+                    {
+                      "mPart1": {
+                        "mDataValue": "HPCost",
+                        "__type": "NamedDataValueCalculationPart"
+                      },
+                      "mPart2": {
+                        "mPart1": {
+                          "mStat": 12,
+                          "mCoefficient": 1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        },
+                        "mPart2": {
+                          "mStat": 14,
+                          "mCoefficient": 1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      },
+                      "__type": "ProductOfSubPartsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.029999999329447746,
+              "mAnimationName": "Spell2",
+              "mImgIconName": [
+                "ASSETS/Characters/Zac/HUD/Icons2D/ZacW.dds"
+              ],
+              "spellCastTime": 0.25,
+              "spellTotalTime": 1,
+              "cooldownTime": [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                5
+              ],
+              "Cooldown": {
+                "values": [
+                  5,
+                  5,
+                  5,
+                  5,
+                  5,
+                  5,
+                  5
+                ],
+                "{0a3e0478}": 5,
+                "__type": "{0a0eddc9}"
+              },
+              "mCantCancelWhileWindingUp": true,
+              "castRange": [
+                350,
+                350,
+                350,
+                350,
+                350,
+                350,
+                350
+              ],
+              "castRangeValues": {
+                "values": [
+                  350,
+                  350,
+                  350,
+                  350,
+                  350,
+                  350,
+                  350
+                ],
+                "{0a3e0478}": 350,
+                "__type": "{0a0eddc9}"
+              },
+              "castConeAngle": 0,
+              "castConeDistance": 0,
+              "castFrame": 7.5,
+              "missileSpeed": 0,
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "mTargetingTypeData": {
+                "__type": "SelfAoe"
+              },
+              "mSpellCooldownOrSealedQueueThreshold": 0.10000000149011612,
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "ZacW",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_ZacW_Name",
+                    "keySummary": "Spell_ZacW_Summary",
+                    "keyTooltip": "Spell_ZacW_Tooltip",
+                    "keyCost": "Spell_ZacW_Cost",
+                    "keyTooltipExtendedBelowLine": "Spell_ZacW_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "nameOverride": "Spell_ListType_FlatDamage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "BaseMaxHealthDamage",
+                          "multiplier": 100,
+                          "nameOverride": "Spell_ListType_MaxHealthDamage",
+                          "Style": 1,
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_ZacW",
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_ZacW_Name",
+              "text": "不稳定物质"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ZacW_Summary",
+              "text": "扎克朝着附近的敌人进行喷溅，造成相当于目标一部分最大生命值的魔法伤害。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ZacW_Tooltip",
+              "text": "扎克的躯体进行喷溅，对附近的敌人造成<magicDamage>@BaseDamage@+@DisplayPercentDamage@最大生命值的魔法伤害</magicDamage>。<br><br>吸收<keywordMajor>粘液</keywordMajor>可使【不稳定物质】的冷却时间缩短1秒。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_ZacW_Cost",
+              "text": "消耗@HPCost*100@%当前生命值(@TooltipHealthCost@)"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_ZacW_TooltipExtendedBelowLine",
+              "text": "<rules>对小兵和野怪的百分比最大生命值伤害的上限为200。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "E",
+          "skillKey": "zac_e",
+          "binding": "Characters/Zac/Spells/ZacEAbility/ZacE",
+          "object": {
+            "ObjectName": "ZacE",
+            "objectPath": "Characters/Zac/Spells/ZacEAbility/ZacE",
+            "mScriptName": "ZacE",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mAlternateName": "ZacE",
+              "mSpellTags": [
+                "PositiveEffect_MoveBlock",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_DamageAbility",
+                "Trait_SignatureSpell",
+                "Trait_Target_Area",
+                "Trait_AoE"
+              ],
+              "mEffectAmount": [
+                {
+                  "value": [
+                    60,
+                    60,
+                    105,
+                    150,
+                    195,
+                    240,
+                    240
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1050,
+                    1200,
+                    1350,
+                    1500,
+                    1650,
+                    1800,
+                    1950
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.800000011920929,
+                    0.8999999761581421,
+                    1,
+                    1.100000023841858,
+                    1.2000000476837158,
+                    1.2999999523162842,
+                    1.399999976158142
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    500,
+                    500,
+                    500,
+                    500,
+                    500,
+                    500,
+                    500
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1350,
+                    1350,
+                    1350,
+                    1350,
+                    1350,
+                    1350,
+                    1350
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    265,
+                    265,
+                    265,
+                    265,
+                    265,
+                    265,
+                    265
+                  ],
+                  "__type": "SpellEffectAmount"
+                },
+                {
+                  "value": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellEffectAmount"
+                }
+              ],
+              "DataValues": [
+                {
+                  "name": "BaseDamage",
+                  "values": [
+                    60,
+                    60,
+                    105,
+                    150,
+                    195,
+                    240,
+                    240
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "HPCost",
+                  "values": [
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033,
+                    0.03999999910593033
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaxRange",
+                  "values": [
+                    1050,
+                    1200,
+                    1350,
+                    1500,
+                    1650,
+                    1800,
+                    1950
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "ChannelTime",
+                  "values": [
+                    0.800000011920929,
+                    0.8999999761581421,
+                    1,
+                    1.100000023841858,
+                    1.2000000476837158,
+                    1.2999999523162842,
+                    1.399999976158142
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MinimumStun",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MinimumSpeed",
+                  "values": [
+                    500,
+                    500,
+                    500,
+                    500,
+                    500,
+                    500,
+                    500
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "MaximumSpeed",
+                  "values": [
+                    1350,
+                    1350,
+                    1350,
+                    1350,
+                    1350,
+                    1350,
+                    1350
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DistanceToSpeedRatio",
+                  "values": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "KnockupRadius",
+                  "values": [
+                    265,
+                    265,
+                    265,
+                    265,
+                    265,
+                    265,
+                    265
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "VFXWarningTime",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "MaxStun": {
+                  "mExpandedTooltipCalculationDisplay": 5,
+                  "mFormulaParts": [
+                    {
+                      "mPart1": {
+                        "mDataValue": "MinimumStun",
+                        "__type": "NamedDataValueCalculationPart"
+                      },
+                      "mPart2": {
+                        "mNumber": 2,
+                        "__type": "NumberCalculationPart"
+                      },
+                      "__type": "ProductOfSubPartsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "Damage": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamage",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mCoefficient": 0.800000011920929,
+                      "__type": "StatByCoefficientCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "HealthCostTooltip": {
+                  "mSimpleTooltipCalculationDisplay": 5,
+                  "mExpandedTooltipCalculationDisplay": 5,
+                  "mFormulaParts": [
+                    {
+                      "mPart1": {
+                        "mDataValue": "HPCost",
+                        "__type": "NamedDataValueCalculationPart"
+                      },
+                      "mPart2": {
+                        "mPart1": {
+                          "mStat": 12,
+                          "mCoefficient": 1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        },
+                        "mPart2": {
+                          "mStat": 14,
+                          "mCoefficient": 1,
+                          "__type": "StatByCoefficientCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      },
+                      "__type": "ProductOfSubPartsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.800000011920929,
+              "mAnimationName": "Spell3_windup",
+              "mImgIconName": [
+                "ASSETS/Characters/Zac/HUD/Icons2D/ZacE.dds"
+              ],
+              "spellCastTime": 0,
+              "spellTotalTime": 0,
+              "mChannelDuration": [
+                0.800000011920929,
+                0.8999999761581421,
+                1,
+                1.100000023841858,
+                1.2000000476837158,
+                1.2999999523162842,
+                1.399999976158142
+              ],
+              "cooldownTime": [
+                25,
+                22,
+                19,
+                16,
+                13,
+                10,
+                10
+              ],
+              "Cooldown": {
+                "values": [
+                  24,
+                  21,
+                  18,
+                  15,
+                  12,
+                  9,
+                  9
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCastRangeGrowthMax": [
+                1200,
+                1350,
+                1500,
+                1650,
+                1800,
+                0,
+                150
+              ],
+              "mCastRangeGrowthDuration": [
+                0.8999999761581421,
+                1,
+                1.100000023841858,
+                1.2000000476837158,
+                1.2999999523162842,
+                0,
+                0.10000000149011612
+              ],
+              "{f4ca428f}": 2,
+              "mCantCancelWhileWindingUp": true,
+              "mSpellRevealsChampion": false,
+              "mUseChargeChanneling": true,
+              "mDisableCastBar": true,
+              "alwaysSnapFacing": true,
+              "useAnimatorFramerate": true,
+              "mIgnoreRangeCheck": true,
+              "castRange": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "castRangeValues": {
+                "values": [
+                  300,
+                  300,
+                  300,
+                  300,
+                  300,
+                  300,
+                  300
+                ],
+                "{0a3e0478}": 300,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "castRadius": [
+                250,
+                250,
+                250,
+                250,
+                250,
+                250,
+                250
+              ],
+              "castConeDistance": 100,
+              "castFrame": 7.5,
+              "missileSpeed": 1500,
+              "mFloatVarsDecimals": [
+                0,
+                1,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "Area"
+              },
+              "{8958fee2}": {
+                "{ffcbd9e2}": 0.15000000596046448,
+                "{79a2e7aa}": 0.30000001192092896,
+                "__type": "{8958fee2}"
+              },
+              "mSpellCooldownOrSealedQueueThreshold": 0.30000001192092896,
+              "mDimensionBehavior": 1,
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "ZacE",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_ZacE_Name",
+                    "keySummary": "Spell_ZacE_Summary",
+                    "keyTooltip": "Spell_ZacE_Tooltip",
+                    "keyCost": "Spell_ZacE_Cost",
+                    "keyTooltipExtendedBelowLine": "Spell_ZacE_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 5,
+                      "Elements": [
+                        {
+                          "type": "BaseDamage",
+                          "nameOverride": "Spell_ListType_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "MaxRange",
+                          "nameOverride": "Spell_ListType_Range",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "textureOrientation": 1,
+                    "hasMaxGrowRange": true,
+                    "useCasterBoundingBox": false,
+                    "rangeGrowthDuration": {
+                      "mPerLevelValues": [
+                        0.8999999761581421,
+                        1,
+                        1.100000023841858,
+                        1.2000000476837158,
+                        1.2999999523162842,
+                        1.399999976158142
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "rangeGrowthMax": {
+                      "mPerLevelValues": [
+                        1250,
+                        1400,
+                        1575,
+                        1750,
+                        1900,
+                        2050
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureOverrideName": "assets/characters/zac/hud/quartercircle.tex",
+                    "textureMaxGrowName": "assets/characters/zac/hud/textures/quartercircle_dark.tex",
+                    "__type": "TargeterDefinitionRange"
+                  },
+                  {
+                    "useCasterBoundingBox": false,
+                    "__type": "TargeterDefinitionMinimap"
+                  },
+                  {
+                    "centerLocator": {
+                      "basePosition": 3,
+                      "__type": "DrawablePositionLocator"
+                    },
+                    "constraintRange": {
+                      "mPerLevelValues": [
+                        1225,
+                        1375,
+                        1550,
+                        1725,
+                        1875,
+                        1875
+                      ],
+                      "mValueType": 2,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "overrideRadius": {
+                      "mPerLevelValues": [
+                        240,
+                        240,
+                        240,
+                        240,
+                        240,
+                        240
+                      ],
+                      "mValueType": 1,
+                      "__type": "FloatPerSpellLevel"
+                    },
+                    "textureRadiusOverrideName": "assets/spells/textures/aoe.tex",
+                    "__type": "TargeterDefinitionAoe"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_ZacE",
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_ZacE_Name",
+              "text": "橡筋弹弓"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ZacE_Summary",
+              "text": "扎克将手臂附在地上然后收缩，并将自己射向前方。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ZacE_Tooltip",
+              "text": "<charge>开始蓄力：</charge>扎克将自身绷紧，在@ChannelTime@秒里积攒一次冲刺。<br><br><release>释放：</release>扎克将自身发射出去，并<status>击飞</status>着陆点位置的敌人们至多@MaxStun@秒(基于蓄力时间)并对他们造成<magicDamage>@Damage@魔法伤害</magicDamage>。扎克每命中一名敌方英雄就会生成一团额外的<keywordMajor>粘液</keywordMajor>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_ZacE_Cost",
+              "text": "消耗@HPCost*100@%当前生命值(@HealthCostTooltip@)"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_ZacE_TooltipExtendedBelowLine",
+              "text": "<rules>可通过移动来取消。<br>如果取消，会返还此技能一半的冷却时间和消耗。</rules>"
+            }
+          }
+        },
+        {
+          "slot": "R",
+          "skillKey": "zac_r",
+          "binding": "Characters/Zac/Spells/ZacRAbility/ZacR",
+          "object": {
+            "ObjectName": "ZacR",
+            "objectPath": "Characters/Zac/Spells/ZacRAbility/ZacR",
+            "mScriptName": "ZacR",
+            "mSpell": {
+              "mAffectsTypeFlags": 6154,
+              "mAlternateName": "ZacR",
+              "mSpellTags": [
+                "Trait_Ultimate",
+                "Trait_ChannelSpell",
+                "Trait_ImmobilizingCCSpell",
+                "Trait_KnockBack",
+                "Trait_AoE"
+              ],
+              "DataValues": [
+                {
+                  "name": "Bounces",
+                  "values": [
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4,
+                    4
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "TimeBetweenBounces",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "KnockupDuration",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BaseDamageBounce",
+                  "values": [
+                    50,
+                    120,
+                    190,
+                    260,
+                    330,
+                    400,
+                    470
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "DamageReductionBounce",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "KnockbackDistance",
+                  "values": [
+                    250,
+                    250,
+                    250,
+                    250,
+                    250,
+                    250,
+                    250
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "KnockbackRange",
+                  "values": [
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300,
+                    300
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BeginningMS",
+                  "values": [
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "EndingMS",
+                  "values": [
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowAmount",
+                  "values": [
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "SlowDuration",
+                  "values": [
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
+                  ],
+                  "__type": "SpellDataValue"
+                },
+                {
+                  "name": "BounceAPRatioTooltip",
+                  "values": [
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645,
+                    0.4000000059604645
+                  ],
+                  "__type": "SpellDataValue"
+                }
+              ],
+              "mSpellCalculations": {
+                "DamagePerBounce": {
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BaseDamageBounce",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "BounceAPRatioTooltip",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "DamagePerSubsequentBounce": {
+                  "mMultiplier": {
+                    "mDataValue": "DamageReductionBounce",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  "mModifiedGameCalculation": "DamagePerBounce",
+                  "__type": "GameCalculationModified"
+                },
+                "DurationTooltip": {
+                  "mSimpleTooltipCalculationDisplay": 5,
+                  "mExpandedTooltipCalculationDisplay": 5,
+                  "mFormulaParts": [
+                    {
+                      "mPart1": {
+                        "mDataValue": "TimeBetweenBounces",
+                        "__type": "NamedDataValueCalculationPart"
+                      },
+                      "mPart2": {
+                        "mSubparts": [
+                          {
+                            "mDataValue": "Bounces",
+                            "__type": "NamedDataValueCalculationPart"
+                          },
+                          {
+                            "mNumber": -1,
+                            "__type": "NumberCalculationPart"
+                          }
+                        ],
+                        "__type": "SumOfSubPartsCalculationPart"
+                      },
+                      "__type": "ProductOfSubPartsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                },
+                "MaxDamageTooltip": {
+                  "mSimpleTooltipCalculationDisplay": 5,
+                  "mExpandedTooltipCalculationDisplay": 5,
+                  "mFormulaParts": [
+                    {
+                      "mDataValue": "BounceAPRatioTooltip",
+                      "__type": "StatByNamedDataValueCalculationPart"
+                    },
+                    {
+                      "mDataValue": "BaseDamageBounce",
+                      "__type": "NamedDataValueCalculationPart"
+                    },
+                    {
+                      "mPart1": {
+                        "mPart1": {
+                          "mSubparts": [
+                            {
+                              "mDataValue": "BaseDamageBounce",
+                              "__type": "NamedDataValueCalculationPart"
+                            },
+                            {
+                              "mDataValue": "BounceAPRatioTooltip",
+                              "__type": "StatByNamedDataValueCalculationPart"
+                            }
+                          ],
+                          "__type": "SumOfSubPartsCalculationPart"
+                        },
+                        "mPart2": {
+                          "mDataValue": "DamageReductionBounce",
+                          "__type": "NamedDataValueCalculationPart"
+                        },
+                        "__type": "ProductOfSubPartsCalculationPart"
+                      },
+                      "mPart2": {
+                        "mSubparts": [
+                          {
+                            "mDataValue": "Bounces",
+                            "__type": "NamedDataValueCalculationPart"
+                          },
+                          {
+                            "mNumber": -1,
+                            "__type": "NumberCalculationPart"
+                          }
+                        ],
+                        "__type": "SumOfSubPartsCalculationPart"
+                      },
+                      "__type": "ProductOfSubPartsCalculationPart"
+                    }
+                  ],
+                  "__type": "GameCalculation"
+                }
+              },
+              "mCoefficient": 0.8999999761581421,
+              "mAnimationName": "Spell4",
+              "mImgIconName": [
+                "ASSETS/Characters/Zac/HUD/Icons2D/ZacR.dds"
+              ],
+              "mCastTime": 0.30000001192092896,
+              "spellCastTime": 0,
+              "spellTotalTime": 0,
+              "mChannelDuration": [
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858,
+                1.100000023841858
+              ],
+              "cooldownTime": [
+                120,
+                120,
+                105,
+                90,
+                90,
+                90,
+                90
+              ],
+              "Cooldown": {
+                "values": [
+                  120,
+                  120,
+                  105,
+                  90,
+                  90,
+                  90,
+                  90
+                ],
+                "__type": "{0a0eddc9}"
+              },
+              "mCastRangeGrowthMax": [
+                700,
+                700,
+                850,
+                1000,
+                1000,
+                1000,
+                1000
+              ],
+              "mCastRangeGrowthDuration": [
+                1.2999999523162842,
+                1.2999999523162842,
+                1.2999999523162842,
+                1.2999999523162842,
+                1.2999999523162842,
+                1.2999999523162842,
+                1.2999999523162842
+              ],
+              "mCantCancelWhileWindingUp": true,
+              "mChannelIsInterruptedByAttacking": false,
+              "mSpellRevealsChampion": false,
+              "mUseChargeChanneling": true,
+              "alwaysSnapFacing": true,
+              "useAnimatorFramerate": true,
+              "mDoNotNeedToFaceTarget": true,
+              "mIgnoreRangeCheck": true,
+              "castRange": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "castRangeValues": {
+                "values": [
+                  300,
+                  300,
+                  300,
+                  300,
+                  300,
+                  300,
+                  300
+                ],
+                "{0a3e0478}": 300,
+                "__type": "{0a0eddc9}"
+              },
+              "castRangeDisplayOverride": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "castRadius": [
+                300,
+                300,
+                300,
+                300,
+                300,
+                300,
+                300
+              ],
+              "castConeDistance": 100,
+              "castFrame": 7.5,
+              "missileSpeed": 1800,
+              "mFloatVarsDecimals": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                0,
+                0,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "selectionPriority": 1,
+              "mTargetingTypeData": {
+                "__type": "Area"
+              },
+              "mSpellCooldownOrSealedQueueThreshold": 0.30000001192092896,
+              "mCastingBreaksStealth": true,
+              "mClientData": {
+                "mTooltipData": {
+                  "mObjectName": "ZacR",
+                  "mFormat": "{d7c27163}",
+                  "mLocKeys": {
+                    "keyName": "Spell_ZacR_Name",
+                    "keySummary": "Spell_ZacR_Summary",
+                    "keyTooltip": "Spell_ZacR_Tooltip",
+                    "keyCost": "Spell_Cost_NoCost",
+                    "keyTooltipExtendedBelowLine": "Spell_ZacR_TooltipExtendedBelowLine"
+                  },
+                  "mLists": {
+                    "LevelUp": {
+                      "levelCount": 3,
+                      "Elements": [
+                        {
+                          "type": "BaseDamageBounce",
+                          "nameOverride": "Spell_ZacR_LevelUp_Damage",
+                          "__type": "TooltipInstanceListElement"
+                        },
+                        {
+                          "type": "Cooldown",
+                          "__type": "TooltipInstanceListElement"
+                        }
+                      ],
+                      "__type": "TooltipInstanceList"
+                    }
+                  },
+                  "__type": "TooltipInstanceSpell"
+                },
+                "mTargeterDefinitions": [
+                  {
+                    "__type": "TargeterDefinitionRange"
+                  }
+                ],
+                "__type": "SpellDataResourceClient"
+              },
+              "__type": "SpellDataResource"
+            },
+            "mBuff": {
+              "mDescription": "game_buff_tooltip_ZacR",
+              "mTooltipData": {
+                "mObjectName": "ZacR",
+                "mFormat": "{b34f999a}",
+                "mLocKeys": {
+                  "keyName": "Buff_ZacR_Name",
+                  "keyTooltip": "Buff_ZacR_Tooltip"
+                },
+                "__type": "TooltipInstanceBuff"
+              },
+              "mFloatVarsDecimals": [
+                0,
+                0,
+                0,
+                0,
+                2,
+                2,
+                2,
+                0,
+                0,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2,
+                2
+              ],
+              "__type": "BuffData"
+            },
+            "__type": "SpellObject"
+          },
+          "currentTexts": {
+            "keyName": {
+              "sourceKey": "Spell_ZacR_Name",
+              "text": "动感弹球"
+            },
+            "keySummary": {
+              "sourceKey": "Spell_ZacR_Summary",
+              "text": "扎克弹跳4次，对命中的敌人造成击飞和减速效果。"
+            },
+            "keyTooltip": {
+              "sourceKey": "Spell_ZacR_Tooltip",
+              "text": "扎克弹跳@Bounces@次。弹跳在首次命中敌人时会将其<status>击退</status>并造成<magicDamage>@DamagePerBounce@魔法伤害</magicDamage>。后续弹跳会造成<magicDamage>@DamagePerSubsequentBounce@魔法伤害</magicDamage>和持续@SlowDuration@秒的@SlowAmount*100@%<status>减速</status>。<br><br>扎克在此期间持续获得至多<speed>@EndingMS*100@%移动速度</speed>并且可以在弹跳时施放<spellName>不稳定物质</spellName>。"
+            },
+            "keyCost": {
+              "sourceKey": "Spell_Cost_NoCost",
+              "text": "无消耗"
+            },
+            "keyTooltipExtendedBelowLine": {
+              "sourceKey": "Spell_ZacR_TooltipExtendedBelowLine",
+              "text": "<rules>总伤害：<magicDamage>@MaxDamageTooltip@魔法伤害</magicDamage><br><speed>移动速度</speed>在期间内从<speed>@BeginningMS*100@%</speed>持续提升到<speed>@EndingMS*100@%</speed>。<br>在【动感弹球】期间，扎克处于幽灵状态。幽灵状态的单位无视其它单位的碰撞体积。</rules>"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

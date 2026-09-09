@@ -1,0 +1,24 @@
+{
+  "at": "2026-09-09T14:25:59.375Z",
+  "status": "主负责人已读完写入器和共用模块，批准只运行一次109项受保护新增，随后独立回读",
+  "scripts": {
+    "受保护写入器.mjs": "3e3f01fc2c17b5882dbb0ad56a847333edaa7707633c9c214860c9a287b85762",
+    "第二十三批录入共用.mjs": "778ab73e6c173628bbb2720cfc4ded1532850d8936a53c0f3cf06017f65dd3a6"
+  },
+  "candidateSha256": "772528a5abd0ec24285f4db64f7cb03b5c6415a106aa83fbb7ffe40b651d3358",
+  "planSha256": "ba31f93dee47c0ce73128cb1d1e94283c74c00aae4a5d42791dbbfbff84c3169",
+  "preflight": {
+    "file": "受保护写入器-只读预检-2026-09-09T14-24-13.827Z.json",
+    "sha256": "3daa834f829b20771eb6857255c477856bba44994961caef2a48270887628923",
+    "GETs": 206,
+    "protectedMatched": 97,
+    "missing": 109
+  },
+  "checks": [
+    "只写阿木木扎克的parameters/formulas/effects，API主体和全量97保护读取一致。",
+    "全部109计划body与已审候选一致，逐项写前404、持久意图日志、POST后GET全字段比较。",
+    "意外响应或未知结果先回读再停止，现有写入锁禁止重放。",
+    "任一脚本散列变化须root核对，不能沿用这次批准；调用方仍须明确apply开关。"
+  ],
+  "runtimeValidation": "未执行"
+}

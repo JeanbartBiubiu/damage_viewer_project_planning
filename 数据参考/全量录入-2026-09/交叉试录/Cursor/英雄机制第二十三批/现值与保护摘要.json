@@ -1,0 +1,421 @@
+{
+  "at": "2026-09-09T12:42:18.066Z",
+  "sourcePackage": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero23-cursor-entry-20260909",
+  "targetDirectory": "C:\\project\\damage_web_dev\\数据参考\\全量录入-2026-09\\交叉试录\\Cursor\\英雄机制第二十三批",
+  "targetProtectedFiles": [
+    {
+      "path": "冻结根绑定与当前文本.json",
+      "sha256": "96aa039bb2e14a0f4ba5841f13a5a56c4ae3bc068e55023f904f396f19808b34",
+      "byteSize": 141097
+    },
+    {
+      "path": "写前原始保护快照.json",
+      "sha256": "74372b237e786367ccfbc0feaeb5e4bec0c0f35668915a5c9927f7f84fd2d417",
+      "byteSize": 69723
+    },
+    {
+      "path": "Cursor输入版本.json",
+      "sha256": "0ab4777628d9facd5f4e86745767157b63e2f0cec626cc07ba48b5194e5863d2",
+      "byteSize": 2579
+    },
+    {
+      "path": "Cursor冻结输入散列.json",
+      "sha256": "e612d9bcdf38de6e0d2aff399a7289c9d7c5719b09be01cca94890554600318b",
+      "byteSize": 2334
+    },
+    {
+      "path": "Cursor失败与接手审计.json",
+      "sha256": "ac5717722ef8d40cdec1016e71fca735ac036bba3b2fe31ddee68add5d7bd2fd",
+      "byteSize": 6506
+    }
+  ],
+  "existingSubjects": [
+    {
+      "skillKey": "amumu_p",
+      "name": "阿木木·诅咒之触",
+      "maxLevel": 1,
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "status": "ENABLED",
+      "sortOrder": 0
+    },
+    {
+      "skillKey": "amumu_q",
+      "name": "阿木木·绷带牵引",
+      "maxLevel": 5,
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "status": "ENABLED",
+      "sortOrder": 1
+    },
+    {
+      "skillKey": "amumu_w",
+      "name": "阿木木·绝望光环",
+      "maxLevel": 5,
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "status": "ENABLED",
+      "sortOrder": 2
+    },
+    {
+      "skillKey": "amumu_e",
+      "name": "阿木木·阿木木的愤怒",
+      "maxLevel": 5,
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "status": "ENABLED",
+      "sortOrder": 3
+    },
+    {
+      "skillKey": "amumu_r",
+      "name": "阿木木·木乃伊之咒",
+      "maxLevel": 3,
+      "skillCategoryKeys": [],
+      "status": "ENABLED",
+      "sortOrder": 4
+    },
+    {
+      "skillKey": "zac_p",
+      "name": "扎克·细胞分裂",
+      "maxLevel": 1,
+      "skillCategoryKeys": [
+        "passive"
+      ],
+      "status": "ENABLED",
+      "sortOrder": 0
+    },
+    {
+      "skillKey": "zac_q",
+      "name": "扎克·延伸打击",
+      "maxLevel": 5,
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "status": "ENABLED",
+      "sortOrder": 1
+    },
+    {
+      "skillKey": "zac_w",
+      "name": "扎克·不稳定物质",
+      "maxLevel": 5,
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "status": "ENABLED",
+      "sortOrder": 2
+    },
+    {
+      "skillKey": "zac_e",
+      "name": "扎克·橡筋弹弓",
+      "maxLevel": 5,
+      "skillCategoryKeys": [
+        "common"
+      ],
+      "status": "ENABLED",
+      "sortOrder": 3
+    },
+    {
+      "skillKey": "zac_r",
+      "name": "扎克·动感弹球",
+      "maxLevel": 3,
+      "skillCategoryKeys": [],
+      "status": "ENABLED",
+      "sortOrder": 4
+    }
+  ],
+  "existingComponentLists": {
+    "amumu_p": {
+      "parameters": [],
+      "formulas": [],
+      "effects": [],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "amumu_q": {
+      "parameters": [
+        {
+          "createdAt": "2026-09-07T17:38:32.707906Z",
+          "description": "DDragon16.17.1 Amumu.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 50,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "amumu_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:32.707906Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "formulas": [],
+      "effects": [],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "amumu_w": {
+      "parameters": [],
+      "formulas": [],
+      "effects": [],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "amumu_e": {
+      "parameters": [
+        {
+          "createdAt": "2026-09-07T17:38:34.303912Z",
+          "description": "DDragon16.17.1 Amumu.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 8000,
+            "3": 7000,
+            "4": 6000,
+            "5": 5000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "amumu_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:34.303912Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:35.145698Z",
+          "description": "DDragon16.17.1 Amumu.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 35,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "amumu_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:35.145698Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "formulas": [],
+      "effects": [],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "amumu_r": {
+      "parameters": [
+        {
+          "createdAt": "2026-09-07T17:38:35.579875Z",
+          "description": "DDragon16.17.1 Amumu.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 150000,
+            "2": 125000,
+            "3": 100000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "amumu_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:38:35.579875Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:38:35.996542Z",
+          "description": "DDragon16.17.1 Amumu.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100,
+            "2": 150,
+            "3": 200
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "amumu_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:38:35.996542Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "formulas": [],
+      "effects": [],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "zac_p": {
+      "parameters": [],
+      "formulas": [],
+      "effects": [],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "zac_q": {
+      "parameters": [
+        {
+          "createdAt": "2026-09-08T02:06:18.089093Z",
+          "description": "DDragon16.17.1 Zac.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 12500,
+            "3": 11000,
+            "4": 9500,
+            "5": 8000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zac_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:18.089093Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "formulas": [],
+      "effects": [],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "zac_w": {
+      "parameters": [
+        {
+          "createdAt": "2026-09-08T02:06:18.544193Z",
+          "description": "DDragon16.17.1 Zac.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zac_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:18.544193Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "formulas": [],
+      "effects": [],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "zac_e": {
+      "parameters": [
+        {
+          "createdAt": "2026-09-08T02:06:18.986983Z",
+          "description": "DDragon16.17.1 Zac.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 21000,
+            "2": 18000,
+            "3": 15000,
+            "4": 12000,
+            "5": 9000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zac_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:18.986983Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "formulas": [],
+      "effects": [],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    },
+    "zac_r": {
+      "parameters": [
+        {
+          "createdAt": "2026-09-08T02:06:19.459725Z",
+          "description": "DDragon16.17.1 Zac.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 105000,
+            "3": 90000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "zac_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:06:19.459725Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "formulas": [],
+      "effects": [],
+      "processes": [],
+      "internal-states": [],
+      "trigger-rules": []
+    }
+  },
+  "protectedImages": [
+    {
+      "skillKey": "amumu_p",
+      "image": null
+    },
+    {
+      "skillKey": "amumu_q",
+      "image": null
+    },
+    {
+      "skillKey": "amumu_w",
+      "image": null
+    },
+    {
+      "skillKey": "amumu_e",
+      "image": null
+    },
+    {
+      "skillKey": "amumu_r",
+      "image": null
+    },
+    {
+      "skillKey": "zac_p",
+      "image": null
+    },
+    {
+      "skillKey": "zac_q",
+      "image": null
+    },
+    {
+      "skillKey": "zac_w",
+      "image": null
+    },
+    {
+      "skillKey": "zac_e",
+      "image": null
+    },
+    {
+      "skillKey": "zac_r",
+      "image": null
+    }
+  ],
+  "protectedRelations": [],
+  "initialGETs": 97,
+  "apiWrites": 0,
+  "note": "本文件是生成时的静态保护摘要；没有新增业务GET。10个主体、六类组件列表、代表图和关系沿用输入保护快照，不生成主体、关系或图片意图。"
+}
