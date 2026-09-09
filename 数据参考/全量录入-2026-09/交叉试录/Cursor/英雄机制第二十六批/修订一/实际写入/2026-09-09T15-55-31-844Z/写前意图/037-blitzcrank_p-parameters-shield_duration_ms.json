@@ -1,0 +1,40 @@
+{
+  "sequence": 37,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 37,
+    "method": "POST",
+    "route": "/skills/blitzcrank_p/parameters",
+    "detailRoute": "/skills/blitzcrank_p/parameters/shield_duration_ms",
+    "skillKey": "blitzcrank_p",
+    "kind": "parameters",
+    "stableKey": "shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_duration_ms",
+      "name": "护盾持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 10000,
+      "levelValues": null,
+      "description": "当前绑定DataValues.ShieldDuration=10秒，转换为10000毫秒。",
+      "sortOrder": 30
+    }
+  },
+  "before": {
+    "sequence": 288,
+    "method": "GET",
+    "route": "/skills/blitzcrank_p/parameters/shield_duration_ms",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "shield_duration_ms"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:23.363Z"
+  }
+}

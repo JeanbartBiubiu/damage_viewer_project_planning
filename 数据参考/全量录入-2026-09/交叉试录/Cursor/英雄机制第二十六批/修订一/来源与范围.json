@@ -1,0 +1,42 @@
+{
+  "batch": "英雄机制第二十六批/修订一",
+  "status": "修订一候选已冻结，严格数学通过，未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "sourcePolicy": "固定客户端16.17、官方16.17.1和构建16.17.8104348；沿当前根绑定正文和当前计算树；未知等级曲线、资源类型和运行输入不猜、不设默认。",
+  "included": [
+    "阿利斯塔：自身治疗、单一敌方魔法伤害、控制持续、践踏持续总量、满层参数和R减伤公式。",
+    "布里茨：自身护盾、单一敌方魔法伤害、W独立攻击速度效果与结束后减速参数、E整次强化攻击公式、R被动/主动伤害公式和沉默持续。W移动速度只保留起始/最低比例与2500毫秒衰减窗口，不创建固定5000毫秒移动速度效果；E冷却按技能等级索引1至5和官方数组修正。",
+    "明确的一次法力消耗组成、来源明确的冷却/施法/持续时间参数。"
+  ],
+  "excludedOrPending": [
+    "第三友军治疗、兵野专用规则、范围和位移几何、纯碰撞/视觉规则、匿名旧公式。",
+    "伤害结果、直接治疗结果、瞬时求值、周期过程和自动触发。",
+    "未证等级断点中间曲线、W移动速度中间衰减曲线与结束自动衔接、能力资源类型及当前/总值资格、命中/控制/净化/标记/护盾移除事件。",
+    "阿利斯塔R减伤效果：当前乘区目录无可复用伤害减免乘区，本轮不新建乘区。"
+  ],
+  "counts": {
+    "parameters": 57,
+    "formulas": 10,
+    "effects": 11,
+    "processes": 0,
+    "internalStates": 0,
+    "triggerRules": 0,
+    "requestCount": 78,
+    "reusedPublicParameters": 13,
+    "protectedSubjects": 10,
+    "protectedCompositionLists": 60
+  },
+  "hashes": {
+    "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+    "planSha256": "36ab18f7ce88561d0db035c6e20b5b30d7e364f4fa7585814266c561e386a3ba",
+    "sourceValuesSha256": "0c3ac5c7057860c5135c1b3825094c16e9acefa75675ed73df910082c680a9bd",
+    "sourceManifestSha256": "b4296bf9678e4057fff6ea5469bfda62d4e95538a84bbcac40f52605828785e5",
+    "strictMathSha256": "86f0d92cac6aaab12b45977a2382ae9042ae91f8c11bd42a2a6e99e7db61e4c6"
+  },
+  "noApiCalls": true
+}

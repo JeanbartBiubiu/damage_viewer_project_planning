@@ -1,0 +1,4630 @@
+{
+  "generatedAt": "2026-09-09T15:53:22.088Z",
+  "mode": "readonly",
+  "baselineRequests": [
+    {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    {
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/characters/champion_alistar",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_alistar",
+        "createdAt": "2026-09-06T17:02:53.483298Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "阿利斯塔",
+        "updatedAt": "2026-09-06T17:02:53.483298Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_alistar",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_alistar",
+            "characterName": "阿利斯塔",
+            "gameId": "lol",
+            "skillKey": "alistar_p",
+            "skillName": "阿利斯塔·凯旋怒吼",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_alistar",
+            "characterName": "阿利斯塔",
+            "gameId": "lol",
+            "skillKey": "alistar_q",
+            "skillName": "阿利斯塔·大地粉碎",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_alistar",
+            "characterName": "阿利斯塔",
+            "gameId": "lol",
+            "skillKey": "alistar_w",
+            "skillName": "阿利斯塔·野蛮冲撞",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_alistar",
+            "characterName": "阿利斯塔",
+            "gameId": "lol",
+            "skillKey": "alistar_e",
+            "skillName": "阿利斯塔·践踏",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_alistar",
+            "characterName": "阿利斯塔",
+            "gameId": "lol",
+            "skillKey": "alistar_r",
+            "skillName": "阿利斯塔·坚定意志",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_blitzcrank",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_blitzcrank",
+        "createdAt": "2026-09-06T16:12:00.34211Z",
+        "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+        "gameId": "lol",
+        "name": "布里茨",
+        "updatedAt": "2026-09-06T16:12:00.34211Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_blitzcrank",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_blitzcrank",
+            "characterName": "布里茨",
+            "gameId": "lol",
+            "skillKey": "blitzcrank_p",
+            "skillName": "布里茨·法力屏障",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_blitzcrank",
+            "characterName": "布里茨",
+            "gameId": "lol",
+            "skillKey": "blitzcrank_q",
+            "skillName": "布里茨·机械飞爪",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_blitzcrank",
+            "characterName": "布里茨",
+            "gameId": "lol",
+            "skillKey": "blitzcrank_w",
+            "skillName": "布里茨·过载运转",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_blitzcrank",
+            "characterName": "布里茨",
+            "gameId": "lol",
+            "skillKey": "blitzcrank_e",
+            "skillName": "布里茨·能量铁拳",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_blitzcrank",
+            "characterName": "布里茨",
+            "gameId": "lol",
+            "skillKey": "blitzcrank_r",
+            "skillName": "布里茨·静电力场",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/alistar_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:18.744002Z",
+        "description": "阿利斯塔在对敌方英雄造成晕眩或强制位移时，或附近有敌人阵亡时，会积攒他的怒吼层数。在层数攒满后，他会治疗他自己和所有附近的友方英雄。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "阿利斯塔·凯旋怒吼",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "alistar_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:18.744002Z"
+      }
+    },
+    {
+      "route": "/skills/alistar_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_alistar_p",
+          "name": "alistar_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/alistar_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:19.135773Z",
+        "description": "阿利斯塔锤击地面，对附近的敌人造成魔法伤害并使他们浮空。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿利斯塔·大地粉碎",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "alistar_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:19.135773Z"
+      }
+    },
+    {
+      "route": "/skills/alistar_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_alistar_q",
+          "name": "alistar_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/alistar_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:06.487983Z",
+          "description": "DDragon16.17.1 Alistar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 13000,
+            "3": 12000,
+            "4": 11000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "alistar_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:06.487983Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:06.808575Z",
+          "description": "DDragon16.17.1 Alistar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "alistar_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:06.808575Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/alistar_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:06.487983Z",
+        "description": "DDragon16.17.1 Alistar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "alistar_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:06.487983Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/alistar_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:06.808575Z",
+        "description": "DDragon16.17.1 Alistar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "alistar_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:06.808575Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/alistar_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:19.437267Z",
+        "description": "阿利斯塔冲撞目标，对其造成伤害并击退目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿利斯塔·野蛮冲撞",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "alistar_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:19.437267Z"
+      }
+    },
+    {
+      "route": "/skills/alistar_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_alistar_w",
+          "name": "alistar_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/alistar_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:07.091895Z",
+          "description": "DDragon16.17.1 Alistar.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 13000,
+            "3": 12000,
+            "4": 11000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "alistar_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:07.091895Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:07.438503Z",
+          "description": "DDragon16.17.1 Alistar.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "alistar_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:07.438503Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/alistar_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:07.091895Z",
+        "description": "DDragon16.17.1 Alistar.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "alistar_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:07.091895Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/alistar_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:07.438503Z",
+        "description": "DDragon16.17.1 Alistar.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "alistar_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:07.438503Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/alistar_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:19.823772Z",
+        "description": "阿利斯塔践踏附近的敌方单位，无视单位的碰撞体积并在他伤害到一名敌方英雄时获得一层充能。在满层充能时，阿利斯塔的下次对敌方英雄发起的普攻将造成额外魔法伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿利斯塔·践踏",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "alistar_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:19.823772Z"
+      }
+    },
+    {
+      "route": "/skills/alistar_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_alistar_e",
+          "name": "alistar_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/alistar_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:07.724597Z",
+          "description": "DDragon16.17.1 Alistar.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11500,
+            "3": 11000,
+            "4": 10500,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "alistar_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:07.724597Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:08.04515Z",
+          "description": "DDragon16.17.1 Alistar.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "alistar_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:08.04515Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/alistar_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:07.724597Z",
+        "description": "DDragon16.17.1 Alistar.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "alistar_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:07.724597Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/alistar_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:08.04515Z",
+        "description": "DDragon16.17.1 Alistar.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "alistar_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:08.04515Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/alistar_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:20.213749Z",
+        "description": "阿利斯塔发出野性的咆哮，移除身上所有控制效果，并且持续时间内所受的物理和魔法伤害将减少。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "阿利斯塔·坚定意志",
+        "skillCategoryKeys": [],
+        "skillKey": "alistar_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:20.213749Z"
+      }
+    },
+    {
+      "route": "/skills/alistar_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_alistar_r",
+          "name": "alistar_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/alistar_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:08.332321Z",
+          "description": "DDragon16.17.1 Alistar.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "alistar_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:08.332321Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:08.708158Z",
+          "description": "DDragon16.17.1 Alistar.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "alistar_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:08.708158Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/alistar_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:08.332321Z",
+        "description": "DDragon16.17.1 Alistar.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "alistar_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:08.332321Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/alistar_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:08.708158Z",
+        "description": "DDragon16.17.1 Alistar.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "alistar_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:08.708158Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/alistar_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/alistar_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:54.780273Z",
+        "description": "布里茨在血量过低时会获得一层基于它法力值的护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "布里茨·法力屏障",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "blitzcrank_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:54.780273Z"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_blitzcrank_p",
+          "name": "blitzcrank_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:55.113889Z",
+        "description": "布里茨发射它的右手，来抓取碰到的第一个敌人，在对敌人造成伤害的同时，还会将这名敌人拉到它的面前。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "布里茨·机械飞爪",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "blitzcrank_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:55.113889Z"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_blitzcrank_q",
+          "name": "blitzcrank_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:09.006929Z",
+          "description": "DDragon16.17.1 Blitzcrank.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20000,
+            "2": 19000,
+            "3": 18000,
+            "4": 17000,
+            "5": 16000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "blitzcrank_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:09.006929Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:09.329027Z",
+          "description": "DDragon16.17.1 Blitzcrank.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "blitzcrank_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:09.329027Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/blitzcrank_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:09.006929Z",
+        "description": "DDragon16.17.1 Blitzcrank.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 19000,
+          "3": 18000,
+          "4": 17000,
+          "5": 16000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "blitzcrank_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:09.006929Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:09.329027Z",
+        "description": "DDragon16.17.1 Blitzcrank.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "blitzcrank_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:09.329027Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:55.394668Z",
+        "description": "布里茨对自己进行了超级充电，它的攻击速度和移动速度得到了显著提升。它会在效果结束后暂时减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "布里茨·过载运转",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "blitzcrank_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:55.394668Z"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_blitzcrank_w",
+          "name": "blitzcrank_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:09.630913Z",
+          "description": "DDragon16.17.1 Blitzcrank.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:09.630913Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/blitzcrank_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:09.630913Z",
+        "description": "DDragon16.17.1 Blitzcrank.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "blitzcrank_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:09.630913Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:55.684161Z",
+        "description": "布里茨为机械手臂充能，下次攻击造成双倍伤害并击飞目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "布里茨·能量铁拳",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "blitzcrank_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:55.684161Z"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_blitzcrank_e",
+          "name": "blitzcrank_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:09.978614Z",
+          "description": "DDragon16.17.1 Blitzcrank.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "blitzcrank_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:09.978614Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/blitzcrank_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:09.978614Z",
+        "description": "DDragon16.17.1 Blitzcrank.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "blitzcrank_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:09.978614Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:55.952603Z",
+        "description": "被布里茨攻击过的敌人会被标记并在1秒后受到闪电伤害。此外，布里茨可以主动激活这个技能来移除附近敌人们的护盾、对他们造成伤害并暂时沉默他们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "布里茨·静电力场",
+        "skillCategoryKeys": [],
+        "skillKey": "blitzcrank_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:55.952603Z"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_blitzcrank_r",
+          "name": "blitzcrank_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:10.243712Z",
+          "description": "DDragon16.17.1 Blitzcrank.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "blitzcrank_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:10.243712Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/blitzcrank_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:10.243712Z",
+        "description": "DDragon16.17.1 Blitzcrank.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "blitzcrank_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:10.243712Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/blitzcrank_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/blitzcrank_r/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "responses": [
+    {
+      "sequence": 1,
+      "method": "GET",
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      },
+      "at": "2026-09-09T15:53:14.058Z"
+    },
+    {
+      "sequence": 2,
+      "method": "GET",
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      },
+      "at": "2026-09-09T15:53:14.105Z"
+    },
+    {
+      "sequence": 3,
+      "method": "GET",
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      },
+      "at": "2026-09-09T15:53:14.154Z"
+    },
+    {
+      "sequence": 4,
+      "method": "GET",
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      },
+      "at": "2026-09-09T15:53:14.259Z"
+    },
+    {
+      "sequence": 5,
+      "method": "GET",
+      "route": "/characters/champion_alistar",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_alistar",
+        "createdAt": "2026-09-06T17:02:53.483298Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "阿利斯塔",
+        "updatedAt": "2026-09-06T17:02:53.483298Z"
+      },
+      "at": "2026-09-09T15:53:14.296Z"
+    },
+    {
+      "sequence": 6,
+      "method": "GET",
+      "route": "/character-skill-relations?characterKey=champion_alistar",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_alistar",
+            "characterName": "阿利斯塔",
+            "gameId": "lol",
+            "skillKey": "alistar_p",
+            "skillName": "阿利斯塔·凯旋怒吼",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_alistar",
+            "characterName": "阿利斯塔",
+            "gameId": "lol",
+            "skillKey": "alistar_q",
+            "skillName": "阿利斯塔·大地粉碎",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_alistar",
+            "characterName": "阿利斯塔",
+            "gameId": "lol",
+            "skillKey": "alistar_w",
+            "skillName": "阿利斯塔·野蛮冲撞",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_alistar",
+            "characterName": "阿利斯塔",
+            "gameId": "lol",
+            "skillKey": "alistar_e",
+            "skillName": "阿利斯塔·践踏",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_alistar",
+            "characterName": "阿利斯塔",
+            "gameId": "lol",
+            "skillKey": "alistar_r",
+            "skillName": "阿利斯塔·坚定意志",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      },
+      "at": "2026-09-09T15:53:14.351Z"
+    },
+    {
+      "sequence": 7,
+      "method": "GET",
+      "route": "/characters/champion_blitzcrank",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_blitzcrank",
+        "createdAt": "2026-09-06T16:12:00.34211Z",
+        "description": "官方静态资料16.17.1；仅基础属性与1～18级自然成长，技能、图片和特殊机制待录。",
+        "gameId": "lol",
+        "name": "布里茨",
+        "updatedAt": "2026-09-06T16:12:00.34211Z"
+      },
+      "at": "2026-09-09T15:53:14.382Z"
+    },
+    {
+      "sequence": 8,
+      "method": "GET",
+      "route": "/character-skill-relations?characterKey=champion_blitzcrank",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_blitzcrank",
+            "characterName": "布里茨",
+            "gameId": "lol",
+            "skillKey": "blitzcrank_p",
+            "skillName": "布里茨·法力屏障",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_blitzcrank",
+            "characterName": "布里茨",
+            "gameId": "lol",
+            "skillKey": "blitzcrank_q",
+            "skillName": "布里茨·机械飞爪",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_blitzcrank",
+            "characterName": "布里茨",
+            "gameId": "lol",
+            "skillKey": "blitzcrank_w",
+            "skillName": "布里茨·过载运转",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_blitzcrank",
+            "characterName": "布里茨",
+            "gameId": "lol",
+            "skillKey": "blitzcrank_e",
+            "skillName": "布里茨·能量铁拳",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_blitzcrank",
+            "characterName": "布里茨",
+            "gameId": "lol",
+            "skillKey": "blitzcrank_r",
+            "skillName": "布里茨·静电力场",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      },
+      "at": "2026-09-09T15:53:14.421Z"
+    },
+    {
+      "sequence": 9,
+      "method": "GET",
+      "route": "/skills/alistar_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:18.744002Z",
+        "description": "阿利斯塔在对敌方英雄造成晕眩或强制位移时，或附近有敌人阵亡时，会积攒他的怒吼层数。在层数攒满后，他会治疗他自己和所有附近的友方英雄。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "阿利斯塔·凯旋怒吼",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "alistar_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:18.744002Z"
+      },
+      "at": "2026-09-09T15:53:14.461Z"
+    },
+    {
+      "sequence": 10,
+      "method": "GET",
+      "route": "/skills/alistar_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_alistar_p",
+          "name": "alistar_p"
+        }
+      },
+      "at": "2026-09-09T15:53:14.516Z"
+    },
+    {
+      "sequence": 11,
+      "method": "GET",
+      "route": "/skills/alistar_p/parameters",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:14.557Z"
+    },
+    {
+      "sequence": 12,
+      "method": "GET",
+      "route": "/skills/alistar_p/formulas",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:14.600Z"
+    },
+    {
+      "sequence": 13,
+      "method": "GET",
+      "route": "/skills/alistar_p/effects",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:14.640Z"
+    },
+    {
+      "sequence": 14,
+      "method": "GET",
+      "route": "/skills/alistar_p/processes",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:14.683Z"
+    },
+    {
+      "sequence": 15,
+      "method": "GET",
+      "route": "/skills/alistar_p/internal-states",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:14.723Z"
+    },
+    {
+      "sequence": 16,
+      "method": "GET",
+      "route": "/skills/alistar_p/trigger-rules",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:14.766Z"
+    },
+    {
+      "sequence": 17,
+      "method": "GET",
+      "route": "/skills/alistar_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:19.135773Z",
+        "description": "阿利斯塔锤击地面，对附近的敌人造成魔法伤害并使他们浮空。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿利斯塔·大地粉碎",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "alistar_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:19.135773Z"
+      },
+      "at": "2026-09-09T15:53:14.836Z"
+    },
+    {
+      "sequence": 18,
+      "method": "GET",
+      "route": "/skills/alistar_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_alistar_q",
+          "name": "alistar_q"
+        }
+      },
+      "at": "2026-09-09T15:53:14.889Z"
+    },
+    {
+      "sequence": 19,
+      "method": "GET",
+      "route": "/skills/alistar_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:06.487983Z",
+          "description": "DDragon16.17.1 Alistar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 13000,
+            "3": 12000,
+            "4": 11000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "alistar_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:06.487983Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:06.808575Z",
+          "description": "DDragon16.17.1 Alistar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "alistar_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:06.808575Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "at": "2026-09-09T15:53:14.937Z"
+    },
+    {
+      "sequence": 20,
+      "method": "GET",
+      "route": "/skills/alistar_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:06.487983Z",
+        "description": "DDragon16.17.1 Alistar.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "alistar_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:06.487983Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:14.984Z"
+    },
+    {
+      "sequence": 21,
+      "method": "GET",
+      "route": "/skills/alistar_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:06.808575Z",
+        "description": "DDragon16.17.1 Alistar.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "alistar_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:06.808575Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:15.021Z"
+    },
+    {
+      "sequence": 22,
+      "method": "GET",
+      "route": "/skills/alistar_q/formulas",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:15.059Z"
+    },
+    {
+      "sequence": 23,
+      "method": "GET",
+      "route": "/skills/alistar_q/effects",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:15.092Z"
+    },
+    {
+      "sequence": 24,
+      "method": "GET",
+      "route": "/skills/alistar_q/processes",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:15.145Z"
+    },
+    {
+      "sequence": 25,
+      "method": "GET",
+      "route": "/skills/alistar_q/internal-states",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:15.187Z"
+    },
+    {
+      "sequence": 26,
+      "method": "GET",
+      "route": "/skills/alistar_q/trigger-rules",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:15.236Z"
+    },
+    {
+      "sequence": 27,
+      "method": "GET",
+      "route": "/skills/alistar_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:19.437267Z",
+        "description": "阿利斯塔冲撞目标，对其造成伤害并击退目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿利斯塔·野蛮冲撞",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "alistar_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:19.437267Z"
+      },
+      "at": "2026-09-09T15:53:15.275Z"
+    },
+    {
+      "sequence": 28,
+      "method": "GET",
+      "route": "/skills/alistar_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_alistar_w",
+          "name": "alistar_w"
+        }
+      },
+      "at": "2026-09-09T15:53:15.336Z"
+    },
+    {
+      "sequence": 29,
+      "method": "GET",
+      "route": "/skills/alistar_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:07.091895Z",
+          "description": "DDragon16.17.1 Alistar.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 14000,
+            "2": 13000,
+            "3": 12000,
+            "4": 11000,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "alistar_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:07.091895Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:07.438503Z",
+          "description": "DDragon16.17.1 Alistar.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "alistar_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:07.438503Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "at": "2026-09-09T15:53:15.381Z"
+    },
+    {
+      "sequence": 30,
+      "method": "GET",
+      "route": "/skills/alistar_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:07.091895Z",
+        "description": "DDragon16.17.1 Alistar.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 14000,
+          "2": 13000,
+          "3": 12000,
+          "4": 11000,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "alistar_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:07.091895Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:15.427Z"
+    },
+    {
+      "sequence": 31,
+      "method": "GET",
+      "route": "/skills/alistar_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:07.438503Z",
+        "description": "DDragon16.17.1 Alistar.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "alistar_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:07.438503Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:15.521Z"
+    },
+    {
+      "sequence": 32,
+      "method": "GET",
+      "route": "/skills/alistar_w/formulas",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:15.562Z"
+    },
+    {
+      "sequence": 33,
+      "method": "GET",
+      "route": "/skills/alistar_w/effects",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:15.597Z"
+    },
+    {
+      "sequence": 34,
+      "method": "GET",
+      "route": "/skills/alistar_w/processes",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:15.642Z"
+    },
+    {
+      "sequence": 35,
+      "method": "GET",
+      "route": "/skills/alistar_w/internal-states",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:15.694Z"
+    },
+    {
+      "sequence": 36,
+      "method": "GET",
+      "route": "/skills/alistar_w/trigger-rules",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:15.737Z"
+    },
+    {
+      "sequence": 37,
+      "method": "GET",
+      "route": "/skills/alistar_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:19.823772Z",
+        "description": "阿利斯塔践踏附近的敌方单位，无视单位的碰撞体积并在他伤害到一名敌方英雄时获得一层充能。在满层充能时，阿利斯塔的下次对敌方英雄发起的普攻将造成额外魔法伤害和晕眩效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "阿利斯塔·践踏",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "alistar_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:19.823772Z"
+      },
+      "at": "2026-09-09T15:53:15.783Z"
+    },
+    {
+      "sequence": 38,
+      "method": "GET",
+      "route": "/skills/alistar_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_alistar_e",
+          "name": "alistar_e"
+        }
+      },
+      "at": "2026-09-09T15:53:15.842Z"
+    },
+    {
+      "sequence": 39,
+      "method": "GET",
+      "route": "/skills/alistar_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:07.724597Z",
+          "description": "DDragon16.17.1 Alistar.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11500,
+            "3": 11000,
+            "4": 10500,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "alistar_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:07.724597Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:08.04515Z",
+          "description": "DDragon16.17.1 Alistar.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "alistar_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:08.04515Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ],
+      "at": "2026-09-09T15:53:15.893Z"
+    },
+    {
+      "sequence": 40,
+      "method": "GET",
+      "route": "/skills/alistar_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:07.724597Z",
+        "description": "DDragon16.17.1 Alistar.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "alistar_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:07.724597Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:15.931Z"
+    },
+    {
+      "sequence": 41,
+      "method": "GET",
+      "route": "/skills/alistar_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:08.04515Z",
+        "description": "DDragon16.17.1 Alistar.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "alistar_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:08.04515Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:15.992Z"
+    },
+    {
+      "sequence": 42,
+      "method": "GET",
+      "route": "/skills/alistar_e/formulas",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:16.039Z"
+    },
+    {
+      "sequence": 43,
+      "method": "GET",
+      "route": "/skills/alistar_e/effects",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:16.119Z"
+    },
+    {
+      "sequence": 44,
+      "method": "GET",
+      "route": "/skills/alistar_e/processes",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:16.157Z"
+    },
+    {
+      "sequence": 45,
+      "method": "GET",
+      "route": "/skills/alistar_e/internal-states",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:16.219Z"
+    },
+    {
+      "sequence": 46,
+      "method": "GET",
+      "route": "/skills/alistar_e/trigger-rules",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:16.269Z"
+    },
+    {
+      "sequence": 47,
+      "method": "GET",
+      "route": "/skills/alistar_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:16:20.213749Z",
+        "description": "阿利斯塔发出野性的咆哮，移除身上所有控制效果，并且持续时间内所受的物理和魔法伤害将减少。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "阿利斯塔·坚定意志",
+        "skillCategoryKeys": [],
+        "skillKey": "alistar_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:16:20.213749Z"
+      },
+      "at": "2026-09-09T15:53:16.316Z"
+    },
+    {
+      "sequence": 48,
+      "method": "GET",
+      "route": "/skills/alistar_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_alistar_r",
+          "name": "alistar_r"
+        }
+      },
+      "at": "2026-09-09T15:53:16.373Z"
+    },
+    {
+      "sequence": 49,
+      "method": "GET",
+      "route": "/skills/alistar_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:08.332321Z",
+          "description": "DDragon16.17.1 Alistar.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 100000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "alistar_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:08.332321Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:08.708158Z",
+          "description": "DDragon16.17.1 Alistar.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "alistar_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:08.708158Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "at": "2026-09-09T15:53:16.418Z"
+    },
+    {
+      "sequence": 50,
+      "method": "GET",
+      "route": "/skills/alistar_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:08.332321Z",
+        "description": "DDragon16.17.1 Alistar.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 100000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "alistar_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:08.332321Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:16.452Z"
+    },
+    {
+      "sequence": 51,
+      "method": "GET",
+      "route": "/skills/alistar_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:08.708158Z",
+        "description": "DDragon16.17.1 Alistar.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "alistar_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:08.708158Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:16.493Z"
+    },
+    {
+      "sequence": 52,
+      "method": "GET",
+      "route": "/skills/alistar_r/formulas",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:16.537Z"
+    },
+    {
+      "sequence": 53,
+      "method": "GET",
+      "route": "/skills/alistar_r/effects",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:16.567Z"
+    },
+    {
+      "sequence": 54,
+      "method": "GET",
+      "route": "/skills/alistar_r/processes",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:16.638Z"
+    },
+    {
+      "sequence": 55,
+      "method": "GET",
+      "route": "/skills/alistar_r/internal-states",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:16.718Z"
+    },
+    {
+      "sequence": 56,
+      "method": "GET",
+      "route": "/skills/alistar_r/trigger-rules",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:16.800Z"
+    },
+    {
+      "sequence": 57,
+      "method": "GET",
+      "route": "/skills/blitzcrank_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:54.780273Z",
+        "description": "布里茨在血量过低时会获得一层基于它法力值的护盾。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "布里茨·法力屏障",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "blitzcrank_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:54.780273Z"
+      },
+      "at": "2026-09-09T15:53:16.838Z"
+    },
+    {
+      "sequence": 58,
+      "method": "GET",
+      "route": "/skills/blitzcrank_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_blitzcrank_p",
+          "name": "blitzcrank_p"
+        }
+      },
+      "at": "2026-09-09T15:53:16.893Z"
+    },
+    {
+      "sequence": 59,
+      "method": "GET",
+      "route": "/skills/blitzcrank_p/parameters",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:16.933Z"
+    },
+    {
+      "sequence": 60,
+      "method": "GET",
+      "route": "/skills/blitzcrank_p/formulas",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:16.968Z"
+    },
+    {
+      "sequence": 61,
+      "method": "GET",
+      "route": "/skills/blitzcrank_p/effects",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.019Z"
+    },
+    {
+      "sequence": 62,
+      "method": "GET",
+      "route": "/skills/blitzcrank_p/processes",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.057Z"
+    },
+    {
+      "sequence": 63,
+      "method": "GET",
+      "route": "/skills/blitzcrank_p/internal-states",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.093Z"
+    },
+    {
+      "sequence": 64,
+      "method": "GET",
+      "route": "/skills/blitzcrank_p/trigger-rules",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.130Z"
+    },
+    {
+      "sequence": 65,
+      "method": "GET",
+      "route": "/skills/blitzcrank_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:55.113889Z",
+        "description": "布里茨发射它的右手，来抓取碰到的第一个敌人，在对敌人造成伤害的同时，还会将这名敌人拉到它的面前。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "布里茨·机械飞爪",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "blitzcrank_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:55.113889Z"
+      },
+      "at": "2026-09-09T15:53:17.166Z"
+    },
+    {
+      "sequence": 66,
+      "method": "GET",
+      "route": "/skills/blitzcrank_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_blitzcrank_q",
+          "name": "blitzcrank_q"
+        }
+      },
+      "at": "2026-09-09T15:53:17.216Z"
+    },
+    {
+      "sequence": 67,
+      "method": "GET",
+      "route": "/skills/blitzcrank_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:09.006929Z",
+          "description": "DDragon16.17.1 Blitzcrank.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20000,
+            "2": 19000,
+            "3": 18000,
+            "4": 17000,
+            "5": 16000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "blitzcrank_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T16:00:09.006929Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T16:00:09.329027Z",
+          "description": "DDragon16.17.1 Blitzcrank.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "blitzcrank_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:09.329027Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "at": "2026-09-09T15:53:17.253Z"
+    },
+    {
+      "sequence": 68,
+      "method": "GET",
+      "route": "/skills/blitzcrank_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:09.006929Z",
+        "description": "DDragon16.17.1 Blitzcrank.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 20000,
+          "2": 19000,
+          "3": 18000,
+          "4": 17000,
+          "5": 16000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "blitzcrank_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T16:00:09.006929Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:17.292Z"
+    },
+    {
+      "sequence": 69,
+      "method": "GET",
+      "route": "/skills/blitzcrank_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:09.329027Z",
+        "description": "DDragon16.17.1 Blitzcrank.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "blitzcrank_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:09.329027Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:17.334Z"
+    },
+    {
+      "sequence": 70,
+      "method": "GET",
+      "route": "/skills/blitzcrank_q/formulas",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.399Z"
+    },
+    {
+      "sequence": 71,
+      "method": "GET",
+      "route": "/skills/blitzcrank_q/effects",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.443Z"
+    },
+    {
+      "sequence": 72,
+      "method": "GET",
+      "route": "/skills/blitzcrank_q/processes",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.477Z"
+    },
+    {
+      "sequence": 73,
+      "method": "GET",
+      "route": "/skills/blitzcrank_q/internal-states",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.521Z"
+    },
+    {
+      "sequence": 74,
+      "method": "GET",
+      "route": "/skills/blitzcrank_q/trigger-rules",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.561Z"
+    },
+    {
+      "sequence": 75,
+      "method": "GET",
+      "route": "/skills/blitzcrank_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:55.394668Z",
+        "description": "布里茨对自己进行了超级充电，它的攻击速度和移动速度得到了显著提升。它会在效果结束后暂时减速。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "布里茨·过载运转",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "blitzcrank_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:55.394668Z"
+      },
+      "at": "2026-09-09T15:53:17.605Z"
+    },
+    {
+      "sequence": 76,
+      "method": "GET",
+      "route": "/skills/blitzcrank_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_blitzcrank_w",
+          "name": "blitzcrank_w"
+        }
+      },
+      "at": "2026-09-09T15:53:17.650Z"
+    },
+    {
+      "sequence": 77,
+      "method": "GET",
+      "route": "/skills/blitzcrank_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:09.630913Z",
+          "description": "DDragon16.17.1 Blitzcrank.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 75,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "blitzcrank_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:09.630913Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "at": "2026-09-09T15:53:17.689Z"
+    },
+    {
+      "sequence": 78,
+      "method": "GET",
+      "route": "/skills/blitzcrank_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:09.630913Z",
+        "description": "DDragon16.17.1 Blitzcrank.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 75,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "blitzcrank_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:09.630913Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:17.729Z"
+    },
+    {
+      "sequence": 79,
+      "method": "GET",
+      "route": "/skills/blitzcrank_w/formulas",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.767Z"
+    },
+    {
+      "sequence": 80,
+      "method": "GET",
+      "route": "/skills/blitzcrank_w/effects",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.800Z"
+    },
+    {
+      "sequence": 81,
+      "method": "GET",
+      "route": "/skills/blitzcrank_w/processes",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.833Z"
+    },
+    {
+      "sequence": 82,
+      "method": "GET",
+      "route": "/skills/blitzcrank_w/internal-states",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.871Z"
+    },
+    {
+      "sequence": 83,
+      "method": "GET",
+      "route": "/skills/blitzcrank_w/trigger-rules",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:17.909Z"
+    },
+    {
+      "sequence": 84,
+      "method": "GET",
+      "route": "/skills/blitzcrank_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:55.684161Z",
+        "description": "布里茨为机械手臂充能，下次攻击造成双倍伤害并击飞目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "布里茨·能量铁拳",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "blitzcrank_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:55.684161Z"
+      },
+      "at": "2026-09-09T15:53:17.946Z"
+    },
+    {
+      "sequence": 85,
+      "method": "GET",
+      "route": "/skills/blitzcrank_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_blitzcrank_e",
+          "name": "blitzcrank_e"
+        }
+      },
+      "at": "2026-09-09T15:53:17.997Z"
+    },
+    {
+      "sequence": 86,
+      "method": "GET",
+      "route": "/skills/blitzcrank_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:09.978614Z",
+          "description": "DDragon16.17.1 Blitzcrank.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "blitzcrank_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:09.978614Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "at": "2026-09-09T15:53:18.148Z"
+    },
+    {
+      "sequence": 87,
+      "method": "GET",
+      "route": "/skills/blitzcrank_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:09.978614Z",
+        "description": "DDragon16.17.1 Blitzcrank.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 25,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "blitzcrank_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:09.978614Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:18.189Z"
+    },
+    {
+      "sequence": 88,
+      "method": "GET",
+      "route": "/skills/blitzcrank_e/formulas",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:18.228Z"
+    },
+    {
+      "sequence": 89,
+      "method": "GET",
+      "route": "/skills/blitzcrank_e/effects",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:18.268Z"
+    },
+    {
+      "sequence": 90,
+      "method": "GET",
+      "route": "/skills/blitzcrank_e/processes",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:18.304Z"
+    },
+    {
+      "sequence": 91,
+      "method": "GET",
+      "route": "/skills/blitzcrank_e/internal-states",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:18.346Z"
+    },
+    {
+      "sequence": 92,
+      "method": "GET",
+      "route": "/skills/blitzcrank_e/trigger-rules",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:18.386Z"
+    },
+    {
+      "sequence": 93,
+      "method": "GET",
+      "route": "/skills/blitzcrank_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:17:55.952603Z",
+        "description": "被布里茨攻击过的敌人会被标记并在1秒后受到闪电伤害。此外，布里茨可以主动激活这个技能来移除附近敌人们的护盾、对他们造成伤害并暂时沉默他们。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "布里茨·静电力场",
+        "skillCategoryKeys": [],
+        "skillKey": "blitzcrank_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:17:55.952603Z"
+      },
+      "at": "2026-09-09T15:53:18.424Z"
+    },
+    {
+      "sequence": 94,
+      "method": "GET",
+      "route": "/skills/blitzcrank_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_blitzcrank_r",
+          "name": "blitzcrank_r"
+        }
+      },
+      "at": "2026-09-09T15:53:18.470Z"
+    },
+    {
+      "sequence": 95,
+      "method": "GET",
+      "route": "/skills/blitzcrank_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T16:00:10.243712Z",
+          "description": "DDragon16.17.1 Blitzcrank.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "blitzcrank_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T16:00:10.243712Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ],
+      "at": "2026-09-09T15:53:18.513Z"
+    },
+    {
+      "sequence": 96,
+      "method": "GET",
+      "route": "/skills/blitzcrank_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T16:00:10.243712Z",
+        "description": "DDragon16.17.1 Blitzcrank.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "blitzcrank_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T16:00:10.243712Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      },
+      "at": "2026-09-09T15:53:18.556Z"
+    },
+    {
+      "sequence": 97,
+      "method": "GET",
+      "route": "/skills/blitzcrank_r/formulas",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:18.592Z"
+    },
+    {
+      "sequence": 98,
+      "method": "GET",
+      "route": "/skills/blitzcrank_r/effects",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:18.640Z"
+    },
+    {
+      "sequence": 99,
+      "method": "GET",
+      "route": "/skills/blitzcrank_r/processes",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:18.712Z"
+    },
+    {
+      "sequence": 100,
+      "method": "GET",
+      "route": "/skills/blitzcrank_r/internal-states",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:18.759Z"
+    },
+    {
+      "sequence": 101,
+      "method": "GET",
+      "route": "/skills/blitzcrank_r/trigger-rules",
+      "status": 200,
+      "data": [],
+      "at": "2026-09-09T15:53:18.804Z"
+    }
+  ],
+  "protection": {
+    "checked": 101,
+    "passed": 101,
+    "failures": [],
+    "records": [
+      {
+        "route": "/attributes",
+        "category": "目录",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skill-categories",
+        "category": "目录",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/modifier-zones",
+        "category": "目录",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/damage-types",
+        "category": "目录",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/characters/champion_alistar",
+        "category": "角色",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/character-skill-relations?characterKey=champion_alistar",
+        "category": "关系",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/characters/champion_blitzcrank",
+        "category": "角色",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/character-skill-relations?characterKey=champion_blitzcrank",
+        "category": "关系",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_p",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_p/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_p/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_p/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_p/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_p/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_p/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_p/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_q",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_q/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_q/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_q/parameters/cooldown_ms",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_q/parameters/mana_cost",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_q/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_q/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_q/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_q/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_q/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_w",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_w/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_w/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_w/parameters/cooldown_ms",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_w/parameters/mana_cost",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_w/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_w/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_w/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_w/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_w/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_e",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_e/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_e/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_e/parameters/cooldown_ms",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_e/parameters/mana_cost",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_e/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_e/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_e/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_e/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_e/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_r",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_r/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_r/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_r/parameters/cooldown_ms",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_r/parameters/mana_cost",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_r/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_r/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_r/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_r/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/alistar_r/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_p",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_p/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_p/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_p/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_p/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_p/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_p/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_p/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_q",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_q/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_q/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_q/parameters/cooldown_ms",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_q/parameters/mana_cost",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_q/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_q/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_q/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_q/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_q/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_w",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_w/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_w/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_w/parameters/mana_cost",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_w/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_w/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_w/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_w/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_w/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_e",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_e/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_e/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_e/parameters/mana_cost",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_e/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_e/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_e/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_e/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_e/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_r",
+        "category": "主体",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_r/representative-image",
+        "category": "图片",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_r/parameters",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_r/parameters/mana_cost",
+        "category": "复用详情",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_r/formulas",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_r/effects",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_r/processes",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_r/internal-states",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      },
+      {
+        "route": "/skills/blitzcrank_r/trigger-rules",
+        "category": "六类列表",
+        "expectedStatus": 200,
+        "actualStatus": 200,
+        "passed": true,
+        "difference": null
+      }
+    ],
+    "counts": {
+      "catalogs": 4,
+      "characters": 2,
+      "relations": 2,
+      "subjects": 10,
+      "images": 10,
+      "lists": 60,
+      "reusedDetails": 13
+    },
+    "after": false
+  },
+  "apiWrites": 0,
+  "noBusinessWrites": true
+}

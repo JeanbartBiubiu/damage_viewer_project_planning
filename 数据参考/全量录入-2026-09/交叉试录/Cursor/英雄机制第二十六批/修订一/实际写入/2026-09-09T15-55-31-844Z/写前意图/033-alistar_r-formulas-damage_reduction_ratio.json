@@ -1,0 +1,50 @@
+{
+  "sequence": 33,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 33,
+    "method": "POST",
+    "route": "/skills/alistar_r/formulas",
+    "detailRoute": "/skills/alistar_r/formulas/damage_reduction_ratio",
+    "skillKey": "alistar_r",
+    "kind": "formulas",
+    "stableKey": "damage_reduction_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_reduction_ratio",
+      "name": "坚定意志伤害减免比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_reduction_percent_points"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "percent_to_ratio"
+          }
+        ]
+      },
+      "description": "最终减免比例=RDamageReduction百分点×0.01；减免应用于物理和魔法伤害的资格由运行事件提供。",
+      "sortOrder": 10
+    }
+  },
+  "before": {
+    "sequence": 276,
+    "method": "GET",
+    "route": "/skills/alistar_r/formulas/damage_reduction_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_FORMULA_NOT_FOUND",
+        "details": {
+          "formulaKey": "damage_reduction_ratio"
+        },
+        "message": "技能公式不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:18.875Z"
+  }
+}

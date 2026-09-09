@@ -1,0 +1,40 @@
+{
+  "sequence": 73,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 73,
+    "method": "POST",
+    "route": "/skills/blitzcrank_r/parameters",
+    "detailRoute": "/skills/blitzcrank_r/parameters/zap_delay_ms",
+    "skillKey": "blitzcrank_r",
+    "kind": "parameters",
+    "stableKey": "zap_delay_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "zap_delay_ms",
+      "name": "被动标记后电击延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "当前绑定DataValues.ZapCountdown=1秒，转换为1000毫秒；不把延迟当作伤害节拍。",
+      "sortOrder": 80
+    }
+  },
+  "before": {
+    "sequence": 396,
+    "method": "GET",
+    "route": "/skills/blitzcrank_r/parameters/zap_delay_ms",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "zap_delay_ms"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:57:04.891Z"
+  }
+}

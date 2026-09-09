@@ -1,0 +1,40 @@
+{
+  "sequence": 32,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 32,
+    "method": "POST",
+    "route": "/skills/alistar_r/parameters",
+    "detailRoute": "/skills/alistar_r/parameters/percent_to_ratio",
+    "skillKey": "alistar_r",
+    "kind": "parameters",
+    "stableKey": "percent_to_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_to_ratio",
+      "name": "百分比转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "将正文显示的55/65/75百分数点转换为0.55/0.65/0.75供减伤区间使用。",
+      "sortOrder": 40
+    }
+  },
+  "before": {
+    "sequence": 273,
+    "method": "GET",
+    "route": "/skills/alistar_r/parameters/percent_to_ratio",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "percent_to_ratio"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:17.774Z"
+  }
+}

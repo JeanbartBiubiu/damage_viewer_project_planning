@@ -1,0 +1,44 @@
+{
+  "sequence": 31,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 31,
+    "method": "POST",
+    "route": "/skills/alistar_r/parameters",
+    "detailRoute": "/skills/alistar_r/parameters/damage_reduction_percent_points",
+    "skillKey": "alistar_r",
+    "kind": "parameters",
+    "stableKey": "damage_reduction_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_reduction_percent_points",
+      "name": "伤害减免百分点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 55,
+        "2": 65,
+        "3": 75
+      },
+      "description": "当前绑定DataValues.RDamageReduction原数组索引1至3为55/65/75；正文直接以百分号显示，保存百分点整数。",
+      "sortOrder": 30
+    }
+  },
+  "before": {
+    "sequence": 270,
+    "method": "GET",
+    "route": "/skills/alistar_r/parameters/damage_reduction_percent_points",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "damage_reduction_percent_points"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:16.652Z"
+  }
+}

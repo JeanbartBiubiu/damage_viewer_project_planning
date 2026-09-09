@@ -1,0 +1,40 @@
+{
+  "sequence": 4,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 4,
+    "method": "POST",
+    "route": "/skills/alistar_p/parameters",
+    "detailRoute": "/skills/alistar_p/parameters/passive_stacks_champion_kill",
+    "skillKey": "alistar_p",
+    "kind": "parameters",
+    "stableKey": "passive_stacks_champion_kill",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_stacks_champion_kill",
+      "name": "敌方英雄或史诗级野怪击杀充能次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 7,
+      "levelValues": null,
+      "description": "当前绑定DataValues.PassiveStacksChampionKill=7；只记录明确的完整充能次数，不创建击杀事件。",
+      "sortOrder": 40
+    }
+  },
+  "before": {
+    "sequence": 189,
+    "method": "GET",
+    "route": "/skills/alistar_p/parameters/passive_stacks_champion_kill",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "passive_stacks_champion_kill"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:55:46.482Z"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "sequence": 39,
+  "candidateSha256": "eaa8be12ac98bde580ed79d3dcf3001c7e99c002b2d0844fe2fb6ad16fa72230",
+  "intent": {
+    "sequence": 39,
+    "method": "POST",
+    "route": "/skills/blitzcrank_p/parameters",
+    "detailRoute": "/skills/blitzcrank_p/parameters/ability_resource_value",
+    "skillKey": "blitzcrank_p",
+    "kind": "parameters",
+    "stableKey": "ability_resource_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ability_resource_value",
+      "name": "护盾计算实际资源输入",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前ShieldAmount树直接使用AbilityResourceByCoefficient；本批资源属性的当前/总值资格未证，保留无默认实际输入，不借用mana属性。",
+      "sortOrder": 50
+    }
+  },
+  "before": {
+    "sequence": 294,
+    "method": "GET",
+    "route": "/skills/blitzcrank_p/parameters/ability_resource_value",
+    "status": 404,
+    "data": {
+      "error": {
+        "code": "404.SKILL_PARAMETER_NOT_FOUND",
+        "details": {
+          "parameterKey": "ability_resource_value"
+        },
+        "message": "技能参数不存在"
+      }
+    },
+    "at": "2026-09-09T15:56:25.605Z"
+  }
+}
