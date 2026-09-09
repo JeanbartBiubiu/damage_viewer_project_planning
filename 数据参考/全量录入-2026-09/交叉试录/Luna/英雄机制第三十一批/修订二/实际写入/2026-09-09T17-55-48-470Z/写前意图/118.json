@@ -1,0 +1,23 @@
+{
+  "i": 117,
+  "intent": {
+    "sequence": 118,
+    "method": "POST",
+    "route": "/skills/nami_w/parameters",
+    "detailRoute": "/skills/nami_w/parameters/bounce_ap_ratio",
+    "skillKey": "nami_w",
+    "kind": "parameters",
+    "stableKey": "bounce_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bounce_ap_ratio",
+      "name": "弹跳法强百分比点系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.15,
+      "levelValues": null,
+      "description": "客户端BounceRatioScaling为0.15；只作用弹跳修正项。",
+      "sortOrder": 60
+    }
+  }
+}

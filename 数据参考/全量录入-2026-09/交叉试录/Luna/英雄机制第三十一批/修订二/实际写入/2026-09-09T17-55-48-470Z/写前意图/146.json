@@ -1,0 +1,23 @@
+{
+  "i": 145,
+  "intent": {
+    "sequence": 146,
+    "method": "POST",
+    "route": "/skills/nami_r/parameters",
+    "detailRoute": "/skills/nami_r/parameters/slow_percent_points",
+    "skillKey": "nami_r",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 70,
+      "levelValues": null,
+      "description": "客户端SlowAmount为70；只保留控制参数。",
+      "sortOrder": 80
+    }
+  }
+}

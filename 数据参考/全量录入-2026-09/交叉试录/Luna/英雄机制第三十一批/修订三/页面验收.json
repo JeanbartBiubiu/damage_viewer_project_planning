@@ -1,0 +1,1628 @@
+{
+  "at": "2026-09-09T18:07:57.044Z",
+  "passed": true,
+  "browser": "Codex内置浏览器tab2，实际查询4技能并打开参数、公式、效果及结果详情，http://127.0.0.1:5173/#/skills",
+  "representativePages": 4,
+  "observations": [
+    {
+      "skillKey": "janna_w",
+      "ui": "额外移动速度点数为无默认实际输入，W完整式只加一次P的0.3项。"
+    },
+    {
+      "skillKey": "lulu_w",
+      "ui": "攻速效果当前选择技能参数并显示attack_speed_bonus_ratio，持久生效、施加快照、属性增加；变形原始减速量的单位修正另有实际回读。"
+    },
+    {
+      "skillKey": "nami_w",
+      "ui": "第二目标伤害=首个完整伤害×(1+弹跳修正)，一对一只允许敌人和自身各一次。"
+    },
+    {
+      "skillKey": "morgana_e",
+      "ui": "结果为普通护盾，只吸收魔法伤害；不是抵消一次技能的法术护盾，控制免疫接线另记。"
+    }
+  ],
+  "GETs": 24,
+  "mathCases": 20,
+  "calls": [
+    {
+      "route": "/skills/janna_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:39.094235Z",
+        "description": "迦娜召唤出一个空气元素灵体，来被动地提升她的移动速度，并使她能够穿越单位。她也可以主动激活这个技能，来对一个敌人造成伤害和减速效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "迦娜·和风守护",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "janna_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:39.094235Z"
+      }
+    },
+    {
+      "route": "/skills/janna_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_janna_w",
+          "name": "janna_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/janna_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T17:42:28.595253Z",
+          "description": "客户端DataValues.MSPercent取等级索引1至5，得到6/7/8/9/10%；TotalMS为tooltipOnly，比例直接保存。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.06,
+            "2": 0.07,
+            "3": 0.08,
+            "4": 0.09,
+            "5": 0.1
+          },
+          "name": "自身移动速度比例",
+          "parameterKey": "movement_speed_ratio",
+          "skillKey": "janna_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:42:28.595253Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:42:29.72347Z",
+          "description": "客户端DataValues.BaseDamage取等级索引1至5，得到55/85/115/145/175。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 55,
+            "2": 85,
+            "3": 115,
+            "4": 145,
+            "5": 175
+          },
+          "name": "主动基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "janna_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T17:42:29.72347Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:42:30.928943Z",
+          "description": "客户端TotalDamage树按等级索引1消费APRatio=0.5×来源总法强。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "主动伤害法强比例",
+          "parameterKey": "ap_ratio",
+          "skillKey": "janna_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T17:42:30.928943Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:42:32.176951Z",
+          "description": "客户端DataValues.SlowDuration按等级索引1取2秒，转换为2000毫秒。",
+          "fixedValue": 2000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减速持续时间（毫秒）",
+          "parameterKey": "slow_duration_ms",
+          "skillKey": "janna_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T17:42:32.176951Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:42:33.49103Z",
+          "description": "客户端DataValues.SlowPercent取等级索引1至5，得到20/24/28/32/36；TotalSlow树再乘0.01。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 20,
+            "2": 24,
+            "3": 28,
+            "4": 32,
+            "5": 36
+          },
+          "name": "减速百分数点",
+          "parameterKey": "slow_percent_points",
+          "skillKey": "janna_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T17:42:33.49103Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:42:34.667104Z",
+          "description": "客户端TotalMS树按等级索引1消费MSAPRatio；当前mDisplayAsPercent=true只表示显示方式。",
+          "fixedValue": 0.0002,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "移动速度法强比例",
+          "parameterKey": "movement_speed_ap_ratio",
+          "skillKey": "janna_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T17:42:34.667104Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:42:35.827115Z",
+          "description": "客户端TotalSlow树按等级索引1消费SlowAPRatio。",
+          "fixedValue": 0.06,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "减速法强比例",
+          "parameterKey": "slow_ap_ratio",
+          "skillKey": "janna_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T17:42:35.827115Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:42:37.083651Z",
+          "description": "客户端TotalSlow根乘数为0.01，将百分数点换为比例；不改变SlowPercent与SlowAPRatio的原始单位。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "百分数点转比例",
+          "parameterKey": "percent_points_to_ratio",
+          "skillKey": "janna_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T17:42:37.083651Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:42:38.293106Z",
+          "description": "当前W正文明确TotalDamage之外再加TailwindSelf:BonusDamage；此处保留P树的0.3比例，额外移动速度点数由W自身无默认运行输入提供，恰好计一次。",
+          "fixedValue": 0.3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "顺风而行额外魔法伤害比例",
+          "parameterKey": "tailwind_bonus_damage_ratio",
+          "skillKey": "janna_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T17:42:38.293106Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:02.159195Z",
+          "description": "DDragon16.17.1 Janna.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 8000,
+            "2": 7500,
+            "3": 7000,
+            "4": 6500,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "janna_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:02.159195Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:42:39.581555Z",
+          "description": "W正文消费P的BonusDamage；mStat=7、mStatFormula=2的当前额外移动速度点数没有冻结实值，不设默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "当前额外移动速度点数",
+          "parameterKey": "actual_bonus_move_speed",
+          "skillKey": "janna_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T17:42:39.581555Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:02.583061Z",
+          "description": "DDragon16.17.1 Janna.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "janna_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:02.583061Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/lulu_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:16.771821Z",
+        "description": "如果对友军施放，会暂时增加目标友军的攻击速度和移动速度。如果对敌人施放，会将一名敌方英雄变成可爱的动物，使其无法攻击或施法。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "璐璐·奇思妙想",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "lulu_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:16.771821Z"
+      }
+    },
+    {
+      "route": "/skills/lulu_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_lulu_w",
+          "name": "lulu_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/lulu_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T17:43:35.268968Z",
+          "description": "客户端DataValues.BaseMS为0.25。",
+          "fixedValue": 0.25,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础移动速度比例",
+          "parameterKey": "base_move_speed_ratio",
+          "skillKey": "lulu_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:43:35.268968Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:43:36.539945Z",
+          "description": "客户端CCDuration取索引1至5，单位秒转换为1200/1400/1600/1800/2000毫秒。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 1200,
+            "2": 1400,
+            "3": 1600,
+            "4": 1800,
+            "5": 2000
+          },
+          "name": "敌方变形持续时间（毫秒）",
+          "parameterKey": "polymorph_duration_ms",
+          "skillKey": "lulu_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T17:43:36.539945Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T18:07:35.066613Z",
+          "description": "客户端SlowAmount原始值为-60，当前扩展正文以SlowAmount×-1显示60且没有百分号。保留有符号原始量；未证明具体移动速度属性层，禁止除100当比例或作为百分数点自动接线。",
+          "fixedValue": -60,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "变形减速原始量",
+          "parameterKey": "polymorph_slow_amount",
+          "skillKey": "lulu_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T18:07:35.066613Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:43:39.143993Z",
+          "description": "客户端MSDuration取索引1至5，单位秒转换为3000/3250/3500/3750/4000毫秒。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 3000,
+            "2": 3250,
+            "3": 3500,
+            "4": 3750,
+            "5": 4000
+          },
+          "name": "友方增益持续时间（毫秒）",
+          "parameterKey": "ally_buff_duration_ms",
+          "skillKey": "lulu_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T17:43:39.143993Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:43:40.601981Z",
+          "description": "客户端ASBonus取索引1至5；按0.2代表20%保存。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 0.2,
+            "2": 0.225,
+            "3": 0.25,
+            "4": 0.275,
+            "5": 0.3
+          },
+          "name": "攻击速度增益比例",
+          "parameterKey": "attack_speed_bonus_ratio",
+          "skillKey": "lulu_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T17:43:40.601981Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:43:42.102011Z",
+          "description": "客户端TotalMS的StatByCoefficient系数为0.0005；同版属性构造窄口径按来源总法强读取。",
+          "fixedValue": 0.0005,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "移动速度法强比例",
+          "parameterKey": "move_speed_ap_ratio",
+          "skillKey": "lulu_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T17:43:42.102011Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:43.369486Z",
+          "description": "DDragon16.17.1 Lulu.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 18000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "lulu_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T01:02:43.369486Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T01:02:43.913392Z",
+          "description": "DDragon16.17.1 Lulu.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 65,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "lulu_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T01:02:43.913392Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nami_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:33.370072Z",
+        "description": "释放一股在友方英雄和敌方英雄之间交替流动的水流，治疗友军并伤害敌军。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "娜美·冲击之潮",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "nami_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:33.370072Z"
+      }
+    },
+    {
+      "route": "/skills/nami_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nami_w",
+          "name": "nami_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/nami_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T17:56:53.825753Z",
+          "description": "客户端DataValues.BaseDamage取索引1至5；索引0为旧占位25。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 95,
+            "3": 130,
+            "4": 165,
+            "5": 200
+          },
+          "name": "基础魔法伤害",
+          "parameterKey": "base_damage",
+          "skillKey": "nami_w",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:56:53.825753Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:56:55.066726Z",
+          "description": "客户端DataValues.BaseHeal取索引1至5；索引0为旧占位30。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 55,
+            "2": 80,
+            "3": 105,
+            "4": 130,
+            "5": 155
+          },
+          "name": "基础治疗量",
+          "parameterKey": "base_heal",
+          "skillKey": "nami_w",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T17:56:55.066726Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:56:56.359824Z",
+          "description": "客户端TotalDamage树消费DamageAPRatio=0.5。",
+          "fixedValue": 0.5,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "伤害法强比例",
+          "parameterKey": "damage_ap_ratio",
+          "skillKey": "nami_w",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T17:56:56.359824Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:56:57.710456Z",
+          "description": "客户端TotalHeal树消费HealAPRatio=0.4。",
+          "fixedValue": 0.4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "治疗法强比例",
+          "parameterKey": "heal_ap_ratio",
+          "skillKey": "nami_w",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T17:56:57.710456Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:56:59.075368Z",
+          "description": "客户端BounceRatio为-20；BounceScaling根树再乘0.01。",
+          "fixedValue": -20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "弹跳基础百分数点",
+          "parameterKey": "bounce_base_percent_points",
+          "skillKey": "nami_w",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T17:56:59.075368Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:57:00.43049Z",
+          "description": "客户端BounceRatioScaling为0.15；只作用弹跳修正项。",
+          "fixedValue": 0.15,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "弹跳法强百分比点系数",
+          "parameterKey": "bounce_ap_ratio",
+          "skillKey": "nami_w",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T17:57:00.43049Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:57:01.786355Z",
+          "description": "客户端MaxTargets为3；本轮一对一实际最多自身和唯一敌人两个不同目标，不能把3当必达总跳数。",
+          "fixedValue": 3,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "最多不同目标数",
+          "parameterKey": "max_targets",
+          "skillKey": "nami_w",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T17:57:01.786355Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:57:03.017425Z",
+          "description": "BounceScaling根乘数为0.01。",
+          "fixedValue": 0.01,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "弹跳百分数点转比例",
+          "parameterKey": "percent_points_to_ratio",
+          "skillKey": "nami_w",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T17:57:03.017425Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T17:57:04.348579Z",
+          "description": "为二元树表达1+BounceScaling提供固定基准，不是新的游戏参数。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "完整倍率基准",
+          "parameterKey": "one_ratio",
+          "skillKey": "nami_w",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T17:57:04.348579Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:36:56.878133Z",
+          "description": "DDragon16.17.1 Nami.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 70,
+            "2": 75,
+            "3": 80,
+            "4": 85,
+            "5": 90
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nami_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:36:56.878133Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/morgana_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:31.065054Z",
+        "description": "莫甘娜为一名友方英雄涂上一层保护性的星火屏障，在被打破之前吸收魔法伤害和限制效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "莫甘娜·黑暗之盾",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "morgana_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:31.065054Z"
+      }
+    },
+    {
+      "route": "/skills/morgana_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_morgana_e",
+          "name": "morgana_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/morgana_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T17:58:00.979238Z",
+          "description": "客户端DataValues.ShieldStrength取索引1至5；索引0为旧占位45。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 100,
+            "2": 155,
+            "3": 210,
+            "4": 265,
+            "5": 320
+          },
+          "name": "基础魔法护盾值",
+          "parameterKey": "base_shield",
+          "skillKey": "morgana_e",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T17:58:00.979238Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:58:02.370309Z",
+          "description": "客户端ShieldDuration为5秒，转换为5000毫秒。",
+          "fixedValue": 5000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾持续时间（毫秒）",
+          "parameterKey": "shield_duration_ms",
+          "skillKey": "morgana_e",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T17:58:02.370309Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T17:58:03.731128Z",
+          "description": "TotalShieldStrength树的StatByCoefficient系数为0.7×来源总法强。",
+          "fixedValue": 0.7,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "护盾法强比例",
+          "parameterKey": "shield_ap_ratio",
+          "skillKey": "morgana_e",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T17:58:03.731128Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:22.135946Z",
+          "description": "DDragon16.17.1 Morgana.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 26000,
+            "2": 23500,
+            "3": 21000,
+            "4": 18500,
+            "5": 16000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "morgana_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:22.135946Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:22.615737Z",
+          "description": "DDragon16.17.1 Morgana.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 80,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "morgana_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:22.615737Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/janna_w/formulas/total_move_speed_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:42:40.8179Z",
+        "description": "TotalMS = MSPercent + MSAPRatio×来源总法强；该树是自身持续移动速度来源。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "movement_speed_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "movement_speed_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "total_move_speed_ratio",
+        "gameId": "lol",
+        "name": "和风守护自身移动速度比例",
+        "skillKey": "janna_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:42:40.8179Z"
+      }
+    },
+    {
+      "route": "/skills/janna_w/formulas/total_magic_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:42:42.047064Z",
+        "description": "W正文的TotalDamage + TailwindSelf:BonusDamage；P换算在W内直接加入一次，额外移动速度按点数运行输入读取，普攻仍独立消费P公式。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "tailwind_bonus_damage_ratio"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_bonus_move_speed"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "total_magic_damage",
+        "gameId": "lol",
+        "name": "和风守护对唯一敌人魔法伤害",
+        "skillKey": "janna_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:42:42.047064Z"
+      }
+    },
+    {
+      "route": "/skills/janna_w/formulas/total_slow_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:42:43.361495Z",
+        "description": "TotalSlow = 0.01×(SlowPercent + SlowAPRatio×来源总法强)。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_points_to_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "slow_percent_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "slow_ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "total_slow_ratio",
+        "gameId": "lol",
+        "name": "和风守护减速比例",
+        "skillKey": "janna_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:42:43.361495Z"
+      }
+    },
+    {
+      "route": "/skills/lulu_w/formulas/ally_move_speed_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:43:43.373294Z",
+        "description": "TotalMS = BaseMS + 0.0005×来源总法强；只表达友方增益数值，未把变形当作技能替换。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_move_speed_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "move_speed_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "ally_move_speed_ratio",
+        "gameId": "lol",
+        "name": "奇思妙想友方移动速度比例",
+        "skillKey": "lulu_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:43:43.373294Z"
+      }
+    },
+    {
+      "route": "/skills/nami_w/formulas/first_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:57:05.765473Z",
+        "description": "TotalDamage = BaseDamage + DamageAPRatio×来源总法强；起点是敌人时为第一段。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_damage"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "first_damage",
+        "gameId": "lol",
+        "name": "冲击之潮首个敌人魔法伤害",
+        "skillKey": "nami_w",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:57:05.765473Z"
+      }
+    },
+    {
+      "route": "/skills/nami_w/formulas/first_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:57:07.280427Z",
+        "description": "TotalHeal = BaseHeal + HealAPRatio×来源总法强；起点是自身时为第一段。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_heal"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "heal_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "first_heal",
+        "gameId": "lol",
+        "name": "冲击之潮首个自身治疗量",
+        "skillKey": "nami_w",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:57:07.280427Z"
+      }
+    },
+    {
+      "route": "/skills/nami_w/formulas/bounce_scaling_ratio",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:57:08.619895Z",
+        "description": "BounceScaling = 0.01×(BounceRatio + BounceRatioScaling×来源总法强)。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "percent_points_to_ratio"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "bounce_base_percent_points"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "bounce_ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "bounce_scaling_ratio",
+        "gameId": "lol",
+        "name": "冲击之潮弹跳修正比例",
+        "skillKey": "nami_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:57:08.619895Z"
+      }
+    },
+    {
+      "route": "/skills/nami_w/formulas/bounced_damage",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:57:10.119613Z",
+        "description": "第二目标伤害 = 首个伤害×(1+BounceScaling)；接口公式只能引用参数，故内联首段和弹跳修正；一对一只允许敌人和自身各一次。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_damage"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_points_to_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bounce_base_percent_points"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "bounce_ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "bounced_damage",
+        "gameId": "lol",
+        "name": "冲击之潮第二目标魔法伤害",
+        "skillKey": "nami_w",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T17:57:10.119613Z"
+      }
+    },
+    {
+      "route": "/skills/nami_w/formulas/bounced_heal",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:57:11.327725Z",
+        "description": "第二目标治疗 = 首个治疗×(1+BounceScaling)；接口公式只能引用参数，故内联首段和弹跳修正；不创建直接治疗结果。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "base_heal"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "heal_ap_ratio"
+                    },
+                    {
+                      "attributeKey": "ability_power",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "TOTAL",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "one_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "percent_points_to_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "bounce_base_percent_points"
+                        },
+                        {
+                          "nodeType": "OPERATION",
+                          "operands": [
+                            {
+                              "nodeType": "PARAMETER",
+                              "parameterKey": "bounce_ap_ratio"
+                            },
+                            {
+                              "attributeKey": "ability_power",
+                              "attributeOwner": "SOURCE",
+                              "attributeValueKind": "TOTAL",
+                              "nodeType": "ATTRIBUTE"
+                            }
+                          ],
+                          "operation": "MULTIPLY"
+                        }
+                      ],
+                      "operation": "ADD"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "bounced_heal",
+        "gameId": "lol",
+        "name": "冲击之潮第二目标自身治疗量",
+        "skillKey": "nami_w",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T17:57:11.327725Z"
+      }
+    },
+    {
+      "route": "/skills/morgana_e/formulas/magic_shield_value",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:58:05.067769Z",
+        "description": "TotalShieldStrength = ShieldStrength + 0.7×来源总法强；只表达普通魔法护盾数值。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "base_shield"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "shield_ap_ratio"
+                },
+                {
+                  "attributeKey": "ability_power",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "TOTAL",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "magic_shield_value",
+        "gameId": "lol",
+        "name": "黑暗之盾自身魔法护盾值",
+        "skillKey": "morgana_e",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T17:58:05.067769Z"
+      }
+    },
+    {
+      "route": "/skills/lulu_w/effects/self_attack_speed",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:56:12.103994Z",
+        "description": "保留自身作为合法友方目标时的攻击速度路径；不把对敌变形分支混入。",
+        "effectKey": "self_attack_speed",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "ally_buff_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "奇思妙想自身攻击速度增益",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "attributeKey": "bonus_attack_speed_percent",
+              "modifierZoneKey": "attribute_flat_add",
+              "operation": "INCREASE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "奇思妙想自身攻击速度增益",
+            "resultKey": "attribute",
+            "resultType": "ATTRIBUTE_CHANGE",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "kind": "PARAMETER",
+                "parameterKey": "attack_speed_bonus_ratio"
+              }
+            }
+          }
+        ],
+        "skillKey": "lulu_w",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T17:56:12.103994Z"
+      }
+    },
+    {
+      "route": "/skills/morgana_e/effects/magic_shield",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T17:58:07.848746Z",
+        "description": "当前正文和Trait_Shield明确吸收魔法伤害；Trait_CCImmune代表限制/定身免疫语义，不能把它改写成一次性法术护盾。自身目标资格和控制免疫接线待补。",
+        "effectKey": "magic_shield",
+        "gameId": "lol",
+        "lifecycle": {
+          "applicationStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "durationValue": {
+            "kind": "PARAMETER",
+            "parameterKey": "shield_duration_ms"
+          },
+          "expiryMode": "ALL_AT_ONCE",
+          "firstPeriodicExecution": null,
+          "instanceScope": "SOURCE",
+          "maxStacksValue": {
+            "kind": "FIXED",
+            "value": 1
+          },
+          "periodicIntervalValue": null,
+          "reapplicationDurationMode": "REFRESH_ALL",
+          "reapplicationStackMode": "KEEP"
+        },
+        "name": "黑暗之盾自身魔法护盾",
+        "results": [
+          {
+            "description": null,
+            "detail": {
+              "absorbedDamageTypeKey": "magic",
+              "decayMode": "NONE"
+            },
+            "lifecycleBehavior": {
+              "moment": "PERSISTENT",
+              "periodicExecutionMode": null,
+              "reapplicationValueMode": "REPLACE",
+              "stackValueMode": "SHARED",
+              "valueReadMode": "APPLICATION_SNAPSHOT"
+            },
+            "name": "黑暗之盾自身魔法护盾",
+            "resultKey": "shield",
+            "resultType": "NORMAL_SHIELD",
+            "sortOrder": 10,
+            "spellShieldBlockScope": null,
+            "target": "SOURCE",
+            "valueRule": {
+              "fixedMaxValue": null,
+              "fixedMinValue": 0,
+              "fixedMultiplier": 1,
+              "value": {
+                "formulaKey": "magic_shield_value",
+                "kind": "FORMULA"
+              }
+            }
+          }
+        ],
+        "skillKey": "morgana_e",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T17:58:07.848746Z"
+      }
+    }
+  ],
+  "cases": [
+    {
+      "skillKey": "janna_w",
+      "formulaKey": "total_move_speed_ratio",
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "runtime": {
+        "actual_bonus_move_speed": 50
+      },
+      "actual": 0.08,
+      "expected": 0.08,
+      "passed": true
+    },
+    {
+      "skillKey": "janna_w",
+      "formulaKey": "total_magic_damage",
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "runtime": {
+        "actual_bonus_move_speed": 50
+      },
+      "actual": 120,
+      "expected": 120,
+      "passed": true
+    },
+    {
+      "skillKey": "janna_w",
+      "formulaKey": "total_slow_ratio",
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "runtime": {
+        "actual_bonus_move_speed": 50
+      },
+      "actual": 0.26,
+      "expected": 0.26,
+      "passed": true
+    },
+    {
+      "skillKey": "janna_w",
+      "formulaKey": "total_move_speed_ratio",
+      "skillLevel": 5,
+      "abilityPower": 300,
+      "runtime": {
+        "actual_bonus_move_speed": 180
+      },
+      "actual": 0.16,
+      "expected": 0.16,
+      "passed": true
+    },
+    {
+      "skillKey": "janna_w",
+      "formulaKey": "total_magic_damage",
+      "skillLevel": 5,
+      "abilityPower": 300,
+      "runtime": {
+        "actual_bonus_move_speed": 180
+      },
+      "actual": 379,
+      "expected": 379,
+      "passed": true
+    },
+    {
+      "skillKey": "janna_w",
+      "formulaKey": "total_slow_ratio",
+      "skillLevel": 5,
+      "abilityPower": 300,
+      "runtime": {
+        "actual_bonus_move_speed": 180
+      },
+      "actual": 0.54,
+      "expected": 0.54,
+      "passed": true
+    },
+    {
+      "skillKey": "lulu_w",
+      "formulaKey": "ally_move_speed_ratio",
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "runtime": {},
+      "actual": 0.3,
+      "expected": 0.3,
+      "passed": true
+    },
+    {
+      "skillKey": "lulu_w",
+      "formulaKey": "ally_move_speed_ratio",
+      "skillLevel": 5,
+      "abilityPower": 300,
+      "runtime": {},
+      "actual": 0.4,
+      "expected": 0.4,
+      "passed": true
+    },
+    {
+      "skillKey": "nami_w",
+      "formulaKey": "first_damage",
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "runtime": {},
+      "actual": 110,
+      "expected": 110,
+      "passed": true
+    },
+    {
+      "skillKey": "nami_w",
+      "formulaKey": "first_heal",
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "runtime": {},
+      "actual": 95,
+      "expected": 95,
+      "passed": true
+    },
+    {
+      "skillKey": "nami_w",
+      "formulaKey": "bounce_scaling_ratio",
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "runtime": {},
+      "actual": -0.05,
+      "expected": -0.05,
+      "passed": true
+    },
+    {
+      "skillKey": "nami_w",
+      "formulaKey": "bounced_damage",
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "runtime": {},
+      "actual": 104.5,
+      "expected": 104.5,
+      "passed": true
+    },
+    {
+      "skillKey": "nami_w",
+      "formulaKey": "bounced_heal",
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "runtime": {},
+      "actual": 90.25,
+      "expected": 90.25,
+      "passed": true
+    },
+    {
+      "skillKey": "nami_w",
+      "formulaKey": "first_damage",
+      "skillLevel": 5,
+      "abilityPower": 300,
+      "runtime": {},
+      "actual": 350,
+      "expected": 350,
+      "passed": true
+    },
+    {
+      "skillKey": "nami_w",
+      "formulaKey": "first_heal",
+      "skillLevel": 5,
+      "abilityPower": 300,
+      "runtime": {},
+      "actual": 275,
+      "expected": 275,
+      "passed": true
+    },
+    {
+      "skillKey": "nami_w",
+      "formulaKey": "bounce_scaling_ratio",
+      "skillLevel": 5,
+      "abilityPower": 300,
+      "runtime": {},
+      "actual": 0.25,
+      "expected": 0.25,
+      "passed": true
+    },
+    {
+      "skillKey": "nami_w",
+      "formulaKey": "bounced_damage",
+      "skillLevel": 5,
+      "abilityPower": 300,
+      "runtime": {},
+      "actual": 437.5,
+      "expected": 437.5,
+      "passed": true
+    },
+    {
+      "skillKey": "nami_w",
+      "formulaKey": "bounced_heal",
+      "skillLevel": 5,
+      "abilityPower": 300,
+      "runtime": {},
+      "actual": 343.75,
+      "expected": 343.75,
+      "passed": true
+    },
+    {
+      "skillKey": "morgana_e",
+      "formulaKey": "magic_shield_value",
+      "skillLevel": 1,
+      "abilityPower": 100,
+      "runtime": {},
+      "actual": 170,
+      "expected": 170,
+      "passed": true
+    },
+    {
+      "skillKey": "morgana_e",
+      "formulaKey": "magic_shield_value",
+      "skillLevel": 5,
+      "abilityPower": 300,
+      "runtime": {},
+      "actual": 530,
+      "expected": 530,
+      "passed": true
+    }
+  ],
+  "apiWrites": 0,
+  "runtimeValidation": "未执行",
+  "scriptSha256": "3a73f22d036bc9c2e6e5f695b25e23c842697aa68714c4e5d3b9d3fdd6b26783"
+}

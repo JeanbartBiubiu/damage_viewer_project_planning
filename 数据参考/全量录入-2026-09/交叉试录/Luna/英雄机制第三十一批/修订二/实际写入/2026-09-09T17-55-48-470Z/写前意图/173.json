@@ -1,0 +1,23 @@
+{
+  "i": 172,
+  "intent": {
+    "sequence": 173,
+    "method": "POST",
+    "route": "/skills/morgana_r/parameters",
+    "detailRoute": "/skills/morgana_r/parameters/chain_duration_ms",
+    "skillKey": "morgana_r",
+    "kind": "parameters",
+    "stableKey": "chain_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "chain_duration_ms",
+      "name": "锁链持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "客户端ChainDuration为3秒，转换为3000毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

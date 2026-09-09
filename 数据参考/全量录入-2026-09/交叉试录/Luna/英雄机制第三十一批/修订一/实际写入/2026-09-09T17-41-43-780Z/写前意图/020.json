@@ -1,0 +1,29 @@
+{
+  "i": 19,
+  "intent": {
+    "sequence": 20,
+    "method": "POST",
+    "route": "/skills/janna_w/parameters",
+    "detailRoute": "/skills/janna_w/parameters/base_damage",
+    "skillKey": "janna_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "主动基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 55,
+        "2": 85,
+        "3": 115,
+        "4": 145,
+        "5": 175
+      },
+      "description": "客户端DataValues.BaseDamage取等级索引1至5，得到55/85/115/145/175。",
+      "sortOrder": 20
+    }
+  }
+}

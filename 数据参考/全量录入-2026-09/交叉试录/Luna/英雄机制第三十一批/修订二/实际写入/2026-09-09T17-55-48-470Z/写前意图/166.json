@@ -1,0 +1,23 @@
+{
+  "i": 165,
+  "intent": {
+    "sequence": 166,
+    "method": "POST",
+    "route": "/skills/morgana_e/parameters",
+    "detailRoute": "/skills/morgana_e/parameters/shield_duration_ms",
+    "skillKey": "morgana_e",
+    "kind": "parameters",
+    "stableKey": "shield_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_duration_ms",
+      "name": "护盾持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "客户端ShieldDuration为5秒，转换为5000毫秒。",
+      "sortOrder": 20
+    }
+  }
+}

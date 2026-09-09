@@ -1,0 +1,27 @@
+{
+  "i": 45,
+  "intent": {
+    "sequence": 46,
+    "method": "POST",
+    "route": "/skills/janna_r/parameters",
+    "detailRoute": "/skills/janna_r/parameters/heal_base_per_second",
+    "skillKey": "janna_r",
+    "kind": "parameters",
+    "stableKey": "heal_base_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_base_per_second",
+      "name": "每秒基础治疗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 150,
+        "3": 200
+      },
+      "description": "客户端HealBasePerSecond取等级索引1至3，得到100/150/200；根树没有把它写成最终治疗结果。",
+      "sortOrder": 10
+    }
+  }
+}

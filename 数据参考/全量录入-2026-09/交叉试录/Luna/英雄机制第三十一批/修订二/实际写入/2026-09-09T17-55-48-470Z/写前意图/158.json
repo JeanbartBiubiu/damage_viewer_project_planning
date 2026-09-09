@@ -1,0 +1,23 @@
+{
+  "i": 157,
+  "intent": {
+    "sequence": 158,
+    "method": "POST",
+    "route": "/skills/morgana_w/parameters",
+    "detailRoute": "/skills/morgana_w/parameters/maximum_missing_health_amplification_ratio",
+    "skillKey": "morgana_w",
+    "kind": "parameters",
+    "stableKey": "maximum_missing_health_amplification_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "maximum_missing_health_amplification_ratio",
+      "name": "最大缺失生命增幅比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "客户端TotalMaxDamage乘数为1+MissingHealthAmpPercent；实际目标缺失生命曲线无默认。",
+      "sortOrder": 40
+    }
+  }
+}

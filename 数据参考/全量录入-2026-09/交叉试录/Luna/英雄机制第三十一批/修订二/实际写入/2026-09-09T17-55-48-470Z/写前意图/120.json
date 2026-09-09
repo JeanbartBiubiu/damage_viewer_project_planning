@@ -1,0 +1,23 @@
+{
+  "i": 119,
+  "intent": {
+    "sequence": 120,
+    "method": "POST",
+    "route": "/skills/nami_w/parameters",
+    "detailRoute": "/skills/nami_w/parameters/percent_points_to_ratio",
+    "skillKey": "nami_w",
+    "kind": "parameters",
+    "stableKey": "percent_points_to_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_points_to_ratio",
+      "name": "弹跳百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "BounceScaling根乘数为0.01。",
+      "sortOrder": 80
+    }
+  }
+}

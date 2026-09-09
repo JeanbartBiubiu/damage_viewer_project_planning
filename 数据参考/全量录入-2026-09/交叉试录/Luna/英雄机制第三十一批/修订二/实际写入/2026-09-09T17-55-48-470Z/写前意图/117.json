@@ -1,0 +1,23 @@
+{
+  "i": 116,
+  "intent": {
+    "sequence": 117,
+    "method": "POST",
+    "route": "/skills/nami_w/parameters",
+    "detailRoute": "/skills/nami_w/parameters/bounce_base_percent_points",
+    "skillKey": "nami_w",
+    "kind": "parameters",
+    "stableKey": "bounce_base_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bounce_base_percent_points",
+      "name": "弹跳基础百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": -20,
+      "levelValues": null,
+      "description": "客户端BounceRatio为-20；BounceScaling根树再乘0.01。",
+      "sortOrder": 50
+    }
+  }
+}

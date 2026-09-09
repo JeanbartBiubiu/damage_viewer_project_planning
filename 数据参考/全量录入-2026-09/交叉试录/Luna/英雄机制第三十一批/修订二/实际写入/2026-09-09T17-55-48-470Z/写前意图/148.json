@@ -1,0 +1,45 @@
+{
+  "i": 147,
+  "intent": {
+    "sequence": 148,
+    "method": "POST",
+    "route": "/skills/nami_r/effects",
+    "detailRoute": "/skills/nami_r/effects/mana_cost",
+    "skillKey": "nami_r",
+    "kind": "effects",
+    "stableKey": "mana_cost",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "mana_cost",
+      "name": "施放法力消耗",
+      "description": "仅记录nami_r的官方基础法力消耗；公共参数已在当前快照中存在，实际扣除时点与施放资格尚未接线。",
+      "sortOrder": 10,
+      "lifecycle": null,
+      "results": [
+        {
+          "resultKey": "resource",
+          "name": "施放法力消耗",
+          "resultType": "RESOURCE_CHANGE",
+          "target": "SOURCE",
+          "description": null,
+          "sortOrder": 10,
+          "lifecycleBehavior": null,
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "mana_cost"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "mana",
+            "operation": "CONSUME"
+          }
+        }
+      ]
+    }
+  }
+}

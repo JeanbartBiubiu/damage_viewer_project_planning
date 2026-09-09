@@ -1,0 +1,55 @@
+{
+  "i": 69,
+  "intent": {
+    "sequence": 70,
+    "method": "POST",
+    "route": "/skills/lulu_q/formulas",
+    "detailRoute": "/skills/lulu_q/formulas/second_bolt_bonus_magic_damage",
+    "skillKey": "lulu_q",
+    "kind": "formulas",
+    "stableKey": "second_bolt_bonus_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "second_bolt_bonus_magic_damage",
+      "name": "闪耀长枪同一目标第二束追加魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "second_bolt_bonus_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "BonusMissileDamage = DoubleHitBonus×同一套TotalDamage；接口公式只能引用参数，故内联首束公式；不扩成第二名敌人。",
+      "sortOrder": 20
+    }
+  }
+}

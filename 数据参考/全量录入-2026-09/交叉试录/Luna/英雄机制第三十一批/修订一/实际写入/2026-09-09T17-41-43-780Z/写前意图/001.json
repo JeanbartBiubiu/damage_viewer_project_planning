@@ -1,0 +1,23 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "method": "POST",
+    "route": "/skills/janna_p/parameters",
+    "detailRoute": "/skills/janna_p/parameters/bonus_move_speed_damage_ratio",
+    "skillKey": "janna_p",
+    "kind": "parameters",
+    "stableKey": "bonus_move_speed_damage_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_move_speed_damage_ratio",
+      "name": "额外移动速度点数转额外魔法伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.3,
+      "levelValues": null,
+      "description": "当前根DataValues.MSBonusMagicDamage为0.3；BonusDamage树使用mStat=7、mStatFormula=2，但来源没有把它绑定为百分比属性，实际额外移动速度点数改为无默认运行输入。",
+      "sortOrder": 10
+    }
+  }
+}

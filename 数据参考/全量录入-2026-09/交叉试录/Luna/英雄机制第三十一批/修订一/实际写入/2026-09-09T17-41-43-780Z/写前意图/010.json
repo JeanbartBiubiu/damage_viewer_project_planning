@@ -1,0 +1,29 @@
+{
+  "i": 9,
+  "intent": {
+    "sequence": 10,
+    "method": "POST",
+    "route": "/skills/janna_q/parameters",
+    "detailRoute": "/skills/janna_q/parameters/charged_knockup_per_second_seconds",
+    "skillKey": "janna_q",
+    "kind": "parameters",
+    "stableKey": "charged_knockup_per_second_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "charged_knockup_per_second_seconds",
+      "name": "每秒蓄力追加击飞时间（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.25,
+        "2": 0.25,
+        "3": 0.25,
+        "4": 0.25,
+        "5": 0.25
+      },
+      "description": "客户端DataValues.ChargeKnockup取等级索引1至5，均为0.25秒；MaxKnockup树以MaxDuration相乘。",
+      "sortOrder": 70
+    }
+  }
+}

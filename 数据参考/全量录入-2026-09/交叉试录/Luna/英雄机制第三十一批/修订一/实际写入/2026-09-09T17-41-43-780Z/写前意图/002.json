@@ -1,0 +1,23 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "method": "POST",
+    "route": "/skills/janna_p/parameters",
+    "detailRoute": "/skills/janna_p/parameters/actual_bonus_move_speed",
+    "skillKey": "janna_p",
+    "kind": "parameters",
+    "stableKey": "actual_bonus_move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_bonus_move_speed",
+      "name": "当前额外移动速度点数",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "BonusDamage树消费mStat=7、mStatFormula=2的额外移动速度点数；来源未证当前数值和取值阶段，因此不设默认。",
+      "sortOrder": 20
+    }
+  }
+}

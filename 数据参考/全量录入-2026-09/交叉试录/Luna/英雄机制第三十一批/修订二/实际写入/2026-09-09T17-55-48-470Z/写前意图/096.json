@@ -1,0 +1,23 @@
+{
+  "i": 95,
+  "intent": {
+    "sequence": 96,
+    "method": "POST",
+    "route": "/skills/lulu_r/parameters",
+    "detailRoute": "/skills/lulu_r/parameters/aoe_radius",
+    "skillKey": "lulu_r",
+    "kind": "parameters",
+    "stableKey": "aoe_radius",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "aoe_radius",
+      "name": "范围半径",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 400,
+      "levelValues": null,
+      "description": "客户端AoERadius按等级索引1取400；额外目标分配不展开。",
+      "sortOrder": 40
+    }
+  }
+}

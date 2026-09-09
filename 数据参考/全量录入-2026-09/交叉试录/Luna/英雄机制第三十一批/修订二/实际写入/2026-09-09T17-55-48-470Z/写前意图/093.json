@@ -1,0 +1,27 @@
+{
+  "i": 92,
+  "intent": {
+    "sequence": 93,
+    "method": "POST",
+    "route": "/skills/lulu_r/parameters",
+    "detailRoute": "/skills/lulu_r/parameters/bonus_health",
+    "skillKey": "lulu_r",
+    "kind": "parameters",
+    "stableKey": "bonus_health",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_health",
+      "name": "额外生命值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 275,
+        "2": 425,
+        "3": 575
+      },
+      "description": "客户端DataValues.BonusHealth取等级索引1至3，得到275/425/575。",
+      "sortOrder": 10
+    }
+  }
+}

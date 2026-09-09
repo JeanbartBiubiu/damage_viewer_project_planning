@@ -1,0 +1,23 @@
+{
+  "i": 24,
+  "intent": {
+    "sequence": 25,
+    "method": "POST",
+    "route": "/skills/janna_w/parameters",
+    "detailRoute": "/skills/janna_w/parameters/slow_ap_ratio",
+    "skillKey": "janna_w",
+    "kind": "parameters",
+    "stableKey": "slow_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ap_ratio",
+      "name": "减速法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.06,
+      "levelValues": null,
+      "description": "客户端TotalSlow树按等级索引1消费SlowAPRatio。",
+      "sortOrder": 70
+    }
+  }
+}

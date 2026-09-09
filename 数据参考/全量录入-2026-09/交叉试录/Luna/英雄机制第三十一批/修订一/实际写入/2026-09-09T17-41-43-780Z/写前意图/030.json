@@ -1,0 +1,65 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "method": "POST",
+    "route": "/skills/janna_w/formulas",
+    "detailRoute": "/skills/janna_w/formulas/total_magic_damage",
+    "skillKey": "janna_w",
+    "kind": "formulas",
+    "stableKey": "total_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_magic_damage",
+      "name": "和风守护对唯一敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "tailwind_bonus_damage_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_bonus_move_speed"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "W正文的TotalDamage + TailwindSelf:BonusDamage；P换算在W内直接加入一次，额外移动速度按点数运行输入读取，普攻仍独立消费P公式。",
+      "sortOrder": 20
+    }
+  }
+}

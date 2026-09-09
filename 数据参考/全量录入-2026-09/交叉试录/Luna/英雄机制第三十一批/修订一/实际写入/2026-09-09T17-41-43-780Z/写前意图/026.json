@@ -1,0 +1,23 @@
+{
+  "i": 25,
+  "intent": {
+    "sequence": 26,
+    "method": "POST",
+    "route": "/skills/janna_w/parameters",
+    "detailRoute": "/skills/janna_w/parameters/percent_points_to_ratio",
+    "skillKey": "janna_w",
+    "kind": "parameters",
+    "stableKey": "percent_points_to_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_points_to_ratio",
+      "name": "百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "客户端TotalSlow根乘数为0.01，将百分数点换为比例；不改变SlowPercent与SlowAPRatio的原始单位。",
+      "sortOrder": 80
+    }
+  }
+}

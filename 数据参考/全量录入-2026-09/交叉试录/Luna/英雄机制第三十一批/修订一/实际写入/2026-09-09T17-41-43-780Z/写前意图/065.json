@@ -1,0 +1,23 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "method": "POST",
+    "route": "/skills/lulu_q/parameters",
+    "detailRoute": "/skills/lulu_q/parameters/second_bolt_bonus_ratio",
+    "skillKey": "lulu_q",
+    "kind": "parameters",
+    "stableKey": "second_bolt_bonus_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "second_bolt_bonus_ratio",
+      "name": "同一目标第二束追加比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "客户端BonusMissileDamage的mMultiplier为DoubleHitBonus=0.5；只作用同一目标第二次命中。",
+      "sortOrder": 30
+    }
+  }
+}

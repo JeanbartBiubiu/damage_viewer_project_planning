@@ -1,0 +1,23 @@
+{
+  "i": 23,
+  "intent": {
+    "sequence": 24,
+    "method": "POST",
+    "route": "/skills/janna_w/parameters",
+    "detailRoute": "/skills/janna_w/parameters/movement_speed_ap_ratio",
+    "skillKey": "janna_w",
+    "kind": "parameters",
+    "stableKey": "movement_speed_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "movement_speed_ap_ratio",
+      "name": "移动速度法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0002,
+      "levelValues": null,
+      "description": "客户端TotalMS树按等级索引1消费MSAPRatio；当前mDisplayAsPercent=true只表示显示方式。",
+      "sortOrder": 60
+    }
+  }
+}

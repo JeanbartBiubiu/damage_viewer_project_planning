@@ -1,0 +1,23 @@
+{
+  "i": 73,
+  "intent": {
+    "sequence": 74,
+    "method": "POST",
+    "route": "/skills/lulu_w/parameters",
+    "detailRoute": "/skills/lulu_w/parameters/slow_percent_points",
+    "skillKey": "lulu_w",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "变形附带减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": -60,
+      "levelValues": null,
+      "description": "客户端SlowAmount为-60；按当前正文的负值修正取正的60百分数点，仅保留数值不创建控制结果。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 74,
+  "intent": {
+    "sequence": 75,
+    "method": "POST",
+    "route": "/skills/lulu_w/parameters",
+    "detailRoute": "/skills/lulu_w/parameters/ally_buff_duration_ms",
+    "skillKey": "lulu_w",
+    "kind": "parameters",
+    "stableKey": "ally_buff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ally_buff_duration_ms",
+      "name": "友方增益持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 3000,
+        "2": 3250,
+        "3": 3500,
+        "4": 3750,
+        "5": 4000
+      },
+      "description": "客户端MSDuration取索引1至5，单位秒转换为3000/3250/3500/3750/4000毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

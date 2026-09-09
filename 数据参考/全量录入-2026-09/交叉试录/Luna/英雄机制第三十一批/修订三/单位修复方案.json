@@ -1,0 +1,48 @@
+{
+  "at": "2026-09-09T18:01:57.124Z",
+  "reason": "修正没有来源依据的百分数点标识；数值保持原始-60，不造60%效果。",
+  "before": {
+    "parameterKey": "slow_percent_points",
+    "name": "变形附带减速百分数点",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": -60,
+    "levelValues": null,
+    "description": "客户端SlowAmount为-60；按当前正文的负值修正取正的60百分数点，仅保留数值不创建控制结果。",
+    "sortOrder": 30
+  },
+  "after": {
+    "parameterKey": "polymorph_slow_amount",
+    "name": "变形减速原始量",
+    "valueType": "INTEGER",
+    "valueMode": "FIXED",
+    "fixedValue": -60,
+    "levelValues": null,
+    "description": "客户端SlowAmount原始值为-60，当前扩展正文以SlowAmount×-1显示60且没有百分号。保留有符号原始量；未证明具体移动速度属性层，禁止除100当比例或作为百分数点自动接线。",
+    "sortOrder": 30
+  },
+  "existingReferences": 0,
+  "actions": [
+    {
+      "method": "POST",
+      "route": "/skills/lulu_w/parameters",
+      "body": {
+        "parameterKey": "polymorph_slow_amount",
+        "name": "变形减速原始量",
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": -60,
+        "levelValues": null,
+        "description": "客户端SlowAmount原始值为-60，当前扩展正文以SlowAmount×-1显示60且没有百分号。保留有符号原始量；未证明具体移动速度属性层，禁止除100当比例或作为百分数点自动接线。",
+        "sortOrder": 30
+      }
+    },
+    {
+      "method": "DELETE",
+      "route": "/skills/lulu_w/parameters/slow_percent_points"
+    }
+  ],
+  "candidateSha256": "bf26b9374fc305af52e7298934a54244aec5bec0166017ae5a99a38a2019ddcc",
+  "planSha256": "67d053b4f95435ad515d01e245175081a6bbd5eb4be8f8ca29e0bdae07f4bcc1",
+  "apiWrites": 0
+}

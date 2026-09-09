@@ -1,0 +1,23 @@
+{
+  "i": 57,
+  "intent": {
+    "sequence": 58,
+    "method": "POST",
+    "route": "/skills/lulu_p/parameters",
+    "detailRoute": "/skills/lulu_p/parameters/bolts_per_attack",
+    "skillKey": "lulu_p",
+    "kind": "parameters",
+    "stableKey": "bolts_per_attack",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bolts_per_attack",
+      "name": "皮克斯飞弹数量",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "客户端DataValues.NumberOfBolts为3；当前正文明确同一普攻目标发射3颗。",
+      "sortOrder": 10
+    }
+  }
+}

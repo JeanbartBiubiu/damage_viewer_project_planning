@@ -1,0 +1,23 @@
+{
+  "i": 98,
+  "intent": {
+    "sequence": 99,
+    "method": "POST",
+    "route": "/skills/lulu_r/parameters",
+    "detailRoute": "/skills/lulu_r/parameters/bonus_health_ap_ratio",
+    "skillKey": "lulu_r",
+    "kind": "parameters",
+    "stableKey": "bonus_health_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_health_ap_ratio",
+      "name": "额外生命值法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.55,
+      "levelValues": null,
+      "description": "TotalBonusHealth树的StatByCoefficient系数为0.55×来源总法强。",
+      "sortOrder": 70
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "method": "POST",
+    "route": "/skills/lulu_q/parameters",
+    "detailRoute": "/skills/lulu_q/parameters/slow_ratio",
+    "skillKey": "lulu_q",
+    "kind": "parameters",
+    "stableKey": "slow_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_ratio",
+      "name": "减速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": -0.8,
+      "levelValues": null,
+      "description": "客户端SlowAmount为-0.8，保留原负移动修正比例；不把字段名当作伤害。",
+      "sortOrder": 40
+    }
+  }
+}

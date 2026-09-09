@@ -1,0 +1,5342 @@
+{
+  "generatedAt": "2026-09-09T17:12:23.142Z",
+  "batch": "英雄机制第三十一批",
+  "status": "独立源值摘要，未调用业务接口",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceBindingSha256": "3903525c50256f6c7df36e692f9648d13a073bffe105e280fd80653c99302330",
+  "sourceRangeSha256": "27f83bd55ed75570921c2482b03a60e336a6df442531fb60bad149557d2c6d47",
+  "sourceReview": {
+    "conclusionFile": ".agents/artifacts/hero31-cursor-review-run-20260909/Cursor来源复核结论.md",
+    "conclusionSha256": "e77aa2dea849345914fc633d5ffb3fd0531fb6ec7b6c6bf92ca477c952f7fe4d",
+    "auditFile": ".agents/artifacts/hero31-cursor-review-run-20260909/主负责人执行审计.json",
+    "auditSha256": "23b95d521a4b98ac2110e50d0419ccc88c33fcb76b65d852d070c1ecbada43c3",
+    "verdict": "READY",
+    "runId": "run-2c762f37-2963-42a6-b259-c201593c8953",
+    "events": 2059,
+    "uniqueTools": 87,
+    "apiWrites": 0,
+    "gitDelta": []
+  },
+  "inputIntegrity": {
+    "README.md": {
+      "expected": "aaf72fe0bc72489bab539c35011af6c4c9c1bb0a69999a877cf4ccbc96d319ac",
+      "actual": "aaf72fe0bc72489bab539c35011af6c4c9c1bb0a69999a877cf4ccbc96d319ac",
+      "byteSize": 1138
+    },
+    "参考资料/lol-16.17-zh_CN.stringtable.json.gz": {
+      "expected": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "actual": "dbb43f1174c48cecb8e014972c198ad6a80d515903aa52da8fe6b6d54bc7af5e",
+      "byteSize": 8350124
+    },
+    "参考资料/公共参数复用清单.json": {
+      "expected": "4813020e549a0b22e80eb2a466a6262892d3f4531c8599af2185d670fbfe914c",
+      "actual": "4813020e549a0b22e80eb2a466a6262892d3f4531c8599af2185d670fbfe914c",
+      "byteSize": 4880
+    },
+    "参考资料/官方中文/Janna.json": {
+      "expected": "8c316afb077627ac96c26f4b36cf401ce8a73d65a94e62c473f30419bd7f5f90",
+      "actual": "8c316afb077627ac96c26f4b36cf401ce8a73d65a94e62c473f30419bd7f5f90",
+      "byteSize": 14855
+    },
+    "参考资料/官方中文/Lulu.json": {
+      "expected": "0abb079c4f6724a5dbb91ca76fecd712ceac6668dd76ea66ca6ee249a87f009a",
+      "actual": "0abb079c4f6724a5dbb91ca76fecd712ceac6668dd76ea66ca6ee249a87f009a",
+      "byteSize": 14857
+    },
+    "参考资料/官方中文/Morgana.json": {
+      "expected": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903",
+      "actual": "0854dbf23fedd2878a255b0707e6c4f687386d55962dafadb9b17354414b0903",
+      "byteSize": 15656
+    },
+    "参考资料/官方中文/Nami.json": {
+      "expected": "f9b01b18408d0c55d84dd371581f47242072e041c53e4cf4bcb3272df2528e12",
+      "actual": "f9b01b18408d0c55d84dd371581f47242072e041c53e4cf4bcb3272df2528e12",
+      "byteSize": 14050
+    },
+    "参考资料/官方英文/Janna.json": {
+      "expected": "c665a98569145613b2207f92c5861cac396cfc8f526d1eb4d6213cab77b51b36",
+      "actual": "c665a98569145613b2207f92c5861cac396cfc8f526d1eb4d6213cab77b51b36",
+      "byteSize": 14236
+    },
+    "参考资料/官方英文/Lulu.json": {
+      "expected": "a996746c361e538c2fa9823c891dd4f4a950440f1a21ac0e253f569101ffba95",
+      "actual": "a996746c361e538c2fa9823c891dd4f4a950440f1a21ac0e253f569101ffba95",
+      "byteSize": 13816
+    },
+    "参考资料/官方英文/Morgana.json": {
+      "expected": "ccee87151700b5aead65c5da0ceadf9285848137b6451fe6d2893c96ee6ecf69",
+      "actual": "ccee87151700b5aead65c5da0ceadf9285848137b6451fe6d2893c96ee6ecf69",
+      "byteSize": 15251
+    },
+    "参考资料/官方英文/Nami.json": {
+      "expected": "f58cd73def479e25a64163a614026d6e2de467086b7c86a58875bc4b486e5e51",
+      "actual": "f58cd73def479e25a64163a614026d6e2de467086b7c86a58875bc4b486e5e51",
+      "byteSize": 13533
+    },
+    "参考资料/客户端原文/Janna.json.gz": {
+      "expected": "0e391039ad77b2b0d39527efc10a702783073e2da50e42a57c927907652b4e10",
+      "actual": "0e391039ad77b2b0d39527efc10a702783073e2da50e42a57c927907652b4e10",
+      "byteSize": 8263
+    },
+    "参考资料/客户端原文/Lulu.json.gz": {
+      "expected": "ba8e1fd3b20e8503f5d3447c1041c4aab339d7a7d10357205d38f7f85c5c93f7",
+      "actual": "ba8e1fd3b20e8503f5d3447c1041c4aab339d7a7d10357205d38f7f85c5c93f7",
+      "byteSize": 8032
+    },
+    "参考资料/客户端原文/Morgana.json.gz": {
+      "expected": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+      "actual": "d02739dbfd5d27af4197da8449475948035a0f8c5d344a560085200ef79527a5",
+      "byteSize": 7939
+    },
+    "参考资料/客户端原文/Nami.json.gz": {
+      "expected": "6a66b99523e0ce58a553a91afeb8124815dea490c0c76ccf3ce90409971a04df",
+      "actual": "6a66b99523e0ce58a553a91afeb8124815dea490c0c76ccf3ce90409971a04df",
+      "byteSize": 8181
+    },
+    "参考资料/属性默认与边界.json": {
+      "expected": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "actual": "5b51fc7b71e411909e42323ca50d9c51566038b61a392023d2668ba5ad3a73a6",
+      "byteSize": 4045
+    },
+    "参考资料/当前20槽保护快照.json": {
+      "expected": "94af4474ea98f040a3ad09aeffc07a8608cde19a10ce3c2995499aba2883802c",
+      "actual": "94af4474ea98f040a3ad09aeffc07a8608cde19a10ce3c2995499aba2883802c",
+      "byteSize": 131012
+    },
+    "参考资料/技能来源索引.json": {
+      "expected": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+      "actual": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+      "byteSize": 1226169
+    },
+    "参考资料/接口载荷样例.json": {
+      "expected": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "actual": "96f2ec069a58683d03ad20f5508c2f8723c139f8be459d5a80a2d0f5afefed02",
+      "byteSize": 18896
+    },
+    "官方中英文对照.jsonl": {
+      "expected": "3c2ea04e052f725553d11b1c56b182f8f8a2c3aa5b90c49d08ca264d064ea61f",
+      "actual": "3c2ea04e052f725553d11b1c56b182f8f8a2c3aa5b90c49d08ca264d064ea61f",
+      "byteSize": 51752
+    },
+    "来源与范围.json": {
+      "expected": "27f83bd55ed75570921c2482b03a60e336a6df442531fb60bad149557d2c6d47",
+      "actual": "27f83bd55ed75570921c2482b03a60e336a6df442531fb60bad149557d2c6d47",
+      "byteSize": 125884
+    },
+    "来源绑定与当前文本.json": {
+      "expected": "3903525c50256f6c7df36e692f9648d13a073bffe105e280fd80653c99302330",
+      "actual": "3903525c50256f6c7df36e692f9648d13a073bffe105e280fd80653c99302330",
+      "byteSize": 271237
+    },
+    "输入版本.json": {
+      "expected": "859eced8efea73b88a725224f34a064846c639e713681a832e40dacff1cc817a",
+      "actual": "859eced8efea73b88a725224f34a064846c639e713681a832e40dacff1cc817a",
+      "byteSize": 7238
+    }
+  },
+  "selectedValues": {
+    "janna_p": {
+      "binding": "Characters/Janna/Spells/TailwindSelfAbility/TailwindSelf",
+      "officialMaxRank": 1,
+      "selectedData": {
+        "MSBonusMagicDamage": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.30000001192092896
+          ],
+          "normalizedValues": [
+            0.3
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "MSPercentAlly",
+          "values": [
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MSPercentSelf",
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MSBonusMagicDamage",
+          "values": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "MSToOnHitConversionRate": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MSBonusMagicDamage",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "BonusDamage": {
+          "{72c5c2a8}": 1,
+          "mFormulaParts": [
+            {
+              "mStat": 7,
+              "mStatFormula": 2,
+              "mDataValue": "MSBonusMagicDamage",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "bonus_magic_damage",
+          "name": "顺风而行自身额外魔法伤害",
+          "description": "BonusDamage = MSBonusMagicDamage × 来源额外移动速度比例；保留普攻与和风守护的自身伤害换算，不创建自动攻击事件。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "bonus_move_speed_damage_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3,
+          "levelValues": null
+        }
+      ]
+    },
+    "janna_q": {
+      "binding": "Characters/Janna/Spells/HowlingGaleAbility/HowlingGale",
+      "officialMaxRank": 5,
+      "selectedData": {
+        "MinDamage": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceValues": [
+            20,
+            55,
+            90,
+            125,
+            160
+          ],
+          "normalizedValues": [
+            20,
+            55,
+            90,
+            125,
+            160
+          ]
+        },
+        "MinimumRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        },
+        "BonusDamage": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceValues": [
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "normalizedValues": [
+            5,
+            10,
+            15,
+            20,
+            25
+          ]
+        },
+        "BonusRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.10000000149011612
+          ],
+          "normalizedValues": [
+            0.1
+          ]
+        },
+        "MaxDuration": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceValues": [
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "normalizedValues": [
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        "BaseKnockup": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceValues": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "normalizedValues": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ]
+        },
+        "ChargeKnockup": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceValues": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "normalizedValues": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ]
+        },
+        "BaseRange": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            1100
+          ],
+          "normalizedValues": [
+            1100
+          ]
+        },
+        "ChargeDistancePercent": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            20
+          ],
+          "normalizedValues": [
+            20
+          ]
+        },
+        "MissileTravelTime": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            1.25
+          ],
+          "normalizedValues": [
+            1.25
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "MissileTravelTime",
+          "values": [
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinionMod",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseRange",
+          "values": [
+            1100,
+            1100,
+            1100,
+            1100,
+            1100,
+            1100,
+            1100
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinDamage",
+          "values": [
+            20,
+            55,
+            90,
+            125,
+            160,
+            195,
+            230
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinimumRatio",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BonusDamage",
+          "values": [
+            5,
+            10,
+            15,
+            20,
+            25,
+            30,
+            35
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BonusRatio",
+          "values": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ChargeDistancePercent",
+          "values": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseKnockup",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ChargeKnockup",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MaxDuration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "MinimumDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "MinDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "MinimumRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ExtraDamagePerSecondCharged": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BonusDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "BonusRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MaxDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mExpandedTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "MinDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "MinimumRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mPart1": {
+                "mDataValue": "MaxDuration",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mPart2": {
+                "mSubparts": [
+                  {
+                    "mDataValue": "BonusDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mDataValue": "BonusRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "SumOfSubPartsCalculationPart"
+              },
+              "__type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MaxKnockup": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseKnockup",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mPart1": {
+                "mDataValue": "MaxDuration",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mPart2": {
+                "mDataValue": "ChargeKnockup",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "__type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "mPrecision": 2,
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "minimum_magic_damage",
+          "name": "飓风呼啸最小蓄力魔法伤害",
+          "description": "MinimumDamage = MinDamage + MinimumRatio×来源总法强。"
+        },
+        {
+          "formulaKey": "charged_magic_damage_per_second",
+          "name": "飓风呼啸蓄力每秒追加魔法伤害",
+          "description": "ExtraDamagePerSecondCharged = BonusDamage + BonusRatio×来源总法强。"
+        },
+        {
+          "formulaKey": "maximum_magic_damage",
+          "name": "飓风呼啸满蓄力魔法伤害",
+          "description": "MaxDamage = MinimumDamage + MaxDuration×ExtraDamagePerSecondCharged；接口公式只能引用参数，故将两棵来源子树完整内联并保持二元结构。"
+        },
+        {
+          "formulaKey": "maximum_knockup_seconds",
+          "name": "飓风呼啸满蓄力击飞时间",
+          "description": "MaxKnockup = BaseKnockup + MaxDuration×ChargeKnockup；当前mPrecision=2只为显示精度。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 20,
+            "2": 55,
+            "3": 90,
+            "4": 125,
+            "5": 160
+          }
+        },
+        {
+          "parameterKey": "minimum_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "charged_damage_base",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 5,
+            "2": 10,
+            "3": 15,
+            "4": 20,
+            "5": 25
+          }
+        },
+        {
+          "parameterKey": "charged_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "max_charge_duration_seconds",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 3,
+            "2": 3,
+            "3": 3,
+            "4": 3,
+            "5": 3
+          }
+        },
+        {
+          "parameterKey": "base_knockup_seconds",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.5,
+            "2": 0.5,
+            "3": 0.5,
+            "4": 0.5,
+            "5": 0.5
+          }
+        },
+        {
+          "parameterKey": "charged_knockup_per_second_seconds",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.25,
+            "2": 0.25,
+            "3": 0.25,
+            "4": 0.25,
+            "5": 0.25
+          }
+        },
+        {
+          "parameterKey": "base_range",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1100,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "charge_distance_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "missile_travel_time_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1250,
+          "levelValues": null
+        }
+      ]
+    },
+    "janna_w": {
+      "binding": "Characters/Janna/Spells/SowTheWindAbility/SowTheWind",
+      "officialMaxRank": 5,
+      "selectedData": {
+        "MSPercent": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceValues": [
+            0.05000000074505806,
+            0.05999999865889549,
+            0.07000000029802322,
+            0.07999999821186066,
+            0.09000000357627869
+          ],
+          "normalizedValues": [
+            0.05,
+            0.06,
+            0.07,
+            0.08,
+            0.09
+          ]
+        },
+        "BaseDamage": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceValues": [
+            25,
+            55,
+            85,
+            115,
+            145
+          ],
+          "normalizedValues": [
+            25,
+            55,
+            85,
+            115,
+            145
+          ]
+        },
+        "APRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        },
+        "SlowDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            2
+          ],
+          "normalizedValues": [
+            2
+          ]
+        },
+        "SlowPercent": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceValues": [
+            16,
+            20,
+            24,
+            28,
+            32
+          ],
+          "normalizedValues": [
+            16,
+            20,
+            24,
+            28,
+            32
+          ]
+        },
+        "MSAPRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.00019999999494757503
+          ],
+          "normalizedValues": [
+            0.0002
+          ]
+        },
+        "SlowAPRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.05999999865889549
+          ],
+          "normalizedValues": [
+            0.06
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "MSPercent",
+          "values": [
+            0.05000000074505806,
+            0.05999999865889549,
+            0.07000000029802322,
+            0.07999999821186066,
+            0.09000000357627869,
+            0.10000000149011612,
+            0.10999999940395355
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            25,
+            55,
+            85,
+            115,
+            145,
+            175,
+            205
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowPercent",
+          "values": [
+            16,
+            20,
+            24,
+            28,
+            32,
+            36,
+            40
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MSAPRatio",
+          "values": [
+            0.00019999999494757503,
+            0.00019999999494757503,
+            0.00019999999494757503,
+            0.00019999999494757503,
+            0.00019999999494757503,
+            0.00019999999494757503,
+            0.00019999999494757503
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowAPRatio",
+          "values": [
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalMS": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MSPercent",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "MSAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalSlow": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "SlowPercent",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "SlowAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "total_move_speed_ratio",
+          "name": "和风守护自身移动速度比例",
+          "description": "TotalMS = MSPercent + MSAPRatio×来源总法强；该树是自身持续移动速度来源。"
+        },
+        {
+          "formulaKey": "total_magic_damage",
+          "name": "和风守护对唯一敌人魔法伤害",
+          "description": "W正文的TotalDamage + TailwindSelf:BonusDamage；P换算在W内直接加入一次，普攻仍独立消费P公式。"
+        },
+        {
+          "formulaKey": "total_slow_ratio",
+          "name": "和风守护减速比例",
+          "description": "TotalSlow = 0.01×(SlowPercent + SlowAPRatio×来源总法强)。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "movement_speed_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.05,
+            "2": 0.06,
+            "3": 0.07,
+            "4": 0.08,
+            "5": 0.09
+          }
+        },
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 25,
+            "2": 55,
+            "3": 85,
+            "4": 115,
+            "5": 145
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 16,
+            "2": 20,
+            "3": 24,
+            "4": 28,
+            "5": 32
+          }
+        },
+        {
+          "parameterKey": "movement_speed_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.0002,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.06,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "percent_points_to_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tailwind_bonus_damage_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.3,
+          "levelValues": null
+        }
+      ]
+    },
+    "janna_e": {
+      "binding": "Characters/Janna/Spells/EyeOfTheStormAbility/EyeOfTheStorm",
+      "officialMaxRank": 5,
+      "selectedData": {
+        "ECDRefundforCC": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.20000000298023224
+          ],
+          "normalizedValues": [
+            0.2
+          ]
+        },
+        "EmpowerDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            5
+          ],
+          "normalizedValues": [
+            5
+          ]
+        },
+        "DecayGracePeriod": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            4
+          ],
+          "normalizedValues": [
+            4
+          ]
+        },
+        "BaseShield": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceValues": [
+            40,
+            80,
+            120,
+            160,
+            200
+          ],
+          "normalizedValues": [
+            40,
+            80,
+            120,
+            160,
+            200
+          ]
+        },
+        "ShieldAPRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.550000011920929
+          ],
+          "normalizedValues": [
+            0.55
+          ]
+        },
+        "BonusAD": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceValues": [
+            5,
+            10,
+            15,
+            20,
+            25
+          ],
+          "normalizedValues": [
+            5,
+            10,
+            15,
+            20,
+            25
+          ]
+        },
+        "ADAPRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.10000000149011612
+          ],
+          "normalizedValues": [
+            0.1
+          ]
+        },
+        "ShieldDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            4
+          ],
+          "normalizedValues": [
+            4
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "ECDRefundforCC",
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "EmpowerDuration",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "EmpowerPercent",
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DecayGracePeriod",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseShield",
+          "values": [
+            40,
+            80,
+            120,
+            160,
+            200,
+            240,
+            280
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ShieldAPRatio",
+          "values": [
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BonusAD",
+          "values": [
+            5,
+            10,
+            15,
+            20,
+            25,
+            30,
+            35
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ADAPRatio",
+          "values": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ShieldDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalShield": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseShield",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "ShieldAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalAD": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BonusAD",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "ADAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "total_shield",
+          "name": "风暴之眼自身护盾值",
+          "description": "TotalShield = BaseShield + ShieldAPRatio×来源总法强。目标为自身路径，实际友方目标资格待补。"
+        },
+        {
+          "formulaKey": "total_attack_damage_bonus",
+          "name": "风暴之眼自身额外攻击力",
+          "description": "TotalAD = BonusAD + ADAPRatio×来源总法强。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "cc_cooldown_refund_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "empower_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "decay_grace_period_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "base_shield",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 40,
+            "2": 80,
+            "3": 120,
+            "4": 160,
+            "5": 200
+          }
+        },
+        {
+          "parameterKey": "shield_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.55,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "bonus_attack_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 5,
+            "2": 10,
+            "3": 15,
+            "4": 20,
+            "5": 25
+          }
+        },
+        {
+          "parameterKey": "attack_damage_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null
+        }
+      ]
+    },
+    "janna_r": {
+      "binding": "Characters/Janna/Spells/ReapTheWhirlwindAbility/ReapTheWhirlwind",
+      "officialMaxRank": 3,
+      "selectedData": {
+        "HealBasePerSecond": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2
+          ],
+          "sourceValues": [
+            50,
+            100,
+            150
+          ],
+          "normalizedValues": [
+            50,
+            100,
+            150
+          ]
+        },
+        "Duration": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3
+          ],
+          "sourceValues": [
+            3,
+            3,
+            3
+          ],
+          "normalizedValues": [
+            3,
+            3,
+            3
+          ]
+        },
+        "Range": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            700
+          ],
+          "normalizedValues": [
+            700
+          ]
+        },
+        "MaxKnockback": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            875
+          ],
+          "normalizedValues": [
+            875
+          ]
+        },
+        "KnockbackBaseRange": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            875
+          ],
+          "normalizedValues": [
+            875
+          ]
+        },
+        "KnockbackSpeed": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            1200
+          ],
+          "normalizedValues": [
+            1200
+          ]
+        },
+        "KnockbackGravity": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            10
+          ],
+          "normalizedValues": [
+            10
+          ]
+        },
+        "KnockbackDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "HealBasePerSecond",
+          "values": [
+            50,
+            100,
+            150,
+            200,
+            250,
+            300,
+            350
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "Duration",
+          "values": [
+            0,
+            3,
+            3,
+            3,
+            0,
+            0,
+            0
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "Range",
+          "values": [
+            700,
+            700,
+            700,
+            700,
+            700,
+            700,
+            700
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MaxKnockback",
+          "values": [
+            875,
+            875,
+            875,
+            875,
+            875,
+            875,
+            875
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "KnockbackBaseRange",
+          "values": [
+            875,
+            875,
+            875,
+            875,
+            875,
+            875,
+            875
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "KnockbackSpeed",
+          "values": [
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "KnockbackGravity",
+          "values": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "KnockbackDuration",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "HealPerSecond": {
+          "mExpandedTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "HealBasePerSecond",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.5,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalHeal": {
+          "mMultiplier": {
+            "mDataValue": "Duration",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "HealPerSecond",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "heal_per_second",
+          "name": "复苏季风每秒治疗量",
+          "description": "HealPerSecond = HealBasePerSecond + 0.5×来源总法强。"
+        },
+        {
+          "formulaKey": "total_heal",
+          "name": "复苏季风持续治疗总量",
+          "description": "TotalHeal = Duration×HealPerSecond；接口公式只能引用参数，故内联每秒治疗式；该量是tooltipOnly数值，不创建直接治疗结果。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "heal_base_per_second",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 50,
+            "2": 100,
+            "3": 150
+          }
+        },
+        {
+          "parameterKey": "heal_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "heal_duration_seconds",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 3,
+            "2": 3,
+            "3": 3
+          }
+        },
+        {
+          "parameterKey": "heal_range",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 700,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "max_knockback_distance",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 875,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knockback_base_range",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 875,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knockback_speed",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1200,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knockback_gravity",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 10,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knockback_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 500,
+          "levelValues": null
+        }
+      ]
+    },
+    "lulu_p": {
+      "binding": "Characters/Lulu/Spells/LuluPassiveAbility/LuluPassive",
+      "officialMaxRank": 1,
+      "selectedData": {
+        "NumberOfBolts": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            3
+          ],
+          "normalizedValues": [
+            3
+          ]
+        },
+        "APRatioPerHit": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.05000000074505806
+          ],
+          "normalizedValues": [
+            0.05
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "NumberOfBolts",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "APRatioPerHit",
+          "values": [
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 5,
+              "mEndValue": 39,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mDataValue": "APRatioPerHit",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "CombinedDamage": {
+          "mMultiplier": {
+            "mDataValue": "NumberOfBolts",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "TotalDamage",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "single_bolt_magic_damage",
+          "name": "皮克斯单颗飞弹魔法伤害",
+          "description": "TotalDamage = 当前角色等级基础伤害输入 + APRatioPerHit×来源总法强；不把5至39误作角色等级。"
+        },
+        {
+          "formulaKey": "combined_magic_damage",
+          "name": "皮克斯同一普攻合计魔法伤害",
+          "description": "CombinedDamage = NumberOfBolts×TotalDamage；接口公式只能引用参数，故内联单颗飞弹公式；同一普攻、同一目标的三颗飞弹合计。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "bolts_per_attack",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "ap_ratio_per_bolt",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.05,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "actual_character_level_base_damage",
+          "valueType": "DECIMAL",
+          "valueMode": "RUNTIME_INPUT",
+          "fixedValue": null,
+          "levelValues": null
+        }
+      ]
+    },
+    "lulu_q": {
+      "binding": "Characters/Lulu/Spells/LuluQAbility/LuluQ",
+      "officialMaxRank": 5,
+      "selectedData": {
+        "BaseDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            60,
+            95,
+            130,
+            165,
+            200
+          ],
+          "normalizedValues": [
+            60,
+            95,
+            130,
+            165,
+            200
+          ]
+        },
+        "APRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        },
+        "DoubleHitBonus": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        },
+        "SlowAmount": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            -0.800000011920929
+          ],
+          "normalizedValues": [
+            -0.8
+          ]
+        },
+        "SlowDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            2
+          ],
+          "normalizedValues": [
+            2
+          ]
+        },
+        "SlowDecayTicks": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            8
+          ],
+          "normalizedValues": [
+            8
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "MinionMod",
+          "values": [
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DoubleHitBonus",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseDamage",
+          "values": [
+            25,
+            60,
+            95,
+            130,
+            165,
+            200,
+            235
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowAmount",
+          "values": [
+            -0.800000011920929,
+            -0.800000011920929,
+            -0.800000011920929,
+            -0.800000011920929,
+            -0.800000011920929,
+            -0.800000011920929,
+            -0.800000011920929
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowDecayTicks",
+          "values": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BonusMissileDamage": {
+          "mMultiplier": {
+            "mDataValue": "DoubleHitBonus",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "magic_damage",
+          "name": "闪耀长枪首束魔法伤害",
+          "description": "TotalDamage = BaseDamage + APRatio×来源总法强。"
+        },
+        {
+          "formulaKey": "second_bolt_bonus_magic_damage",
+          "name": "闪耀长枪同一目标第二束追加魔法伤害",
+          "description": "BonusMissileDamage = DoubleHitBonus×同一套TotalDamage；接口公式只能引用参数，故内联首束公式；不扩成第二名敌人。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 95,
+            "3": 130,
+            "4": 165,
+            "5": 200
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "second_bolt_bonus_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": -0.8,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_decay_ticks",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 8,
+          "levelValues": null
+        }
+      ]
+    },
+    "lulu_w": {
+      "binding": "Characters/Lulu/Spells/LuluWAbility/LuluW",
+      "officialMaxRank": 5,
+      "selectedData": {
+        "BaseMS": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.25
+          ],
+          "normalizedValues": [
+            0.25
+          ]
+        },
+        "CCDuration": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            1.2000000476837158,
+            1.399999976158142,
+            1.600000023841858,
+            1.7999999523162842,
+            2
+          ],
+          "normalizedValues": [
+            1.2,
+            1.4,
+            1.6,
+            1.8,
+            2
+          ]
+        },
+        "SlowAmount": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            -60
+          ],
+          "normalizedValues": [
+            -60
+          ]
+        },
+        "MSDuration": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            3,
+            3.25,
+            3.5,
+            3.75,
+            4
+          ],
+          "normalizedValues": [
+            3,
+            3.25,
+            3.5,
+            3.75,
+            4
+          ]
+        },
+        "ASBonus": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            0.20000000298023224,
+            0.22499999403953552,
+            0.25,
+            0.2750000059604645,
+            0.30000001192092896
+          ],
+          "normalizedValues": [
+            0.2,
+            0.225,
+            0.25,
+            0.275,
+            0.3
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "BaseMS",
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "CCDuration",
+          "values": [
+            1,
+            1.2000000476837158,
+            1.399999976158142,
+            1.600000023841858,
+            1.7999999523162842,
+            2,
+            2.200000047683716
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowAmount",
+          "values": [
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MSDuration",
+          "values": [
+            2.75,
+            3,
+            3.25,
+            3.5,
+            3.75,
+            4,
+            4.25
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "AmountToMultiplyCoefficient2ByForPurposesOfCalculatingMovementSpeed",
+          "values": [
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ASBonus",
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.22499999403953552,
+            0.25,
+            0.2750000059604645,
+            0.30000001192092896,
+            0.30000001192092896
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalMS": {
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseMS",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.0005000000237487257,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "ally_move_speed_ratio",
+          "name": "奇思妙想友方移动速度比例",
+          "description": "TotalMS = BaseMS + 0.0005×来源总法强；只表达友方增益数值，未把变形当作技能替换。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "base_move_speed_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "polymorph_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 1200,
+            "2": 1400,
+            "3": 1600,
+            "4": 1800,
+            "5": 2000
+          }
+        },
+        {
+          "parameterKey": "slow_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": -60,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "ally_buff_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 3000,
+            "2": 3250,
+            "3": 3500,
+            "4": 3750,
+            "5": 4000
+          }
+        },
+        {
+          "parameterKey": "attack_speed_bonus_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 0.2,
+            "2": 0.225,
+            "3": 0.25,
+            "4": 0.275,
+            "5": 0.3
+          }
+        },
+        {
+          "parameterKey": "move_speed_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.0005,
+          "levelValues": null
+        }
+      ]
+    },
+    "lulu_e": {
+      "binding": "Characters/Lulu/Spells/LuluEAbility/LuluE",
+      "officialMaxRank": 5,
+      "selectedData": {
+        "BaseDamage": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceValues": [
+            30,
+            70,
+            110,
+            150,
+            190
+          ],
+          "normalizedValues": [
+            30,
+            70,
+            110,
+            150,
+            190
+          ]
+        },
+        "DamageAPRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        },
+        "BaseShield": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "sourceValues": [
+            30,
+            70,
+            110,
+            150,
+            190
+          ],
+          "normalizedValues": [
+            30,
+            70,
+            110,
+            150,
+            190
+          ]
+        },
+        "ShieldAPRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        },
+        "ShieldDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            2.5
+          ],
+          "normalizedValues": [
+            2.5
+          ]
+        },
+        "PixOnAllyDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            6
+          ],
+          "normalizedValues": [
+            6
+          ]
+        },
+        "PixOnEnemyDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            4
+          ],
+          "normalizedValues": [
+            4
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            30,
+            70,
+            110,
+            150,
+            190,
+            230,
+            270
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DamageAPRatio",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseShield",
+          "values": [
+            30,
+            70,
+            110,
+            150,
+            190,
+            230,
+            270
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ShieldAPRatio",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ShieldDuration",
+          "values": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PixOnAllyDuration",
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PixOnEnemyDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "DamageAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalShield": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseShield",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "ShieldAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "magic_damage",
+          "name": "帮忙皮克斯对唯一敌人魔法伤害",
+          "description": "TotalDamage = BaseDamage + DamageAPRatio×来源总法强。"
+        },
+        {
+          "formulaKey": "shield_value",
+          "name": "帮忙皮克斯自身护盾值",
+          "description": "TotalShield = BaseShield + ShieldAPRatio×来源总法强；只保留自身可得路径。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 30,
+            "2": 70,
+            "3": 110,
+            "4": 150,
+            "5": 190
+          }
+        },
+        {
+          "parameterKey": "damage_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "base_shield",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 30,
+            "2": 70,
+            "3": 110,
+            "4": 150,
+            "5": 190
+          }
+        },
+        {
+          "parameterKey": "shield_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "pix_ally_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "pix_enemy_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null
+        }
+      ]
+    },
+    "lulu_r": {
+      "binding": "Characters/Lulu/Spells/LuluRAbility/LuluR",
+      "officialMaxRank": 3,
+      "selectedData": {
+        "BonusHealth": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2
+          ],
+          "sourceValues": [
+            125,
+            275,
+            425
+          ],
+          "normalizedValues": [
+            125,
+            275,
+            425
+          ]
+        },
+        "SlowPercent": {
+          "sourceDataIndices": [
+            0,
+            1,
+            2
+          ],
+          "sourceValues": [
+            15,
+            30,
+            45
+          ],
+          "normalizedValues": [
+            15,
+            30,
+            45
+          ]
+        },
+        "BuffDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            7
+          ],
+          "normalizedValues": [
+            7
+          ]
+        },
+        "AoERadius": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            400
+          ],
+          "normalizedValues": [
+            400
+          ]
+        },
+        "KnockbackDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            1
+          ],
+          "normalizedValues": [
+            1
+          ]
+        },
+        "KnockbackDistance": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            275
+          ],
+          "normalizedValues": [
+            275
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "BonusHealth",
+          "values": [
+            125,
+            275,
+            425,
+            575,
+            725,
+            875,
+            1025
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowPercent",
+          "values": [
+            15,
+            30,
+            45,
+            60,
+            75,
+            90,
+            105
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BuffDuration",
+          "values": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "AoERadius",
+          "values": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "KnockbackDuration",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "KnockbackDistance",
+          "values": [
+            275,
+            275,
+            275,
+            275,
+            275,
+            275,
+            275
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalBonusHealth": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BonusHealth",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.550000011920929,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "bonus_health_value",
+          "name": "狂野生长自身额外生命值",
+          "description": "TotalBonusHealth = BonusHealth + 0.55×来源总法强；只表达自身作为友方目标的数值路径。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "bonus_health",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 125,
+            "2": 275,
+            "3": 425
+          }
+        },
+        {
+          "parameterKey": "slow_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 15,
+            "2": 30,
+            "3": 45
+          }
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 7000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "aoe_radius",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 400,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knockup_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knockback_distance",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 275,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "bonus_health_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.55,
+          "levelValues": null
+        }
+      ]
+    },
+    "nami_p": {
+      "binding": "Characters/Nami/Spells/NamiPassiveAbility/NamiPassive",
+      "officialMaxRank": 1,
+      "selectedData": {
+        "FlatMS": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            100
+          ],
+          "normalizedValues": [
+            100
+          ]
+        },
+        "BuffDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            1.5
+          ],
+          "normalizedValues": [
+            1.5
+          ]
+        },
+        "UltMult": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            2
+          ],
+          "normalizedValues": [
+            2
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "FlatMS",
+          "values": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BuffDuration",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "UltMult",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalMSBonus": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "FlatMS",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.25,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "movement_speed_bonus",
+          "name": "踏浪之行移动速度加成",
+          "description": "TotalMSBonus = FlatMS + 0.25×来源总法强；触发对象仍按友方命中正文判断。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "flat_move_speed",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 100,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "ultimate_multiplier",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "ability_power_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.25,
+          "levelValues": null
+        }
+      ]
+    },
+    "nami_q": {
+      "binding": "Characters/Nami/Spells/NamiQAbility/NamiQ",
+      "officialMaxRank": 5,
+      "selectedData": {
+        "BaseDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            90,
+            145,
+            200,
+            255,
+            310
+          ],
+          "normalizedValues": [
+            90,
+            145,
+            200,
+            255,
+            310
+          ]
+        },
+        "APRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        },
+        "StunDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            1.5
+          ],
+          "normalizedValues": [
+            1.5
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            35,
+            90,
+            145,
+            200,
+            255,
+            310,
+            365
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "APRatio",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "StunDuration",
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamageTT": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "magic_damage",
+          "name": "碧波之牢唯一敌人魔法伤害",
+          "description": "TotalDamageTT = BaseDamage + APRatio×来源总法强。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 90,
+            "2": 145,
+            "3": 200,
+            "4": 255,
+            "5": 310
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stun_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1500,
+          "levelValues": null
+        }
+      ]
+    },
+    "nami_w": {
+      "binding": "Characters/Nami/Spells/NamiWAbility/NamiW",
+      "officialMaxRank": 5,
+      "selectedData": {
+        "BaseDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            60,
+            95,
+            130,
+            165,
+            200
+          ],
+          "normalizedValues": [
+            60,
+            95,
+            130,
+            165,
+            200
+          ]
+        },
+        "BaseHeal": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            55,
+            80,
+            105,
+            130,
+            155
+          ],
+          "normalizedValues": [
+            55,
+            80,
+            105,
+            130,
+            155
+          ]
+        },
+        "DamageAPRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        },
+        "HealAPRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.4000000059604645
+          ],
+          "normalizedValues": [
+            0.4
+          ]
+        },
+        "BounceRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            -20
+          ],
+          "normalizedValues": [
+            -20
+          ]
+        },
+        "BounceRatioScaling": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.15000000596046448
+          ],
+          "normalizedValues": [
+            0.15
+          ]
+        },
+        "MaxTargets": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            3
+          ],
+          "normalizedValues": [
+            3
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            25,
+            60,
+            95,
+            130,
+            165,
+            200,
+            235
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseHeal",
+          "values": [
+            30,
+            55,
+            80,
+            105,
+            130,
+            155,
+            180
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DamageAPRatio",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "HealAPRatio",
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BounceRatio",
+          "values": [
+            -20,
+            -20,
+            -20,
+            -20,
+            -20,
+            -20,
+            -20
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BounceRatioScaling",
+          "values": [
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MaxTargets",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "DamageAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalHeal": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseHeal",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "HealAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BounceScaling": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "BounceRatio",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "BounceRatioScaling",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "first_damage",
+          "name": "冲击之潮首个敌人魔法伤害",
+          "description": "TotalDamage = BaseDamage + DamageAPRatio×来源总法强；起点是敌人时为第一段。"
+        },
+        {
+          "formulaKey": "first_heal",
+          "name": "冲击之潮首个自身治疗量",
+          "description": "TotalHeal = BaseHeal + HealAPRatio×来源总法强；起点是自身时为第一段。"
+        },
+        {
+          "formulaKey": "bounce_scaling_ratio",
+          "name": "冲击之潮弹跳修正比例",
+          "description": "BounceScaling = 0.01×(BounceRatio + BounceRatioScaling×来源总法强)。"
+        },
+        {
+          "formulaKey": "bounced_damage",
+          "name": "冲击之潮第二目标魔法伤害",
+          "description": "第二目标伤害 = 首个伤害×(1+BounceScaling)；接口公式只能引用参数，故内联首段和弹跳修正；一对一只允许敌人和自身各一次。"
+        },
+        {
+          "formulaKey": "bounced_heal",
+          "name": "冲击之潮第二目标自身治疗量",
+          "description": "第二目标治疗 = 首个治疗×(1+BounceScaling)；接口公式只能引用参数，故内联首段和弹跳修正；不创建直接治疗结果。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 60,
+            "2": 95,
+            "3": 130,
+            "4": 165,
+            "5": 200
+          }
+        },
+        {
+          "parameterKey": "base_heal",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 55,
+            "2": 80,
+            "3": 105,
+            "4": 130,
+            "5": 155
+          }
+        },
+        {
+          "parameterKey": "damage_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.5,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "heal_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.4,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "bounce_base_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": -20,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "bounce_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.15,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "max_targets",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "percent_points_to_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "one_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        }
+      ]
+    },
+    "nami_e": {
+      "binding": "Characters/Nami/Spells/NamiEAbility/NamiE",
+      "officialMaxRank": 5,
+      "selectedData": {
+        "BaseDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            20,
+            35,
+            50,
+            65,
+            80
+          ],
+          "normalizedValues": [
+            20,
+            35,
+            50,
+            65,
+            80
+          ]
+        },
+        "DamageRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.20000000298023224
+          ],
+          "normalizedValues": [
+            0.2
+          ]
+        },
+        "BaseSlow": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            15,
+            20,
+            25,
+            30,
+            35
+          ],
+          "normalizedValues": [
+            15,
+            20,
+            25,
+            30,
+            35
+          ]
+        },
+        "SlowRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.05000000074505806
+          ],
+          "normalizedValues": [
+            0.05
+          ]
+        },
+        "SlowDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            1
+          ],
+          "normalizedValues": [
+            1
+          ]
+        },
+        "HitCount": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            3
+          ],
+          "normalizedValues": [
+            3
+          ]
+        },
+        "BuffDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            6
+          ],
+          "normalizedValues": [
+            6
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            5,
+            20,
+            35,
+            50,
+            65,
+            80,
+            95
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DamageRatio",
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseSlow",
+          "values": [
+            10,
+            15,
+            20,
+            25,
+            30,
+            35,
+            40
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowRatio",
+          "values": [
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowDuration",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "HitCount",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BuffDuration",
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "AoeMod": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 0.33000001311302185,
+              "mEndValue": 0.6600000262260437,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "DamageRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalSlow": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseSlow",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "SlowRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "bonus_magic_damage_per_hit",
+          "name": "唤潮之佑每次附加魔法伤害",
+          "description": "TotalDamage = BaseDamage + DamageRatio×来源总法强；每次命中只给出单次量。"
+        },
+        {
+          "formulaKey": "slow_ratio",
+          "name": "唤潮之佑附加减速比例",
+          "description": "TotalSlow = 0.01×(BaseSlow + SlowRatio×来源总法强)。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 20,
+            "2": 35,
+            "3": 50,
+            "4": 65,
+            "5": 80
+          }
+        },
+        {
+          "parameterKey": "damage_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 15,
+            "2": 20,
+            "3": 25,
+            "4": 30,
+            "5": 35
+          }
+        },
+        {
+          "parameterKey": "slow_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.05,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 1000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "empowered_hit_count",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "buff_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 6000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "percent_points_to_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.01,
+          "levelValues": null
+        }
+      ]
+    },
+    "nami_r": {
+      "binding": "Characters/Nami/Spells/NamiRAbility/NamiR",
+      "officialMaxRank": 3,
+      "selectedData": {
+        "BaseDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3
+          ],
+          "sourceValues": [
+            150,
+            250,
+            350
+          ],
+          "normalizedValues": [
+            150,
+            250,
+            350
+          ]
+        },
+        "PassiveUpdateAreaLength": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            200
+          ],
+          "normalizedValues": [
+            200
+          ]
+        },
+        "KnockupDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        },
+        "MinSlowDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            2
+          ],
+          "normalizedValues": [
+            2
+          ]
+        },
+        "MaxSlowDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            4
+          ],
+          "normalizedValues": [
+            4
+          ]
+        },
+        "DistToSlowRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.0020000000949949026
+          ],
+          "normalizedValues": [
+            0.002
+          ]
+        },
+        "SlowAmount": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            70
+          ],
+          "normalizedValues": [
+            70
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            50,
+            150,
+            250,
+            350,
+            450,
+            550,
+            650
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "PassiveUpdateAreaLength",
+          "values": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "KnockupDuration",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MinSlowDuration",
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MaxSlowDuration",
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "DistToSlowRatio",
+          "values": [
+            0.0020000000949949026,
+            0.0020000000949949026,
+            0.0020000000949949026,
+            0.0020000000949949026,
+            0.0020000000949949026,
+            0.0020000000949949026,
+            0.0020000000949949026
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowAmount",
+          "values": [
+            70,
+            70,
+            70,
+            70,
+            70,
+            70,
+            70
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.6000000238418579,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "magic_damage",
+          "name": "怒涛之啸唯一敌人魔法伤害",
+          "description": "TotalDamage = BaseDamage + 0.6×来源总法强。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 150,
+            "2": 250,
+            "3": 350
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.6,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_update_area_length",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 200,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "knockup_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "min_slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 2000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "max_slow_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 4000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "distance_to_slow_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.002,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "slow_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 70,
+          "levelValues": null
+        }
+      ]
+    },
+    "morgana_p": {
+      "binding": "Characters/Morgana/Spells/MorganaPassiveAbility/MorganaPassive",
+      "officialMaxRank": 1,
+      "selectedData": {
+        "HealPercent": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            18
+          ],
+          "normalizedValues": [
+            18
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "HealPercent",
+          "values": [
+            18,
+            18,
+            18,
+            18,
+            18,
+            18,
+            18
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {},
+      "formulas": [],
+      "parameterValues": [
+        {
+          "parameterKey": "heal_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 18,
+          "levelValues": null
+        }
+      ]
+    },
+    "morgana_q": {
+      "binding": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ",
+      "officialMaxRank": 5,
+      "selectedData": {
+        "Damage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            80,
+            135,
+            190,
+            245,
+            300
+          ],
+          "normalizedValues": [
+            80,
+            135,
+            190,
+            245,
+            300
+          ]
+        },
+        "RootDuration": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            2,
+            2.25,
+            2.5,
+            2.75,
+            3
+          ],
+          "normalizedValues": [
+            2,
+            2.25,
+            2.5,
+            2.75,
+            3
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "Damage",
+          "values": [
+            25,
+            80,
+            135,
+            190,
+            245,
+            300,
+            355
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "RootDuration",
+          "values": [
+            1.75,
+            2,
+            2.25,
+            2.5,
+            2.75,
+            3,
+            3.25
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "Damage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.8999999761581421,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "magic_damage",
+          "name": "暗之禁锢唯一敌人魔法伤害",
+          "description": "TotalDamage = Damage + 0.9×来源总法强。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 80,
+            "2": 135,
+            "3": 190,
+            "4": 245,
+            "5": 300
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.9,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "root_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 2000,
+            "2": 2250,
+            "3": 2500,
+            "4": 2750,
+            "5": 3000
+          }
+        }
+      ]
+    },
+    "morgana_w": {
+      "binding": "Characters/Morgana/Spells/MorganaWAbility/MorganaW",
+      "officialMaxRank": 5,
+      "selectedData": {
+        "BaseDamage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            18,
+            31,
+            44,
+            57,
+            70
+          ],
+          "normalizedValues": [
+            18,
+            31,
+            44,
+            57,
+            70
+          ]
+        },
+        "BaseAPRatio": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.20000000298023224
+          ],
+          "normalizedValues": [
+            0.2
+          ]
+        },
+        "TickRate": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.5
+          ],
+          "normalizedValues": [
+            0.5
+          ]
+        },
+        "MissingHealthAmpPercent": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            1
+          ],
+          "normalizedValues": [
+            1
+          ]
+        },
+        "WDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            5
+          ],
+          "normalizedValues": [
+            5
+          ]
+        },
+        "CDRefundPercent": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            0.05000000074505806
+          ],
+          "normalizedValues": [
+            0.05
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "BaseDamage",
+          "values": [
+            5,
+            18,
+            31,
+            44,
+            57,
+            70,
+            83
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "BaseAPRatio",
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "TickRate",
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MissingHealthAmpPercent",
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "WDuration",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "CDRefundPercent",
+          "values": [
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "MonsterMod",
+          "values": [
+            170,
+            170,
+            170,
+            170,
+            170,
+            170,
+            170
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalMinDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "BaseApRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalMaxDamage": {
+          "mMultiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mDataValue": "MissingHealthAmpPercent",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          },
+          "mModifiedGameCalculation": "TotalMinDamage",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "minimum_magic_damage_per_second",
+          "name": "折磨之影最低每秒魔法伤害",
+          "description": "TotalMinDamage = BaseDamage + BaseApRatio×来源总法强。"
+        },
+        {
+          "formulaKey": "maximum_magic_damage_per_second",
+          "name": "折磨之影最高每秒魔法伤害",
+          "description": "TotalMaxDamage = (1+MissingHealthAmpPercent)×TotalMinDamage；接口公式只能引用参数，故内联最低式；实际缺失生命曲线不当作默认最大值。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "base_damage_per_second",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 18,
+            "2": 31,
+            "3": 44,
+            "4": 57,
+            "5": 70
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.2,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "tick_interval_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 500,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "maximum_missing_health_amplification_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "passive_heal_cooldown_refund_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.05,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "one_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 1,
+          "levelValues": null
+        }
+      ]
+    },
+    "morgana_e": {
+      "binding": "Characters/Morgana/Spells/MorganaEAbility/MorganaE",
+      "officialMaxRank": 5,
+      "selectedData": {
+        "ShieldStrength": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sourceValues": [
+            100,
+            155,
+            210,
+            265,
+            320
+          ],
+          "normalizedValues": [
+            100,
+            155,
+            210,
+            265,
+            320
+          ]
+        },
+        "ShieldDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            5
+          ],
+          "normalizedValues": [
+            5
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "ShieldStrength",
+          "values": [
+            45,
+            100,
+            155,
+            210,
+            265,
+            320,
+            375
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ShieldDuration",
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalShieldStrength": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "ShieldStrength",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.699999988079071,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "magic_shield_value",
+          "name": "黑暗之盾自身魔法护盾值",
+          "description": "TotalShieldStrength = ShieldStrength + 0.7×来源总法强；只表达普通魔法护盾数值。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "base_shield",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 100,
+            "2": 155,
+            "3": 210,
+            "4": 265,
+            "5": 320
+          }
+        },
+        {
+          "parameterKey": "shield_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 5000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "shield_ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.7,
+          "levelValues": null
+        }
+      ]
+    },
+    "morgana_r": {
+      "binding": "Characters/Morgana/Spells/MorganaRAbility/MorganaR",
+      "officialMaxRank": 3,
+      "selectedData": {
+        "Damage": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3
+          ],
+          "sourceValues": [
+            200,
+            275,
+            350
+          ],
+          "normalizedValues": [
+            200,
+            275,
+            350
+          ]
+        },
+        "ChainDuration": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            3
+          ],
+          "normalizedValues": [
+            3
+          ]
+        },
+        "StunDuration": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3
+          ],
+          "sourceValues": [
+            1.5,
+            1.75,
+            2
+          ],
+          "normalizedValues": [
+            1.5,
+            1.75,
+            2
+          ]
+        },
+        "SlowPercent": {
+          "sourceDataIndices": [
+            0
+          ],
+          "sourceValues": [
+            20
+          ],
+          "normalizedValues": [
+            20
+          ]
+        },
+        "HastePercent": {
+          "sourceDataIndices": [
+            1,
+            2,
+            3
+          ],
+          "sourceValues": [
+            20,
+            40,
+            60
+          ],
+          "normalizedValues": [
+            20,
+            40,
+            60
+          ]
+        }
+      },
+      "rawDataValues": [
+        {
+          "name": "Damage",
+          "values": [
+            125,
+            200,
+            275,
+            350,
+            425,
+            500,
+            575
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "ChainDuration",
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "StunDuration",
+          "values": [
+            1.25,
+            1.5,
+            1.75,
+            2,
+            2.25,
+            2.5,
+            2.75
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "SlowPercent",
+          "values": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "__type": "SpellDataValue"
+        },
+        {
+          "name": "HastePercent",
+          "values": [
+            0,
+            20,
+            40,
+            60,
+            80,
+            100,
+            120
+          ],
+          "__type": "SpellDataValue"
+        }
+      ],
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "Damage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.800000011920929,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "formulas": [
+        {
+          "formulaKey": "magic_damage",
+          "name": "灵魂镣铐单次唯一敌人魔法伤害",
+          "description": "TotalDamage = Damage + 0.8×来源总法强；同一锁链的后续命中仍由事件层决定是否再次消费。"
+        }
+      ],
+      "parameterValues": [
+        {
+          "parameterKey": "base_damage",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 200,
+            "2": 275,
+            "3": 350
+          }
+        },
+        {
+          "parameterKey": "ap_ratio",
+          "valueType": "DECIMAL",
+          "valueMode": "FIXED",
+          "fixedValue": 0.8,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "chain_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 3000,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "stun_duration_ms",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 1500,
+            "2": 1750,
+            "3": 2000
+          }
+        },
+        {
+          "parameterKey": "slow_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "FIXED",
+          "fixedValue": 20,
+          "levelValues": null
+        },
+        {
+          "parameterKey": "self_haste_percent_points",
+          "valueType": "INTEGER",
+          "valueMode": "SKILL_LEVEL",
+          "fixedValue": null,
+          "levelValues": {
+            "1": 20,
+            "2": 40,
+            "3": 60
+          }
+        }
+      ]
+    }
+  },
+  "scope": {
+    "janna_p": {
+      "pending": [
+        {
+          "kind": "输入缺口",
+          "item": "MSPercentSelf",
+          "reason": "当前DataValues无值，不猜造迦娜自身移速。"
+        },
+        {
+          "kind": "时序",
+          "item": "普攻与和风守护伤害触发",
+          "reason": "当前正文已证载体，具体命中时点未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "一对一无关",
+          "item": "MSPercentAlly",
+          "reason": "纯友军朝迦娜移动收益不属于本轮唯一敌人范围。"
+        }
+      ]
+    },
+    "janna_q": {
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "蓄力、重施、命中与击飞事件",
+          "reason": "树和正文给出数值关系，事件资格及命中时点尚未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "一对一无关",
+          "item": "MinionMod",
+          "reason": "兵线专用分支不进入唯一敌方英雄候选。"
+        }
+      ]
+    },
+    "janna_w": {
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "W主动命中、减速、移动速度应用",
+          "reason": "当前文本与树明确数值，实际目标资格和应用时点未接线。"
+        },
+        {
+          "kind": "来源",
+          "item": "P与W的触发先后",
+          "reason": "W正文已证只追加一次P的BonusDamage；实际运行事件仍待接。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "一对一无关",
+          "item": "纯友军目标收益",
+          "reason": "本轮只保留自身移动速度和唯一敌人主动伤害。"
+        }
+      ]
+    },
+    "janna_e": {
+      "pending": [
+        {
+          "kind": "目标资格",
+          "item": "自身施放与护盾目标",
+          "reason": "当前正文明确友方目标，但没有独立证明自选路径；效果保留为自身候选并不自动触发。"
+        },
+        {
+          "kind": "时序",
+          "item": "控制命中返还冷却与护盾衰减",
+          "reason": "ECDRefundforCC与DecayGracePeriod只保留来源参数，未创建无条件结果或周期过程。"
+        }
+      ],
+      "excluded": []
+    },
+    "janna_r": {
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "持续治疗周期、移动提前结束和击退轨迹",
+          "reason": "当前树只给总持续时间乘法，实际周期与结束时点未证。"
+        },
+        {
+          "kind": "目标资格",
+          "item": "自身是否在附近友军范围内",
+          "reason": "保留自身治疗数值，实际目标判定待补。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "一对一无关",
+          "item": "纯友军额外治疗分配",
+          "reason": "本轮只保留自身可得治疗数值，不生成队友结果。"
+        }
+      ]
+    },
+    "lulu_p": {
+      "pending": [
+        {
+          "kind": "触发",
+          "item": "跟随英雄普攻后发射",
+          "reason": "当前正文明确依附普攻，树没有皮克斯独立施法/攻击事件。"
+        },
+        {
+          "kind": "输入",
+          "item": "角色等级插值曲线",
+          "reason": "只保留无默认运行输入，不从两个端点猜中间等级。"
+        }
+      ],
+      "excluded": []
+    },
+    "lulu_q": {
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "两束命中先后与减速衰减",
+          "reason": "保留同一目标第二束关系和8次衰减参数，事件未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "一对一无关",
+          "item": "MinionMod",
+          "reason": "小兵专用分支不进入唯一敌方英雄候选。"
+        }
+      ]
+    },
+    "lulu_w": {
+      "pending": [
+        {
+          "kind": "目标资格",
+          "item": "友方/敌方分支与自身施放",
+          "reason": "当前正文明确两分支；自身是否可选及事件时序未单独接线。"
+        },
+        {
+          "kind": "控制",
+          "item": "敌方变形、沉默、缴械、减速",
+          "reason": "这些是控制载体，参数保留但本轮不凭自由状态键创建控制结果。"
+        }
+      ],
+      "excluded": []
+    },
+    "lulu_e": {
+      "pending": [
+        {
+          "kind": "目标资格",
+          "item": "自身护盾路径",
+          "reason": "当前正文给出友方护盾与敌方伤害分支，但未单独证明自选资格；不自动触发。"
+        },
+        {
+          "kind": "时序",
+          "item": "皮克斯附着和伤害/护盾应用",
+          "reason": "持续时间参数保留，事件和实际应用时点未接线。"
+        }
+      ],
+      "excluded": []
+    },
+    "lulu_r": {
+      "pending": [
+        {
+          "kind": "目标资格",
+          "item": "自身施放与友方生命增益",
+          "reason": "当前正文说明友方目标，实际自选资格待补；候选不自动施加。"
+        },
+        {
+          "kind": "时序",
+          "item": "范围击飞、减速与目标分配",
+          "reason": "保留持续和几何参数，未创建多目标控制或位移过程。"
+        }
+      ],
+      "excluded": []
+    },
+    "nami_p": {
+      "pending": [
+        {
+          "kind": "目标资格",
+          "item": "娜美自身是否计入友方英雄",
+          "reason": "当前正文只写命中友方英雄，未单独证明自触发；不创建无条件自身效果。"
+        },
+        {
+          "kind": "时序",
+          "item": "技能命中与大招倍增",
+          "reason": "保留UltMult及持续时间，触发事件未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "一对一无关",
+          "item": "纯友方移动速度收益",
+          "reason": "本轮不生成队友效果，仅保存可审数学量。"
+        }
+      ]
+    },
+    "nami_q": {
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "命中、击飞和目标资格",
+          "reason": "保留StunDuration参数，未创建控制结果。"
+        }
+      ],
+      "excluded": []
+    },
+    "nami_w": {
+      "pending": [
+        {
+          "kind": "目标资格",
+          "item": "起始目标、自身治疗目标和可见后续目标",
+          "reason": "当前正文只保证交替且每个目标一次；实际目标筛选与是否能自选自身待补。"
+        },
+        {
+          "kind": "时序",
+          "item": "两目标先后",
+          "reason": "本轮按自身→敌人或敌人→自身分别给出首段/第二段公式，不把3跳当必然。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "一对一边界",
+          "item": "第三个目标",
+          "reason": "MaxTargets=3是全局上限；本轮唯一敌人边界最多两个不同目标。"
+        }
+      ]
+    },
+    "nami_e": {
+      "pending": [
+        {
+          "kind": "目标资格",
+          "item": "自身施放资格",
+          "reason": "当前正文写友方英雄，未直接证明娜美自身必然可选；不自动生成自身效果。"
+        },
+        {
+          "kind": "时序",
+          "item": "三次强化命中与持续时间",
+          "reason": "保留HitCount和BuffDuration，事件和间隔未接线。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "一对一无关",
+          "item": "AoEMod非英雄分支",
+          "reason": "AoeMod是非英雄单位群体伤害修正，本轮唯一敌方英雄不录入。"
+        }
+      ]
+    },
+    "nami_r": {
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "同一目标命中、距离减速曲线与控制",
+          "reason": "保留首段伤害和控制数值，未创建击飞/减速结果。"
+        },
+        {
+          "kind": "触发",
+          "item": "大招对友方的P倍增",
+          "reason": "纯友方收益不进入本轮效果，但PassiveUpdateAreaLength保留作来源参数。"
+        }
+      ],
+      "excluded": []
+    },
+    "morgana_p": {
+      "pending": [
+        {
+          "kind": "触发",
+          "item": "符合目标伤害后的治疗与目标类别",
+          "reason": "保留18百分数点，实际伤害事件、目标类别和治疗时点未接线。"
+        }
+      ],
+      "excluded": []
+    },
+    "morgana_q": {
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "命中与禁锢控制",
+          "reason": "保留RootDuration，未创建控制结果。"
+        }
+      ],
+      "excluded": []
+    },
+    "morgana_w": {
+      "pending": [
+        {
+          "kind": "输入",
+          "item": "目标缺失生命到增幅的实际曲线",
+          "reason": "当前树只有最大分支，缺失生命过程无完整求值式，不能补默认。"
+        },
+        {
+          "kind": "条件",
+          "item": "P治疗后W冷却返还",
+          "reason": "保留5%条件参数，P实际治疗事件和W冷却连接未接线。"
+        },
+        {
+          "kind": "时序",
+          "item": "每跳伤害",
+          "reason": "TickRate与每秒树分开保存，不把每秒值直接当单跳值。"
+        }
+      ],
+      "excluded": [
+        {
+          "kind": "一对一无关",
+          "item": "MonsterMod",
+          "reason": "野怪专用倍率不进入唯一敌方英雄范围。"
+        }
+      ]
+    },
+    "morgana_e": {
+      "pending": [
+        {
+          "kind": "目标资格",
+          "item": "自身施放",
+          "reason": "当前正文为友方英雄目标，是否包括自身仍需目标证据。"
+        },
+        {
+          "kind": "控制",
+          "item": "限制/定身免疫",
+          "reason": "与魔法伤害护盾分开记录；本轮不凭未知状态键创建伪控制结果。"
+        }
+      ],
+      "excluded": []
+    },
+    "morgana_r": {
+      "pending": [
+        {
+          "kind": "时序",
+          "item": "同一目标第二段伤害、断链与控制",
+          "reason": "保留链条/眩晕/减速参数，未创建重复伤害或控制事件。"
+        }
+      ],
+      "excluded": []
+    }
+  },
+  "noApiCalls": true
+}

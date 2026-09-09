@@ -1,0 +1,55 @@
+{
+  "i": 61,
+  "intent": {
+    "sequence": 62,
+    "method": "POST",
+    "route": "/skills/lulu_p/formulas",
+    "detailRoute": "/skills/lulu_p/formulas/combined_magic_damage",
+    "skillKey": "lulu_p",
+    "kind": "formulas",
+    "stableKey": "combined_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "combined_magic_damage",
+      "name": "皮克斯同一普攻合计魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bolts_per_attack"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_character_level_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio_per_bolt"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "CombinedDamage = NumberOfBolts×TotalDamage；接口公式只能引用参数，故内联单颗飞弹公式；同一普攻、同一目标的三颗飞弹合计。",
+      "sortOrder": 20
+    }
+  }
+}

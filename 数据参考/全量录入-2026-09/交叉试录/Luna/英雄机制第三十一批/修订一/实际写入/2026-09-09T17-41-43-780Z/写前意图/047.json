@@ -1,0 +1,23 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 47,
+    "method": "POST",
+    "route": "/skills/janna_r/parameters",
+    "detailRoute": "/skills/janna_r/parameters/heal_ap_ratio",
+    "skillKey": "janna_r",
+    "kind": "parameters",
+    "stableKey": "heal_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_ap_ratio",
+      "name": "每秒治疗法强比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.5,
+      "levelValues": null,
+      "description": "HealPerSecond树的StatByCoefficient系数为0.5×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

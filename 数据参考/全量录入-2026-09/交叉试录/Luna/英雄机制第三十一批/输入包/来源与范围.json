@@ -1,0 +1,4390 @@
+{
+  "generatedAt": "2026-09-09T16:27:19.910Z",
+  "batch": "第三十一批迦娜璐璐娜美莫甘娜",
+  "sourceVersions": {
+    "client": "16.17",
+    "official": "16.17.1"
+  },
+  "sourceIndexSha256": "2fbc14396fcc4e75b8755bb51da5a039ed8bd5ed7780e6140d3ac35ecdb5fba8",
+  "stringTableRawSha256": "3bdb4829379195044927237f2c5a97609cb872d1dbd1eb597edffa797333e031",
+  "categories": {
+    "recordable": "来源正文、当前计算树或明确数据可直接进入后续候选的范围；自身护盾、回血、自身增益、唯一敌人伤害与控制及同一目标多跳优先保留。",
+    "oneVsOneIrrelevant": "本轮唯一敌方英雄1V1明确无关的纯友方收益或非英雄专属分支。",
+    "unknownTimingOrCurve": "来源存在但时序、曲线、目标资格、属性映射或运行接线未证的内容；保留为待核问题，不当作排除。"
+  },
+  "skills": {
+    "janna_p": {
+      "heroId": "Janna",
+      "slot": "P",
+      "name": "迦娜",
+      "binding": "Characters/Janna/Spells/TailwindSelfAbility/TailwindSelf",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "MSPercentAlly",
+        "MSPercentSelf",
+        "MSBonusMagicDamage"
+      ],
+      "clientCalculationNames": [
+        "MSToOnHitConversionRate",
+        "BonusDamage"
+      ],
+      "sourceDataValues": {
+        "MSPercentAlly": {
+          "values": [
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549
+          ],
+          "type": "SpellDataValue"
+        },
+        "MSPercentSelf": {
+          "values": null,
+          "type": "SpellDataValue"
+        },
+        "MSBonusMagicDamage": {
+          "values": [
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896,
+            0.30000001192092896
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "MSToOnHitConversionRate": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MSBonusMagicDamage",
+              "__type": "NamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "BonusDamage": {
+          "{72c5c2a8}": 1,
+          "mFormulaParts": [
+            {
+              "mStat": 7,
+              "mStatFormula": 2,
+              "mDataValue": "MSBonusMagicDamage",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "顺风而行",
+          "description": "迦娜的友军在朝她移动时获得移动速度。<br><br>迦娜的普攻和【和风守护】会附带一部分额外移动速度的额外魔法伤害。",
+          "tooltip": null,
+          "cooldown": null,
+          "cost": null,
+          "resource": null
+        },
+        "en": {
+          "name": "Tailwind",
+          "description": "Janna's allies gain Move Speed moving towards her.<br><br>Janna deals a portion of bonus Move Speed as bonus magic damage on hit and with Zephyr.",
+          "tooltip": null,
+          "cooldown": null,
+          "cost": null,
+          "resource": null
+        }
+      },
+      "currentGET": {
+        "heroId": "Janna",
+        "heroName": "迦娜",
+        "slot": "P",
+        "name": "Spell_TailwindSelf_Name",
+        "classification": "empty",
+        "action": "无已有组成，后续候选可按来源范围建立",
+        "existingPublicParameterKeys": [],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 0,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "自身移速增益和自身对唯一敌人的被动伤害换算载体按根数据与计算树核对",
+          "MSBonusMagicDamage及两个计算树保留为候选来源范围"
+        ],
+        "oneVsOneIrrelevant": [
+          "纯友方移速光环收益"
+        ],
+        "unknownTimingOrCurve": [
+          "MSPercentSelf当前数据缺值",
+          "普攻触发、伤害时点和移速来源属性映射未由来源树单独证明"
+        ]
+      }
+    },
+    "janna_q": {
+      "heroId": "Janna",
+      "slot": "Q",
+      "name": "迦娜",
+      "binding": "Characters/Janna/Spells/HowlingGaleAbility/HowlingGale",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "MissileTravelTime",
+        "MinionMod",
+        "BaseRange",
+        "MinDamage",
+        "MinimumRatio",
+        "BonusDamage",
+        "BonusRatio",
+        "ChargeDistancePercent",
+        "BaseKnockup",
+        "ChargeKnockup",
+        "MaxDuration"
+      ],
+      "clientCalculationNames": [
+        "MinimumDamage",
+        "ExtraDamagePerSecondCharged",
+        "MaxDamage",
+        "MaxKnockup"
+      ],
+      "sourceDataValues": {
+        "MissileTravelTime": {
+          "values": [
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25,
+            1.25
+          ],
+          "type": "SpellDataValue"
+        },
+        "MinionMod": {
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "type": "SpellDataValue"
+        },
+        "BaseRange": {
+          "values": [
+            1100,
+            1100,
+            1100,
+            1100,
+            1100,
+            1100,
+            1100
+          ],
+          "type": "SpellDataValue"
+        },
+        "MinDamage": {
+          "values": [
+            20,
+            55,
+            90,
+            125,
+            160,
+            195,
+            230
+          ],
+          "type": "SpellDataValue"
+        },
+        "MinimumRatio": {
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "BonusDamage": {
+          "values": [
+            5,
+            10,
+            15,
+            20,
+            25,
+            30,
+            35
+          ],
+          "type": "SpellDataValue"
+        },
+        "BonusRatio": {
+          "values": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "type": "SpellDataValue"
+        },
+        "ChargeDistancePercent": {
+          "values": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "type": "SpellDataValue"
+        },
+        "BaseKnockup": {
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "ChargeKnockup": {
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "type": "SpellDataValue"
+        },
+        "MaxDuration": {
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "MinimumDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "MinDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "MinimumRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "ExtraDamagePerSecondCharged": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BonusDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "BonusRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MaxDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mExpandedTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "MinDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "MinimumRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            },
+            {
+              "mPart1": {
+                "mDataValue": "MaxDuration",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mPart2": {
+                "mSubparts": [
+                  {
+                    "mDataValue": "BonusDamage",
+                    "__type": "NamedDataValueCalculationPart"
+                  },
+                  {
+                    "mDataValue": "BonusRatio",
+                    "__type": "StatByNamedDataValueCalculationPart"
+                  }
+                ],
+                "__type": "SumOfSubPartsCalculationPart"
+              },
+              "__type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "MaxKnockup": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseKnockup",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mPart1": {
+                "mDataValue": "MaxDuration",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "mPart2": {
+                "mDataValue": "ChargeKnockup",
+                "__type": "NamedDataValueCalculationPart"
+              },
+              "__type": "ProductOfSubPartsCalculationPart"
+            }
+          ],
+          "mPrecision": 2,
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "飓风呼啸",
+          "description": "迦娜改变气压和温度，在目标区域召唤小型风暴，风暴体积随时间增大。她可以再次施放该技能来释放风暴。风暴会朝向施放方向飞行，对沿途的所有单位造成伤害和击飞效果。",
+          "tooltip": "迦娜召唤一道在{{ maxduration }}秒里持续聚集的飓风，随后沿路猛刮出去。飓风对目标造成<magicDamage>{{ minimumdamage }} - {{ maxdamage }}魔法伤害</magicDamage>和{{ baseknockup }} - {{ maxknockup }}秒<status>击飞</status>。移动距离、伤害和<status>击飞</status>时长都基于飓风聚集的时长。迦娜可以<recast>再次施放</recast>来提前将飓风刮出去。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            14,
+            14,
+            14,
+            14,
+            14
+          ],
+          "cost": [
+            90,
+            95,
+            100,
+            105,
+            110
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Howling Gale",
+          "description": "By creating a localized change in pressure and temperature, Janna is able to create a small storm that grows in size with time. She can activate the spell again to release the storm. On release this storm will fly towards the direction it was cast in, dealing damage and knocking away any enemies in its path.",
+          "tooltip": "Janna summons a tornado that grows stronger over {{ maxduration }} seconds then blows along its path. It deals <magicDamage>{{ minimumdamage }} - {{ maxdamage }} magic damage</magicDamage> and <status>Knocks Up</status> for {{ baseknockup }} - {{ maxknockup }} seconds. The distance, damage, and <status>Knock Up</status> duration increase based on how much the tornado grew. Janna can <recast>Recast</recast> to send the tornado early.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            14,
+            14,
+            14,
+            14,
+            14
+          ],
+          "cost": [
+            90,
+            95,
+            100,
+            105,
+            110
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Janna",
+        "heroName": "迦娜",
+        "slot": "Q",
+        "name": "Spell_HowlingGale_Name",
+        "classification": "partialPublic",
+        "action": "只有部分公共参数，候选保留现有并只补缺项",
+        "existingPublicParameterKeys": [
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 1,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/janna_q/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "唯一敌人伤害、最小蓄力与满蓄力根计算、击飞时长和射程参数",
+          "同一目标命中载体保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "兵线专用MinionMod分支"
+        ],
+        "unknownTimingOrCurve": [
+          "蓄力时长与飞行时序、二次命中资格、击飞事件接线和根树显示精度"
+        ]
+      }
+    },
+    "janna_w": {
+      "heroId": "Janna",
+      "slot": "W",
+      "name": "迦娜",
+      "binding": "Characters/Janna/Spells/SowTheWindAbility/SowTheWind",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "MSPercent",
+        "BaseDamage",
+        "APRatio",
+        "SlowDuration",
+        "SlowPercent",
+        "MSAPRatio",
+        "SlowAPRatio"
+      ],
+      "clientCalculationNames": [
+        "TotalMS",
+        "TotalDamage",
+        "TotalSlow"
+      ],
+      "sourceDataValues": {
+        "MSPercent": {
+          "values": [
+            0.05000000074505806,
+            0.05999999865889549,
+            0.07000000029802322,
+            0.07999999821186066,
+            0.09000000357627869,
+            0.10000000149011612,
+            0.10999999940395355
+          ],
+          "type": "SpellDataValue"
+        },
+        "BaseDamage": {
+          "values": [
+            25,
+            55,
+            85,
+            115,
+            145,
+            175,
+            205
+          ],
+          "type": "SpellDataValue"
+        },
+        "APRatio": {
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "SlowDuration": {
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "type": "SpellDataValue"
+        },
+        "SlowPercent": {
+          "values": [
+            16,
+            20,
+            24,
+            28,
+            32,
+            36,
+            40
+          ],
+          "type": "SpellDataValue"
+        },
+        "MSAPRatio": {
+          "values": [
+            0.00019999999494757503,
+            0.00019999999494757503,
+            0.00019999999494757503,
+            0.00019999999494757503,
+            0.00019999999494757503,
+            0.00019999999494757503,
+            0.00019999999494757503
+          ],
+          "type": "SpellDataValue"
+        },
+        "SlowAPRatio": {
+          "values": [
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549,
+            0.05999999865889549
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalMS": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "MSPercent",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "MSAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "mPrecision": 1,
+          "__type": "GameCalculation"
+        },
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalSlow": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "SlowPercent",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "SlowAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "和风守护",
+          "description": "迦娜召唤出一个空气元素灵体，来被动地提升她的移动速度，并使她能够穿越单位。她也可以主动激活这个技能，来对一个敌人造成伤害和减速效果。",
+          "tooltip": "<spellPassive>被动：</spellPassive>迦娜获得<speed>{{ totalms }}移动速度</speed>并处在幽灵状态。<br /><br /><spellActive>主动：</spellActive>迦娜的风灵打击一名敌人，对其造成持续{{ slowduration }}秒的{{ totalslow }}<status>减速</status>和<magicDamage>{{ totaldamage }} + {{ spell.tailwindself:bonusdamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            8,
+            7.5,
+            7,
+            6.5,
+            6
+          ],
+          "cost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Zephyr",
+          "description": "Janna summons an air elemental that passively increases her Move Speed and enables her to pass through units. She may also activate this ability to deal damage and slow an enemy's Move Speed.",
+          "tooltip": "<spellPassive>Passive:</spellPassive> Janna gains <speed>{{ totalms }} Move Speed</speed> and is Ghosted.<br /><br /><spellActive>Active:</spellActive> Janna's elemental strikes an enemy, <status>Slowing</status> them by {{ totalslow }} for {{ slowduration }} seconds, and dealing <magicDamage>{{ totaldamage }} + {{ spell.tailwindself:bonusdamage }} magic damage</magicDamage>.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            8,
+            7.5,
+            7,
+            6.5,
+            6
+          ],
+          "cost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Janna",
+        "heroName": "迦娜",
+        "slot": "W",
+        "name": "Spell_SowTheWind_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/janna_w/parameters/cooldown_ms",
+          "/skills/janna_w/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "对唯一敌人的魔法伤害、减速和自身移动速度增益",
+          "TotalDamage、TotalSlow和TotalMS的根乘数保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "纯友方目标收益"
+        ],
+        "unknownTimingOrCurve": [
+          "移动速度和减速应用时点、持续衰减、技能伤害属性口径和tooltipOnly计算的运行接线"
+        ]
+      }
+    },
+    "janna_e": {
+      "heroId": "Janna",
+      "slot": "E",
+      "name": "迦娜",
+      "binding": "Characters/Janna/Spells/EyeOfTheStormAbility/EyeOfTheStorm",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "ECDRefundforCC",
+        "EmpowerDuration",
+        "EmpowerPercent",
+        "DecayGracePeriod",
+        "BaseShield",
+        "ShieldAPRatio",
+        "BonusAD",
+        "ADAPRatio",
+        "ShieldDuration"
+      ],
+      "clientCalculationNames": [
+        "TotalShield",
+        "TotalAD"
+      ],
+      "sourceDataValues": {
+        "ECDRefundforCC": {
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ],
+          "type": "SpellDataValue"
+        },
+        "EmpowerDuration": {
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "type": "SpellDataValue"
+        },
+        "EmpowerPercent": {
+          "values": null,
+          "type": "SpellDataValue"
+        },
+        "DecayGracePeriod": {
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "type": "SpellDataValue"
+        },
+        "BaseShield": {
+          "values": [
+            40,
+            80,
+            120,
+            160,
+            200,
+            240,
+            280
+          ],
+          "type": "SpellDataValue"
+        },
+        "ShieldAPRatio": {
+          "values": [
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929,
+            0.550000011920929
+          ],
+          "type": "SpellDataValue"
+        },
+        "BonusAD": {
+          "values": [
+            5,
+            10,
+            15,
+            20,
+            25,
+            30,
+            35
+          ],
+          "type": "SpellDataValue"
+        },
+        "ADAPRatio": {
+          "values": [
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612,
+            0.10000000149011612
+          ],
+          "type": "SpellDataValue"
+        },
+        "ShieldDuration": {
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalShield": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseShield",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "ShieldAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalAD": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BonusAD",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "ADAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "风暴之眼",
+          "description": "迦娜制造出一阵防御性的气旋，来为目标友军或防御塔吸收即将到来的伤害，并提高目标的攻击力。",
+          "tooltip": "迦娜为一个友军或防御塔提供持续{{ shieldduration }}秒的<shield>{{ totalshield }}护盾值</shield>。在护盾存在时，该友军目标获得<scaleAD>{{ totalad }}攻击力</scaleAD>。<br /><br />迦娜在每次用一个技能使一名敌方英雄的移动速度受损时，会使这个冷却时间缩短{{ ecdrefundforcc*100 }}%。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            16,
+            15,
+            14,
+            13,
+            12
+          ],
+          "cost": [
+            70,
+            75,
+            80,
+            85,
+            90
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Eye Of The Storm",
+          "description": "Janna conjures a defensive gale that shields an ally champion or turret from incoming damage and increases their Attack Damage.",
+          "tooltip": "Janna grants an ally champion or turret <shield>{{ totalshield }} Shield</shield> for {{ shieldduration }} seconds. While shielded, they gain <scaleAD>{{ totalad }} Attack Damage</scaleAD>.<br /><br />Janna refunds {{ ecdrefundforcc*100 }}% of the cooldown whenever she impairs an enemy champion's movement with an Ability.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            16,
+            15,
+            14,
+            13,
+            12
+          ],
+          "cost": [
+            70,
+            75,
+            80,
+            85,
+            90
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Janna",
+        "heroName": "迦娜",
+        "slot": "E",
+        "name": "Spell_EyeOfTheStorm_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/janna_e/parameters/cooldown_ms",
+          "/skills/janna_e/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "自身可获得的护盾、攻击力增益及对唯一敌人的相关伤害载体按当前消费树保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "只能作用纯友方且本轮不取自身的分支"
+        ],
+        "unknownTimingOrCurve": [
+          "护盾目标资格、衰减宽限、控制减冷却、增益持续和自身施放资格"
+        ]
+      }
+    },
+    "janna_r": {
+      "heroId": "Janna",
+      "slot": "R",
+      "name": "迦娜",
+      "binding": "Characters/Janna/Spells/ReapTheWhirlwindAbility/ReapTheWhirlwind",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "HealBasePerSecond",
+        "Duration",
+        "Range",
+        "MaxKnockback",
+        "KnockbackBaseRange",
+        "KnockbackSpeed",
+        "KnockbackGravity",
+        "KnockbackDuration"
+      ],
+      "clientCalculationNames": [
+        "HealPerSecond",
+        "TotalHeal"
+      ],
+      "sourceDataValues": {
+        "HealBasePerSecond": {
+          "values": [
+            50,
+            100,
+            150,
+            200,
+            250,
+            300,
+            350
+          ],
+          "type": "SpellDataValue"
+        },
+        "Duration": {
+          "values": [
+            0,
+            3,
+            3,
+            3,
+            0,
+            0,
+            0
+          ],
+          "type": "SpellDataValue"
+        },
+        "Range": {
+          "values": [
+            700,
+            700,
+            700,
+            700,
+            700,
+            700,
+            700
+          ],
+          "type": "SpellDataValue"
+        },
+        "MaxKnockback": {
+          "values": [
+            875,
+            875,
+            875,
+            875,
+            875,
+            875,
+            875
+          ],
+          "type": "SpellDataValue"
+        },
+        "KnockbackBaseRange": {
+          "values": [
+            875,
+            875,
+            875,
+            875,
+            875,
+            875,
+            875
+          ],
+          "type": "SpellDataValue"
+        },
+        "KnockbackSpeed": {
+          "values": [
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200,
+            1200
+          ],
+          "type": "SpellDataValue"
+        },
+        "KnockbackGravity": {
+          "values": [
+            10,
+            10,
+            10,
+            10,
+            10,
+            10,
+            10
+          ],
+          "type": "SpellDataValue"
+        },
+        "KnockbackDuration": {
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "HealPerSecond": {
+          "mExpandedTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "HealBasePerSecond",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.5,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalHeal": {
+          "mMultiplier": {
+            "mDataValue": "Duration",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "tooltipOnly": true,
+          "mModifiedGameCalculation": "HealPerSecond",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "复苏季风",
+          "description": "迦娜召唤魔法风暴围绕自己，将敌人击退。在风暴平息后，当技能仍处在激活状态时，和风将治疗附近的友军。",
+          "tooltip": "迦娜召唤一阵魔法季风，<status>击退</status>附近的敌人们然后在{{ duration }}秒里持续治疗附近的友军共<healing>{{ totalheal }}生命值</healing>。移动或使用技能都会提前结束这阵季风。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            130,
+            115,
+            100
+          ],
+          "cost": [
+            100,
+            100,
+            100
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Monsoon",
+          "description": "Janna surrounds herself in a magical storm, throwing enemies back. After the storm has settled, soothing winds heal nearby allies while the ability is active.",
+          "tooltip": "Janna summons a magical monsoon, <status>Knocking Back</status> nearby enemies then healing nearby allies for <healing>{{ totalheal }} Health</healing> over {{ duration }} seconds. Moving or using an Ability ends the monsoon early.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            130,
+            115,
+            100
+          ],
+          "cost": [
+            100,
+            100,
+            100
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Janna",
+        "heroName": "迦娜",
+        "slot": "R",
+        "name": "Spell_ReapTheWhirlwind_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/janna_r/parameters/cooldown_ms",
+          "/skills/janna_r/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "自身可获得的持续治疗、唯一敌人击退控制和同一目标持续过程载体",
+          "HealPerSecond与TotalHeal根树保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "纯友方额外治疗收益"
+        ],
+        "unknownTimingOrCurve": [
+          "持续治疗周期、击退轨迹、目标资格、最大击退与引导时序"
+        ]
+      }
+    },
+    "lulu_p": {
+      "heroId": "Lulu",
+      "slot": "P",
+      "name": "璐璐",
+      "binding": "Characters/Lulu/Spells/LuluPassiveAbility/LuluPassive",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "NumberOfBolts",
+        "APRatioPerHit"
+      ],
+      "clientCalculationNames": [
+        "TotalDamage",
+        "CombinedDamage"
+      ],
+      "sourceDataValues": {
+        "NumberOfBolts": {
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "type": "SpellDataValue"
+        },
+        "APRatioPerHit": {
+          "values": [
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 5,
+              "mEndValue": 39,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            },
+            {
+              "mDataValue": "APRatioPerHit",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "CombinedDamage": {
+          "mMultiplier": {
+            "mDataValue": "NumberOfBolts",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mModifiedGameCalculation": "TotalDamage",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "皮克斯，仙灵伙伴",
+          "description": "每当皮克斯正在跟随的英雄进行攻击时，皮克斯就会发射魔法飞弹。这些飞弹会自动寻敌，但也会被其它单位所拦截。",
+          "tooltip": null,
+          "cooldown": null,
+          "cost": null,
+          "resource": null
+        },
+        "en": {
+          "name": "Pix, Faerie Companion",
+          "description": "Pix fires magical bolts of energy whenever the champion he's following attacks another enemy unit. These bolts are homing, but can be intercepted by other units.",
+          "tooltip": null,
+          "cooldown": null,
+          "cost": null,
+          "resource": null
+        }
+      },
+      "currentGET": {
+        "heroId": "Lulu",
+        "heroName": "璐璐",
+        "slot": "P",
+        "name": "Spell_LuluPassive_Name",
+        "classification": "empty",
+        "action": "无已有组成，后续候选可按来源范围建立",
+        "existingPublicParameterKeys": [],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 0,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "皮克斯弹体数量、每次伤害法强倍率和同一普攻载体的合计伤害树"
+        ],
+        "oneVsOneIrrelevant": [
+          "纯友方增益分支如后续来源明确为独立友方收益"
+        ],
+        "unknownTimingOrCurve": [
+          "皮克斯是否构成独立自主召唤载体、弹体触发与同一目标命中时序；不能仅凭名称排除"
+        ]
+      }
+    },
+    "lulu_q": {
+      "heroId": "Lulu",
+      "slot": "Q",
+      "name": "璐璐",
+      "binding": "Characters/Lulu/Spells/LuluQAbility/LuluQ",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "MinionMod",
+        "DoubleHitBonus",
+        "APRatio",
+        "BaseDamage",
+        "SlowAmount",
+        "SlowDuration",
+        "SlowDecayTicks"
+      ],
+      "clientCalculationNames": [
+        "TotalDamage",
+        "BonusMissileDamage"
+      ],
+      "sourceDataValues": {
+        "MinionMod": {
+          "values": [
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071,
+            0.699999988079071
+          ],
+          "type": "SpellDataValue"
+        },
+        "DoubleHitBonus": {
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "APRatio": {
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "BaseDamage": {
+          "values": [
+            25,
+            60,
+            95,
+            130,
+            165,
+            200,
+            235
+          ],
+          "type": "SpellDataValue"
+        },
+        "SlowAmount": {
+          "values": [
+            -0.800000011920929,
+            -0.800000011920929,
+            -0.800000011920929,
+            -0.800000011920929,
+            -0.800000011920929,
+            -0.800000011920929,
+            -0.800000011920929
+          ],
+          "type": "SpellDataValue"
+        },
+        "SlowDuration": {
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "type": "SpellDataValue"
+        },
+        "SlowDecayTicks": {
+          "values": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BonusMissileDamage": {
+          "mMultiplier": {
+            "mDataValue": "DoubleHitBonus",
+            "__type": "NamedDataValueCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "闪耀长枪",
+          "description": "璐璐和皮克斯各自发射一个穿刺飞弹，对命中的所有敌人造成伤害和重度减速效果。",
+          "tooltip": "璐璐和皮克斯各发射一束贯穿魔弹，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>和在{{ slowduration }}秒里持续衰减的{{ slowamount*-100 }}%<status>减速</status>。<br /><br />如果两束魔弹都命中了相同的一名敌人，那么会对其造成额外的<magicDamage>{{ bonusmissiledamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "cost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Glitterlance",
+          "description": "Pix and Lulu each fire a bolt of magical energy that damages and heavily slows all enemies it hits.",
+          "tooltip": "Lulu and Pix each fire a piercing bolt dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> and <status>Slowing</status> by {{ slowamount*-100 }}%, decaying over {{ slowduration }} seconds.<br /><br />Enemies take <magicDamage>{{ bonusmissiledamage }} magic damage</magicDamage> from additional bolts.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "cost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Lulu",
+        "heroName": "璐璐",
+        "slot": "Q",
+        "name": "Spell_LuluQ_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/lulu_q/parameters/cooldown_ms",
+          "/skills/lulu_q/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "对唯一敌人的伤害、双弹体第二次命中修正、减速和持续时间",
+          "同一目标两次命中关系保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "小兵专用MinionMod分支"
+        ],
+        "unknownTimingOrCurve": [
+          "双弹体先后命中、第二次命中资格、减速衰减和伤害类型接线"
+        ]
+      }
+    },
+    "lulu_w": {
+      "heroId": "Lulu",
+      "slot": "W",
+      "name": "璐璐",
+      "binding": "Characters/Lulu/Spells/LuluWAbility/LuluW",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "BaseMS",
+        "CCDuration",
+        "SlowAmount",
+        "MSDuration",
+        "AmountToMultiplyCoefficient2ByForPurposesOfCalculatingMovementSpeed",
+        "ASBonus"
+      ],
+      "clientCalculationNames": [
+        "TotalMS"
+      ],
+      "sourceDataValues": {
+        "BaseMS": {
+          "values": [
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25,
+            0.25
+          ],
+          "type": "SpellDataValue"
+        },
+        "CCDuration": {
+          "values": [
+            1,
+            1.2000000476837158,
+            1.399999976158142,
+            1.600000023841858,
+            1.7999999523162842,
+            2,
+            2.200000047683716
+          ],
+          "type": "SpellDataValue"
+        },
+        "SlowAmount": {
+          "values": [
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60,
+            -60
+          ],
+          "type": "SpellDataValue"
+        },
+        "MSDuration": {
+          "values": [
+            2.75,
+            3,
+            3.25,
+            3.5,
+            3.75,
+            4,
+            4.25
+          ],
+          "type": "SpellDataValue"
+        },
+        "AmountToMultiplyCoefficient2ByForPurposesOfCalculatingMovementSpeed": {
+          "values": [
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582,
+            0.009999999776482582
+          ],
+          "type": "SpellDataValue"
+        },
+        "ASBonus": {
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.22499999403953552,
+            0.25,
+            0.2750000059604645,
+            0.30000001192092896,
+            0.30000001192092896
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalMS": {
+          "tooltipOnly": true,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseMS",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.0005000000237487257,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "奇思妙想",
+          "description": "如果对友军施放，会暂时增加目标友军的攻击速度和移动速度。如果对敌人施放，会将一名敌方英雄变成可爱的动物，使其无法攻击或施法。",
+          "tooltip": "当用在一名友方身上时，璐璐提供<speed>{{ totalms }}移动速度</speed>和<attackSpeed>{{ asbonus*100 }}%攻击速度</attackSpeed>，持续{{ msduration }}秒。<br /><br />当用在一名敌人身上时，璐璐会将其<status>变形</status>{{ ccduration }}秒。  {{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            18,
+            18,
+            18,
+            18,
+            18
+          ],
+          "cost": [
+            65,
+            65,
+            65,
+            65,
+            65
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Whimsy",
+          "description": "If cast on an ally, grants them Attack Speed and Move Speed for a short time. If cast on an enemy, turns them into an adorable critter that can't attack or cast spells.",
+          "tooltip": "When used on an ally, Lulu grants <speed>{{ totalms }} Move Speed</speed> and <attackSpeed>{{ asbonus*100 }}% Attack Speed</attackSpeed> for {{ msduration }} seconds.<br /><br />When used on an enemy, Lulu <status>Polymorphs</status> them for {{ ccduration }} seconds.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            18,
+            18,
+            18,
+            18,
+            18
+          ],
+          "cost": [
+            65,
+            65,
+            65,
+            65,
+            65
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Lulu",
+        "heroName": "璐璐",
+        "slot": "W",
+        "name": "Spell_LuluW_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/lulu_w/parameters/cooldown_ms",
+          "/skills/lulu_w/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "自身移动速度或攻速增益、唯一敌人的控制或减速载体及对应持续参数"
+        ],
+        "oneVsOneIrrelevant": [
+          "纯友方移动或攻速收益"
+        ],
+        "unknownTimingOrCurve": [
+          "友方与敌方分支资格、TotalMS根树显示精度、变形/减速时序和持续曲线"
+        ]
+      }
+    },
+    "lulu_e": {
+      "heroId": "Lulu",
+      "slot": "E",
+      "name": "璐璐",
+      "binding": "Characters/Lulu/Spells/LuluEAbility/LuluE",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "BaseDamage",
+        "DamageAPRatio",
+        "BaseShield",
+        "ShieldAPRatio",
+        "ShieldDuration",
+        "PixOnAllyDuration",
+        "PixOnEnemyDuration"
+      ],
+      "clientCalculationNames": [
+        "TotalDamage",
+        "TotalShield"
+      ],
+      "sourceDataValues": {
+        "BaseDamage": {
+          "values": [
+            30,
+            70,
+            110,
+            150,
+            190,
+            230,
+            270
+          ],
+          "type": "SpellDataValue"
+        },
+        "DamageAPRatio": {
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "BaseShield": {
+          "values": [
+            30,
+            70,
+            110,
+            150,
+            190,
+            230,
+            270
+          ],
+          "type": "SpellDataValue"
+        },
+        "ShieldAPRatio": {
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "ShieldDuration": {
+          "values": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "PixOnAllyDuration": {
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "type": "SpellDataValue"
+        },
+        "PixOnEnemyDuration": {
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "DamageAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalShield": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseShield",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "ShieldAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "帮忙，皮克斯！",
+          "description": "如果对友军施放，会命令皮克斯跳到一名友军身上进行保护，之后会跟随并协助目标（而不是璐璐）进行攻击。如果对敌人施放，皮克斯会跳到敌人身上造成伤害，之后会跟随并提供目标的视野。",
+          "tooltip": "在对一名友方施放时，皮克斯会跳到该友方处并提供持续{{ pixonallyduration }}秒的<spellName>皮克斯，仙灵伙伴</spellName>。如果该友方是一名英雄，那么皮克斯还会提供持续{{ shieldduration }}秒的<shield>{{ totalshield }}护盾值</shield>。<br /><br />在对一名敌方英雄使用时，皮克斯会妨碍该英雄，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>，并提供其<keywordStealth>真实视野</keywordStealth>，持续{{ pixonenemyduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            10,
+            9.5,
+            9,
+            8.5,
+            8
+          ],
+          "cost": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Help, Pix!",
+          "description": "If cast on an ally, commands Pix to jump to an ally and shield them. He then follows them and aids their attacks. If cast on an enemy, commands Pix to jump to an enemy and damage them. He then follows them and grants you vision of that enemy.",
+          "tooltip": "When used on an ally, Pix jumps to them and grants <spellName>Pix, Faerie Companion</spellName> for {{ pixonallyduration }} seconds. If the ally is a champion, Pix also grants <shield>{{ totalshield }} Shield</shield> for {{ shieldduration }} seconds.<br /><br />When used on an enemy champion, Pix hampers them, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> and granting <keywordStealth>True Sight</keywordStealth> of them for {{ pixonenemyduration }} seconds.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            10,
+            9.5,
+            9,
+            8.5,
+            8
+          ],
+          "cost": [
+            60,
+            65,
+            70,
+            75,
+            80
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Lulu",
+        "heroName": "璐璐",
+        "slot": "E",
+        "name": "Spell_LuluE_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/lulu_e/parameters/cooldown_ms",
+          "/skills/lulu_e/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "对唯一敌人的伤害、自身护盾和自身可获得的皮克斯增益",
+          "TotalDamage与TotalShield分别保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "只能作用纯友方且不落到自身的护盾分支"
+        ],
+        "unknownTimingOrCurve": [
+          "目标分支、皮克斯附着时序、护盾/伤害属性口径和持续时间接线"
+        ]
+      }
+    },
+    "lulu_r": {
+      "heroId": "Lulu",
+      "slot": "R",
+      "name": "璐璐",
+      "binding": "Characters/Lulu/Spells/LuluRAbility/LuluR",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "BonusHealth",
+        "SlowPercent",
+        "BuffDuration",
+        "AoERadius",
+        "KnockbackDuration",
+        "KnockbackDistance"
+      ],
+      "clientCalculationNames": [
+        "TotalBonusHealth"
+      ],
+      "sourceDataValues": {
+        "BonusHealth": {
+          "values": [
+            125,
+            275,
+            425,
+            575,
+            725,
+            875,
+            1025
+          ],
+          "type": "SpellDataValue"
+        },
+        "SlowPercent": {
+          "values": [
+            15,
+            30,
+            45,
+            60,
+            75,
+            90,
+            105
+          ],
+          "type": "SpellDataValue"
+        },
+        "BuffDuration": {
+          "values": [
+            7,
+            7,
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "type": "SpellDataValue"
+        },
+        "AoERadius": {
+          "values": [
+            400,
+            400,
+            400,
+            400,
+            400,
+            400,
+            400
+          ],
+          "type": "SpellDataValue"
+        },
+        "KnockbackDuration": {
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "type": "SpellDataValue"
+        },
+        "KnockbackDistance": {
+          "values": [
+            275,
+            275,
+            275,
+            275,
+            275,
+            275,
+            275
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalBonusHealth": {
+          "mFormulaParts": [
+            {
+              "mDataValue": "BonusHealth",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.550000011920929,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "狂野生长",
+          "description": "璐璐让她的友军变大，击飞目标附近的敌人，同时为她的友军提供大量生命值加成。接下来的数秒内，该友军会获得一个减少附近敌人速度的光环。",
+          "tooltip": "璐璐使一名友方英雄巨大化，并<status>击飞</status>周围的敌人{{ knockbackduration }}秒。巨大化的友方英雄会获得<healing>{{ totalbonushealth }}最大生命值</healing>并使周围的敌人们<status>减速</status>{{ slowpercent }}%，持续{{ buffduration }}秒。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            120,
+            100,
+            80
+          ],
+          "cost": [
+            100,
+            100,
+            100
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Wild Growth",
+          "description": "Lulu enlarges an ally, knocking nearby enemies into the air and granting the ally a large amount of bonus health. For the next few seconds, that ally gains an aura that slows nearby enemies.",
+          "tooltip": "Lulu enlarges an ally, <status>Knocking Up</status> surrounding enemies for {{ knockbackduration }} second. The enlarged ally gains <healing>{{ totalbonushealth }} max Health</healing> and <status>Slows</status> surrounding enemies by {{ slowpercent }}% for {{ buffduration }} seconds.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            120,
+            100,
+            80
+          ],
+          "cost": [
+            100,
+            100,
+            100
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Lulu",
+        "heroName": "璐璐",
+        "slot": "R",
+        "name": "Spell_LuluR_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/lulu_r/parameters/cooldown_ms",
+          "/skills/lulu_r/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "自身施放时的生命增益、唯一敌人的范围控制和击退载体"
+        ],
+        "oneVsOneIrrelevant": [
+          "只作用其他友方英雄的生命增益"
+        ],
+        "unknownTimingOrCurve": [
+          "自施放资格、范围内多目标分配、击飞过程和增益持续时序"
+        ]
+      }
+    },
+    "nami_p": {
+      "heroId": "Nami",
+      "slot": "P",
+      "name": "娜美",
+      "binding": "Characters/Nami/Spells/NamiPassiveAbility/NamiPassive",
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keySummary"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "FlatMS",
+        "BuffDuration",
+        "UltMult"
+      ],
+      "clientCalculationNames": [
+        "TotalMSBonus"
+      ],
+      "sourceDataValues": {
+        "FlatMS": {
+          "values": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "type": "SpellDataValue"
+        },
+        "BuffDuration": {
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "UltMult": {
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalMSBonus": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "FlatMS",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.25,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "踏浪之行",
+          "description": "每当娜美的技能命中友方英雄时，他们都会暂时获得移动速度加成。",
+          "tooltip": null,
+          "cooldown": null,
+          "cost": null,
+          "resource": null
+        },
+        "en": {
+          "name": "Surging Tides",
+          "description": "When Nami's Abilities hit allied champions they gain Move Speed for a short duration.",
+          "tooltip": null,
+          "cooldown": null,
+          "cost": null,
+          "resource": null
+        }
+      },
+      "currentGET": {
+        "heroId": "Nami",
+        "heroName": "娜美",
+        "slot": "P",
+        "name": "Spell_NamiPassive_Name",
+        "classification": "empty",
+        "action": "无已有组成，后续候选可按来源范围建立",
+        "existingPublicParameterKeys": [],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 0,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "自身获得的移动速度增益和同一技能命中后的增益载体",
+          "TotalMSBonus计算树保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "纯友方移动速度收益"
+        ],
+        "unknownTimingOrCurve": [
+          "技能命中触发、UltMult条件、增益持续和移速属性映射"
+        ]
+      }
+    },
+    "nami_q": {
+      "heroId": "Nami",
+      "slot": "Q",
+      "name": "娜美",
+      "binding": "Characters/Nami/Spells/NamiQAbility/NamiQ",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "BaseDamage",
+        "APRatio",
+        "StunDuration"
+      ],
+      "clientCalculationNames": [
+        "TotalDamageTT"
+      ],
+      "sourceDataValues": {
+        "BaseDamage": {
+          "values": [
+            35,
+            90,
+            145,
+            200,
+            255,
+            310,
+            365
+          ],
+          "type": "SpellDataValue"
+        },
+        "APRatio": {
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "StunDuration": {
+          "values": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalDamageTT": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "APRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "碧波之牢",
+          "description": "朝着目标区域放出一个泡泡，对命中的所有敌人造成伤害和晕眩效果。",
+          "tooltip": "娜美掷出一个泡泡，<status>晕眩</status>敌人{{ stunduration }}秒并造成<magicDamage>{{ totaldamagett }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            12,
+            11,
+            10,
+            9,
+            8
+          ],
+          "cost": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Aqua Prison",
+          "description": "Sends a bubble to a target area, dealing damage and stunning all enemies on impact.",
+          "tooltip": "Nami hurls a bubble, <status>Stunning</status> for {{ stunduration }} seconds and dealing <magicDamage>{{ totaldamagett }} magic damage</magicDamage>.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            12,
+            11,
+            10,
+            9,
+            8
+          ],
+          "cost": [
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Nami",
+        "heroName": "娜美",
+        "slot": "Q",
+        "name": "Spell_NamiQ_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/nami_q/parameters/cooldown_ms",
+          "/skills/nami_q/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "唯一敌人的伤害与击飞控制、StunDuration和TotalDamage计算树"
+        ],
+        "oneVsOneIrrelevant": [
+          "无本轮必要的纯友方收益"
+        ],
+        "unknownTimingOrCurve": [
+          "命中事件、目标资格、击飞过程和技能伤害属性口径"
+        ]
+      }
+    },
+    "nami_w": {
+      "heroId": "Nami",
+      "slot": "W",
+      "name": "娜美",
+      "binding": "Characters/Nami/Spells/NamiWAbility/NamiW",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "BaseDamage",
+        "BaseHeal",
+        "DamageAPRatio",
+        "HealAPRatio",
+        "BounceRatio",
+        "BounceRatioScaling",
+        "MaxTargets"
+      ],
+      "clientCalculationNames": [
+        "TotalDamage",
+        "TotalHeal",
+        "BounceScaling"
+      ],
+      "sourceDataValues": {
+        "BaseDamage": {
+          "values": [
+            25,
+            60,
+            95,
+            130,
+            165,
+            200,
+            235
+          ],
+          "type": "SpellDataValue"
+        },
+        "BaseHeal": {
+          "values": [
+            30,
+            55,
+            80,
+            105,
+            130,
+            155,
+            180
+          ],
+          "type": "SpellDataValue"
+        },
+        "DamageAPRatio": {
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "HealAPRatio": {
+          "values": [
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645,
+            0.4000000059604645
+          ],
+          "type": "SpellDataValue"
+        },
+        "BounceRatio": {
+          "values": [
+            -20,
+            -20,
+            -20,
+            -20,
+            -20,
+            -20,
+            -20
+          ],
+          "type": "SpellDataValue"
+        },
+        "BounceRatioScaling": {
+          "values": [
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448,
+            0.15000000596046448
+          ],
+          "type": "SpellDataValue"
+        },
+        "MaxTargets": {
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "DamageAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalHeal": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseHeal",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "HealAPRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "BounceScaling": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mFormulaParts": [
+            {
+              "mDataValue": "BounceRatio",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "BounceRatioScaling",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "冲击之潮",
+          "description": "释放一股在友方英雄和敌方英雄之间交替流动的水流，治疗友军并伤害敌军。",
+          "tooltip": "娜美释放一股在友方英雄和敌方英雄之间交替弹跳的水流。每个目标只会被弹到一次，并且水流至多可弹{{ maxtargets }}个目标。<li>为友方英雄回复<healing>{{ totalheal }}生命值</healing>并弹向附近的一名敌方英雄身上。<li>对敌方英雄造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>并弹向附近的一名友方英雄身上。<br />每次弹跳会使伤害和治疗数额修正{{ bouncescaling }}。 {{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            10,
+            10,
+            10,
+            10,
+            10
+          ],
+          "cost": [
+            70,
+            75,
+            80,
+            85,
+            90
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Ebb and Flow",
+          "description": "Unleashes a stream of water that bounces back and forth between allied and enemy champions, healing allies and damaging enemies.",
+          "tooltip": "Nami unleashes a stream of water that bounces between allied and enemy champions. Each champion can only be hit once, and it hits up to {{ maxtargets }} targets.<li>Restores <healing>{{ totalheal }} Health</healing> to allies and will bounce to a nearby enemy champion. <li>Deals <magicDamage>{{ totaldamage }} magic damage</magicDamage> to enemies and will bounce to a nearby allied champion.<br />The damage and healing value is modified by {{ bouncescaling }} each bounce. {{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            10,
+            10,
+            10,
+            10,
+            10
+          ],
+          "cost": [
+            70,
+            75,
+            80,
+            85,
+            90
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Nami",
+        "heroName": "娜美",
+        "slot": "W",
+        "name": "Spell_NamiW_Name",
+        "classification": "partialPublic",
+        "action": "只有部分公共参数，候选保留现有并只补缺项",
+        "existingPublicParameterKeys": [
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 1,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/nami_w/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "唯一敌人的伤害、自身可获得的治疗和同一目标多跳/弹跳倍率载体",
+          "TotalDamage、TotalHeal与BounceScaling均保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "只作用其他友方英雄的治疗收益"
+        ],
+        "unknownTimingOrCurve": [
+          "弹跳目标选择、同一目标重复命中上限、治疗与伤害衰减时序和当前生命条件"
+        ]
+      }
+    },
+    "nami_e": {
+      "heroId": "Nami",
+      "slot": "E",
+      "name": "娜美",
+      "binding": "Characters/Nami/Spells/NamiEAbility/NamiE",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "BaseDamage",
+        "DamageRatio",
+        "BaseSlow",
+        "SlowRatio",
+        "SlowDuration",
+        "HitCount",
+        "BuffDuration"
+      ],
+      "clientCalculationNames": [
+        "AoeMod",
+        "TotalDamage",
+        "TotalSlow"
+      ],
+      "sourceDataValues": {
+        "BaseDamage": {
+          "values": [
+            5,
+            20,
+            35,
+            50,
+            65,
+            80,
+            95
+          ],
+          "type": "SpellDataValue"
+        },
+        "DamageRatio": {
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ],
+          "type": "SpellDataValue"
+        },
+        "BaseSlow": {
+          "values": [
+            10,
+            15,
+            20,
+            25,
+            30,
+            35,
+            40
+          ],
+          "type": "SpellDataValue"
+        },
+        "SlowRatio": {
+          "values": [
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806
+          ],
+          "type": "SpellDataValue"
+        },
+        "SlowDuration": {
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "type": "SpellDataValue"
+        },
+        "HitCount": {
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "type": "SpellDataValue"
+        },
+        "BuffDuration": {
+          "values": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "AoeMod": {
+          "mFormulaParts": [
+            {
+              "mStartValue": 0.33000001311302185,
+              "mEndValue": 0.6600000262260437,
+              "__type": "ByCharLevelInterpolationCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        },
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "DamageRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalSlow": {
+          "mMultiplier": {
+            "mNumber": 0.009999999776482582,
+            "__type": "NumberCalculationPart"
+          },
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseSlow",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "SlowRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "mDisplayAsPercent": true,
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "唤潮之佑",
+          "description": "短时间里强化一个友军英雄。友军的普通攻击和技能会对其目标造成额外伤害和减速效果。",
+          "tooltip": "娜美强化一位友方英雄的下{{ hitcount }}次普通攻击和技能，持续{{ buffduration }}秒，使其可以对目标造成持续{{ slowduration }}秒的{{ totalslow }}<status>减速</status>，并造成额外的<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。 {{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            11,
+            11,
+            11,
+            11,
+            11
+          ],
+          "cost": [
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Tidecaller's Blessing",
+          "description": "Empowers an allied champion for a short duration. The ally's basic attacks and spells deal bonus magic damage and slow the target.",
+          "tooltip": "Nami empowers an allied champion's next {{ hitcount }} Attacks and Abilities for {{ buffduration }} seconds, causing them to <status>Slow</status> their targets by {{ totalslow }} for {{ slowduration }}s and deal an additional <magicDamage>{{ totaldamage }} magic damage</magicDamage>. {{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            11,
+            11,
+            11,
+            11,
+            11
+          ],
+          "cost": [
+            55,
+            60,
+            65,
+            70,
+            75
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Nami",
+        "heroName": "娜美",
+        "slot": "E",
+        "name": "Spell_NamiE_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/nami_e/parameters/cooldown_ms",
+          "/skills/nami_e/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "自身增益、唯一敌人的附加伤害与减速、三次命中载体",
+          "TotalDamage与TotalSlow计算树保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "只能作用纯友方且不落到自身的附魔收益"
+        ],
+        "unknownTimingOrCurve": [
+          "自身施放资格、攻击次数扣除、HitCount间隔、减速和增益持续"
+        ]
+      }
+    },
+    "nami_r": {
+      "heroId": "Nami",
+      "slot": "R",
+      "name": "娜美",
+      "binding": "Characters/Nami/Spells/NamiRAbility/NamiR",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "BaseDamage",
+        "PassiveUpdateAreaLength",
+        "KnockupDuration",
+        "MinSlowDuration",
+        "MaxSlowDuration",
+        "DistToSlowRatio",
+        "SlowAmount"
+      ],
+      "clientCalculationNames": [
+        "TotalDamage"
+      ],
+      "sourceDataValues": {
+        "BaseDamage": {
+          "values": [
+            50,
+            150,
+            250,
+            350,
+            450,
+            550,
+            650
+          ],
+          "type": "SpellDataValue"
+        },
+        "PassiveUpdateAreaLength": {
+          "values": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "type": "SpellDataValue"
+        },
+        "KnockupDuration": {
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "MinSlowDuration": {
+          "values": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "type": "SpellDataValue"
+        },
+        "MaxSlowDuration": {
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ],
+          "type": "SpellDataValue"
+        },
+        "DistToSlowRatio": {
+          "values": [
+            0.0020000000949949026,
+            0.0020000000949949026,
+            0.0020000000949949026,
+            0.0020000000949949026,
+            0.0020000000949949026,
+            0.0020000000949949026,
+            0.0020000000949949026
+          ],
+          "type": "SpellDataValue"
+        },
+        "SlowAmount": {
+          "values": [
+            70,
+            70,
+            70,
+            70,
+            70,
+            70,
+            70
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.6000000238418579,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "怒涛之啸",
+          "description": "召唤一阵巨大的怒涛，击飞、减速并伤害沿途的所有敌人。被怒涛命中的友方英雄会获得【踏浪之行】的双倍加速效果。",
+          "tooltip": "娜美召唤一阵怒涛，造成0.5秒<status>击飞</status>，{{ slowamount }}%<status>减速</status>并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。<status>减速</status>的持续时间会基于怒涛的行进距离而提升，至多持续{{ maxslowduration }}秒。<br /><br />被怒涛命中的友方英雄会获得<spellName>踏浪之行</spellName>的双倍效果。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            120,
+            110,
+            100
+          ],
+          "cost": [
+            100,
+            100,
+            100
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Tidal Wave",
+          "description": "Summons a massive Tidal Wave that knocks up, slows, and damages enemies. Allies hit gain double the effect of Surging Tides.",
+          "tooltip": "Nami summons a tidal wave, <status>Knocking Up</status> for 0.5 seconds, <status>Slowing</status> by {{ slowamount }}%, and dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage>. The duration of the <status>Slow</status> increases based on distance the wave traveled, up to {{ maxslowduration }} seconds.<br /><br />Allies hit by the wave gain double the effect of <spellName>Surging Tides</spellName>.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            120,
+            110,
+            100
+          ],
+          "cost": [
+            100,
+            100,
+            100
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Nami",
+        "heroName": "娜美",
+        "slot": "R",
+        "name": "Spell_NamiR_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/nami_r/parameters/cooldown_ms",
+          "/skills/nami_r/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "唯一敌人的伤害、击飞和减速控制",
+          "TotalDamage根树保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "无本轮必要的纯友方收益"
+        ],
+        "unknownTimingOrCurve": [
+          "距离与减速时长曲线、同一目标命中一次或多次、控制事件时序"
+        ]
+      }
+    },
+    "morgana_p": {
+      "heroId": "Morgana",
+      "slot": "P",
+      "name": "莫甘娜",
+      "binding": "Characters/Morgana/Spells/MorganaPassiveAbility/MorganaPassive",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "HealPercent"
+      ],
+      "clientCalculationNames": [],
+      "sourceDataValues": {
+        "HealPercent": {
+          "values": [
+            18,
+            18,
+            18,
+            18,
+            18,
+            18,
+            18
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {},
+      "official": {
+        "zh": {
+          "name": "灵魂吸取",
+          "description": "莫甘娜从她的敌人身上吸取灵魂，在对英雄、大型小兵、中型野怪和大型野怪造成技能伤害时获得治疗效果。",
+          "tooltip": null,
+          "cooldown": null,
+          "cost": null,
+          "resource": null
+        },
+        "en": {
+          "name": "Soul Siphon",
+          "description": "Morgana drains spirit from her enemies, healing as she deals damage to champions, large minions, and medium and larger jungler monsters.",
+          "tooltip": null,
+          "cooldown": null,
+          "cost": null,
+          "resource": null
+        }
+      },
+      "currentGET": {
+        "heroId": "Morgana",
+        "heroName": "莫甘娜",
+        "slot": "P",
+        "name": "Spell_MorganaPassive_Name",
+        "classification": "empty",
+        "action": "无已有组成，后续候选可按来源范围建立",
+        "existingPublicParameterKeys": [],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 0,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "自身从符合条件的伤害中获得的治疗比例"
+        ],
+        "oneVsOneIrrelevant": [
+          "纯友方收益不存在已证消费"
+        ],
+        "unknownTimingOrCurve": [
+          "治疗目标类别、触发事件和HealPercent的单位口径；没有计算树不自行造直接治疗结果"
+        ]
+      }
+    },
+    "morgana_q": {
+      "heroId": "Morgana",
+      "slot": "Q",
+      "name": "莫甘娜",
+      "binding": "Characters/Morgana/Spells/MorganaQAbility/MorganaQ",
+      "currentTextKeys": [
+        "keyName",
+        "keyTooltip",
+        "keySummary"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "Damage",
+        "RootDuration"
+      ],
+      "clientCalculationNames": [
+        "TotalDamage"
+      ],
+      "sourceDataValues": {
+        "Damage": {
+          "values": [
+            25,
+            80,
+            135,
+            190,
+            245,
+            300,
+            355
+          ],
+          "type": "SpellDataValue"
+        },
+        "RootDuration": {
+          "values": [
+            1.75,
+            2,
+            2.25,
+            2.5,
+            2.75,
+            3,
+            3.25
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "Damage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.8999999761581421,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "暗之禁锢",
+          "description": "莫甘娜用黑暗魔法将一名敌人禁锢在原地，迫使其感受自己造成的痛苦并对其造成魔法伤害。 ",
+          "tooltip": "莫甘娜掷出一团星火来<status>禁锢</status>命中的第一个敌人{{ rootduration }}秒，并造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            10,
+            10,
+            10,
+            10,
+            10
+          ],
+          "cost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Dark Binding",
+          "description": "Morgana binds an enemy in place with dark magic, forcing them to feel the pain they've caused and dealing magic damage. ",
+          "tooltip": "Morgana hurls a blast of starfire that <status>Roots</status> the first enemy hit for {{ rootduration }} seconds and deals <magicDamage>{{ totaldamage }} magic damage</magicDamage>.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            10,
+            10,
+            10,
+            10,
+            10
+          ],
+          "cost": [
+            50,
+            55,
+            60,
+            65,
+            70
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Morgana",
+        "heroName": "莫甘娜",
+        "slot": "Q",
+        "name": "Spell_MorganaQ_Name",
+        "classification": "partialPublic",
+        "action": "只有部分公共参数，候选保留现有并只补缺项",
+        "existingPublicParameterKeys": [
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 1,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/morgana_q/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "唯一敌人的禁锢控制和伤害计算树",
+          "TotalDamage根树保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "无本轮必要的纯友方收益"
+        ],
+        "unknownTimingOrCurve": [
+          "命中事件、技能伤害属性口径、RootDuration应用时点"
+        ]
+      }
+    },
+    "morgana_w": {
+      "heroId": "Morgana",
+      "slot": "W",
+      "name": "莫甘娜",
+      "binding": "Characters/Morgana/Spells/MorganaWAbility/MorganaW",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "BaseDamage",
+        "BaseAPRatio",
+        "TickRate",
+        "MissingHealthAmpPercent",
+        "WDuration",
+        "CDRefundPercent",
+        "MonsterMod"
+      ],
+      "clientCalculationNames": [
+        "TotalMinDamage",
+        "TotalMaxDamage"
+      ],
+      "sourceDataValues": {
+        "BaseDamage": {
+          "values": [
+            5,
+            18,
+            31,
+            44,
+            57,
+            70,
+            83
+          ],
+          "type": "SpellDataValue"
+        },
+        "BaseAPRatio": {
+          "values": [
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224,
+            0.20000000298023224
+          ],
+          "type": "SpellDataValue"
+        },
+        "TickRate": {
+          "values": [
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5,
+            0.5
+          ],
+          "type": "SpellDataValue"
+        },
+        "MissingHealthAmpPercent": {
+          "values": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "type": "SpellDataValue"
+        },
+        "WDuration": {
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "type": "SpellDataValue"
+        },
+        "CDRefundPercent": {
+          "values": [
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806,
+            0.05000000074505806
+          ],
+          "type": "SpellDataValue"
+        },
+        "MonsterMod": {
+          "values": [
+            170,
+            170,
+            170,
+            170,
+            170,
+            170,
+            170
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalMinDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "BaseDamage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mDataValue": "BaseApRatio",
+              "__type": "StatByNamedDataValueCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        },
+        "TotalMaxDamage": {
+          "mMultiplier": {
+            "mSubparts": [
+              {
+                "mNumber": 1,
+                "__type": "NumberCalculationPart"
+              },
+              {
+                "mDataValue": "MissingHealthAmpPercent",
+                "__type": "NamedDataValueCalculationPart"
+              }
+            ],
+            "__type": "SumOfSubPartsCalculationPart"
+          },
+          "mModifiedGameCalculation": "TotalMinDamage",
+          "__type": "GameCalculationModified"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "折磨之影",
+          "description": "莫甘娜在一个区域施放一团诅咒之影，对胆敢站在她黑色环形之中的敌人造成伤害。敌人会持续受到魔法伤害，并且生命值越低受到伤害越高。",
+          "tooltip": "莫甘娜点燃一个区域{{ wduration }}秒，每秒对区域内的敌人造成<magicDamage>{{ totalmindamage }}魔法伤害</magicDamage>，基于目标的已损失生命值，伤害可最多提升<magicDamage>{{ totalmaxdamage }}</magicDamage>。<br /><br />每当莫甘娜被<spellName>灵魂吸取</spellName>治疗时，这个技能的冷却时间就会减少{{ cdrefundpercent*100 }}%。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "cost": [
+            70,
+            80,
+            90,
+            100,
+            110
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Tormented Shadow",
+          "description": "Morgana casts a cursed shadow on an area, damaging enemies who dare stand in her dark circle. They receive magic damage over time, which increases the lower health they are.",
+          "tooltip": "Morgana ignites the ground for {{ wduration }} seconds, dealing <magicDamage>{{ totalmindamage }} magic damage</magicDamage> per second, increased by up to <magicDamage>{{ totalmaxdamage }}</magicDamage> based on the targets' missing Health.<br /><br />This Ability's Cooldown is reduced by {{ cdrefundpercent*100 }}% every time Morgana is healed by <spellName>Soul Siphon</spellName>.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            12,
+            12,
+            12,
+            12,
+            12
+          ],
+          "cost": [
+            70,
+            80,
+            90,
+            100,
+            110
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Morgana",
+        "heroName": "莫甘娜",
+        "slot": "W",
+        "name": "Spell_MorganaW_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/morgana_w/parameters/cooldown_ms",
+          "/skills/morgana_w/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "唯一敌人的持续魔法伤害、同一目标多跳、最小/最大伤害根树",
+          "TotalMinDamage与TotalMaxDamage保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "野怪专用MonsterMod分支"
+        ],
+        "unknownTimingOrCurve": [
+          "TickRate周期、缺失生命值增幅、持续时间、冷却返还和单次伤害属性口径"
+        ]
+      }
+    },
+    "morgana_e": {
+      "heroId": "Morgana",
+      "slot": "E",
+      "name": "莫甘娜",
+      "binding": "Characters/Morgana/Spells/MorganaEAbility/MorganaE",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "ShieldStrength",
+        "ShieldDuration"
+      ],
+      "clientCalculationNames": [
+        "TotalShieldStrength"
+      ],
+      "sourceDataValues": {
+        "ShieldStrength": {
+          "values": [
+            45,
+            100,
+            155,
+            210,
+            265,
+            320,
+            375
+          ],
+          "type": "SpellDataValue"
+        },
+        "ShieldDuration": {
+          "values": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalShieldStrength": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "ShieldStrength",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.699999988079071,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "黑暗之盾",
+          "description": "莫甘娜为一名友方英雄涂上一层保护性的星火屏障，在被打破之前吸收魔法伤害和限制效果。",
+          "tooltip": "莫甘娜为一名友方英雄提供<shield>{{ totalshieldstrength }}魔法护盾</shield>，持续{{ shieldduration }}秒。护盾会阻挡<status>限制</status>和<status>定身</status>效果，直至被打破为止。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            26,
+            23.5,
+            21,
+            18.5,
+            16
+          ],
+          "cost": [
+            80,
+            80,
+            80,
+            80,
+            80
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Black Shield",
+          "description": "Morgana anoints an ally with a protective barrier of starfire, which absorbs magical damage and disabling effects until it is broken.",
+          "tooltip": "Morgana grants an ally champion <shield>{{ totalshieldstrength }} Magic Shield</shield> for {{ shieldduration }} seconds. The shield prevents <status>Disabling</status> and <status>Immobilizing</status> effects until it breaks.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            26,
+            23.5,
+            21,
+            18.5,
+            16
+          ],
+          "cost": [
+            80,
+            80,
+            80,
+            80,
+            80
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Morgana",
+        "heroName": "莫甘娜",
+        "slot": "E",
+        "name": "Spell_MorganaE_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/morgana_e/parameters/cooldown_ms",
+          "/skills/morgana_e/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "自身可获得的护盾与护盾持续参数",
+          "TotalShieldStrength根树保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "只能作用纯友方且不落到自身的护盾分支"
+        ],
+        "unknownTimingOrCurve": [
+          "目标资格、法术护盾阻挡事件、护盾持续和控制免疫接线"
+        ]
+      }
+    },
+    "morgana_r": {
+      "heroId": "Morgana",
+      "slot": "R",
+      "name": "莫甘娜",
+      "binding": "Characters/Morgana/Spells/MorganaRAbility/MorganaR",
+      "currentTextKeys": [
+        "keyName",
+        "keySummary",
+        "keyTooltip",
+        "keyTooltipExtendedBelowLine"
+      ],
+      "missingCurrentTextKeys": [],
+      "clientCastTime": null,
+      "clientDataValueNames": [
+        "Damage",
+        "ChainDuration",
+        "StunDuration",
+        "SlowPercent",
+        "HastePercent"
+      ],
+      "clientCalculationNames": [
+        "TotalDamage"
+      ],
+      "sourceDataValues": {
+        "Damage": {
+          "values": [
+            125,
+            200,
+            275,
+            350,
+            425,
+            500,
+            575
+          ],
+          "type": "SpellDataValue"
+        },
+        "ChainDuration": {
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "type": "SpellDataValue"
+        },
+        "StunDuration": {
+          "values": [
+            1.25,
+            1.5,
+            1.75,
+            2,
+            2.25,
+            2.5,
+            2.75
+          ],
+          "type": "SpellDataValue"
+        },
+        "SlowPercent": {
+          "values": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "type": "SpellDataValue"
+        },
+        "HastePercent": {
+          "values": [
+            0,
+            20,
+            40,
+            60,
+            80,
+            100,
+            120
+          ],
+          "type": "SpellDataValue"
+        }
+      },
+      "calculations": {
+        "TotalDamage": {
+          "mSimpleTooltipCalculationDisplay": 6,
+          "mFormulaParts": [
+            {
+              "mDataValue": "Damage",
+              "__type": "NamedDataValueCalculationPart"
+            },
+            {
+              "mCoefficient": 0.800000011920929,
+              "__type": "StatByCoefficientCalculationPart"
+            }
+          ],
+          "__type": "GameCalculation"
+        }
+      },
+      "official": {
+        "zh": {
+          "name": "灵魂镣铐",
+          "description": "莫甘娜全力释放她的星界能量，与此同时，她的羽翼会解除束缚并且会悬浮在地面上。她将黑暗痛苦组成的锁链抽击到附近的敌方英雄身上，获得移动速度。锁链会减速并造成初段伤害，并在一段延迟后，晕眩那些未能挣脱的敌方英雄。",
+          "tooltip": "莫甘娜将她自己与附近的敌方英雄用锁链铐在一起，造成<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>和{{ slowpercent }}%<status>减速</status>效果。在{{ chainduration }}秒后，仍未挣断锁链的敌人会受到<magicDamage>{{ totaldamage }}魔法伤害</magicDamage>并被<status>晕眩</status>{{ stunduration }}秒。<br /><br />在施放这个技能时，莫甘娜会获得<speed>{{ hastepercent }}%移动速度</speed>。{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            120,
+            110,
+            100
+          ],
+          "cost": [
+            100,
+            100,
+            100
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        },
+        "en": {
+          "name": "Soul Shackles",
+          "description": "Morgana unleashes the full force of her Celestial power as she unbinds her wings and hovers above the ground. She lashes chains of dark pain onto nearby enemy champions, gaining Move Speed. The chains slow and deal initial damage and, after a delay, stun those who are unable to break them.",
+          "tooltip": "Morgana chains herself to nearby enemy Champions, dealing <magicDamage>{{ totaldamage }} magic damage</magicDamage> and <status>Slowing</status> them by {{ slowpercent }}%. After {{ chainduration }} seconds, enemies unable to break the chains take an additional <magicDamage>{{ totaldamage }} magic damage</magicDamage> and are <status>Stunned</status> for {{ stunduration }} seconds.<br /><br />While casting this Ability, Morgana gains <speed>{{ hastepercent }}% Move Speed</speed>.{{ spellmodifierdescriptionappend }}",
+          "cooldown": [
+            120,
+            110,
+            100
+          ],
+          "cost": [
+            100,
+            100,
+            100
+          ],
+          "resource": "{{ cost }} {{ abilityresourcename }}"
+        }
+      },
+      "currentGET": {
+        "heroId": "Morgana",
+        "heroName": "莫甘娜",
+        "slot": "R",
+        "name": "Spell_MorganaR_Name",
+        "classification": "publicOnly",
+        "action": "仅公共参数，候选可独立分流并复用现值",
+        "existingPublicParameterKeys": [
+          "cooldown_ms",
+          "mana_cost"
+        ],
+        "nonPublicParameterKeys": [],
+        "componentCounts": {
+          "parameters": 2,
+          "formulas": 0,
+          "effects": 0,
+          "processes": 0,
+          "internalStates": 0,
+          "triggerRules": 0
+        },
+        "componentStatuses": {
+          "parameters": {
+            "status": 200,
+            "isArray": true
+          },
+          "formulas": {
+            "status": 200,
+            "isArray": true
+          },
+          "effects": {
+            "status": 200,
+            "isArray": true
+          },
+          "processes": {
+            "status": 200,
+            "isArray": true
+          },
+          "internalStates": {
+            "status": 200,
+            "isArray": true
+          },
+          "triggerRules": {
+            "status": 200,
+            "isArray": true
+          }
+        },
+        "detailRoutes": [
+          "/skills/morgana_r/parameters/cooldown_ms",
+          "/skills/morgana_r/parameters/mana_cost"
+        ],
+        "subjectStatus": 200,
+        "representativeImageStatus": 200
+      },
+      "scope": {
+        "recordable": [
+          "唯一敌人的首段与后续伤害、减速、眩晕和同一目标链条载体",
+          "TotalDamage根树保留"
+        ],
+        "oneVsOneIrrelevant": [
+          "无本轮必要的纯友方收益"
+        ],
+        "unknownTimingOrCurve": [
+          "锁链目标资格、第二段触发、距离断链、持续时间和控制时序"
+        ]
+      }
+    }
+  },
+  "notes": [
+    "四位英雄均为法力资源；后续候选应按实际属性目录与资源结果能力核对，不把未知资源接线写成已实现。",
+    "璐璐P的皮克斯是技能载体，是否需要独立自主召唤能力由后续实际机制核对决定，本包不一刀切排除。",
+    "纯友方分支按本轮1V1分流为无关，但自身可获得的护盾、治疗或增益仍保留在可录范围；未知时序和曲线列为待核。",
+    "数据值技能等级数组与官方数组的索引含义交给候选阶段按源结构核对，本包保留完整原数组和计算树。"
+  ]
+}

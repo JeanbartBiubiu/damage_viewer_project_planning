@@ -1,0 +1,23 @@
+{
+  "i": 97,
+  "intent": {
+    "sequence": 98,
+    "method": "POST",
+    "route": "/skills/lulu_r/parameters",
+    "detailRoute": "/skills/lulu_r/parameters/knockback_distance",
+    "skillKey": "lulu_r",
+    "kind": "parameters",
+    "stableKey": "knockback_distance",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockback_distance",
+      "name": "击退距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 275,
+      "levelValues": null,
+      "description": "客户端KnockbackDistance按等级索引1取275；不展开位移过程。",
+      "sortOrder": 60
+    }
+  }
+}

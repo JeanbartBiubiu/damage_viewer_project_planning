@@ -1,0 +1,27 @@
+{
+  "i": 47,
+  "intent": {
+    "sequence": 48,
+    "method": "POST",
+    "route": "/skills/janna_r/parameters",
+    "detailRoute": "/skills/janna_r/parameters/heal_duration_seconds",
+    "skillKey": "janna_r",
+    "kind": "parameters",
+    "stableKey": "heal_duration_seconds",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_duration_seconds",
+      "name": "持续治疗时间（秒）",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 3,
+        "2": 3,
+        "3": 3
+      },
+      "description": "客户端Duration使用等级索引1至3，得到3/3/3秒；不能误用索引0的占位0。",
+      "sortOrder": 30
+    }
+  }
+}

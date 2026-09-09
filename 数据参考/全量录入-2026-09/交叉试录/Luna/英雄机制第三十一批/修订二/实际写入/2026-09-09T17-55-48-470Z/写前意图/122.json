@@ -1,0 +1,45 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "method": "POST",
+    "route": "/skills/nami_w/formulas",
+    "detailRoute": "/skills/nami_w/formulas/first_damage",
+    "skillKey": "nami_w",
+    "kind": "formulas",
+    "stableKey": "first_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "first_damage",
+      "name": "冲击之潮首个敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalDamage = BaseDamage + DamageAPRatio×来源总法强；起点是敌人时为第一段。",
+      "sortOrder": 10
+    }
+  }
+}

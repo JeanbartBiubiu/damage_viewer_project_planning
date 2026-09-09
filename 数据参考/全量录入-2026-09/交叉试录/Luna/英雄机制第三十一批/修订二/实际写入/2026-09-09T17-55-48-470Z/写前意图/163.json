@@ -1,0 +1,65 @@
+{
+  "i": 162,
+  "intent": {
+    "sequence": 163,
+    "method": "POST",
+    "route": "/skills/morgana_w/formulas",
+    "detailRoute": "/skills/morgana_w/formulas/maximum_magic_damage_per_second",
+    "skillKey": "morgana_w",
+    "kind": "formulas",
+    "stableKey": "maximum_magic_damage_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "maximum_magic_damage_per_second",
+      "name": "折磨之影最高每秒魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage_per_second"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "maximum_missing_health_amplification_ratio"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalMaxDamage = (1+MissingHealthAmpPercent)×TotalMinDamage；接口公式只能引用参数，故内联最低式；实际缺失生命曲线不当作默认最大值。",
+      "sortOrder": 20
+    }
+  }
+}

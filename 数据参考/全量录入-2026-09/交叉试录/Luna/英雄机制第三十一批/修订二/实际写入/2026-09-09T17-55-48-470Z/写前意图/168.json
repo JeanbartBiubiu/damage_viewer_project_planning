@@ -1,0 +1,45 @@
+{
+  "i": 167,
+  "intent": {
+    "sequence": 168,
+    "method": "POST",
+    "route": "/skills/morgana_e/formulas",
+    "detailRoute": "/skills/morgana_e/formulas/magic_shield_value",
+    "skillKey": "morgana_e",
+    "kind": "formulas",
+    "stableKey": "magic_shield_value",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "magic_shield_value",
+      "name": "黑暗之盾自身魔法护盾值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_shield"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalShieldStrength = ShieldStrength + 0.7×来源总法强；只表达普通魔法护盾数值。",
+      "sortOrder": 10
+    }
+  }
+}

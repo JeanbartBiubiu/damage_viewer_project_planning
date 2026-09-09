@@ -1,0 +1,45 @@
+{
+  "i": 42,
+  "intent": {
+    "sequence": 43,
+    "method": "POST",
+    "route": "/skills/janna_e/formulas",
+    "detailRoute": "/skills/janna_e/formulas/total_attack_damage_bonus",
+    "skillKey": "janna_e",
+    "kind": "formulas",
+    "stableKey": "total_attack_damage_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "total_attack_damage_bonus",
+      "name": "风暴之眼自身额外攻击力",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_attack_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "attack_damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "TotalAD = BonusAD + ADAPRatio×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

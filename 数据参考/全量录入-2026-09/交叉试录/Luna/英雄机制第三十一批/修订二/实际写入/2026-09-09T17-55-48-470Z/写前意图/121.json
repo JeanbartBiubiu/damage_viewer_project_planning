@@ -1,0 +1,23 @@
+{
+  "i": 120,
+  "intent": {
+    "sequence": 121,
+    "method": "POST",
+    "route": "/skills/nami_w/parameters",
+    "detailRoute": "/skills/nami_w/parameters/one_ratio",
+    "skillKey": "nami_w",
+    "kind": "parameters",
+    "stableKey": "one_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "one_ratio",
+      "name": "完整倍率基准",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "为二元树表达1+BounceScaling提供固定基准，不是新的游戏参数。",
+      "sortOrder": 90
+    }
+  }
+}

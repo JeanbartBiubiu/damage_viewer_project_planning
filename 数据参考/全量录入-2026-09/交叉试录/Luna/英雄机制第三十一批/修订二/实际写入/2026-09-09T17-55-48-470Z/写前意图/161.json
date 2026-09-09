@@ -1,0 +1,23 @@
+{
+  "i": 160,
+  "intent": {
+    "sequence": 161,
+    "method": "POST",
+    "route": "/skills/morgana_w/parameters",
+    "detailRoute": "/skills/morgana_w/parameters/one_ratio",
+    "skillKey": "morgana_w",
+    "kind": "parameters",
+    "stableKey": "one_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "one_ratio",
+      "name": "完整倍率基准",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "为1+MissingHealthAmpPercent提供固定二元叶子。",
+      "sortOrder": 70
+    }
+  }
+}

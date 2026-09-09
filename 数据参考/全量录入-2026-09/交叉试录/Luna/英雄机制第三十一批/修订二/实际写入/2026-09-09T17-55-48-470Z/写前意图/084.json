@@ -1,0 +1,29 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 84,
+    "method": "POST",
+    "route": "/skills/lulu_e/parameters",
+    "detailRoute": "/skills/lulu_e/parameters/base_shield",
+    "skillKey": "lulu_e",
+    "kind": "parameters",
+    "stableKey": "base_shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_shield",
+      "name": "基础护盾值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 110,
+        "3": 150,
+        "4": 190,
+        "5": 230
+      },
+      "description": "客户端DataValues.BaseShield取等级索引1至5，得到70/110/150/190/230；与TotalShield树一致。",
+      "sortOrder": 30
+    }
+  }
+}
