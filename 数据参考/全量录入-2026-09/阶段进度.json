@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T05:06:45.185Z",
+  "generatedAt": "2026-09-10T05:40:18.558Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -4667,6 +4667,34 @@
         }
       ],
       "runtimeValidation": "未执行"
+    },
+    "veigarPersistentStatusRepair": {
+      "status": "管理配置修复、页面补录与独立回读通过",
+      "skill": "veigar_e",
+      "effect": "event_horizon_stun",
+      "created": 1,
+      "updates": 1,
+      "newParameters": 0,
+      "newTriggers": 0,
+      "independentGETs": 36,
+      "oldBusinessPreserved": true,
+      "browserPassed": true,
+      "frontendTests": 590,
+      "backendTests": 905,
+      "backendCommit": "a21fcaeb0a9856818752ebd5a22ffa05b3a642f7",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/持续状态施加修复/最终验证证据.json",
+        "sha256": "a6c647900314e34d8061bc48b82123eb5f46f70ee5b263cda0d52de2c4664760",
+        "commit": "95b719b54205e1171c3039d4ce87dd2571d04ce2"
+      },
+      "experienceIssues": [
+        "子结果提前校验父名称，新增子草稿专用跳过父元数据选项，父最终保存保持严格",
+        "表单与后端修复后客户端响应解析仍拒绝持续状态粒度，补齐共同限定组合",
+        "首次页面创建已落地但响应报错，先独立GET确认，不重试POST",
+        "Vite旧进程持续提供旧解析代码，重启真实前端并核对新模块后重开及原样更新成功"
+      ],
+      "runtimeValidation": "未执行；未产生真实牢笼边缘事件，未验证战斗期限或法术护盾执行"
     }
   },
   "runtimeValidation": "未执行"
