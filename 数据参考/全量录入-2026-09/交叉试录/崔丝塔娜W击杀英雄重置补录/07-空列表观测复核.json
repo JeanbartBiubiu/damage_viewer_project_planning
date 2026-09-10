@@ -1,0 +1,35 @@
+{
+  "verifiedAt": "2026-09-10T16:05:45.075Z",
+  "subject": "tristana_w空内部状态列表",
+  "originalObservation": {
+    "evidence": "05-Luna独立回读.json",
+    "value": null,
+    "assessment": "独立采集记录把空数组折叠为null，不能代表原始HTTP响应。"
+  },
+  "sameBatchWriterEvidence": [
+    {
+      "phase": "写前",
+      "status": 200,
+      "data": []
+    },
+    {
+      "phase": "写后",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "currentHttp": {
+    "method": "GET",
+    "status": 200,
+    "contentType": "application/json",
+    "rawBody": "[]",
+    "parsed": []
+  },
+  "sourceContract": {
+    "controller": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/controller/adminapi/skillinternalstate/SkillInternalStateAdminController.java:48",
+    "service": "C:/project/damage_backend_dev/server/data_manage/src/main/java/xyz/game/datamanage/service/skillinternalstate/SkillInternalStateService.java:81",
+    "behavior": "服务将Mapper的null转换为List.of()，控制器返回列表。"
+  },
+  "conclusion": "当前接口空集合稳定返回[]；无需修改后端或前端。本次问题属于证据采集器的空数组序列化失真。",
+  "apiWrites": 0
+}
