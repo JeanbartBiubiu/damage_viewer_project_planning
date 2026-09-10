@@ -1,0 +1,24 @@
+{
+  "i": 96,
+  "intent": {
+    "sequence": 98,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_q/parameters",
+    "detailRoute": "/skills/shyvana_q/parameters/cast_time_ms",
+    "skillKey": "shyvana_q",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "当前根spellCastTime=0；精确记录为0毫秒，不表示两次攻击同时完成。",
+      "sortOrder": 110
+    }
+  }
+}

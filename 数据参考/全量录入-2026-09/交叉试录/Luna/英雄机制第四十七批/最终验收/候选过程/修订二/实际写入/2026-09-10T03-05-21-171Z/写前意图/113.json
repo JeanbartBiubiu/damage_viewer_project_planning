@@ -1,0 +1,56 @@
+{
+  "i": 112,
+  "intent": {
+    "sequence": 114,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/formulas",
+    "detailRoute": "/skills/shyvana_w/formulas/nearby_shield_bonus",
+    "skillKey": "shyvana_w",
+    "kind": "formulas",
+    "stableKey": "nearby_shield_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "nearby_shield_bonus",
+      "name": "附近敌人护盾加成量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_base"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_health_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "hp",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "nearby_enemy_bonus_ratio"
+          }
+        ]
+      },
+      "description": "附近敌人修改树=完整Calc_Shield×0.3；不把每个敌人直接展开为无限目标。",
+      "sortOrder": 20
+    }
+  }
+}

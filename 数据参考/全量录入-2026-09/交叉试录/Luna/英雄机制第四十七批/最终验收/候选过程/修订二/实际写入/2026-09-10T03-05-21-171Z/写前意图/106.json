@@ -1,0 +1,24 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 107,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/parameters",
+    "detailRoute": "/skills/shyvana_w/parameters/nearby_enemy_bonus_ratio",
+    "skillKey": "shyvana_w",
+    "kind": "parameters",
+    "stableKey": "nearby_enemy_bonus_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "nearby_enemy_bonus_ratio",
+      "name": "附近合格敌人护盾加成比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.300000012,
+      "levelValues": null,
+      "description": "附近敌人修改树mMultiplier=0.3，作用于完整Calc_Shield。",
+      "sortOrder": 60
+    }
+  }
+}

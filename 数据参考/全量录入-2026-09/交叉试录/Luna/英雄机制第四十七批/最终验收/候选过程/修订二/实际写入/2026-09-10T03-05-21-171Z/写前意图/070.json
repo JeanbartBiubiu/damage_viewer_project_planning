@@ -1,0 +1,30 @@
+{
+  "i": 69,
+  "intent": {
+    "sequence": 70,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_e/parameters",
+    "detailRoute": "/skills/nidalee_e/parameters/attack_speed_ratio",
+    "skillKey": "nidalee_e",
+    "kind": "parameters",
+    "stableKey": "attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_ratio",
+      "name": "人类形态攻击速度提升比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.300000012,
+        "2": 0.400000006,
+        "3": 0.5,
+        "4": 0.600000024,
+        "5": 0.699999988
+      },
+      "description": "当前根BonusAS索引1至5为0.3/0.4/0.5/0.6/0.7；比例属性使用1=100%。",
+      "sortOrder": 50
+    }
+  }
+}

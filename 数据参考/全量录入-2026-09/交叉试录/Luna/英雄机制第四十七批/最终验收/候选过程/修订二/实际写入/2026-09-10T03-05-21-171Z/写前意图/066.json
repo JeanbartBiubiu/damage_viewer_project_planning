@@ -1,0 +1,30 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_e/parameters",
+    "detailRoute": "/skills/nidalee_e/parameters/base_heal",
+    "skillKey": "nidalee_e",
+    "kind": "parameters",
+    "stableKey": "base_heal",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_heal",
+      "name": "人类形态最小治疗基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 75,
+        "3": 100,
+        "4": 125,
+        "5": 150
+      },
+      "description": "当前根BaseHeal索引1至5为50/75/100/125/150；索引0=25不作技能1级。",
+      "sortOrder": 10
+    }
+  }
+}

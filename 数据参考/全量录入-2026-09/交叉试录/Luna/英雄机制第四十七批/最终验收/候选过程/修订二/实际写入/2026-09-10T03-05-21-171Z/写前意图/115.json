@@ -1,0 +1,34 @@
+{
+  "i": 114,
+  "intent": {
+    "sequence": 116,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/formulas",
+    "detailRoute": "/skills/shyvana_w/formulas/toward_move_speed_ratio",
+    "skillKey": "shyvana_w",
+    "kind": "formulas",
+    "stableKey": "toward_move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "toward_move_speed_ratio",
+      "name": "朝敌方英雄移动速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_ratio"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_toward_multiplier"
+          }
+        ]
+      },
+      "description": "MoveSpeedTowardsEnemies=0.25×1.75=0.4375；以内联二元式表达，不引用其他公式。",
+      "sortOrder": 40
+    }
+  }
+}

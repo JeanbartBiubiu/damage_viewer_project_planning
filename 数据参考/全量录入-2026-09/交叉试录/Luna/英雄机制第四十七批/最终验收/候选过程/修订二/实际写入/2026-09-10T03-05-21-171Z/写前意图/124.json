@@ -1,0 +1,30 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 125,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_e/parameters",
+    "detailRoute": "/skills/shyvana_e/parameters/slow_duration_ms",
+    "skillKey": "shyvana_e",
+    "kind": "parameters",
+    "stableKey": "slow_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_duration_ms",
+      "name": "减速持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 2000,
+        "2": 2000,
+        "3": 2000,
+        "4": 2000,
+        "5": 2000
+      },
+      "description": "当前根SlowDuration索引1至5均为2秒，转换为2000毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

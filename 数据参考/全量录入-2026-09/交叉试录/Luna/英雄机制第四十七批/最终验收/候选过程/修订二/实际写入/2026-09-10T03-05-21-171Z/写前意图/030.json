@@ -1,0 +1,31 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/jayce_w/parameters",
+    "detailRoute": "/skills/jayce_w/parameters/mana_gain",
+    "skillKey": "jayce_w",
+    "kind": "parameters",
+    "stableKey": "mana_gain",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mana_gain",
+      "name": "锤形态普攻回复法力",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15,
+        "2": 17,
+        "3": 19,
+        "4": 21,
+        "5": 23,
+        "6": 25
+      },
+      "description": "当前根ManaGain索引1至6为15/17/19/21/23/25；回复资格由攻击事件接线。",
+      "sortOrder": 10
+    }
+  }
+}

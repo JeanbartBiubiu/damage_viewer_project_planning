@@ -1,0 +1,30 @@
+{
+  "i": 95,
+  "intent": {
+    "sequence": 97,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_q/parameters",
+    "detailRoute": "/skills/shyvana_q/parameters/bonus_attack_range",
+    "skillKey": "shyvana_q",
+    "kind": "parameters",
+    "stableKey": "bonus_attack_range",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_attack_range",
+      "name": "强化攻击额外距离",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 50,
+        "3": 50,
+        "4": 50,
+        "5": 50
+      },
+      "description": "当前根Bonus_Attack_Range索引1至5均为50。",
+      "sortOrder": 100
+    }
+  }
+}

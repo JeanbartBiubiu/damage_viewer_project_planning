@@ -1,0 +1,24 @@
+{
+  "i": 110,
+  "intent": {
+    "sequence": 112,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/parameters",
+    "detailRoute": "/skills/shyvana_w/parameters/explosion_ap_ratio",
+    "skillKey": "shyvana_w",
+    "kind": "parameters",
+    "stableKey": "explosion_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "explosion_ap_ratio",
+      "name": "结束爆炸法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.649999976,
+      "levelValues": null,
+      "description": "Damage第二分支mCoefficient=0.65，读取来源总法强。",
+      "sortOrder": 110
+    }
+  }
+}

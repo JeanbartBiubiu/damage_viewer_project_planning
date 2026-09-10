@@ -1,0 +1,71 @@
+{
+  "i": 116,
+  "intent": {
+    "sequence": 118,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/effects",
+    "detailRoute": "/skills/shyvana_w/effects/shield",
+    "skillKey": "shyvana_w",
+    "kind": "effects",
+    "stableKey": "shield",
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "shield",
+      "name": "烈火圣盾最终护盾",
+      "description": "护盾按当前唯一敌人数计算；护盾生成与结束/破盾/再施爆炸事件由事件层接线。",
+      "sortOrder": 20,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "shield",
+          "name": "烈火圣盾最终护盾",
+          "resultType": "NORMAL_SHIELD",
+          "target": "SOURCE",
+          "description": "普通护盾，触发和移除事件由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "FORMULA",
+              "formulaKey": "shield_total"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "absorbedDamageTypeKey": null,
+            "decayMode": "NONE"
+          }
+        }
+      ]
+    }
+  }
+}

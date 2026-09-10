@@ -1,0 +1,824 @@
+{
+  "startedAt": "2026-09-10T01:36:07.231Z",
+  "requestedModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "requestedCwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero47-cursor-review-20260910",
+  "outDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero47-cursor-review-run-20260910",
+  "promptSource": "hero47-cursor-prompt.txt",
+  "promptMode": "DESIGN_REVIEW_ONLY",
+  "timeoutMs": 900000,
+  "maxOldSpaceSizeMb": 6144,
+  "v8HeapSizeLimitMiB": 6336,
+  "settingSources": [
+    "project"
+  ],
+  "allowedPaths": [
+    {
+      "input": ".",
+      "absolute": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero47-cursor-review-20260910",
+      "relative": ".",
+      "exists": true
+    }
+  ],
+  "allowedPathSpecs": [
+    "."
+  ],
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "startup": {
+    "maxAttempts": 3,
+    "baseDelayMs": 1000,
+    "attemptsUsed": 1,
+    "attempts": [
+      {
+        "attempt": 1,
+        "phase": "send",
+        "candidateAgentId": "agent-ebae7d90-4823-4897-b01e-bc05910c989f",
+        "error": null,
+        "retryDecision": "success",
+        "delayMs": null
+      }
+    ]
+  },
+  "failurePhase": null,
+  "requestId": "833cfe04-9e62-49f6-9a14-25d9be001308",
+  "preflight": {
+    "cwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero47-cursor-review-20260910",
+    "runtime": {
+      "nodeVersion": "24.19.0",
+      "nodeMajor": 24,
+      "nodeMinor": 19,
+      "nodeSupport": "ok",
+      "belowPackageEngine": false,
+      "bunVersion": null,
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "env": {
+      "cursorUseHttp1": null,
+      "apiKeyPresent": true,
+      "apiKeyLength": 69
+    },
+    "sdk": {
+      "resolved": true,
+      "path": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js",
+      "source": "shared-cache",
+      "actualVersion": "1.0.24",
+      "expectedVersion": "1.0.24",
+      "versionMatch": true,
+      "error": null
+    },
+    "cliProbe": {
+      "cursorPath": "C:\\Program Files\\cursor\\resources\\app\\bin\\cursor",
+      "cursorAgentPath": null,
+      "programmable": false,
+      "supportsOutputFormat": false,
+      "supportsModelSelection": false,
+      "strictModelFallbackAllowed": false,
+      "status": "blocked",
+      "note": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    },
+    "checks": [
+      {
+        "id": "runtime.node",
+        "status": "ok",
+        "message": "Node 24.19.0 meets @cursor/sdk engines (>=22.13)."
+      },
+      {
+        "id": "runtime.bun",
+        "status": "ok",
+        "message": "Node runtime"
+      },
+      {
+        "id": "env.cursor_use_http1",
+        "status": "ok",
+        "message": "unset"
+      },
+      {
+        "id": "auth.api_key",
+        "status": "ok",
+        "message": "present length=69"
+      },
+      {
+        "id": "sdk.resolve",
+        "status": "ok",
+        "message": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js (source=shared-cache; version=1.0.24; expected=1.0.24; match=true)"
+      },
+      {
+        "id": "cli.probe",
+        "status": "warn",
+        "message": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+      },
+      {
+        "id": "prompt.mode",
+        "status": "ok",
+        "message": "DESIGN_REVIEW_ONLY"
+      }
+    ],
+    "warnings": [
+      "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    ],
+    "blocking": []
+  },
+  "eventCountByType": {
+    "status": 2,
+    "thinking": 263,
+    "assistant": 2286,
+    "tool_call": 96,
+    "usage": 1
+  },
+  "assistantText": "开始只读复核冻结来源包：先定位根绑定、来源、主负责人范围与逐槽说明。已定位冻结包清单，接着读取任务、范围、绑定与版本约束。gzip 只作冻结证据。接下来读展开绑定、官方资料和保护快照。绑定文件很大，按英雄分段核对官方数值与根绑定。**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero47-source-v1**\n\n固定客户端 16.17、官方 16.17.1；根为人类/锤形态新名；杰斯 Q/W/E 六级、R 一级；伊莉丝/奈德丽 R 四级；希瓦娜 R 三级。21 公共参数与 193 GET 快照一致，公式/效果/过程均为空，零业务写入。gzip 仅作冻结证据，未解压。\n\n## 逐槽\n\n**elise_p** 人类只备休眠小蜘蛛；蜘蛛附伤/治疗走变形。匿名 `{38943004}` 未被当前被动正文消费，不当事体伤害。跳过。\n\n**elise_q** 人类 40/70/100/130/160 + 目标**当前生命** × `0.01×(4+0.03AP)`。不是最大/已损生命。野怪上限与蜘蛛 Q 排除。`mCastTime` 0.25 与 `spellCastTime` 0.125 冲突不任选。射程 575、显示 615、弹速 2200 分开。\n\n**elise_w** 60/100/140/180/220+0.75AP；3 秒或近敌爆炸，半径 275。唯一敌人单次爆炸可准备。爆炸蜘蛛独立单位/单次载体待核，不挡已证参数。仅 `spellCastTime` 0.125。蜘蛛攻速不展开。`UnnamedEffectAmount2` 无值，不可当 0。\n\n**elise_e** 晕眩 1.6/1.8/2/2.2/2.4 秒（浮点须显式换毫秒，不另造伤害 0）。`mCastTime`=`spellCastTime`=0.25。纯视野、盘丝冷却、被动增强不录。\n\n**elise_r** 完整变形、蜘蛛普攻/治疗、小蜘蛛全链跳过。主体 4 级。`spellCastTime` 0.528699994 不舍入。\n\n**jayce_p** 30 点移速、0.75 秒，仅变形触发。按完整变形排除；不是 30%。\n\n**jayce_q** 锤形态六级 60/110/160/210/260/310+1.35 额外 AD。Slow 为负，正文 ×−100 → 35–60 百分数点、2 秒。仅 `spellCastTime` 0.125。冷却客户端 `[18,16,…,6]` 取下标 1–6 = 16–6。野怪 +10、炮形态排除。\n\n**jayce_w** 回蓝 15–25；主动 **4 秒共** 140–440+1.0 AP，不得再 ×4。仅 `spellCastTime` 0.25。根无冷却字段，不猜官方 10。炮形态排除。\n\n**jayce_e** 额外 AD + 8/10.8/13.6/16.4/19.2/22% 最大生命；无基础项不补 0。击退 600、0.35 秒。仅 `mCastTime` 0.25。冷却下标 1–6 = 20–10。野怪上限、加速门排除。\n\n**jayce_r** 切炮与反向增益均属完整换装，跳过。主体 1 级。断点树可展开也不录入已排除分支。\n\n**nidalee_p** 草丛 10%、2 秒；朝敌方英雄 ×3=30%。Q 捕猎 4 秒同结构。叠加上限 30%。10 来自 R 的 `PassivePercentMS`，属人类被动，不因字段在 R 而丢失。纯视野、野怪、陷阱触发、变形接线排除；保留 Q 条件。\n\n**nidalee_q** 70–150+0.5AP；**完整最小式** ×3.25，不是只乘基础。`RangeThreshold` 525 与中间距离曲线未证，不设线性/525=满伤。弹速 1300、显示 1500、施法 250ms 一致。豹形态与 tooltipOnly 旧树按变形排除，不因 tooltipOnly 自动丢。\n\n**nidalee_w** 陷阱（120 秒、持续伤害、数量上限）+ 豹猛扑。六类保持空。不因 tooltipOnly 消费而改范围。\n\n**nidalee_e** 最小 50–150+0.35AP；最大 = 完整治疗 ×(1+`MaxHealMult1`)=×2。缺血曲线与 `MaxHealThreshold` 0.05 待核。攻速 30–70%、7 秒。仅 `spellCastTime` 0.25。自身资格待核：不凭「友方」排除自己，也不声称已证。第三友方、豹挥击排除。\n\n**nidalee_r** 变形与整套豹技能排除。捕猎刷新 R 服务切换。P 所消费的 10% 移速留在 P。主体 4 级。`spellCastTime` 0.528699994 不舍入。\n\n**shyvana_p** 龙鳞铁衣：每层永久 0.3 护甲与 0.3 魔抗。英雄参与击杀 3 层保留；战前层数为无默认整数输入。兵野层数途径排除。不用旧版小龙双抗。\n\n**shyvana_q** 普攻附最大生命 `[0.01+0.00011额外AD]` 魔法伤害，缩 Q 冷却 0.5 秒。主动每击 10–30+1.1 **总 AD**+0.3AP 物理；同一敌人第一、二次攻击保留。窗口 6 / 再施 4 / 锁 1.5；「攻击后或短暂延迟」待接。加射程 50。`spellCastTime` 0 ≠ 两击同时完成。龙第三击 ×1.5 真实、额外锥形、兵野专用排除。\n\n**shyvana_w** 盾 60–140+0.12 额外生命。附近**当前唯一敌人**可加该完整盾的 30%；合格敌人数仅 0/1，不得按「每个附近英雄」整段排除。持续 2.5 秒；移速 25%，朝敌 ×1.75=43.75%。结束/破盾/再施爆炸 80–160+0.65AP。爆炸半径 350 ≠ 盾检查 600。龙治疗与未消费 Heal_Min/Max 不录。无施法字段不补 0。\n\n**shyvana_e** 普通火球 50–110+[0.6–0.8AP]+5% 最大生命；30% 慢 2 秒；`mCastTime`=`spellCastTime`=0.25。地面每秒伤害、40% 重叠、龙放大/穿透均在魔龙段，普通形态无地面持续伤害。\n\n**shyvana_r** 先变形再飞跃喷火与逃跑 0.75 秒，整链排除。不能把未变形 R 伪装成独立喷火。`mCastTime` 0.25 与 `spellCastTime` 0 冲突不任选。冷却 0 已保护；仍要 100 龙怒，但不因此写入变形链。\n\n## 有证据实质问题\n\n无。范围内明确数值、公式、maxLevel 与下标约定（技能等级零基 1 起、资源 0 起）与冻结根一致；待核项已单列，未阻塞其他已证值。\n\n## 非阻塞事项\n\n- 伊莉丝 W 爆炸蜘蛛单位资格、奈德丽 E 自身目标资格、奈德丽 Q 距离曲线、希瓦娜 Q 再施资格：保持边界，不默认输入。\n- 杰斯 W 只有 4 秒总额，无跳数/间隔字段，不编造 tick。\n- 奈德丽 P 的 `castRange` 1400 与官方被动正文同数，字段语义（草丛朝向 / 捕猎朝向）未在客户端层证明。\n- 希瓦娜 P 正文用 `Stacks_Per_Epic_Monster` 同时写英雄与史诗野怪；`Stacks_Per_Champion` 同为 3，脚本消费者未证。\n- 希瓦娜 Q 计算键 `BASE_DAMAGE` 对数据名 `Base_Damage`：按现有值 10–30 绑定，不另造字段。\n- 希瓦娜 E `Calc_Max_Health_Monster_Minimum` 的 `NumberCalculationPart` 无 `mNumber`；属兵野排除，FIXED 不可当 null/0。\n- 杰斯减速、奈德丽/希瓦娜移速与攻速：源值为 0.35/0.25/0.3 这类比例（1=100%）。正文 35/25/30 是显示百分数点；`attribute_flat_add` 不得写入 35。\n- `GameCalculationModified`（奈德丽 Q×3.25、E×2、希瓦娜盾 30%）编码时须内联完整式，禁止公式节点互引或参数冒充公式。\n- 保护快照 `shyvana_r` 冷却说明仍写「初始伤害及自身生命收益保留」，与本轮整链排除不一致；不得据此写入变形喷火。\n- 未消费 `mEffectAmount`/cherry/SWIFTPLAY/旧 Heal 树不录。匿名与 tooltipOnly 仅在确属陷阱/变形/未消费时排除。\n\n未声称已保存、页面或战斗通过。",
+  "toolCalls": [
+    {
+      "callId": "call-2393819f-26e2-4cc6-a058-d13028e641b1-0\nfc_f5847707-7af8-9300-9bcc-3db59f469e92_0",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-2393819f-26e2-4cc6-a058-d13028e641b1-1\nfc_f5847707-7af8-9300-9bcc-3db59f469e92_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-2393819f-26e2-4cc6-a058-d13028e641b1-1\nfc_f5847707-7af8-9300-9bcc-3db59f469e92_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-2393819f-26e2-4cc6-a058-d13028e641b1-0\nfc_f5847707-7af8-9300-9bcc-3db59f469e92_0",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-36933ae8-8cf6-4a34-b492-eee458f13f41-2\nfc_8f799b2b-6a24-9c3d-8e59-ad27d3f2fbde_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-36933ae8-8cf6-4a34-b492-eee458f13f41-2\nfc_8f799b2b-6a24-9c3d-8e59-ad27d3f2fbde_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-36933ae8-8cf6-4a34-b492-eee458f13f41-3\nfc_8f799b2b-6a24-9c3d-8e59-ad27d3f2fbde_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-36933ae8-8cf6-4a34-b492-eee458f13f41-3\nfc_8f799b2b-6a24-9c3d-8e59-ad27d3f2fbde_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-36933ae8-8cf6-4a34-b492-eee458f13f41-4\nfc_8f799b2b-6a24-9c3d-8e59-ad27d3f2fbde_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-36933ae8-8cf6-4a34-b492-eee458f13f41-4\nfc_8f799b2b-6a24-9c3d-8e59-ad27d3f2fbde_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-36933ae8-8cf6-4a34-b492-eee458f13f41-5\nfc_8f799b2b-6a24-9c3d-8e59-ad27d3f2fbde_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-36933ae8-8cf6-4a34-b492-eee458f13f41-5\nfc_8f799b2b-6a24-9c3d-8e59-ad27d3f2fbde_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-36933ae8-8cf6-4a34-b492-eee458f13f41-6\nfc_8f799b2b-6a24-9c3d-8e59-ad27d3f2fbde_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-36933ae8-8cf6-4a34-b492-eee458f13f41-7\nfc_8f799b2b-6a24-9c3d-8e59-ad27d3f2fbde_5",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-36933ae8-8cf6-4a34-b492-eee458f13f41-6\nfc_8f799b2b-6a24-9c3d-8e59-ad27d3f2fbde_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-36933ae8-8cf6-4a34-b492-eee458f13f41-7\nfc_8f799b2b-6a24-9c3d-8e59-ad27d3f2fbde_5",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c53b008-294f-4883-99b8-4eed91d577a4-8\nfc_aaa7657b-d21e-9802-b29b-a53559df9abf_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c53b008-294f-4883-99b8-4eed91d577a4-8\nfc_aaa7657b-d21e-9802-b29b-a53559df9abf_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c53b008-294f-4883-99b8-4eed91d577a4-9\nfc_aaa7657b-d21e-9802-b29b-a53559df9abf_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c53b008-294f-4883-99b8-4eed91d577a4-9\nfc_aaa7657b-d21e-9802-b29b-a53559df9abf_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c53b008-294f-4883-99b8-4eed91d577a4-10\nfc_aaa7657b-d21e-9802-b29b-a53559df9abf_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c53b008-294f-4883-99b8-4eed91d577a4-11\nfc_aaa7657b-d21e-9802-b29b-a53559df9abf_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c53b008-294f-4883-99b8-4eed91d577a4-10\nfc_aaa7657b-d21e-9802-b29b-a53559df9abf_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-0c53b008-294f-4883-99b8-4eed91d577a4-11\nfc_aaa7657b-d21e-9802-b29b-a53559df9abf_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ded1d274-2b41-4daa-9199-da352123e2bc-12\nfc_5d50eae4-933b-9bb1-91ae-f2c83834b363_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ded1d274-2b41-4daa-9199-da352123e2bc-12\nfc_5d50eae4-933b-9bb1-91ae-f2c83834b363_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ded1d274-2b41-4daa-9199-da352123e2bc-13\nfc_5d50eae4-933b-9bb1-91ae-f2c83834b363_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ded1d274-2b41-4daa-9199-da352123e2bc-13\nfc_5d50eae4-933b-9bb1-91ae-f2c83834b363_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ded1d274-2b41-4daa-9199-da352123e2bc-14\nfc_5d50eae4-933b-9bb1-91ae-f2c83834b363_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ded1d274-2b41-4daa-9199-da352123e2bc-15\nfc_5d50eae4-933b-9bb1-91ae-f2c83834b363_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ded1d274-2b41-4daa-9199-da352123e2bc-14\nfc_5d50eae4-933b-9bb1-91ae-f2c83834b363_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ded1d274-2b41-4daa-9199-da352123e2bc-15\nfc_5d50eae4-933b-9bb1-91ae-f2c83834b363_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-91b631ff-519d-4a6d-9d00-98967ac0978f-16\nfc_d78fde29-d5f0-9f55-9403-26cbfde783c1_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-91b631ff-519d-4a6d-9d00-98967ac0978f-17\nfc_d78fde29-d5f0-9f55-9403-26cbfde783c1_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-91b631ff-519d-4a6d-9d00-98967ac0978f-18\nfc_d78fde29-d5f0-9f55-9403-26cbfde783c1_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-91b631ff-519d-4a6d-9d00-98967ac0978f-16\nfc_d78fde29-d5f0-9f55-9403-26cbfde783c1_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-91b631ff-519d-4a6d-9d00-98967ac0978f-17\nfc_d78fde29-d5f0-9f55-9403-26cbfde783c1_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-91b631ff-519d-4a6d-9d00-98967ac0978f-18\nfc_d78fde29-d5f0-9f55-9403-26cbfde783c1_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-9e756855-87ae-4ebb-b6ea-94a84499b270-19\nfc_de35c085-89c2-908b-96dd-b18d8c7efdf1_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-9e756855-87ae-4ebb-b6ea-94a84499b270-20\nfc_de35c085-89c2-908b-96dd-b18d8c7efdf1_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-9e756855-87ae-4ebb-b6ea-94a84499b270-21\nfc_de35c085-89c2-908b-96dd-b18d8c7efdf1_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-9e756855-87ae-4ebb-b6ea-94a84499b270-19\nfc_de35c085-89c2-908b-96dd-b18d8c7efdf1_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-9e756855-87ae-4ebb-b6ea-94a84499b270-20\nfc_de35c085-89c2-908b-96dd-b18d8c7efdf1_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-9e756855-87ae-4ebb-b6ea-94a84499b270-21\nfc_de35c085-89c2-908b-96dd-b18d8c7efdf1_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c30def06-e3b7-4d2c-9e95-8d551bd7098f-22\nfc_7a6b6667-50d2-933a-aa68-5b7e48405624_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c30def06-e3b7-4d2c-9e95-8d551bd7098f-22\nfc_7a6b6667-50d2-933a-aa68-5b7e48405624_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c30def06-e3b7-4d2c-9e95-8d551bd7098f-23\nfc_7a6b6667-50d2-933a-aa68-5b7e48405624_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c30def06-e3b7-4d2c-9e95-8d551bd7098f-24\nfc_7a6b6667-50d2-933a-aa68-5b7e48405624_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c30def06-e3b7-4d2c-9e95-8d551bd7098f-23\nfc_7a6b6667-50d2-933a-aa68-5b7e48405624_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c30def06-e3b7-4d2c-9e95-8d551bd7098f-24\nfc_7a6b6667-50d2-933a-aa68-5b7e48405624_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e8124eb7-1e76-434d-b7f7-5a02cd647592-25\nfc_fc15d433-45d9-93aa-a1c5-e155ffe4f1c9_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e8124eb7-1e76-434d-b7f7-5a02cd647592-25\nfc_fc15d433-45d9-93aa-a1c5-e155ffe4f1c9_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e8124eb7-1e76-434d-b7f7-5a02cd647592-26\nfc_fc15d433-45d9-93aa-a1c5-e155ffe4f1c9_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e8124eb7-1e76-434d-b7f7-5a02cd647592-26\nfc_fc15d433-45d9-93aa-a1c5-e155ffe4f1c9_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e8124eb7-1e76-434d-b7f7-5a02cd647592-27\nfc_fc15d433-45d9-93aa-a1c5-e155ffe4f1c9_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e8124eb7-1e76-434d-b7f7-5a02cd647592-28\nfc_fc15d433-45d9-93aa-a1c5-e155ffe4f1c9_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e8124eb7-1e76-434d-b7f7-5a02cd647592-27\nfc_fc15d433-45d9-93aa-a1c5-e155ffe4f1c9_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e8124eb7-1e76-434d-b7f7-5a02cd647592-28\nfc_fc15d433-45d9-93aa-a1c5-e155ffe4f1c9_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b7577c81-4a5d-49e1-974f-858cc51d10b0-29\nfc_ed480c7f-0f74-95fe-911a-8b967c7b59b5_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b7577c81-4a5d-49e1-974f-858cc51d10b0-30\nfc_ed480c7f-0f74-95fe-911a-8b967c7b59b5_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b7577c81-4a5d-49e1-974f-858cc51d10b0-29\nfc_ed480c7f-0f74-95fe-911a-8b967c7b59b5_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b7577c81-4a5d-49e1-974f-858cc51d10b0-30\nfc_ed480c7f-0f74-95fe-911a-8b967c7b59b5_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b7577c81-4a5d-49e1-974f-858cc51d10b0-31\nfc_ed480c7f-0f74-95fe-911a-8b967c7b59b5_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b7577c81-4a5d-49e1-974f-858cc51d10b0-32\nfc_ed480c7f-0f74-95fe-911a-8b967c7b59b5_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b7577c81-4a5d-49e1-974f-858cc51d10b0-31\nfc_ed480c7f-0f74-95fe-911a-8b967c7b59b5_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b7577c81-4a5d-49e1-974f-858cc51d10b0-32\nfc_ed480c7f-0f74-95fe-911a-8b967c7b59b5_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c9a06915-6db6-40fe-8c5a-42b007b62f8d-33\nfc_c18d3826-e4a2-9a02-9020-bf48564896dc_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c9a06915-6db6-40fe-8c5a-42b007b62f8d-34\nfc_c18d3826-e4a2-9a02-9020-bf48564896dc_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c9a06915-6db6-40fe-8c5a-42b007b62f8d-33\nfc_c18d3826-e4a2-9a02-9020-bf48564896dc_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c9a06915-6db6-40fe-8c5a-42b007b62f8d-34\nfc_c18d3826-e4a2-9a02-9020-bf48564896dc_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c9a06915-6db6-40fe-8c5a-42b007b62f8d-35\nfc_c18d3826-e4a2-9a02-9020-bf48564896dc_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c9a06915-6db6-40fe-8c5a-42b007b62f8d-36\nfc_c18d3826-e4a2-9a02-9020-bf48564896dc_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c9a06915-6db6-40fe-8c5a-42b007b62f8d-35\nfc_c18d3826-e4a2-9a02-9020-bf48564896dc_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c9a06915-6db6-40fe-8c5a-42b007b62f8d-36\nfc_c18d3826-e4a2-9a02-9020-bf48564896dc_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d99a5ec8-10c3-4f4e-9430-e3b76966c20a-37\nfc_f5281312-8014-9e6b-bcf6-6078f99f14a0_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d99a5ec8-10c3-4f4e-9430-e3b76966c20a-38\nfc_f5281312-8014-9e6b-bcf6-6078f99f14a0_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d99a5ec8-10c3-4f4e-9430-e3b76966c20a-39\nfc_f5281312-8014-9e6b-bcf6-6078f99f14a0_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d99a5ec8-10c3-4f4e-9430-e3b76966c20a-38\nfc_f5281312-8014-9e6b-bcf6-6078f99f14a0_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d99a5ec8-10c3-4f4e-9430-e3b76966c20a-37\nfc_f5281312-8014-9e6b-bcf6-6078f99f14a0_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d99a5ec8-10c3-4f4e-9430-e3b76966c20a-39\nfc_f5281312-8014-9e6b-bcf6-6078f99f14a0_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d99a5ec8-10c3-4f4e-9430-e3b76966c20a-40\nfc_f5281312-8014-9e6b-bcf6-6078f99f14a0_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d99a5ec8-10c3-4f4e-9430-e3b76966c20a-40\nfc_f5281312-8014-9e6b-bcf6-6078f99f14a0_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d99a5ec8-10c3-4f4e-9430-e3b76966c20a-41\nfc_f5281312-8014-9e6b-bcf6-6078f99f14a0_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d99a5ec8-10c3-4f4e-9430-e3b76966c20a-42\nfc_f5281312-8014-9e6b-bcf6-6078f99f14a0_5",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-d99a5ec8-10c3-4f4e-9430-e3b76966c20a-41\nfc_f5281312-8014-9e6b-bcf6-6078f99f14a0_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-d99a5ec8-10c3-4f4e-9430-e3b76966c20a-42\nfc_f5281312-8014-9e6b-bcf6-6078f99f14a0_5",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a5e1d6ad-0b68-4b37-8df0-1f34ab658018-43\nfc_bfd94ed0-7cc9-9cd3-be22-46b4dfc2e879_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a5e1d6ad-0b68-4b37-8df0-1f34ab658018-43\nfc_bfd94ed0-7cc9-9cd3-be22-46b4dfc2e879_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a5e1d6ad-0b68-4b37-8df0-1f34ab658018-44\nfc_bfd94ed0-7cc9-9cd3-be22-46b4dfc2e879_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a5e1d6ad-0b68-4b37-8df0-1f34ab658018-44\nfc_bfd94ed0-7cc9-9cd3-be22-46b4dfc2e879_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a5e1d6ad-0b68-4b37-8df0-1f34ab658018-45\nfc_bfd94ed0-7cc9-9cd3-be22-46b4dfc2e879_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a5e1d6ad-0b68-4b37-8df0-1f34ab658018-45\nfc_bfd94ed0-7cc9-9cd3-be22-46b4dfc2e879_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a5e1d6ad-0b68-4b37-8df0-1f34ab658018-46\nfc_bfd94ed0-7cc9-9cd3-be22-46b4dfc2e879_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a5e1d6ad-0b68-4b37-8df0-1f34ab658018-47\nfc_bfd94ed0-7cc9-9cd3-be22-46b4dfc2e879_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-a5e1d6ad-0b68-4b37-8df0-1f34ab658018-46\nfc_bfd94ed0-7cc9-9cd3-be22-46b4dfc2e879_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-a5e1d6ad-0b68-4b37-8df0-1f34ab658018-47\nfc_bfd94ed0-7cc9-9cd3-be22-46b4dfc2e879_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    }
+  ],
+  "statuses": [
+    "RUNNING",
+    "FINISHED"
+  ],
+  "cliFallback": {
+    "allowed": false,
+    "modelDriftAccepted": false,
+    "status": "not_attempted"
+  },
+  "git": {
+    "statusWorktreeBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero47-cursor-review-run-20260910\\git-status-worktree-before.txt",
+    "statusBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero47-cursor-review-run-20260910\\git-status-before.txt",
+    "allowedPathsDirtyBefore": false,
+    "signaturesBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero47-cursor-review-run-20260910\\path-signatures-before.json",
+    "pathSignaturesBefore": {},
+    "statusEntriesBeforeCount": 0,
+    "beforeAuditAvailable": true,
+    "statusWorktreeAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero47-cursor-review-run-20260910\\git-status-worktree-after.txt",
+    "statusAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero47-cursor-review-run-20260910\\git-status-after.txt",
+    "allowedPathsDirtyAfter": false,
+    "signaturesAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero47-cursor-review-run-20260910\\path-signatures-after.json",
+    "pathSignaturesAfter": {},
+    "runDelta": [],
+    "changeClassification": {
+      "afterState": {
+        "inScope": [],
+        "outsideScope": []
+      },
+      "runDelta": {
+        "inScope": [],
+        "outsideScope": []
+      }
+    },
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopePaths": [],
+    "untrackedInScope": [],
+    "untrackedCapture": {
+      "mode": "metadata-only",
+      "files": [],
+      "skipped": []
+    },
+    "diffPatchScope": "allowed-paths",
+    "diffPatchFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero47-cursor-review-run-20260910\\diff.patch"
+  },
+  "runtimeUsed": "sdk",
+  "agentId": "agent-ebae7d90-4823-4897-b01e-bc05910c989f",
+  "runId": "run-587bc8ca-75ad-4c64-a12a-6a85aaa71452",
+  "result": {
+    "id": "run-587bc8ca-75ad-4c64-a12a-6a85aaa71452",
+    "requestId": "833cfe04-9e62-49f6-9a14-25d9be001308",
+    "status": "finished",
+    "result": "**VERDICT: READY**  \n**REVIEWED_PLAN_REV: hero47-source-v1**\n\n固定客户端 16.17、官方 16.17.1；根为人类/锤形态新名；杰斯 Q/W/E 六级、R 一级；伊莉丝/奈德丽 R 四级；希瓦娜 R 三级。21 公共参数与 193 GET 快照一致，公式/效果/过程均为空，零业务写入。gzip 仅作冻结证据，未解压。\n\n## 逐槽\n\n**elise_p** 人类只备休眠小蜘蛛；蜘蛛附伤/治疗走变形。匿名 `{38943004}` 未被当前被动正文消费，不当事体伤害。跳过。\n\n**elise_q** 人类 40/70/100/130/160 + 目标**当前生命** × `0.01×(4+0.03AP)`。不是最大/已损生命。野怪上限与蜘蛛 Q 排除。`mCastTime` 0.25 与 `spellCastTime` 0.125 冲突不任选。射程 575、显示 615、弹速 2200 分开。\n\n**elise_w** 60/100/140/180/220+0.75AP；3 秒或近敌爆炸，半径 275。唯一敌人单次爆炸可准备。爆炸蜘蛛独立单位/单次载体待核，不挡已证参数。仅 `spellCastTime` 0.125。蜘蛛攻速不展开。`UnnamedEffectAmount2` 无值，不可当 0。\n\n**elise_e** 晕眩 1.6/1.8/2/2.2/2.4 秒（浮点须显式换毫秒，不另造伤害 0）。`mCastTime`=`spellCastTime`=0.25。纯视野、盘丝冷却、被动增强不录。\n\n**elise_r** 完整变形、蜘蛛普攻/治疗、小蜘蛛全链跳过。主体 4 级。`spellCastTime` 0.528699994 不舍入。\n\n**jayce_p** 30 点移速、0.75 秒，仅变形触发。按完整变形排除；不是 30%。\n\n**jayce_q** 锤形态六级 60/110/160/210/260/310+1.35 额外 AD。Slow 为负，正文 ×−100 → 35–60 百分数点、2 秒。仅 `spellCastTime` 0.125。冷却客户端 `[18,16,…,6]` 取下标 1–6 = 16–6。野怪 +10、炮形态排除。\n\n**jayce_w** 回蓝 15–25；主动 **4 秒共** 140–440+1.0 AP，不得再 ×4。仅 `spellCastTime` 0.25。根无冷却字段，不猜官方 10。炮形态排除。\n\n**jayce_e** 额外 AD + 8/10.8/13.6/16.4/19.2/22% 最大生命；无基础项不补 0。击退 600、0.35 秒。仅 `mCastTime` 0.25。冷却下标 1–6 = 20–10。野怪上限、加速门排除。\n\n**jayce_r** 切炮与反向增益均属完整换装，跳过。主体 1 级。断点树可展开也不录入已排除分支。\n\n**nidalee_p** 草丛 10%、2 秒；朝敌方英雄 ×3=30%。Q 捕猎 4 秒同结构。叠加上限 30%。10 来自 R 的 `PassivePercentMS`，属人类被动，不因字段在 R 而丢失。纯视野、野怪、陷阱触发、变形接线排除；保留 Q 条件。\n\n**nidalee_q** 70–150+0.5AP；**完整最小式** ×3.25，不是只乘基础。`RangeThreshold` 525 与中间距离曲线未证，不设线性/525=满伤。弹速 1300、显示 1500、施法 250ms 一致。豹形态与 tooltipOnly 旧树按变形排除，不因 tooltipOnly 自动丢。\n\n**nidalee_w** 陷阱（120 秒、持续伤害、数量上限）+ 豹猛扑。六类保持空。不因 tooltipOnly 消费而改范围。\n\n**nidalee_e** 最小 50–150+0.35AP；最大 = 完整治疗 ×(1+`MaxHealMult1`)=×2。缺血曲线与 `MaxHealThreshold` 0.05 待核。攻速 30–70%、7 秒。仅 `spellCastTime` 0.25。自身资格待核：不凭「友方」排除自己，也不声称已证。第三友方、豹挥击排除。\n\n**nidalee_r** 变形与整套豹技能排除。捕猎刷新 R 服务切换。P 所消费的 10% 移速留在 P。主体 4 级。`spellCastTime` 0.528699994 不舍入。\n\n**shyvana_p** 龙鳞铁衣：每层永久 0.3 护甲与 0.3 魔抗。英雄参与击杀 3 层保留；战前层数为无默认整数输入。兵野层数途径排除。不用旧版小龙双抗。\n\n**shyvana_q** 普攻附最大生命 `[0.01+0.00011额外AD]` 魔法伤害，缩 Q 冷却 0.5 秒。主动每击 10–30+1.1 **总 AD**+0.3AP 物理；同一敌人第一、二次攻击保留。窗口 6 / 再施 4 / 锁 1.5；「攻击后或短暂延迟」待接。加射程 50。`spellCastTime` 0 ≠ 两击同时完成。龙第三击 ×1.5 真实、额外锥形、兵野专用排除。\n\n**shyvana_w** 盾 60–140+0.12 额外生命。附近**当前唯一敌人**可加该完整盾的 30%；合格敌人数仅 0/1，不得按「每个附近英雄」整段排除。持续 2.5 秒；移速 25%，朝敌 ×1.75=43.75%。结束/破盾/再施爆炸 80–160+0.65AP。爆炸半径 350 ≠ 盾检查 600。龙治疗与未消费 Heal_Min/Max 不录。无施法字段不补 0。\n\n**shyvana_e** 普通火球 50–110+[0.6–0.8AP]+5% 最大生命；30% 慢 2 秒；`mCastTime`=`spellCastTime`=0.25。地面每秒伤害、40% 重叠、龙放大/穿透均在魔龙段，普通形态无地面持续伤害。\n\n**shyvana_r** 先变形再飞跃喷火与逃跑 0.75 秒，整链排除。不能把未变形 R 伪装成独立喷火。`mCastTime` 0.25 与 `spellCastTime` 0 冲突不任选。冷却 0 已保护；仍要 100 龙怒，但不因此写入变形链。\n\n## 有证据实质问题\n\n无。范围内明确数值、公式、maxLevel 与下标约定（技能等级零基 1 起、资源 0 起）与冻结根一致；待核项已单列，未阻塞其他已证值。\n\n## 非阻塞事项\n\n- 伊莉丝 W 爆炸蜘蛛单位资格、奈德丽 E 自身目标资格、奈德丽 Q 距离曲线、希瓦娜 Q 再施资格：保持边界，不默认输入。\n- 杰斯 W 只有 4 秒总额，无跳数/间隔字段，不编造 tick。\n- 奈德丽 P 的 `castRange` 1400 与官方被动正文同数，字段语义（草丛朝向 / 捕猎朝向）未在客户端层证明。\n- 希瓦娜 P 正文用 `Stacks_Per_Epic_Monster` 同时写英雄与史诗野怪；`Stacks_Per_Champion` 同为 3，脚本消费者未证。\n- 希瓦娜 Q 计算键 `BASE_DAMAGE` 对数据名 `Base_Damage`：按现有值 10–30 绑定，不另造字段。\n- 希瓦娜 E `Calc_Max_Health_Monster_Minimum` 的 `NumberCalculationPart` 无 `mNumber`；属兵野排除，FIXED 不可当 null/0。\n- 杰斯减速、奈德丽/希瓦娜移速与攻速：源值为 0.35/0.25/0.3 这类比例（1=100%）。正文 35/25/30 是显示百分数点；`attribute_flat_add` 不得写入 35。\n- `GameCalculationModified`（奈德丽 Q×3.25、E×2、希瓦娜盾 30%）编码时须内联完整式，禁止公式节点互引或参数冒充公式。\n- 保护快照 `shyvana_r` 冷却说明仍写「初始伤害及自身生命收益保留」，与本轮整链排除不一致；不得据此写入变形喷火。\n- 未消费 `mEffectAmount`/cherry/SWIFTPLAY/旧 Heal 树不录。匿名与 tooltipOnly 仅在确属陷阱/变形/未消费时排除。\n\n未声称已保存、页面或战斗通过。",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "durationMs": 351740,
+    "usage": {
+      "inputTokens": 953352,
+      "outputTokens": 20222,
+      "cacheReadTokens": 807040,
+      "cacheWriteTokens": 0,
+      "totalTokens": 1780614,
+      "reasoningTokens": 15504
+    }
+  },
+  "resultStatus": "finished",
+  "resultModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "durationMs": 351740,
+  "artifacts": [],
+  "disposal": {
+    "method": "asyncDispose"
+  },
+  "completedAt": "2026-09-10T01:42:05.457Z"
+}

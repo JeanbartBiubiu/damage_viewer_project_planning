@@ -1,0 +1,30 @@
+{
+  "i": 70,
+  "intent": {
+    "sequence": 71,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/nidalee_e/parameters",
+    "detailRoute": "/skills/nidalee_e/parameters/attack_speed_duration_ms",
+    "skillKey": "nidalee_e",
+    "kind": "parameters",
+    "stableKey": "attack_speed_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_duration_ms",
+      "name": "攻击速度提升持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 7000,
+        "2": 7000,
+        "3": 7000,
+        "4": 7000,
+        "5": 7000
+      },
+      "description": "当前根ASDuration索引1至5均为7秒，精确转换为7000毫秒。",
+      "sortOrder": 60
+    }
+  }
+}

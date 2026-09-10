@@ -1,0 +1,30 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 105,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_w/parameters",
+    "detailRoute": "/skills/shyvana_w/parameters/shield_base",
+    "skillKey": "shyvana_w",
+    "kind": "parameters",
+    "stableKey": "shield_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_base",
+      "name": "基础护盾值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 80,
+        "3": 100,
+        "4": 120,
+        "5": 140
+      },
+      "description": "当前根Shield索引1至5为60/80/100/120/140；索引0=40不作技能1级。",
+      "sortOrder": 40
+    }
+  }
+}

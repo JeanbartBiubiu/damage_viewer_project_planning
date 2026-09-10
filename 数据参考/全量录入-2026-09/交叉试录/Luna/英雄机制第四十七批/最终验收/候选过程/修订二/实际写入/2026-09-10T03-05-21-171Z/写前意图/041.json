@@ -1,0 +1,24 @@
+{
+  "i": 40,
+  "intent": {
+    "sequence": 41,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/jayce_e/parameters",
+    "detailRoute": "/skills/jayce_e/parameters/knockback_duration_ms",
+    "skillKey": "jayce_e",
+    "kind": "parameters",
+    "stableKey": "knockback_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockback_duration_ms",
+      "name": "击退持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 350,
+      "levelValues": null,
+      "description": "KnockbackDuration=0.35秒，转换为350毫秒。",
+      "sortOrder": 40
+    }
+  }
+}

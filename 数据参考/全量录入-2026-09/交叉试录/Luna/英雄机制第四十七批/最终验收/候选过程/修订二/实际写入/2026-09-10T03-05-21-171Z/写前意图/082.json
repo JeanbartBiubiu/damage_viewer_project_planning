@@ -1,0 +1,24 @@
+{
+  "i": 81,
+  "intent": {
+    "sequence": 83,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_p/parameters",
+    "detailRoute": "/skills/shyvana_p/parameters/current_stack_count",
+    "skillKey": "shyvana_p",
+    "kind": "parameters",
+    "stableKey": "current_stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "current_stack_count",
+      "name": "当前龙鳞层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "Calc_Bonus_Armor与Calc_Bonus_MR读取被动层数计数；战前实际层数必须由运行层提供，不设默认。",
+      "sortOrder": 40
+    }
+  }
+}

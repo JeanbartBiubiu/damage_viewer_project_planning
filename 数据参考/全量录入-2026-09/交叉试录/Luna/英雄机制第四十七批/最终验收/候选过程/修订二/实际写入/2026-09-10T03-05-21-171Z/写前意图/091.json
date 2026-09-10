@@ -1,0 +1,24 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 92,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/shyvana_q/parameters",
+    "detailRoute": "/skills/shyvana_q/parameters/active_ap_ratio",
+    "skillKey": "shyvana_q",
+    "kind": "parameters",
+    "stableKey": "active_ap_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_ap_ratio",
+      "name": "强化攻击法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.300000012,
+      "levelValues": null,
+      "description": "Calc_Damage第三分支mCoefficient=0.3，读取来源总法强。",
+      "sortOrder": 50
+    }
+  }
+}

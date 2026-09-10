@@ -1,0 +1,30 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/elise_w/parameters",
+    "detailRoute": "/skills/elise_w/parameters/base_damage",
+    "skillKey": "elise_w",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "爆炸基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 100,
+        "3": 140,
+        "4": 180,
+        "5": 220
+      },
+      "description": "当前根BaseDamage索引1至5为60/100/140/180/220。",
+      "sortOrder": 10
+    }
+  }
+}
