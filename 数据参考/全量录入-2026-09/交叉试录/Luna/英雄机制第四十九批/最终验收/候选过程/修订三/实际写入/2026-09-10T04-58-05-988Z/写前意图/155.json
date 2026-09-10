@@ -1,0 +1,25 @@
+{
+  "i": 154,
+  "intent": {
+    "sequence": 155,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_p/parameters",
+    "detailRoute": "/skills/reksai_p/parameters/fury_from_attack",
+    "skillKey": "reksai_p",
+    "kind": "parameters",
+    "stableKey": "fury_from_attack",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "fury_from_attack",
+      "name": "普攻生成怒气",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 25,
+      "levelValues": null,
+      "description": "地表普攻每次生成25怒气。",
+      "sortOrder": 10
+    }
+  }
+}

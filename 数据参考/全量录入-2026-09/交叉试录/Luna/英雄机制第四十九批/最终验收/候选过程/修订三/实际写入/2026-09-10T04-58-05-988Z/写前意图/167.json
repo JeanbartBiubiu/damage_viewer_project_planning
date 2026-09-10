@@ -1,0 +1,31 @@
+{
+  "i": 166,
+  "intent": {
+    "sequence": 167,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_e/parameters",
+    "detailRoute": "/skills/reksai_e/parameters/damage_base",
+    "skillKey": "reksai_e",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "地表撕咬基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 95,
+        "3": 120,
+        "4": 145,
+        "5": 170
+      },
+      "description": "BaseDamage索引1至5为70/95/120/145/170。",
+      "sortOrder": 10
+    }
+  }
+}

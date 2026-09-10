@@ -1,0 +1,25 @@
+{
+  "i": 129,
+  "intent": {
+    "sequence": 130,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_w/parameters",
+    "detailRoute": "/skills/quinn_w/parameters/buff_duration_ms",
+    "skillKey": "quinn_w",
+    "kind": "parameters",
+    "stableKey": "buff_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "buff_duration_ms",
+      "name": "被动强化持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "源值2秒。",
+      "sortOrder": 30
+    }
+  }
+}

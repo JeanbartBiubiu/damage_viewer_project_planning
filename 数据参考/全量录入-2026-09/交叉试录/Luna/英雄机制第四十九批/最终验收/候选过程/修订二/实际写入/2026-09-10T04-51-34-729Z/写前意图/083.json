@@ -1,0 +1,31 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_e/parameters",
+    "detailRoute": "/skills/kled_e/parameters/dash_damage_base",
+    "skillKey": "kled_e",
+    "kind": "parameters",
+    "stableKey": "dash_damage_base",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dash_damage_base",
+      "name": "冲刺物理伤害基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 35,
+        "2": 60,
+        "3": 85,
+        "4": 110,
+        "5": 135
+      },
+      "description": "BaseDamage索引1至5为35/60/85/110/135。",
+      "sortOrder": 10
+    }
+  }
+}

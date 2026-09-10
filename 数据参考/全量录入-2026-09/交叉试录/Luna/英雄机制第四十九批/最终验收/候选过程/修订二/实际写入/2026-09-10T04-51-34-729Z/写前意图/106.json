@@ -1,0 +1,47 @@
+{
+  "i": 105,
+  "intent": {
+    "sequence": 106,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_r/formulas",
+    "detailRoute": "/skills/kled_r/formulas/damage_percent_bracket_points",
+    "skillKey": "kled_r",
+    "kind": "formulas",
+    "stableKey": "damage_percent_bracket_points",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_percent_bracket_points",
+      "name": "冲撞最大生命伤害括号百分数点",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_percent_points"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_percent_points"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "括号=4/6/8+0.03×额外攻击力，单位为百分数点。",
+      "sortOrder": 120
+    }
+  }
+}

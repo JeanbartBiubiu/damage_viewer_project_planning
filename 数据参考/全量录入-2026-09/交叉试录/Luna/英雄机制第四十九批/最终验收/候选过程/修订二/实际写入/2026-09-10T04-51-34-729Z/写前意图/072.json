@@ -1,0 +1,31 @@
+{
+  "i": 71,
+  "intent": {
+    "sequence": 72,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_w/parameters",
+    "detailRoute": "/skills/kled_w/parameters/fourth_max_hp_percent_points",
+    "skillKey": "kled_w",
+    "kind": "parameters",
+    "stableKey": "fourth_max_hp_percent_points",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "fourth_max_hp_percent_points",
+      "name": "第四击最大生命百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 4.5,
+        "2": 5,
+        "3": 5.5,
+        "4": 6,
+        "5": 6.5
+      },
+      "description": "源值4.5/5/5.5/6/6.5为百分数点，尚未乘0.01。",
+      "sortOrder": 30
+    }
+  }
+}

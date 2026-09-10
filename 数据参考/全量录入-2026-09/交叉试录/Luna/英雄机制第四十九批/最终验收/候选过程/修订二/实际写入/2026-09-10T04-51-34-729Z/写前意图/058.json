@@ -1,0 +1,31 @@
+{
+  "i": 57,
+  "intent": {
+    "sequence": 58,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_q/parameters",
+    "detailRoute": "/skills/kled_q/parameters/first_hit_damage_base",
+    "skillKey": "kled_q",
+    "kind": "parameters",
+    "stableKey": "first_hit_damage_base",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "first_hit_damage_base",
+      "name": "首次命中基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 55,
+        "3": 80,
+        "4": 105,
+        "5": 130
+      },
+      "description": "FirstHitBaseDamage索引1至5为30/55/80/105/130。",
+      "sortOrder": 10
+    }
+  }
+}

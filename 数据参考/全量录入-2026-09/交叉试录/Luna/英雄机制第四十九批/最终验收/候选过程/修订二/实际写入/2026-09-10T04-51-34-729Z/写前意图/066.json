@@ -1,0 +1,25 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_q/parameters",
+    "detailRoute": "/skills/kled_q/parameters/cast_range",
+    "skillKey": "kled_q",
+    "kind": "parameters",
+    "stableKey": "cast_range",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_range",
+      "name": "施法范围",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 800,
+      "levelValues": null,
+      "description": "客户端施法范围800。",
+      "sortOrder": 90
+    }
+  }
+}

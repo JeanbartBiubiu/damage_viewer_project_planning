@@ -1,0 +1,25 @@
+{
+  "i": 124,
+  "intent": {
+    "sequence": 125,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_q/parameters",
+    "detailRoute": "/skills/quinn_q/parameters/missile_speed",
+    "skillKey": "quinn_q",
+    "kind": "parameters",
+    "stableKey": "missile_speed",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missile_speed",
+      "name": "客户端飞弹速度",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1550,
+      "levelValues": null,
+      "description": "mSpell.missileSpeed=1550；mMissileSpec.movementComponent.mSpeed同为1550，不能当作射程。",
+      "sortOrder": 70
+    }
+  }
+}

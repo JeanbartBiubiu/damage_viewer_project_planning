@@ -1,0 +1,25 @@
+{
+  "i": 178,
+  "intent": {
+    "sequence": 179,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_r/parameters",
+    "detailRoute": "/skills/reksai_r/parameters/percent_point_unit",
+    "skillKey": "reksai_r",
+    "kind": "parameters",
+    "stableKey": "percent_point_unit",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_point_unit",
+      "name": "百分数点转比例单位",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "PercentHealthDamage源值为百分数点。",
+      "sortOrder": 40
+    }
+  }
+}

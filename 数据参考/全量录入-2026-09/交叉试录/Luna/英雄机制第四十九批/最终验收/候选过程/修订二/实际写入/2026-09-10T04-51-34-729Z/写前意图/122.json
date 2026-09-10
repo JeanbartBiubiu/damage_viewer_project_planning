@@ -1,0 +1,25 @@
+{
+  "i": 121,
+  "intent": {
+    "sequence": 122,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_q/parameters",
+    "detailRoute": "/skills/quinn_q/parameters/vision_reduction_duration_ms",
+    "skillKey": "quinn_q",
+    "kind": "parameters",
+    "stableKey": "vision_reduction_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "vision_reduction_duration_ms",
+      "name": "视野受限持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1750,
+      "levelValues": null,
+      "description": "源值1.75秒。",
+      "sortOrder": 40
+    }
+  }
+}

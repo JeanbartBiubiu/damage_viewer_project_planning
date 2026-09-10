@@ -1,0 +1,25 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 124,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_q/parameters",
+    "detailRoute": "/skills/quinn_q/parameters/display_range",
+    "skillKey": "quinn_q",
+    "kind": "parameters",
+    "stableKey": "display_range",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "display_range",
+      "name": "官方显示范围",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1025,
+      "levelValues": null,
+      "description": "官方显示范围1025，与客户端原始范围分开。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 29,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_w/parameters",
+    "detailRoute": "/skills/gnar_w/parameters/move_speed_duration_ms",
+    "skillKey": "gnar_w",
+    "kind": "parameters",
+    "stableKey": "move_speed_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_duration_ms",
+      "name": "移速衰减持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3000,
+      "levelValues": null,
+      "description": "源值3秒；衰减曲线不额外假定。",
+      "sortOrder": 50
+    }
+  }
+}

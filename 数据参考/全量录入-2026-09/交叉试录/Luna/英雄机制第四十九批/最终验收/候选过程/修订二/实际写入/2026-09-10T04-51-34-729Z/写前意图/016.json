@@ -1,0 +1,31 @@
+{
+  "i": 15,
+  "intent": {
+    "sequence": 16,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_q/parameters",
+    "detailRoute": "/skills/gnar_q/parameters/mini_damage_base",
+    "skillKey": "gnar_q",
+    "kind": "parameters",
+    "stableKey": "mini_damage_base",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mini_damage_base",
+      "name": "小型首段基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 5,
+        "2": 45,
+        "3": 85,
+        "4": 125,
+        "5": 165
+      },
+      "description": "MiniBaseDamage索引1至5为5/45/85/125/165；不把返程半伤当第二次命中。",
+      "sortOrder": 10
+    }
+  }
+}

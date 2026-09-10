@@ -1,0 +1,29 @@
+{
+  "i": 148,
+  "intent": {
+    "sequence": 149,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_r/parameters",
+    "detailRoute": "/skills/quinn_r/parameters/mana_cost",
+    "skillKey": "quinn_r",
+    "kind": "parameters",
+    "stableKey": "mana_cost",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mana_cost",
+      "name": "基础法力消耗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 25,
+        "3": 0
+      },
+      "description": "官方16.17.1法力50/25/0；0是官方真实值而非时间占位。",
+      "sortOrder": 90
+    }
+  }
+}

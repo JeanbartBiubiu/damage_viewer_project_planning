@@ -1,0 +1,73 @@
+{
+  "i": 131,
+  "intent": {
+    "sequence": 132,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_w/effects",
+    "detailRoute": "/skills/quinn_w/effects/marked_move_speed",
+    "skillKey": "quinn_w",
+    "kind": "effects",
+    "stableKey": "marked_move_speed",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "effectKey": "marked_move_speed",
+      "name": "敏锐感知移速",
+      "description": "攻击侵扰目标后自身移速比例增量。",
+      "sortOrder": 50,
+      "lifecycle": {
+        "durationValue": {
+          "kind": "PARAMETER",
+          "parameterKey": "buff_duration_ms"
+        },
+        "maxStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "applicationStacksValue": {
+          "kind": "FIXED",
+          "value": 1
+        },
+        "instanceScope": "SOURCE",
+        "reapplicationStackMode": "KEEP",
+        "reapplicationDurationMode": "REFRESH_ALL",
+        "expiryMode": "ALL_AT_ONCE",
+        "periodicIntervalValue": null,
+        "firstPeriodicExecution": null
+      },
+      "results": [
+        {
+          "resultKey": "attribute",
+          "name": "敏锐感知移速",
+          "resultType": "ATTRIBUTE_CHANGE",
+          "target": "SOURCE",
+          "description": "仅定义自身属性变化，触发资格和时点由事件层接线。",
+          "sortOrder": 10,
+          "lifecycleBehavior": {
+            "moment": "PERSISTENT",
+            "valueReadMode": "APPLICATION_SNAPSHOT",
+            "stackValueMode": "SHARED",
+            "reapplicationValueMode": "REPLACE",
+            "periodicExecutionMode": null
+          },
+          "spellShieldBlockScope": null,
+          "valueRule": {
+            "value": {
+              "kind": "PARAMETER",
+              "parameterKey": "move_speed_ratio"
+            },
+            "fixedMultiplier": 1,
+            "fixedMinValue": 0,
+            "fixedMaxValue": null
+          },
+          "detail": {
+            "attributeKey": "move_speed_percent",
+            "operation": "INCREASE",
+            "modifierZoneKey": "attribute_flat_add"
+          }
+        }
+      ]
+    }
+  }
+}

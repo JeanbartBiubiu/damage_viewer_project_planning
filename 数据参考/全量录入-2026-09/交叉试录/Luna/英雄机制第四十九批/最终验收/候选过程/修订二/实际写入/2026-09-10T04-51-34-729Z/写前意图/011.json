@@ -1,0 +1,25 @@
+{
+  "i": 10,
+  "intent": {
+    "sequence": 11,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/formulas",
+    "detailRoute": "/skills/gnar_p/formulas/small_attack_speed_bonus",
+    "skillKey": "gnar_p",
+    "kind": "formulas",
+    "stableKey": "small_attack_speed_bonus",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "small_attack_speed_bonus",
+      "name": "小型纳尔实际攻速比例",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "actual_small_attack_speed_ratio"
+      },
+      "description": "保留TotalAS的实际比例输入。",
+      "sortOrder": 20
+    }
+  }
+}

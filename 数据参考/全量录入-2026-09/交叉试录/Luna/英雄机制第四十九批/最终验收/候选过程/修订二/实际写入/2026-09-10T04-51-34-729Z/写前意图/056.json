@@ -1,0 +1,25 @@
+{
+  "i": 55,
+  "intent": {
+    "sequence": 56,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_p/parameters",
+    "detailRoute": "/skills/kled_p/parameters/actual_skaarl_base_health",
+    "skillKey": "kled_p",
+    "kind": "parameters",
+    "stableKey": "actual_skaarl_base_health",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_skaarl_base_health",
+      "name": "当前斯嘎尔基础承伤池",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "400至1400角色成长修正曲线未证，运行层提供实际基础池，不设默认。",
+      "sortOrder": 40
+    }
+  }
+}

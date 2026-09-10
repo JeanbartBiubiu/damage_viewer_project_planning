@@ -1,0 +1,25 @@
+{
+  "i": 177,
+  "intent": {
+    "sequence": 178,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_r/parameters",
+    "detailRoute": "/skills/reksai_r/parameters/bonus_ad_ratio",
+    "skillKey": "reksai_r",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "虚空猛冲额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1,
+      "levelValues": null,
+      "description": "RBaseDamageCalc树mStat2/mStatFormula2，ADRatio=1。",
+      "sortOrder": 30
+    }
+  }
+}

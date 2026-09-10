@@ -1,0 +1,25 @@
+{
+  "i": 112,
+  "intent": {
+    "sequence": 113,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_p/parameters",
+    "detailRoute": "/skills/quinn_p/parameters/bonus_ad_ratio",
+    "skillKey": "quinn_p",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "标记额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.400000006,
+      "levelValues": null,
+      "description": "当前ADRatio=0.4，按额外攻击力口径。",
+      "sortOrder": 30
+    }
+  }
+}

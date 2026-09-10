@@ -1,0 +1,31 @@
+{
+  "i": 162,
+  "intent": {
+    "sequence": 163,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_q/parameters",
+    "detailRoute": "/skills/reksai_q/parameters/total_ad_ratio",
+    "skillKey": "reksai_q",
+    "kind": "parameters",
+    "stableKey": "total_ad_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "total_ad_ratio",
+      "name": "地表额外物理伤害总攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.300000012,
+        "2": 0.349999994,
+        "3": 0.400000006,
+        "4": 0.449999988,
+        "5": 0.5
+      },
+      "description": "TotalDamageTooltip只保留0.3/0.35/0.4/0.45/0.5总攻击力；不添加残留基础伤害。",
+      "sortOrder": 30
+    }
+  }
+}

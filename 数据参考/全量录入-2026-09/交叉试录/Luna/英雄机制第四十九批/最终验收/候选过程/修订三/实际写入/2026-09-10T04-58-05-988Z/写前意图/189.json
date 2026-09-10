@@ -1,0 +1,47 @@
+{
+  "i": 188,
+  "intent": {
+    "sequence": 189,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_r/formulas",
+    "detailRoute": "/skills/reksai_r/formulas/base_plus_ad_damage",
+    "skillKey": "reksai_r",
+    "kind": "formulas",
+    "stableKey": "base_plus_ad_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "base_plus_ad_damage",
+      "name": "虚空猛冲基础加额外AD伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "基础150/250/350+1×额外攻击力。",
+      "sortOrder": 140
+    }
+  }
+}

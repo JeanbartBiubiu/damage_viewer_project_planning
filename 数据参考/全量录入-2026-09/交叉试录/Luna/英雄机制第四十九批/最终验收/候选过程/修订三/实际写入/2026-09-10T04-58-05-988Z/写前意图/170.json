@@ -1,0 +1,25 @@
+{
+  "i": 169,
+  "intent": {
+    "sequence": 170,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_e/parameters",
+    "detailRoute": "/skills/reksai_e/parameters/m_cast_time_ms",
+    "skillKey": "reksai_e",
+    "kind": "parameters",
+    "stableKey": "m_cast_time_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "m_cast_time_ms",
+      "name": "客户端mCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "mCastTime=0.25秒。",
+      "sortOrder": 40
+    }
+  }
+}

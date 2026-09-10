@@ -1,0 +1,25 @@
+{
+  "i": 168,
+  "intent": {
+    "sequence": 169,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_e/parameters",
+    "detailRoute": "/skills/reksai_e/parameters/empowered_multiplier",
+    "skillKey": "reksai_e",
+    "kind": "parameters",
+    "stableKey": "empowered_multiplier",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_multiplier",
+      "name": "满怒整段伤害倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 1.200000048,
+      "levelValues": null,
+      "description": "满怒时整段×1.2并转为真实伤害，不能与普通伤害相加。",
+      "sortOrder": 30
+    }
+  }
+}

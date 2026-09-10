@@ -1,0 +1,25 @@
+{
+  "i": 186,
+  "intent": {
+    "sequence": 187,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_r/parameters",
+    "detailRoute": "/skills/reksai_r/parameters/damage_check_radius",
+    "skillKey": "reksai_r",
+    "kind": "parameters",
+    "stableKey": "damage_check_radius",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_check_radius",
+      "name": "伤害判定半径",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1000,
+      "levelValues": null,
+      "description": "源值1000；目标范围与判定半径分列。",
+      "sortOrder": 120
+    }
+  }
+}

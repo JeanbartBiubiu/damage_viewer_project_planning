@@ -1,0 +1,29 @@
+{
+  "i": 99,
+  "intent": {
+    "sequence": 100,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_r/parameters",
+    "detailRoute": "/skills/kled_r/parameters/shield_source_max_power_duration_ms",
+    "skillKey": "kled_r",
+    "kind": "parameters",
+    "stableKey": "shield_source_max_power_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "shield_source_max_power_duration_ms",
+      "name": "源护盾最大值增长时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 3000,
+        "2": 3000,
+        "3": 3000
+      },
+      "description": "扩展源字段3秒；与官方正文2秒并存，不擅合。",
+      "sortOrder": 70
+    }
+  }
+}

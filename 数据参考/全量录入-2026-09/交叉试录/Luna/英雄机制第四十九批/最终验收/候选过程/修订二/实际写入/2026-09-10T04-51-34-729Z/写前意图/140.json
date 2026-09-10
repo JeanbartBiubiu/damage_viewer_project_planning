@@ -1,0 +1,47 @@
+{
+  "i": 139,
+  "intent": {
+    "sequence": 140,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_e/formulas",
+    "detailRoute": "/skills/quinn_e/formulas/physical_damage",
+    "skillKey": "quinn_e",
+    "kind": "formulas",
+    "stableKey": "physical_damage",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "旋翔掠杀物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "伤害=40至140+0.2×额外攻击力。",
+      "sortOrder": 80
+    }
+  }
+}

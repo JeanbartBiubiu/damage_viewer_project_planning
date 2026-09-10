@@ -1,0 +1,25 @@
+{
+  "i": 19,
+  "intent": {
+    "sequence": 20,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_q/parameters",
+    "detailRoute": "/skills/gnar_q/parameters/catch_cooldown_refund_ratio",
+    "skillKey": "gnar_q",
+    "kind": "parameters",
+    "stableKey": "catch_cooldown_refund_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "catch_cooldown_refund_ratio",
+      "name": "接住回力标返还比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.400000006,
+      "levelValues": null,
+      "description": "接住返还40%只记录命中资格，不写返还基准和时点。",
+      "sortOrder": 50
+    }
+  }
+}

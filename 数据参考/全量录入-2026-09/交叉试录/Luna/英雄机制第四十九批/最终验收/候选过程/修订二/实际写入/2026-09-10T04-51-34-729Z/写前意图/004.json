@@ -1,0 +1,25 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/parameters",
+    "detailRoute": "/skills/gnar_p/parameters/attack_speed_start_ratio",
+    "skillKey": "gnar_p",
+    "kind": "parameters",
+    "stableKey": "attack_speed_start_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_start_ratio",
+      "name": "小型攻速比例起点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.055,
+      "levelValues": null,
+      "description": "TotalAS角色等级起点，比例属性；不当作完整18级数组。",
+      "sortOrder": 40
+    }
+  }
+}

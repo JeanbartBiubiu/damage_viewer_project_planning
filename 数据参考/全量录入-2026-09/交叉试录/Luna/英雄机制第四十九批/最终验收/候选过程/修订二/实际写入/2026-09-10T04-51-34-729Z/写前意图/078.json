@@ -1,0 +1,25 @@
+{
+  "i": 77,
+  "intent": {
+    "sequence": 78,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/kled_w/parameters",
+    "detailRoute": "/skills/kled_w/parameters/champion_cooldown_refund_ms",
+    "skillKey": "kled_w",
+    "kind": "parameters",
+    "stableKey": "champion_cooldown_refund_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "champion_cooldown_refund_ms",
+      "name": "命中英雄返还冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 1500,
+      "levelValues": null,
+      "description": "英雄攻击返还1.5秒自身W冷却。",
+      "sortOrder": 90
+    }
+  }
+}

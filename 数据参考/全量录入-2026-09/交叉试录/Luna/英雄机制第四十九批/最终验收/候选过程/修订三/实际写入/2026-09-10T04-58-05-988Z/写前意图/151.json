@@ -1,0 +1,25 @@
+{
+  "i": 150,
+  "intent": {
+    "sequence": 151,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_r/parameters",
+    "detailRoute": "/skills/quinn_r/parameters/active_duration_ms",
+    "skillKey": "quinn_r",
+    "kind": "parameters",
+    "stableKey": "active_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "active_duration_ms",
+      "name": "实际合体持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "技能持续到退出或被打断，实际持续时点由运行层提供，不设默认。",
+      "sortOrder": 100
+    }
+  }
+}

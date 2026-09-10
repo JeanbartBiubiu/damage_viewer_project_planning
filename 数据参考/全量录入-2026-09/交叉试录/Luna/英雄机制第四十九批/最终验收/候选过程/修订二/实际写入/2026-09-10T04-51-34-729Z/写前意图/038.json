@@ -1,0 +1,31 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_e/parameters",
+    "detailRoute": "/skills/gnar_e/parameters/mini_damage_base",
+    "skillKey": "gnar_e",
+    "kind": "parameters",
+    "stableKey": "mini_damage_base",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mini_damage_base",
+      "name": "小型弹跳基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 85,
+        "3": 120,
+        "4": 155,
+        "5": 190
+      },
+      "description": "MiniDamage索引1至5为50/85/120/155/190。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "i": 147,
+  "intent": {
+    "sequence": 148,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_r/parameters",
+    "detailRoute": "/skills/quinn_r/parameters/cooldown_ms",
+    "skillKey": "quinn_r",
+    "kind": "parameters",
+    "stableKey": "cooldown_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_ms",
+      "name": "基础冷却时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 3000,
+        "2": 3000,
+        "3": 3000
+      },
+      "description": "官方16.17.1冷却3/3/3秒；本批无同名公共参数，按新参数计划。",
+      "sortOrder": 80
+    }
+  }
+}

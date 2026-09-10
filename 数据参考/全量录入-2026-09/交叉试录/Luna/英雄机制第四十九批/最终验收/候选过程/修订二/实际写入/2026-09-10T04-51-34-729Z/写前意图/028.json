@@ -1,0 +1,25 @@
+{
+  "i": 27,
+  "intent": {
+    "sequence": 28,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_w/parameters",
+    "detailRoute": "/skills/gnar_w/parameters/mark_duration_ms",
+    "skillKey": "gnar_w",
+    "kind": "parameters",
+    "stableKey": "mark_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_duration_ms",
+      "name": "第三次命中标记窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3500,
+      "levelValues": null,
+      "description": "源值3.5秒。",
+      "sortOrder": 40
+    }
+  }
+}

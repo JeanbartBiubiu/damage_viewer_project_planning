@@ -1,0 +1,25 @@
+{
+  "i": 6,
+  "intent": {
+    "sequence": 7,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/gnar_p/parameters",
+    "detailRoute": "/skills/gnar_p/parameters/actual_small_move_speed_bonus",
+    "skillKey": "gnar_p",
+    "kind": "parameters",
+    "stableKey": "actual_small_move_speed_bonus",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_small_move_speed_bonus",
+      "name": "当前小型实际移速增量",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "TotalMS缺少1级值和完整断点求值，运行层提供当前实际增量，不设默认。",
+      "sortOrder": 70
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "i": 127,
+  "intent": {
+    "sequence": 128,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/quinn_w/parameters",
+    "detailRoute": "/skills/quinn_w/parameters/attack_speed_ratio",
+    "skillKey": "quinn_w",
+    "kind": "parameters",
+    "stableKey": "attack_speed_ratio",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_ratio",
+      "name": "侵扰目标后的攻速比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.280000001,
+        "2": 0.409999996,
+        "3": 0.540000021,
+        "4": 0.670000017,
+        "5": 0.800000012
+      },
+      "description": "被动攻速28%至80%，比例属性。",
+      "sortOrder": 10
+    }
+  }
+}

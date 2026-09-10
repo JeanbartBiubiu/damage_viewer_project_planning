@@ -1,0 +1,25 @@
+{
+  "i": 179,
+  "intent": {
+    "sequence": 180,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/reksai_r/parameters",
+    "detailRoute": "/skills/reksai_r/parameters/prey_mark_duration_ms",
+    "skillKey": "reksai_r",
+    "kind": "parameters",
+    "stableKey": "prey_mark_duration_ms",
+    "execute": false,
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "prey_mark_duration_ms",
+      "name": "猎物资格持续时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "伤害后5秒内可以选取。",
+      "sortOrder": 50
+    }
+  }
+}
