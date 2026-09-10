@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-10T03:31:11.609Z",
+  "generatedAt": "2026-09-10T04:29:32.006Z",
   "gameId": "lol",
   "sourceVersion": "16.17.1",
   "evidence": "页面试录后，稳定流程改为接口录入；所有计数来自已保存的独立回读记录。",
@@ -4464,6 +4464,106 @@
         {
           "issue": "一次伤害载体需和持续召唤分开",
           "detail": "伊莉丝W本体爆炸保留，持久蜘蛛与额外形态排除，未证可选中击杀另记。"
+        }
+      ],
+      "runtimeValidation": "未执行"
+    },
+    "heroFortyEighthBatch": {
+      "skills": [
+        "ivern_p",
+        "ivern_q",
+        "ivern_w",
+        "ivern_e",
+        "ivern_r",
+        "yorick_p",
+        "yorick_q",
+        "yorick_w",
+        "yorick_e",
+        "yorick_r",
+        "kayn_p",
+        "kayn_q",
+        "kayn_w",
+        "kayn_e",
+        "kayn_r",
+        "viego_p",
+        "viego_q",
+        "viego_w",
+        "viego_e",
+        "viego_r"
+      ],
+      "heroes": [
+        "Ivern",
+        "Yorick",
+        "Kayn",
+        "Viego"
+      ],
+      "parameters": 156,
+      "formulas": 24,
+      "effects": 33,
+      "newCounts": {
+        "parameters": 135,
+        "formulas": 24,
+        "effects": 33
+      },
+      "created": 192,
+      "businessWrites": 192,
+      "reusedParameters": 21,
+      "currentTotalComponents": 213,
+      "saveGETs": 2009,
+      "independentGets": 406,
+      "protectedPaths": 193,
+      "detailChecks": 213,
+      "additionalMathGets": 0,
+      "mathUsesIndependentReadback": true,
+      "independentFormulaChecks": 24,
+      "independentSourceCases": 54,
+      "independentMissingRejects": 11,
+      "independentBinaryChecks": 76,
+      "completeParameterArrays": 28,
+      "completeArrayValues": 134,
+      "typedReferences": 113,
+      "finiteChecks": 232,
+      "independentIntegerValues": 151,
+      "integerParameters": 107,
+      "millisecondParameters": 50,
+      "representativePages": 5,
+      "pageGets": 0,
+      "pageMathCases": 0,
+      "candidateSha256": "d406a10109e52abfa58c3767551a612e0ec12ef405d7fdf808cab501d30f7268",
+      "planSha256": "2b5037a0917360918ef781dfb04f1e3532d384e73f86b94798eb551268cd60b8",
+      "executor": "Cursor来源复核、Luna Max候选和独立快照数学检查、主负责人修订保存与页面验收",
+      "status": "本轮来源明确组成已保存；字典键错误修正后断点续录，独立回读、实际源值数学与五个代表页面通过；未知曲线和事件接线单列",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十八批/当前实录状态.json",
+        "sha256": "92125cc53b71eef57f6d6b220227831b4508c801e56d109f3d44e7ed29ccb98b",
+        "commit": "0984bd0df3c49c43ed386923b9b294480aec8b23"
+      },
+      "browserEvidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/Luna/英雄机制第四十八批/最终验收/候选过程/修订二/页面验收.json",
+        "commit": "0984bd0df3c49c43ed386923b9b294480aec8b23"
+      },
+      "experienceIssues": [
+        {
+          "issue": "字典引用必须在写入前全部核对",
+          "detail": "候选physical不是实际物理伤害键physics，真实API正确拒绝；已修正9个尚未保存效果，并补齐60个字典引用检查。"
+        },
+        {
+          "issue": "瞬时读取失败不能重放新增请求",
+          "detail": "第三项POST201后GET500；先按实际详情确认已落地，再保留前缀续写，无重复成功创建。"
+        },
+        {
+          "issue": "完整两段公式与单段效果不可同时挂成伤害",
+          "detail": "凯隐Q保留单段效果供两次命中，双段公式只作来源汇总。"
+        },
+        {
+          "issue": "最低伤害直接使用现有取大运算",
+          "detail": "佛耶戈Q无需新增公式功能；普通和暴击各验低值、边界、高值。"
+        },
+        {
+          "issue": "区域寿命不能替代自身资格寿命",
+          "detail": "佛耶戈E用无默认实际雾内资格输入；艾翁W把地形与离草窗口分开。"
         }
       ],
       "runtimeValidation": "未执行"
