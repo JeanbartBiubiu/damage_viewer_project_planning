@@ -191,21 +191,33 @@ function assertResult(value: unknown, path: string): SkillEffectResult {
   const detail = value.detail;
   const persistent = isRecord(value.lifecycleBehavior)
     && value.lifecycleBehavior.moment === 'PERSISTENT';
+  const persistentStatusApplyBlockScope = value.target === 'TARGET'
+    && persistent
+    && resultType === 'STATUS_OPERATION'
+    && detail.operation === 'APPLY';
   const blockScopeEligible = value.target === 'TARGET'
-    && !persistent
     && (
-      resultType === 'DAMAGE'
-      || resultType === 'ATTRIBUTE_CHANGE'
-      || resultType === 'RESOURCE_CHANGE'
-      || resultType === 'COOLDOWN_CHANGE'
-      || resultType === 'STATUS_OPERATION'
-      || resultType === 'LIFECYCLE_OPERATION'
-      || resultType === 'EXECUTE'
-      || resultType === 'HIT_LINK_APPLICATION'
-      || resultType === 'ATTACK_LINK_APPLICATION'
+      persistentStatusApplyBlockScope
+      || (
+        !persistent
+        && (
+          resultType === 'DAMAGE'
+          || resultType === 'ATTRIBUTE_CHANGE'
+          || resultType === 'RESOURCE_CHANGE'
+          || resultType === 'COOLDOWN_CHANGE'
+          || resultType === 'STATUS_OPERATION'
+          || resultType === 'LIFECYCLE_OPERATION'
+          || resultType === 'EXECUTE'
+          || resultType === 'HIT_LINK_APPLICATION'
+          || resultType === 'ATTACK_LINK_APPLICATION'
+        )
+      )
     );
   if (value.spellShieldBlockScope !== null) {
     if (!blockScopeEligible) protocolError(`${path}.spellShieldBlockScope`);
+    if (persistentStatusApplyBlockScope && value.spellShieldBlockScope !== 'RESULT') {
+      protocolError(`${path}.spellShieldBlockScope`);
+    }
     if (value.spellShieldBlockScope === 'DAMAGE_INSTANCE' && resultType !== 'DAMAGE') {
       protocolError(`${path}.spellShieldBlockScope`);
     }
