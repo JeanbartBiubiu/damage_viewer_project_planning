@@ -1,0 +1,1028 @@
+{
+  "at": "2026-09-10T06:12:49.975Z",
+  "mode": "--apply",
+  "planSha256": "69982f7c32978b2d075b1b21b66fa3f35f137f0958e2b66d8713ec5c2eacb4cb",
+  "apiWrites": 0,
+  "confirmed": 0,
+  "passed": false,
+  "error": "AssertionError [ERR_ASSERTION]: /skills/nilah_r/parameters/source_num_ticks\n\n400 !== 200\n\n    at req (file:///C:/project/damage_web_dev/.agents/artifacts/nilah-r-source-correction-20260910/%E5%8F%97%E4%BF%9D%E6%8A%A4%E4%BF%AE%E6%AD%A3.mjs:14:444)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///C:/project/damage_web_dev/.agents/artifacts/nilah-r-source-correction-20260910/%E5%8F%97%E4%BF%9D%E6%8A%A4%E4%BF%AE%E6%AD%A3.mjs:17:129",
+  "GETs": 32,
+  "calls": [
+    {
+      "route": "/skills/nilah_r",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:40.580096Z",
+        "description": "尼菈快乐洋溢地挥舞她的鞭刃，对她周围的敌人们造成伤害，然后用她的武器将他们拉得更加靠近。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "尼菈·神恩激荡",
+        "skillCategoryKeys": [],
+        "skillKey": "nilah_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:40.580096Z"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/representative-image",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_nilah_r",
+          "name": "nilah_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters",
+      "method": "GET",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T21:03:20.090124Z",
+          "description": "当前正文明确在1秒里持续造成伤害，转换为1000毫秒；过量治疗护盾另由overheal_shield_duration_ms保存6秒，不能混用技能持续。",
+          "fixedValue": 1000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡持续（毫秒）",
+          "parameterKey": "duration_ms",
+          "skillKey": "nilah_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T21:03:20.090124Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:21.298623Z",
+          "description": "DamageBase取索引1至3的125/225/325。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 125,
+            "2": 225,
+            "3": 325
+          },
+          "name": "神恩激荡爆发基础物理伤害",
+          "parameterKey": "damage_base",
+          "skillKey": "nilah_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T21:03:21.298623Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:22.58007Z",
+          "description": "DamageCalc的mStat=2、mStatFormula=2且系数1，读取来源额外攻击力。",
+          "fixedValue": 1,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡爆发额外攻击力比例",
+          "parameterKey": "damage_bonus_ad_ratio",
+          "skillKey": "nilah_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T21:03:22.58007Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:23.751219Z",
+          "description": "DamagePerTick取索引1至3的15/25/35；正文消费每跳式。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 15,
+            "2": 25,
+            "3": 35
+          },
+          "name": "神恩激荡每跳基础物理伤害",
+          "parameterKey": "damage_per_tick_base",
+          "skillKey": "nilah_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T21:03:23.751219Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:25.446628Z",
+          "description": "DamagePerTickCalc的mStat=2、mStatFormula=2且系数0.1，读取来源额外攻击力。",
+          "fixedValue": 0.10000000149011612,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡每跳额外攻击力比例",
+          "parameterKey": "damage_per_tick_bonus_ad_ratio",
+          "skillKey": "nilah_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T21:03:25.446628Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:26.694439Z",
+          "description": "正文消费tooltipOnly的DamagePerTickCalcTooltip=4×每跳式；实际跳数另有NumTicks冲突，不能由此宣称总跳数。",
+          "fixedValue": 4,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡展示持续伤害倍率",
+          "parameterKey": "display_sustained_damage_multiplier",
+          "skillKey": "nilah_r",
+          "sortOrder": 60,
+          "updatedAt": "2026-09-09T21:03:26.694439Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:27.982294Z",
+          "description": "原树NumTicks=6；与当前正文消费的4倍展示式不一致，保留来源值并列待核。",
+          "fixedValue": 6,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡原始跳数",
+          "parameterKey": "source_num_ticks",
+          "skillKey": "nilah_r",
+          "sortOrder": 70,
+          "updatedAt": "2026-09-09T21:03:27.982294Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:29.257375Z",
+          "description": "TickDelay=0.2秒，转换为200毫秒；只保存来源时序值，不创建周期过程。",
+          "fixedValue": 200,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡每跳间隔（毫秒）",
+          "parameterKey": "tick_delay_ms",
+          "skillKey": "nilah_r",
+          "sortOrder": 80,
+          "updatedAt": "2026-09-09T21:03:29.257375Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:30.54032Z",
+          "description": "Microslow原始值为-0.1，正文语义是10%减速；保存正的减速幅度百分数点，避免把负移速修正称为负减速。",
+          "fixedValue": 10.000000149011612,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡减速百分数点",
+          "parameterKey": "slow_percent_points",
+          "skillKey": "nilah_r",
+          "sortOrder": 90,
+          "updatedAt": "2026-09-09T21:03:30.54032Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:37:01.43295Z",
+          "description": "DDragon16.17.1 Nilah.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 110000,
+            "2": 95000,
+            "3": 80000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "nilah_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:37:01.43295Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:31.881296Z",
+          "description": "ChampHealingPercent第一项Number=0.2，按比例保存。",
+          "fixedValue": 0.20000000298023224,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡自身治疗基础比例",
+          "parameterKey": "self_healing_base_ratio",
+          "skillKey": "nilah_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-09T21:03:31.881296Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-07T18:37:01.912883Z",
+          "description": "DDragon16.17.1 Nilah.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "nilah_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:37:01.912883Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:33.154544Z",
+          "description": "ChampHealingPercent第二项mStat=8、系数0.1；mStat8不绑定已有属性，实际值外供。",
+          "fixedValue": 0.10000000149011612,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡自身治疗mStat8比例",
+          "parameterKey": "self_healing_mstat8_ratio",
+          "skillKey": "nilah_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-09T21:03:33.154544Z",
+          "valueMode": "FIXED",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:34.405559Z",
+          "description": "ChampHealingPercent消费mStat8；属性含义未证，运行层提供原始值，不设默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡原始mStat8输入",
+          "parameterKey": "actual_mstat8_value",
+          "skillKey": "nilah_r",
+          "sortOrder": 120,
+          "updatedAt": "2026-09-09T21:03:34.405559Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:35.63056Z",
+          "description": "正文要求R自身治疗比例加上Q的CritLifesteal；跨技能实际值由运行层提供，不能复制Q的未知mStat8为默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡当前Q生命偷取比例",
+          "parameterKey": "actual_q_crit_lifesteal_ratio",
+          "skillKey": "nilah_r",
+          "sortOrder": 130,
+          "updatedAt": "2026-09-09T21:03:35.63056Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:36.810768Z",
+          "description": "自身治疗量需要当前目标合资格伤害作为实际输入；折前或折后阶段尚无当前文本和计算树证据，使用中性实际治疗基准伤害，不设默认。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡当前敌方治疗基准伤害",
+          "parameterKey": "actual_current_enemy_healing_basis_damage",
+          "skillKey": "nilah_r",
+          "sortOrder": 140,
+          "updatedAt": "2026-09-09T21:03:36.810768Z",
+          "valueMode": "RUNTIME_INPUT",
+          "valueType": "DECIMAL"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:38.076992Z",
+          "description": "当前正文过量治疗转为自身护盾并持续6秒，转换为6000毫秒；未消费ShieldCalc不作为护盾值。",
+          "fixedValue": 6000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "神恩激荡过量治疗护盾持续（毫秒）",
+          "parameterKey": "overheal_shield_duration_ms",
+          "skillKey": "nilah_r",
+          "sortOrder": 150,
+          "updatedAt": "2026-09-09T21:03:38.076992Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:39.290435Z",
+          "description": "仅spellCastTime=0.25秒且mCastTime为空，转换为250毫秒。",
+          "fixedValue": 250,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "施法时间（毫秒）",
+          "parameterKey": "cast_time_ms",
+          "skillKey": "nilah_r",
+          "sortOrder": 160,
+          "updatedAt": "2026-09-09T21:03:39.290435Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nilah_r/parameters/duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:20.090124Z",
+        "description": "当前正文明确在1秒里持续造成伤害，转换为1000毫秒；过量治疗护盾另由overheal_shield_duration_ms保存6秒，不能混用技能持续。",
+        "fixedValue": 1000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡持续（毫秒）",
+        "parameterKey": "duration_ms",
+        "skillKey": "nilah_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:03:20.090124Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/damage_base",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:21.298623Z",
+        "description": "DamageBase取索引1至3的125/225/325。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 125,
+          "2": 225,
+          "3": 325
+        },
+        "name": "神恩激荡爆发基础物理伤害",
+        "parameterKey": "damage_base",
+        "skillKey": "nilah_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T21:03:21.298623Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/damage_bonus_ad_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:22.58007Z",
+        "description": "DamageCalc的mStat=2、mStatFormula=2且系数1，读取来源额外攻击力。",
+        "fixedValue": 1,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡爆发额外攻击力比例",
+        "parameterKey": "damage_bonus_ad_ratio",
+        "skillKey": "nilah_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T21:03:22.58007Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/damage_per_tick_base",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:23.751219Z",
+        "description": "DamagePerTick取索引1至3的15/25/35；正文消费每跳式。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 15,
+          "2": 25,
+          "3": 35
+        },
+        "name": "神恩激荡每跳基础物理伤害",
+        "parameterKey": "damage_per_tick_base",
+        "skillKey": "nilah_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T21:03:23.751219Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/damage_per_tick_bonus_ad_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:25.446628Z",
+        "description": "DamagePerTickCalc的mStat=2、mStatFormula=2且系数0.1，读取来源额外攻击力。",
+        "fixedValue": 0.10000000149011612,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡每跳额外攻击力比例",
+        "parameterKey": "damage_per_tick_bonus_ad_ratio",
+        "skillKey": "nilah_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T21:03:25.446628Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/display_sustained_damage_multiplier",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:26.694439Z",
+        "description": "正文消费tooltipOnly的DamagePerTickCalcTooltip=4×每跳式；实际跳数另有NumTicks冲突，不能由此宣称总跳数。",
+        "fixedValue": 4,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡展示持续伤害倍率",
+        "parameterKey": "display_sustained_damage_multiplier",
+        "skillKey": "nilah_r",
+        "sortOrder": 60,
+        "updatedAt": "2026-09-09T21:03:26.694439Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/source_num_ticks",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:27.982294Z",
+        "description": "原树NumTicks=6；与当前正文消费的4倍展示式不一致，保留来源值并列待核。",
+        "fixedValue": 6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡原始跳数",
+        "parameterKey": "source_num_ticks",
+        "skillKey": "nilah_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T21:03:27.982294Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/tick_delay_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:29.257375Z",
+        "description": "TickDelay=0.2秒，转换为200毫秒；只保存来源时序值，不创建周期过程。",
+        "fixedValue": 200,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡每跳间隔（毫秒）",
+        "parameterKey": "tick_delay_ms",
+        "skillKey": "nilah_r",
+        "sortOrder": 80,
+        "updatedAt": "2026-09-09T21:03:29.257375Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/slow_percent_points",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:30.54032Z",
+        "description": "Microslow原始值为-0.1，正文语义是10%减速；保存正的减速幅度百分数点，避免把负移速修正称为负减速。",
+        "fixedValue": 10.000000149011612,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡减速百分数点",
+        "parameterKey": "slow_percent_points",
+        "skillKey": "nilah_r",
+        "sortOrder": 90,
+        "updatedAt": "2026-09-09T21:03:30.54032Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/cooldown_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:37:01.43295Z",
+        "description": "DDragon16.17.1 Nilah.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 110000,
+          "2": 95000,
+          "3": 80000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "nilah_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:37:01.43295Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/self_healing_base_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:31.881296Z",
+        "description": "ChampHealingPercent第一项Number=0.2，按比例保存。",
+        "fixedValue": 0.20000000298023224,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡自身治疗基础比例",
+        "parameterKey": "self_healing_base_ratio",
+        "skillKey": "nilah_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-09T21:03:31.881296Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/mana_cost",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:37:01.912883Z",
+        "description": "DDragon16.17.1 Nilah.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "nilah_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:37:01.912883Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/self_healing_mstat8_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:33.154544Z",
+        "description": "ChampHealingPercent第二项mStat=8、系数0.1；mStat8不绑定已有属性，实际值外供。",
+        "fixedValue": 0.10000000149011612,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡自身治疗mStat8比例",
+        "parameterKey": "self_healing_mstat8_ratio",
+        "skillKey": "nilah_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-09T21:03:33.154544Z",
+        "valueMode": "FIXED",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/actual_mstat8_value",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:34.405559Z",
+        "description": "ChampHealingPercent消费mStat8；属性含义未证，运行层提供原始值，不设默认。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡原始mStat8输入",
+        "parameterKey": "actual_mstat8_value",
+        "skillKey": "nilah_r",
+        "sortOrder": 120,
+        "updatedAt": "2026-09-09T21:03:34.405559Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/actual_q_crit_lifesteal_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:35.63056Z",
+        "description": "正文要求R自身治疗比例加上Q的CritLifesteal；跨技能实际值由运行层提供，不能复制Q的未知mStat8为默认。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡当前Q生命偷取比例",
+        "parameterKey": "actual_q_crit_lifesteal_ratio",
+        "skillKey": "nilah_r",
+        "sortOrder": 130,
+        "updatedAt": "2026-09-09T21:03:35.63056Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/actual_current_enemy_healing_basis_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:36.810768Z",
+        "description": "自身治疗量需要当前目标合资格伤害作为实际输入；折前或折后阶段尚无当前文本和计算树证据，使用中性实际治疗基准伤害，不设默认。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡当前敌方治疗基准伤害",
+        "parameterKey": "actual_current_enemy_healing_basis_damage",
+        "skillKey": "nilah_r",
+        "sortOrder": 140,
+        "updatedAt": "2026-09-09T21:03:36.810768Z",
+        "valueMode": "RUNTIME_INPUT",
+        "valueType": "DECIMAL"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/overheal_shield_duration_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:38.076992Z",
+        "description": "当前正文过量治疗转为自身护盾并持续6秒，转换为6000毫秒；未消费ShieldCalc不作为护盾值。",
+        "fixedValue": 6000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡过量治疗护盾持续（毫秒）",
+        "parameterKey": "overheal_shield_duration_ms",
+        "skillKey": "nilah_r",
+        "sortOrder": 150,
+        "updatedAt": "2026-09-09T21:03:38.076992Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/cast_time_ms",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:39.290435Z",
+        "description": "仅spellCastTime=0.25秒且mCastTime为空，转换为250毫秒。",
+        "fixedValue": 250,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "施法时间（毫秒）",
+        "parameterKey": "cast_time_ms",
+        "skillKey": "nilah_r",
+        "sortOrder": 160,
+        "updatedAt": "2026-09-09T21:03:39.290435Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/formulas",
+      "method": "GET",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-09T21:03:40.55193Z",
+          "description": "DamageCalc=爆发基础伤害+1×来源额外攻击力；额外友方治疗不加入。",
+          "formulaKey": "burst_physical_damage",
+          "gameId": "lol",
+          "name": "神恩激荡单一敌人爆发物理伤害",
+          "skillKey": "nilah_r",
+          "sortOrder": 10,
+          "updatedAt": "2026-09-09T21:03:40.55193Z"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:41.81498Z",
+          "description": "DamagePerTickCalc=每跳基础伤害+0.1×来源额外攻击力。",
+          "formulaKey": "damage_per_tick",
+          "gameId": "lol",
+          "name": "神恩激荡单跳物理伤害",
+          "skillKey": "nilah_r",
+          "sortOrder": 20,
+          "updatedAt": "2026-09-09T21:03:41.81498Z"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:43.06999Z",
+          "description": "DamagePerTickCalcTooltip当前正文消费4×每跳式；NumTicks=6仅作为冲突来源值保留。",
+          "formulaKey": "tooltip_sustained_damage",
+          "gameId": "lol",
+          "name": "神恩激荡正文持续伤害展示式",
+          "skillKey": "nilah_r",
+          "sortOrder": 30,
+          "updatedAt": "2026-09-09T21:03:43.06999Z"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:44.32954Z",
+          "description": "自身治疗比例=0.2+0.1×实际mStat8+Q的CritLifesteal；三项均保留，不把Q未知值默认为0。",
+          "formulaKey": "self_healing_ratio",
+          "gameId": "lol",
+          "name": "神恩激荡自身治疗比例",
+          "skillKey": "nilah_r",
+          "sortOrder": 40,
+          "updatedAt": "2026-09-09T21:03:44.32954Z"
+        },
+        {
+          "createdAt": "2026-09-09T21:03:45.599159Z",
+          "description": "自身治疗量=完整治疗比例×当前目标合资格的实际治疗基准伤害；折前或折后阶段尚未证明，不能默认，实际基准由运行层提供。",
+          "formulaKey": "self_healing_amount",
+          "gameId": "lol",
+          "name": "神恩激荡自身治疗量",
+          "skillKey": "nilah_r",
+          "sortOrder": 50,
+          "updatedAt": "2026-09-09T21:09:09.402443Z"
+        }
+      ]
+    },
+    {
+      "route": "/skills/nilah_r/formulas/burst_physical_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:40.55193Z",
+        "description": "DamageCalc=爆发基础伤害+1×来源额外攻击力；额外友方治疗不加入。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_bonus_ad_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "burst_physical_damage",
+        "gameId": "lol",
+        "name": "神恩激荡单一敌人爆发物理伤害",
+        "skillKey": "nilah_r",
+        "sortOrder": 10,
+        "updatedAt": "2026-09-09T21:03:40.55193Z"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/formulas/damage_per_tick",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:41.81498Z",
+        "description": "DamagePerTickCalc=每跳基础伤害+0.1×来源额外攻击力。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "damage_per_tick_base"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_per_tick_bonus_ad_ratio"
+                },
+                {
+                  "attributeKey": "attack_damage",
+                  "attributeOwner": "SOURCE",
+                  "attributeValueKind": "BONUS",
+                  "nodeType": "ATTRIBUTE"
+                }
+              ],
+              "operation": "MULTIPLY"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "damage_per_tick",
+        "gameId": "lol",
+        "name": "神恩激荡单跳物理伤害",
+        "skillKey": "nilah_r",
+        "sortOrder": 20,
+        "updatedAt": "2026-09-09T21:03:41.81498Z"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/formulas/tooltip_sustained_damage",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:43.06999Z",
+        "description": "DamagePerTickCalcTooltip当前正文消费4×每跳式；NumTicks=6仅作为冲突来源值保留。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "display_sustained_damage_multiplier"
+            },
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "damage_per_tick_base"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "damage_per_tick_bonus_ad_ratio"
+                    },
+                    {
+                      "attributeKey": "attack_damage",
+                      "attributeOwner": "SOURCE",
+                      "attributeValueKind": "BONUS",
+                      "nodeType": "ATTRIBUTE"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "tooltip_sustained_damage",
+        "gameId": "lol",
+        "name": "神恩激荡正文持续伤害展示式",
+        "skillKey": "nilah_r",
+        "sortOrder": 30,
+        "updatedAt": "2026-09-09T21:03:43.06999Z"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/formulas/self_healing_ratio",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:44.32954Z",
+        "description": "自身治疗比例=0.2+0.1×实际mStat8+Q的CritLifesteal；三项均保留，不把Q未知值默认为0。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "self_healing_base_ratio"
+                },
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "self_healing_mstat8_ratio"
+                    },
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "actual_mstat8_value"
+                    }
+                  ],
+                  "operation": "MULTIPLY"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_q_crit_lifesteal_ratio"
+            }
+          ],
+          "operation": "ADD"
+        },
+        "formulaKey": "self_healing_ratio",
+        "gameId": "lol",
+        "name": "神恩激荡自身治疗比例",
+        "skillKey": "nilah_r",
+        "sortOrder": 40,
+        "updatedAt": "2026-09-09T21:03:44.32954Z"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/formulas/self_healing_amount",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:45.599159Z",
+        "description": "自身治疗量=完整治疗比例×当前目标合资格的实际治疗基准伤害；折前或折后阶段尚未证明，不能默认，实际基准由运行层提供。",
+        "expression": {
+          "nodeType": "OPERATION",
+          "operands": [
+            {
+              "nodeType": "OPERATION",
+              "operands": [
+                {
+                  "nodeType": "OPERATION",
+                  "operands": [
+                    {
+                      "nodeType": "PARAMETER",
+                      "parameterKey": "self_healing_base_ratio"
+                    },
+                    {
+                      "nodeType": "OPERATION",
+                      "operands": [
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "self_healing_mstat8_ratio"
+                        },
+                        {
+                          "nodeType": "PARAMETER",
+                          "parameterKey": "actual_mstat8_value"
+                        }
+                      ],
+                      "operation": "MULTIPLY"
+                    }
+                  ],
+                  "operation": "ADD"
+                },
+                {
+                  "nodeType": "PARAMETER",
+                  "parameterKey": "actual_q_crit_lifesteal_ratio"
+                }
+              ],
+              "operation": "ADD"
+            },
+            {
+              "nodeType": "PARAMETER",
+              "parameterKey": "actual_current_enemy_healing_basis_damage"
+            }
+          ],
+          "operation": "MULTIPLY"
+        },
+        "formulaKey": "self_healing_amount",
+        "gameId": "lol",
+        "name": "神恩激荡自身治疗量",
+        "skillKey": "nilah_r",
+        "sortOrder": 50,
+        "updatedAt": "2026-09-09T21:09:09.402443Z"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/effects",
+      "method": "GET",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_r/processes",
+      "method": "GET",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_r/internal-states",
+      "method": "GET",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_r/trigger-rules",
+      "method": "GET",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/nilah_r/parameters/source_num_ticks",
+      "method": "GET",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-09T21:03:27.982294Z",
+        "description": "原树NumTicks=6；与当前正文消费的4倍展示式不一致，保留来源值并列待核。",
+        "fixedValue": 6,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "神恩激荡原始跳数",
+        "parameterKey": "source_num_ticks",
+        "skillKey": "nilah_r",
+        "sortOrder": 70,
+        "updatedAt": "2026-09-09T21:03:27.982294Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/nilah_r/parameters/source_num_ticks",
+      "method": "PUT",
+      "status": 400,
+      "data": {
+        "error": {
+          "code": "400.VALIDATION_FAILED",
+          "details": {
+            "fieldIssues": [
+              {
+                "code": "IMMUTABLE",
+                "field": "parameterKey",
+                "message": "参数标识不能修改"
+              }
+            ]
+          },
+          "message": "技能参数不合法"
+        }
+      }
+    }
+  ],
+  "finishedAt": "2026-09-10T06:12:51.933Z"
+}
