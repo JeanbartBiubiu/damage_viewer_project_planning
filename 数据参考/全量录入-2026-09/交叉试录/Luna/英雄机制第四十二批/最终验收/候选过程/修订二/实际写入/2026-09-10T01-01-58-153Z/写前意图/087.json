@@ -1,0 +1,43 @@
+{
+  "i": 86,
+  "intent": {
+    "sequence": 87,
+    "skillKey": "ksante_r",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/ksante_r/formulas",
+    "stableKey": "slam_down_physical_damage",
+    "body": {
+      "formulaKey": "slam_down_physical_damage",
+      "name": "穿墙后同敌第二段物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "slam_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "slam_bonus_hp_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "hp",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "第二段基础值+0.05×来源额外生命。",
+      "sortOrder": 20
+    }
+  }
+}

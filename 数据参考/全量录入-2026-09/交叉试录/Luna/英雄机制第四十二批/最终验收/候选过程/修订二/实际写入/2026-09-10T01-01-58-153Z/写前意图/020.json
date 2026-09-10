@@ -1,0 +1,27 @@
+{
+  "i": 19,
+  "intent": {
+    "sequence": 20,
+    "skillKey": "qiyana_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_w/parameters",
+    "stableKey": "onhit_base_damage",
+    "body": {
+      "parameterKey": "onhit_base_damage",
+      "name": "附魔攻击额外基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 8,
+        "2": 16,
+        "3": 24,
+        "4": 32,
+        "5": 40
+      },
+      "description": "OnHitDamage的BaseDamage索引1至5。",
+      "sortOrder": 20
+    }
+  }
+}

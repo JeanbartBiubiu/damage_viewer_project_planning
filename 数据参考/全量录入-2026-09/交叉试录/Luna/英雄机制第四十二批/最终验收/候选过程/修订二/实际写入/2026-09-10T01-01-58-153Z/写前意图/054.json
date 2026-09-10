@@ -1,0 +1,21 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "skillKey": "ksante_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_q/parameters",
+    "stableKey": "q3_knockup_duration_ms",
+    "body": {
+      "parameterKey": "q3_knockup_duration_ms",
+      "name": "Q3原始击飞持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 650,
+      "levelValues": null,
+      "description": "原始树0.65秒，和正文1秒晕眩分开保存。",
+      "sortOrder": 100
+    }
+  }
+}

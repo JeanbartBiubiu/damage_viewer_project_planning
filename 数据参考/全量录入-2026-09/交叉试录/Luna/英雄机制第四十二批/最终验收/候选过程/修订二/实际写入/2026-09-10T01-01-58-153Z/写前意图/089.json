@@ -1,0 +1,21 @@
+{
+  "i": 88,
+  "intent": {
+    "sequence": 89,
+    "skillKey": "mel_p",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_p/parameters",
+    "stableKey": "bonus_attack_duration_ms",
+    "body": {
+      "parameterKey": "bonus_attack_duration_ms",
+      "name": "技能后额外弹体窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "当前根为5秒，只记录窗口。",
+      "sortOrder": 20
+    }
+  }
+}

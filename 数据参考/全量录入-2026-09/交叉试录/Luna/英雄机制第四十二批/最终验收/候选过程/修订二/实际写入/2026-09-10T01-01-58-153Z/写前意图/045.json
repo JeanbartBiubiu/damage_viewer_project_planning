@@ -1,0 +1,27 @@
+{
+  "i": 44,
+  "intent": {
+    "sequence": 45,
+    "skillKey": "ksante_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_q/parameters",
+    "stableKey": "base_damage",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "无双陀斧基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 100,
+        "3": 130,
+        "4": 160,
+        "5": 190
+      },
+      "description": "FlatDamage索引1至5为70/100/130/160/190。",
+      "sortOrder": 10
+    }
+  }
+}

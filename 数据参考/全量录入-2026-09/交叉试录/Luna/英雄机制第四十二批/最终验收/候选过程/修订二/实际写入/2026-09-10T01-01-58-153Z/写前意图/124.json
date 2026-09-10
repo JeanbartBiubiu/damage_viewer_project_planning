@@ -1,0 +1,27 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 124,
+    "skillKey": "mel_e",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_e/parameters",
+    "stableKey": "center_base_damage",
+    "body": {
+      "parameterKey": "center_base_damage",
+      "name": "中心基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 105,
+        "3": 150,
+        "4": 195,
+        "5": 240
+      },
+      "description": "索引1至5为60/105/150/195/240。",
+      "sortOrder": 10
+    }
+  }
+}

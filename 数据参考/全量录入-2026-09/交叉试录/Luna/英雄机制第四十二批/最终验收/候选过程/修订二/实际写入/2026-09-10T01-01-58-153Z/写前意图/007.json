@@ -1,0 +1,21 @@
+{
+  "i": 6,
+  "intent": {
+    "sequence": 7,
+    "skillKey": "qiyana_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_q/parameters",
+    "stableKey": "bonus_ad_ratio",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.8999999761581421,
+      "levelValues": null,
+      "description": "EnchantedDamage与VanillaDamage的mStat=2/formula2，系数0.9，读取来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

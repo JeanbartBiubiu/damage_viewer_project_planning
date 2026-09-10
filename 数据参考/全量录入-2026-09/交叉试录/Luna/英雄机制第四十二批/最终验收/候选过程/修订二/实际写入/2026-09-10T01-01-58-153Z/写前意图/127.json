@@ -1,0 +1,27 @@
+{
+  "i": 126,
+  "intent": {
+    "sequence": 127,
+    "skillKey": "mel_e",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_e/parameters",
+    "stableKey": "area_damage_base_per_second",
+    "body": {
+      "parameterKey": "area_damage_base_per_second",
+      "name": "区域每秒基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 16,
+        "2": 28,
+        "3": 40,
+        "4": 52,
+        "5": 64
+      },
+      "description": "索引1至5为16/28/40/52/64。",
+      "sortOrder": 40
+    }
+  }
+}

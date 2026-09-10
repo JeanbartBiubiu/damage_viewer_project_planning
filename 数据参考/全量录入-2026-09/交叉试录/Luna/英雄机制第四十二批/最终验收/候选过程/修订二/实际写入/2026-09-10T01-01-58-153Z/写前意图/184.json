@@ -1,0 +1,31 @@
+{
+  "i": 183,
+  "intent": {
+    "sequence": 184,
+    "skillKey": "yunara_e",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/yunara_e/formulas",
+    "stableKey": "enemy_directed_move_speed",
+    "body": {
+      "formulaKey": "enemy_directed_move_speed",
+      "name": "朝敌方英雄增强移动速度比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "enemy_directed_move_speed_multiplier"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_percent_points"
+          }
+        ]
+      },
+      "description": "常态移动速度比例×1.5；幽灵状态具体免疫范围待接线。",
+      "sortOrder": 10
+    }
+  }
+}

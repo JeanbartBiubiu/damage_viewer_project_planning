@@ -1,0 +1,27 @@
+{
+  "i": 75,
+  "intent": {
+    "sequence": 76,
+    "skillKey": "ksante_e",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_e/parameters",
+    "stableKey": "shield_base",
+    "body": {
+      "parameterKey": "shield_base",
+      "name": "自身护盾基础值",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 112.5,
+        "3": 155,
+        "4": 197.5,
+        "5": 240
+      },
+      "description": "索引1至5为70/112.5/155/197.5/240。",
+      "sortOrder": 10
+    }
+  }
+}

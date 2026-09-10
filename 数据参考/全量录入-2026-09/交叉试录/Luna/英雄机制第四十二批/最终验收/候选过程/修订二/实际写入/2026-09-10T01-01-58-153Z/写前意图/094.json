@@ -1,0 +1,21 @@
+{
+  "i": 93,
+  "intent": {
+    "sequence": 94,
+    "skillKey": "mel_p",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_p/parameters",
+    "stableKey": "overwhelm_stack_count",
+    "body": {
+      "parameterKey": "overwhelm_stack_count",
+      "name": "当前夺命残影层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "处决比较所需当前目标层数，跨技能零级规则不设默认。",
+      "sortOrder": 70
+    }
+  }
+}

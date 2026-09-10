@@ -1,0 +1,21 @@
+{
+  "i": 104,
+  "intent": {
+    "sequence": 105,
+    "skillKey": "mel_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_q/parameters",
+    "stableKey": "following_ap_ratio",
+    "body": {
+      "parameterKey": "following_ap_ratio",
+      "name": "后续爆炸法强倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.05000000074505806,
+      "levelValues": null,
+      "description": "系数0.05，读取来源总法强。",
+      "sortOrder": 50
+    }
+  }
+}

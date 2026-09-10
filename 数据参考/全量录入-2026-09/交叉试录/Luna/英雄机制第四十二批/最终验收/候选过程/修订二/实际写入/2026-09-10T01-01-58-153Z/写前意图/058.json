@@ -1,0 +1,61 @@
+{
+  "i": 57,
+  "intent": {
+    "sequence": 58,
+    "skillKey": "ksante_q",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/ksante_q/formulas",
+    "stableKey": "physical_damage",
+    "body": {
+      "formulaKey": "physical_damage",
+      "name": "无双陀斧对敌物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_armor_ratio"
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_armor_value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_magic_resistance_ratio"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_magic_resistance_value"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "BaseDamage=基础值+0.4×额外护甲+0.4×额外魔抗。",
+      "sortOrder": 10
+    }
+  }
+}

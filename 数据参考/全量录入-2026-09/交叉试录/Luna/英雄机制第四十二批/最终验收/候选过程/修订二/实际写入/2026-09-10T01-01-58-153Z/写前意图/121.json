@@ -1,0 +1,43 @@
+{
+  "i": 120,
+  "intent": {
+    "sequence": 121,
+    "skillKey": "mel_w",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/mel_w/formulas",
+    "stableKey": "self_shield_amount",
+    "body": {
+      "formulaKey": "self_shield_amount",
+      "name": "灵魂折镜自身护盾",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "shield_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "shield_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "ShieldAmount=基础护盾+0.7×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

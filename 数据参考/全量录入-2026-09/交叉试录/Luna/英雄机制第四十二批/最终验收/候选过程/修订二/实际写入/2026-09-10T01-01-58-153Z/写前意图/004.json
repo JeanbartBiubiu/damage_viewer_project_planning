@@ -1,0 +1,21 @@
+{
+  "i": 3,
+  "intent": {
+    "sequence": 4,
+    "skillKey": "qiyana_p",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_p/parameters",
+    "stableKey": "per_target_cooldown_ms",
+    "body": {
+      "parameterKey": "per_target_cooldown_ms",
+      "name": "每目标效果冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 25000,
+      "levelValues": null,
+      "description": "当前中文正文明确每目标25秒；不采用未消费ICD=14秒。",
+      "sortOrder": 40
+    }
+  }
+}

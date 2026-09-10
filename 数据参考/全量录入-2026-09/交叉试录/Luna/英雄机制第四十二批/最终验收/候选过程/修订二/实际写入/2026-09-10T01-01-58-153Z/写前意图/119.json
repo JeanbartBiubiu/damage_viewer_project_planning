@@ -1,0 +1,21 @@
+{
+  "i": 118,
+  "intent": {
+    "sequence": 119,
+    "skillKey": "mel_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_w/parameters",
+    "stableKey": "actual_reflected_source_damage",
+    "body": {
+      "parameterKey": "actual_reflected_source_damage",
+      "name": "原施法者调整前单次伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "反射需要原施法者在伤害调整和法术穿透前的实际伤害，不设默认。",
+      "sortOrder": 80
+    }
+  }
+}

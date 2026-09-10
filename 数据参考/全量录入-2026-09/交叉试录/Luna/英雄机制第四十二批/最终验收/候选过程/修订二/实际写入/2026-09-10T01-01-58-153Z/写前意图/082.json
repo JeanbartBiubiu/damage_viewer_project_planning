@@ -1,0 +1,25 @@
+{
+  "i": 81,
+  "intent": {
+    "sequence": 82,
+    "skillKey": "ksante_r",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_r/parameters",
+    "stableKey": "initial_damage",
+    "body": {
+      "parameterKey": "initial_damage",
+      "name": "变形前首次击退基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 115,
+        "3": 150
+      },
+      "description": "索引1至3为80/115/150，只保留变形前本体。",
+      "sortOrder": 10
+    }
+  }
+}

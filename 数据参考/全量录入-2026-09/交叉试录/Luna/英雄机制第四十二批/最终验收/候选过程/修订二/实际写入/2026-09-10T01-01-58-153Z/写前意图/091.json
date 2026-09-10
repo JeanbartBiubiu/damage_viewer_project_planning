@@ -1,0 +1,21 @@
+{
+  "i": 90,
+  "intent": {
+    "sequence": 91,
+    "skillKey": "mel_p",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_p/parameters",
+    "stableKey": "max_passive_bonus_missiles",
+    "body": {
+      "parameterKey": "max_passive_bonus_missiles",
+      "name": "额外弹体数量上限",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 9,
+      "levelValues": null,
+      "description": "正文明确9枚。",
+      "sortOrder": 40
+    }
+  }
+}

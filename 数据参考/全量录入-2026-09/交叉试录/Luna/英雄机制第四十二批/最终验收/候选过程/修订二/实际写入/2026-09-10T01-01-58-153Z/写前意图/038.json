@@ -1,0 +1,65 @@
+{
+  "i": 37,
+  "intent": {
+    "sequence": 38,
+    "skillKey": "qiyana_r",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/qiyana_r/formulas",
+    "stableKey": "environment_explosion_physical_damage",
+    "body": {
+      "formulaKey": "environment_explosion_physical_damage",
+      "name": "墙体或地形爆炸对敌物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "target_max_health_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Damage=基础值+1.25×来源额外攻击力+10%目标最大生命。",
+      "sortOrder": 10
+    }
+  }
+}

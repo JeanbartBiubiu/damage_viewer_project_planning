@@ -1,0 +1,53 @@
+{
+  "i": 153,
+  "intent": {
+    "sequence": 154,
+    "skillKey": "yunara_p",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/yunara_p/formulas",
+    "stableKey": "critical_extra_magic_damage",
+    "body": {
+      "formulaKey": "critical_extra_magic_damage",
+      "name": "暴击额外魔伤",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "critical_extra_damage_base_ratio"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "critical_extra_damage_ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_critical_damage_base"
+          }
+        ]
+      },
+      "description": "内联(0.1+0.001×来源总法强)×独立暴击伤害基准；仅使用运算、参数和属性节点，事件待接线。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "skillKey": "qiyana_p",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/qiyana_p/formulas",
+    "stableKey": "passive_physical_damage",
+    "body": {
+      "formulaKey": "passive_physical_damage",
+      "name": "凌人贵气单次物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_character_level_base_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "bonus_ad_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "attack_damage",
+                    "attributeValueKind": "BONUS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "FinalDamage=当前等级基础项+0.25×来源额外攻击力+0.3×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}
