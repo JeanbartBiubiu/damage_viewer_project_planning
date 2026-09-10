@@ -560,6 +560,7 @@ export type SkillEffectFormValidationOptions = {
   catalog?: EffectFormCatalog | null;
   catalogLoadState?: EffectCatalogLoadState | null;
   skipLifecycleShapeValidation?: boolean;
+  skipEffectMetadataValidation?: boolean;
 };
 
 export type CatalogRefOption = {
@@ -1242,11 +1243,9 @@ export function clearHiddenLifecycleBehaviorFields(
     modifierZoneKey: keepModifierZone && draft.resultType !== 'SKILL_HASTE_MODIFIER'
       ? draft.modifierZoneKey
       : '',
-    spellShieldBlockScope: (
-      draft.target === 'TARGET'
-      && moment !== 'PERSISTENT'
-      && isSpellShieldBlockScopeEligibleResultType(draft.resultType)
-    ) ? draft.spellShieldBlockScope : '',
+    spellShieldBlockScope: isSpellShieldBlockScopeVisible({ ...draft, lifecycleBehavior })
+      && (moment !== 'PERSISTENT' || draft.spellShieldBlockScope === 'RESULT')
+      ? draft.spellShieldBlockScope : '',
     lifecycleBehavior
   };
 }
@@ -1470,8 +1469,11 @@ export function isSpellShieldBlockScopeEligibleResultType(
 }
 
 export function isSpellShieldBlockScopeVisible(draft: SkillEffectResultDraft): boolean {
-  if (draft.target !== 'TARGET' || draft.lifecycleBehavior.moment === 'PERSISTENT') {
+  if (draft.target !== 'TARGET') {
     return false;
+  }
+  if (draft.lifecycleBehavior.moment === 'PERSISTENT') {
+    return draft.resultType === 'STATUS_OPERATION' && draft.statusOperation === 'APPLY';
   }
   return isSpellShieldBlockScopeEligibleResultType(draft.resultType);
 }
@@ -1481,6 +1483,9 @@ export function listSpellShieldBlockScopeOptions(
 ): SkillEffectSpellShieldBlockScope[] {
   if (!isSpellShieldBlockScopeVisible(draft)) {
     return [];
+  }
+  if (draft.lifecycleBehavior.moment === 'PERSISTENT') {
+    return ['RESULT'];
   }
   return draft.resultType === 'DAMAGE'
     ? ['SKILL', 'EFFECT', 'DAMAGE_INSTANCE', 'RESULT']
@@ -1784,17 +1789,20 @@ export function validateSkillEffectDraft(
     }
   }
 
-  if (!name) {
-    fieldErrors.name = '效果名称不能为空。';
-  } else if (name.length > 100) {
-    fieldErrors.name = '效果名称不能超过 100 个字符。';
+  if (!options.skipEffectMetadataValidation) {
+    if (!name) {
+      fieldErrors.name = '效果名称不能为空。';
+    } else if (name.length > 100) {
+      fieldErrors.name = '效果名称不能超过 100 个字符。';
+    }
+    if (description.length > 2000) {
+      fieldErrors.description = '说明不能超过 2000 个字符。';
+    }
   }
 
-  if (description.length > 2000) {
-    fieldErrors.description = '说明不能超过 2000 个字符。';
-  }
-
-  const sortOrder = parseNonNegativeInteger(prepared.sortOrder, fieldErrors, 'sortOrder');
+  const sortOrder = options.skipEffectMetadataValidation
+    ? null
+    : parseNonNegativeInteger(prepared.sortOrder, fieldErrors, 'sortOrder');
   if (prepared.results.length === 0) {
     fieldErrors.results = '至少需要一个结果。';
   }
