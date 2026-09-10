@@ -1,0 +1,29 @@
+{
+  "i": 108,
+  "intent": {
+    "sequence": 109,
+    "method": "POST",
+    "route": "/skills/neeko_e/parameters",
+    "detailRoute": "/skills/neeko_e/parameters/min_root_duration_ms",
+    "skillKey": "neeko_e",
+    "kind": "parameters",
+    "stableKey": "min_root_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "min_root_duration_ms",
+      "name": "首个目标禁锢持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 700,
+        "2": 900,
+        "3": 1100,
+        "4": 1300,
+        "5": 1500
+      },
+      "description": "当前正文首个目标为0.7/0.9/1.1/1.3/1.5秒，转为毫秒。",
+      "sortOrder": 30
+    }
+  }
+}

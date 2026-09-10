@@ -1,0 +1,45 @@
+{
+  "i": 123,
+  "intent": {
+    "sequence": 124,
+    "method": "POST",
+    "route": "/skills/yuumi_p/formulas",
+    "detailRoute": "/skills/yuumi_p/formulas/heal_amount",
+    "skillKey": "yuumi_p",
+    "kind": "formulas",
+    "stableKey": "heal_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "heal_amount",
+      "name": "猫的博爱自身治疗量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "heal_base_at_character_level"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "heal_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "20至110角色等级基础实际输入+0.3×来源法强；自身治疗明确，附身友军转移另列待核。",
+      "sortOrder": 10
+    }
+  }
+}

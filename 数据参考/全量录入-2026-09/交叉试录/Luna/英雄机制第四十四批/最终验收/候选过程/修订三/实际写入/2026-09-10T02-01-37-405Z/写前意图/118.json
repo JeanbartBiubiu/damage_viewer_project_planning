@@ -1,0 +1,45 @@
+{
+  "i": 117,
+  "intent": {
+    "sequence": 118,
+    "method": "POST",
+    "route": "/skills/neeko_r/formulas",
+    "detailRoute": "/skills/neeko_r/formulas/damage",
+    "skillKey": "neeko_r",
+    "kind": "formulas",
+    "stableKey": "damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage",
+      "name": "怒放本体魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "对应TotalDamage；保留本体唯一敌方伤害数值。",
+      "sortOrder": 10
+    }
+  }
+}

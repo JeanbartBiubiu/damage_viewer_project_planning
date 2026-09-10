@@ -1,0 +1,29 @@
+{
+  "i": 59,
+  "intent": {
+    "sequence": 60,
+    "method": "POST",
+    "route": "/skills/monkeyking_e/parameters",
+    "detailRoute": "/skills/monkeyking_e/parameters/base_damage",
+    "skillKey": "monkeyking_e",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "当前敌人基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 120,
+        "3": 160,
+        "4": 200,
+        "5": 240
+      },
+      "description": "来源80/120/160/200/240。",
+      "sortOrder": 10
+    }
+  }
+}

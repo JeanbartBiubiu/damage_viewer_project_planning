@@ -1,0 +1,23 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "method": "POST",
+    "route": "/skills/illaoi_p/parameters",
+    "detailRoute": "/skills/illaoi_p/parameters/missing_hp_heal_ratio",
+    "skillKey": "illaoi_p",
+    "kind": "parameters",
+    "stableKey": "missing_hp_heal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missing_hp_heal_ratio",
+      "name": "已损失生命治疗比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.0500000007,
+      "levelValues": null,
+      "description": "当前正文消费5%已损失生命；比例本身按1表示100%。",
+      "sortOrder": 10
+    }
+  }
+}

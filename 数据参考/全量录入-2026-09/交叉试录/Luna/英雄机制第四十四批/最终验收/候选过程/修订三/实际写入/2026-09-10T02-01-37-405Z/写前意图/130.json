@@ -1,0 +1,30 @@
+{
+  "i": 129,
+  "intent": {
+    "sequence": 130,
+    "method": "POST",
+    "route": "/skills/yuumi_q/parameters",
+    "detailRoute": "/skills/yuumi_q/parameters/empowered_slow_percent_points",
+    "skillKey": "yuumi_q",
+    "kind": "parameters",
+    "stableKey": "empowered_slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "empowered_slow_percent_points",
+      "name": "强化减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 50,
+        "2": 53,
+        "3": 56,
+        "4": 59,
+        "5": 62,
+        "6": 65
+      },
+      "description": "来源50/53/56/59/62/65；强化资格待核。",
+      "sortOrder": 60
+    }
+  }
+}

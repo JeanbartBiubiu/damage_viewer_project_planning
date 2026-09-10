@@ -1,0 +1,55 @@
+{
+  "i": 164,
+  "intent": {
+    "sequence": 165,
+    "method": "POST",
+    "route": "/skills/yuumi_r/formulas",
+    "detailRoute": "/skills/yuumi_r/formulas/subsequent_wave_damage",
+    "skillKey": "yuumi_r",
+    "kind": "formulas",
+    "stableKey": "subsequent_wave_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "subsequent_wave_damage",
+      "name": "魔典终章后续波纹同敌人伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_missile_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "subsequent_wave_multiplier"
+          }
+        ]
+      },
+      "description": "后续波纹对同一敌人的整段25%伤害。",
+      "sortOrder": 20
+    }
+  }
+}

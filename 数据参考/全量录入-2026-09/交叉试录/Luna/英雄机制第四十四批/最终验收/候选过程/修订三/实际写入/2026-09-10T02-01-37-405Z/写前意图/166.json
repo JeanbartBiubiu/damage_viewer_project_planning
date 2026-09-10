@@ -1,0 +1,85 @@
+{
+  "i": 165,
+  "intent": {
+    "sequence": 166,
+    "method": "POST",
+    "route": "/skills/yuumi_r/formulas",
+    "detailRoute": "/skills/yuumi_r/formulas/single_target_total_damage",
+    "skillKey": "yuumi_r",
+    "kind": "formulas",
+    "stableKey": "single_target_total_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "single_target_total_damage",
+      "name": "魔典终章同敌人完整伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "base_missile_damage"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "ap_ratio"
+                  },
+                  {
+                    "nodeType": "ATTRIBUTE",
+                    "attributeOwner": "SOURCE",
+                    "attributeKey": "ability_power",
+                    "attributeValueKind": "TOTAL"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "ADD",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "one"
+              },
+              {
+                "nodeType": "OPERATION",
+                "operation": "MULTIPLY",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "SUBTRACT",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "wave_count"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "one"
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "subsequent_wave_multiplier"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "description": "5波同一敌人最大值=首波×(1+4×0.25)=2倍；没有禁锢结果。",
+      "sortOrder": 30
+    }
+  }
+}

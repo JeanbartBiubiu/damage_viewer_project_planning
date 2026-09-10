@@ -1,0 +1,27 @@
+{
+  "i": 26,
+  "intent": {
+    "sequence": 27,
+    "method": "POST",
+    "route": "/skills/illaoi_r/parameters",
+    "detailRoute": "/skills/illaoi_r/parameters/base_damage",
+    "skillKey": "illaoi_r",
+    "kind": "parameters",
+    "stableKey": "base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "本体大招基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 250,
+        "3": 350
+      },
+      "description": "来源150/250/350，技能等级1至3。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 128,
+  "intent": {
+    "sequence": 129,
+    "method": "POST",
+    "route": "/skills/yuumi_q/parameters",
+    "detailRoute": "/skills/yuumi_q/parameters/slow_percent_points",
+    "skillKey": "yuumi_q",
+    "kind": "parameters",
+    "stableKey": "slow_percent_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_percent_points",
+      "name": "普通减速百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 20,
+      "levelValues": null,
+      "description": "当前正文消费20%；源字段SlowDuration另存于待核说明。",
+      "sortOrder": 50
+    }
+  }
+}

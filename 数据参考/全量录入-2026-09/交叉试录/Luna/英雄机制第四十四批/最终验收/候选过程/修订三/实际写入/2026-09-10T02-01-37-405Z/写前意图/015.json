@@ -1,0 +1,29 @@
+{
+  "i": 14,
+  "intent": {
+    "sequence": 15,
+    "method": "POST",
+    "route": "/skills/illaoi_w/parameters",
+    "detailRoute": "/skills/illaoi_w/parameters/health_percent_damage_points",
+    "skillKey": "illaoi_w",
+    "kind": "parameters",
+    "stableKey": "health_percent_damage_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "health_percent_damage_points",
+      "name": "最大生命伤害百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 3,
+        "2": 3.5,
+        "3": 4,
+        "4": 4.5,
+        "5": 5
+      },
+      "description": "当前正文消费3/3.5/4/4.5/5百分数点；公式外乘0.01转比例。",
+      "sortOrder": 20
+    }
+  }
+}

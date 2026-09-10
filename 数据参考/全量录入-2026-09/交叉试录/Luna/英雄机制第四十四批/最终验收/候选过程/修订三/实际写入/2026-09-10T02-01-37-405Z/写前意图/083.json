@@ -1,0 +1,29 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "method": "POST",
+    "route": "/skills/neeko_q/parameters",
+    "detailRoute": "/skills/neeko_q/parameters/zone_damage_base",
+    "skillKey": "neeko_q",
+    "kind": "parameters",
+    "stableKey": "zone_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "zone_damage_base",
+      "name": "首段基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 60,
+        "2": 110,
+        "3": 160,
+        "4": 210,
+        "5": 260
+      },
+      "description": "来源60/110/160/210/260。",
+      "sortOrder": 10
+    }
+  }
+}

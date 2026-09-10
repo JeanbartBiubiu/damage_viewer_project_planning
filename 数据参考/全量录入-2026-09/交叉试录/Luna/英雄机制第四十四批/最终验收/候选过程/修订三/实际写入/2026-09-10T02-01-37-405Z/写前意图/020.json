@@ -1,0 +1,23 @@
+{
+  "i": 19,
+  "intent": {
+    "sequence": 20,
+    "method": "POST",
+    "route": "/skills/illaoi_w/parameters",
+    "detailRoute": "/skills/illaoi_w/parameters/dash_speed_bonus",
+    "skillKey": "illaoi_w",
+    "kind": "parameters",
+    "stableKey": "dash_speed_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dash_speed_bonus",
+      "name": "跃向目标的速度增量",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 600,
+      "levelValues": null,
+      "description": "来源DashSpeed为600；当前窄证为600+来源总移动速度。",
+      "sortOrder": 70
+    }
+  }
+}

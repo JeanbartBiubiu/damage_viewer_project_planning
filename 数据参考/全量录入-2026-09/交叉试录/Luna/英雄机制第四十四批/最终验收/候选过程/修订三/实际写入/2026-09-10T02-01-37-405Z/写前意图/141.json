@@ -1,0 +1,23 @@
+{
+  "i": 140,
+  "intent": {
+    "sequence": 141,
+    "method": "POST",
+    "route": "/skills/yuumi_e/parameters",
+    "detailRoute": "/skills/yuumi_e/parameters/attack_speed_percent_scale",
+    "skillKey": "yuumi_e",
+    "kind": "parameters",
+    "stableKey": "attack_speed_percent_scale",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_percent_scale",
+      "name": "攻击速度百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "百分数点到系统比例转换。",
+      "sortOrder": 40
+    }
+  }
+}

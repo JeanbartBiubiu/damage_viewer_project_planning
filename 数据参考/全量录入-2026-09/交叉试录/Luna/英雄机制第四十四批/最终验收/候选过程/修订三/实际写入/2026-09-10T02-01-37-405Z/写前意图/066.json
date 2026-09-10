@@ -1,0 +1,23 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "method": "POST",
+    "route": "/skills/monkeyking_e/formulas",
+    "detailRoute": "/skills/monkeyking_e/formulas/attack_speed_ratio",
+    "skillKey": "monkeyking_e",
+    "kind": "formulas",
+    "stableKey": "attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "attack_speed_ratio",
+      "name": "腾云突击自身攻击速度增加",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "attack_speed_ratio"
+      },
+      "description": "来源0.40至0.60直接是系统比例；效果使用attribute_flat_add。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,3976 @@
+{
+  "at": "2026-09-09T21:21:13.514Z",
+  "GETs": 198,
+  "requests": [
+    {
+      "route": "/attributes",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "attributeKey": "move_speed",
+            "createdAt": "2026-08-22T15:27:35.616234Z",
+            "description": "角色面板移动速度",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "移动速度",
+            "sortOrder": 100,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-23T07:43:37.216118Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "move_speed_percent",
+            "createdAt": "2026-09-06T14:37:34.305529Z",
+            "description": "移动速度加成比例，1 表示 100%，0.04 表示 4%。资料：16.17.1 装备说明。与固定移动速度分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "移动速度加成比例",
+            "sortOrder": 101,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:34.305529Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_flat",
+            "createdAt": "2026-08-22T15:27:35.850065Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "固定护甲穿透",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.850065Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor_pen_percent",
+            "createdAt": "2026-08-22T15:27:35.951829Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "百分比护甲穿透",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:35.951829Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_flat",
+            "createdAt": "2026-09-06T14:36:56.874035Z",
+            "description": "固定法术穿透的点数，12 表示 12 点法术穿透。资料：16.17.1 装备说明。与百分比法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "固定法术穿透",
+            "sortOrder": 220,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:56.874035Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_pen_percent",
+            "createdAt": "2026-09-06T14:38:47.365241Z",
+            "description": "百分比法术穿透，1 表示 100%，0.4 表示 40%。资料：16.17.1 装备说明。与固定法术穿透分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "百分比法术穿透",
+            "sortOrder": 230,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:47.365241Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp",
+            "createdAt": "2026-08-22T15:27:36.051116Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "生命值",
+            "sortOrder": 300,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.051116Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "hp_regen",
+            "createdAt": "2026-08-30T16:27:54.925024Z",
+            "description": "角色每5秒生命回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒生命回复",
+            "sortOrder": 305,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:54.925024Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_hp_regen_percent",
+            "createdAt": "2026-09-06T14:33:14.12308Z",
+            "description": "以角色基础生命回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定生命回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础生命回复加成比例",
+            "sortOrder": 306,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:14.12308Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana",
+            "createdAt": "2026-08-22T15:27:36.139767Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法力值",
+            "sortOrder": 310,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.139767Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "mana_regen",
+            "createdAt": "2026-08-30T16:27:55.032387Z",
+            "description": "角色每5秒法力回复；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "每5秒法力回复",
+            "sortOrder": 315,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.032387Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "base_mana_regen_percent",
+            "createdAt": "2026-09-06T14:33:07.568638Z",
+            "description": "以角色基础法力回复为基数的加成比例，1 表示 100%，0.5 表示 50%。资料：16.17.1 装备说明。与每5秒固定法力回复分别维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "基础法力回复加成比例",
+            "sortOrder": 316,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:33:07.568638Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "energy",
+            "createdAt": "2026-08-22T15:27:36.229561Z",
+            "description": null,
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "能量值",
+            "sortOrder": 320,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-22T15:27:36.229561Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "armor",
+            "createdAt": "2026-08-30T16:27:55.143372Z",
+            "description": "角色面板护甲",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "护甲",
+            "sortOrder": 400,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.143372Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "magic_resistance",
+            "createdAt": "2026-08-30T16:27:55.24073Z",
+            "description": "角色面板魔法抗性",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "魔法抗性",
+            "sortOrder": 410,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.24073Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "tenacity_percent",
+            "createdAt": "2026-09-06T14:37:40.8914Z",
+            "description": "韧性比例，1 表示 100%，0.3 表示 30%。资料：16.17.1 装备说明。控制适用范围和多个来源的组合规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "韧性比例",
+            "sortOrder": 420,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:40.8914Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "slow_resist_percent",
+            "createdAt": "2026-09-08T14:32:32.234108Z",
+            "description": "降低减速幅度的比例，1表示100%，0.25表示25%。客户端16.17装备3009根字段mPercentSlowResistMod=0.25，当前说明将减速效果效能降低25%。与韧性和移动速度分别维护；多个来源的组合规则另行核对。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "减速抗性比例",
+            "sortOrder": 421,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T14:32:32.234108Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_damage",
+            "createdAt": "2026-08-30T16:26:29.341938Z",
+            "description": "角色面板攻击力；伊泽瑞尔数据按官方 16.17.1 版本录入",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击力",
+            "sortOrder": 500,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:29.341938Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_power",
+            "createdAt": "2026-08-30T16:26:39.898635Z",
+            "description": "角色法术强度；基础值为 0，可由装备和效果增加",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "法术强度",
+            "sortOrder": 510,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:26:39.898635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_speed",
+            "createdAt": "2026-08-30T16:27:55.334742Z",
+            "description": "角色每秒攻击次数；等级值已含基础攻速成长",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击速度",
+            "sortOrder": 520,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.334742Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "bonus_attack_speed_percent",
+            "createdAt": "2026-08-30T16:27:55.439812Z",
+            "description": "以 1 表示 100%；用于记录等级成长和咒能高涨等效果",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外攻击速度比例",
+            "sortOrder": 521,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.439812Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_chance",
+            "createdAt": "2026-08-30T16:27:55.58546Z",
+            "description": "以 1 表示 100% 暴击几率",
+            "gameId": "lol",
+            "maxValue": 1,
+            "minValue": 0,
+            "name": "暴击几率",
+            "sortOrder": 530,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.58546Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "critical_strike_damage_bonus_percent",
+            "createdAt": "2026-09-06T14:37:27.711233Z",
+            "description": "暴击伤害倍率的额外加成，0.4 表示增加 40 个百分点，不表示最终暴击倍率。资料：16.17.1 装备说明；具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "额外暴击伤害比例",
+            "sortOrder": 531,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:37:27.711233Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "attack_range",
+            "createdAt": "2026-08-30T16:27:55.678337Z",
+            "description": "角色普通攻击距离",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": 0,
+            "name": "攻击距离",
+            "sortOrder": 540,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-30T16:27:55.678337Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "ability_haste",
+            "createdAt": "2026-09-06T14:29:52.533949Z",
+            "description": "技能急速的固定数值，10 表示 10 点技能急速。资料：16.17.1 装备说明；不将其直接作为冷却缩减比例。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "技能急速",
+            "sortOrder": 550,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:29:52.533949Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "life_steal_percent",
+            "createdAt": "2026-09-06T14:36:43.823597Z",
+            "description": "生命偷取比例，1 表示 100%，0.07 表示 7%。资料：16.17.1 装备说明。具体伤害适用范围由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "生命偷取比例",
+            "sortOrder": 560,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:43.823597Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "omnivamp_percent",
+            "createdAt": "2026-09-06T14:36:50.377635Z",
+            "description": "全能吸血比例，1 表示 100%，0.025 表示 2.5%。资料：16.17.1 装备说明。具体伤害适用范围和折减规则由效果规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "全能吸血比例",
+            "sortOrder": 570,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:36:50.377635Z",
+            "valueType": "DECIMAL"
+          },
+          {
+            "attributeKey": "heal_shield_power_percent",
+            "createdAt": "2026-09-06T14:38:40.772253Z",
+            "description": "治疗和护盾强度的加成比例，1 表示 100%，0.08 表示 8%。资料：16.17.1 装备说明。具体适用目标和效果由规则维护。",
+            "gameId": "lol",
+            "maxValue": null,
+            "minValue": null,
+            "name": "治疗和护盾强度比例",
+            "sortOrder": 580,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T14:38:40.772253Z",
+            "valueType": "DECIMAL"
+          }
+        ],
+        "total": 28
+      }
+    },
+    {
+      "route": "/skill-categories",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-09-04T16:08:30.744289Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "位移技能",
+            "skillCategoryKey": "move_skill",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-04T16:08:30.744289Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:27.858757Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "普通技能",
+            "skillCategoryKey": "common",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:27.858757Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:36.038429Z",
+            "description": null,
+            "gameId": "lol",
+            "name": "被动技能",
+            "skillCategoryKey": "passive",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:36.038429Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/modifier-zones",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-08-31T05:44:18.601181Z",
+            "description": null,
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_percent_bonus",
+            "name": "属性百分比加成",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-31T05:44:18.601181Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_FLAT",
+            "calculationMode": "FLAT_ADD",
+            "createdAt": "2026-09-06T16:50:52.756989Z",
+            "description": "持续属性的固定值增加或减少；同属性同乘区内按方向加算，先于属性比例修正。比例类属性自身以1表示100%，增加0.6表示增加60个百分点，跨来源韧性组合仍待游戏规则核对。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "attribute_flat_add",
+            "name": "属性固定加算",
+            "sortOrder": 10,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-06T16:50:52.756989Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:34.032171Z",
+            "description": "黑色切割者目标护甲百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_3071_armor_reduction",
+            "name": "黑色切割者护甲削减乘区",
+            "sortOrder": 200,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:34.032171Z"
+          },
+          {
+            "applicationStage": "ATTRIBUTE_PERCENT",
+            "calculationMode": "RATIO_ADD",
+            "createdAt": "2026-09-08T02:16:39.681338Z",
+            "description": "放血者的诅咒目标魔法抗性百分比削减独立乘区；同效果每层加算，不与其他来源共用同一乘区。",
+            "domain": "ATTRIBUTE",
+            "gameId": "lol",
+            "modifierZoneKey": "item_8010_magic_resistance_reduction",
+            "name": "放血者的诅咒魔抗削减乘区",
+            "sortOrder": 210,
+            "status": "ENABLED",
+            "updatedAt": "2026-09-08T02:16:39.681338Z"
+          }
+        ],
+        "total": 4
+      }
+    },
+    {
+      "route": "/damage-types",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "createdAt": "2026-08-26T05:59:09.635701Z",
+            "damageTypeKey": "physics",
+            "description": null,
+            "gameId": "lol",
+            "name": "物理伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:09.635701Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:58:49.612762Z",
+            "damageTypeKey": "real",
+            "description": null,
+            "gameId": "lol",
+            "name": "真实伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:58:49.612762Z"
+          },
+          {
+            "createdAt": "2026-08-26T05:59:15.870937Z",
+            "damageTypeKey": "magic",
+            "description": null,
+            "gameId": "lol",
+            "name": "魔法伤害",
+            "sortOrder": 0,
+            "status": "ENABLED",
+            "updatedAt": "2026-08-26T05:59:15.870937Z"
+          }
+        ],
+        "total": 3
+      }
+    },
+    {
+      "route": "/characters/champion_illaoi",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_illaoi",
+        "createdAt": "2026-09-06T17:13:47.277435Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "俄洛伊",
+        "updatedAt": "2026-09-06T17:13:47.277435Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_illaoi",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_illaoi",
+            "characterName": "俄洛伊",
+            "gameId": "lol",
+            "skillKey": "illaoi_p",
+            "skillName": "俄洛伊·古神先知",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_illaoi",
+            "characterName": "俄洛伊",
+            "gameId": "lol",
+            "skillKey": "illaoi_q",
+            "skillName": "俄洛伊·触手猛击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_illaoi",
+            "characterName": "俄洛伊",
+            "gameId": "lol",
+            "skillKey": "illaoi_w",
+            "skillName": "俄洛伊·严酷训诫",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_illaoi",
+            "characterName": "俄洛伊",
+            "gameId": "lol",
+            "skillKey": "illaoi_e",
+            "skillName": "俄洛伊·灵魂试炼",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_illaoi",
+            "characterName": "俄洛伊",
+            "gameId": "lol",
+            "skillKey": "illaoi_r",
+            "skillName": "俄洛伊·过界信仰",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_monkeyking",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_monkeyking",
+        "createdAt": "2026-09-06T17:15:37.521888Z",
+        "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。",
+        "gameId": "lol",
+        "name": "孙悟空",
+        "updatedAt": "2026-09-06T17:15:37.521888Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_monkeyking",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_monkeyking",
+            "characterName": "孙悟空",
+            "gameId": "lol",
+            "skillKey": "monkeyking_p",
+            "skillName": "孙悟空·金刚不坏",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_monkeyking",
+            "characterName": "孙悟空",
+            "gameId": "lol",
+            "skillKey": "monkeyking_q",
+            "skillName": "孙悟空·粉碎打击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_monkeyking",
+            "characterName": "孙悟空",
+            "gameId": "lol",
+            "skillKey": "monkeyking_w",
+            "skillName": "孙悟空·真假猴王",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_monkeyking",
+            "characterName": "孙悟空",
+            "gameId": "lol",
+            "skillKey": "monkeyking_e",
+            "skillName": "孙悟空·腾云突击",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_monkeyking",
+            "characterName": "孙悟空",
+            "gameId": "lol",
+            "skillKey": "monkeyking_r",
+            "skillName": "孙悟空·大闹天宫",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_neeko",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_neeko",
+        "createdAt": "2026-09-06T17:16:24.11477Z",
+        "description": "官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与候选源明确的1～18级基础自然成长，技能、图片、被动与特殊机制待录。",
+        "gameId": "lol",
+        "name": "妮蔻",
+        "updatedAt": "2026-09-06T17:16:24.11477Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_neeko",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_neeko",
+            "characterName": "妮蔻",
+            "gameId": "lol",
+            "skillKey": "neeko_p",
+            "skillName": "妮蔻·天生幻魅",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_neeko",
+            "characterName": "妮蔻",
+            "gameId": "lol",
+            "skillKey": "neeko_q",
+            "skillName": "妮蔻·盛开花种",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_neeko",
+            "characterName": "妮蔻",
+            "gameId": "lol",
+            "skillKey": "neeko_w",
+            "skillName": "妮蔻·两生花影",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_neeko",
+            "characterName": "妮蔻",
+            "gameId": "lol",
+            "skillKey": "neeko_e",
+            "skillName": "妮蔻·缠结倒刺",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_neeko",
+            "characterName": "妮蔻",
+            "gameId": "lol",
+            "skillKey": "neeko_r",
+            "skillName": "妮蔻·怒放",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/characters/champion_yuumi",
+      "status": 200,
+      "data": {
+        "characterKey": "champion_yuumi",
+        "createdAt": "2026-09-06T18:10:56.32919Z",
+        "description": "来源：官方静态资料16.17.1及同补丁客户端；本批仅录角色主体与1～18级基础自然成长，不含技能、图片、被动、装备、符文、叠层、形态或特殊机制。",
+        "gameId": "lol",
+        "name": "悠米",
+        "updatedAt": "2026-09-06T18:10:56.32919Z"
+      }
+    },
+    {
+      "route": "/character-skill-relations?characterKey=champion_yuumi",
+      "status": 200,
+      "data": {
+        "items": [
+          {
+            "characterKey": "champion_yuumi",
+            "characterName": "悠米",
+            "gameId": "lol",
+            "skillKey": "yuumi_p",
+            "skillName": "悠米·猫的博爱",
+            "skillStatus": "ENABLED",
+            "sortOrder": 0
+          },
+          {
+            "characterKey": "champion_yuumi",
+            "characterName": "悠米",
+            "gameId": "lol",
+            "skillKey": "yuumi_q",
+            "skillName": "悠米·摸鱼飞弹",
+            "skillStatus": "ENABLED",
+            "sortOrder": 1
+          },
+          {
+            "characterKey": "champion_yuumi",
+            "characterName": "悠米",
+            "gameId": "lol",
+            "skillKey": "yuumi_w",
+            "skillName": "悠米·悠米出动！",
+            "skillStatus": "ENABLED",
+            "sortOrder": 2
+          },
+          {
+            "characterKey": "champion_yuumi",
+            "characterName": "悠米",
+            "gameId": "lol",
+            "skillKey": "yuumi_e",
+            "skillName": "悠米·旺盛精力",
+            "skillStatus": "ENABLED",
+            "sortOrder": 3
+          },
+          {
+            "characterKey": "champion_yuumi",
+            "characterName": "悠米",
+            "gameId": "lol",
+            "skillKey": "yuumi_r",
+            "skillName": "悠米·魔典终章",
+            "skillStatus": "ENABLED",
+            "sortOrder": 4
+          }
+        ],
+        "total": 5
+      }
+    },
+    {
+      "route": "/skills/illaoi_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:34.431238Z",
+        "description": "俄洛伊和她创造的<font color='#669900'>躯壳</font>会在附近的不可穿越的地形上生成触手。触手会挥向灵魂，<font color='#669900'>躯壳</font>，以及俄洛伊的【严酷训诫】的受害者们。触手会在命中敌人时造成物理伤害，如果命中目标是英雄还会治疗俄洛伊。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "俄洛伊·古神先知",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "illaoi_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:34.431238Z"
+      }
+    },
+    {
+      "route": "/skills/illaoi_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_illaoi_p",
+          "name": "illaoi_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/illaoi_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:34.733836Z",
+        "description": "提升触手造成的伤害。在激活时，俄洛伊会挥出一条触手来造成物理伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "俄洛伊·触手猛击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "illaoi_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:34.733836Z"
+      }
+    },
+    {
+      "route": "/skills/illaoi_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_illaoi_q",
+          "name": "illaoi_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/illaoi_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T17:59:59.27027Z",
+          "description": "DDragon16.17.1 Illaoi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9000,
+            "3": 8000,
+            "4": 7000,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "illaoi_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T17:59:59.27027Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T17:59:59.689314Z",
+          "description": "DDragon16.17.1 Illaoi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 40,
+            "2": 45,
+            "3": 50,
+            "4": 55,
+            "5": 60
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "illaoi_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T17:59:59.689314Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/illaoi_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T17:59:59.27027Z",
+        "description": "DDragon16.17.1 Illaoi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9000,
+          "3": 8000,
+          "4": 7000,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "illaoi_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T17:59:59.27027Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/illaoi_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T17:59:59.689314Z",
+        "description": "DDragon16.17.1 Illaoi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 40,
+          "2": 45,
+          "3": 50,
+          "4": 55,
+          "5": 60
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "illaoi_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T17:59:59.689314Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/illaoi_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:34.983991Z",
+        "description": "俄洛伊跃向她的目标，造成物理伤害并使附近的触手也挥向目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "俄洛伊·严酷训诫",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "illaoi_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:34.983991Z"
+      }
+    },
+    {
+      "route": "/skills/illaoi_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_illaoi_w",
+          "name": "illaoi_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/illaoi_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:00.051501Z",
+          "description": "DDragon16.17.1 Illaoi.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 4000,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "illaoi_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:00.051501Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:00.570686Z",
+          "description": "DDragon16.17.1 Illaoi.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 30,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "illaoi_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:00.570686Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/illaoi_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:00.051501Z",
+        "description": "DDragon16.17.1 Illaoi.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 4000,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "illaoi_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:00.051501Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/illaoi_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:00.570686Z",
+        "description": "DDragon16.17.1 Illaoi.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 30,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "illaoi_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:00.570686Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/illaoi_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:35.242859Z",
+        "description": "俄洛伊把灵魂从一名敌人的肉身中扯出，强迫它站在她面前。 灵魂会将其所受的一部分伤害传递到本体上。如果灵魂被击杀，或者本体离灵魂过远，那么本体就会成为一个<font color='#669900'>躯壳</font>并且开始生成触手。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "俄洛伊·灵魂试炼",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "illaoi_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:35.242859Z"
+      }
+    },
+    {
+      "route": "/skills/illaoi_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_illaoi_e",
+          "name": "illaoi_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/illaoi_e/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:18:35.527067Z",
+        "description": "俄洛伊将她的神像砸在地上，对附近的敌人造成物理伤害。每命中一个敌人就会生成一条触手。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "俄洛伊·过界信仰",
+        "skillCategoryKeys": [],
+        "skillKey": "illaoi_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:35.527067Z"
+      }
+    },
+    {
+      "route": "/skills/illaoi_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_illaoi_r",
+          "name": "illaoi_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/illaoi_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-07T18:00:01.007041Z",
+          "description": "DDragon16.17.1 Illaoi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 95000,
+            "3": 70000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "illaoi_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-07T18:00:01.007041Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-07T18:00:01.406465Z",
+          "description": "DDragon16.17.1 Illaoi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "illaoi_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-07T18:00:01.406465Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/illaoi_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:01.007041Z",
+        "description": "DDragon16.17.1 Illaoi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 95000,
+          "3": 70000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "illaoi_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-07T18:00:01.007041Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/illaoi_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-07T18:00:01.406465Z",
+        "description": "DDragon16.17.1 Illaoi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "illaoi_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-07T18:00:01.406465Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/illaoi_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/illaoi_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:27.487049Z",
+        "description": "孙悟空在与英雄或野怪战斗时，会获得可叠加的护甲和最大生命值回复。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "孙悟空·金刚不坏",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "monkeyking_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:27.487049Z"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_monkeyking_p",
+          "name": "monkeyking_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/monkeyking_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:27.725009Z",
+        "description": "孙悟空的下次攻击获得额外距离，造成额外伤害，并暂时减少敌人的护甲。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "孙悟空·粉碎打击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "monkeyking_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:27.725009Z"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_monkeyking_q",
+          "name": "monkeyking_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/monkeyking_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:44.132446Z",
+          "description": "DDragon16.17.1 MonkeyKing.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 8000,
+            "2": 7500,
+            "3": 7000,
+            "4": 6500,
+            "5": 6000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "monkeyking_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:44.132446Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:44.64019Z",
+          "description": "DDragon16.17.1 MonkeyKing.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 20,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "monkeyking_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:44.64019Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/monkeyking_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:44.132446Z",
+        "description": "DDragon16.17.1 MonkeyKing.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 8000,
+          "2": 7500,
+          "3": 7000,
+          "4": 6500,
+          "5": 6000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "monkeyking_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:44.132446Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:44.64019Z",
+        "description": "DDragon16.17.1 MonkeyKing.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 20,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "monkeyking_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:44.64019Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:28.009253Z",
+        "description": "孙悟空变为<font color='#91d7ee'>隐形</font>状态并朝着一个方向突进，同时留下一个会攻击附近敌人的分身。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "孙悟空·真假猴王",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "monkeyking_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:28.009253Z"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_monkeyking_w",
+          "name": "monkeyking_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/monkeyking_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:45.081063Z",
+          "description": "DDragon16.17.1 MonkeyKing.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体隐身等收益，独立分身分支后置。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 22000,
+            "2": 21000,
+            "3": 20000,
+            "4": 19000,
+            "5": 18000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "monkeyking_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:45.081063Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:45.510998Z",
+          "description": "DDragon16.17.1 MonkeyKing.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体隐身等收益，独立分身分支后置。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 55,
+            "3": 50,
+            "4": 45,
+            "5": 40
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "monkeyking_w",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:45.510998Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/monkeyking_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:45.081063Z",
+        "description": "DDragon16.17.1 MonkeyKing.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体隐身等收益，独立分身分支后置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 22000,
+          "2": 21000,
+          "3": 20000,
+          "4": 19000,
+          "5": 18000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "monkeyking_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:45.081063Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_w/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:45.510998Z",
+        "description": "DDragon16.17.1 MonkeyKing.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体隐身等收益，独立分身分支后置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 55,
+          "3": 50,
+          "4": 45,
+          "5": 40
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "monkeyking_w",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:45.510998Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:28.249752Z",
+        "description": "孙悟空突进至一名目标敌人处，并放出幻象来攻击他目标附近的敌人，同时对每个被击中的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "孙悟空·腾云突击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "monkeyking_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:28.249752Z"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_monkeyking_e",
+          "name": "monkeyking_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/monkeyking_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:46.053838Z",
+          "description": "DDragon16.17.1 MonkeyKing.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 10000,
+            "2": 9250,
+            "3": 8500,
+            "4": 7750,
+            "5": 7000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "monkeyking_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:46.053838Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:46.552849Z",
+          "description": "DDragon16.17.1 MonkeyKing.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 30,
+            "2": 35,
+            "3": 40,
+            "4": 45,
+            "5": 50
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "monkeyking_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:46.552849Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/monkeyking_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:46.053838Z",
+        "description": "DDragon16.17.1 MonkeyKing.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 10000,
+          "2": 9250,
+          "3": 8500,
+          "4": 7750,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "monkeyking_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:46.053838Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:46.552849Z",
+        "description": "DDragon16.17.1 MonkeyKing.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 30,
+          "2": 35,
+          "3": 40,
+          "4": 45,
+          "5": 50
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "monkeyking_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:46.552849Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:28.548407Z",
+        "description": "孙悟空伸展金箍棒不断旋转，并获得移动速度。<br><br>击中敌人时会造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "孙悟空·大闹天宫",
+        "skillCategoryKeys": [],
+        "skillKey": "monkeyking_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:28.548407Z"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_monkeyking_r",
+          "name": "monkeyking_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/monkeyking_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:47.045988Z",
+          "description": "DDragon16.17.1 MonkeyKing.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 130000,
+            "2": 110000,
+            "3": 90000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "monkeyking_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:47.045988Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:47.539484Z",
+          "description": "DDragon16.17.1 MonkeyKing.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "monkeyking_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:47.539484Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/monkeyking_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:47.045988Z",
+        "description": "DDragon16.17.1 MonkeyKing.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 130000,
+          "2": 110000,
+          "3": 90000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "monkeyking_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:47.045988Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:47.539484Z",
+        "description": "DDragon16.17.1 MonkeyKing.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "monkeyking_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:47.539484Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/monkeyking_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/monkeyking_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:36.829546Z",
+        "description": "妮蔻可以假扮成一名友方英雄或地图上的其它单位。承受定身类限制效果、施放伤害型的技能、以非英雄单位的状态对敌方防御塔造成伤害、或者你的假扮受到了相当于其生命条的伤害时，都会打破这个假扮状态。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "妮蔻·天生幻魅",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "neeko_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:36.829546Z"
+      }
+    },
+    {
+      "route": "/skills/neeko_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_neeko_p",
+          "name": "neeko_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/neeko_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:37.072892Z",
+        "description": "妮蔻扔出一颗种子以造成伤害。种子在再次命中英雄或击杀单位时会盛开。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "妮蔻·盛开花种",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "neeko_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:37.072892Z"
+      }
+    },
+    {
+      "route": "/skills/neeko_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_neeko_q",
+          "name": "neeko_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/neeko_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:48.056164Z",
+          "description": "DDragon16.17.1 Neeko.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 9000,
+            "2": 8500,
+            "3": 8000,
+            "4": 7500,
+            "5": 7000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "neeko_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:48.056164Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:48.685621Z",
+          "description": "DDragon16.17.1 Neeko.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 60,
+            "3": 70,
+            "4": 80,
+            "5": 90
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "neeko_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:48.685621Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/neeko_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:48.056164Z",
+        "description": "DDragon16.17.1 Neeko.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 9000,
+          "2": 8500,
+          "3": 8000,
+          "4": 7500,
+          "5": 7000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "neeko_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:48.056164Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/neeko_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:48.685621Z",
+        "description": "DDragon16.17.1 Neeko.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 60,
+          "3": 70,
+          "4": 80,
+          "5": 90
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "neeko_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:48.685621Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/neeko_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:37.374311Z",
+        "description": "被动效果：妮蔻每第三次攻击造成额外魔法伤害，并短暂提升她的移动速度。主动效果：妮蔻能够朝一个方向投射出一个幻像并通过再次施放来改变幻象的方向。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "妮蔻·两生花影",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "neeko_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:37.374311Z"
+      }
+    },
+    {
+      "route": "/skills/neeko_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_neeko_w",
+          "name": "neeko_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/neeko_w/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:50.952959Z",
+          "description": "DDragon16.17.1 Neeko.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。保留本体隐身及其他自用收益，独立分身分支后置。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 16000,
+            "2": 15000,
+            "3": 14000,
+            "4": 13000,
+            "5": 12000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "neeko_w",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:50.952959Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/neeko_w/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:50.952959Z",
+        "description": "DDragon16.17.1 Neeko.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。保留本体隐身及其他自用收益，独立分身分支后置。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "neeko_w",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:50.952959Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/neeko_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:37.686699Z",
+        "description": "妮蔻投出一团倒刺，对它沿途的所有东西造成伤害和禁锢效果。如果倒刺击杀了一个敌人或穿过了一名英雄，就会变得更大、更快并且禁锢时间更长。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "妮蔻·缠结倒刺",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "neeko_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:37.686699Z"
+      }
+    },
+    {
+      "route": "/skills/neeko_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_neeko_e",
+          "name": "neeko_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/neeko_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:51.535042Z",
+          "description": "DDragon16.17.1 Neeko.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 12000,
+            "2": 11500,
+            "3": 11000,
+            "4": 10500,
+            "5": 10000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "neeko_e",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:51.535042Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:51.965249Z",
+          "description": "DDragon16.17.1 Neeko.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 60,
+            "2": 65,
+            "3": 70,
+            "4": 75,
+            "5": 80
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "neeko_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:51.965249Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/neeko_e/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:51.535042Z",
+        "description": "DDragon16.17.1 Neeko.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 12000,
+          "2": 11500,
+          "3": 11000,
+          "4": 10500,
+          "5": 10000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "neeko_e",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:51.535042Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/neeko_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:51.965249Z",
+        "description": "DDragon16.17.1 Neeko.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 60,
+          "2": 65,
+          "3": 70,
+          "4": 75,
+          "5": 80
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "neeko_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:51.965249Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/neeko_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:19:37.942286Z",
+        "description": "在短暂的准备阶段后，妮蔻会跃入空中，击飞所有附近的英雄。在着陆时，附近的敌人会受到伤害并被晕眩。如果妮蔻处于假扮状态时，那么准备阶段不会被敌人看见。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "妮蔻·怒放",
+        "skillCategoryKeys": [],
+        "skillKey": "neeko_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:37.942286Z"
+      }
+    },
+    {
+      "route": "/skills/neeko_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_neeko_r",
+          "name": "neeko_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/neeko_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:40:52.484441Z",
+          "description": "DDragon16.17.1 Neeko.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 105000,
+            "3": 90000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "neeko_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:40:52.484441Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:40:53.022655Z",
+          "description": "DDragon16.17.1 Neeko.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "neeko_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:40:53.022655Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/neeko_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:52.484441Z",
+        "description": "DDragon16.17.1 Neeko.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 105000,
+          "3": 90000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "neeko_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:40:52.484441Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/neeko_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:40:53.022655Z",
+        "description": "DDragon16.17.1 Neeko.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "neeko_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:40:53.022655Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/neeko_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/neeko_r/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_p",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:16.260765Z",
+        "description": "周期性地，当悠米用一个攻击或技能击中一个英雄时，她会为自身和她要附身的下一个友方英雄回复生命值。<br><br>在附身于友方英雄时，悠米会与她的友方英雄们生成一个特殊羁绊。在附身于拥有最强羁绊的那名友方英雄时，悠米的各个技能会获得强化。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "悠米·猫的博爱",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "yuumi_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:16.260765Z"
+      }
+    },
+    {
+      "route": "/skills/yuumi_p/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yuumi_p",
+          "name": "yuumi_p"
+        }
+      }
+    },
+    {
+      "route": "/skills/yuumi_p/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_p/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_p/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_p/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_p/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_p/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_q",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:16.495538Z",
+        "description": "悠米发射一道飞弹，对命中的首个单位造成伤害和减速效果。如果它在到达目标之前至少飞行了1.35秒，那么还会造成额外伤害和强化减速效果。在附身于她的挚友身上时，将总造成强化减速效果并且为她的挚友提供额外附加伤害。<br><br>在附身状态时，飞弹可以通过你的指针来控制。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 6,
+        "name": "悠米·摸鱼飞弹",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yuumi_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:16.495538Z"
+      }
+    },
+    {
+      "route": "/skills/yuumi_q/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yuumi_q",
+          "name": "yuumi_q"
+        }
+      }
+    },
+    {
+      "route": "/skills/yuumi_q/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:21.094207Z",
+          "description": "DDragon16.17.1 Yuumi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 6500,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yuumi_q",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:21.094207Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:21.63396Z",
+          "description": "DDragon16.17.1 Yuumi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 50,
+            "2": 55,
+            "3": 60,
+            "4": 65,
+            "5": 70,
+            "6": 75
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "yuumi_q",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:21.63396Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yuumi_q/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:21.094207Z",
+        "description": "DDragon16.17.1 Yuumi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 6500,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yuumi_q",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:21.094207Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yuumi_q/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:21.63396Z",
+        "description": "DDragon16.17.1 Yuumi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 50,
+          "2": 55,
+          "3": 60,
+          "4": 65,
+          "5": 70,
+          "6": 75
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "yuumi_q",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:21.63396Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yuumi_q/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_q/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_q/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_q/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_q/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_w",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:16.761542Z",
+        "description": "悠米突进到一名目标友方英雄处，变得不可被选取（防御塔除外）。在附身于她的挚友身上时，她会获得治疗与护盾强度并为她的这名友军提供附加治疗效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "悠米·悠米出动！",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yuumi_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:16.761542Z"
+      }
+    },
+    {
+      "route": "/skills/yuumi_w/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yuumi_w",
+          "name": "yuumi_w"
+        }
+      }
+    },
+    {
+      "route": "/skills/yuumi_w/parameters",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_w/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_w/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_w/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_w/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_w/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_e",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:17.024165Z",
+        "description": "为悠米提供护盾值和一个爆发性的移动速度和攻击速度加成。如果她处于附身状态，那么她会将这个效果传给她附身的友方英雄。<br>（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "悠米·旺盛精力",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yuumi_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:17.024165Z"
+      }
+    },
+    {
+      "route": "/skills/yuumi_e/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yuumi_e",
+          "name": "yuumi_e"
+        }
+      }
+    },
+    {
+      "route": "/skills/yuumi_e/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:22.105435Z",
+          "description": "DDragon16.17.1 Yuumi.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 80,
+            "2": 90,
+            "3": 100,
+            "4": 110,
+            "5": 120
+          },
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "yuumi_e",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:22.105435Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yuumi_e/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:22.105435Z",
+        "description": "DDragon16.17.1 Yuumi.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 80,
+          "2": 90,
+          "3": 100,
+          "4": 110,
+          "5": 120
+        },
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "yuumi_e",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:22.105435Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yuumi_e/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_e/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_e/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_e/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_e/trigger-rules",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_r",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-06T18:21:17.334773Z",
+        "description": "悠米引导5道波纹来伤害敌人并治疗友军。在引导时，悠米可以移动、附身并施放【旺盛精力】。在附身于她的挚友身上时，这个技能还会跟随她的鼠标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "悠米·魔典终章",
+        "skillCategoryKeys": [],
+        "skillKey": "yuumi_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:17.334773Z"
+      }
+    },
+    {
+      "route": "/skills/yuumi_r/representative-image",
+      "status": 200,
+      "data": {
+        "image": {
+          "enabled": true,
+          "imageKey": "entry_16171_yuumi_r",
+          "name": "yuumi_r"
+        }
+      }
+    },
+    {
+      "route": "/skills/yuumi_r/parameters",
+      "status": 200,
+      "data": [
+        {
+          "createdAt": "2026-09-08T02:41:22.57983Z",
+          "description": "DDragon16.17.1 Yuumi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": null,
+          "gameId": "lol",
+          "levelValues": {
+            "1": 120000,
+            "2": 110000,
+            "3": 100000
+          },
+          "name": "基础冷却时间（毫秒）",
+          "parameterKey": "cooldown_ms",
+          "skillKey": "yuumi_r",
+          "sortOrder": 100,
+          "updatedAt": "2026-09-08T02:41:22.57983Z",
+          "valueMode": "SKILL_LEVEL",
+          "valueType": "INTEGER"
+        },
+        {
+          "createdAt": "2026-09-08T02:41:23.092773Z",
+          "description": "DDragon16.17.1 Yuumi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+          "fixedValue": 100,
+          "gameId": "lol",
+          "levelValues": null,
+          "name": "基础法力消耗",
+          "parameterKey": "mana_cost",
+          "skillKey": "yuumi_r",
+          "sortOrder": 110,
+          "updatedAt": "2026-09-08T02:41:23.092773Z",
+          "valueMode": "FIXED",
+          "valueType": "INTEGER"
+        }
+      ]
+    },
+    {
+      "route": "/skills/yuumi_r/parameters/cooldown_ms",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:22.57983Z",
+        "description": "DDragon16.17.1 Yuumi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": null,
+        "gameId": "lol",
+        "levelValues": {
+          "1": 120000,
+          "2": 110000,
+          "3": 100000
+        },
+        "name": "基础冷却时间（毫秒）",
+        "parameterKey": "cooldown_ms",
+        "skillKey": "yuumi_r",
+        "sortOrder": 100,
+        "updatedAt": "2026-09-08T02:41:22.57983Z",
+        "valueMode": "SKILL_LEVEL",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yuumi_r/parameters/mana_cost",
+      "status": 200,
+      "data": {
+        "createdAt": "2026-09-08T02:41:23.092773Z",
+        "description": "DDragon16.17.1 Yuumi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+        "fixedValue": 100,
+        "gameId": "lol",
+        "levelValues": null,
+        "name": "基础法力消耗",
+        "parameterKey": "mana_cost",
+        "skillKey": "yuumi_r",
+        "sortOrder": 110,
+        "updatedAt": "2026-09-08T02:41:23.092773Z",
+        "valueMode": "FIXED",
+        "valueType": "INTEGER"
+      }
+    },
+    {
+      "route": "/skills/yuumi_r/formulas",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_r/effects",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_r/processes",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_r/internal-states",
+      "status": 200,
+      "data": []
+    },
+    {
+      "route": "/skills/yuumi_r/trigger-rules",
+      "status": 200,
+      "data": []
+    }
+  ],
+  "summary": {
+    "illaoi_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:34.431238Z",
+        "description": "俄洛伊和她创造的<font color='#669900'>躯壳</font>会在附近的不可穿越的地形上生成触手。触手会挥向灵魂，<font color='#669900'>躯壳</font>，以及俄洛伊的【严酷训诫】的受害者们。触手会在命中敌人时造成物理伤害，如果命中目标是英雄还会治疗俄洛伊。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "俄洛伊·古神先知",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "illaoi_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:34.431238Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "illaoi_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:34.733836Z",
+        "description": "提升触手造成的伤害。在激活时，俄洛伊会挥出一条触手来造成物理伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "俄洛伊·触手猛击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "illaoi_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:34.733836Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T17:59:59.27027Z",
+            "description": "DDragon16.17.1 Illaoi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 10000,
+              "2": 9000,
+              "3": 8000,
+              "4": 7000,
+              "5": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "illaoi_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T17:59:59.27027Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T17:59:59.689314Z",
+            "description": "DDragon16.17.1 Illaoi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 40,
+              "2": 45,
+              "3": 50,
+              "4": 55,
+              "5": 60
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "illaoi_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T17:59:59.689314Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "illaoi_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:34.983991Z",
+        "description": "俄洛伊跃向她的目标，造成物理伤害并使附近的触手也挥向目标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "俄洛伊·严酷训诫",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "illaoi_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:34.983991Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:00.051501Z",
+            "description": "DDragon16.17.1 Illaoi.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 4000,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "illaoi_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:00.051501Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:00.570686Z",
+            "description": "DDragon16.17.1 Illaoi.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 30,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "illaoi_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:00.570686Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "illaoi_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:35.242859Z",
+        "description": "俄洛伊把灵魂从一名敌人的肉身中扯出，强迫它站在她面前。 灵魂会将其所受的一部分伤害传递到本体上。如果灵魂被击杀，或者本体离灵魂过远，那么本体就会成为一个<font color='#669900'>躯壳</font>并且开始生成触手。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "俄洛伊·灵魂试炼",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "illaoi_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:35.242859Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "illaoi_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:18:35.527067Z",
+        "description": "俄洛伊将她的神像砸在地上，对附近的敌人造成物理伤害。每命中一个敌人就会生成一条触手。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "俄洛伊·过界信仰",
+        "skillCategoryKeys": [],
+        "skillKey": "illaoi_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:18:35.527067Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-07T18:00:01.007041Z",
+            "description": "DDragon16.17.1 Illaoi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 95000,
+              "3": 70000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "illaoi_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-07T18:00:01.007041Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-07T18:00:01.406465Z",
+            "description": "DDragon16.17.1 Illaoi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "illaoi_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-07T18:00:01.406465Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "monkeyking_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:27.487049Z",
+        "description": "孙悟空在与英雄或野怪战斗时，会获得可叠加的护甲和最大生命值回复。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "孙悟空·金刚不坏",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "monkeyking_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:27.487049Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "monkeyking_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:27.725009Z",
+        "description": "孙悟空的下次攻击获得额外距离，造成额外伤害，并暂时减少敌人的护甲。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "孙悟空·粉碎打击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "monkeyking_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:27.725009Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:44.132446Z",
+            "description": "DDragon16.17.1 MonkeyKing.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 8000,
+              "2": 7500,
+              "3": 7000,
+              "4": 6500,
+              "5": 6000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "monkeyking_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:44.132446Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:44.64019Z",
+            "description": "DDragon16.17.1 MonkeyKing.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 20,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "monkeyking_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:44.64019Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "monkeyking_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:28.009253Z",
+        "description": "孙悟空变为<font color='#91d7ee'>隐形</font>状态并朝着一个方向突进，同时留下一个会攻击附近敌人的分身。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "孙悟空·真假猴王",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "monkeyking_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:28.009253Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:45.081063Z",
+            "description": "DDragon16.17.1 MonkeyKing.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体隐身等收益，独立分身分支后置。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 22000,
+              "2": 21000,
+              "3": 20000,
+              "4": 19000,
+              "5": 18000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "monkeyking_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:45.081063Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:45.510998Z",
+            "description": "DDragon16.17.1 MonkeyKing.spells[1].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。保留本体隐身等收益，独立分身分支后置。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 55,
+              "3": 50,
+              "4": 45,
+              "5": 40
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "monkeyking_w",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:45.510998Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "monkeyking_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:28.249752Z",
+        "description": "孙悟空突进至一名目标敌人处，并放出幻象来攻击他目标附近的敌人，同时对每个被击中的敌人造成伤害。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "孙悟空·腾云突击",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "monkeyking_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:28.249752Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:46.053838Z",
+            "description": "DDragon16.17.1 MonkeyKing.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 10000,
+              "2": 9250,
+              "3": 8500,
+              "4": 7750,
+              "5": 7000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "monkeyking_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:46.053838Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:46.552849Z",
+            "description": "DDragon16.17.1 MonkeyKing.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 30,
+              "2": 35,
+              "3": 40,
+              "4": 45,
+              "5": 50
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "monkeyking_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:46.552849Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "monkeyking_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:28.548407Z",
+        "description": "孙悟空伸展金箍棒不断旋转，并获得移动速度。<br><br>击中敌人时会造成伤害和击飞效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "孙悟空·大闹天宫",
+        "skillCategoryKeys": [],
+        "skillKey": "monkeyking_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:28.548407Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:47.045988Z",
+            "description": "DDragon16.17.1 MonkeyKing.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 130000,
+              "2": 110000,
+              "3": 90000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "monkeyking_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:47.045988Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:47.539484Z",
+            "description": "DDragon16.17.1 MonkeyKing.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "monkeyking_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:47.539484Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "neeko_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:36.829546Z",
+        "description": "妮蔻可以假扮成一名友方英雄或地图上的其它单位。承受定身类限制效果、施放伤害型的技能、以非英雄单位的状态对敌方防御塔造成伤害、或者你的假扮受到了相当于其生命条的伤害时，都会打破这个假扮状态。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "妮蔻·天生幻魅",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "neeko_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:36.829546Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "neeko_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:37.072892Z",
+        "description": "妮蔻扔出一颗种子以造成伤害。种子在再次命中英雄或击杀单位时会盛开。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "妮蔻·盛开花种",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "neeko_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:37.072892Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:48.056164Z",
+            "description": "DDragon16.17.1 Neeko.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 9000,
+              "2": 8500,
+              "3": 8000,
+              "4": 7500,
+              "5": 7000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "neeko_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:48.056164Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:48.685621Z",
+            "description": "DDragon16.17.1 Neeko.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 60,
+              "3": 70,
+              "4": 80,
+              "5": 90
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "neeko_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:48.685621Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "neeko_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:37.374311Z",
+        "description": "被动效果：妮蔻每第三次攻击造成额外魔法伤害，并短暂提升她的移动速度。主动效果：妮蔻能够朝一个方向投射出一个幻像并通过再次施放来改变幻象的方向。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "妮蔻·两生花影",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "neeko_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:37.374311Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:50.952959Z",
+            "description": "DDragon16.17.1 Neeko.spells[1].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。已核对为首段或整轮基础冷却，再施放间隔和实际起算时点另配。保留本体隐身及其他自用收益，独立分身分支后置。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 16000,
+              "2": 15000,
+              "3": 14000,
+              "4": 13000,
+              "5": 12000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "neeko_w",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:50.952959Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "neeko_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:37.686699Z",
+        "description": "妮蔻投出一团倒刺，对它沿途的所有东西造成伤害和禁锢效果。如果倒刺击杀了一个敌人或穿过了一名英雄，就会变得更大、更快并且禁锢时间更长。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "妮蔻·缠结倒刺",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "neeko_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:37.686699Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:51.535042Z",
+            "description": "DDragon16.17.1 Neeko.spells[2].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 12000,
+              "2": 11500,
+              "3": 11000,
+              "4": 10500,
+              "5": 10000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "neeko_e",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:51.535042Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:51.965249Z",
+            "description": "DDragon16.17.1 Neeko.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 60,
+              "2": 65,
+              "3": 70,
+              "4": 75,
+              "5": 80
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "neeko_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:51.965249Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "neeko_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:19:37.942286Z",
+        "description": "在短暂的准备阶段后，妮蔻会跃入空中，击飞所有附近的英雄。在着陆时，附近的敌人会受到伤害并被晕眩。如果妮蔻处于假扮状态时，那么准备阶段不会被敌人看见。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "妮蔻·怒放",
+        "skillCategoryKeys": [],
+        "skillKey": "neeko_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:19:37.942286Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:40:52.484441Z",
+            "description": "DDragon16.17.1 Neeko.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 105000,
+              "3": 90000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "neeko_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:40:52.484441Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:40:53.022655Z",
+            "description": "DDragon16.17.1 Neeko.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "neeko_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:40:53.022655Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yuumi_p": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:16.260765Z",
+        "description": "周期性地，当悠米用一个攻击或技能击中一个英雄时，她会为自身和她要附身的下一个友方英雄回复生命值。<br><br>在附身于友方英雄时，悠米会与她的友方英雄们生成一个特殊羁绊。在附身于拥有最强羁绊的那名友方英雄时，悠米的各个技能会获得强化。（来源：官方中文静态资料16.17.1；数值和机制待补证。）",
+        "gameId": "lol",
+        "maxLevel": 1,
+        "name": "悠米·猫的博爱",
+        "skillCategoryKeys": [
+          "passive"
+        ],
+        "skillKey": "yuumi_p",
+        "sortOrder": 0,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:16.260765Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yuumi_q": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:16.495538Z",
+        "description": "悠米发射一道飞弹，对命中的首个单位造成伤害和减速效果。如果它在到达目标之前至少飞行了1.35秒，那么还会造成额外伤害和强化减速效果。在附身于她的挚友身上时，将总造成强化减速效果并且为她的挚友提供额外附加伤害。<br><br>在附身状态时，飞弹可以通过你的指针来控制。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 6,
+        "name": "悠米·摸鱼飞弹",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yuumi_q",
+        "sortOrder": 1,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:16.495538Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:21.094207Z",
+            "description": "DDragon16.17.1 Yuumi.spells[0].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 6500,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yuumi_q",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:41:21.094207Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:41:21.63396Z",
+            "description": "DDragon16.17.1 Yuumi.spells[0].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 50,
+              "2": 55,
+              "3": 60,
+              "4": 65,
+              "5": 70,
+              "6": 75
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "yuumi_q",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:41:21.63396Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yuumi_w": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:16.761542Z",
+        "description": "悠米突进到一名目标友方英雄处，变得不可被选取（防御塔除外）。在附身于她的挚友身上时，她会获得治疗与护盾强度并为她的这名友军提供附加治疗效果。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "悠米·悠米出动！",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yuumi_w",
+        "sortOrder": 2,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:16.761542Z"
+      },
+      "components": {
+        "parameters": [],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yuumi_e": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:17.024165Z",
+        "description": "为悠米提供护盾值和一个爆发性的移动速度和攻击速度加成。如果她处于附身状态，那么她会将这个效果传给她附身的友方英雄。<br>（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 5,
+        "name": "悠米·旺盛精力",
+        "skillCategoryKeys": [
+          "common"
+        ],
+        "skillKey": "yuumi_e",
+        "sortOrder": 3,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:17.024165Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:22.105435Z",
+            "description": "DDragon16.17.1 Yuumi.spells[2].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 80,
+              "2": 90,
+              "3": 100,
+              "4": 110,
+              "5": 120
+            },
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "yuumi_e",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:41:22.105435Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    },
+    "yuumi_r": {
+      "publicOnly": true,
+      "subject": {
+        "createdAt": "2026-09-06T18:21:17.334773Z",
+        "description": "悠米引导5道波纹来伤害敌人并治疗友军。在引导时，悠米可以移动、附身并施放【旺盛精力】。在附身于她的挚友身上时，这个技能还会跟随她的鼠标。（来源：官方中文静态资料16.17.1；数值和机制待补证，变量原样保留。）",
+        "gameId": "lol",
+        "maxLevel": 3,
+        "name": "悠米·魔典终章",
+        "skillCategoryKeys": [],
+        "skillKey": "yuumi_r",
+        "sortOrder": 4,
+        "status": "ENABLED",
+        "updatedAt": "2026-09-06T18:21:17.334773Z"
+      },
+      "components": {
+        "parameters": [
+          {
+            "createdAt": "2026-09-08T02:41:22.57983Z",
+            "description": "DDragon16.17.1 Yuumi.spells[3].cooldown，等级1起索引0；与冻结客户端根绑定字段索引1起逐级一致。秒转换为毫秒。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": null,
+            "gameId": "lol",
+            "levelValues": {
+              "1": 120000,
+              "2": 110000,
+              "3": 100000
+            },
+            "name": "基础冷却时间（毫秒）",
+            "parameterKey": "cooldown_ms",
+            "skillKey": "yuumi_r",
+            "sortOrder": 100,
+            "updatedAt": "2026-09-08T02:41:22.57983Z",
+            "valueMode": "SKILL_LEVEL",
+            "valueType": "INTEGER"
+          },
+          {
+            "createdAt": "2026-09-08T02:41:23.092773Z",
+            "description": "DDragon16.17.1 Yuumi.spells[3].cost，等级1起索引0；与冻结客户端根绑定字段索引0起逐级一致。法力值；未接入实际扣除时点。仅基础参数，未计急速或其他技能修正；不表示过程与机制完成。",
+            "fixedValue": 100,
+            "gameId": "lol",
+            "levelValues": null,
+            "name": "基础法力消耗",
+            "parameterKey": "mana_cost",
+            "skillKey": "yuumi_r",
+            "sortOrder": 110,
+            "updatedAt": "2026-09-08T02:41:23.092773Z",
+            "valueMode": "FIXED",
+            "valueType": "INTEGER"
+          }
+        ],
+        "formulas": [],
+        "effects": [],
+        "processes": [],
+        "internal-states": [],
+        "trigger-rules": []
+      }
+    }
+  },
+  "apiWrites": 0
+}

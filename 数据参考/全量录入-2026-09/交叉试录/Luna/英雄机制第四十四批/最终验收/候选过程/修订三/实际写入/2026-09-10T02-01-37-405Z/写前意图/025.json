@@ -1,0 +1,35 @@
+{
+  "i": 24,
+  "intent": {
+    "sequence": 25,
+    "method": "POST",
+    "route": "/skills/illaoi_w/formulas",
+    "detailRoute": "/skills/illaoi_w/formulas/dash_speed",
+    "skillKey": "illaoi_w",
+    "kind": "formulas",
+    "stableKey": "dash_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "dash_speed",
+      "name": "严酷训诫跃向目标速度",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "dash_speed_bonus"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "move_speed",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "当前窄证为600+来源总移动速度；不把350位移或显示400混为速度。",
+      "sortOrder": 40
+    }
+  }
+}

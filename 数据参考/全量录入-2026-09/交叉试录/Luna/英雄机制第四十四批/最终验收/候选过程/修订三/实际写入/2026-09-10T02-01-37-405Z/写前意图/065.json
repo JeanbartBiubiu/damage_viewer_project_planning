@@ -1,0 +1,45 @@
+{
+  "i": 64,
+  "intent": {
+    "sequence": 65,
+    "method": "POST",
+    "route": "/skills/monkeyking_e/formulas",
+    "detailRoute": "/skills/monkeyking_e/formulas/damage",
+    "skillKey": "monkeyking_e",
+    "kind": "formulas",
+    "stableKey": "damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage",
+      "name": "腾云突击当前敌人魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "本体当前敌人结果=基础值+1.0×法强。",
+      "sortOrder": 10
+    }
+  }
+}

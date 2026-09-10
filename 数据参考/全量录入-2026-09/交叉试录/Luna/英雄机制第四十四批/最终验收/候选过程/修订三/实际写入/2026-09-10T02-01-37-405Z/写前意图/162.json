@@ -1,0 +1,23 @@
+{
+  "i": 161,
+  "intent": {
+    "sequence": 162,
+    "method": "POST",
+    "route": "/skills/yuumi_r/parameters",
+    "detailRoute": "/skills/yuumi_r/parameters/slow_source_sign",
+    "skillKey": "yuumi_r",
+    "kind": "parameters",
+    "stableKey": "slow_source_sign",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "slow_source_sign",
+      "name": "减速源值转正符号",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": -1,
+      "levelValues": null,
+      "description": "BaseSlow和BonusSlowPerWave为负源值，显示效果使用乘-1；只记录来源口径。",
+      "sortOrder": 130
+    }
+  }
+}

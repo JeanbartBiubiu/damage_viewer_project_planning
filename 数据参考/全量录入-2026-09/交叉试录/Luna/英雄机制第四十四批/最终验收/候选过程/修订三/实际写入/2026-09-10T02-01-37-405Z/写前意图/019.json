@@ -1,0 +1,23 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "method": "POST",
+    "route": "/skills/illaoi_w/parameters",
+    "detailRoute": "/skills/illaoi_w/parameters/buff_duration_ms",
+    "skillKey": "illaoi_w",
+    "kind": "parameters",
+    "stableKey": "buff_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "buff_duration_ms",
+      "name": "强化窗口（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 6000,
+      "levelValues": null,
+      "description": "客户端原始6秒；主负责人要求标注消费依据。",
+      "sortOrder": 60
+    }
+  }
+}

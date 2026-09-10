@@ -1,0 +1,23 @@
+{
+  "i": 100,
+  "intent": {
+    "sequence": 101,
+    "method": "POST",
+    "route": "/skills/neeko_w/parameters",
+    "detailRoute": "/skills/neeko_w/parameters/stealth_duration_ms",
+    "skillKey": "neeko_w",
+    "kind": "parameters",
+    "stableKey": "stealth_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stealth_duration_ms",
+      "name": "本体隐身持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "0.5秒转毫秒；独立分身排除。",
+      "sortOrder": 90
+    }
+  }
+}

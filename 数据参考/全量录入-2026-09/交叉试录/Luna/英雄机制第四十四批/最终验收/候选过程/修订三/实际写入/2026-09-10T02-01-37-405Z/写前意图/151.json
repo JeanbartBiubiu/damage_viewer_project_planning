@@ -1,0 +1,27 @@
+{
+  "i": 150,
+  "intent": {
+    "sequence": 151,
+    "method": "POST",
+    "route": "/skills/yuumi_r/parameters",
+    "detailRoute": "/skills/yuumi_r/parameters/base_missile_damage",
+    "skillKey": "yuumi_r",
+    "kind": "parameters",
+    "stableKey": "base_missile_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "base_missile_damage",
+      "name": "首波基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 75,
+        "2": 125,
+        "3": 175
+      },
+      "description": "来源75/125/175。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "i": 147,
+  "intent": {
+    "sequence": 148,
+    "method": "POST",
+    "route": "/skills/yuumi_e/formulas",
+    "detailRoute": "/skills/yuumi_e/formulas/move_speed_ratio",
+    "skillKey": "yuumi_e",
+    "kind": "formulas",
+    "stableKey": "move_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "move_speed_ratio",
+      "name": "旺盛精力自身移动速度增加",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_percent_scale"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "move_speed_points"
+          }
+        ]
+      },
+      "description": "20百分数点×0.01=0.2系统比例。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "i": 7,
+  "intent": {
+    "sequence": 8,
+    "method": "POST",
+    "route": "/skills/illaoi_q/parameters",
+    "detailRoute": "/skills/illaoi_q/parameters/tentacle_damage_base_at_character_level",
+    "skillKey": "illaoi_q",
+    "kind": "parameters",
+    "stableKey": "tentacle_damage_base_at_character_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "tentacle_damage_base_at_character_level",
+      "name": "角色等级触手基础伤害（实际输入）",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "当前完整放大树为角色等级基础9至180，中间曲线未知；不带默认。",
+      "sortOrder": 40
+    }
+  }
+}

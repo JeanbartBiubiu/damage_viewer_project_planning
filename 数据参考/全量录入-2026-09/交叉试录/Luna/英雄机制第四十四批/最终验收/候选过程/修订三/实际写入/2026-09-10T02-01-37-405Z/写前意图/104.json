@@ -1,0 +1,33 @@
+{
+  "i": 103,
+  "intent": {
+    "sequence": 104,
+    "method": "POST",
+    "route": "/skills/neeko_w/formulas",
+    "detailRoute": "/skills/neeko_w/formulas/active_move_speed",
+    "skillKey": "neeko_w",
+    "kind": "formulas",
+    "stableKey": "active_move_speed",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "active_move_speed",
+      "name": "两生花影主动移速比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "active_percent_scale"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "active_move_speed_points"
+          }
+        ]
+      },
+      "description": "主动本体移速增量；分身不建结果。",
+      "sortOrder": 30
+    }
+  }
+}

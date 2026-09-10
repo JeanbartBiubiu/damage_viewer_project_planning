@@ -1,0 +1,33 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "method": "POST",
+    "route": "/skills/monkeyking_p/formulas",
+    "detailRoute": "/skills/monkeyking_p/formulas/tooltip_max_armor",
+    "skillKey": "monkeyking_p",
+    "kind": "formulas",
+    "stableKey": "tooltip_max_armor",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "tooltip_max_armor",
+      "name": "金刚不坏最高护甲展示值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "bonus_armor_at_character_level"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "tooltip_multiplier"
+          }
+        ]
+      },
+      "description": "完整基础层与5个额外层共6倍。",
+      "sortOrder": 20
+    }
+  }
+}

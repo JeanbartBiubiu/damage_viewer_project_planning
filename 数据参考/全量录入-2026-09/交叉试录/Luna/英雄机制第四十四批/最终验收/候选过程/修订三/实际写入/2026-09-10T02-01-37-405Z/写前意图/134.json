@@ -1,0 +1,23 @@
+{
+  "i": 133,
+  "intent": {
+    "sequence": 134,
+    "method": "POST",
+    "route": "/skills/yuumi_q/parameters",
+    "detailRoute": "/skills/yuumi_q/parameters/cast_time_ms",
+    "skillKey": "yuumi_q",
+    "kind": "parameters",
+    "stableKey": "cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "根施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 0,
+      "levelValues": null,
+      "description": "根spellCastTime为0，仅表示施法阶段字段。",
+      "sortOrder": 100
+    }
+  }
+}

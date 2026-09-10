@@ -1,0 +1,27 @@
+{
+  "i": 157,
+  "intent": {
+    "sequence": 158,
+    "method": "POST",
+    "route": "/skills/yuumi_r/parameters",
+    "detailRoute": "/skills/yuumi_r/parameters/heal_base_per_wave",
+    "skillKey": "yuumi_r",
+    "kind": "parameters",
+    "stableKey": "heal_base_per_wave",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "heal_base_per_wave",
+      "name": "每波基础治疗",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30,
+        "2": 50,
+        "3": 70
+      },
+      "description": "来源30/50/70；友军资格待核。",
+      "sortOrder": 80
+    }
+  }
+}

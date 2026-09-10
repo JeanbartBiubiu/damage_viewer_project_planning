@@ -1,0 +1,23 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "method": "POST",
+    "route": "/skills/yuumi_e/parameters",
+    "detailRoute": "/skills/yuumi_e/parameters/move_speed_points",
+    "skillKey": "yuumi_e",
+    "kind": "parameters",
+    "stableKey": "move_speed_points",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "move_speed_points",
+      "name": "移动速度百分数点",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 20,
+      "levelValues": null,
+      "description": "来源20百分数点；需乘0.01转系统比例。",
+      "sortOrder": 50
+    }
+  }
+}

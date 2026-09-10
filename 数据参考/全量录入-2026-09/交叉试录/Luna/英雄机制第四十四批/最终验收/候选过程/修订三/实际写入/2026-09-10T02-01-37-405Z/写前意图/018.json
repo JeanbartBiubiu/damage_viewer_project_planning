@@ -1,0 +1,23 @@
+{
+  "i": 17,
+  "intent": {
+    "sequence": 18,
+    "method": "POST",
+    "route": "/skills/illaoi_w/parameters",
+    "detailRoute": "/skills/illaoi_w/parameters/cooldown_during_r_ms",
+    "skillKey": "illaoi_w",
+    "kind": "parameters",
+    "stableKey": "cooldown_during_r_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "cooldown_during_r_ms",
+      "name": "R期间强化普攻冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2000,
+      "levelValues": null,
+      "description": "跨技能正文消费2秒，转为毫秒。",
+      "sortOrder": 50
+    }
+  }
+}

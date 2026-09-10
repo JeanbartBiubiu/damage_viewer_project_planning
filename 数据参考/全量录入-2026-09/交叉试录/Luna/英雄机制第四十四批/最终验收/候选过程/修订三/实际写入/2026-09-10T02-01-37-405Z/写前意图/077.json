@@ -1,0 +1,23 @@
+{
+  "i": 76,
+  "intent": {
+    "sequence": 77,
+    "method": "POST",
+    "route": "/skills/monkeyking_r/parameters",
+    "detailRoute": "/skills/monkeyking_r/parameters/seconds_to_ms_inverse",
+    "skillKey": "monkeyking_r",
+    "kind": "parameters",
+    "stableKey": "seconds_to_ms_inverse",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "seconds_to_ms_inverse",
+      "name": "毫秒转秒比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.001,
+      "levelValues": null,
+      "description": "毫秒转秒的固定换算比例。",
+      "sortOrder": 1000
+    }
+  }
+}

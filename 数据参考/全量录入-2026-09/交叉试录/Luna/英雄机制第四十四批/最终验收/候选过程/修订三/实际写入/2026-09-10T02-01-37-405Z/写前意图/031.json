@@ -1,0 +1,45 @@
+{
+  "i": 30,
+  "intent": {
+    "sequence": 31,
+    "method": "POST",
+    "route": "/skills/illaoi_r/formulas",
+    "detailRoute": "/skills/illaoi_r/formulas/damage",
+    "skillKey": "illaoi_r",
+    "kind": "formulas",
+    "stableKey": "damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage",
+      "name": "过界信仰本体物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "本体落地伤害=150/250/350+0.5×来源额外攻击力。",
+      "sortOrder": 10
+    }
+  }
+}
