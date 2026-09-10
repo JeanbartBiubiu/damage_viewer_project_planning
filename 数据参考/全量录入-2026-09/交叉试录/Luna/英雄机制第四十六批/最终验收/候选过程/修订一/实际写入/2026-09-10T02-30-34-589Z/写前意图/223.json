@@ -1,0 +1,30 @@
+{
+  "i": 222,
+  "intent": {
+    "sequence": 223,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_e/parameters",
+    "detailRoute": "/skills/locke_e/parameters/dash_damage_base",
+    "skillKey": "locke_e",
+    "kind": "parameters",
+    "stableKey": "dash_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "dash_damage_base",
+      "name": "下一次攻击冲刺基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 60,
+        "3": 80,
+        "4": 100,
+        "5": 120
+      },
+      "description": "冲刺伤害40/60/80/100/120。",
+      "sortOrder": 30
+    }
+  }
+}

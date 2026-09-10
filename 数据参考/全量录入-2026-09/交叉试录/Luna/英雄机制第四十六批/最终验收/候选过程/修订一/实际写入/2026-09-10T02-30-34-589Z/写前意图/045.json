@@ -1,0 +1,46 @@
+{
+  "i": 44,
+  "intent": {
+    "sequence": 45,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/formulas",
+    "detailRoute": "/skills/belveth_e/formulas/damage_per_strike",
+    "skillKey": "belveth_e",
+    "kind": "formulas",
+    "stableKey": "damage_per_strike",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "damage_per_strike",
+      "name": "搠面皇锋每击物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "damage_per_hit_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "onhit_damage_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "每击=基础值+0.12×来源总攻击力；缺失生命段另由事件层提供。",
+      "sortOrder": 110
+    }
+  }
+}

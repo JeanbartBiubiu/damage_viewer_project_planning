@@ -1,0 +1,30 @@
+{
+  "i": 119,
+  "intent": {
+    "sequence": 120,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_e/parameters",
+    "detailRoute": "/skills/hwei_e/parameters/eq_damage_base",
+    "skillKey": "hwei_e",
+    "kind": "parameters",
+    "stableKey": "eq_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "eq_damage_base",
+      "name": "阴沉变意基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 70,
+        "2": 110,
+        "3": 150,
+        "4": 190,
+        "5": 230
+      },
+      "description": "九技法源值70/110/150/190/230。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "i": 244,
+  "intent": {
+    "sequence": 245,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_p/parameters",
+    "detailRoute": "/skills/zaahen_p/parameters/actual_bonus_ad_per_stack_ratio",
+    "skillKey": "zaahen_p",
+    "kind": "parameters",
+    "stableKey": "actual_bonus_ad_per_stack_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_bonus_ad_per_stack_ratio",
+      "name": "当前每层额外攻击力比例",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "PercentBonusADCalc为1.5%至2.8%角色等级插值，运行层提供实际比例，不设默认，避免自引用。",
+      "sortOrder": 30
+    }
+  }
+}

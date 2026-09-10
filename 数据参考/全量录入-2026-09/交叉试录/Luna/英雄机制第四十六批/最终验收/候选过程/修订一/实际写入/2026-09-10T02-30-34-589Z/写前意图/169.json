@@ -1,0 +1,30 @@
+{
+  "i": 168,
+  "intent": {
+    "sequence": 169,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_q/parameters",
+    "detailRoute": "/skills/locke_q/parameters/missile_damage_base",
+    "skillKey": "locke_q",
+    "kind": "parameters",
+    "stableKey": "missile_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "missile_damage_base",
+      "name": "单颗驱魔大钉基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 48,
+        "3": 56,
+        "4": 64,
+        "5": 72
+      },
+      "description": "每颗40/48/56/64/72。",
+      "sortOrder": 10
+    }
+  }
+}

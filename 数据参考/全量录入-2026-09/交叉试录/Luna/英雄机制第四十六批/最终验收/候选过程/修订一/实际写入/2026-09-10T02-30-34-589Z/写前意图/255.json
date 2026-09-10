@@ -1,0 +1,34 @@
+{
+  "i": 254,
+  "intent": {
+    "sequence": 255,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_p/formulas",
+    "detailRoute": "/skills/zaahen_p/formulas/bonus_ad_ratio_total",
+    "skillKey": "zaahen_p",
+    "kind": "formulas",
+    "stableKey": "bonus_ad_ratio_total",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "bonus_ad_ratio_total",
+      "name": "不落之志当前额外攻击力比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "stack_count"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_bonus_ad_per_stack_ratio"
+          }
+        ]
+      },
+      "description": "当前额外攻击力比例=层数×实际每层比例，不循环引用自身攻击力。",
+      "sortOrder": 130
+    }
+  }
+}

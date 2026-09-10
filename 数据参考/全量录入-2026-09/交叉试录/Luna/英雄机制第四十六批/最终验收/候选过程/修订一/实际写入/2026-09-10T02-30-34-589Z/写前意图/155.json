@@ -1,0 +1,46 @@
+{
+  "i": 154,
+  "intent": {
+    "sequence": 155,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_r/formulas",
+    "detailRoute": "/skills/hwei_r/formulas/dot_magic_damage_per_second",
+    "skillKey": "hwei_r",
+    "kind": "formulas",
+    "stableKey": "dot_magic_damage_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "dot_magic_damage_per_second",
+      "name": "焚心绚华绘每秒魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "dot_base_damage_per_second"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "dot_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "每秒=10/20/30+0.05×法强。",
+      "sortOrder": 140
+    }
+  }
+}

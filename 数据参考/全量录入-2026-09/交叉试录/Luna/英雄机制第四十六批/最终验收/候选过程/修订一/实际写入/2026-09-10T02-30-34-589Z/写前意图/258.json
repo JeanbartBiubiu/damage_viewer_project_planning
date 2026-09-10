@@ -1,0 +1,24 @@
+{
+  "i": 257,
+  "intent": {
+    "sequence": 258,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_p/formulas",
+    "detailRoute": "/skills/zaahen_p/formulas/revive_cooldown",
+    "skillKey": "zaahen_p",
+    "kind": "formulas",
+    "stableKey": "revive_cooldown",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "revive_cooldown",
+      "name": "不落之志复活冷却",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "revive_cooldown_ms"
+      },
+      "description": "使用完整18级复活冷却数组；不使用被动cooldownTime=100。",
+      "sortOrder": 160
+    }
+  }
+}

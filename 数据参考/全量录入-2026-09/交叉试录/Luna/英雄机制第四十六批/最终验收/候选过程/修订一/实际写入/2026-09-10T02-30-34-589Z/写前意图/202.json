@@ -1,0 +1,30 @@
+{
+  "i": 201,
+  "intent": {
+    "sequence": 202,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/parameters",
+    "detailRoute": "/skills/locke_w/parameters/damage_restore_base",
+    "skillKey": "locke_w",
+    "kind": "parameters",
+    "stableKey": "damage_restore_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_restore_base",
+      "name": "受伤返还基础数额",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 40,
+        "2": 60,
+        "3": 80,
+        "4": 100,
+        "5": 120
+      },
+      "description": "源值40/60/80/100/120，是数额不是百分比。",
+      "sortOrder": 110
+    }
+  }
+}

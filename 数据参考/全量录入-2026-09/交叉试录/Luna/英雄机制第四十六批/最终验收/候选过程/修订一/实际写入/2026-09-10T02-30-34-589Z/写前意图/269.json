@@ -1,0 +1,24 @@
+{
+  "i": 268,
+  "intent": {
+    "sequence": 269,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_q/formulas",
+    "detailRoute": "/skills/zaahen_q/formulas/self_max_health_heal_ratio",
+    "skillKey": "zaahen_q",
+    "kind": "formulas",
+    "stableKey": "self_max_health_heal_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_max_health_heal_ratio",
+      "name": "暗裔长刀自身最大生命治疗比例",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "self_max_health_heal_ratio"
+      },
+      "description": "自身治疗比例5%至9%；两次斩击不自动使治疗翻倍。",
+      "sortOrder": 110
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "i": 214,
+  "intent": {
+    "sequence": 215,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/formulas",
+    "detailRoute": "/skills/locke_w/formulas/self_damage_per_second",
+    "skillKey": "locke_w",
+    "kind": "formulas",
+    "stableKey": "self_damage_per_second",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "self_damage_per_second",
+      "name": "灵焰仪式每秒自身真实伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "current_health_cost_ratio"
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "SOURCE",
+            "attributeKey": "hp",
+            "attributeValueKind": "CURRENT"
+          }
+        ]
+      },
+      "description": "每秒2%当时当前生命；来源HealthCost与SOURCE.hp.CURRENT，运行时逐秒提供生命变化。",
+      "sortOrder": 240
+    }
+  }
+}

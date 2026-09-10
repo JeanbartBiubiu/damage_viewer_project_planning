@@ -1,0 +1,44 @@
+{
+  "i": 241,
+  "intent": {
+    "sequence": 242,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_r/formulas",
+    "detailRoute": "/skills/locke_r/formulas/execute_threshold_ratio",
+    "skillKey": "locke_r",
+    "kind": "formulas",
+    "stableKey": "execute_threshold_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "execute_threshold_ratio",
+      "name": "万魔狱当前处决阈值",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "execute_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "sealed_hero_count"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "execute_ratio_per_stack"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "当前阈值=基础10/11/12%+每层0.5百分点；不宣称处决事件已接线。",
+      "sortOrder": 140
+    }
+  }
+}

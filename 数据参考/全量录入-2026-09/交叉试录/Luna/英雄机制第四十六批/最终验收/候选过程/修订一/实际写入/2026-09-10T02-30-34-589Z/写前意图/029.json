@@ -1,0 +1,30 @@
+{
+  "i": 28,
+  "intent": {
+    "sequence": 29,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_w/parameters",
+    "detailRoute": "/skills/belveth_w/parameters/knockup_duration_ms",
+    "skillKey": "belveth_w",
+    "kind": "parameters",
+    "stableKey": "knockup_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "knockup_duration_ms",
+      "name": "击飞持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 600,
+        "2": 700,
+        "3": 800,
+        "4": 900,
+        "5": 1000
+      },
+      "description": "击飞0.6/0.7/0.8/0.9/1秒。",
+      "sortOrder": 50
+    }
+  }
+}

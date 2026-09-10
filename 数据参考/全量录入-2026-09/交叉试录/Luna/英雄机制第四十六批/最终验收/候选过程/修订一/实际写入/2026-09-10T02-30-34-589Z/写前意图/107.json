@@ -1,0 +1,24 @@
+{
+  "i": 106,
+  "intent": {
+    "sequence": 107,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/parameters",
+    "detailRoute": "/skills/hwei_w/parameters/wq_cast_time_ms",
+    "skillKey": "hwei_w",
+    "kind": "parameters",
+    "stableKey": "wq_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wq_cast_time_ms",
+      "name": "飞染施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "飞染补充对象mCastTime/spellCastTime均为0.25秒。",
+      "sortOrder": 175
+    }
+  }
+}

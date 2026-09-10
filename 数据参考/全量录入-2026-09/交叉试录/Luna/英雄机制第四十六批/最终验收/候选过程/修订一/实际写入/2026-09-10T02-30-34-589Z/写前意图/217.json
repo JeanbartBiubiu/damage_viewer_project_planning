@@ -1,0 +1,24 @@
+{
+  "i": 216,
+  "intent": {
+    "sequence": 217,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/formulas",
+    "detailRoute": "/skills/locke_w/formulas/additional_heal_amount",
+    "skillKey": "locke_w",
+    "kind": "formulas",
+    "stableKey": "additional_heal_amount",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "additional_heal_amount",
+      "name": "灵焰仪式额外治疗数额",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "actual_additional_heal"
+      },
+      "description": "运行层提供已损生命和持续时间交互后的实际额外治疗。",
+      "sortOrder": 260
+    }
+  }
+}

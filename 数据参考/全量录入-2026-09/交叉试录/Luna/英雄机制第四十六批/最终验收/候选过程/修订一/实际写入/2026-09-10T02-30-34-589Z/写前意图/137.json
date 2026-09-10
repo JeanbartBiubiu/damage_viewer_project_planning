@@ -1,0 +1,24 @@
+{
+  "i": 136,
+  "intent": {
+    "sequence": 137,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_e/parameters",
+    "detailRoute": "/skills/hwei_e/parameters/ee_delay_ms",
+    "skillKey": "hwei_e",
+    "kind": "parameters",
+    "stableKey": "ee_delay_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ee_delay_ms",
+      "name": "双钩血喉命中延迟（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 600,
+      "levelValues": null,
+      "description": "补充对象HweiEE的Delay=0.6秒，转为600毫秒；与0.35秒施法时间分开保存。",
+      "sortOrder": 175
+    }
+  }
+}

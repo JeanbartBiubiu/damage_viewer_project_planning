@@ -1,0 +1,34 @@
+{
+  "i": 240,
+  "intent": {
+    "sequence": 241,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_r/formulas",
+    "detailRoute": "/skills/locke_r/formulas/execute_bonus_ratio",
+    "skillKey": "locke_r",
+    "kind": "formulas",
+    "stableKey": "execute_bonus_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "execute_bonus_ratio",
+      "name": "万魔狱永久阈值增量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "sealed_hero_count"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "execute_ratio_per_stack"
+          }
+        ]
+      },
+      "description": "每个已封印英雄增加0.005比例。",
+      "sortOrder": 130
+    }
+  }
+}

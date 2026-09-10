@@ -1,0 +1,24 @@
+{
+  "i": 213,
+  "intent": {
+    "sequence": 214,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_w/formulas",
+    "detailRoute": "/skills/locke_w/formulas/attack_speed_ratio",
+    "skillKey": "locke_w",
+    "kind": "formulas",
+    "stableKey": "attack_speed_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "attack_speed_ratio",
+      "name": "灵焰仪式攻击速度比例",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "actual_attack_speed_ratio"
+      },
+      "description": "使用无默认角色等级实际攻速比例。",
+      "sortOrder": 230
+    }
+  }
+}

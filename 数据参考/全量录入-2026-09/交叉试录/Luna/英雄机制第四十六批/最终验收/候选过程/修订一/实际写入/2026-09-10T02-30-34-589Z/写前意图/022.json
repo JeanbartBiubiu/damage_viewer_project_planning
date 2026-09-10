@@ -1,0 +1,30 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_q/parameters",
+    "detailRoute": "/skills/belveth_q/parameters/overall_cooldown_ms",
+    "skillKey": "belveth_q",
+    "kind": "parameters",
+    "stableKey": "overall_cooldown_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "overall_cooldown_ms",
+      "name": "整体施放冷却（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 4000,
+        "2": 3250,
+        "3": 2500,
+        "4": 1750,
+        "5": 1000
+      },
+      "description": "整体Cooldown为4/3.25/2.5/1.75/1秒，仅记录以区别方向冷却，不能替代方向冷却。",
+      "sortOrder": 80
+    }
+  }
+}

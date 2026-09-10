@@ -1,0 +1,24 @@
+{
+  "i": 39,
+  "intent": {
+    "sequence": 40,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/parameters",
+    "detailRoute": "/skills/belveth_e/parameters/attack_speed_strike_ratio",
+    "skillKey": "belveth_e",
+    "kind": "parameters",
+    "stableKey": "attack_speed_strike_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "attack_speed_strike_ratio",
+      "name": "攻速转攻击次数系数",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.400000006,
+      "levelValues": null,
+      "description": "TotalStrikes树中0.4×mStat4/formula2的系数。",
+      "sortOrder": 80
+    }
+  }
+}

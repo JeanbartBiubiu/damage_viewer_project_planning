@@ -1,0 +1,2742 @@
+{
+  "generatedAt": "2026-09-10T02:21:52.235Z",
+  "batch": "英雄机制第四十六批",
+  "revision": "hero46-source-v1-luna-revision-1",
+  "status": "通过",
+  "method": "候选表达式由本脚本解释；期望值独立读取来源数组、来源计算树和技法补充对象，再以两个等级/属性场景比较。",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "build": "16.17.8104348+branch.releases-16-17.content.release"
+  },
+  "sourceBindingSha256": "6c585544e0f8ff3a74dce9b11945480f924bb5e863760dfd745aaa49a2edead1",
+  "sourceSummarySha256": "34787dd32d396c2dd89540b4ba80bf98617d0ea6e92e8585e5a59647428c6bc9",
+  "scenarioDefinitions": [
+    {
+      "id": 1,
+      "skillLevel": "1",
+      "characterLevel": 1,
+      "source": {
+        "abilityPower": 80,
+        "attackDamageTotal": 120,
+        "attackDamageBonus": 40,
+        "hpTotal": 1200,
+        "hpCurrent": 700
+      },
+      "target": {
+        "hpTotal": 1800
+      }
+    },
+    {
+      "id": 2,
+      "skillLevel": "最高等级",
+      "characterLevel": 18,
+      "source": {
+        "abilityPower": 500,
+        "attackDamageTotal": 300,
+        "attackDamageBonus": 180,
+        "hpTotal": 2200,
+        "hpCurrent": 1500
+      },
+      "target": {
+        "hpTotal": 2600
+      }
+    }
+  ],
+  "counts": {
+    "skills": 20,
+    "formulas": 65,
+    "operationNodes": 115,
+    "runtimeParameters": 25,
+    "missingInputChecks": 25,
+    "skillLevelArrays": 47,
+    "characterLevelArrays": 1,
+    "effects": 9
+  },
+  "sourceParameterChecks": {
+    "levelArrays": [
+      {
+        "skillKey": "belveth_q",
+        "parameterKey": "damage_base",
+        "sourceName": "Damage",
+        "source": {
+          "1": 12,
+          "2": 14,
+          "3": 16,
+          "4": 18,
+          "5": 20
+        },
+        "candidate": {
+          "1": 12,
+          "2": 14,
+          "3": 16,
+          "4": 18,
+          "5": 20
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "belveth_q",
+        "parameterKey": "per_side_cooldown_ms",
+        "sourceName": "PerSideCooldown",
+        "source": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "candidate": {
+          "1": 16000,
+          "2": 15000,
+          "3": 14000,
+          "4": 13000,
+          "5": 12000
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "belveth_q",
+        "parameterKey": "overall_cooldown_ms",
+        "sourceName": "rawFields.cooldownTime",
+        "source": {
+          "1": 4000,
+          "2": 3250,
+          "3": 2500,
+          "4": 1750,
+          "5": 1000
+        },
+        "candidate": {
+          "1": 4000,
+          "2": 3250,
+          "3": 2500,
+          "4": 1750,
+          "5": 1000
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "belveth_w",
+        "parameterKey": "damage_base",
+        "sourceName": "BaseDamage",
+        "source": {
+          "1": 80,
+          "2": 140,
+          "3": 200,
+          "4": 260,
+          "5": 320
+        },
+        "candidate": {
+          "1": 80,
+          "2": 140,
+          "3": 200,
+          "4": 260,
+          "5": 320
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "belveth_w",
+        "parameterKey": "knockup_duration_ms",
+        "sourceName": "Duration",
+        "source": {
+          "1": 600,
+          "2": 700,
+          "3": 800,
+          "4": 900,
+          "5": 1000
+        },
+        "candidate": {
+          "1": 600,
+          "2": 700,
+          "3": 800,
+          "4": 900,
+          "5": 1000
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "belveth_e",
+        "parameterKey": "damage_per_hit_base",
+        "sourceName": "DamagePerHit",
+        "source": {
+          "1": 10,
+          "2": 12,
+          "3": 14,
+          "4": 16,
+          "5": 18
+        },
+        "candidate": {
+          "1": 10,
+          "2": 12,
+          "3": 14,
+          "4": 16,
+          "5": 18
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "belveth_e",
+        "parameterKey": "base_strike_count",
+        "sourceName": "NumberOfStrikes",
+        "source": {
+          "1": 6,
+          "2": 6,
+          "3": 6,
+          "4": 6,
+          "5": 6
+        },
+        "candidate": {
+          "1": 6,
+          "2": 6,
+          "3": 6,
+          "4": 6,
+          "5": 6
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "belveth_e",
+        "parameterKey": "damage_reduction_ratio",
+        "sourceName": "DRPercent",
+        "source": {
+          "1": 0.20000000298023224,
+          "2": 0.30000001192092896,
+          "3": 0.4000000059604645,
+          "4": 0.5,
+          "5": 0.6000000238418579
+        },
+        "candidate": {
+          "1": 0.200000003,
+          "2": 0.300000012,
+          "3": 0.400000006,
+          "4": 0.5,
+          "5": 0.600000024
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "belveth_e",
+        "parameterKey": "life_steal_ratio",
+        "sourceName": "BonusLifeSteal",
+        "source": {
+          "1": 0.20000000298023224,
+          "2": 0.25,
+          "3": 0.30000001192092896,
+          "4": 0.3499999940395355,
+          "5": 0.4000000059604645
+        },
+        "candidate": {
+          "1": 0.200000003,
+          "2": 0.25,
+          "3": 0.300000012,
+          "4": 0.349999994,
+          "5": 0.400000006
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "belveth_r",
+        "parameterKey": "passive_onhit_base",
+        "sourceName": "OnHitDamage",
+        "source": {
+          "1": 2,
+          "2": 4,
+          "3": 6
+        },
+        "candidate": {
+          "1": 2,
+          "2": 4,
+          "3": 6
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_q",
+        "parameterKey": "qq_damage_base",
+        "sourceName": "Tooltip_QQBaseDamage",
+        "source": {
+          "1": 50,
+          "2": 80,
+          "3": 110,
+          "4": 140,
+          "5": 170
+        },
+        "candidate": {
+          "1": 50,
+          "2": 80,
+          "3": 110,
+          "4": 140,
+          "5": 170
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_q",
+        "parameterKey": "qq_target_hp_percent_points",
+        "sourceName": "Tooltip_QQBonusDamage",
+        "source": {
+          "1": 3,
+          "2": 4,
+          "3": 5,
+          "4": 6,
+          "5": 7
+        },
+        "candidate": {
+          "1": 3,
+          "2": 4,
+          "3": 5,
+          "4": 6,
+          "5": 7
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_q",
+        "parameterKey": "qw_damage_base",
+        "sourceName": "Tooltip_QWBaseDamage",
+        "source": {
+          "1": 60,
+          "2": 85,
+          "3": 110,
+          "4": 135,
+          "5": 160
+        },
+        "candidate": {
+          "1": 60,
+          "2": 85,
+          "3": 110,
+          "4": 135,
+          "5": 160
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_q",
+        "parameterKey": "qw_condition_max_multiplier",
+        "sourceName": "Tooltip_QWBonusDamageMult",
+        "source": {
+          "1": 2,
+          "2": 2.375,
+          "3": 2.75,
+          "4": 3.125,
+          "5": 3.5
+        },
+        "candidate": {
+          "1": 2,
+          "2": 2.375,
+          "3": 2.75,
+          "4": 3.125,
+          "5": 3.5
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_q",
+        "parameterKey": "qe_burst_base",
+        "sourceName": "Tooltip_QEBaseDamage",
+        "source": {
+          "1": 20,
+          "2": 35,
+          "3": 50,
+          "4": 65,
+          "5": 80
+        },
+        "candidate": {
+          "1": 20,
+          "2": 35,
+          "3": 50,
+          "4": 65,
+          "5": 80
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_q",
+        "parameterKey": "qe_damage_per_second_base",
+        "sourceName": "Tooltip_QEBaseDPS",
+        "source": {
+          "1": 20,
+          "2": 35,
+          "3": 50,
+          "4": 65,
+          "5": 80
+        },
+        "candidate": {
+          "1": 20,
+          "2": 35,
+          "3": 50,
+          "4": 65,
+          "5": 80
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_w",
+        "parameterKey": "wq_move_speed_base",
+        "sourceName": "Tooltip_WQBaseMoveSpeed",
+        "source": {
+          "1": 30,
+          "2": 32.5,
+          "3": 35,
+          "4": 37.5,
+          "5": 40
+        },
+        "candidate": {
+          "1": 30,
+          "2": 32.5,
+          "3": 35,
+          "4": 37.5,
+          "5": 40
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_w",
+        "parameterKey": "wq_area_duration_ms",
+        "sourceName": "Tooltip_WQAreaDuration",
+        "source": {
+          "1": 4000,
+          "2": 4500,
+          "3": 5000,
+          "4": 5500,
+          "5": 6000
+        },
+        "candidate": {
+          "1": 4000,
+          "2": 4500,
+          "3": 5000,
+          "4": 5500,
+          "5": 6000
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_w",
+        "parameterKey": "ww_shield_base",
+        "sourceName": "Tooltip_WWShieldAmountBase",
+        "source": {
+          "1": 100,
+          "2": 140,
+          "3": 180,
+          "4": 220,
+          "5": 260
+        },
+        "candidate": {
+          "1": 100,
+          "2": 140,
+          "3": 180,
+          "4": 220,
+          "5": 260
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_w",
+        "parameterKey": "we_onhit_base_damage",
+        "sourceName": "Tooltip_WEBaseOnHitDamage",
+        "source": {
+          "1": 20,
+          "2": 30,
+          "3": 40,
+          "4": 50,
+          "5": 60
+        },
+        "candidate": {
+          "1": 20,
+          "2": 30,
+          "3": 40,
+          "4": 50,
+          "5": 60
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_w",
+        "parameterKey": "we_mana_restore",
+        "sourceName": "Tooltip_WEOnHitManaRestore",
+        "source": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "candidate": {
+          "1": 45,
+          "2": 50,
+          "3": 55,
+          "4": 60,
+          "5": 65
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_e",
+        "parameterKey": "eq_damage_base",
+        "sourceName": "Tooltip_EQBaseDamage",
+        "source": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "candidate": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_e",
+        "parameterKey": "eq_flee_duration_ms",
+        "sourceName": "Tooltip_EQFleeDuration",
+        "source": {
+          "1": 1000,
+          "2": 1125,
+          "3": 1250,
+          "4": 1375,
+          "5": 1500
+        },
+        "candidate": {
+          "1": 1000,
+          "2": 1125,
+          "3": 1250,
+          "4": 1375,
+          "5": 1500
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_e",
+        "parameterKey": "ew_damage_base",
+        "sourceName": "Tooltip_EWBaseDamage",
+        "source": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "candidate": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_e",
+        "parameterKey": "ew_root_duration_ms",
+        "sourceName": "Tooltip_EWRootDuration",
+        "source": {
+          "1": 1200,
+          "2": 1400,
+          "3": 1600,
+          "4": 1800,
+          "5": 2000
+        },
+        "candidate": {
+          "1": 1200,
+          "2": 1400,
+          "3": 1600,
+          "4": 1800,
+          "5": 2000
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_e",
+        "parameterKey": "ee_damage_base",
+        "sourceName": "Tooltip_EEBaseDamage",
+        "source": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "candidate": {
+          "1": 70,
+          "2": 110,
+          "3": 150,
+          "4": 190,
+          "5": 230
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_e",
+        "parameterKey": "ee_slow_percent_points",
+        "sourceName": "Tooltip_EESlowAmount",
+        "source": {
+          "1": 40,
+          "2": 47.5,
+          "3": 55,
+          "4": 62.5,
+          "5": 70
+        },
+        "candidate": {
+          "1": 40,
+          "2": 47.5,
+          "3": 55,
+          "4": 62.5,
+          "5": 70
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_r",
+        "parameterKey": "explosion_base_damage",
+        "sourceName": "RBaseDamage",
+        "source": {
+          "1": 200,
+          "2": 325,
+          "3": 450
+        },
+        "candidate": {
+          "1": 200,
+          "2": 325,
+          "3": 450
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_r",
+        "parameterKey": "dot_base_damage_per_second",
+        "sourceName": "BaseDamageOverTime",
+        "source": {
+          "1": 10,
+          "2": 20,
+          "3": 30
+        },
+        "candidate": {
+          "1": 10,
+          "2": 20,
+          "3": 30
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "locke_q",
+        "parameterKey": "missile_damage_base",
+        "sourceName": "BaseMissileDamage",
+        "source": {
+          "1": 40,
+          "2": 48,
+          "3": 56,
+          "4": 64,
+          "5": 72
+        },
+        "candidate": {
+          "1": 40,
+          "2": 48,
+          "3": 56,
+          "4": 64,
+          "5": 72
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "locke_q",
+        "parameterKey": "mark_damage_base",
+        "sourceName": "MarkDamage",
+        "source": {
+          "1": 18,
+          "2": 26,
+          "3": 34,
+          "4": 42,
+          "5": 50
+        },
+        "candidate": {
+          "1": 18,
+          "2": 26,
+          "3": 34,
+          "4": 42,
+          "5": 50
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "locke_q",
+        "parameterKey": "mark_ap_ratio",
+        "sourceName": "MarkRatio",
+        "source": {
+          "1": 0.25,
+          "2": 0.2750000059604645,
+          "3": 0.30000001192092896,
+          "4": 0.32499998807907104,
+          "5": 0.3499999940395355
+        },
+        "candidate": {
+          "1": 0.25,
+          "2": 0.275000006,
+          "3": 0.300000012,
+          "4": 0.324999988,
+          "5": 0.349999994
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "locke_w",
+        "parameterKey": "damage_restore_base",
+        "sourceName": "BaseDamageRestoreAmount",
+        "source": {
+          "1": 40,
+          "2": 60,
+          "3": 80,
+          "4": 100,
+          "5": 120
+        },
+        "candidate": {
+          "1": 40,
+          "2": 60,
+          "3": 80,
+          "4": 100,
+          "5": 120
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "locke_e",
+        "parameterKey": "onhit_damage_base",
+        "sourceName": "BaseOnHitDamage",
+        "source": {
+          "1": 40,
+          "2": 50,
+          "3": 60,
+          "4": 70,
+          "5": 80
+        },
+        "candidate": {
+          "1": 40,
+          "2": 50,
+          "3": 60,
+          "4": 70,
+          "5": 80
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "locke_e",
+        "parameterKey": "dash_damage_base",
+        "sourceName": "BaseDashDamage",
+        "source": {
+          "1": 40,
+          "2": 60,
+          "3": 80,
+          "4": 100,
+          "5": 120
+        },
+        "candidate": {
+          "1": 40,
+          "2": 60,
+          "3": 80,
+          "4": 100,
+          "5": 120
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "locke_r",
+        "parameterKey": "damage_base",
+        "sourceName": "BaseDamage",
+        "source": {
+          "1": 150,
+          "2": 225,
+          "3": 300
+        },
+        "candidate": {
+          "1": 150,
+          "2": 225,
+          "3": 300
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "locke_r",
+        "parameterKey": "execute_base_ratio",
+        "sourceName": "ExecutionThreshold",
+        "source": {
+          "1": 0.10000000149011612,
+          "2": 0.10999999940395355,
+          "3": 0.11999999731779099
+        },
+        "candidate": {
+          "1": 0.100000001,
+          "2": 0.109999999,
+          "3": 0.119999997
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "zaahen_q",
+        "parameterKey": "first_attack_base_damage",
+        "sourceName": "Q1BaseDamage",
+        "source": {
+          "1": 15,
+          "2": 30,
+          "3": 45,
+          "4": 60,
+          "5": 75
+        },
+        "candidate": {
+          "1": 15,
+          "2": 30,
+          "3": 45,
+          "4": 60,
+          "5": 75
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "zaahen_q",
+        "parameterKey": "bonus_ad_ratio",
+        "sourceName": "QCoeff",
+        "source": {
+          "1": 0.20000000298023224,
+          "2": 0.25,
+          "3": 0.30000001192092896,
+          "4": 0.3499999940395355,
+          "5": 0.4000000059604645
+        },
+        "candidate": {
+          "1": 0.200000003,
+          "2": 0.25,
+          "3": 0.300000012,
+          "4": 0.349999994,
+          "5": 0.400000006
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "zaahen_q",
+        "parameterKey": "recast_attack_base_damage",
+        "sourceName": "Q2BaseDamage",
+        "source": {
+          "1": 25,
+          "2": 50,
+          "3": 75,
+          "4": 100,
+          "5": 125
+        },
+        "candidate": {
+          "1": 25,
+          "2": 50,
+          "3": 75,
+          "4": 100,
+          "5": 125
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "zaahen_q",
+        "parameterKey": "self_max_health_heal_ratio",
+        "sourceName": "HealPercent",
+        "source": {
+          "1": 0.05000000074505806,
+          "2": 0.05999999865889549,
+          "3": 0.07000000029802322,
+          "4": 0.07999999821186066,
+          "5": 0.09000000357627869
+        },
+        "candidate": {
+          "1": 0.050000001,
+          "2": 0.059999999,
+          "3": 0.07,
+          "4": 0.079999998,
+          "5": 0.090000004
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "zaahen_w",
+        "parameterKey": "initial_damage_base",
+        "sourceName": "InitialBaseDamage",
+        "source": {
+          "1": 40,
+          "2": 60,
+          "3": 80,
+          "4": 100,
+          "5": 120
+        },
+        "candidate": {
+          "1": 40,
+          "2": 60,
+          "3": 80,
+          "4": 100,
+          "5": 120
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "zaahen_w",
+        "parameterKey": "secondary_damage_base",
+        "sourceName": "SecondaryBaseDamage",
+        "source": {
+          "1": 30,
+          "2": 50,
+          "3": 70,
+          "4": 90,
+          "5": 110
+        },
+        "candidate": {
+          "1": 30,
+          "2": 50,
+          "3": 70,
+          "4": 90,
+          "5": 110
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "zaahen_e",
+        "parameterKey": "inner_damage_base",
+        "sourceName": "Damage_Base",
+        "source": {
+          "1": 40,
+          "2": 60,
+          "3": 80,
+          "4": 100,
+          "5": 120
+        },
+        "candidate": {
+          "1": 40,
+          "2": 60,
+          "3": 80,
+          "4": 100,
+          "5": 120
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "zaahen_e",
+        "parameterKey": "outer_target_max_health_ratio",
+        "sourceName": "PercentHPDamage",
+        "source": {
+          "1": 0.03999999910593033,
+          "2": 0.04500000178813934,
+          "3": 0.05000000074505806,
+          "4": 0.054999999701976776,
+          "5": 0.05999999865889549
+        },
+        "candidate": {
+          "1": 0.039999999,
+          "2": 0.045000002,
+          "3": 0.050000001,
+          "4": 0.055,
+          "5": 0.059999999
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "zaahen_r",
+        "parameterKey": "end_damage_base",
+        "sourceName": "EndDamage",
+        "source": {
+          "1": 250,
+          "2": 400,
+          "3": 550
+        },
+        "candidate": {
+          "1": 250,
+          "2": 400,
+          "3": 550
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "zaahen_r",
+        "parameterKey": "armor_penetration_ratio",
+        "sourceName": "ArmorPen",
+        "source": {
+          "1": 0.10000000149011612,
+          "2": 0.20000000298023224,
+          "3": 0.30000001192092896
+        },
+        "candidate": {
+          "1": 0.100000001,
+          "2": 0.200000003,
+          "3": 0.300000012
+        },
+        "passed": true
+      }
+    ],
+    "fixedValues": [
+      {
+        "skillKey": "belveth_p",
+        "parameterKey": "stack_ratio_level1",
+        "sourceName": "ASPerStackLevel1Value",
+        "source": 0.10000000149011612,
+        "candidate": 0.100000001,
+        "unit": "百分数点",
+        "passed": true
+      },
+      {
+        "skillKey": "belveth_p",
+        "parameterKey": "stack_ratio_initial_per_level",
+        "sourceName": "ASPerStackInitialBonusPerLevel",
+        "source": 0.05000000074505806,
+        "candidate": 0.050000001,
+        "unit": "百分数点",
+        "passed": true
+      },
+      {
+        "skillKey": "belveth_p",
+        "parameterKey": "stack_ratio_after_level6",
+        "sourceName": "ASPerStackLevel6BonusPerLevel",
+        "source": 0.10000000149011612,
+        "candidate": 0.100000001,
+        "unit": "百分数点",
+        "passed": true
+      },
+      {
+        "skillKey": "belveth_p",
+        "parameterKey": "stack_ratio_after_level11",
+        "sourceName": "ASPerStackLevel11BonusPerLevel",
+        "source": 0.15000000596046448,
+        "candidate": 0.150000006,
+        "unit": "百分数点",
+        "passed": true
+      },
+      {
+        "skillKey": "hwei_e",
+        "parameterKey": "ee_delay_ms",
+        "sourceField": "HweiEE.Delay[1]",
+        "source": 600.0000238418579,
+        "candidate": 600,
+        "unit": "毫秒",
+        "passed": true
+      },
+      {
+        "skillKey": "locke_q",
+        "parameters": [
+          "two_mark_stack_count",
+          "three_mark_stack_count"
+        ],
+        "source": {
+          "maxMarkStacks": 3,
+          "twoMarkBonusPercent": 20,
+          "threeMarkBonusPercent": 40
+        },
+        "candidate": {
+          "two": 2,
+          "three": 3
+        },
+        "passed": true
+      },
+      {
+        "skillKey": "zaahen_e",
+        "parameterKey": "spell_total_time_ms",
+        "sourceField": "fields.spellTotalTime",
+        "source": 250,
+        "candidate": 250,
+        "unit": "毫秒",
+        "passed": true
+      }
+    ]
+  },
+  "typedReferenceChecks": {
+    "checked": 151,
+    "failures": []
+  },
+  "focusedChecks": {
+    "belvethEDamageReduction": {
+      "sourceField": "DRPercent[1..5]",
+      "source": {
+        "1": 0.20000000298023224,
+        "2": 0.30000001192092896,
+        "3": 0.4000000059604645,
+        "4": 0.5,
+        "5": 0.6000000238418579
+      },
+      "candidate": {
+        "1": 0.200000003,
+        "2": 0.300000012,
+        "3": 0.400000006,
+        "4": 0.5,
+        "5": 0.600000024
+      },
+      "passed": true
+    },
+    "lockeQMultiMark": [
+      {
+        "scenario": 1,
+        "skillLevel": 1,
+        "abilityPower": 80,
+        "source": {
+          "mark": 38,
+          "twoLayerBonusPercent": 20,
+          "threeLayerBonusPercent": 40
+        },
+        "candidate": {
+          "twoActual": 91.2,
+          "threeActual": 159.6
+        },
+        "expected": {
+          "twoExpected": 91.2,
+          "threeExpected": 159.6
+        },
+        "passed": true
+      },
+      {
+        "scenario": 2,
+        "skillLevel": 5,
+        "abilityPower": 500,
+        "source": {
+          "mark": 224.99999701976776,
+          "twoLayerBonusPercent": 20,
+          "threeLayerBonusPercent": 40
+        },
+        "candidate": {
+          "twoActual": 539.9999928,
+          "threeActual": 944.9999873999998
+        },
+        "expected": {
+          "twoExpected": 539.9999928474426,
+          "threeExpected": 944.9999874830245
+        },
+        "passed": true
+      }
+    ],
+    "lockeWCurrentHealth": [
+      {
+        "scenario": 1,
+        "sourceCurrentHp": 700,
+        "sourceMaxHp": 1200,
+        "sourceHealthCost": 0.019999999552965164,
+        "candidate": 14,
+        "expected": 13.999999687075615,
+        "passed": true
+      },
+      {
+        "scenario": 2,
+        "sourceCurrentHp": 1500,
+        "sourceMaxHp": 2200,
+        "sourceHealthCost": 0.019999999552965164,
+        "candidate": 30,
+        "expected": 29.999999329447746,
+        "passed": true
+      }
+    ],
+    "hweiWEachMana": {
+      "effectValueKind": "PARAMETER",
+      "effectValueKey": "we_mana_restore",
+      "eachSource": 45,
+      "totalFormulaRetained": true,
+      "passed": true
+    }
+  },
+  "formulaChecks": {
+    "belveth_p": [
+      {
+        "formulaKey": "temporary_attack_speed_bonus",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 0.2,
+            "expected": 0.2,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 0.2,
+            "expected": 0.2,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "permanent_attack_speed_bonus",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 0.2,
+            "expected": 0.2,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 1.7999999999999998,
+            "expected": 1.7999999999999998,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "belveth_q": [
+      {
+        "formulaKey": "dash_physical_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 137.99999424,
+            "expected": 137.9999942779541,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 334.9999856,
+            "expected": 334.99998569488525,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "direction_cooldown_haste",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 2.0000000300000003,
+            "expected": 2.0000000298023224,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 8.000000120000001,
+            "expected": 8.00000011920929,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "belveth_w": [
+      {
+        "formulaKey": "magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 230,
+            "expected": 230,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 695,
+            "expected": 695,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "belveth_e": [
+      {
+        "formulaKey": "damage_per_strike",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 24.399999639999997,
+            "expected": 24.399999678134918,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 53.9999991,
+            "expected": 53.999999195337296,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "maximum_damage_per_strike",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 48.799999279999994,
+            "expected": 48.799999356269836,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 107.9999982,
+            "expected": 107.99999839067459,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "source_counted_strikes",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 246.0000036,
+            "expected": 246.0000035762787,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 606.0000090000001,
+            "expected": 606.0000089406967,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "actual_strikes",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 6,
+            "expected": 6,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 12,
+            "expected": 12,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "total_lifesteal_ratio",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 0.200000003,
+            "expected": 0.20000000298023224,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 0.400000006,
+            "expected": 0.4000000059604645,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "belveth_r": [
+      {
+        "formulaKey": "passive_true_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 3.19999996,
+            "expected": 3.19999997317791,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 11.39999982,
+            "expected": 11.399999879300594,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "hwei_p": [
+      {
+        "formulaKey": "mark_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 67.99999952,
+            "expected": 67.99999952316284,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 459.999997,
+            "expected": 459.99999701976776,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "hwei_q": [
+      {
+        "formulaKey": "qq_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 114.00000096000001,
+            "expected": 114.00000095367432,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 570.000006,
+            "expected": 570.0000059604645,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "qq_target_hp_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 54,
+            "expected": 54,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 182.00000000000003,
+            "expected": 182.00000000000003,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "qq_total_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 168.00000096000002,
+            "expected": 168.00000095367432,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 752.000006,
+            "expected": 752.0000059604645,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "qw_base_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 84.00000096,
+            "expected": 84.00000095367432,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 310.000006,
+            "expected": 310.0000059604645,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "qw_max_condition_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 168.00000192,
+            "expected": 168.00000190734863,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 1085.0000209999998,
+            "expected": 1085.0000208616257,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "qw_actual_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 200,
+            "expected": 200,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 800,
+            "expected": 800,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "qe_burst_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 44.000000959999994,
+            "expected": 44.000000953674316,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 230.00000599999998,
+            "expected": 230.00000596046448,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "qe_magic_damage_per_second",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 39.1999996,
+            "expected": 39.19999957084656,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 199.9999975,
+            "expected": 199.99999731779099,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "hwei_w": [
+      {
+        "formulaKey": "wq_move_speed_ratio",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 0.3239999992,
+            "expected": 0.32399999946355823,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 0.5499999950000001,
+            "expected": 0.5499999966472388,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "ww_full_shield",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 148.00000192,
+            "expected": 148.00000190734863,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 560.000012,
+            "expected": 560.000011920929,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "ww_initial_shield",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 74.00000096,
+            "expected": 74.00000095367432,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 280.000006,
+            "expected": 280.0000059604645,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "we_onhit_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 32.00000048,
+            "expected": 32.00000047683716,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 135.000003,
+            "expected": 135.00000298023224,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "we_total_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 96.00000143999999,
+            "expected": 96.00000143051147,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 405.000009,
+            "expected": 405.0000089406967,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "we_total_mana_restore",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 135,
+            "expected": 135,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 195,
+            "expected": 195,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "hwei_e": [
+      {
+        "formulaKey": "eq_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 121.99999808000001,
+            "expected": 121.99999809265137,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 554.999988,
+            "expected": 554.999988079071,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "ew_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 121.99999808000001,
+            "expected": 121.99999809265137,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 554.999988,
+            "expected": 554.999988079071,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "ee_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 121.99999808000001,
+            "expected": 121.99999809265137,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 554.999988,
+            "expected": 554.999988079071,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "ee_slow_percent_points",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 40,
+            "expected": 40,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 70,
+            "expected": 70,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "hwei_r": [
+      {
+        "formulaKey": "explosion_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 264.00000096,
+            "expected": 264.0000009536743,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 850.000006,
+            "expected": 850.0000059604645,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "dot_magic_damage_per_second",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 14.00000008,
+            "expected": 14.000000059604645,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 55.0000005,
+            "expected": 55.00000037252903,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "total_max_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 305.99999904,
+            "expected": 305.9999990463257,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 1014.999994,
+            "expected": 1014.9999940395355,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "locke_p": [
+      {
+        "formulaKey": "minimum_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 13.00000008,
+            "expected": 13.00000011920929,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 90.0000005,
+            "expected": 90.00000074505806,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "maximum_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 26.000000240000002,
+            "expected": 26.00000023841858,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 180.0000015,
+            "expected": 180.00000149011612,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "locke_q": [
+      {
+        "formulaKey": "missile_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 56.000000240000006,
+            "expected": 56.00000023841858,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 172.0000015,
+            "expected": 172.00000149011612,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "mark_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 38,
+            "expected": 38,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 224.99999699999998,
+            "expected": 224.99999701976776,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "two_mark_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 91.2,
+            "expected": 91.2,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 539.9999928,
+            "expected": 539.9999928474426,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "three_mark_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 159.6,
+            "expected": 159.6,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 944.9999873999998,
+            "expected": 944.9999874830245,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "locke_w": [
+      {
+        "formulaKey": "initial_move_speed_ratio",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 0.41600000600000003,
+            "expected": 0.4160000055562705,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 0.500000006,
+            "expected": 0.500000003434252,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "decay_total_time_ms",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 2000,
+            "expected": 2000,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 2000,
+            "expected": 2000,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "attack_speed_ratio",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 0.4,
+            "expected": 0.4,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 0.7,
+            "expected": 0.7,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "self_damage_per_second",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 14,
+            "expected": 13.999999687075615,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 30,
+            "expected": 29.999999329447746,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "damage_restore_amount",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 120,
+            "expected": 120,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 620,
+            "expected": 620,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "additional_heal_amount",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 100,
+            "expected": 100,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 200,
+            "expected": 200,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "max_healing_threshold",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 250,
+            "expected": 250,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 450,
+            "expected": 450,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "locke_e": [
+      {
+        "formulaKey": "arrival_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 72.00000048000001,
+            "expected": 72.00000047683716,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 280.000003,
+            "expected": 280.00000298023224,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "dash_magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 72.00000048000001,
+            "expected": 72.00000047683716,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 320.000003,
+            "expected": 320.00000298023224,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "locke_r": [
+      {
+        "formulaKey": "magic_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 198.00000192,
+            "expected": 198.00000190734863,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 600.000012,
+            "expected": 600.000011920929,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "execute_bonus_ratio",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 0.005,
+            "expected": 0.004999999888241291,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 0.015,
+            "expected": 0.014999999664723873,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "execute_threshold_ratio",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 0.10500000100000001,
+            "expected": 0.10500000137835741,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 0.13499999699999998,
+            "expected": 0.13499999698251486,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "zaahen_p": [
+      {
+        "formulaKey": "bonus_ad_ratio_total",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 0.015,
+            "expected": 0.015,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 0.336,
+            "expected": 0.336,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "full_stack_bonus_ad_ratio",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 0.03,
+            "expected": 0.03,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 0.672,
+            "expected": 0.672,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "revive_health_ratio",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 0.3,
+            "expected": 0.3,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 0.75,
+            "expected": 0.75,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "revive_cooldown",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 300000,
+            "expected": 300000,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 120000,
+            "expected": 120000,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "zaahen_q": [
+      {
+        "formulaKey": "first_attack_physical_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 23.000000120000003,
+            "expected": 23.00000011920929,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 147.00000108,
+            "expected": 147.0000010728836,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "recast_attack_physical_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 33.00000012,
+            "expected": 33.00000011920929,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 197.00000108,
+            "expected": 197.0000010728836,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "self_max_health_heal_ratio",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 0.050000001,
+            "expected": 0.05000000074505806,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 0.090000004,
+            "expected": 0.09000000357627869,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "zaahen_w": [
+      {
+        "formulaKey": "initial_physical_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 60,
+            "expected": 60,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 210,
+            "expected": 210,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "secondary_physical_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 42.00000048,
+            "expected": 42.00000047683716,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 164.00000216,
+            "expected": 164.0000021457672,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "zaahen_e": [
+      {
+        "formulaKey": "inner_physical_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 60,
+            "expected": 60,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 210,
+            "expected": 210,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "outer_physical_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 90,
+            "expected": 90,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 315,
+            "expected": 315,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "outer_magic_health_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 71.99999820000001,
+            "expected": 71.99999839067459,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 155.99999739999998,
+            "expected": 155.99999651312828,
+            "passed": true
+          }
+        ]
+      }
+    ],
+    "zaahen_r": [
+      {
+        "formulaKey": "end_physical_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 330,
+            "expected": 330,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 910,
+            "expected": 910,
+            "passed": true
+          }
+        ]
+      },
+      {
+        "formulaKey": "self_healing_from_actual_damage",
+        "checks": [
+          {
+            "scenario": 1,
+            "actual": 33.0000013,
+            "expected": 33.000001311302185,
+            "passed": true
+          },
+          {
+            "scenario": 2,
+            "actual": 330.00001299999997,
+            "expected": 330.00001311302185,
+            "passed": true
+          }
+        ]
+      }
+    ]
+  },
+  "coefficientChecks": [
+    {
+      "skillKey": "belveth_q",
+      "parameterKey": "total_ad_ratio",
+      "description": "DataValue ADRatio",
+      "sourceValue": 1.0499999523162842,
+      "candidateValue": 1.049999952,
+      "passed": true
+    },
+    {
+      "skillKey": "belveth_q",
+      "parameterKey": "attack_speed_to_haste_ratio",
+      "description": "DataValue PerSideCDAttackSpeedMultiplier",
+      "sourceValue": 0.20000000298023224,
+      "candidateValue": 0.200000003,
+      "passed": true
+    },
+    {
+      "skillKey": "belveth_w",
+      "parameterKey": "damage_coefficient",
+      "description": "Damage mCoefficient",
+      "sourceValue": 1.5,
+      "candidateValue": 1.5,
+      "passed": true
+    },
+    {
+      "skillKey": "belveth_e",
+      "parameterKey": "onhit_damage_ad_ratio",
+      "description": "DamagePerStrike mCoefficient",
+      "sourceValue": 0.11999999731779099,
+      "candidateValue": 0.119999997,
+      "passed": true
+    },
+    {
+      "skillKey": "belveth_e",
+      "parameterKey": "attack_speed_strike_ratio",
+      "description": "TotalStrikes mCoefficient",
+      "sourceValue": 0.4000000059604645,
+      "candidateValue": 0.400000006,
+      "passed": true
+    },
+    {
+      "skillKey": "belveth_r",
+      "parameterKey": "bonus_ad_ratio",
+      "description": "FinalOnHitDamage mCoefficient",
+      "sourceValue": 0.029999999329447746,
+      "candidateValue": 0.029999999,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_p",
+      "parameterKey": "mark_ap_ratio",
+      "description": "TotalDamage mCoefficient",
+      "sourceValue": 0.3499999940395355,
+      "candidateValue": 0.349999994,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_q",
+      "parameterKey": "qq_ap_ratio",
+      "description": "Tooltip_QQDamage mCoefficient",
+      "sourceValue": 0.800000011920929,
+      "candidateValue": 0.800000012,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_q",
+      "parameterKey": "qw_ap_ratio",
+      "description": "Tooltip_QWDamage mCoefficient",
+      "sourceValue": 0.30000001192092896,
+      "candidateValue": 0.300000012,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_q",
+      "parameterKey": "qe_ap_ratio",
+      "description": "Tooltip_QEDamage mCoefficient",
+      "sourceValue": 0.30000001192092896,
+      "candidateValue": 0.300000012,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_q",
+      "parameterKey": "qe_dps_ap_ratio",
+      "description": "Tooltip_QEDamagePerSecond mCoefficient",
+      "sourceValue": 0.23999999463558197,
+      "candidateValue": 0.239999995,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_w",
+      "parameterKey": "wq_ap_ratio",
+      "description": "Tooltip_WQMoveSpeed mCoefficient",
+      "sourceValue": 0.029999999329447746,
+      "candidateValue": 0.029999999,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_w",
+      "parameterKey": "ww_shield_ap_ratio",
+      "description": "Tooltip_WWShieldAmount mCoefficient",
+      "sourceValue": 0.6000000238418579,
+      "candidateValue": 0.600000024,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_w",
+      "parameterKey": "we_onhit_ap_ratio",
+      "description": "Tooltip_WEOnHitDamage mCoefficient",
+      "sourceValue": 0.15000000596046448,
+      "candidateValue": 0.150000006,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_e",
+      "parameterKey": "eq_ap_ratio",
+      "description": "补充技法EQ Damage mCoefficient",
+      "sourceValue": 0.6499999761581421,
+      "candidateValue": 0.649999976,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_e",
+      "parameterKey": "ew_ap_ratio",
+      "description": "补充技法EW Damage mCoefficient",
+      "sourceValue": 0.6499999761581421,
+      "candidateValue": 0.649999976,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_e",
+      "parameterKey": "ee_ap_ratio",
+      "description": "补充技法EE Damage mCoefficient",
+      "sourceValue": 0.6499999761581421,
+      "candidateValue": 0.649999976,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_r",
+      "parameterKey": "explosion_ap_ratio",
+      "description": "Damage mCoefficient",
+      "sourceValue": 0.800000011920929,
+      "candidateValue": 0.800000012,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_r",
+      "parameterKey": "dot_ap_ratio",
+      "description": "DamageOverTime mCoefficient",
+      "sourceValue": 0.05000000074505806,
+      "candidateValue": 0.050000001,
+      "passed": true
+    },
+    {
+      "skillKey": "hwei_r",
+      "parameterKey": "total_max_ap_ratio",
+      "description": "TotalMaxDamage mCoefficient",
+      "sourceValue": 0.949999988079071,
+      "candidateValue": 0.949999988,
+      "passed": true
+    },
+    {
+      "skillKey": "locke_p",
+      "parameterKey": "min_onhit_ap_ratio",
+      "description": "MinOnHitDamage mCoefficient",
+      "sourceValue": 0.10000000149011612,
+      "candidateValue": 0.100000001,
+      "passed": true
+    },
+    {
+      "skillKey": "locke_p",
+      "parameterKey": "max_onhit_ap_ratio",
+      "description": "MaxOnHitDamage mCoefficient",
+      "sourceValue": 0.20000000298023224,
+      "candidateValue": 0.200000003,
+      "passed": true
+    },
+    {
+      "skillKey": "locke_q",
+      "parameterKey": "missile_ap_ratio",
+      "description": "MissileDamage mCoefficient",
+      "sourceValue": 0.20000000298023224,
+      "candidateValue": 0.200000003,
+      "passed": true
+    },
+    {
+      "skillKey": "locke_w",
+      "parameterKey": "move_speed_ap_ratio",
+      "description": "MoveSpeed mCoefficient",
+      "sourceValue": 0.00019999999494757503,
+      "candidateValue": 0.0002,
+      "passed": true
+    },
+    {
+      "skillKey": "locke_w",
+      "parameterKey": "damage_restore_ap_ratio",
+      "description": "DamageRestoreAmount mCoefficient",
+      "sourceValue": 1,
+      "candidateValue": 1,
+      "passed": true
+    },
+    {
+      "skillKey": "locke_e",
+      "parameterKey": "dash_ap_ratio",
+      "description": "DataValue APRatio",
+      "sourceValue": 0.4000000059604645,
+      "candidateValue": 0.400000006,
+      "passed": true
+    },
+    {
+      "skillKey": "locke_r",
+      "parameterKey": "damage_ap_ratio",
+      "description": "Damage mCoefficient",
+      "sourceValue": 0.6000000238418579,
+      "candidateValue": 0.600000024,
+      "passed": true
+    },
+    {
+      "skillKey": "zaahen_w",
+      "parameterKey": "initial_bonus_ad_ratio",
+      "description": "InitialDamage mCoefficient",
+      "sourceValue": 0.5,
+      "candidateValue": 0.5,
+      "passed": true
+    },
+    {
+      "skillKey": "zaahen_w",
+      "parameterKey": "secondary_bonus_ad_ratio",
+      "description": "SecondaryDamage mCoefficient",
+      "sourceValue": 0.30000001192092896,
+      "candidateValue": 0.300000012,
+      "passed": true
+    },
+    {
+      "skillKey": "zaahen_e",
+      "parameterKey": "inner_bonus_ad_ratio",
+      "description": "BaseDamageCalc mCoefficient",
+      "sourceValue": 0.5,
+      "candidateValue": 0.5,
+      "passed": true
+    },
+    {
+      "skillKey": "zaahen_r",
+      "parameterKey": "bonus_ad_ratio",
+      "description": "DataValue BonusADDamageRatio",
+      "sourceValue": 2,
+      "candidateValue": 2,
+      "passed": true
+    }
+  ],
+  "effectFinalValueChecks": [
+    {
+      "skillKey": "belveth_p",
+      "effectKey": "temporary_attack_speed",
+      "resultKey": "attribute",
+      "valueKind": "FORMULA",
+      "valueKey": "temporary_attack_speed_bonus",
+      "scenario": 1,
+      "value": 0.2,
+      "fixedMultiplier": 1,
+      "finalValue": 0.2
+    },
+    {
+      "skillKey": "belveth_p",
+      "effectKey": "temporary_attack_speed",
+      "resultKey": "attribute",
+      "valueKind": "FORMULA",
+      "valueKey": "temporary_attack_speed_bonus",
+      "scenario": 2,
+      "value": 0.2,
+      "fixedMultiplier": 1,
+      "finalValue": 0.2
+    },
+    {
+      "skillKey": "belveth_p",
+      "effectKey": "permanent_attack_speed",
+      "resultKey": "attribute",
+      "valueKind": "FORMULA",
+      "valueKey": "permanent_attack_speed_bonus",
+      "scenario": 1,
+      "value": 0.2,
+      "fixedMultiplier": 1,
+      "finalValue": 0.2
+    },
+    {
+      "skillKey": "belveth_p",
+      "effectKey": "permanent_attack_speed",
+      "resultKey": "attribute",
+      "valueKind": "FORMULA",
+      "valueKey": "permanent_attack_speed_bonus",
+      "scenario": 2,
+      "value": 1.7999999999999998,
+      "fixedMultiplier": 1,
+      "finalValue": 1.7999999999999998
+    },
+    {
+      "skillKey": "belveth_e",
+      "effectKey": "self_life_steal",
+      "resultKey": "attribute",
+      "valueKind": "FORMULA",
+      "valueKey": "total_lifesteal_ratio",
+      "scenario": 1,
+      "value": 0.200000003,
+      "fixedMultiplier": 1,
+      "finalValue": 0.200000003
+    },
+    {
+      "skillKey": "belveth_e",
+      "effectKey": "self_life_steal",
+      "resultKey": "attribute",
+      "valueKind": "FORMULA",
+      "valueKey": "total_lifesteal_ratio",
+      "scenario": 2,
+      "value": 0.400000006,
+      "fixedMultiplier": 1,
+      "finalValue": 0.400000006
+    },
+    {
+      "skillKey": "hwei_w",
+      "effectKey": "self_move_speed",
+      "resultKey": "attribute",
+      "valueKind": "FORMULA",
+      "valueKey": "wq_move_speed_ratio",
+      "scenario": 1,
+      "value": 0.3239999992,
+      "fixedMultiplier": 1,
+      "finalValue": 0.3239999992
+    },
+    {
+      "skillKey": "hwei_w",
+      "effectKey": "self_move_speed",
+      "resultKey": "attribute",
+      "valueKind": "FORMULA",
+      "valueKey": "wq_move_speed_ratio",
+      "scenario": 2,
+      "value": 0.5499999950000001,
+      "fixedMultiplier": 1,
+      "finalValue": 0.5499999950000001
+    },
+    {
+      "skillKey": "hwei_w",
+      "effectKey": "self_shield",
+      "resultKey": "shield",
+      "valueKind": "FORMULA",
+      "valueKey": "ww_initial_shield",
+      "scenario": 1,
+      "value": 74.00000096,
+      "fixedMultiplier": 1,
+      "finalValue": 74.00000096
+    },
+    {
+      "skillKey": "hwei_w",
+      "effectKey": "self_shield",
+      "resultKey": "shield",
+      "valueKind": "FORMULA",
+      "valueKey": "ww_initial_shield",
+      "scenario": 2,
+      "value": 280.000006,
+      "fixedMultiplier": 1,
+      "finalValue": 280.000006
+    },
+    {
+      "skillKey": "hwei_w",
+      "effectKey": "we_mana_restore",
+      "resultKey": "resource",
+      "valueKind": "PARAMETER",
+      "valueKey": "we_mana_restore",
+      "scenario": 1,
+      "value": 45,
+      "fixedMultiplier": 1,
+      "finalValue": 45
+    },
+    {
+      "skillKey": "hwei_w",
+      "effectKey": "we_mana_restore",
+      "resultKey": "resource",
+      "valueKind": "PARAMETER",
+      "valueKey": "we_mana_restore",
+      "scenario": 2,
+      "value": 65,
+      "fixedMultiplier": 1,
+      "finalValue": 65
+    },
+    {
+      "skillKey": "locke_w",
+      "effectKey": "self_attack_speed",
+      "resultKey": "attribute",
+      "valueKind": "FORMULA",
+      "valueKey": "attack_speed_ratio",
+      "scenario": 1,
+      "value": 0.4,
+      "fixedMultiplier": 1,
+      "finalValue": 0.4
+    },
+    {
+      "skillKey": "locke_w",
+      "effectKey": "self_attack_speed",
+      "resultKey": "attribute",
+      "valueKind": "FORMULA",
+      "valueKey": "attack_speed_ratio",
+      "scenario": 2,
+      "value": 0.7,
+      "fixedMultiplier": 1,
+      "finalValue": 0.7
+    },
+    {
+      "skillKey": "locke_w",
+      "effectKey": "self_move_speed",
+      "resultKey": "attribute",
+      "valueKind": "FORMULA",
+      "valueKey": "initial_move_speed_ratio",
+      "scenario": 1,
+      "value": 0.41600000600000003,
+      "fixedMultiplier": 1,
+      "finalValue": 0.41600000600000003
+    },
+    {
+      "skillKey": "locke_w",
+      "effectKey": "self_move_speed",
+      "resultKey": "attribute",
+      "valueKind": "FORMULA",
+      "valueKey": "initial_move_speed_ratio",
+      "scenario": 2,
+      "value": 0.500000006,
+      "fixedMultiplier": 1,
+      "finalValue": 0.500000006
+    },
+    {
+      "skillKey": "zaahen_r",
+      "effectKey": "armor_penetration",
+      "resultKey": "attribute",
+      "valueKind": "PARAMETER",
+      "valueKey": "armor_penetration_ratio",
+      "scenario": 1,
+      "value": 0.100000001,
+      "fixedMultiplier": 1,
+      "finalValue": 0.100000001
+    },
+    {
+      "skillKey": "zaahen_r",
+      "effectKey": "armor_penetration",
+      "resultKey": "attribute",
+      "valueKind": "PARAMETER",
+      "valueKey": "armor_penetration_ratio",
+      "scenario": 2,
+      "value": 0.300000012,
+      "fixedMultiplier": 1,
+      "finalValue": 0.300000012
+    }
+  ],
+  "unitChecks": {
+    "allMillisecondsIntegers": true,
+    "allFixedValuesFiniteAndNonzero": true,
+    "attributeRatioModifierZone": "attribute_flat_add",
+    "ratioUnit": "比例字段按1=100%；卑尔维斯P四个固定断点字段按百分数点保存；属性效果使用固定加算区",
+    "ratioAttributeEffectCount": 7
+  },
+  "failures": [],
+  "noBusinessApiCalls": true
+}

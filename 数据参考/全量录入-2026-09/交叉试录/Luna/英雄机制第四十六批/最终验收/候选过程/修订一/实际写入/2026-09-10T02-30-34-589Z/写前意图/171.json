@@ -1,0 +1,30 @@
+{
+  "i": 170,
+  "intent": {
+    "sequence": 171,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_q/parameters",
+    "detailRoute": "/skills/locke_q/parameters/mark_damage_base",
+    "skillKey": "locke_q",
+    "kind": "parameters",
+    "stableKey": "mark_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_damage_base",
+      "name": "每层印记基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 18,
+        "2": 26,
+        "3": 34,
+        "4": 42,
+        "5": 50
+      },
+      "description": "每层18/26/34/42/50。",
+      "sortOrder": 30
+    }
+  }
+}

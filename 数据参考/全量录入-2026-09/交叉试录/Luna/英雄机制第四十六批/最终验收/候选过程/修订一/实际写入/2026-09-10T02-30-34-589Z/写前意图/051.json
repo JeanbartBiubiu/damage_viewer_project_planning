@@ -1,0 +1,28 @@
+{
+  "i": 50,
+  "intent": {
+    "sequence": 51,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_r/parameters",
+    "detailRoute": "/skills/belveth_r/parameters/passive_onhit_base",
+    "skillKey": "belveth_r",
+    "kind": "parameters",
+    "stableKey": "passive_onhit_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_onhit_base",
+      "name": "普通形态R被动基础真实伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 2,
+        "2": 4,
+        "3": 6
+      },
+      "description": "普通形态被动按技能等级保存2/4/6；不接真正形态主动爆炸。",
+      "sortOrder": 10
+    }
+  }
+}

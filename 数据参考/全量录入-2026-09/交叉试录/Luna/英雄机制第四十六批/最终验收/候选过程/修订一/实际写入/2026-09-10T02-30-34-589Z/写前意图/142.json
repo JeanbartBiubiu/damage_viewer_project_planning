@@ -1,0 +1,28 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_r/parameters",
+    "detailRoute": "/skills/hwei_r/parameters/explosion_base_damage",
+    "skillKey": "hwei_r",
+    "kind": "parameters",
+    "stableKey": "explosion_base_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "explosion_base_damage",
+      "name": "终结爆炸基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 200,
+        "2": 325,
+        "3": 450
+      },
+      "description": "RBaseDamage索引1至3：200/325/450。",
+      "sortOrder": 10
+    }
+  }
+}

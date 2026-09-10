@@ -1,0 +1,24 @@
+{
+  "i": 238,
+  "intent": {
+    "sequence": 239,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_r/parameters",
+    "detailRoute": "/skills/locke_r/parameters/m_cast_time_ms",
+    "skillKey": "locke_r",
+    "kind": "parameters",
+    "stableKey": "m_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "m_cast_time_ms",
+      "name": "客户端mCastTime（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "施法阶段0.25秒。",
+      "sortOrder": 110
+    }
+  }
+}

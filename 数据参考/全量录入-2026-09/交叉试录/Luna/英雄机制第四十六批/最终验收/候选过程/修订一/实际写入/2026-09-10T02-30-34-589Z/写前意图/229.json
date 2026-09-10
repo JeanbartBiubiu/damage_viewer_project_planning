@@ -1,0 +1,28 @@
+{
+  "i": 228,
+  "intent": {
+    "sequence": 229,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_r/parameters",
+    "detailRoute": "/skills/locke_r/parameters/damage_base",
+    "skillKey": "locke_r",
+    "kind": "parameters",
+    "stableKey": "damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "damage_base",
+      "name": "封印法器基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 150,
+        "2": 225,
+        "3": 300
+      },
+      "description": "基础150/225/300。",
+      "sortOrder": 10
+    }
+  }
+}

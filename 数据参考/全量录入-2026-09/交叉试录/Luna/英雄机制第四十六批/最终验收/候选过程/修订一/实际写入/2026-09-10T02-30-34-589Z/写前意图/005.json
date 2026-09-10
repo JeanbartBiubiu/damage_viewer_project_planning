@@ -1,0 +1,24 @@
+{
+  "i": 4,
+  "intent": {
+    "sequence": 5,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_p/parameters",
+    "detailRoute": "/skills/belveth_p/parameters/stack_ratio_initial_per_level",
+    "skillKey": "belveth_p",
+    "kind": "parameters",
+    "stableKey": "stack_ratio_initial_per_level",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stack_ratio_initial_per_level",
+      "name": "初始每级每层攻击速度增量（百分数点）",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.050000001,
+      "levelValues": null,
+      "description": "源ASPerStackInitialBonusPerLevel=0.05百分数点；只记录断点，不补完整曲线。",
+      "sortOrder": 50
+    }
+  }
+}

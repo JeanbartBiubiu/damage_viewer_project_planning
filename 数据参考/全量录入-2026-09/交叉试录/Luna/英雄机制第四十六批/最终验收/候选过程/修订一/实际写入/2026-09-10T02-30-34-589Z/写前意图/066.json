@@ -1,0 +1,24 @@
+{
+  "i": 65,
+  "intent": {
+    "sequence": 66,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/parameters",
+    "detailRoute": "/skills/hwei_q/parameters/percent_point_ratio",
+    "skillKey": "hwei_q",
+    "kind": "parameters",
+    "stableKey": "percent_point_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "percent_point_ratio",
+      "name": "百分数点转比例",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.01,
+      "levelValues": null,
+      "description": "3百分数点转换为0.03比例；只用于计算，不改变源值摘要。",
+      "sortOrder": 30
+    }
+  }
+}

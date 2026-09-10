@@ -1,0 +1,44 @@
+{
+  "i": 255,
+  "intent": {
+    "sequence": 256,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_p/formulas",
+    "detailRoute": "/skills/zaahen_p/formulas/full_stack_bonus_ad_ratio",
+    "skillKey": "zaahen_p",
+    "kind": "formulas",
+    "stableKey": "full_stack_bonus_ad_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "full_stack_bonus_ad_ratio",
+      "name": "不落之志满层额外攻击力比例",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "full_stack_multiplier"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "stack_count"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_bonus_ad_per_stack_ratio"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "满层将已提供攻击力翻倍。",
+      "sortOrder": 140
+    }
+  }
+}

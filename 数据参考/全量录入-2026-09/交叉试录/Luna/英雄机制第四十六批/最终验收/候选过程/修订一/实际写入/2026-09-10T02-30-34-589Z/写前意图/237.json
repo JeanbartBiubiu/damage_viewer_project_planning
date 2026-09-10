@@ -1,0 +1,24 @@
+{
+  "i": 236,
+  "intent": {
+    "sequence": 237,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_r/parameters",
+    "detailRoute": "/skills/locke_r/parameters/ground_artifact_duration_ms",
+    "skillKey": "locke_r",
+    "kind": "parameters",
+    "stableKey": "ground_artifact_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "ground_artifact_duration_ms",
+      "name": "地面法器实际存留（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "存留时长等于封印发生时该技能当前剩余冷却，运行层提供，不填固定常数。",
+      "sortOrder": 90
+    }
+  }
+}

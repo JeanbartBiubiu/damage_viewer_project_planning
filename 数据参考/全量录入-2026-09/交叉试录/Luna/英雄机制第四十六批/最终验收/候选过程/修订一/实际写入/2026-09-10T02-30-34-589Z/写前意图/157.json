@@ -1,0 +1,24 @@
+{
+  "i": 156,
+  "intent": {
+    "sequence": 157,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_p/parameters",
+    "detailRoute": "/skills/locke_p/parameters/actual_min_onhit_base",
+    "skillKey": "locke_p",
+    "kind": "parameters",
+    "stableKey": "actual_min_onhit_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_min_onhit_base",
+      "name": "当前最低附魔基础伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "最低附魔基础值为5至40的哈希插值，运行层提供当前值，不设默认。",
+      "sortOrder": 10
+    }
+  }
+}

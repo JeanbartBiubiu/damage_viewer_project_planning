@@ -1,0 +1,24 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_p/parameters",
+    "detailRoute": "/skills/belveth_p/parameters/stack_count",
+    "skillKey": "belveth_p",
+    "kind": "parameters",
+    "stableKey": "stack_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stack_count",
+      "name": "当前溶烛化紫层数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "战前永久层数和当前战斗层数由运行状态提供，不设默认。",
+      "sortOrder": 20
+    }
+  }
+}

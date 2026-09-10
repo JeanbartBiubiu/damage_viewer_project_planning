@@ -1,0 +1,46 @@
+{
+  "i": 83,
+  "intent": {
+    "sequence": 84,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/formulas",
+    "detailRoute": "/skills/hwei_q/formulas/qq_target_hp_damage",
+    "skillKey": "hwei_q",
+    "kind": "formulas",
+    "stableKey": "qq_target_hp_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "qq_target_hp_damage",
+      "name": "没骨火目标最大生命附加伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "qq_target_hp_percent_points"
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "percent_point_ratio"
+              }
+            ]
+          },
+          {
+            "nodeType": "ATTRIBUTE",
+            "attributeOwner": "TARGET",
+            "attributeKey": "hp",
+            "attributeValueKind": "TOTAL"
+          }
+        ]
+      },
+      "description": "没骨火另加目标最大生命3%至7%。",
+      "sortOrder": 210
+    }
+  }
+}

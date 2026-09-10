@@ -1,0 +1,24 @@
+{
+  "i": 287,
+  "intent": {
+    "sequence": 288,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_e/parameters",
+    "detailRoute": "/skills/zaahen_e/parameters/spell_total_time_ms",
+    "skillKey": "zaahen_e",
+    "kind": "parameters",
+    "stableKey": "spell_total_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "spell_total_time_ms",
+      "name": "spellTotalTime原始总时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 250,
+      "levelValues": null,
+      "description": "源spellTotalTime=0.25秒，转为250毫秒；仅保存原始总时间，不等同突进耗时，spellCastTime=0也不表示突进瞬达。",
+      "sortOrder": 90
+    }
+  }
+}

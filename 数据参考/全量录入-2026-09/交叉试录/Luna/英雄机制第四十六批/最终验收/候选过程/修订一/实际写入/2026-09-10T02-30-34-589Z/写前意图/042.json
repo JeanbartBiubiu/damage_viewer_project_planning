@@ -1,0 +1,24 @@
+{
+  "i": 41,
+  "intent": {
+    "sequence": 42,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_e/parameters",
+    "detailRoute": "/skills/belveth_e/parameters/actual_strike_count",
+    "skillKey": "belveth_e",
+    "kind": "parameters",
+    "stableKey": "actual_strike_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_strike_count",
+      "name": "当前实际整数攻击次数",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "选择器、取整和时点未知，运行层直接提供实际整数次数，不以6+2.4替代。",
+      "sortOrder": 100
+    }
+  }
+}

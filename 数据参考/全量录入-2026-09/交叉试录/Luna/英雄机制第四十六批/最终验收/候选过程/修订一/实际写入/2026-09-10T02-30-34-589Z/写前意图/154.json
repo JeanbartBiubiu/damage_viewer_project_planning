@@ -1,0 +1,46 @@
+{
+  "i": 153,
+  "intent": {
+    "sequence": 154,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_r/formulas",
+    "detailRoute": "/skills/hwei_r/formulas/explosion_magic_damage",
+    "skillKey": "hwei_r",
+    "kind": "formulas",
+    "stableKey": "explosion_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "explosion_magic_damage",
+      "name": "焚心绚华绘终结爆炸魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "explosion_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "explosion_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "爆炸=200/325/450+0.8×法强。",
+      "sortOrder": 130
+    }
+  }
+}

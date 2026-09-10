@@ -1,0 +1,46 @@
+{
+  "i": 301,
+  "intent": {
+    "sequence": 302,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_r/formulas",
+    "detailRoute": "/skills/zaahen_r/formulas/end_physical_damage",
+    "skillKey": "zaahen_r",
+    "kind": "formulas",
+    "stableKey": "end_physical_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "end_physical_damage",
+      "name": "大赦终结物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "end_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "bonus_ad_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "attack_damage",
+                "attributeValueKind": "BONUS"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "终结=250/400/550+2×额外攻击力。",
+      "sortOrder": 110
+    }
+  }
+}

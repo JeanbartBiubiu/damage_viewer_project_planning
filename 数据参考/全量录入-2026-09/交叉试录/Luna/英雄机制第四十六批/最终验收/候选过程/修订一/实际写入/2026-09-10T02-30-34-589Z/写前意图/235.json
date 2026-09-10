@@ -1,0 +1,24 @@
+{
+  "i": 234,
+  "intent": {
+    "sequence": 235,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_r/parameters",
+    "detailRoute": "/skills/locke_r/parameters/execute_ratio_per_stack",
+    "skillKey": "locke_r",
+    "kind": "parameters",
+    "stableKey": "execute_ratio_per_stack",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "execute_ratio_per_stack",
+      "name": "每层永久处决阈值增量",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.005,
+      "levelValues": null,
+      "description": "每层增加0.5百分点，比例0.005。",
+      "sortOrder": 70
+    }
+  }
+}

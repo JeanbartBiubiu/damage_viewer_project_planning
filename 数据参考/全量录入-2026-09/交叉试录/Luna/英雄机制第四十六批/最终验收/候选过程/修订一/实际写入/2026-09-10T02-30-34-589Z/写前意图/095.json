@@ -1,0 +1,24 @@
+{
+  "i": 94,
+  "intent": {
+    "sequence": 95,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/parameters",
+    "detailRoute": "/skills/hwei_w/parameters/wq_personal_effect_duration_ms",
+    "skillKey": "hwei_w",
+    "kind": "parameters",
+    "stableKey": "wq_personal_effect_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "wq_personal_effect_duration_ms",
+      "name": "飞染自身个人效果持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "根Duration=1秒不是区域寿命；自身个人加速实际寿命由事件提供，不设默认。",
+      "sortOrder": 50
+    }
+  }
+}

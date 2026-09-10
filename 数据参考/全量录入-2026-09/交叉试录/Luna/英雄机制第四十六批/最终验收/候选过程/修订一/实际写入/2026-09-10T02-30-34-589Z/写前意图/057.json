@@ -1,0 +1,24 @@
+{
+  "i": 56,
+  "intent": {
+    "sequence": 57,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_p/parameters",
+    "detailRoute": "/skills/hwei_p/parameters/actual_mark_damage_base",
+    "skillKey": "hwei_p",
+    "kind": "parameters",
+    "stableKey": "actual_mark_damage_base",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "actual_mark_damage_base",
+      "name": "当前角色等级落款基础伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "TotalDamage为角色等级40至285的插值，算法未知，运行层提供当前实际基础项，不设默认。",
+      "sortOrder": 20
+    }
+  }
+}

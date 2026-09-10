@@ -1,0 +1,79 @@
+{
+  "generatedAt": "2026-09-10T02:49:59.257Z",
+  "reportType": "第46批独立GET复核",
+  "batch": "英雄机制第四十六批",
+  "revision": "hero46-source-v1-luna-revision-1",
+  "sourcePolicy": "固定客户端16.17、官方资料16.17.1；只读本地8080接口；不执行POST、PUT、DELETE、数据库、浏览器或Git。",
+  "frozenEvidence": {
+    "candidateFile": "hero46-luna-candidate\\修订一\\完整候选.json",
+    "candidateSha256": "a5852733badb218a4a25a85bea06480657682d80ca34d4bfcff5691611cd76de",
+    "expectedCandidateSha256": "a5852733badb218a4a25a85bea06480657682d80ca34d4bfcff5691611cd76de",
+    "planFile": "hero46-luna-candidate\\修订一\\写前请求计划.json",
+    "planSha256": "2fa7baea9230558c74030516d7e9873bdf6c15f1dc6dd6a2682c7369a8ec93b2",
+    "expectedPlanSha256": "2fa7baea9230558c74030516d7e9873bdf6c15f1dc6dd6a2682c7369a8ec93b2",
+    "actualWriteFile": "hero46-luna-candidate\\修订一\\实际写入\\2026-09-10T02-30-34-589Z\\执行结果.json",
+    "actualWriteSha256": "ea6df7893c3c0f48a770ff72005d5a7f5986e92a7d24425bf18409ee1f346ace",
+    "actualWriteCounts": {
+      "GET": 1664,
+      "POST": 304
+    },
+    "actualWriteSuccess": true,
+    "protectionSha256": "e0c6197c272bc2a227f0e3ff1f1ec50bb908a3ed622e7b9ade67912fcbdd15d5"
+  },
+  "counts": {
+    "newItems": 304,
+    "newParameters": 230,
+    "newFormulas": 65,
+    "newEffects": 9,
+    "newProcesses": 0,
+    "newInternalStates": 0,
+    "newTriggerRules": 0,
+    "reusedPublic": 26,
+    "protectedBaselineGETs": 198,
+    "finalDetailGETs": 330,
+    "totalGETs": 528
+  },
+  "protectedBaseline": {
+    "statusCounts": {
+      "200": 198
+    },
+    "checked": 198,
+    "collectionCount": 120,
+    "failureCount": 0,
+    "mismatchCount": 0,
+    "failures": [],
+    "mismatches": []
+  },
+  "finalDetails": {
+    "statusCounts": {
+      "200": 330
+    },
+    "checked": 330,
+    "failureCount": 0,
+    "mismatchCount": 0,
+    "failures": [],
+    "mismatches": []
+  },
+  "candidateReplacement": {
+    "sourceCandidateWasNotModified": true,
+    "overlayFile": "hero46-independent-review\\GET覆盖候选.json",
+    "overlaySha256": "393c3d572a6aecec7bfda8e3ae58cbdee31d05506b7740c6dd6c731aa88ab2f0",
+    "newItemsExpected": 304,
+    "newItemsReplacedFromFinalGET": 304,
+    "missingReplacementCount": 0,
+    "publicDetailsUsedFromFinalGET": 26
+  },
+  "restrictions": {
+    "getOnlyCalls": 528,
+    "postCalls": 0,
+    "putCalls": 0,
+    "deleteCalls": 0,
+    "extraMathGETs": 0,
+    "browserCalls": 0,
+    "databaseCalls": 0,
+    "gitWrites": 0
+  },
+  "snapshotFile": "hero46-independent-review\\GET复核快照.json",
+  "routePlanFile": "hero46-independent-review\\GET复核请求清单.json",
+  "statusPass": true
+}

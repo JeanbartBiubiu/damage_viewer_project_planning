@@ -1,0 +1,34 @@
+{
+  "i": 11,
+  "intent": {
+    "sequence": 12,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_p/formulas",
+    "detailRoute": "/skills/belveth_p/formulas/permanent_attack_speed_bonus",
+    "skillKey": "belveth_p",
+    "kind": "formulas",
+    "stableKey": "permanent_attack_speed_bonus",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "permanent_attack_speed_bonus",
+      "name": "溶烛化紫永久攻击速度",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "stack_count"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "actual_stack_attack_speed_ratio"
+          }
+        ]
+      },
+      "description": "永久攻速=当前层数×当前每层实际比例。",
+      "sortOrder": 20
+    }
+  }
+}

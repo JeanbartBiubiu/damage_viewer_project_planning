@@ -1,0 +1,46 @@
+{
+  "i": 82,
+  "intent": {
+    "sequence": 83,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/formulas",
+    "detailRoute": "/skills/hwei_q/formulas/qq_magic_damage",
+    "skillKey": "hwei_q",
+    "kind": "formulas",
+    "stableKey": "qq_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "qq_magic_damage",
+      "name": "没骨火单敌魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "qq_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "qq_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "没骨火平伤部分=50/80/110/140/170+0.8×法强。",
+      "sortOrder": 200
+    }
+  }
+}

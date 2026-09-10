@@ -1,0 +1,46 @@
+{
+  "i": 226,
+  "intent": {
+    "sequence": 227,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_e/formulas",
+    "detailRoute": "/skills/locke_e/formulas/arrival_magic_damage",
+    "skillKey": "locke_e",
+    "kind": "formulas",
+    "stableKey": "arrival_magic_damage",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "arrival_magic_damage",
+      "name": "灰猎无影抵达魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "onhit_damage_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "onhit_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "抵达=40至80+0.4×法强。",
+      "sortOrder": 70
+    }
+  }
+}

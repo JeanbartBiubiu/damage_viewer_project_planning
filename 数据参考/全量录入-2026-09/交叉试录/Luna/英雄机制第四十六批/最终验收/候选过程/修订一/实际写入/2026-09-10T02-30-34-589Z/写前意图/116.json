@@ -1,0 +1,34 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 116,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_w/formulas",
+    "detailRoute": "/skills/hwei_w/formulas/we_total_mana_restore",
+    "skillKey": "hwei_w",
+    "kind": "formulas",
+    "stableKey": "we_total_mana_restore",
+    "status": "仅意图，未调用",
+    "body": {
+      "formulaKey": "we_total_mana_restore",
+      "name": "宿墨三次回蓝总量",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "we_charge_count"
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "we_mana_restore"
+          }
+        ]
+      },
+      "description": "三次总回蓝=3×每次回蓝；只保留普攻触发P联动资格。",
+      "sortOrder": 230
+    }
+  }
+}

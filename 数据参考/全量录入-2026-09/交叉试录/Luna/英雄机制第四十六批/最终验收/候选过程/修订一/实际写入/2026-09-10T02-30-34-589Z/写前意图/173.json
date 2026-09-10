@@ -1,0 +1,24 @@
+{
+  "i": 172,
+  "intent": {
+    "sequence": 173,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_q/parameters",
+    "detailRoute": "/skills/locke_q/parameters/max_mark_stacks",
+    "skillKey": "locke_q",
+    "kind": "parameters",
+    "stableKey": "max_mark_stacks",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "max_mark_stacks",
+      "name": "最大印记层数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 3,
+      "levelValues": null,
+      "description": "最多3层。",
+      "sortOrder": 50
+    }
+  }
+}

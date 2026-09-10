@@ -1,0 +1,24 @@
+{
+  "i": 249,
+  "intent": {
+    "sequence": 250,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_p/parameters",
+    "detailRoute": "/skills/zaahen_p/parameters/stasis_revive_duration_ms",
+    "skillKey": "zaahen_p",
+    "kind": "parameters",
+    "stableKey": "stasis_revive_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "stasis_revive_duration_ms",
+      "name": "凝滞复活持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 4000,
+      "levelValues": null,
+      "description": "凝滞持续4秒；这是本体生存机制，不是形态。",
+      "sortOrder": 80
+    }
+  }
+}

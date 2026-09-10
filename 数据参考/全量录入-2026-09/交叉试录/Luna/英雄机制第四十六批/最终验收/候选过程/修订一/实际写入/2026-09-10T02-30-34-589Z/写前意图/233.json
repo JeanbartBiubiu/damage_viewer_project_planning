@@ -1,0 +1,24 @@
+{
+  "i": 232,
+  "intent": {
+    "sequence": 233,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/locke_r/parameters",
+    "detailRoute": "/skills/locke_r/parameters/mark_duration_ms",
+    "skillKey": "locke_r",
+    "kind": "parameters",
+    "stableKey": "mark_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "mark_duration_ms",
+      "name": "法器标记持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "标记持续5秒。",
+      "sortOrder": 50
+    }
+  }
+}

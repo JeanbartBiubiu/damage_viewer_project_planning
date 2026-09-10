@@ -1,0 +1,24 @@
+{
+  "i": 72,
+  "intent": {
+    "sequence": 73,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/hwei_q/parameters",
+    "detailRoute": "/skills/hwei_q/parameters/qw_cast_time_ms",
+    "skillKey": "hwei_q",
+    "kind": "parameters",
+    "stableKey": "qw_cast_time_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "qw_cast_time_ms",
+      "name": "攒聚雷施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "根说明明确攒聚雷独立施法500毫秒。",
+      "sortOrder": 100
+    }
+  }
+}

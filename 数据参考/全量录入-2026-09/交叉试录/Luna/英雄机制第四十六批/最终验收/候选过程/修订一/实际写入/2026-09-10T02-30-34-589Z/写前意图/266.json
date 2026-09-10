@@ -1,0 +1,24 @@
+{
+  "i": 265,
+  "intent": {
+    "sequence": 266,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_q/parameters",
+    "detailRoute": "/skills/zaahen_q/parameters/strike_count",
+    "skillKey": "zaahen_q",
+    "kind": "parameters",
+    "stableKey": "strike_count",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "strike_count",
+      "name": "第一强化攻击斩击次数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 2,
+      "levelValues": null,
+      "description": "正文描述下一次攻击进行两次斩击；不把附加伤害和治疗整体乘2。",
+      "sortOrder": 80
+    }
+  }
+}

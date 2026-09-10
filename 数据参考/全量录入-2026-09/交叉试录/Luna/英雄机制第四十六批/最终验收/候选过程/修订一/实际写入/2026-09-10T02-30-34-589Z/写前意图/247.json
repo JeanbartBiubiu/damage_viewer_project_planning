@@ -1,0 +1,24 @@
+{
+  "i": 246,
+  "intent": {
+    "sequence": 247,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/zaahen_p/parameters",
+    "detailRoute": "/skills/zaahen_p/parameters/bonus_ad_per_stack_upper_ratio",
+    "skillKey": "zaahen_p",
+    "kind": "parameters",
+    "stableKey": "bonus_ad_per_stack_upper_ratio",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "bonus_ad_per_stack_upper_ratio",
+      "name": "每层额外攻击力比例上界",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.028000001,
+      "levelValues": null,
+      "description": "哈希插值上界2.8%，比例单位。",
+      "sortOrder": 50
+    }
+  }
+}

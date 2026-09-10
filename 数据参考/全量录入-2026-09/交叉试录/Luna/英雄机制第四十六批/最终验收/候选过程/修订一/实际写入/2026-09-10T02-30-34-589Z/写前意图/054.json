@@ -1,0 +1,24 @@
+{
+  "i": 53,
+  "intent": {
+    "sequence": 54,
+    "operation": "POST",
+    "method": "POST",
+    "route": "/skills/belveth_r/parameters",
+    "detailRoute": "/skills/belveth_r/parameters/passive_stack_duration_ms",
+    "skillKey": "belveth_r",
+    "kind": "parameters",
+    "stableKey": "passive_stack_duration_ms",
+    "status": "仅意图，未调用",
+    "body": {
+      "parameterKey": "passive_stack_duration_ms",
+      "name": "普通形态被动层数持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 5000,
+      "levelValues": null,
+      "description": "原始5秒字段仅记录，不解释为每次普攻或隔次普攻。",
+      "sortOrder": 40
+    }
+  }
+}
