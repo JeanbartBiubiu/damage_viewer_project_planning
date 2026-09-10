@@ -4981,6 +4981,51 @@
         "sha256": "08a451b116359ca2fe41f3f6d97430f7f860ec7a5ecccf7ee7c84f8427361d2a",
         "commit": "3f13663e6e00c6c05e758ac4f6d7968a57acbeb2"
       }
+    },
+    "brandEManaCostBackfill": {
+      "at": "2026-09-10T15:03:01.258897Z",
+      "status": "版本冲突补证、固定法力参数新增、独立回读与页面通过",
+      "skill": "brand_e",
+      "created": 1,
+      "updated": 0,
+      "deleted": 0,
+      "value": {
+        "valueType": "INTEGER",
+        "valueMode": "FIXED",
+        "fixedValue": 90
+      },
+      "sourceDecision": "官方16.17.1采用全等级90；Riot 26.13补丁说明证明客户端16.17的70/75/80/85/90为改动前数值。",
+      "writer": {
+        "preflightGETs": 8,
+        "POST": 1,
+        "writeStatus": 201,
+        "immediateReadbackGETs": 8,
+        "replayedWrites": 0
+      },
+      "independentAgentGETs": 8,
+      "independentMismatches": 0,
+      "browserPassed": true,
+      "listImageVisible": true,
+      "protectedParameters": 4,
+      "formulaAndEffectUnchanged": true,
+      "sourceHashes": {
+        "officialDDragon16171": "06a3fc920d516d6b709de1ad44b57fed6def7d238fd950e9d925d3a7b01a4a20",
+        "client1617": "b27a4e906acb5f1047d75f9bc655d0ad0e6edef6c59b748d2ee303f0e019768d"
+      },
+      "experienceIssues": [
+        "参数列表本身不显示待核对或来源冲突状态，缺项需要结合阶段记录判断是暂缓还是遗漏。",
+        "新增前应读取当前技能同组排序；本项与既有施法时间同为20，排序不是唯一标识且页面回显稳定，本次不改写旧参数。"
+      ],
+      "pending": [
+        "施放过程与布兰德被动联动仍需各自事件和时序依据。"
+      ],
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/交叉试录/布兰德E法力消耗补录/证据清单.json",
+        "sha256": "e51f711107958018409e94864e27a693049440588fcc66d97ac3f03d5a535438",
+        "commit": "33515a43b860fc5acd74bb32bd1e68cc4b654d9b"
+      }
     }
   },
   "runtimeValidation": "未执行"
