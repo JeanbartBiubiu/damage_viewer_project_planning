@@ -39,7 +39,7 @@ class SkillTriggerTargetCategoryConditionServiceTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = SkillTriggerEventType.class, names = {"SKILL_HIT", "BASIC_ATTACK_HIT"})
+    @EnumSource(value = SkillTriggerEventType.class, names = {"SKILL_HIT", "BASIC_ATTACK_HIT", "KILL"})
     void allFiveCategoriesSurviveParentRequestStorageAndReadBack(SkillTriggerEventType event) {
         List<SkillTriggerTargetCategory> categories = List.of(SkillTriggerTargetCategory.STRUCTURE,
             SkillTriggerTargetCategory.CHAMPION, SkillTriggerTargetCategory.EPIC_MONSTER,
@@ -91,7 +91,7 @@ class SkillTriggerTargetCategoryConditionServiceTest {
 
     @ParameterizedTest
     @EnumSource(value = SkillTriggerEventType.class, names = {"SKILL_USED", "BASIC_ATTACK_START", "CONTROL_RECEIVED"})
-    void nonHitEventsCannotReadTargetCategories(SkillTriggerEventType event) {
+    void unsupportedEventsCannotReadTargetCategories(SkillTriggerEventType event) {
         assertField(thrown(() -> service.create(GAME_ID, SKILL_KEY, request(validDetail(), event))),
             PATH + ".categories", "EVENT_VALUE_NOT_AVAILABLE");
     }
