@@ -4907,6 +4907,80 @@
         "sha256": "f11a51dc2ba029a52c5faf6e8bfc0a66d78c0bd226909f08575fd09d5905810f",
         "commit": "b26f9c8574cdd6087596e861449a81d0f01de3f3"
       }
+    },
+    "yorickQLevelHealBackfill": {
+      "at": "2026-09-10T14:31:04.826Z",
+      "status": "来源补证、18级基础治疗补录、独立回读、实际数学与页面通过",
+      "skill": "yorick_q",
+      "created": 0,
+      "updated": 2,
+      "deleted": 0,
+      "values": [
+        10,
+        12,
+        14,
+        16,
+        18,
+        20,
+        23,
+        26,
+        29,
+        32,
+        35,
+        38,
+        43,
+        48,
+        53,
+        58,
+        63,
+        68
+      ],
+      "writer": {
+        "PUT": 2,
+        "successfulWrites": 2,
+        "GETs": 28,
+        "confirmedUpdates": 2,
+        "replayedWrites": 0
+      },
+      "recovery": {
+        "firstReadOnlyGETs": 12,
+        "successfulReadOnlyGETs": 21,
+        "businessWrites": 0,
+        "reason": "集合接口只返回摘要字段，检查器先后错误套用了旧列表项和详情表达式；按列表可见字段比较后全部通过"
+      },
+      "sameExecutorIndependentGETs": 21,
+      "independentAgentGETs": 21,
+      "independentProtectedPaths": 21,
+      "independentMismatches": 0,
+      "math": {
+        "GETs": 2,
+        "integerValues": 18,
+        "incrementChecks": 17,
+        "formulaScenarios": 4,
+        "passed": true
+      },
+      "browserPassed": true,
+      "listImageVisible": true,
+      "formulaExpressionUnchanged": true,
+      "planSha256": "0a6b35c670d5318fac9153387f161684281535685e927215df7f92ab891fac94",
+      "sourceSha256": "3f2ea1e5881c9527ae3a3e0eb3cb66d8fef532b917cae44e012dec111ddb3127",
+      "independentReadbackSha256": "149de64d78dc4df43fafc2e958d5714440e7a2eb226db203e5a259858b3cd62c",
+      "experienceIssues": [
+        "更新成功后保护检查失败时先确认成功前缀，不重放已经落地的PUT。",
+        "集合接口按可见摘要字段保护，详情接口再比较完整对象。",
+        "角色等级断点必须明确当级切换，并核对完整18级递推和官方端点。"
+      ],
+      "pending": [
+        "Q强化攻击的命中、治疗及墓地创建事件仍未做战斗运行验证。",
+        "非英雄治疗削减与雾行者召唤按本轮1V1范围排除。"
+      ],
+      "runtimeValidation": "未执行",
+      "evidence": {
+        "worktree": "damage_web_dev",
+        "relativePath": "数据参考/全量录入-2026-09/约里克Q来源补证与18级治疗补录/当前实录状态.json",
+        "sha256": "08a451b116359ca2fe41f3f6d97430f7f860ec7a5ecccf7ee7c84f8427361d2a",
+        "commit": "3f13663e6e00c6c05e758ac4f6d7968a57acbeb2"
+      }
     }
   },
   "runtimeValidation": "未执行"
