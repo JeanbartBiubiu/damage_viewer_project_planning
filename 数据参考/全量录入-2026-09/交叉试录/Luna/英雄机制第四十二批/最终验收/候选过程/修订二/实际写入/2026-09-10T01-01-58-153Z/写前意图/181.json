@@ -1,0 +1,27 @@
+{
+  "i": 180,
+  "intent": {
+    "sequence": 181,
+    "skillKey": "yunara_e",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/yunara_e/parameters",
+    "stableKey": "move_speed_percent_points",
+    "body": {
+      "parameterKey": "move_speed_percent_points",
+      "name": "自身移动速度百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 30.000001192092896,
+        "2": 34.99999940395355,
+        "3": 40.00000059604645,
+        "4": 44.999998807907104,
+        "5": 50
+      },
+      "description": "索引1至5为30/35/40/45/50百分数点。",
+      "sortOrder": 10
+    }
+  }
+}

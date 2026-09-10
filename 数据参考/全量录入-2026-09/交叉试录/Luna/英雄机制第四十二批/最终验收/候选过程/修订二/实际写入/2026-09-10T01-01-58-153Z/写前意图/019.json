@@ -1,0 +1,27 @@
+{
+  "i": 18,
+  "intent": {
+    "sequence": 19,
+    "skillKey": "qiyana_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_w/parameters",
+    "stableKey": "enchant_attack_speed_percent_points",
+    "body": {
+      "parameterKey": "enchant_attack_speed_percent_points",
+      "name": "附魔期间攻击速度百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 15.000000596046448,
+        "2": 20.000000298023224,
+        "3": 25,
+        "4": 30.000001192092896,
+        "5": 34.99999940395355
+      },
+      "description": "正文使用AttackSpeed*100%，为15/20/25/30/35百分数点。",
+      "sortOrder": 10
+    }
+  }
+}

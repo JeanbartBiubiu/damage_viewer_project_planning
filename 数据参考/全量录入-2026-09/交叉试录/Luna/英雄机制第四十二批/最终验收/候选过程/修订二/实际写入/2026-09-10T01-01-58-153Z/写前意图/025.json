@@ -1,0 +1,21 @@
+{
+  "i": 24,
+  "intent": {
+    "sequence": 25,
+    "skillKey": "qiyana_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_w/parameters",
+    "stableKey": "dash_distance",
+    "body": {
+      "parameterKey": "dash_distance",
+      "name": "主动地形位移距离",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 300,
+      "levelValues": null,
+      "description": "当前根TravelDistance=300；空TravelDistanceShort不补零。",
+      "sortOrder": 70
+    }
+  }
+}

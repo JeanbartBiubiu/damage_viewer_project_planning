@@ -1,0 +1,21 @@
+{
+  "i": 35,
+  "intent": {
+    "sequence": 36,
+    "skillKey": "qiyana_r",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_r/parameters",
+    "stableKey": "stun_duration_min_ms",
+    "body": {
+      "parameterKey": "stun_duration_min_ms",
+      "name": "晕眩持续下限（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 500,
+      "levelValues": null,
+      "description": "正文明确0.5秒下限。",
+      "sortOrder": 40
+    }
+  }
+}

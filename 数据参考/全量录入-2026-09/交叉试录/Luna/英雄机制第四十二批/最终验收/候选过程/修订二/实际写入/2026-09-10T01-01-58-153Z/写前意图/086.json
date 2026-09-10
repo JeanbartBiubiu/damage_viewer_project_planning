@@ -1,0 +1,21 @@
+{
+  "i": 85,
+  "intent": {
+    "sequence": 86,
+    "skillKey": "ksante_r",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/ksante_r/formulas",
+    "stableKey": "initial_physical_damage",
+    "body": {
+      "formulaKey": "initial_physical_damage",
+      "name": "变形前首次物理伤害",
+      "expression": {
+        "nodeType": "PARAMETER",
+        "parameterKey": "initial_damage"
+      },
+      "description": "变形前首次击退只消费initial_damage参数；本公式不含完整变形链。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "i": 161,
+  "intent": {
+    "sequence": 162,
+    "skillKey": "yunara_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/yunara_q/parameters",
+    "stableKey": "passive_base_damage",
+    "body": {
+      "parameterKey": "passive_base_damage",
+      "name": "普攻被动附伤基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 5,
+        "2": 10,
+        "3": 15,
+        "4": 20,
+        "5": 25
+      },
+      "description": "索引1至5为5/10/15/20/25。",
+      "sortOrder": 80
+    }
+  }
+}

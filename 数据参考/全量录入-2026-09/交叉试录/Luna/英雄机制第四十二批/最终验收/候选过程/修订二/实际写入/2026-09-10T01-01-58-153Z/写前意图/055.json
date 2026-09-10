@@ -1,0 +1,21 @@
+{
+  "i": 54,
+  "intent": {
+    "sequence": 55,
+    "skillKey": "ksante_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_q/parameters",
+    "stableKey": "defense_cap",
+    "body": {
+      "parameterKey": "defense_cap",
+      "name": "额外防御冷却计算门槛",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 120,
+      "levelValues": null,
+      "description": "扩展正文消费120；实际折算式未知。",
+      "sortOrder": 110
+    }
+  }
+}

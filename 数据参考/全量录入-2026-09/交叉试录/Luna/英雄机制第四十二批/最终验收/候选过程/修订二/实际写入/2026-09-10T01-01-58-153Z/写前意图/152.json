@@ -1,0 +1,21 @@
+{
+  "i": 151,
+  "intent": {
+    "sequence": 152,
+    "skillKey": "yunara_p",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/yunara_p/parameters",
+    "stableKey": "actual_critical_damage_base",
+    "body": {
+      "parameterKey": "actual_critical_damage_base",
+      "name": "当前暴击伤害基准",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "暴击原始基准与额外魔伤比例独立，不把普攻总攻击力冒充基准，不设默认。",
+      "sortOrder": 30
+    }
+  }
+}

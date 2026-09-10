@@ -1,0 +1,21 @@
+{
+  "i": 114,
+  "intent": {
+    "sequence": 115,
+    "skillKey": "mel_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_w/parameters",
+    "stableKey": "move_speed_duration_ms",
+    "body": {
+      "parameterKey": "move_speed_duration_ms",
+      "name": "移动速度衰减持续（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 750,
+      "levelValues": null,
+      "description": "正文消费0.75秒。",
+      "sortOrder": 50
+    }
+  }
+}

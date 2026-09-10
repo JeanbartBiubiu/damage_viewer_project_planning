@@ -1,0 +1,63 @@
+{
+  "i": 122,
+  "intent": {
+    "sequence": 123,
+    "skillKey": "mel_w",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/mel_w/formulas",
+    "stableKey": "reflected_physical_magic_damage",
+    "body": {
+      "formulaKey": "reflected_physical_magic_damage",
+      "name": "物理来源反射魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "MULTIPLY",
+        "operands": [
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "PARAMETER",
+                    "parameterKey": "reflected_damage_ratio"
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "reflected_damage_ap_ratio"
+                      },
+                      {
+                        "nodeType": "ATTRIBUTE",
+                        "attributeOwner": "SOURCE",
+                        "attributeKey": "ability_power",
+                        "attributeValueKind": "TOTAL"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "actual_reflected_source_damage"
+              }
+            ]
+          },
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "physical_to_magic_multiplier"
+          }
+        ]
+      },
+      "description": "完整反射树×(1-30%)；仅物理来源分支使用，来源类型条件待接线。",
+      "sortOrder": 30
+    }
+  }
+}

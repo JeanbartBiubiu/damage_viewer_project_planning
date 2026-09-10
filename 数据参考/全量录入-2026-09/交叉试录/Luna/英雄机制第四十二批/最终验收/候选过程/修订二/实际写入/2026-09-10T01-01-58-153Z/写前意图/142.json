@@ -1,0 +1,25 @@
+{
+  "i": 141,
+  "intent": {
+    "sequence": 142,
+    "skillKey": "mel_r",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_r/parameters",
+    "stableKey": "ult_stack_base",
+    "body": {
+      "parameterKey": "ult_stack_base",
+      "name": "鎏金蚀日每层基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 4,
+        "2": 7,
+        "3": 10
+      },
+      "description": "索引1至3为4/7/10。",
+      "sortOrder": 60
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "i": 148,
+  "intent": {
+    "sequence": 149,
+    "skillKey": "mel_r",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/mel_r/formulas",
+    "stableKey": "ult_stack_damage",
+    "body": {
+      "formulaKey": "ult_stack_damage",
+      "name": "鎏金蚀日每层魔法伤害公式",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "ult_stack_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "ult_stack_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "UltStackDamage=基础值+0.04×来源总法强。",
+      "sortOrder": 40
+    }
+  }
+}

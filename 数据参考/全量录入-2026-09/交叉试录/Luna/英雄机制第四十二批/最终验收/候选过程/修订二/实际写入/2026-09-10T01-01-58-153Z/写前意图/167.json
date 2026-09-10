@@ -1,0 +1,43 @@
+{
+  "i": 166,
+  "intent": {
+    "sequence": 167,
+    "skillKey": "yunara_q",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/yunara_q/formulas",
+    "stableKey": "passive_magic_damage",
+    "body": {
+      "formulaKey": "passive_magic_damage",
+      "name": "普攻被动附加魔法伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "基础值+0.2×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "i": 0,
+  "intent": {
+    "sequence": 1,
+    "skillKey": "qiyana_p",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_p/parameters",
+    "stableKey": "actual_character_level_base_damage",
+    "body": {
+      "parameterKey": "actual_character_level_base_damage",
+      "name": "当前角色等级被动基础伤害",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "FinalDamage角色等级树原始为1级15、每级初始增量4，6/11级斜率仍为4；不自行展开未证求值，不设默认。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,884 @@
+{
+  "startedAt": "2026-09-09T20:32:46.852Z",
+  "requestedModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "requestedCwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero42-cursor-review-20260910",
+  "outDir": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero42-cursor-review-run-20260910",
+  "promptSource": "hero42-cursor-prompt.txt",
+  "promptMode": "DESIGN_REVIEW_ONLY",
+  "timeoutMs": 900000,
+  "maxOldSpaceSizeMb": 6144,
+  "v8HeapSizeLimitMiB": 6336,
+  "settingSources": [
+    "project"
+  ],
+  "allowedPaths": [
+    {
+      "input": ".",
+      "absolute": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero42-cursor-review-20260910",
+      "relative": ".",
+      "exists": true
+    }
+  ],
+  "allowedPathSpecs": [
+    "."
+  ],
+  "writeAllowlistAudit": {
+    "kind": "audited-write-allowlist",
+    "osSandbox": false,
+    "auditAvailable": true,
+    "outsideScopeCount": 0,
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopeCount": 0,
+    "runDeltaOutsideScopePaths": [],
+    "runDeltaCount": 0,
+    "failClosed": false
+  },
+  "startup": {
+    "maxAttempts": 1,
+    "baseDelayMs": 1000,
+    "attemptsUsed": 1,
+    "attempts": [
+      {
+        "attempt": 1,
+        "phase": "send",
+        "candidateAgentId": "agent-fcd0428b-306a-46f4-81f1-8e678eea6767",
+        "error": null,
+        "retryDecision": "success",
+        "delayMs": null
+      }
+    ]
+  },
+  "failurePhase": null,
+  "requestId": "e626c416-8cea-4e2c-afe0-2f5e8c67065d",
+  "preflight": {
+    "cwd": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero42-cursor-review-20260910",
+    "runtime": {
+      "nodeVersion": "24.19.0",
+      "nodeMajor": 24,
+      "nodeMinor": 19,
+      "nodeSupport": "ok",
+      "belowPackageEngine": false,
+      "bunVersion": null,
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "env": {
+      "cursorUseHttp1": null,
+      "apiKeyPresent": true,
+      "apiKeyLength": 69
+    },
+    "sdk": {
+      "resolved": true,
+      "path": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js",
+      "source": "shared-cache",
+      "actualVersion": "1.0.24",
+      "expectedVersion": "1.0.24",
+      "versionMatch": true,
+      "error": null
+    },
+    "cliProbe": {
+      "cursorPath": "C:\\Program Files\\cursor\\resources\\app\\bin\\cursor",
+      "cursorAgentPath": null,
+      "programmable": false,
+      "supportsOutputFormat": false,
+      "supportsModelSelection": false,
+      "strictModelFallbackAllowed": false,
+      "status": "blocked",
+      "note": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    },
+    "checks": [
+      {
+        "id": "runtime.node",
+        "status": "ok",
+        "message": "Node 24.19.0 meets @cursor/sdk engines (>=22.13)."
+      },
+      {
+        "id": "runtime.bun",
+        "status": "ok",
+        "message": "Node runtime"
+      },
+      {
+        "id": "env.cursor_use_http1",
+        "status": "ok",
+        "message": "unset"
+      },
+      {
+        "id": "auth.api_key",
+        "status": "ok",
+        "message": "present length=69"
+      },
+      {
+        "id": "sdk.resolve",
+        "status": "ok",
+        "message": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\cursor-sdk-smoke-deps\\node_modules\\@cursor\\sdk\\dist\\cjs\\index.js (source=shared-cache; version=1.0.24; expected=1.0.24; match=true)"
+      },
+      {
+        "id": "cli.probe",
+        "status": "warn",
+        "message": "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+      },
+      {
+        "id": "prompt.mode",
+        "status": "ok",
+        "message": "DESIGN_REVIEW_ONLY"
+      }
+    ],
+    "warnings": [
+      "The desktop cursor wrapper exists, but this environment does not expose a standalone programmable cursor-agent binary. Do not assume CLI fallback is callable."
+    ],
+    "blocking": []
+  },
+  "eventCountByType": {
+    "status": 2,
+    "thinking": 432,
+    "assistant": 3155,
+    "tool_call": 106,
+    "usage": 1
+  },
+  "assistantText": "按只读来源复核要求，先定位来源绑定、核对要求、官方文本与 20 槽保护快照。接着读来源绑定、20 槽快照、属性边界与公共参数清单。来源绑定很大，先按 20 槽结构拆开核对。继续核对奇亚娜 Q/W/E/R 的计算树与正文消费。奇亚娜已有初稿。接着核奎桑提普通/全盛姿态与替换技能。奎桑提根绑定仍是同一组技能。接着核梅尔反射、护盾与弹体。VERDICT: READY  \nREVIEWED_PLAN_REV: hero42-source-v1\n\n来源包 16.17 / 官方 16.17.1、203 GET、31 公共参数（主动槽冷却/法力，芸阿娜 W 冷却未复用）与 20 槽根绑定齐全。gzip 只作冻结证据。未证枚举不猜阶段；DataValues/cooldownTime 按索引 1 至最高等级，mana 从 0；全盛/超凡是同槽强化，不是另一套变形技能组。未实际保存、未跑浏览器或战斗。\n\n**qiyana_p** 可录：正文 `@FinalDamage@`（角色等级断点 15、每级 +4，6/11 斜率仍为 4，只录原始断点不展开）、额外 AD `mStat2/formula2`×`BonusADRatio` 0.25、省略 `mStat` 的 AP×0.30；显式 25 秒每目标内置冷却；W 附魔重置全部目标；对当前唯一敌方首击保留。范围外：cherry。未知：未消费 `ICD` 14↔14、匿名 `{222614ec}`、`StoneExecuteBase`/治疗半径。匿名树保留。\n\n**qiyana_q** 可录：无附魔 `@VanillaDamage@`、有附魔距离+互斥效果；等级 1–5 `VanillaBase/BaseDamage` 80/110/140/170/200（勿把索引 0 的 50 当 1 级）+0.9 额外 AD；寒冰禁锢后 1 秒 20% 减速；岩石低于 50% 生命额外 `@TremorDamage@`（常数 0.6×附魔伤害）；荒野 20% 移速；冷却 7、法力 35、施法 0.25 无冲突。范围外：后续敌人衰减、野怪 160%。未知：匿名 `{7dc40c72}`、`TremorBonus` 0.4 未进该式。匿名树保留。\n\n**qiyana_w** 可录：附魔时攻速等级 1–5 为 15/20/25/30/35%、`@OnHitDamage@`（`BaseDamage` 8/16/24/32/40+AP×0.45+额外 AD×0.20）、非战斗地形移速 3/5/7/9/11%；刷新 Q；三元素互斥为自身状态。冷却 7、法力 25–45。未消费 `CleaveDamage`/`TremorDamage` 树保留。范围外：cherry。未知：空 `TravelDistanceShort`、无 `mCastTime`/`spellCastTime` 不补 0。\n\n**qiyana_e** 可录：`@Damage@` 50/90/130/170/210+额外 AD×0.5；冷却 11/10/9/8/7、法力 40–60、施法 0.25。对英雄 E 中自动瞄准 Q 可录。范围外：SWIFTPLAY/cherry。\n\n**qiyana_r** 可录：`@Damage@` 100/200/300+额外 AD×1.25；`@MissingHealthDamageRock@` 显示 10%，正文为最大生命（非缺失生命）；晕眩显式 0.5 至 1 秒。冷却 120、法力 100；仅有 `mCastTime` 0.25。同一敌人墙/河/草重复引爆保留。范围外：野怪上限。未知：距离缩短晕眩的中间式、未消费 Slow/Recast。\n\n**ksante_p** 可录：标记消耗 `@FlatDamage@` 12 + `@PercentHealthDamage@` 上下限 1%–2% 最大生命；全盛 `@MaxHealthDamagePercent@`=1% + `mStat1/formula2`×1e-4 + `mStat6/formula2`×1e-4（有名无默认，顺序按树原样，不猜护甲/魔抗/额外）。全盛是姿态强化非变形。范围外：小兵下限/野怪上限、cherry。未知：1%–2% 中间、匿名 `{281dd874}`。匿名树保留。\n\n**ksante_q** 可录：`@BaseDamage@` 70/100/130/160/190 + 两路未证 `mStat1/6 formula2`×0.4；减速 0.5 秒 80%；2 层晕眩 1 秒+拉拽（同敌重复保留）；全盛冷却缩短 `RCooldownReduction.0` 约 33.3%。官方冷却 3.5、法力 20。范围外：cherry。未知：护甲/魔抗缩短冷却与施法的 `@f2@` 式、`mCastTime` 0.35 与 Min/MaxCastTime 并存不任选。\n\n**ksante_w** 可录：蓄力 0.4–`MaxDuration.1`（1）秒、减伤 30%、`BaseDamage` 45/75/105/135/165 + `@TotalMaxHealthDamage@`（8% + 未证 mStat1/6×2e-4）；击退晕眩 0.5–1.75 秒；全盛刷新冷却、真实伤害额外 10%–80%、减伤 75%、取消击退晕眩。冷却 14/13/12/11/10、法力 40–60。仅有 `spellCastTime` 0（引导技能）不补 `mCastTime`。范围外：小兵下限、野怪上限。未知：蓄力插值、未证抗性枚举。\n\n**ksante_e** 可录：自身 `@TotalShield@`=70/112.5/155/197.5/240 + 额外生命 `mStat12/formula2`×0.135、持续 2 秒；全盛冷却缩短 50%。冷却 10/9.5/9/8.5/8、法力 45–65、`spellCastTime` 0.4。范围外：友方护盾。未知：冲刺速度数值未进正文。\n\n**ksante_r** 可录：击退 `@BaseDamage@` 80/115/150（无比率树）；撞墙追加 `@TotalDamageSlamDown@`=同基础 + 额外生命×0.05（同敌第二下保留）；全盛 15 秒、攻速 40/60/80%、额外护甲穿透 50%、全能吸血 20%、失去 35% 最大生命与 85% 额外护甲/魔抗。冷却 120/100/80、法力 100；`mCastTime` 与 `spellCastTime` 均为 0.4。根仍绑定同一 QWER，全盛替换效果写在各槽正文，不另开变形组。未知：DataValue `CastTime` 0.35 与 0.4 字段并存不覆盖。\n\n**mel_p** 可录：残影持续 5 秒，伤害交叉引用 R 的 `@spell.MelR:PassiveFlatDamage@`/`PassiveStackDamage@`；技能后下次攻击 +3 弹体最多 9，单弹 `@PassiveBonusMissileDamage@`=插值端点 8→30 + 省略 mStat×0.04；同敌多弹保留。范围外：小兵残影削减。未知：8→30 中间不线性化。\n\n**mel_q** 可录：爆炸数 6/7/8/9/10；首爆 `@InitialExplosionDamage@` 60/85/110/135/160+AP×0.55；后续 `@TotalExplosionDamage@` 5/7/9/11/13+AP×0.05；`AllDamageHit`（tooltipOnly）=首爆+(次数−1)×后续，同敌上限可录、不乘到额外敌人。冷却 10/9/8/7/6、法力 70–90。`AllDamageHit`/`MonsterModTooltip` 必须保留。范围外：兵野修正（MinionMod=1）。未知：`mCastTime` 0.35 与 `spellCastTime` 0 冲突，不任选、不补 0。\n\n**mel_w** 可录：护盾 `@ShieldAmount@` 80/110/140/170/200+AP×0.7、持续 0.75 秒、衰减移速 40% 持续 0.75 秒；反弹 `@DamagePercent@`=基础 40/45/50/55/60% +AP×0.0005（百分数显示）；资格仅正文：敌方英雄弹体、免该弹伤害、物理转魔法降 30%、范围每人弹摧毁不反弹、用原施放者穿透前属性且无其装备。冷却 38/35/33/29/26、法力 80/60/40/20/0（0 是真消耗）、`spellCastTime` 0.25。同敌多弹反弹保留。未知：弹体白名单/免疫覆盖，不编万能反射或无敌。\n\n**mel_e** 可录：中心禁锢 1.5 秒 `@Damage@` 60/105/150/195/240+AP×0.7；区域 30% 减速、每秒 `@AreaDamagePerSecond@` 16/28/40/52/64+AP×0.08。冷却 11/10.5/10/9.5/9、法力 50–90、施法 0.25。离场残留同敌 DoT 保留。`MinionModTooltip` 保留。范围外：小兵 50% 伤害。未知：8 tick/秒与每秒显示的对应。\n\n**mel_r** 可录：被动残影 60/70/80+AP×0.1 及每层 3/4/5+AP×0.0075；主动 125/200/275+AP×0.3 及每层 4/7/10+AP×0.04；仅当前唯一敌方层数。冷却 120/100/80、法力 100；仅 `mCastTime` 0.75。`MinionModTooltip` 保留。范围外：额外带层敌人、小兵。未知：处决相对生命+护盾的脚本判定。\n\n**yunara_p** 可录：暴击额外 `@Calc_Damage_Amp@`=0.10+省略 mStat×0.001，按百分数显示。仅 `spellCastTime` 0。未知：百分数基数（不猜占总攻击/暴击伤害）。\n\n**yunara_q** 可录：被动/主动附魔伤害等级 1–5 为 5/10/15/20/25+AP×0.20；主动攻速 20/30/40/50/60%、持续 5 秒、耗 8 灵蕴；冷却真 0、法力 30；超凡即刻激活持续引用 R 的 15 秒（同技能强化）。`Calc_Damage_Spread` 为 `mStat2` 省略 formula=总攻击×0.30。范围外：散播附近敌人（不把多目标乘到当前敌）、小兵处决。未知：散播暴击/30% 特效对当前敌是否结算。\n\n**yunara_w** 可录：普通念珠 `@Calc_Damage_Initial@` 55/95/135/175/215+额外 AD×0.85+AP×0.5，每秒 0.6 倍；减速显示 99%、1.5 秒衰减；同敌首击+每秒保留。超凡射线伤害/减速交叉引用 R，不另开 W2 槽。官方冷却 10、法力 60。导弹非召唤物。匿名 `{669adf33}` 与小兵树保留。范围外：小兵伤害/处决。未知：对象无 `cooldownTime`/`mCastTime`/`spellCastTime`，AS 缩放施法（0.45↔0.225，强化 0.60↔0.45）不任选不补 0。\n\n**yunara_e** 可录：移速百分数等级 1–5 为 30/35/40/45/50%，朝敌方英雄 ×1.5，持续 1.5 秒；幽灵状态。冷却 9、法力 40、`spellCastTime` 0.25。超凡冲刺只录自身位移，不另开 E2。范围外：ARAM。未知：冲刺速度在 E 正文未消费（数值在 R）。\n\n**yunara_r** 可录：超凡 15 秒；RW 伤害 160/320/480+额外 AD×1.20+AP×0.75、减速 99% 持续 1 秒；E 冲刺速度 1350/1500/1650；W 当前冷却缩短 80%。冷却 100/90/80、法力 100、`spellCastTime` 0。根仍是 QWER，强化数写在 R 供 W/Q 引用。匿名 `{42964db5}` 保留。未知：夜影翻刷新冷却无独立数组。",
+  "toolCalls": [
+    {
+      "callId": "call-bc8803e9-8b49-4180-acf5-ffdaef06dcf9-0\nfc_25613936-9b13-9770-a741-e00bf56db28f_0",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-bc8803e9-8b49-4180-acf5-ffdaef06dcf9-1\nfc_25613936-9b13-9770-a741-e00bf56db28f_1",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-bc8803e9-8b49-4180-acf5-ffdaef06dcf9-2\nfc_25613936-9b13-9770-a741-e00bf56db28f_2",
+      "name": "glob",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-bc8803e9-8b49-4180-acf5-ffdaef06dcf9-1\nfc_25613936-9b13-9770-a741-e00bf56db28f_1",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-bc8803e9-8b49-4180-acf5-ffdaef06dcf9-2\nfc_25613936-9b13-9770-a741-e00bf56db28f_2",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-bc8803e9-8b49-4180-acf5-ffdaef06dcf9-0\nfc_25613936-9b13-9770-a741-e00bf56db28f_0",
+      "name": "glob",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-229c7551-3891-4e87-b763-259d6ed31e9c-3\nfc_21baf412-fc06-9eb0-b80d-aa1a04ab061d_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-229c7551-3891-4e87-b763-259d6ed31e9c-4\nfc_21baf412-fc06-9eb0-b80d-aa1a04ab061d_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-229c7551-3891-4e87-b763-259d6ed31e9c-3\nfc_21baf412-fc06-9eb0-b80d-aa1a04ab061d_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-229c7551-3891-4e87-b763-259d6ed31e9c-4\nfc_21baf412-fc06-9eb0-b80d-aa1a04ab061d_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-229c7551-3891-4e87-b763-259d6ed31e9c-5\nfc_21baf412-fc06-9eb0-b80d-aa1a04ab061d_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-229c7551-3891-4e87-b763-259d6ed31e9c-5\nfc_21baf412-fc06-9eb0-b80d-aa1a04ab061d_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-229c7551-3891-4e87-b763-259d6ed31e9c-6\nfc_21baf412-fc06-9eb0-b80d-aa1a04ab061d_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-229c7551-3891-4e87-b763-259d6ed31e9c-7\nfc_21baf412-fc06-9eb0-b80d-aa1a04ab061d_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-229c7551-3891-4e87-b763-259d6ed31e9c-6\nfc_21baf412-fc06-9eb0-b80d-aa1a04ab061d_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-229c7551-3891-4e87-b763-259d6ed31e9c-7\nfc_21baf412-fc06-9eb0-b80d-aa1a04ab061d_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e90ecee9-3892-4c85-867b-c34eef7c9fea-8\nfc_71ab2a58-cd70-94b4-a006-0b75514d2c6a_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e90ecee9-3892-4c85-867b-c34eef7c9fea-8\nfc_71ab2a58-cd70-94b4-a006-0b75514d2c6a_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e90ecee9-3892-4c85-867b-c34eef7c9fea-9\nfc_71ab2a58-cd70-94b4-a006-0b75514d2c6a_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e90ecee9-3892-4c85-867b-c34eef7c9fea-10\nfc_71ab2a58-cd70-94b4-a006-0b75514d2c6a_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e90ecee9-3892-4c85-867b-c34eef7c9fea-11\nfc_71ab2a58-cd70-94b4-a006-0b75514d2c6a_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-e90ecee9-3892-4c85-867b-c34eef7c9fea-9\nfc_71ab2a58-cd70-94b4-a006-0b75514d2c6a_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e90ecee9-3892-4c85-867b-c34eef7c9fea-10\nfc_71ab2a58-cd70-94b4-a006-0b75514d2c6a_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-e90ecee9-3892-4c85-867b-c34eef7c9fea-11\nfc_71ab2a58-cd70-94b4-a006-0b75514d2c6a_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b961861f-7b0f-4f7f-87e4-44a6a2120e2b-12\nfc_36795fea-0ce1-93e5-8afc-3a04108581af_0",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b961861f-7b0f-4f7f-87e4-44a6a2120e2b-12\nfc_36795fea-0ce1-93e5-8afc-3a04108581af_0",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b961861f-7b0f-4f7f-87e4-44a6a2120e2b-13\nfc_36795fea-0ce1-93e5-8afc-3a04108581af_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b961861f-7b0f-4f7f-87e4-44a6a2120e2b-14\nfc_36795fea-0ce1-93e5-8afc-3a04108581af_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b961861f-7b0f-4f7f-87e4-44a6a2120e2b-13\nfc_36795fea-0ce1-93e5-8afc-3a04108581af_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b961861f-7b0f-4f7f-87e4-44a6a2120e2b-14\nfc_36795fea-0ce1-93e5-8afc-3a04108581af_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1565b9ae-bc80-4265-8350-71ea67c4878c-15\nfc_ceebabc4-b3cb-9cc6-a6ac-8b7434a18c4a_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1565b9ae-bc80-4265-8350-71ea67c4878c-15\nfc_ceebabc4-b3cb-9cc6-a6ac-8b7434a18c4a_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1565b9ae-bc80-4265-8350-71ea67c4878c-16\nfc_ceebabc4-b3cb-9cc6-a6ac-8b7434a18c4a_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1565b9ae-bc80-4265-8350-71ea67c4878c-16\nfc_ceebabc4-b3cb-9cc6-a6ac-8b7434a18c4a_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1565b9ae-bc80-4265-8350-71ea67c4878c-17\nfc_ceebabc4-b3cb-9cc6-a6ac-8b7434a18c4a_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1565b9ae-bc80-4265-8350-71ea67c4878c-17\nfc_ceebabc4-b3cb-9cc6-a6ac-8b7434a18c4a_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1565b9ae-bc80-4265-8350-71ea67c4878c-18\nfc_ceebabc4-b3cb-9cc6-a6ac-8b7434a18c4a_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1565b9ae-bc80-4265-8350-71ea67c4878c-19\nfc_ceebabc4-b3cb-9cc6-a6ac-8b7434a18c4a_4",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1565b9ae-bc80-4265-8350-71ea67c4878c-18\nfc_ceebabc4-b3cb-9cc6-a6ac-8b7434a18c4a_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1565b9ae-bc80-4265-8350-71ea67c4878c-19\nfc_ceebabc4-b3cb-9cc6-a6ac-8b7434a18c4a_4",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-db1cdf9f-7241-43e6-a30f-981e910892aa-20\nfc_805f03bc-5edd-9fd3-b1d7-7d2f053ae9c2_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-db1cdf9f-7241-43e6-a30f-981e910892aa-21\nfc_805f03bc-5edd-9fd3-b1d7-7d2f053ae9c2_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-db1cdf9f-7241-43e6-a30f-981e910892aa-22\nfc_805f03bc-5edd-9fd3-b1d7-7d2f053ae9c2_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-db1cdf9f-7241-43e6-a30f-981e910892aa-20\nfc_805f03bc-5edd-9fd3-b1d7-7d2f053ae9c2_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-db1cdf9f-7241-43e6-a30f-981e910892aa-21\nfc_805f03bc-5edd-9fd3-b1d7-7d2f053ae9c2_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-db1cdf9f-7241-43e6-a30f-981e910892aa-23\nfc_805f03bc-5edd-9fd3-b1d7-7d2f053ae9c2_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-db1cdf9f-7241-43e6-a30f-981e910892aa-22\nfc_805f03bc-5edd-9fd3-b1d7-7d2f053ae9c2_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-db1cdf9f-7241-43e6-a30f-981e910892aa-23\nfc_805f03bc-5edd-9fd3-b1d7-7d2f053ae9c2_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ebd6f246-4961-4cba-9a71-d400502de8c3-24\nfc_be0a5896-0be8-94b1-a0de-8b0874a18e62_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ebd6f246-4961-4cba-9a71-d400502de8c3-25\nfc_be0a5896-0be8-94b1-a0de-8b0874a18e62_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ebd6f246-4961-4cba-9a71-d400502de8c3-26\nfc_be0a5896-0be8-94b1-a0de-8b0874a18e62_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ebd6f246-4961-4cba-9a71-d400502de8c3-24\nfc_be0a5896-0be8-94b1-a0de-8b0874a18e62_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ebd6f246-4961-4cba-9a71-d400502de8c3-25\nfc_be0a5896-0be8-94b1-a0de-8b0874a18e62_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ebd6f246-4961-4cba-9a71-d400502de8c3-26\nfc_be0a5896-0be8-94b1-a0de-8b0874a18e62_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-3f2f1725-de90-40b7-926d-a2bcc7caeeb0-27\nfc_fd5d9122-9e31-9e14-9d78-af96907b3d99_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-3f2f1725-de90-40b7-926d-a2bcc7caeeb0-27\nfc_fd5d9122-9e31-9e14-9d78-af96907b3d99_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-171fe22a-7d05-4780-bfb1-f3acaf8e23bb-28\nfc_258f197e-f29a-9c76-9afe-af4ac87dabfd_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-171fe22a-7d05-4780-bfb1-f3acaf8e23bb-28\nfc_258f197e-f29a-9c76-9afe-af4ac87dabfd_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ee0af6cc-75fe-4569-8d95-0e5b70ff4c22-29\nfc_8068d710-86d7-982b-b4e7-b26d693d74b7_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ee0af6cc-75fe-4569-8d95-0e5b70ff4c22-30\nfc_8068d710-86d7-982b-b4e7-b26d693d74b7_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-ee0af6cc-75fe-4569-8d95-0e5b70ff4c22-29\nfc_8068d710-86d7-982b-b4e7-b26d693d74b7_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-ee0af6cc-75fe-4569-8d95-0e5b70ff4c22-30\nfc_8068d710-86d7-982b-b4e7-b26d693d74b7_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-739460db-c7a8-4671-87d8-c3650b6fbf85-31\nfc_3268c415-f6af-91c5-8c0d-2798d7c8f1dc_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-739460db-c7a8-4671-87d8-c3650b6fbf85-32\nfc_3268c415-f6af-91c5-8c0d-2798d7c8f1dc_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-739460db-c7a8-4671-87d8-c3650b6fbf85-33\nfc_3268c415-f6af-91c5-8c0d-2798d7c8f1dc_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-739460db-c7a8-4671-87d8-c3650b6fbf85-34\nfc_3268c415-f6af-91c5-8c0d-2798d7c8f1dc_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-739460db-c7a8-4671-87d8-c3650b6fbf85-31\nfc_3268c415-f6af-91c5-8c0d-2798d7c8f1dc_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-739460db-c7a8-4671-87d8-c3650b6fbf85-34\nfc_3268c415-f6af-91c5-8c0d-2798d7c8f1dc_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-739460db-c7a8-4671-87d8-c3650b6fbf85-33\nfc_3268c415-f6af-91c5-8c0d-2798d7c8f1dc_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-739460db-c7a8-4671-87d8-c3650b6fbf85-32\nfc_3268c415-f6af-91c5-8c0d-2798d7c8f1dc_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-fc024eaa-16ad-4850-9f31-78b4da0c3585-35\nfc_5e39fe0e-b70d-9473-866d-5b43cf66cefe_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-fc024eaa-16ad-4850-9f31-78b4da0c3585-35\nfc_5e39fe0e-b70d-9473-866d-5b43cf66cefe_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1fec11bb-f141-45d9-944d-7e0a34e2eec0-36\nfc_f5983942-cdc5-9d5d-95f3-90c6d0788f86_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1fec11bb-f141-45d9-944d-7e0a34e2eec0-37\nfc_f5983942-cdc5-9d5d-95f3-90c6d0788f86_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1fec11bb-f141-45d9-944d-7e0a34e2eec0-38\nfc_f5983942-cdc5-9d5d-95f3-90c6d0788f86_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-1fec11bb-f141-45d9-944d-7e0a34e2eec0-36\nfc_f5983942-cdc5-9d5d-95f3-90c6d0788f86_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1fec11bb-f141-45d9-944d-7e0a34e2eec0-37\nfc_f5983942-cdc5-9d5d-95f3-90c6d0788f86_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-1fec11bb-f141-45d9-944d-7e0a34e2eec0-38\nfc_f5983942-cdc5-9d5d-95f3-90c6d0788f86_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b413d4ac-363f-4e5d-bf19-340d928073aa-39\nfc_bc022685-a915-9f9a-855d-b08e7687e495_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b413d4ac-363f-4e5d-bf19-340d928073aa-40\nfc_bc022685-a915-9f9a-855d-b08e7687e495_1",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b413d4ac-363f-4e5d-bf19-340d928073aa-41\nfc_bc022685-a915-9f9a-855d-b08e7687e495_2",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-b413d4ac-363f-4e5d-bf19-340d928073aa-41\nfc_bc022685-a915-9f9a-855d-b08e7687e495_2",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b413d4ac-363f-4e5d-bf19-340d928073aa-40\nfc_bc022685-a915-9f9a-855d-b08e7687e495_1",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-b413d4ac-363f-4e5d-bf19-340d928073aa-39\nfc_bc022685-a915-9f9a-855d-b08e7687e495_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-0366e53b-9e9b-412d-b15b-5a8e26d9df83-42\nfc_c057fdd9-0298-941b-9526-51991194bd9d_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-0366e53b-9e9b-412d-b15b-5a8e26d9df83-43\nfc_c057fdd9-0298-941b-9526-51991194bd9d_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-0366e53b-9e9b-412d-b15b-5a8e26d9df83-44\nfc_c057fdd9-0298-941b-9526-51991194bd9d_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-0366e53b-9e9b-412d-b15b-5a8e26d9df83-42\nfc_c057fdd9-0298-941b-9526-51991194bd9d_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-0366e53b-9e9b-412d-b15b-5a8e26d9df83-43\nfc_c057fdd9-0298-941b-9526-51991194bd9d_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-0366e53b-9e9b-412d-b15b-5a8e26d9df83-44\nfc_c057fdd9-0298-941b-9526-51991194bd9d_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-815dca9e-e69b-46cc-9047-2b12de968393-45\nfc_04b33839-a846-9a48-9213-6a307c66220d_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-815dca9e-e69b-46cc-9047-2b12de968393-46\nfc_04b33839-a846-9a48-9213-6a307c66220d_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-815dca9e-e69b-46cc-9047-2b12de968393-47\nfc_04b33839-a846-9a48-9213-6a307c66220d_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-815dca9e-e69b-46cc-9047-2b12de968393-48\nfc_04b33839-a846-9a48-9213-6a307c66220d_3",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-815dca9e-e69b-46cc-9047-2b12de968393-45\nfc_04b33839-a846-9a48-9213-6a307c66220d_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-815dca9e-e69b-46cc-9047-2b12de968393-46\nfc_04b33839-a846-9a48-9213-6a307c66220d_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-815dca9e-e69b-46cc-9047-2b12de968393-48\nfc_04b33839-a846-9a48-9213-6a307c66220d_3",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-815dca9e-e69b-46cc-9047-2b12de968393-47\nfc_04b33839-a846-9a48-9213-6a307c66220d_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2a923ad-61a1-4fbb-b965-3acce256839b-49\nfc_374f9f89-f126-9055-96e1-303206d6a501_0",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2a923ad-61a1-4fbb-b965-3acce256839b-50\nfc_374f9f89-f126-9055-96e1-303206d6a501_1",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2a923ad-61a1-4fbb-b965-3acce256839b-49\nfc_374f9f89-f126-9055-96e1-303206d6a501_0",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2a923ad-61a1-4fbb-b965-3acce256839b-50\nfc_374f9f89-f126-9055-96e1-303206d6a501_1",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2a923ad-61a1-4fbb-b965-3acce256839b-51\nfc_374f9f89-f126-9055-96e1-303206d6a501_2",
+      "name": "read",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2a923ad-61a1-4fbb-b965-3acce256839b-52\nfc_374f9f89-f126-9055-96e1-303206d6a501_3",
+      "name": "grep",
+      "status": "running",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2a923ad-61a1-4fbb-b965-3acce256839b-51\nfc_374f9f89-f126-9055-96e1-303206d6a501_2",
+      "name": "read",
+      "status": "completed",
+      "truncated": false
+    },
+    {
+      "callId": "call-c2a923ad-61a1-4fbb-b965-3acce256839b-52\nfc_374f9f89-f126-9055-96e1-303206d6a501_3",
+      "name": "grep",
+      "status": "completed",
+      "truncated": false
+    }
+  ],
+  "statuses": [
+    "RUNNING",
+    "FINISHED"
+  ],
+  "cliFallback": {
+    "allowed": false,
+    "modelDriftAccepted": false,
+    "status": "not_attempted"
+  },
+  "git": {
+    "statusWorktreeBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero42-cursor-review-run-20260910\\git-status-worktree-before.txt",
+    "statusBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero42-cursor-review-run-20260910\\git-status-before.txt",
+    "allowedPathsDirtyBefore": false,
+    "signaturesBeforeFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero42-cursor-review-run-20260910\\path-signatures-before.json",
+    "pathSignaturesBefore": {},
+    "statusEntriesBeforeCount": 0,
+    "beforeAuditAvailable": true,
+    "statusWorktreeAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero42-cursor-review-run-20260910\\git-status-worktree-after.txt",
+    "statusAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero42-cursor-review-run-20260910\\git-status-after.txt",
+    "allowedPathsDirtyAfter": false,
+    "signaturesAfterFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero42-cursor-review-run-20260910\\path-signatures-after.json",
+    "pathSignaturesAfter": {},
+    "runDelta": [],
+    "changeClassification": {
+      "afterState": {
+        "inScope": [],
+        "outsideScope": []
+      },
+      "runDelta": {
+        "inScope": [],
+        "outsideScope": []
+      }
+    },
+    "outsideScopePaths": [],
+    "runDeltaOutsideScopePaths": [],
+    "untrackedInScope": [],
+    "untrackedCapture": {
+      "mode": "metadata-only",
+      "files": [],
+      "skipped": []
+    },
+    "diffPatchScope": "allowed-paths",
+    "diffPatchFile": "C:\\project\\damage_web_dev\\.agents\\artifacts\\hero42-cursor-review-run-20260910\\diff.patch"
+  },
+  "runtimeUsed": "sdk",
+  "agentId": "agent-fcd0428b-306a-46f4-81f1-8e678eea6767",
+  "runId": "run-b28cb52d-e8f4-429f-89ba-64ab111bf73d",
+  "result": {
+    "id": "run-b28cb52d-e8f4-429f-89ba-64ab111bf73d",
+    "requestId": "e626c416-8cea-4e2c-afe0-2f5e8c67065d",
+    "status": "finished",
+    "result": "VERDICT: READY  \nREVIEWED_PLAN_REV: hero42-source-v1\n\n来源包 16.17 / 官方 16.17.1、203 GET、31 公共参数（主动槽冷却/法力，芸阿娜 W 冷却未复用）与 20 槽根绑定齐全。gzip 只作冻结证据。未证枚举不猜阶段；DataValues/cooldownTime 按索引 1 至最高等级，mana 从 0；全盛/超凡是同槽强化，不是另一套变形技能组。未实际保存、未跑浏览器或战斗。\n\n**qiyana_p** 可录：正文 `@FinalDamage@`（角色等级断点 15、每级 +4，6/11 斜率仍为 4，只录原始断点不展开）、额外 AD `mStat2/formula2`×`BonusADRatio` 0.25、省略 `mStat` 的 AP×0.30；显式 25 秒每目标内置冷却；W 附魔重置全部目标；对当前唯一敌方首击保留。范围外：cherry。未知：未消费 `ICD` 14↔14、匿名 `{222614ec}`、`StoneExecuteBase`/治疗半径。匿名树保留。\n\n**qiyana_q** 可录：无附魔 `@VanillaDamage@`、有附魔距离+互斥效果；等级 1–5 `VanillaBase/BaseDamage` 80/110/140/170/200（勿把索引 0 的 50 当 1 级）+0.9 额外 AD；寒冰禁锢后 1 秒 20% 减速；岩石低于 50% 生命额外 `@TremorDamage@`（常数 0.6×附魔伤害）；荒野 20% 移速；冷却 7、法力 35、施法 0.25 无冲突。范围外：后续敌人衰减、野怪 160%。未知：匿名 `{7dc40c72}`、`TremorBonus` 0.4 未进该式。匿名树保留。\n\n**qiyana_w** 可录：附魔时攻速等级 1–5 为 15/20/25/30/35%、`@OnHitDamage@`（`BaseDamage` 8/16/24/32/40+AP×0.45+额外 AD×0.20）、非战斗地形移速 3/5/7/9/11%；刷新 Q；三元素互斥为自身状态。冷却 7、法力 25–45。未消费 `CleaveDamage`/`TremorDamage` 树保留。范围外：cherry。未知：空 `TravelDistanceShort`、无 `mCastTime`/`spellCastTime` 不补 0。\n\n**qiyana_e** 可录：`@Damage@` 50/90/130/170/210+额外 AD×0.5；冷却 11/10/9/8/7、法力 40–60、施法 0.25。对英雄 E 中自动瞄准 Q 可录。范围外：SWIFTPLAY/cherry。\n\n**qiyana_r** 可录：`@Damage@` 100/200/300+额外 AD×1.25；`@MissingHealthDamageRock@` 显示 10%，正文为最大生命（非缺失生命）；晕眩显式 0.5 至 1 秒。冷却 120、法力 100；仅有 `mCastTime` 0.25。同一敌人墙/河/草重复引爆保留。范围外：野怪上限。未知：距离缩短晕眩的中间式、未消费 Slow/Recast。\n\n**ksante_p** 可录：标记消耗 `@FlatDamage@` 12 + `@PercentHealthDamage@` 上下限 1%–2% 最大生命；全盛 `@MaxHealthDamagePercent@`=1% + `mStat1/formula2`×1e-4 + `mStat6/formula2`×1e-4（有名无默认，顺序按树原样，不猜护甲/魔抗/额外）。全盛是姿态强化非变形。范围外：小兵下限/野怪上限、cherry。未知：1%–2% 中间、匿名 `{281dd874}`。匿名树保留。\n\n**ksante_q** 可录：`@BaseDamage@` 70/100/130/160/190 + 两路未证 `mStat1/6 formula2`×0.4；减速 0.5 秒 80%；2 层晕眩 1 秒+拉拽（同敌重复保留）；全盛冷却缩短 `RCooldownReduction.0` 约 33.3%。官方冷却 3.5、法力 20。范围外：cherry。未知：护甲/魔抗缩短冷却与施法的 `@f2@` 式、`mCastTime` 0.35 与 Min/MaxCastTime 并存不任选。\n\n**ksante_w** 可录：蓄力 0.4–`MaxDuration.1`（1）秒、减伤 30%、`BaseDamage` 45/75/105/135/165 + `@TotalMaxHealthDamage@`（8% + 未证 mStat1/6×2e-4）；击退晕眩 0.5–1.75 秒；全盛刷新冷却、真实伤害额外 10%–80%、减伤 75%、取消击退晕眩。冷却 14/13/12/11/10、法力 40–60。仅有 `spellCastTime` 0（引导技能）不补 `mCastTime`。范围外：小兵下限、野怪上限。未知：蓄力插值、未证抗性枚举。\n\n**ksante_e** 可录：自身 `@TotalShield@`=70/112.5/155/197.5/240 + 额外生命 `mStat12/formula2`×0.135、持续 2 秒；全盛冷却缩短 50%。冷却 10/9.5/9/8.5/8、法力 45–65、`spellCastTime` 0.4。范围外：友方护盾。未知：冲刺速度数值未进正文。\n\n**ksante_r** 可录：击退 `@BaseDamage@` 80/115/150（无比率树）；撞墙追加 `@TotalDamageSlamDown@`=同基础 + 额外生命×0.05（同敌第二下保留）；全盛 15 秒、攻速 40/60/80%、额外护甲穿透 50%、全能吸血 20%、失去 35% 最大生命与 85% 额外护甲/魔抗。冷却 120/100/80、法力 100；`mCastTime` 与 `spellCastTime` 均为 0.4。根仍绑定同一 QWER，全盛替换效果写在各槽正文，不另开变形组。未知：DataValue `CastTime` 0.35 与 0.4 字段并存不覆盖。\n\n**mel_p** 可录：残影持续 5 秒，伤害交叉引用 R 的 `@spell.MelR:PassiveFlatDamage@`/`PassiveStackDamage@`；技能后下次攻击 +3 弹体最多 9，单弹 `@PassiveBonusMissileDamage@`=插值端点 8→30 + 省略 mStat×0.04；同敌多弹保留。范围外：小兵残影削减。未知：8→30 中间不线性化。\n\n**mel_q** 可录：爆炸数 6/7/8/9/10；首爆 `@InitialExplosionDamage@` 60/85/110/135/160+AP×0.55；后续 `@TotalExplosionDamage@` 5/7/9/11/13+AP×0.05；`AllDamageHit`（tooltipOnly）=首爆+(次数−1)×后续，同敌上限可录、不乘到额外敌人。冷却 10/9/8/7/6、法力 70–90。`AllDamageHit`/`MonsterModTooltip` 必须保留。范围外：兵野修正（MinionMod=1）。未知：`mCastTime` 0.35 与 `spellCastTime` 0 冲突，不任选、不补 0。\n\n**mel_w** 可录：护盾 `@ShieldAmount@` 80/110/140/170/200+AP×0.7、持续 0.75 秒、衰减移速 40% 持续 0.75 秒；反弹 `@DamagePercent@`=基础 40/45/50/55/60% +AP×0.0005（百分数显示）；资格仅正文：敌方英雄弹体、免该弹伤害、物理转魔法降 30%、范围每人弹摧毁不反弹、用原施放者穿透前属性且无其装备。冷却 38/35/33/29/26、法力 80/60/40/20/0（0 是真消耗）、`spellCastTime` 0.25。同敌多弹反弹保留。未知：弹体白名单/免疫覆盖，不编万能反射或无敌。\n\n**mel_e** 可录：中心禁锢 1.5 秒 `@Damage@` 60/105/150/195/240+AP×0.7；区域 30% 减速、每秒 `@AreaDamagePerSecond@` 16/28/40/52/64+AP×0.08。冷却 11/10.5/10/9.5/9、法力 50–90、施法 0.25。离场残留同敌 DoT 保留。`MinionModTooltip` 保留。范围外：小兵 50% 伤害。未知：8 tick/秒与每秒显示的对应。\n\n**mel_r** 可录：被动残影 60/70/80+AP×0.1 及每层 3/4/5+AP×0.0075；主动 125/200/275+AP×0.3 及每层 4/7/10+AP×0.04；仅当前唯一敌方层数。冷却 120/100/80、法力 100；仅 `mCastTime` 0.75。`MinionModTooltip` 保留。范围外：额外带层敌人、小兵。未知：处决相对生命+护盾的脚本判定。\n\n**yunara_p** 可录：暴击额外 `@Calc_Damage_Amp@`=0.10+省略 mStat×0.001，按百分数显示。仅 `spellCastTime` 0。未知：百分数基数（不猜占总攻击/暴击伤害）。\n\n**yunara_q** 可录：被动/主动附魔伤害等级 1–5 为 5/10/15/20/25+AP×0.20；主动攻速 20/30/40/50/60%、持续 5 秒、耗 8 灵蕴；冷却真 0、法力 30；超凡即刻激活持续引用 R 的 15 秒（同技能强化）。`Calc_Damage_Spread` 为 `mStat2` 省略 formula=总攻击×0.30。范围外：散播附近敌人（不把多目标乘到当前敌）、小兵处决。未知：散播暴击/30% 特效对当前敌是否结算。\n\n**yunara_w** 可录：普通念珠 `@Calc_Damage_Initial@` 55/95/135/175/215+额外 AD×0.85+AP×0.5，每秒 0.6 倍；减速显示 99%、1.5 秒衰减；同敌首击+每秒保留。超凡射线伤害/减速交叉引用 R，不另开 W2 槽。官方冷却 10、法力 60。导弹非召唤物。匿名 `{669adf33}` 与小兵树保留。范围外：小兵伤害/处决。未知：对象无 `cooldownTime`/`mCastTime`/`spellCastTime`，AS 缩放施法（0.45↔0.225，强化 0.60↔0.45）不任选不补 0。\n\n**yunara_e** 可录：移速百分数等级 1–5 为 30/35/40/45/50%，朝敌方英雄 ×1.5，持续 1.5 秒；幽灵状态。冷却 9、法力 40、`spellCastTime` 0.25。超凡冲刺只录自身位移，不另开 E2。范围外：ARAM。未知：冲刺速度在 E 正文未消费（数值在 R）。\n\n**yunara_r** 可录：超凡 15 秒；RW 伤害 160/320/480+额外 AD×1.20+AP×0.75、减速 99% 持续 1 秒；E 冲刺速度 1350/1500/1650；W 当前冷却缩短 80%。冷却 100/90/80、法力 100、`spellCastTime` 0。根仍是 QWER，强化数写在 R 供 W/Q 引用。匿名 `{42964db5}` 保留。未知：夜影翻刷新冷却无独立数组。",
+    "model": {
+      "id": "grok-4.6",
+      "params": [
+        {
+          "id": "effort",
+          "value": "high"
+        },
+        {
+          "id": "fast",
+          "value": "false"
+        }
+      ]
+    },
+    "durationMs": 402143,
+    "usage": {
+      "inputTokens": 1453606,
+      "outputTokens": 22644,
+      "cacheReadTokens": 1272448,
+      "cacheWriteTokens": 0,
+      "totalTokens": 2748698,
+      "reasoningTokens": 16804
+    }
+  },
+  "resultStatus": "finished",
+  "resultModel": {
+    "id": "grok-4.6",
+    "params": [
+      {
+        "id": "effort",
+        "value": "high"
+      },
+      {
+        "id": "fast",
+        "value": "false"
+      }
+    ]
+  },
+  "durationMs": 402143,
+  "artifacts": [],
+  "disposal": {
+    "method": "asyncDispose"
+  },
+  "completedAt": "2026-09-09T20:39:36.381Z"
+}

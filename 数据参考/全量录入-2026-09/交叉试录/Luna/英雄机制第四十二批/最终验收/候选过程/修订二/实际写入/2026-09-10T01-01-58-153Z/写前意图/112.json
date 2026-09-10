@@ -1,0 +1,27 @@
+{
+  "i": 111,
+  "intent": {
+    "sequence": 112,
+    "skillKey": "mel_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_w/parameters",
+    "stableKey": "shield_base",
+    "body": {
+      "parameterKey": "shield_base",
+      "name": "自身护盾基础值",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 110,
+        "3": 140,
+        "4": 170,
+        "5": 200
+      },
+      "description": "索引1至5为80/110/140/170/200。",
+      "sortOrder": 20
+    }
+  }
+}

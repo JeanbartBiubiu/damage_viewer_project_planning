@@ -1,0 +1,21 @@
+{
+  "i": 8,
+  "intent": {
+    "sequence": 9,
+    "skillKey": "qiyana_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_q/parameters",
+    "stableKey": "ice_slow_percent_points",
+    "body": {
+      "parameterKey": "ice_slow_percent_points",
+      "name": "寒冰附魔减速百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 20.000000298023224,
+      "levelValues": null,
+      "description": "正文使用SlowPotency*-100%，原始负值转为正20百分数点。",
+      "sortOrder": 40
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "i": 1,
+  "intent": {
+    "sequence": 2,
+    "skillKey": "qiyana_p",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_p/parameters",
+    "stableKey": "bonus_ad_ratio",
+    "body": {
+      "parameterKey": "bonus_ad_ratio",
+      "name": "额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.25,
+      "levelValues": null,
+      "description": "FinalDamage的mStat=2、mStatFormula=2，绑定BonusADRatio，读取来源额外攻击力。",
+      "sortOrder": 20
+    }
+  }
+}

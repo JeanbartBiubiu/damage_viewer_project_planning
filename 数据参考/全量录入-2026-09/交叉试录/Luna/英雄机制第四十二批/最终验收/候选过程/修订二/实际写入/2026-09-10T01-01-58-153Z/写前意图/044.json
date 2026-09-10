@@ -1,0 +1,43 @@
+{
+  "i": 43,
+  "intent": {
+    "sequence": 44,
+    "skillKey": "ksante_p",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/ksante_p/formulas",
+    "stableKey": "marked_attack_physical_damage",
+    "body": {
+      "formulaKey": "marked_attack_physical_damage",
+      "name": "标记消耗攻击物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "flat_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "mark_target_max_health_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "FlatDamage+当前比例×目标最大生命。",
+      "sortOrder": 10
+    }
+  }
+}

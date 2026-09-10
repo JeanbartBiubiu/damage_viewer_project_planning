@@ -1,0 +1,25 @@
+{
+  "i": 32,
+  "intent": {
+    "sequence": 33,
+    "skillKey": "qiyana_r",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_r/parameters",
+    "stableKey": "base_damage",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "惊才绝景基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 100,
+        "2": 200,
+        "3": 300
+      },
+      "description": "BaseDamage索引1至3为100/200/300。",
+      "sortOrder": 10
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "i": 137,
+  "intent": {
+    "sequence": 138,
+    "skillKey": "mel_r",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_r/parameters",
+    "stableKey": "passive_stack_base",
+    "body": {
+      "parameterKey": "passive_stack_base",
+      "name": "夺命残影每层基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 3,
+        "2": 4,
+        "3": 5
+      },
+      "description": "R等级1至3为3/4/5；未学习R索引0=2已在P保存。",
+      "sortOrder": 20
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "i": 131,
+  "intent": {
+    "sequence": 132,
+    "skillKey": "mel_e",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_e/parameters",
+    "stableKey": "area_ticks_per_second",
+    "body": {
+      "parameterKey": "area_ticks_per_second",
+      "name": "区域每秒原始跳数",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 8,
+      "levelValues": null,
+      "description": "当前根8；不把每秒值乘8。",
+      "sortOrder": 90
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "i": 21,
+  "intent": {
+    "sequence": 22,
+    "skillKey": "qiyana_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_w/parameters",
+    "stableKey": "onhit_bonus_ad_ratio",
+    "body": {
+      "parameterKey": "onhit_bonus_ad_ratio",
+      "name": "附魔攻击额外攻击力倍率",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 0.20000000298023224,
+      "levelValues": null,
+      "description": "OnHitDamage的mStat=2/formula2，读取来源额外攻击力。",
+      "sortOrder": 40
+    }
+  }
+}

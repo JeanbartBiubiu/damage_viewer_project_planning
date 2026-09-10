@@ -1,0 +1,2268 @@
+{
+  "generatedAt": "2026-09-10T01:00:27.213Z",
+  "status": "通过",
+  "candidateMathReady": true,
+  "businessMathReady": false,
+  "note": "只读取冻结候选、冻结16.17源绑定、当前中文正文与原始计算树；未调用业务接口、未执行浏览器验证、未写入业务数据。未知插值与未证mStat保持运行输入或范围记录。",
+  "candidateSha256": "71a75a0bc1f94fc7f85656db90fa4096eb1d7ad7b228179db0b7000c085fa989",
+  "candidateVersionSha256": "71a75a0bc1f94fc7f85656db90fa4096eb1d7ad7b228179db0b7000c085fa989",
+  "candidateVersionMatch": true,
+  "revision": "hero42-source-v1-root-revision-2",
+  "sourceVersion": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "candidate": {
+      "clientVersion": "16.17",
+      "officialVersion": "16.17.1",
+      "build": "16.17.8104348+branch.releases-16-17.content.release"
+    }
+  },
+  "order": [
+    "qiyana_p",
+    "qiyana_q",
+    "qiyana_w",
+    "qiyana_e",
+    "qiyana_r",
+    "ksante_p",
+    "ksante_q",
+    "ksante_w",
+    "ksante_e",
+    "ksante_r",
+    "mel_p",
+    "mel_q",
+    "mel_w",
+    "mel_e",
+    "mel_r",
+    "yunara_p",
+    "yunara_q",
+    "yunara_w",
+    "yunara_e",
+    "yunara_r"
+  ],
+  "scopeBoundaries": {
+    "clientVersion": "16.17",
+    "officialVersion": "16.17.1",
+    "characterLevelRange": [
+      1,
+      18
+    ],
+    "skillLevelRanges": [
+      {
+        "key": "qiyana_p",
+        "slot": "P",
+        "actual": 1,
+        "expected": 1,
+        "pass": true
+      },
+      {
+        "key": "qiyana_q",
+        "slot": "Q",
+        "actual": 5,
+        "expected": 5,
+        "pass": true
+      },
+      {
+        "key": "qiyana_w",
+        "slot": "W",
+        "actual": 5,
+        "expected": 5,
+        "pass": true
+      },
+      {
+        "key": "qiyana_e",
+        "slot": "E",
+        "actual": 5,
+        "expected": 5,
+        "pass": true
+      },
+      {
+        "key": "qiyana_r",
+        "slot": "R",
+        "actual": 3,
+        "expected": 3,
+        "pass": true
+      },
+      {
+        "key": "ksante_p",
+        "slot": "P",
+        "actual": 1,
+        "expected": 1,
+        "pass": true
+      },
+      {
+        "key": "ksante_q",
+        "slot": "Q",
+        "actual": 5,
+        "expected": 5,
+        "pass": true
+      },
+      {
+        "key": "ksante_w",
+        "slot": "W",
+        "actual": 5,
+        "expected": 5,
+        "pass": true
+      },
+      {
+        "key": "ksante_e",
+        "slot": "E",
+        "actual": 5,
+        "expected": 5,
+        "pass": true
+      },
+      {
+        "key": "ksante_r",
+        "slot": "R",
+        "actual": 3,
+        "expected": 3,
+        "pass": true
+      },
+      {
+        "key": "mel_p",
+        "slot": "P",
+        "actual": 1,
+        "expected": 1,
+        "pass": true
+      },
+      {
+        "key": "mel_q",
+        "slot": "Q",
+        "actual": 5,
+        "expected": 5,
+        "pass": true
+      },
+      {
+        "key": "mel_w",
+        "slot": "W",
+        "actual": 5,
+        "expected": 5,
+        "pass": true
+      },
+      {
+        "key": "mel_e",
+        "slot": "E",
+        "actual": 5,
+        "expected": 5,
+        "pass": true
+      },
+      {
+        "key": "mel_r",
+        "slot": "R",
+        "actual": 3,
+        "expected": 3,
+        "pass": true
+      },
+      {
+        "key": "yunara_p",
+        "slot": "P",
+        "actual": 1,
+        "expected": 1,
+        "pass": true
+      },
+      {
+        "key": "yunara_q",
+        "slot": "Q",
+        "actual": 5,
+        "expected": 5,
+        "pass": true
+      },
+      {
+        "key": "yunara_w",
+        "slot": "W",
+        "actual": 5,
+        "expected": 5,
+        "pass": true
+      },
+      {
+        "key": "yunara_e",
+        "slot": "E",
+        "actual": 5,
+        "expected": 5,
+        "pass": true
+      },
+      {
+        "key": "yunara_r",
+        "slot": "R",
+        "actual": 3,
+        "expected": 3,
+        "pass": true
+      }
+    ],
+    "orderCheck": {
+      "actual": [
+        "qiyana_p",
+        "qiyana_q",
+        "qiyana_w",
+        "qiyana_e",
+        "qiyana_r",
+        "ksante_p",
+        "ksante_q",
+        "ksante_w",
+        "ksante_e",
+        "ksante_r",
+        "mel_p",
+        "mel_q",
+        "mel_w",
+        "mel_e",
+        "mel_r",
+        "yunara_p",
+        "yunara_q",
+        "yunara_w",
+        "yunara_e",
+        "yunara_r"
+      ],
+      "expected": [
+        "qiyana_p",
+        "qiyana_q",
+        "qiyana_w",
+        "qiyana_e",
+        "qiyana_r",
+        "ksante_p",
+        "ksante_q",
+        "ksante_w",
+        "ksante_e",
+        "ksante_r",
+        "mel_p",
+        "mel_q",
+        "mel_w",
+        "mel_e",
+        "mel_r",
+        "yunara_p",
+        "yunara_q",
+        "yunara_w",
+        "yunara_e",
+        "yunara_r"
+      ],
+      "pass": true
+    },
+    "skippedTransformationBranches": [
+      {
+        "hero": "KSante",
+        "rawCalculations": [
+          "MaxHealthDamagePercent"
+        ],
+        "status": "仅跳过完整变形分支；基础技能伤害与护盾仍核对"
+      },
+      {
+        "hero": "Yunara",
+        "rawCalculations": [
+          "Calc_RW_Damage",
+          "Calc_RW_Slow_Amount",
+          "{42964db5}",
+          "Calc_RW_Cooldown_Reduction"
+        ],
+        "status": "完整变形R分支按范围跳过；基础P/Q/W/E仍核对"
+      }
+    ],
+    "unresolvedInterpolations": [
+      {
+        "key": "qiyana_p",
+        "parameterKey": "actual_character_level_base_damage",
+        "status": "运行输入；未猜角色等级插值"
+      },
+      {
+        "key": "qiyana_e",
+        "parameterKey": "dash_speed",
+        "status": "仅保留600到1200边界；未猜中间曲线"
+      },
+      {
+        "key": "ksante_p",
+        "parameterKey": "mark_target_max_health_ratio",
+        "status": "运行输入；仅保留1%到2%来源区间"
+      },
+      {
+        "key": "mel_p",
+        "parameterKey": "actual_character_level_passive_missile_base_damage",
+        "status": "运行输入；未猜角色等级插值"
+      }
+    ],
+    "unprovedMStatMappings": [
+      {
+        "key": "ksante_q",
+        "parameterKeys": [
+          "bonus_armor_value",
+          "bonus_magic_resistance_value"
+        ],
+        "rawMStat": [
+          1,
+          6
+        ],
+        "status": "保持运行输入；未把mStat1/6 formula2推广为全局属性映射"
+      },
+      {
+        "key": "ksante_w",
+        "parameterKeys": [
+          "bonus_armor_value",
+          "bonus_magic_resistance_value"
+        ],
+        "rawMStat": [
+          1,
+          6
+        ],
+        "status": "保持运行输入；未把mStat1/6 formula2推广为全局属性映射"
+      }
+    ]
+  },
+  "pendingConditionBindings": [
+    {
+      "key": "mel_w",
+      "formulaKey": "reflected_magic_damage",
+      "condition": "原公式仅限非物理来源",
+      "status": "来源伤害类型条件待接线"
+    },
+    {
+      "key": "mel_w",
+      "formulaKey": "reflected_physical_magic_damage",
+      "condition": "物理来源才使用1-30%转换倍率",
+      "status": "来源伤害类型条件待接线"
+    }
+  ],
+  "formulaCount": 35,
+  "caseCount": 70,
+  "expectedCasesPerFormula": 2,
+  "formulaResults": [
+    {
+      "skillKey": "qiyana_p",
+      "formulaKey": "passive_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 40.00000059604645,
+      "expected": 40.00000059604645,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_p",
+      "formulaKey": "passive_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 210.00000476837158,
+      "expected": 210.00000476837158,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_q",
+      "formulaKey": "vanilla_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 124.9999988079071,
+      "expected": 124.9999988079071,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_q",
+      "formulaKey": "vanilla_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 514.9999916553497,
+      "expected": 514.9999916553497,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_q",
+      "formulaKey": "enchanted_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 124.9999988079071,
+      "expected": 124.9999988079071,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_q",
+      "formulaKey": "enchanted_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 514.9999916553497,
+      "expected": 514.9999916553497,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_q",
+      "formulaKey": "rock_bonus_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 75.00000226497647,
+      "expected": 75.00000226497647,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_q",
+      "formulaKey": "rock_bonus_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 18,
+      "actual": 309.00000727176644,
+      "expected": 309.00000727176644,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_w",
+      "formulaKey": "onhit_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 38.49999952316284,
+      "expected": 38.49999952316284,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_w",
+      "formulaKey": "onhit_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 279.9999961256981,
+      "expected": 279.9999961256981,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_e",
+      "formulaKey": "physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 75,
+      "expected": 75,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_e",
+      "formulaKey": "physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 385,
+      "expected": 385,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_r",
+      "formulaKey": "environment_explosion_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 242.5000011920929,
+      "expected": 242.5000011920929,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "qiyana_r",
+      "formulaKey": "environment_explosion_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "characterLevel": 1,
+      "actual": 987.5000037252903,
+      "expected": 987.5000037252903,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_p",
+      "formulaKey": "marked_attack_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 19.999999821186066,
+      "expected": 19.999999821186066,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_p",
+      "formulaKey": "marked_attack_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 61.99999888241291,
+      "expected": 61.99999888241291,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_q",
+      "formulaKey": "physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 98.00000041723251,
+      "expected": 98.00000041723251,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_q",
+      "formulaKey": "physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 310.00000178813934,
+      "expected": 310.00000178813934,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_w",
+      "formulaKey": "target_max_health_damage_ratio",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.09399999785819091,
+      "expected": 0.09399999785819091,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_w",
+      "formulaKey": "target_max_health_damage_ratio",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 0.13999999669613317,
+      "expected": 0.13999999669613317,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_w",
+      "formulaKey": "charge_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 120.19999828655273,
+      "expected": 120.19999828655273,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_w",
+      "formulaKey": "charge_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 514.9999917403329,
+      "expected": 514.9999917403329,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_e",
+      "formulaKey": "self_shield_amount",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 97.0000010728836,
+      "expected": 97.0000010728836,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_e",
+      "formulaKey": "self_shield_amount",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 510.00001072883606,
+      "expected": 510.00001072883606,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_r",
+      "formulaKey": "initial_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 80,
+      "expected": 80,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_r",
+      "formulaKey": "initial_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "characterLevel": 1,
+      "actual": 150,
+      "expected": 150,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_r",
+      "formulaKey": "slam_down_physical_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 90.00000014901161,
+      "expected": 90.00000014901161,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "ksante_r",
+      "formulaKey": "slam_down_physical_damage",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "characterLevel": 1,
+      "actual": 250.00000149011612,
+      "expected": 250.00000149011612,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_p",
+      "formulaKey": "overwhelm_threshold_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 60.00000014901161,
+      "expected": 60.00000014901161,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_p",
+      "formulaKey": "overwhelm_threshold_damage",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 134.99999999254942,
+      "expected": 134.99999999254942,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_p",
+      "formulaKey": "passive_bonus_missile_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 9.999999955296516,
+      "expected": 9.999999955296516,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_p",
+      "formulaKey": "passive_bonus_missile_damage",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 18,
+      "actual": 45.99999964237213,
+      "expected": 45.99999964237213,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_q",
+      "formulaKey": "initial_explosion_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 87.50000059604645,
+      "expected": 87.50000059604645,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_q",
+      "formulaKey": "initial_explosion_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 380.0000047683716,
+      "expected": 380.0000047683716,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_q",
+      "formulaKey": "following_explosion_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 7.500000037252903,
+      "expected": 7.500000037252903,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_q",
+      "formulaKey": "following_explosion_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 33.000000298023224,
+      "expected": 33.000000298023224,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_q",
+      "formulaKey": "all_explosion_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 125.00000078231096,
+      "expected": 125.00000078231096,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_q",
+      "formulaKey": "all_explosion_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 677.0000074505806,
+      "expected": 677.0000074505806,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_w",
+      "formulaKey": "self_shield_amount",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 114.99999940395355,
+      "expected": 114.99999940395355,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_w",
+      "formulaKey": "self_shield_amount",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 479.9999952316284,
+      "expected": 479.9999952316284,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_w",
+      "formulaKey": "reflected_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 40.00000059604645,
+      "expected": 40.00000059604645,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_w",
+      "formulaKey": "reflected_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 800.0000333413482,
+      "expected": 800.0000333413482,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_w",
+      "formulaKey": "reflected_physical_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 27.999999940395348,
+      "expected": 27.999999940395348,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_w",
+      "formulaKey": "reflected_physical_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 560.0000138022002,
+      "expected": 560.0000138022002,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_e",
+      "formulaKey": "center_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 94.99999940395355,
+      "expected": 94.99999940395355,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_e",
+      "formulaKey": "center_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 519.9999952316284,
+      "expected": 519.9999952316284,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_e",
+      "formulaKey": "area_damage_per_second",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 19.999999910593033,
+      "expected": 19.999999910593033,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_e",
+      "formulaKey": "area_damage_per_second",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 95.99999928474426,
+      "expected": 95.99999928474426,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_r",
+      "formulaKey": "passive_flat_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 65.0000000745058,
+      "expected": 65.0000000745058,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_r",
+      "formulaKey": "passive_flat_damage",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "characterLevel": 1,
+      "actual": 120.00000059604645,
+      "expected": 120.00000059604645,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_r",
+      "formulaKey": "passive_stack_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 3.374999991618097,
+      "expected": 3.374999991618097,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_r",
+      "formulaKey": "passive_stack_damage",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "characterLevel": 1,
+      "actual": 7.999999932944775,
+      "expected": 7.999999932944775,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_r",
+      "formulaKey": "ult_flat_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 140.00000059604645,
+      "expected": 140.00000059604645,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_r",
+      "formulaKey": "ult_flat_damage",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "characterLevel": 1,
+      "actual": 395.0000047683716,
+      "expected": 395.0000047683716,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_r",
+      "formulaKey": "ult_stack_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 5.999999955296516,
+      "expected": 5.999999955296516,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "mel_r",
+      "formulaKey": "ult_stack_damage",
+      "caseIndex": 2,
+      "skillLevel": 3,
+      "characterLevel": 1,
+      "actual": 25.99999964237213,
+      "expected": 25.99999964237213,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_p",
+      "formulaKey": "critical_extra_damage_ratio",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.10000000149011612,
+      "expected": 0.10000000149011612,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_p",
+      "formulaKey": "critical_extra_damage_ratio",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 0.5000000204890966,
+      "expected": 0.5000000204890966,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_p",
+      "formulaKey": "critical_extra_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 10.000000149011612,
+      "expected": 10.000000149011612,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_p",
+      "formulaKey": "critical_extra_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 500.00002048909664,
+      "expected": 500.00002048909664,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_q",
+      "formulaKey": "passive_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 15.000000149011612,
+      "expected": 15.000000149011612,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_q",
+      "formulaKey": "passive_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 105.0000011920929,
+      "expected": 105.0000011920929,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_q",
+      "formulaKey": "active_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 15.000000149011612,
+      "expected": 15.000000149011612,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_q",
+      "formulaKey": "active_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 105.0000011920929,
+      "expected": 105.0000011920929,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_w",
+      "formulaKey": "initial_magic_damage",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 114.00000095367432,
+      "expected": 114.00000095367432,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_w",
+      "formulaKey": "initial_magic_damage",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 670.0000071525574,
+      "expected": 670.0000071525574,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_w",
+      "formulaKey": "damage_per_second",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 68.40000329017641,
+      "expected": 68.40000329017641,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_w",
+      "formulaKey": "damage_per_second",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 402.0000202655794,
+      "expected": 402.0000202655794,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_e",
+      "formulaKey": "enemy_directed_move_speed",
+      "caseIndex": 1,
+      "skillLevel": 1,
+      "characterLevel": 1,
+      "actual": 45.00000178813934,
+      "expected": 45.00000178813934,
+      "pass": true,
+      "evaluationError": null
+    },
+    {
+      "skillKey": "yunara_e",
+      "formulaKey": "enemy_directed_move_speed",
+      "caseIndex": 2,
+      "skillLevel": 5,
+      "characterLevel": 1,
+      "actual": 75,
+      "expected": 75,
+      "pass": true,
+      "evaluationError": null
+    }
+  ],
+  "formulaPassCount": 70,
+  "formulaFailCount": 0,
+  "missingInputChecks": [
+    {
+      "key": "qiyana_p",
+      "formulaKey": "passive_physical_damage",
+      "parameterKey": "actual_character_level_base_damage",
+      "rejected": true
+    },
+    {
+      "key": "qiyana_q",
+      "formulaKey": "rock_bonus_physical_damage",
+      "parameterKey": "rock_damage_multiplier",
+      "rejected": true
+    },
+    {
+      "key": "ksante_p",
+      "formulaKey": "marked_attack_physical_damage",
+      "parameterKey": "mark_target_max_health_ratio",
+      "rejected": true
+    },
+    {
+      "key": "ksante_q",
+      "formulaKey": "physical_damage",
+      "parameterKey": "bonus_armor_value",
+      "rejected": true
+    },
+    {
+      "key": "ksante_q",
+      "formulaKey": "physical_damage",
+      "parameterKey": "bonus_magic_resistance_value",
+      "rejected": true
+    },
+    {
+      "key": "ksante_w",
+      "formulaKey": "target_max_health_damage_ratio",
+      "parameterKey": "bonus_armor_value",
+      "rejected": true
+    },
+    {
+      "key": "ksante_w",
+      "formulaKey": "target_max_health_damage_ratio",
+      "parameterKey": "bonus_magic_resistance_value",
+      "rejected": true
+    },
+    {
+      "key": "ksante_w",
+      "formulaKey": "charge_physical_damage",
+      "parameterKey": "bonus_armor_value",
+      "rejected": true
+    },
+    {
+      "key": "ksante_w",
+      "formulaKey": "charge_physical_damage",
+      "parameterKey": "bonus_magic_resistance_value",
+      "rejected": true
+    },
+    {
+      "key": "mel_p",
+      "formulaKey": "overwhelm_threshold_damage",
+      "parameterKey": "overwhelm_stack_count",
+      "rejected": true
+    },
+    {
+      "key": "mel_p",
+      "formulaKey": "passive_bonus_missile_damage",
+      "parameterKey": "actual_character_level_passive_missile_base_damage",
+      "rejected": true
+    },
+    {
+      "key": "mel_w",
+      "formulaKey": "reflected_magic_damage",
+      "parameterKey": "actual_reflected_source_damage",
+      "rejected": true
+    },
+    {
+      "key": "mel_w",
+      "formulaKey": "reflected_physical_magic_damage",
+      "parameterKey": "actual_reflected_source_damage",
+      "rejected": true
+    },
+    {
+      "key": "yunara_p",
+      "formulaKey": "critical_extra_magic_damage",
+      "parameterKey": "actual_critical_damage_base",
+      "rejected": true
+    }
+  ],
+  "missingInputCaseCount": 14,
+  "missingInputRejectedCount": 14,
+  "sourceChecks": {
+    "levelParameters": 27,
+    "levelValues": 121,
+    "levelArrayFailures": [],
+    "fixedParameters": 111,
+    "fixedFailures": [],
+    "fixedSourceProofs": 111,
+    "textBindings": 20,
+    "textBindingFailures": [],
+    "textConsumerChecks": 67,
+    "textConsumerFailures": [],
+    "currentTreeCoverage": 58,
+    "currentTreeCoverageFailures": [],
+    "narrowAttributeChecks": [
+      {
+        "key": "ksante_e",
+        "formulaKey": "self_shield_amount",
+        "attribute": "SOURCE.hp.BONUS",
+        "rawMStat": 12,
+        "rawMStatFormula": 2,
+        "status": "窄证允许，未推广全部属性枚举"
+      },
+      {
+        "key": "ksante_r",
+        "formulaKey": "slam_down_physical_damage",
+        "attribute": "SOURCE.hp.BONUS",
+        "rawMStat": 12,
+        "rawMStatFormula": 2,
+        "status": "窄证允许，未推广全部属性枚举"
+      }
+    ],
+    "unprovedAttributeMappings": [
+      {
+        "key": "ksante_q",
+        "parameterKeys": [
+          "bonus_armor_value",
+          "bonus_magic_resistance_value"
+        ],
+        "rawMStat": [
+          1,
+          6
+        ],
+        "status": "保持运行输入；未把mStat1/6 formula2推广为全局属性映射"
+      },
+      {
+        "key": "ksante_w",
+        "parameterKeys": [
+          "bonus_armor_value",
+          "bonus_magic_resistance_value"
+        ],
+        "rawMStat": [
+          1,
+          6
+        ],
+        "status": "保持运行输入；未把mStat1/6 formula2推广为全局属性映射"
+      }
+    ]
+  },
+  "fixedChecks": [
+    {
+      "key": "qiyana_p",
+      "parameterKey": "bonus_ad_ratio",
+      "actual": 0.25,
+      "expected": 0.25,
+      "source": "Qiyana/P DataValues.BonusADRatio[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_p",
+      "parameterKey": "ap_ratio",
+      "actual": 0.30000001192092896,
+      "expected": 0.30000001192092896,
+      "source": "Qiyana/P DataValues.APRatio[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_p",
+      "parameterKey": "per_target_cooldown_ms",
+      "actual": 25000,
+      "expected": 25000,
+      "source": "Qiyana/P 当前中文正文25秒",
+      "pass": true
+    },
+    {
+      "key": "qiyana_q",
+      "parameterKey": "bonus_ad_ratio",
+      "actual": 0.8999999761581421,
+      "expected": 0.8999999761581421,
+      "source": "Qiyana/Q EnchantedDamage.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "qiyana_q",
+      "parameterKey": "ice_root_duration_ms",
+      "actual": 500,
+      "expected": 500,
+      "source": "Qiyana/Q DataValues.RootDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_q",
+      "parameterKey": "ice_slow_percent_points",
+      "actual": 20.000000298023224,
+      "expected": 20.000000298023224,
+      "source": "Qiyana/Q DataValues.SlowPotency[0] 取正文正百分数点",
+      "pass": true
+    },
+    {
+      "key": "qiyana_q",
+      "parameterKey": "ice_slow_duration_ms",
+      "actual": 1000,
+      "expected": 1000,
+      "source": "Qiyana/Q DataValues.SlowDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_q",
+      "parameterKey": "wildwood_stealth_duration_ms",
+      "actual": 3000,
+      "expected": 3000,
+      "source": "Qiyana/Q DataValues.StealthDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_q",
+      "parameterKey": "wildwood_move_speed_percent_points",
+      "actual": 20.000000298023224,
+      "expected": 20.000000298023224,
+      "source": "Qiyana/Q DataValues.Haste[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_q",
+      "parameterKey": "rock_execute_threshold_percent_points",
+      "actual": 50,
+      "expected": 50,
+      "source": "Qiyana/Q DataValues.CritThreshold[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_q",
+      "parameterKey": "rock_explosion_delay_ms",
+      "actual": 400,
+      "expected": 400,
+      "source": "Qiyana/Q DataValues.RockExplosionDelay[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_w",
+      "parameterKey": "onhit_ap_ratio",
+      "actual": 0.44999998807907104,
+      "expected": 0.44999998807907104,
+      "source": "Qiyana/W OnHitDamage.mFormulaParts[1].mDataValue",
+      "pass": true
+    },
+    {
+      "key": "qiyana_w",
+      "parameterKey": "onhit_bonus_ad_ratio",
+      "actual": 0.20000000298023224,
+      "expected": 0.20000000298023224,
+      "source": "Qiyana/W OnHitDamage.mFormulaParts[2].mDataValue",
+      "pass": true
+    },
+    {
+      "key": "qiyana_w",
+      "parameterKey": "terrain_distance",
+      "actual": 425,
+      "expected": 425,
+      "source": "Qiyana/W DataValues.Range[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_w",
+      "parameterKey": "dash_distance",
+      "actual": 300,
+      "expected": 300,
+      "source": "Qiyana/W DataValues.TravelDistance[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_w",
+      "parameterKey": "dash_speed",
+      "actual": 440,
+      "expected": 440,
+      "source": "Qiyana/W DataValues.DashSpeed[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_e",
+      "parameterKey": "bonus_ad_ratio",
+      "actual": 0.5,
+      "expected": 0.5,
+      "source": "Qiyana/E Damage.mFormulaParts[1].mDataValue",
+      "pass": true
+    },
+    {
+      "key": "qiyana_e",
+      "parameterKey": "dash_speed_min",
+      "actual": 600,
+      "expected": 600,
+      "source": "Qiyana/E DataValues.DashSpeed[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_e",
+      "parameterKey": "dash_speed_max",
+      "actual": 1200,
+      "expected": 1200,
+      "source": "Qiyana/E DataValues.DashSpeedMax[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_r",
+      "parameterKey": "bonus_ad_ratio",
+      "actual": 1.25,
+      "expected": 1.25,
+      "source": "Qiyana/R Damage.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "qiyana_r",
+      "parameterKey": "target_max_health_ratio",
+      "actual": 0.10000000149011612,
+      "expected": 0.10000000149011612,
+      "source": "Qiyana/R DataValues.PercentHPDamageBaseRock[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_r",
+      "parameterKey": "stun_duration_min_ms",
+      "actual": 500,
+      "expected": 500,
+      "source": "Qiyana/R DataValues.StunDurationMin[0]",
+      "pass": true
+    },
+    {
+      "key": "qiyana_r",
+      "parameterKey": "stun_duration_max_ms",
+      "actual": 1000,
+      "expected": 1000,
+      "source": "Qiyana/R DataValues.StunDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_p",
+      "parameterKey": "mark_duration_ms",
+      "actual": 4000,
+      "expected": 4000,
+      "source": "KSante/P DataValues.MarkDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_p",
+      "parameterKey": "flat_damage",
+      "actual": 12,
+      "expected": 12,
+      "source": "KSante/P DataValues.FlatDamage[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_p",
+      "parameterKey": "mark_target_max_health_ratio_min",
+      "actual": 0.009999999776482582,
+      "expected": 0.009999999776482582,
+      "source": "KSante/P DataValues.MarkDamagePercentMin[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_p",
+      "parameterKey": "mark_target_max_health_ratio_max",
+      "actual": 0.019999999552965164,
+      "expected": 0.019999999552965164,
+      "source": "KSante/P DataValues.MarkDamagePercentMax[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_q",
+      "parameterKey": "bonus_armor_ratio",
+      "actual": 0.4000000059604645,
+      "expected": 0.4000000059604645,
+      "source": "KSante/Q BaseDamage.mFormulaParts[1].mCoefficient (mStat=1，属性仍为运行输入)",
+      "pass": true
+    },
+    {
+      "key": "ksante_q",
+      "parameterKey": "bonus_magic_resistance_ratio",
+      "actual": 0.4000000059604645,
+      "expected": 0.4000000059604645,
+      "source": "KSante/Q BaseDamage.mFormulaParts[2].mCoefficient (mStat=6，属性仍为运行输入)",
+      "pass": true
+    },
+    {
+      "key": "ksante_q",
+      "parameterKey": "slow_percent_points",
+      "actual": 80.0000011920929,
+      "expected": 80.0000011920929,
+      "source": "KSante/Q DataValues.SlowPercent[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_q",
+      "parameterKey": "slow_duration_ms",
+      "actual": 500,
+      "expected": 500,
+      "source": "KSante/Q DataValues.SlowDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_q",
+      "parameterKey": "recast_window_ms",
+      "actual": 6000,
+      "expected": 6000,
+      "source": "KSante/Q DataValues.RecastWindow[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_q",
+      "parameterKey": "stun_duration_ms",
+      "actual": 1000,
+      "expected": 1000,
+      "source": "KSante/Q DataValues.StunDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_q",
+      "parameterKey": "q3_knockup_duration_ms",
+      "actual": 650,
+      "expected": 650,
+      "source": "KSante/Q DataValues.KnockupDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_q",
+      "parameterKey": "defense_cap",
+      "actual": 120,
+      "expected": 120,
+      "source": "KSante/Q DataValues.DefenseCapforCooldown[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_q",
+      "parameterKey": "cast_time_min_ms",
+      "actual": 350,
+      "expected": 350,
+      "source": "KSante/Q DataValues.MinCastTime[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_q",
+      "parameterKey": "cast_time_max_ms",
+      "actual": 450,
+      "expected": 450,
+      "source": "KSante/Q DataValues.MaxCastTime[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_w",
+      "parameterKey": "target_max_health_base_ratio",
+      "actual": 0.07999999821186066,
+      "expected": 0.07999999821186066,
+      "source": "KSante/W DataValues.MaxHealthDamage[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_w",
+      "parameterKey": "bonus_armor_ratio",
+      "actual": 0.00019999999494757503,
+      "expected": 0.00019999999494757503,
+      "source": "KSante/W TotalMaxHealthDamage.mFormulaParts[1].mDataValue",
+      "pass": true
+    },
+    {
+      "key": "ksante_w",
+      "parameterKey": "bonus_magic_resistance_ratio",
+      "actual": 0.00019999999494757503,
+      "expected": 0.00019999999494757503,
+      "source": "KSante/W TotalMaxHealthDamage.mFormulaParts[2].mDataValue",
+      "pass": true
+    },
+    {
+      "key": "ksante_w",
+      "parameterKey": "charge_min_duration_ms",
+      "actual": 400,
+      "expected": 400,
+      "source": "KSante/W DataValues.MinChargeTime[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_w",
+      "parameterKey": "charge_max_duration_ms",
+      "actual": 1000,
+      "expected": 1000,
+      "source": "KSante/W DataValues.MaxDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_w",
+      "parameterKey": "full_effect_charge_percent_points",
+      "actual": 89.99999761581421,
+      "expected": 89.99999761581421,
+      "source": "KSante/W DataValues.TimeToFullCharge[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_w",
+      "parameterKey": "self_damage_reduction_percent_points",
+      "actual": 30.000001192092896,
+      "expected": 30.000001192092896,
+      "source": "KSante/W DataValues.DamageReduction[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_w",
+      "parameterKey": "knockback_stun_min_ms",
+      "actual": 500,
+      "expected": 500,
+      "source": "KSante/W DataValues.MinKnockbackDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_w",
+      "parameterKey": "knockback_stun_max_ms",
+      "actual": 1750,
+      "expected": 1750,
+      "source": "KSante/W DataValues.MaxKnockbackDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_w",
+      "parameterKey": "dash_speed_base",
+      "actual": 1400,
+      "expected": 1400,
+      "source": "KSante/W DataValues.DashSpeedBase[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_w",
+      "parameterKey": "dash_distance_min",
+      "actual": 100,
+      "expected": 100,
+      "source": "KSante/W DataValues.MinDashBase[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_w",
+      "parameterKey": "dash_distance_max",
+      "actual": 450,
+      "expected": 450,
+      "source": "KSante/W DataValues.MaxDashBase[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_e",
+      "parameterKey": "bonus_hp_ratio",
+      "actual": 0.13500000536441803,
+      "expected": 0.13500000536441803,
+      "source": "KSante/E TotalShield.mFormulaParts[1].mDataValue (mStat=12/formula2，窄证)",
+      "pass": true
+    },
+    {
+      "key": "ksante_e",
+      "parameterKey": "shield_duration_ms",
+      "actual": 2000,
+      "expected": 2000,
+      "source": "KSante/E DataValues.ShieldDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_e",
+      "parameterKey": "free_dash_range",
+      "actual": 250,
+      "expected": 250,
+      "source": "KSante/E DataValues.FreeTargetRangeBase[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_e",
+      "parameterKey": "free_dash_speed",
+      "actual": 550,
+      "expected": 550,
+      "source": "KSante/E DataValues.FreeTargetSpeedBase[0]",
+      "pass": true
+    },
+    {
+      "key": "ksante_r",
+      "parameterKey": "slam_bonus_hp_ratio",
+      "actual": 0.05000000074505806,
+      "expected": 0.05000000074505806,
+      "source": "KSante/R TotalDamageSlamDown.mFormulaParts[1].mCoefficient (mStat=12/formula2，窄证)",
+      "pass": true
+    },
+    {
+      "key": "ksante_r",
+      "parameterKey": "cast_time_ms",
+      "actual": 400,
+      "expected": 400,
+      "source": "KSante/R spellCastTime 与 mCastTime 均为0.4秒",
+      "pass": true
+    },
+    {
+      "key": "mel_p",
+      "parameterKey": "overwhelm_duration_ms",
+      "actual": 5000,
+      "expected": 5000,
+      "source": "Mel/P DataValues.OverwhelmDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_p",
+      "parameterKey": "bonus_attack_duration_ms",
+      "actual": 5000,
+      "expected": 5000,
+      "source": "Mel/P DataValues.BonusAttackDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_p",
+      "parameterKey": "passive_bonus_missiles",
+      "actual": 3,
+      "expected": 3,
+      "source": "Mel/P DataValues.PassiveBonusMissiles[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_p",
+      "parameterKey": "max_passive_bonus_missiles",
+      "actual": 9,
+      "expected": 9,
+      "source": "Mel/P DataValues.MaxPassiveBonusMissiles[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_p",
+      "parameterKey": "unlearned_r_flat_ap_ratio",
+      "actual": 0.10000000149011612,
+      "expected": 0.10000000149011612,
+      "source": "Mel/R完整平项法强系数，零级仍消费",
+      "pass": true
+    },
+    {
+      "key": "mel_p",
+      "parameterKey": "unlearned_r_stack_ap_ratio",
+      "actual": 0.007499999832361937,
+      "expected": 0.007499999832361937,
+      "source": "Mel/R完整每层法强系数，零级仍消费",
+      "pass": true
+    },
+    {
+      "key": "mel_p",
+      "parameterKey": "unlearned_r_passive_flat_damage",
+      "actual": 50,
+      "expected": 50,
+      "source": "Mel/R 零级索引0 BasePassiveFlatDamage",
+      "pass": true
+    },
+    {
+      "key": "mel_p",
+      "parameterKey": "unlearned_r_passive_stack_damage",
+      "actual": 2,
+      "expected": 2,
+      "source": "Mel/R 零级索引0 BasePassiveStackDamage",
+      "pass": true
+    },
+    {
+      "key": "mel_p",
+      "parameterKey": "passive_missile_ap_ratio",
+      "actual": 0.03999999910593033,
+      "expected": 0.03999999910593033,
+      "source": "Mel/P PassiveBonusMissileDamage.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "mel_q",
+      "parameterKey": "initial_ap_ratio",
+      "actual": 0.550000011920929,
+      "expected": 0.550000011920929,
+      "source": "Mel/Q InitialExplosionDamage.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "mel_q",
+      "parameterKey": "following_ap_ratio",
+      "actual": 0.05000000074505806,
+      "expected": 0.05000000074505806,
+      "source": "Mel/Q TotalExplosionDamage.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "mel_q",
+      "parameterKey": "channel_duration_ms",
+      "actual": 500,
+      "expected": 500,
+      "source": "Mel/Q DataValues.ChannelDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_q",
+      "parameterKey": "unit_count",
+      "actual": 1,
+      "expected": 1,
+      "source": "Mel/Q AllDamageHit 第二项 ExplosionCount−1",
+      "pass": true
+    },
+    {
+      "key": "mel_w",
+      "parameterKey": "shield_duration_ms",
+      "actual": 750,
+      "expected": 750,
+      "source": "Mel/W DataValues.Duration[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_w",
+      "parameterKey": "shield_ap_ratio",
+      "actual": 0.699999988079071,
+      "expected": 0.699999988079071,
+      "source": "Mel/W ShieldAmount.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "mel_w",
+      "parameterKey": "move_speed_percent_points",
+      "actual": 40.00000059604645,
+      "expected": 40.00000059604645,
+      "source": "Mel/W DataValues.MoveSpeed[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_w",
+      "parameterKey": "move_speed_duration_ms",
+      "actual": 750,
+      "expected": 750,
+      "source": "Mel/W DataValues.MoveSpeedDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_w",
+      "parameterKey": "physical_to_magic_reduction_percent_points",
+      "actual": 30.000001192092896,
+      "expected": 30.000001192092896,
+      "source": "Mel/W DataValues.PhysDamageMod[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_w",
+      "parameterKey": "reflected_damage_ap_ratio",
+      "actual": 0.0005000000237487257,
+      "expected": 0.0005000000237487257,
+      "source": "Mel/W DamagePercent.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "mel_w",
+      "parameterKey": "physical_to_magic_multiplier",
+      "actual": 0.699999988079071,
+      "expected": 0.699999988079071,
+      "source": "Mel/W 物理来源反射倍率=1-PhysDamageMod[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_e",
+      "parameterKey": "center_ap_ratio",
+      "actual": 0.699999988079071,
+      "expected": 0.699999988079071,
+      "source": "Mel/E Damage.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "mel_e",
+      "parameterKey": "area_ap_ratio",
+      "actual": 0.07999999821186066,
+      "expected": 0.07999999821186066,
+      "source": "Mel/E AreaDamagePerSecond.mFormulaParts[1].mDataValue",
+      "pass": true
+    },
+    {
+      "key": "mel_e",
+      "parameterKey": "root_duration_ms",
+      "actual": 1500,
+      "expected": 1500,
+      "source": "Mel/E DataValues.RootDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_e",
+      "parameterKey": "area_slow_percent_points",
+      "actual": 30.000001192092896,
+      "expected": 30.000001192092896,
+      "source": "Mel/E DataValues.AreaSlowAmount[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_e",
+      "parameterKey": "area_slow_duration_ms",
+      "actual": 250,
+      "expected": 250,
+      "source": "Mel/E DataValues.AreaSlowDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_e",
+      "parameterKey": "area_dot_duration_ms",
+      "actual": 500,
+      "expected": 500,
+      "source": "Mel/E DataValues.DoTDuration[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_e",
+      "parameterKey": "area_ticks_per_second",
+      "actual": 8,
+      "expected": 8,
+      "source": "Mel/E DataValues.AreaTicksPerSecond[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_e",
+      "parameterKey": "max_area_radius",
+      "actual": 230,
+      "expected": 230,
+      "source": "Mel/E DataValues.MaxAreaRadius[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_e",
+      "parameterKey": "area_expand_duration_ms",
+      "actual": 500,
+      "expected": 500,
+      "source": "Mel/E DataValues.TimeToMaxRadius[0]",
+      "pass": true
+    },
+    {
+      "key": "mel_r",
+      "parameterKey": "passive_flat_ap_ratio",
+      "actual": 0.10000000149011612,
+      "expected": 0.10000000149011612,
+      "source": "Mel/R PassiveFlatDamage.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "mel_r",
+      "parameterKey": "passive_stack_ap_ratio",
+      "actual": 0.007499999832361937,
+      "expected": 0.007499999832361937,
+      "source": "Mel/R PassiveStackDamage.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "mel_r",
+      "parameterKey": "ult_flat_ap_ratio",
+      "actual": 0.30000001192092896,
+      "expected": 0.30000001192092896,
+      "source": "Mel/R UltFlatDamage.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "mel_r",
+      "parameterKey": "ult_stack_ap_ratio",
+      "actual": 0.03999999910593033,
+      "expected": 0.03999999910593033,
+      "source": "Mel/R UltStackDamage.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "mel_r",
+      "parameterKey": "disintegrate_delay_ms",
+      "actual": 900,
+      "expected": 900,
+      "source": "Mel/R DataValues.DisintegrateDelay[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_p",
+      "parameterKey": "critical_extra_damage_base_ratio",
+      "actual": 0.10000000149011612,
+      "expected": 0.10000000149011612,
+      "source": "Yunara/P Calc_Damage_Amp.mFormulaParts[0].mNumber",
+      "pass": true
+    },
+    {
+      "key": "yunara_p",
+      "parameterKey": "critical_extra_damage_ap_ratio",
+      "actual": 0.0010000000474974513,
+      "expected": 0.0010000000474974513,
+      "source": "Yunara/P Calc_Damage_Amp.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "yunara_q",
+      "parameterKey": "resource_max",
+      "actual": 8,
+      "expected": 8,
+      "source": "Yunara/Q DataValues.Resource_Max[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_q",
+      "parameterKey": "resource_champion_gain",
+      "actual": 2,
+      "expected": 2,
+      "source": "Yunara/Q DataValues.Resource_Champion[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_q",
+      "parameterKey": "resource_duration_ms",
+      "actual": 6000,
+      "expected": 6000,
+      "source": "Yunara/Q DataValues.Resource_Duration[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_q",
+      "parameterKey": "resource_loss_interval_ms",
+      "actual": 500,
+      "expected": 500,
+      "source": "Yunara/Q DataValues.Resource_Loss_Interval[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_q",
+      "parameterKey": "resource_loss_amount",
+      "actual": 1,
+      "expected": 1,
+      "source": "Yunara/Q DataValues.Resource_Loss[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_q",
+      "parameterKey": "active_resource_cost",
+      "actual": 8,
+      "expected": 8,
+      "source": "Yunara/Q 当前主动消耗8层与Resource_Max[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_q",
+      "parameterKey": "active_buff_duration_ms",
+      "actual": 5000,
+      "expected": 5000,
+      "source": "Yunara/Q DataValues.Buff_Duration[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_q",
+      "parameterKey": "passive_ap_ratio",
+      "actual": 0.20000000298023224,
+      "expected": 0.20000000298023224,
+      "source": "Yunara/Q Calc_Passive_Damage.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "yunara_q",
+      "parameterKey": "active_ap_ratio",
+      "actual": 0.20000000298023224,
+      "expected": 0.20000000298023224,
+      "source": "Yunara/Q Calc_Damage.mFormulaParts[1].mCoefficient",
+      "pass": true
+    },
+    {
+      "key": "yunara_w",
+      "parameterKey": "bonus_ad_ratio",
+      "actual": 0.8500000238418579,
+      "expected": 0.8500000238418579,
+      "source": "Yunara/W Calc_Damage_Initial.mFormulaParts[1].mDataValue",
+      "pass": true
+    },
+    {
+      "key": "yunara_w",
+      "parameterKey": "ap_ratio",
+      "actual": 0.5,
+      "expected": 0.5,
+      "source": "Yunara/W Calc_Damage_Initial.mFormulaParts[2].mDataValue",
+      "pass": true
+    },
+    {
+      "key": "yunara_w",
+      "parameterKey": "dps_modifier",
+      "actual": 0.6000000238418579,
+      "expected": 0.6000000238418579,
+      "source": "Yunara/W Calc_Damage_Per_Second.mMultiplier.mDataValue",
+      "pass": true
+    },
+    {
+      "key": "yunara_w",
+      "parameterKey": "slow_percent_points",
+      "actual": 99.00000095367432,
+      "expected": 99.00000095367432,
+      "source": "Yunara/W DataValues.Slow_Amount[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_w",
+      "parameterKey": "slow_duration_ms",
+      "actual": 1500,
+      "expected": 1500,
+      "source": "Yunara/W DataValues.Slow_Duration[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_w",
+      "parameterKey": "linger_duration_ms",
+      "actual": 1000,
+      "expected": 1000,
+      "source": "Yunara/W DataValues.Linger_Duration[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_w",
+      "parameterKey": "cast_time_base_ms",
+      "actual": 450,
+      "expected": 450,
+      "source": "Yunara/W DataValues.Cast_Time_Base[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_w",
+      "parameterKey": "cast_time_min_ms",
+      "actual": 225,
+      "expected": 225,
+      "source": "Yunara/W DataValues.Cast_Time_Min[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_w",
+      "parameterKey": "cast_time_attack_speed_cap_percent_points",
+      "actual": 100,
+      "expected": 100,
+      "source": "Yunara/W DataValues.Cast_Time_Attack_Speed_Cap[0]",
+      "pass": true
+    },
+    {
+      "key": "yunara_e",
+      "parameterKey": "enemy_directed_move_speed_multiplier",
+      "actual": 1.5,
+      "expected": 1.5,
+      "source": "Yunara/E Calc_Move_Speed_Enhanced.mMultiplier.mDataValue",
+      "pass": true
+    },
+    {
+      "key": "yunara_e",
+      "parameterKey": "buff_duration_ms",
+      "actual": 1500,
+      "expected": 1500,
+      "source": "Yunara/E DataValues.Buff_Duration[0]",
+      "pass": true
+    }
+  ],
+  "effectAudit": {
+    "candidateEffectCount": 0,
+    "candidateEffectResultCount": 0,
+    "finalMultiplierChecks": 0,
+    "ratioFlatAddChecks": 0,
+    "status": "无新增效果，最终倍率与属性平加区不适用；仅做空集合检查",
+    "checks": []
+  },
+  "structural": {
+    "formulaCount": 35,
+    "binaryOperations": 100,
+    "invalidOperations": 0,
+    "unknownOperations": 0,
+    "formulaReferenceNodes": 0,
+    "missingReferences": 0,
+    "runtimeWithoutDefault": 14,
+    "integerParameters": 84,
+    "integerValues": 153,
+    "invalidIntegerValues": 0,
+    "effectCount": 0,
+    "effectResultCount": 0,
+    "forbiddenResults": 0
+  },
+  "coverage": {
+    "qiyana_p": {
+      "FinalDamage": "selected",
+      "ICD": "excluded_unconsumed",
+      "{222614ec}": "excluded_unconsumed"
+    },
+    "qiyana_q": {
+      "EnchantedDamage": "selected",
+      "VanillaDamage": "selected",
+      "TremorDamage": "selected",
+      "{7dc40c72}": "excluded_unconsumed",
+      "FalloffDamage": "excluded_extra_target",
+      "EnchantedFalloff": "excluded_extra_target",
+      "VanillaFalloff": "excluded_extra_target"
+    },
+    "qiyana_w": {
+      "CleaveDamage": "excluded_unconsumed",
+      "TremorDamage": "excluded_unconsumed",
+      "OnHitDamage": "selected"
+    },
+    "qiyana_e": {
+      "Damage": "selected"
+    },
+    "qiyana_r": {
+      "Damage": "selected",
+      "MissingHealthDamageRock": "represented_parameter",
+      "MonsterCap": "excluded_monster"
+    },
+    "ksante_p": {
+      "{281dd874}": "excluded_unconsumed",
+      "PercentHealthDamage": "runtime_range",
+      "MaxHealthDamagePercent": "excluded_transformation"
+    },
+    "ksante_q": {
+      "BaseDamage": "selected",
+      "{9c9367bc}": "excluded_unconsumed"
+    },
+    "ksante_w": {
+      "TotalMaxHealthDamage": "selected"
+    },
+    "ksante_e": {
+      "TotalShield": "selected"
+    },
+    "ksante_r": {
+      "TotalDamageSlamDown": "selected"
+    },
+    "mel_p": {
+      "PassiveBonusMissileDamage": "selected"
+    },
+    "mel_q": {
+      "TotalExplosionDamage": "selected",
+      "AllDamageHit": "selected_tooltip_only",
+      "MonsterModTooltip": "excluded_monster",
+      "InitialExplosionDamage": "selected"
+    },
+    "mel_w": {
+      "DamagePercent": "represented_parameter",
+      "ShieldAmount": "selected"
+    },
+    "mel_e": {
+      "Damage": "selected",
+      "AreaDamagePerSecond": "selected",
+      "MinionModTooltip": "excluded_monster"
+    },
+    "mel_r": {
+      "PassiveStackDamage": "selected",
+      "PassiveFlatDamage": "selected",
+      "UltStackDamage": "selected",
+      "UltFlatDamage": "selected",
+      "MinionModTooltip": "excluded_monster"
+    },
+    "yunara_p": {
+      "Calc_Damage_Amp": "selected"
+    },
+    "yunara_q": {
+      "Calc_Passive_Damage": "selected",
+      "Calc_Attack_Speed": "represented_parameter",
+      "Calc_Damage": "selected",
+      "Calc_Damage_Spread": "excluded_extra_target",
+      "Calc_Minion_Execute_Threshold": "excluded_monster",
+      "Calc_Minion_Execute_Amp": "excluded_monster"
+    },
+    "yunara_w": {
+      "Calc_Damage_Initial": "selected",
+      "Calc_Damage_Per_Second": "selected_tooltip_only",
+      "{669adf33}": "excluded_monster",
+      "Calc_Slow": "represented_parameter",
+      "Calc_Minion_Damage_Mod": "excluded_monster"
+    },
+    "yunara_e": {
+      "Calc_Move_Speed": "selected_parameter",
+      "Calc_Move_Speed_Enhanced": "selected"
+    },
+    "yunara_r": {
+      "Calc_RW_Damage": "excluded_transformation",
+      "Calc_RW_Slow_Amount": "excluded_transformation",
+      "{42964db5}": "excluded_transformation",
+      "Calc_RW_Cooldown_Reduction": "excluded_transformation"
+    }
+  },
+  "explicitCandidateGaps": [],
+  "issues": [],
+  "inputHashes": {
+    "candidate": "71a75a0bc1f94fc7f85656db90fa4096eb1d7ad7b228179db0b7000c085fa989",
+    "binding": "64c0cd621211412d4023125ec55f0ed6ba04460c0cdd74601d387cbf393bdb43",
+    "scope": "4f7dc319148bbfa4aaa414c2f2ec7103f5ac215e766c10dcdf8ff23cae58884b",
+    "sourceNote": "c3cf3231d0d5b4923a3dafe873428586a4bf2c915cfa52ae965a18b361640ed0"
+  },
+  "apiCalls": 0,
+  "apiWrites": 0,
+  "browserCalls": 0,
+  "businessWrites": 0
+}

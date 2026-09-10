@@ -1,0 +1,27 @@
+{
+  "i": 5,
+  "intent": {
+    "sequence": 6,
+    "skillKey": "qiyana_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_q/parameters",
+    "stableKey": "base_damage",
+    "body": {
+      "parameterKey": "base_damage",
+      "name": "元素之怒基础物理伤害",
+      "valueType": "INTEGER",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 80,
+        "2": 110,
+        "3": 140,
+        "4": 170,
+        "5": 200
+      },
+      "description": "VanillaBase/BaseDamage索引1至5为80/110/140/170/200；索引0的50不作1级。",
+      "sortOrder": 10
+    }
+  }
+}

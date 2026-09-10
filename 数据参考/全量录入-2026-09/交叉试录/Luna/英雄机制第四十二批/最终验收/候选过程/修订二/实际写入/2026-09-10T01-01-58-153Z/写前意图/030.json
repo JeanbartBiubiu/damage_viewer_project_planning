@@ -1,0 +1,21 @@
+{
+  "i": 29,
+  "intent": {
+    "sequence": 30,
+    "skillKey": "qiyana_e",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_e/parameters",
+    "stableKey": "dash_speed_min",
+    "body": {
+      "parameterKey": "dash_speed_min",
+      "name": "冲刺速度下界",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 600,
+      "levelValues": null,
+      "description": "当前根DashSpeed=600；中间算法未证。",
+      "sortOrder": 30
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "i": 84,
+  "intent": {
+    "sequence": 85,
+    "skillKey": "ksante_r",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_r/parameters",
+    "stableKey": "cast_time_ms",
+    "body": {
+      "parameterKey": "cast_time_ms",
+      "name": "R施法时间（毫秒）",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 400,
+      "levelValues": null,
+      "description": "spellCastTime与mCastTime均为0.4秒且一致。",
+      "sortOrder": 40
+    }
+  }
+}

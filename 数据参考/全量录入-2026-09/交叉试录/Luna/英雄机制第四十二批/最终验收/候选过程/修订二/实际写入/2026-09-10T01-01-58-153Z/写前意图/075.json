@@ -1,0 +1,83 @@
+{
+  "i": 74,
+  "intent": {
+    "sequence": 75,
+    "skillKey": "ksante_w",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/ksante_w/formulas",
+    "stableKey": "charge_physical_damage",
+    "body": {
+      "formulaKey": "charge_physical_damage",
+      "name": "辟路先锋普通形态物理伤害",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "base_damage"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "OPERATION",
+                "operation": "ADD",
+                "operands": [
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "ADD",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "target_max_health_base_ratio"
+                      },
+                      {
+                        "nodeType": "OPERATION",
+                        "operation": "MULTIPLY",
+                        "operands": [
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "bonus_armor_ratio"
+                          },
+                          {
+                            "nodeType": "PARAMETER",
+                            "parameterKey": "bonus_armor_value"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "nodeType": "OPERATION",
+                    "operation": "MULTIPLY",
+                    "operands": [
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_magic_resistance_ratio"
+                      },
+                      {
+                        "nodeType": "PARAMETER",
+                        "parameterKey": "bonus_magic_resistance_value"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "TARGET",
+                "attributeKey": "hp",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "BaseDamage+TotalMaxHealthDamage×目标最大生命。",
+      "sortOrder": 20
+    }
+  }
+}

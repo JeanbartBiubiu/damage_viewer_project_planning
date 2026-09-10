@@ -1,0 +1,21 @@
+{
+  "i": 46,
+  "intent": {
+    "sequence": 47,
+    "skillKey": "ksante_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/ksante_q/parameters",
+    "stableKey": "bonus_magic_resistance_value",
+    "body": {
+      "parameterKey": "bonus_magic_resistance_value",
+      "name": "当前来源额外魔法抗性",
+      "valueType": "DECIMAL",
+      "valueMode": "RUNTIME_INPUT",
+      "fixedValue": null,
+      "levelValues": null,
+      "description": "BaseDamage的mStat=6/formula2；属性阶段未证，不设默认。",
+      "sortOrder": 30
+    }
+  }
+}

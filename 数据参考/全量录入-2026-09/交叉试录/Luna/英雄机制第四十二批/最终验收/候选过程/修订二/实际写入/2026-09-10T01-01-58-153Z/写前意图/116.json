@@ -1,0 +1,27 @@
+{
+  "i": 115,
+  "intent": {
+    "sequence": 116,
+    "skillKey": "mel_w",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_w/parameters",
+    "stableKey": "reflected_damage_ratio",
+    "body": {
+      "parameterKey": "reflected_damage_ratio",
+      "name": "反射原伤害比例",
+      "valueType": "DECIMAL",
+      "valueMode": "SKILL_LEVEL",
+      "fixedValue": null,
+      "levelValues": {
+        "1": 0.4000000059604645,
+        "2": 0.44999998807907104,
+        "3": 0.5,
+        "4": 0.550000011920929,
+        "5": 0.6000000238418579
+      },
+      "description": "DamagePercent为原伤害比例0.4至0.6，正文不再乘0.01。",
+      "sortOrder": 60
+    }
+  }
+}

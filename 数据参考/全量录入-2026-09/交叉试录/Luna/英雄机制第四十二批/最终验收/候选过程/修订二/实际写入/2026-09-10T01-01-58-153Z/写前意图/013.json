@@ -1,0 +1,21 @@
+{
+  "i": 12,
+  "intent": {
+    "sequence": 13,
+    "skillKey": "qiyana_q",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/qiyana_q/parameters",
+    "stableKey": "rock_execute_threshold_percent_points",
+    "body": {
+      "parameterKey": "rock_execute_threshold_percent_points",
+      "name": "岩石附魔低生命阈值百分数点",
+      "valueType": "DECIMAL",
+      "valueMode": "FIXED",
+      "fixedValue": 50,
+      "levelValues": null,
+      "description": "正文使用CritThreshold*100%，低于50百分数点才有附加伤害资格。",
+      "sortOrder": 80
+    }
+  }
+}

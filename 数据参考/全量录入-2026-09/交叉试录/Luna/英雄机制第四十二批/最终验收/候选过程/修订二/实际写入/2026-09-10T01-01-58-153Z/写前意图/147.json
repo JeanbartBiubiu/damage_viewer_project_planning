@@ -1,0 +1,43 @@
+{
+  "i": 146,
+  "intent": {
+    "sequence": 147,
+    "skillKey": "mel_r",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/mel_r/formulas",
+    "stableKey": "passive_stack_damage",
+    "body": {
+      "formulaKey": "passive_stack_damage",
+      "name": "夺命残影每层魔法伤害公式",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "passive_stack_base"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "passive_stack_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "PassiveStackDamage=基础值+0.0075×来源总法强。",
+      "sortOrder": 20
+    }
+  }
+}

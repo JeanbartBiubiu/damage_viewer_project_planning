@@ -1,0 +1,43 @@
+{
+  "i": 152,
+  "intent": {
+    "sequence": 153,
+    "skillKey": "yunara_p",
+    "kind": "formulas",
+    "method": "POST",
+    "route": "/skills/yunara_p/formulas",
+    "stableKey": "critical_extra_damage_ratio",
+    "body": {
+      "formulaKey": "critical_extra_damage_ratio",
+      "name": "暴击额外魔伤倍率",
+      "expression": {
+        "nodeType": "OPERATION",
+        "operation": "ADD",
+        "operands": [
+          {
+            "nodeType": "PARAMETER",
+            "parameterKey": "critical_extra_damage_base_ratio"
+          },
+          {
+            "nodeType": "OPERATION",
+            "operation": "MULTIPLY",
+            "operands": [
+              {
+                "nodeType": "PARAMETER",
+                "parameterKey": "critical_extra_damage_ap_ratio"
+              },
+              {
+                "nodeType": "ATTRIBUTE",
+                "attributeOwner": "SOURCE",
+                "attributeKey": "ability_power",
+                "attributeValueKind": "TOTAL"
+              }
+            ]
+          }
+        ]
+      },
+      "description": "Calc_Damage_Amp=0.1+0.001×来源总法强。",
+      "sortOrder": 10
+    }
+  }
+}

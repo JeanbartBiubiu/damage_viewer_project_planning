@@ -1,0 +1,21 @@
+{
+  "i": 91,
+  "intent": {
+    "sequence": 92,
+    "skillKey": "mel_p",
+    "kind": "parameters",
+    "method": "POST",
+    "route": "/skills/mel_p/parameters",
+    "stableKey": "unlearned_r_passive_flat_damage",
+    "body": {
+      "parameterKey": "unlearned_r_passive_flat_damage",
+      "name": "未学习R时残影基础魔法伤害",
+      "valueType": "INTEGER",
+      "valueMode": "FIXED",
+      "fixedValue": 50,
+      "levelValues": null,
+      "description": "P跨技能消费R的零级索引0=50；不冒充R一级。",
+      "sortOrder": 50
+    }
+  }
+}
